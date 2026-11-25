@@ -832,8 +832,8 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 | Action | Question tier | Effect |
 |---|---|---|
 | **Claim** | Target hex's tier | Take an adjacent neutral hex, moving at least 1 troop in. |
-| **Assault** | Target hex's tier | Attack an adjacent enemy hex. Correct: attack ×1.5. Wrong: ×0.75. A lock is broken only by a correct answer. |
-| **Fortify** | Own hex's tier | Place a lock on the hex (below). |
+| **Assault** | Target hex's tier; on a locked hex, the lock's own question | Attack an adjacent enemy hex. Correct: attack ×1.5. Wrong: ×0.75. A lock is broken only by a correct answer. |
+| **Fortify** | Own hex's tier | Place a lock on the hex, or replace an existing one (below). |
 | **Rally** | Player's choice, Tier 1–4 | Gain emergency troops: Tier 1 → 2, Tier 2 → 3, Tier 3 → 5, Tier 4 → 7. |
 
 **Moves need no question.**
@@ -841,10 +841,12 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 - A move shifts troops between adjacent owned hexes, or sets up an attack from an owned hex.
 
 **Locks.**
-- To lock a hex at Tier t, the defender must solve a Tier t question themselves.
-- An attacker must answer a *different* Tier t question correctly to break the lock.
+- To lock a hex at Tier t, the defender must solve a Tier t question themselves. **That exact question becomes the lock.**
+- An attacker must answer **the same question** correctly to break the lock. A lock is literally "solve what I solved".
+  - If the question is a parameterized template, the attacker gets the same variant.
 - If the attacker fails, the attack bounces: the attacker loses half the attacking troops and the defender loses none.
-- A lock lasts until it is broken.
+- **Failed attempts wear a lock down.** An attacker who has failed a lock has seen its question, so a siege gets easier over time. No answer or solution is revealed mid-game (§14.1), so the attacker still has to work it out. The defender can **re-fortify** to replace the question with a fresh one at the hex's tier, which costs their round's action.
+- A lock lasts until it is broken or replaced. A broken lock is gone, and the captured hex starts unlocked.
 
 **Combat** (all values tunable).
 - Attack strength = troops × assault multiplier × streak bonus.
