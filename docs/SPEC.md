@@ -62,11 +62,27 @@ Course (e.g. Mathematics Specialist)
 
 - **Skills are clustered dot points.** Each skill lists the syllabus content descriptors it covers, e.g. `["1.1.3", "1.1.4"]`.
 - **Prerequisites form a DAG.** Each skill has a home in the hierarchy but may list prerequisite skills anywhere, **including in other courses**. For example, Specialist integration techniques depend on Methods calculus skills, even before Methods is launched. Prerequisites are informational: they are drawn as edges in the tree and **never lock** a skill.
-- Provisional Specialist sections (confirm against the supplied syllabus documents, which are the source of truth):
-  - **Unit 1:** Combinatorics · Vectors in the plane · Geometry
-  - **Unit 2:** Trigonometry · Matrices · Real and complex numbers
-  - **Unit 3:** Complex numbers · Functions and sketching graphs · Vectors in three dimensions
-  - **Unit 4:** Integration and applications of integration · Rates of change and differential equations · Statistical inference
+- **Mathematics Specialist sections**, confirmed against the SCSA syllabi. Sources: Year 11 syllabus for teaching from 2026; Year 12 syllabus for teaching from January 2025.
+
+  | Unit | Section (syllabus topic) | Hours | Dot points |
+  |---|---|---|---|
+  | 1 | 1.1 Geometry: nature of proof; circle properties | 20 | 15 |
+  | 1 | 1.2 Combinatorics: permutations, inclusion–exclusion, pigeonhole, combinations | 11 | 9 |
+  | 1 | 1.3 Vectors in the plane: representation, algebra, geometric proofs | 24 | 17 |
+  | 2 | 2.1 Trigonometry | 16 | 9 |
+  | 2 | 2.2 Matrices | 19 | 11 |
+  | 2 | 2.3 Real and complex numbers: proof, irrationality, induction, complex numbers | 20 | 16 |
+  | 3 | 3.1 Complex numbers | 18 | 15 |
+  | 3 | 3.2 Functions and sketching graphs | 16 | 8 |
+  | 3 | 3.3 Vectors in three dimensions | 21 | 15 |
+  | 4 | 4.1 Integration and applications of integration | 20 | ~7 |
+  | 4 | 4.2 Rates of change and differential equations | 20 | ~7 |
+  | 4 | 4.3 Statistical inference | 15 | ~7 |
+
+  Dot-point counts for Unit 4 are approximate; they come from text extraction and some dot points contain inline formulas. Skill IDs reference dot-point IDs, e.g. `spec.1.2.pigeonhole → ["1.2.6"]`.
+
+- **Syllabus versions** are recorded in the curriculum YAML (`syllabusVersion: { y11: "2026", y12: "2025" }`).
+- The source PDFs live in a gitignored `content/syllabus/` folder, where the ingest script reads them. They are SCSA documents, so they aren't committed.
 
 The tree is drafted by an LLM script from the syllabus PDFs and then edited by hand (§11.1). The edited `curriculum/*.yaml` files are the source of truth.
 
@@ -382,18 +398,162 @@ Generation prompt emphasis by tier:
 ## 12. Gamification
 
 ### 12.1 Achievements
-Khan-style achievements that **feel like rewards** and must be **deliberately earned**. They range from hard to incredibly hard. Each has points, weighted by difficulty, and the points feed a leaderboard.
 
-| Category | Seed examples |
-|---|---|
-| Depth | 100 / 500 / 2,000 questions resolved correctly at Tier 3 or above |
-| Mastery | Diamond in every skill of a section; of a unit; of the whole course |
-| Precision | 25 consecutive first-try correct answers at Tier 4 or above; perfect Unit Quiz; full-marks proof with no appeal |
-| Frontier | First Tier 5 solve; 10 Tier 5 solves in one section; any monthly Tier 6 milestone; full Tier 6 solve |
-| Breadth / consistency | Daily problem solved every day of a calendar month; every response skill at Gold or above; Diamond in Proof |
-| Secret (esoteric, hidden until earned) | e.g. solve a Tier 5 with exactly one attempt left; solve the Sunday daily problem within 60 s of release; win an appeal that moved a score from below to above 60%; resolve a question whose ID is prime; reach θ exactly 1729 in any skill |
+Achievements are Khan-style badges that **feel like rewards** and must be **deliberately earned**. There are **100** of them across **seven tiers**. Even the easiest tier needs sustained effort.
 
-Achievement definitions are declarative (`achievements.yaml`) and evaluated client-side after each resolved question.
+| Tier | Points | Count | Of which secret | Intended feel |
+|---|---|---|---|---|
+| **Platinum** | 10 | 23 | 1 | Weeks of steady, serious work |
+| **Diamond** | 25 | 22 | 2 | A term of dedicated work |
+| **Ruby** | 50 | 18 | 3 | Strong mastery of a unit |
+| **Tanzanite** | 100 | 16 | 4 | Top-student territory |
+| **Vibranium** | 250 | 13 | 5 | Exceptional; few will earn any |
+| **Solarium** | 600 | 5 | 2 | Near-mythical |
+| **Antimatter** | 1500 | 3 | 2 | Possibly never earned |
+| **Total** | | **100** | **19** | |
+
+**Rules**
+- **Secret achievements (🔒)** show as a locked silhouette with only their tier visible. The name and criteria appear once earned. Secrets are esoteric and skew toward the high tiers.
+- **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
+- **Definitions:** criteria are declarative in `content/achievements.yaml` and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters live in `users/{uid}/stats`, e.g. consecutive first-try streaks, per-tier correct counts and daily streak.
+- **Rank names:** the Platinum and Diamond tiers share names with skill ranks (§5.4), so the UI must keep them visually distinct. Achievements are gem-shaped medallions; ranks are banners or labels on tree nodes.
+
+**Terms used below**
+- *Correct* = resolved with outcome > 0.
+- *First-try* = correct on attempt 1.
+- *T3+* = Tier 3 or higher.
+- Free-response counts as *100%* only with a rubric score of 100% and no appeal.
+- Daily-problem rules use Australia/Perth dates.
+
+#### Platinum (10 pts, 23)
+| # | Name | Criterion |
+|---|---|---|
+| P1 | Groundwork | 100 correct answers at T3+ |
+| P2 | First Light | Gold in 10 skills |
+| P3 | Gilded Section | Every skill in one section at Gold+ |
+| P4 | Platinum Standard | First skill at Platinum rank |
+| P5 | Over the Edge | First Tier 5 question correct |
+| P6 | Clean Sheet | A perfect Section Quiz (8/8, all first-try) |
+| P7 | Ten in a Row | 10 consecutive first-try correct at T3+ |
+| P8 | Full Week | Solve all 7 daily problems of one Mon–Sun week |
+| P9 | Weekend Warrior | Solve 4 weekend (Tier 4) daily problems |
+| P10 | Proof Positive | A free-response answer at 100% |
+| P11 | Challenger | Complete a Section Challenge with average outcome ≥ 0.5 |
+| P12 | Fortnight | 14-day daily-problem streak |
+| P13 | Tier 4 Ten | 10 Tier 4 questions first-try correct |
+| P14 | Unit Scholar | ≥ 13/15 on a Unit Quiz |
+| P15 | All-Rounder | Every response skill at Silver+ |
+| P16 | Wordsmith | Gold in both Clarity of expression and Precision of language |
+| P17 | First Milestone | Score at least one milestone on a monthly Tier 6 problem |
+| P18 | Spot the Flaw | Submit a report that auto-reverification confirms (question hidden) |
+| P19 | Comeback | Regain a rank previously lost under the buffer rule |
+| P20 | Synthesist | 10 cross-skill problems correct |
+| P21 | Broad Base | Gold in at least one skill in every section of a unit |
+| P22 | Explorer | Resolve at least 10 questions in every skill of a unit |
+| P23 | 🔒 Last Gasp | Solve a Tier 5 question on its 5th and final attempt |
+
+#### Diamond (25 pts, 22)
+| # | Name | Criterion |
+|---|---|---|
+| D1 | Deep Roots | 500 correct at T3+ |
+| D2 | Diamond Cut | First skill at Diamond rank |
+| D3 | Platinum Section | Every skill in a section at Platinum+ |
+| D4 | Frontier Ten | 10 Tier 5 questions correct |
+| D5 | Twenty-Five Straight | 25 consecutive first-try correct at T4+ |
+| D6 | Flawless Unit | A perfect Unit Quiz (15/15, all first-try) |
+| D7 | Calendar Month | Every daily problem of a calendar month solved |
+| D8 | Challenge Conquered | A Section Challenge with average outcome ≥ 0.8 |
+| D9 | Unit Challenger | Complete all three Section Challenges of a unit |
+| D10 | Prover | 10 free-response answers at 100% |
+| D11 | Well-Rounded | Every response skill at Gold+ |
+| D12 | Rigour | Platinum in the Proof response skill |
+| D13 | Halfway There | ≥ 50% of milestone points on a monthly problem |
+| D14 | Sharpshooter | 50 first-try correct at T4+ within one calendar week |
+| D15 | Golden Unit | Unit rank Gold |
+| D16 | Sunday Best | 8 Sunday daily problems solved first-try |
+| D17 | Ascent | Raise one skill's θ by 300 within 7 days |
+| D18 | Cross-Pollinator | 50 cross-skill problems correct |
+| D19 | Steady Hand | 50 consecutive resolved questions at T3+ with outcome > 0 (no give-ups) |
+| D20 | Annotator | Post solutions in 25 different daily/monthly discussions |
+| D21 | 🔒 Counterexample | A confirmed report on a Tier 5 or Tier 6 question |
+| D22 | 🔒 Contradiction | Solve a Tier 5 question first-try in a skill where you are Unranked |
+
+#### Ruby (50 pts, 18)
+| # | Name | Criterion |
+|---|---|---|
+| R1 | Bedrock | 2,000 correct at T3+ |
+| R2 | Diamond Section | Every skill in a section at Diamond |
+| R3 | Frontier Fifty | 50 Tier 5 questions correct |
+| R4 | Fifty Straight | 50 consecutive first-try correct at T4+ |
+| R5 | Platinum Unit | Unit rank Platinum |
+| R6 | Century | 100-day daily-problem streak |
+| R7 | Clean Sweep | A Section Challenge with every problem first-try correct |
+| R8 | Master Prover | 50 free-response answers at 100% |
+| R9 | Polished | Every response skill at Platinum+ |
+| R10 | Fluent in Proof | Diamond in the Proof response skill |
+| R11 | Quiz Machine | 10 perfect Section Quizzes |
+| R12 | Diamond Ten | Diamond in 10 skills |
+| R13 | Regular | At least one milestone on 3 consecutive monthly problems |
+| R14 | Perfect Week | Every daily problem of a Mon–Sun week solved first-try |
+| R15 | Frontier Streak | 5 consecutive Tier 5 questions first-try correct |
+| R16 | 🔒 Taxicab | θ exactly 1729 in any skill after an update |
+| R17 | 🔒 Clutch Appeal | An appeal that moves a score from below 60% to 100% |
+| R18 | 🔒 Ouroboros | Reach Diamond in a skill after having dropped it to Tier 1 |
+
+#### Tanzanite (100 pts, 16)
+| # | Name | Criterion |
+|---|---|---|
+| T1 | Bedrock II | 5,000 correct at T3+ |
+| T2 | Diamond Unit | Unit rank Diamond |
+| T3 | Frontier Hundred | 100 Tier 5 questions first-try correct |
+| T4 | Hundred Straight | 100 consecutive first-try correct at T4+ |
+| T5 | Tier Six | Fully solve a monthly Tier 6 problem (all milestones) |
+| T6 | Half-Year | 182-day daily-problem streak |
+| T7 | Unit Sweep | All three Section Challenges of a unit at average outcome ≥ 0.9 |
+| T8 | Diamond Mind | Every response skill at Diamond |
+| T9 | Year Diamond | Both units of a year (1–2 or 3–4) at unit rank Diamond |
+| T10 | Perfect Year | A perfect Unit Quiz in both units of a year |
+| T11 | Grand Prover | 150 free-response answers at 100% |
+| T12 | Top of the Month | Finish a calendar month #1 on the course θ leaderboard |
+| T13 | 🔒 Grandmaster Opening | Reach Diamond in a skill within 20 questions of first opening it |
+| T14 | 🔒 Contrapositive | Diamond in a skill while every one of its prerequisites is below Gold |
+| T15 | 🔒 Fractal | Every skill, section and unit of a year at the same rank (Platinum or higher) at once |
+| T16 | 🔒 Full Circle | Solve every daily problem of a week first-try and post a solution in each one's discussion |
+
+#### Vibranium (250 pts, 13)
+| # | Name | Criterion |
+|---|---|---|
+| V1 | Course Diamond | Course rank Diamond |
+| V2 | Ten Thousand | 10,000 correct at T3+ |
+| V3 | Frontier Five Hundred | 500 Tier 5 questions correct |
+| V4 | Triple Six | Fully solve 3 monthly Tier 6 problems |
+| V5 | Orbit | 365-day daily-problem streak |
+| V6 | Two Hundred Straight | 200 consecutive first-try correct at T4+ |
+| V7 | Challenge Master | Every Section Challenge in the course at average outcome ≥ 0.9 |
+| V8 | Diamond Everywhere | Every skill in the course at Diamond simultaneously |
+| V9 | 🔒 Zero Knowledge | 25 consecutive Tier 5 questions first-try correct |
+| V10 | 🔒 Lone Wolf | The only user to fully solve that month's Tier 6 problem (≥ 5 users attempted) |
+| V11 | 🔒 QED | 15 consecutive free-response answers at 100% |
+| V12 | 🔒 Unblemished | A calendar week with ≥ 100 questions, at least half T4+, every one first-try correct |
+| V13 | 🔒 Speed of Thought | Fully solve a monthly Tier 6 problem within 72 hours of release |
+
+#### Solarium (600 pts, 5)
+| # | Name | Criterion |
+|---|---|---|
+| S1 | Six Suns | Fully solve 6 consecutive monthly Tier 6 problems |
+| S2 | Five Hundred Straight | 500 consecutive first-try correct at T4+ |
+| S3 | Total Mastery | Every skill and every response skill at Diamond, and every Section Challenge swept (all first-try) |
+| S4 | 🔒 Diamond Hands | Hold Diamond in every course skill continuously for 90 days |
+| S5 | 🔒 Untouchable | Fully solve a monthly Tier 6 problem with a single submission |
+
+#### Antimatter (1500 pts, 3)
+| # | Name | Criterion |
+|---|---|---|
+| A1 | Annihilation | Fully solve 12 consecutive monthly Tier 6 problems |
+| A2 | 🔒 Event Horizon | Reach the θ cap of 2300 in any skill |
+| A3 | 🔒 Zero Point | A calendar year in which every daily problem is solved first-try and every monthly problem is fully solved |
+
+Thresholds are starting values. Tune them after Phase 1 testing, keeping each tier's intended feel.
 
 ### 12.2 Leaderboards
 Group-wide boards:
@@ -492,6 +652,7 @@ users/{uid}/responseSkillStates/{rsId}   θ, rank, gateCounts
 users/{uid}/attempts/{attemptId}         question id/version/params, answers, outcome, Δθ, ts
 users/{uid}/markingJobs/{jobId}          pending/complete, provider, result, appeal
 users/{uid}/achievements/{achId}         earnedAt
+users/{uid}/stats                        achievement counters (streaks, per-tier counts)
 users/{uid}/challengeProgress/{sectId}   Section Challenge progress
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 daily/{yyyy-mm-dd}                       problem id; submissions/{uid}
@@ -510,6 +671,7 @@ packages/engine/       rating, selection, ranks, roll-up, achievements (pure TS,
 packages/checker/      answer checkers + form rules
 packages/diagrams/     diagram spec → SVG
 content/curriculum/    <course>.yaml
+content/syllabus/      source PDFs (gitignored)
 content/questions/     <course>/<unit>/<section>/<skill>/*.yaml
 content/achievements.yaml
 scripts/               ingest-syllabus, generate, verify (SymPy), build-content
