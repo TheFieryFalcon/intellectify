@@ -662,16 +662,75 @@ Group-wide boards:
 - daily streak;
 - monthly Tier 6 score;
 - problems done: total, this week, today;
-- battle rating (Frontline) and duel rating (Divide, Draft, Exam Board) (§14.1);
-- Race personal bests and head-to-head wins (§14.5).
+- **XP and global level** (§12.4): all time, this month and this week;
+- **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
+- Race personal bests (§14.5).
 
 ### 12.3 Profile page
 A public profile shows:
-- display name;
+- display name, global level and tier badge (§12.4);
 - course ranks, plus the tech tree as a read-only view;
 - response-skill ranks;
 - achievements, earned and secret;
+- Elo per game mode, current and peak (§14.7);
 - leaderboard positions.
+
+### 12.4 Global level
+One account-wide **level**, earned with **XP** from almost everything a student does. It scales slowly: an hour gets a new student a few levels, while **level 500+ is reachable by determined students**, roughly 900 hours of activity over an ATAR career. There is no level cap.
+
+**Level curve.**
+- The XP needed to go from level L to L + 1 is **50 + 2L**.
+- So the total XP needed to reach level L is **(L − 1)(L + 50)**.
+- The hours below assume about **300 XP per hour** of typical practice (tunable).
+
+**Level tiers** use the same ladder as ranks and achievements, with Unranked called **Basic** here. The tier designs match the rank and achievement visuals (§12.1).
+
+| Tier | Levels | Total XP to reach | ≈ Hours |
+|---|---|---|---|
+| Basic | 1–9 | 0 | 0 |
+| Bronze | 10–24 | 540 | 2 |
+| Silver | 25–49 | 1,800 | 6 |
+| Gold | 50–99 | 4,900 | 16 |
+| Platinum | 100–149 | 14,850 | 50 |
+| Diamond | 150–199 | 29,800 | 100 |
+| Ruby | 200–299 | 49,750 | 165 |
+| Tanzanite | 300–399 | 104,650 | 350 |
+| Vibranium | 400–499 | 179,550 | 600 |
+| Solarium | 500–749 | 274,450 | 915 |
+| Antimatter | 750+ | 599,200 | 2,000 |
+
+**XP sources** (starting values, tunable):
+
+| Activity | XP |
+|---|---|
+| Resolve a practice, quiz or challenge question | Correct: Tier 1 → 5, Tier 2 → 8, Tier 3 → 12, Tier 4 → 18, Tier 5 → 30. Wrong or given up: 2 (effort) |
+| Free-response marked | 12 × tier × rubric score |
+| Read a tutorial (first time per skill) | 20 |
+| Finish a section quiz / unit quiz | +25 / +50 bonus |
+| Finish a Section Challenge | +100 bonus |
+| Solve the daily problem | 15 + 5 × tier |
+| Score a monthly Tier 6 milestone | 50 per milestone |
+| Rank up in a skill or response skill | Bronze 20, Silver 40, Gold 80, Platinum 140, Diamond 250 |
+| Earn an achievement | 2 × its points |
+| Play a Frontline game | 40, plus 20 for first place |
+| Play a 1v1 minigame (Divide, Draft, Exam Board) | 25, plus 15 for a win |
+| Play a Race game | 10, plus 5 for a win |
+| Post a solution in a discussion | 10 (max 3 a day) |
+| A report confirmed by auto-reverification | 25 |
+| First visit of the day | 10 |
+
+**Rules.**
+- **XP per minute is roughly the same across tiers.** A Tier 4 question takes longer than a Tier 1 but pays more, so there is no XP reason to farm easy questions. Hard work is never punished.
+- **Repeats pay once:** a question answered again within 30 days earns no XP.
+- **Daily caps on quick or social sources:** discussion posts as above, and Race XP for at most 10 games a day.
+- XP never decreases.
+
+**Display.**
+- The level and tier badge show next to the student's name in the header, on profiles, in lobbies and on leaderboards.
+- A level-up shows a toast, and reaching a new tier shows a larger moment.
+- XP has its own **leaderboard** (§12.2): all time, this month and this week.
+
+**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards. Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
 
 ---
 
@@ -706,10 +765,7 @@ Competitive play has one main mode, **Frontline** (2–6 players, territory and 
   - Every competitive answer updates the skill's θ, gates and response skills like normal practice.
   - Competitive questions allow **one attempt**: correct counts as a first-try solve, wrong as outcome 0.
   - The worked solution is shown when the game ends, not mid-game.
-- **Separate ratings** (§12.2), which never touch mastery ranks:
-  - **Battle rating** for Frontline. This is a multiplayer rating, updated from final placement with a Weng-Lin/OpenSkill-style model.
-  - **Duel rating** for Divide, Draft and Exam Board. This uses Elo.
-  - **Race** has no rating, only its own leaderboard.
+- **Every player has an Elo rating for every game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race. These ratings are separate from skill θ and never touch mastery ranks.
 - **Question pool.**
   - Auto-marked questions only. Free-response is too slow to mark live.
   - The lobby sets the syllabus scope (section, unit or course) and, for Frontline, the map.
@@ -750,7 +806,7 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 - Spawns nobody picks become neutral territory.
 
 **Spawn draft.**
-- Players pick spawns in order of **lowest battle rating first**. Picks are visible, with about 20 seconds per pick.
+- Players pick spawns in order of **lowest Frontline Elo first**. Picks are visible, with about 20 seconds per pick.
 - The choice draws on the player's comfort tiers, map knowledge, and the visible ranks of their opponents. Counter-picking adds replayability.
 
 **Map data and balance.**
@@ -849,10 +905,10 @@ The leader feeds everyone else's snowball, which keeps the game swingy and gives
 | Territory | +1 per 3 hexes |
 | Leader bounty | +2 per successful assault on the leader |
 
-Placement updates battle rating. Ties are broken by banked flags, then territory.
+Final placement updates every player's Frontline Elo (§14.7). Ties in placement are broken by banked flags, then territory.
 
 ### 14.5 1v1 minigames
-All four update duel rating except Race. Each uses a time bank per player (chess clock). Points are each question's tier unless stated otherwise.
+Each minigame has its own Elo (§14.7), updated after every game. Except for Race, each uses a time bank per player (chess clock). Points are each question's tier unless stated otherwise.
 
 **Divide** (fair division, about 12–16 min).
 - **Each round** (2 rounds):
@@ -895,7 +951,7 @@ All four update duel rating except Race. Each uses a time bank per player (chess
 - **Display:** a tug-of-war bar shows the margin.
 - **Winning:** most points at 3:00 wins. Ties go to sudden death.
 - **Solo mode:** with no opponent online, a player can race their own best run (a "ghost").
-- **Ratings and records:** no rating. Race has its own leaderboard of personal bests and head-to-head wins.
+- **Ratings and records:** head-to-head games update Race Elo; solo ghost runs don't. Race also keeps personal bests.
 - **Why speed is allowed here:** Race is the one place where speed matters, deliberately limited to retrieval-level questions, as a warm-up and fluency drill.
 
 ### 14.6 Architecture for competitive play
@@ -911,6 +967,27 @@ All four update duel rating except Race. Each uses a time bank per player (chess
 - **Live updates:** clients follow game documents with real-time listeners.
 - **Netlify credits:** functions use a small amount of compute, well within the free plan's credits (§16.5). No extra production deploys are needed.
 - **Balance tooling:** an offline script runs bot simulations of Frontline maps (§14.2).
+
+### 14.7 Elo ratings
+Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft, Exam Board and Race. Every completed game is rated, live or correspondence.
+
+**Parameters** (tunable):
+- Everyone starts at **1200**.
+- The step size **K is 40 for a player's first 15 games** in that mode, when the rating is **provisional** and shown with a "?". After that, K is **24**.
+- Ratings never go below 100.
+
+**1v1 modes** (Divide, Draft, Exam Board, Race) use standard Elo:
+- expected score E = 1 / (1 + 10^((R_opponent − R_self) / 400));
+- the new rating is R + K × (S − E), where S is 1 for a win, 0.5 for a draw and 0 for a loss.
+
+**Frontline** (2–6 players) uses **pairwise Elo by placement**.
+- Every pair of players is treated as a virtual match: the higher-placed player wins, and equal placement is a draw.
+- Each player's change is (K ÷ (N − 1)) × Σ over opponents of (S − E), where N is the number of players. This keeps a 6-player game's swing comparable to a 1v1.
+
+**Display and storage:**
+- Elo shows next to names in lobbies, on profiles (current and peak, per mode) and on per-mode leaderboards (§12.2).
+- Ratings live in `users/{uid}/ratings/{mode}` (rating, games played, peak, provisional) and are written only by Netlify Functions, never by clients (§14.6).
+- Elo is shared across all courses for now. If course scope turns out to matter, ratings could be split per course later (§18).
 
 ---
 
@@ -980,7 +1057,8 @@ Answer checking, θ updates, rank, gate and roll-up computation, question select
 
 ### 16.3 Firestore data model (sketch)
 ```
-users/{uid}                                              profile, settings, course enrollments
+users/{uid}                                              profile, settings, course enrollments, total XP (§12.4)
+users/{uid}/ratings/{mode}                               Elo per game mode, written by functions only (§14.7)
 users/{uid}/courses/{course}                             rolled-up ranks (for the hidden buffer)
 users/{uid}/courses/{course}/skillStates/{skillId}       θ, rank, gateCounts[1..6], seen ids, counts
 users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
@@ -1027,9 +1105,9 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; leaderboards; discussions. **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; first monthly Tier 6 problems |
-| 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, battle and duel ratings, server-side answer checking for competitive questions (§14) |
+| 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods, Applications | New curricula + content; cross-course prerequisites become live links |
 | 5: Chemistry, Physics | Science-specific answer types (see §18) + content |
 | 6: Native apps | Capacitor iOS/Android builds |
@@ -1055,6 +1133,10 @@ netlify/functions/     mark, report
 - Frontline: round length, troop yields, multipliers, combat losses, streak cap, leader bounty and edge-collapse timing (§14.3, §14.4).
 - Frontline map balance: spawn values, checked by bot simulation, then live win rates (§14.2).
 - Minigame lengths, Race lockout and bonus values (§14.5).
+- Elo K-factors and provisional period (§14.7); whether Elo should be split per course.
+
+**To tune in Phase 1**
+- XP values and the ~300 XP/hour assumption, checked against real usage so that level 500 stays at roughly 900 hours (§12.4).
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
