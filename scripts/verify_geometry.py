@@ -47,3 +47,27 @@ def tangent_point_toward(c, r, m, side=1):
 def approx(x, places=6):
     """A float rounded and turned into an exact SymPy number, for comparing with exact keys."""
     return sympy.nsimplify(round(x, places), rational=True)
+
+
+def line_circle(p, deg, r, c=(0, 0)):
+    """Signed distances t (sorted) where the line p + t·(cos deg, sin deg) meets the circle."""
+    dx, dy = math.cos(math.radians(deg)), math.sin(math.radians(deg))
+    fx, fy = p[0] - c[0], p[1] - c[1]
+    b = 2 * (fx * dx + fy * dy)
+    k = fx * fx + fy * fy - r * r
+    disc = b * b - 4 * k
+    if disc < 0:
+        return []
+    s = math.sqrt(disc)
+    return sorted([(-b - s) / 2, (-b + s) / 2])
+
+
+def search(f, target, lo=0.0, hi=180.0, steps=180000):
+    """The x in [lo, hi] where f(x) is closest to target (f may return None where undefined)."""
+    best, bx = float("inf"), None
+    for i in range(steps + 1):
+        x = lo + (hi - lo) * i / steps
+        v = f(x)
+        if v is not None and abs(v - target) < best:
+            best, bx = abs(v - target), x
+    return bx
