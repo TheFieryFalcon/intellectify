@@ -12,7 +12,7 @@ export function correctAtOrAbove(gates: GateCounts, k: number): number {
   return n;
 }
 
-/** Whether an outcome counts towards rank gates (SPEC §5.4: outcome > 0.6). */
+/** Whether an outcome counts toward rank gates (SPEC §5.4: outcome > 0.6). */
 export const countsForGate = (outcome: number): boolean => outcome > GATE_OUTCOME;
 
 /** Record a resolved question in the gate counts (returns a new array). */

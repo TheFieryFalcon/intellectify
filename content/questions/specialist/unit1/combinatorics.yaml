@@ -130,7 +130,7 @@
     - id: a
       answer: { type: numeric, key: 11 }
   solution: |
-    Pair the numbers as $(1,20), (2,19), \ldots, (10,11)$: 10 pigeon-holes. Choosing 10 numbers,
+    Pair the numbers as $(1,20), (2,19), \ldots, (10,11)$: 10 pigeonholes. Choosing 10 numbers,
     one from each pair, avoids a sum of 21, but any 11 numbers must include both members of some pair.
 
 - id: spec.combinatorics.pigeonhole.divisor-pair

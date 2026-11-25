@@ -61,7 +61,7 @@ units:
             dotPoints: ["3.1.13", "3.1.14", "3.1.15"]
             prereqs: [spec.real-complex.quadratic-roots]
             external:
-              - { course: methods, version: y11-2026, dotPoints: ["1.2.15", "1.2.16"], note: Factorising and solving cubics }
+              - { course: methods, version: y11-2026, dotPoints: ["1.2.15", "1.2.16"], note: Factoring and solving cubics }
 
       # ─────────────────────────────────────────────── 3.2
       - id: functions
@@ -249,7 +249,7 @@ units:
             dotPoints: ["4.2.4"]
             prereqs: [spec.integration.log-partial-fractions, spec.differential-equations.slope-fields]
 
-          - id: spec.differential-equations.modelling
+          - id: spec.differential-equations.modeling
             name: Formulating DEs and the logistic equation
             summary: Build differential equations from rate situations, including the logistic equation in chemistry, biology and economics.
             dotPoints: ["4.2.6"]
@@ -272,7 +272,7 @@ units:
         skills:
           - id: spec.inference.sample-means
             name: The distribution of sample means
-            summary: X̄ as a random variable; mean μ and standard deviation σ/√n; approximate normality for large n; the standardised statistic with s (n ≥ 30).
+            summary: X̄ as a random variable; mean μ and standard deviation σ/√n; approximate normality for large n; the standardized statistic with s (n ≥ 30).
             dotPoints: ["4.3.1", "4.3.2", "4.3.3"]
             prereqs: []
             external:

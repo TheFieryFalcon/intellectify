@@ -7,7 +7,7 @@ let engine: ComputeEngine | null = null;
 const ce = () => (engine ??= new ComputeEngine());
 
 /**
- * Normalise WACE notation that Compute Engine doesn't know, before parsing.
+ * Normalize WACE notation that Compute Engine doesn't know, before parsing.
  * - \binom{n}{r}, ^nC_r and ^nP_r become nCr(n, r) / nPr(n, r)
  * - "cis" typed as letters becomes \operatorname{cis}
  */

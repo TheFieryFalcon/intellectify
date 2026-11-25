@@ -16,7 +16,7 @@ export interface LaidOutNode {
   /** Top-left of the node box. */
   x: number;
   y: number;
-  /** Centre of the ring. */
+  /** Center of the ring. */
   cx: number;
   cy: number;
 }

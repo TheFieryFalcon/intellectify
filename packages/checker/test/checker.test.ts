@@ -36,8 +36,8 @@ describe("numeric", () => {
     expect(reason(sf, "1.414")).toBe("form");
     expect(ok(sf, "1.42")).toBe(false);
   });
-  it("checks rationalised denominators and simplified fractions", () => {
-    const r: AnswerSpec = { type: "numeric", key: "\\frac{\\sqrt{2}}{2}", form: ["rationalised-denominator"] };
+  it("checks rationalized denominators and simplified fractions", () => {
+    const r: AnswerSpec = { type: "numeric", key: "\\frac{\\sqrt{2}}{2}", form: ["rationalized-denominator"] };
     expect(ok(r, "\\frac{\\sqrt{2}}{2}")).toBe(true);
     expect(reason(r, "\\frac{1}{\\sqrt{2}}")).toBe("form");
     const f: AnswerSpec = { type: "numeric", key: "\\frac{2}{3}", form: ["simplified-fraction"] };
@@ -92,8 +92,8 @@ describe("expression", () => {
     expect(reason(s, "\\sin x\\cos x")).toBe("form");
     expect(ok(s, "\\sin(2x)+C")).toBe(false);
   });
-  it("checks factorised and expanded forms", () => {
-    const f: AnswerSpec = { type: "expression", key: "(x-1)(x+2)", vars: { x: {} }, form: ["factorised"] };
+  it("checks factored and expanded forms", () => {
+    const f: AnswerSpec = { type: "expression", key: "(x-1)(x+2)", vars: { x: {} }, form: ["factored"] };
     expect(ok(f, "(x+2)(x-1)")).toBe(true);
     expect(reason(f, "x^2+x-2")).toBe("form");
     const e: AnswerSpec = { type: "expression", key: "x^2+x-2", vars: { x: {} }, form: ["expanded"] };

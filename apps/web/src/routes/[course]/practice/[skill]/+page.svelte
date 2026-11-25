@@ -129,7 +129,7 @@
   {#if !store?.loaded || pool === null}
     <p class="muted">Loading…</p>
   {:else if !question}
-    <p>There are no questions to practise for this skill yet.</p>
+    <p class="muted">No questions yet.</p>
   {:else}
     <article class="question">
       <div class="meta">

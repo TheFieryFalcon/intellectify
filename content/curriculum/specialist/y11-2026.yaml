@@ -6,7 +6,7 @@
 #   `reviewDotPoints` mapping onto an earlier skill.
 # - `prereqs` are skill IDs in this course (any version). They are
 #   SUGGESTIONS only: drawn as edges and listed as "Suggested first", but
-#   every skill is always open to practise (SPEC §3).
+#   every skill is always open to practice (SPEC §3).
 # - `external` are prerequisites in other courses, given as dot points. They
 #   resolve to that course's skill IDs once its tree is drafted.
 # - Summaries paraphrase the syllabus. The verbatim text stays in the
@@ -36,20 +36,20 @@ units:
             prereqs: []
 
           - id: spec.geometry.proof-methods
-            name: Contradiction and counter-examples
-            summary: Proof by contradiction; using examples to illustrate and counter-examples to disprove.
+            name: Contradiction and counterexamples
+            summary: Proof by contradiction; using examples to illustrate and counterexamples to disprove.
             dotPoints: ["1.1.2", "1.1.5"]
             prereqs: [spec.geometry.logic]
 
           - id: spec.geometry.circle-angles
             name: Angles in circles
-            summary: Prove and use the angle-in-a-semicircle, centre-vs-circumference, same-arc and cyclic-quadrilateral theorems.
+            summary: Prove and use the angle-in-a-semicircle, center-vs-circumference, same-arc and cyclic-quadrilateral theorems.
             dotPoints: ["1.1.6", "1.1.7", "1.1.8", "1.1.9"]
             prereqs: [spec.geometry.logic]
 
           - id: spec.geometry.chords-tangents
             name: Chords and the alternate segment
-            summary: Equal chords and equal angles at the centre (and conversely); the alternate segment theorem.
+            summary: Equal chords and equal angles at the center (and conversely); the alternate segment theorem.
             dotPoints: ["1.1.10", "1.1.11"]
             prereqs: [spec.geometry.circle-angles]
 
@@ -109,8 +109,8 @@ units:
               - { course: methods, version: y11-2026, dotPoints: ["1.1.5", "1.1.9"], note: Set notation and the addition rule for probability }
 
           - id: spec.combinatorics.pigeonhole
-            name: The pigeon-hole principle
-            summary: Solve problems and prove results with the pigeon-hole principle.
+            name: The pigeonhole principle
+            summary: Solve problems and prove results with the pigeonhole principle.
             dotPoints: ["1.2.6"]
             prereqs: [spec.combinatorics.counting-principles, spec.geometry.proof-methods]
 
@@ -205,12 +205,12 @@ units:
             prereqs: [spec.trigonometry.compound-angles, spec.trigonometry.equations-graphs]
 
           - id: spec.trigonometry.periodic-models
-            name: Modelling periodic motion
+            name: Modeling periodic motion
             summary: Model periodic phenomena with sine and cosine; interpret period and amplitude.
             dotPoints: ["2.1.9"]
             prereqs: [spec.trigonometry.equations-graphs]
             external:
-              - { course: methods, version: y11-2026, dotPoints: ["1.3.15"], note: Trig modelling contexts }
+              - { course: methods, version: y11-2026, dotPoints: ["1.3.15"], note: Trig modeling contexts }
 
       # ─────────────────────────────────────────────── 2.2
       - id: matrices

@@ -11,7 +11,7 @@ export const RANK_LABEL: Record<RankLevel, string> = {
 
 export const rankKey = (r: RankLevel) => RANKS[r];
 
-/** CSS variables for a node in rank `r`: fill, highlight, and the next rank's colour for the progress ring. */
+/** CSS variables for a node in rank `r`: fill, highlight, and the next rank's color for the progress ring. */
 export function rankVars(r: RankLevel, theta: number | null): string {
   const key = RANKS[r];
   const next = RANKS[Math.min(r + 1, 5) as RankLevel];

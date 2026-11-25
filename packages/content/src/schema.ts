@@ -51,8 +51,8 @@ export const CourseManifest = z.object({
 const formRule = z.enum([
   "exact",
   "simplified-fraction",
-  "rationalised-denominator",
-  "factorised",
+  "rationalized-denominator",
+  "factored",
   "expanded",
   "cartesian",
   "polar",

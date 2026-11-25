@@ -3,7 +3,7 @@ import { marked } from "marked";
 
 /**
  * Render question Markdown with $inline$ and $$display$$ LaTeX.
- * Maths is rendered first and swapped back in after Markdown, so Markdown never mangles it.
+ * Math is rendered first and swapped back in after Markdown, so Markdown never mangles it.
  * Content comes from our own reviewed question files, so the HTML is trusted.
  */
 export function renderMarkdown(src: string, opts: { inline?: boolean } = {}): string {

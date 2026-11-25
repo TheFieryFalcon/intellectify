@@ -7,8 +7,8 @@ import { args, head, unwrap, type MathJson } from "./parse.js";
 export type FormRule =
   | "exact"
   | "simplified-fraction"
-  | "rationalised-denominator"
-  | "factorised"
+  | "rationalized-denominator"
+  | "factored"
   | "expanded"
   | "cartesian"
   | "polar"
@@ -46,7 +46,7 @@ const RULES: Record<FormRule, { test: (e: MathJson) => boolean; message: string 
       }),
     message: "Simplify the fraction.",
   },
-  "rationalised-denominator": {
+  "rationalized-denominator": {
     test: (e) =>
       !some(e, (n) => {
         if (head(n) === "Divide") return some(args(n)[1]!, (m) => head(m) === "Sqrt" || head(m) === "Root");
@@ -56,14 +56,14 @@ const RULES: Record<FormRule, { test: (e: MathJson) => boolean; message: string 
         }
         return false;
       }),
-    message: "Rationalise the denominator.",
+    message: "Rationalize the denominator.",
   },
-  factorised: {
+  factored: {
     test: (e) => {
       const top = unwrap(head(e) === "Negate" ? args(e)[0]! : e);
       return isProductHead(head(top)) || head(top) === "Power" || typeof top === "string";
     },
-    message: "Write the answer in factorised form.",
+    message: "Write the answer in factored form.",
   },
   expanded: {
     test: (e) =>

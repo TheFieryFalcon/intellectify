@@ -28,7 +28,7 @@
 <div class="wrap narrow">
   <div class="card">
     <h1>Sign in</h1>
-    <p class="muted">Practise WACE Mathematics Specialist, from recall to well beyond the exam.</p>
+    <p class="muted">WACE Mathematics Specialist practice</p>
 
     {#if firebaseConfigured}
       <button class="btn primary wide" disabled={busy} onclick={() => run(() => session.backend!.signInWithGoogle())}>Continue with Google</button>
@@ -43,7 +43,7 @@
         </form>
       {/if}
     {:else}
-      <p>Firebase isn't configured yet, so sign-in runs in local mode. Your progress will be saved in this browser.</p>
+      <p class="muted">Local mode: progress is saved in this browser.</p>
       <button class="btn primary wide" disabled={busy} onclick={() => run(() => session.backend!.signInAsGuest())}>Continue</button>
     {/if}
 

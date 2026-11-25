@@ -42,7 +42,7 @@ export const RANK_BUFFER: Record<Exclude<RankLevel, 0>, number> = {
 
 /** Correct answers at Tier ≥ k needed to unlock rank k. */
 export const GATE_COUNT = 3;
-/** An outcome must exceed this to count towards a gate (SPEC §5.4). */
+/** An outcome must exceed this to count toward a gate (SPEC §5.4). */
 export const GATE_OUTCOME = 0.6;
 
 export const CONFIG = {

@@ -13,19 +13,19 @@ Intellectify is a mastery-based practice platform for WACE ATAR courses. It comb
 
 - the **skill tree** of Khan Academy;
 - the **adaptive rating/mastery engine** of AoPS Alcumus;
-- the **parametrised, CAS-checked questions** of Mathspace.
+- the **parameterized, CAS-checked questions** of Mathspace.
 
-Questions run from pure retrieval (Tier 1) to problems significantly harder than any WACE exam (Tiers 5–6). Low tiers emphasise **retrieval and application**. High tiers emphasise **creativity, critical thinking and problem solving**.
+Questions run from pure retrieval (Tier 1) to problems significantly harder than any WACE exam (Tiers 5–6). Low tiers emphasize **retrieval and application**. High tiers emphasize **creativity, critical thinking and problem solving**.
 
 ### 1.1 Goals
-- A student can open a course, see every skill as a node in a tech tree, and practise any of them adaptively.
+- A student can open a course, see every skill as a node in a tech tree, and practice any of them adaptively.
 - Ratings are honest. A rank means the student has demonstrated work at that difficulty.
 - High-end content is hard and creative, not just longer computations.
 - Running cost is $0 (free tiers plus optional bring-your-own LLM key).
 
 ### 1.2 Non-goals (for now)
 - Teacher/class management, parent views, separate content-author roles.
-- Calculator-free vs calculator-assumed exam modelling. A question is flagged `requiresCalculator` only when it genuinely needs one.
+- Calculator-free vs calculator-assumed exam modeling. A question is flagged `requiresCalculator` only when it genuinely needs one.
 - Spaced repetition, rating decay, retention mechanics. Once earned, a rating only changes through further practice.
 - Hints. The design follows Alcumus: no hints, and the full worked solution is shown after the question is resolved.
 - Recommendations ("what to do next"). The student always chooses.
@@ -44,7 +44,7 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 
 | Role | Description |
 |---|---|
-| Student (only user role) | Signs in, picks a course, practises, competes on leaderboards, posts in discussions. |
+| Student (only user role) | Signs in, picks a course, practices, competes on leaderboards, posts in discussions. |
 | Owner (you) | Not an in-app role. Authors content offline via scripts and git; holds the server-side API keys. |
 
 Sign-in uses **Google** or **email** (Firebase Auth: Google provider + email link/password).
@@ -63,7 +63,7 @@ Course (e.g. Mathematics Specialist)
 - **Skills are clustered dot points.** Each skill lists the syllabus content descriptors it covers, e.g. `["1.1.3", "1.1.4"]`.
 - **Prerequisites form a DAG.** Each skill has a home in the hierarchy but may list prerequisite skills anywhere, **including in other courses**. For example, Specialist integration techniques depend on Methods calculus skills, even before Methods is launched. Prerequisites are **suggestions, not requirements**:
   - They are drawn as edges in the tree and listed on the skill page as "Suggested first".
-  - Every skill can be opened and practised at any time, whatever the student's ranks elsewhere. There are no locks, no gates and no warnings.
+  - Every skill can be opened and practiced at any time, whatever the student's ranks elsewhere. There are no locks, no gates and no warnings.
   - Unlike the Section Challenge's "Recommended at Gold" notice (§8.4), prerequisites never interrupt starting a skill.
 - **Mathematics Specialist sections**, confirmed against the SCSA syllabi. Sources: Year 11 syllabus for teaching from 2026; Year 12 syllabus for teaching from January 2025.
 
@@ -120,12 +120,12 @@ WACE syllabi rarely change significantly, but Methods is under review. Build for
   - Removed skills are archived but stay visible on the profile.
   - Added skills start Unranked.
 - **Question tagging:** questions reference stable skill IDs plus dot-point IDs. The build warns when a question's dot points no longer exist in a version that serves it, and questions can be restricted to specific versions.
-- **Version selection:** each course enrolment records the syllabus version. It defaults to the current one for the student's year. During transition years the student can choose in settings.
+- **Version selection:** each course enrollment records the syllabus version. It defaults to the current one for the student's year. During transition years the student can choose in settings.
 
 The tree is drafted by an LLM script from the syllabus PDFs and then edited by hand (§11.1). The edited `content/curriculum/<course>/<version>.yaml` files are the source of truth (§3.1).
 
 ### 3.2 Tutorials
-Every skill has a tutorial. Together the tutorials do the job of a very good WA community textbook (in the vein of Lucarelli or O.T. Lee): a student who has never met a topic can learn it here, then practise it.
+Every skill has a tutorial. Together the tutorials do the job of a very good WA community textbook (in the vein of Lucarelli or O.T. Lee): a student who has never met a topic can learn it here, then practice it.
 
 **Scope**
 - A tutorial covers everything a student needs to reach **low-to-mid Tier 3** (ratings up to about 1530): every dot point the skill covers, including review dot points mapped onto it (§3).
@@ -150,7 +150,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 3. **Worked examples**: **one to three**, rising in difficulty from about Tier 1 to low-to-mid Tier 3. Each shows full working laid out the way a top WACE answer would be.
 4. **Watch out** (optional): at most three common mistakes, one line each.
 
-**Format and behaviour**
+**Format and behavior**
 - One Markdown file per skill: `content/tutorials/<course>/<skillId>.md`, with the same `$…$` LaTeX and declarative diagram specs (§9.4) as questions.
 - Front matter records the dot points covered, the glossary terms it defines, and its review status.
 - Tutorials are free to read at any time and **never affect θ, ranks or gates**.
@@ -178,7 +178,7 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 
 - Tiers are displayed as plain numbers ("Tier 1" … "Tier 6").
 - An LLM estimates the rating at generation time, and the owner adjusts it during review.
-- Content mix per skill: **15–30 questions**, scaled to skill size. Tiers 1–2 need only a couple of items each, since they are mostly parametrised templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parametrised template counts as one item.
+- Content mix per skill: **15–30 questions**, scaled to skill size. Tiers 1–2 need only a couple of items each, since they are mostly parameterized templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parameterized template counts as one item.
 
 ---
 
@@ -248,7 +248,7 @@ Alongside content skills, every student has **response skills**, each with its o
 ## 6. Answering a question
 
 ### 6.1 Flow
-1. The question renders: KaTeX for text and maths, plus any diagram (§9.4). Tier, rating and the `requiresCalculator` flag are shown.
+1. The question renders: KaTeX for text and math, plus any diagram (§9.4). Tier, rating and the `requiresCalculator` flag are shown.
 2. The student answers via the math keyboard, stylus, MCQ, feature-entry or free-response.
 3. Auto-marked answers are checked **client-side, instantly**. Free-response answers go to LLM marking (§10).
 4. If wrong and attempts remain, the student sees "Incorrect, N attempts left". No hints are given.
@@ -295,8 +295,8 @@ Only the **final outcome** counts, so there is one θ update per question. Wrong
 Graphical answers such as "sketch y = 1/f(x)" or "shade the locus" are handled through **feature-entry**, not drawing.
 
 ### 7.2 Input methods
-- **Math keyboard:** MathLive `<math-field>` with a touch-optimised virtual keyboard. Specialist-specific key layouts: vectors, matrices, complex numbers, ∫, Σ, nCr/nPr, cis.
-- **Stylus → recognised maths:** MyScript iink (free tier), producing LaTeX in the same math field. The student confirms the rendered result before submitting.
+- **Math keyboard:** MathLive `<math-field>` with a touch-optimized virtual keyboard. Specialist-specific key layouts: vectors, matrices, complex numbers, ∫, Σ, nCr/nPr, cis.
+- **Stylus → recognized math:** MyScript iink (free tier), producing LaTeX in the same math field. The student confirms the rendered result before submitting.
   - **When the shared monthly quota runs out:** the stylus pad is disabled with a notice. The student falls back to the keyboard, or to **BYO-key vision LLM transcription** if they've configured a key (§10.4).
 - **Free-response editor:** rich text with inline math fields; stylus input works there too.
 
@@ -341,7 +341,7 @@ An endless adaptive stream for one skill (§5.7).
 - At month end:
   - θ updates for the tagged skills (outcome = milestone points fraction);
   - the official solution is revealed (the discussion thread has been open all month);
-  - the monthly leaderboard is finalised.
+  - the monthly leaderboard is finalized.
 
 ---
 
@@ -356,9 +356,9 @@ We use precomputed checker specs rather than a full CAS at runtime.
 - **Equivalence:** evaluate the student's expression and the key at K random points (default 8) in a declared domain, avoiding singularities, and compare within tolerance. This handles trig identities, complex expressions and algebraic rearrangements without symbolic simplification.
 - **Form rules** run on the MathJSON tree. Examples:
   - `exact` (no decimals);
-  - `factorised`, `expanded`;
+  - `factored`, `expanded`;
   - `polar` / `cartesian` / `exponential` for complex numbers;
-  - `simplified-fraction`, `rationalised-denominator`, `single-integral`;
+  - `simplified-fraction`, `rationalized-denominator`, `single-integral`;
   - `+C required`.
 - **Typed comparators** cover vectors, matrices, sets, intervals, equations, MCQ and feature-lists.
 
@@ -375,7 +375,7 @@ answer:
   form: [exact, simplified-fraction]
 ```
 
-### 9.3 Parametrised questions
+### 9.3 Parameterized questions
 - **Runtime templates:** parameter ranges plus constraints. The client instantiates random values and computes the key and checker in JS. Used for simple arithmetic-type items, mostly Tiers 1–2.
 - **Pre-generated variants:** the offline script produces concrete variants (e.g. 20 per template), each SymPy-verified, and ships them. Used wherever parameter choice can break "nice" answers.
 - **Mandatory rule for trigonometric simultaneous-equation problems** (collisions, interception, flight direction with wind, relative velocity): always pre-generate, and verify that
@@ -391,7 +391,7 @@ answer:
   - points, segments, vectors, angles, circles, polygons;
   - function curves, asymptotes, Argand diagrams, slope fields;
   - 3D vectors as projected views.
-- Diagram specs reference question parameters, so diagrams update with parametrised variants. They are LLM-authorable and validated at build time.
+- Diagram specs reference question parameters, so diagrams update with parameterized variants. They are LLM-authorable and validated at build time.
 
 ---
 
@@ -404,14 +404,14 @@ answer:
 - **The marker is instructed to be strict.** It acts as a demanding WACE marker:
   - It awards a criterion only when the work clearly and correctly establishes it.
   - It gives no credit for correct answers with missing or invalid justification where the rubric requires reasoning.
-  - It penalises imprecise language and notation according to the rubric dimensions.
+  - It penalizes imprecise language and notation according to the rubric dimensions.
   - When in doubt, it does not award the mark.
 
 ### 10.2 Providers and transport
 - **Default: free tier.** A **Netlify Function `/api/mark`** holds the owner's **Gemini free-tier API key** and calls the model **synchronously**. Over quota, it returns **429**.
 - **Async UX with a client retry queue:**
   - The submission is saved as a pending job in Firestore (`users/{uid}/markingJobs`).
-  - The UI shows "Marking…" and the student **keeps practising**.
+  - The UI shows "Marking…" and the student **keeps practicing**.
   - The open app retries with exponential backoff. If the app is closed, it resumes on the next visit.
   - When a result lands, a toast appears and θ, gates and achievements update at that moment, using θ at application time.
 - **Nudge to BYO key:** the pending state explains that the free queue may be slow, and offers a one-tap "Add your own key for instant marking".
@@ -457,7 +457,7 @@ The owner edits the draft, and the edited file becomes the source of truth.
 | `stem` | Text with LaTeX |
 | `diagram` | Diagram spec |
 | `parts` | Answer checker specs |
-| `params`, `variants` | For parametrised questions |
+| `params`, `variants` | For parameterized questions |
 | `solution` | Full worked solution |
 | `rubric` | Free-response only |
 | `milestones` | Tier 6 only |
@@ -513,9 +513,9 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
 - **Definitions:** criteria are declarative in `content/achievements.yaml` and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters live in `users/{uid}/stats`, e.g. consecutive first-try streaks, per-tier correct counts and daily streak.
 - **Tier designs continue the rank ladder:** the Platinum and Diamond achievement tiers deliberately parallel the Platinum and Diamond mastery ranks (§5.4). Their designs are **very similar**:
-  - same colours, materials and finish (metallic platinum, faceted diamond);
+  - same colors, materials and finish (metallic platinum, faceted diamond);
   - same frame shape and insignia motif.
-  - The only differences are the achievement's own emblem in the centre and where it appears: achievement shelves and toasts, as opposed to tree nodes and rank labels.
+  - The only differences are the achievement's own emblem in the center and where it appears: achievement shelves and toasts, as opposed to tree nodes and rank labels.
   - Ruby, Tanzanite, Vibranium, Solarium and Antimatter extend the same visual language upward. Each step is more elaborate than the last, e.g. richer materials, glow and motion for Solarium, and an inverted or void treatment for Antimatter.
 
 **Terms used below**
@@ -691,16 +691,18 @@ A public profile shows:
 ## 14. UI / UX
 
 ### 14.1 Visual identity
+- **Spelling:** all product copy, content (tutorials, questions, solutions, skill names) and code use standard **American** spelling (practice, color, center, factored, modeling). Mathematical notation still follows WACE conventions (§3.2).
+- **Copy is minimal:** labels over sentences, no explanatory filler on screens; show a number or a status rather than describe it.
 - **Clean and academic:** light theme, minimal, plenty of white space. In the spirit of Khan Academy or Brilliant, but the design is original.
-- Rank colours are the main accent: Unranked grey, Bronze, Silver, Gold, Platinum, Diamond.
-- Typography is tuned for maths: KaTeX output, and math fields at matching sizes.
+- Rank colors are the main accent: Unranked gray, Bronze, Silver, Gold, Platinum, Diamond.
+- Typography is tuned for math: KaTeX output, and math fields at matching sizes.
 
 ### 14.2 Home = the tech tree
 - After login, the student lands **directly on the course tech tree**. A course switcher sits at the top.
 - **Vertical tech tree** (strategy-game style). The draft preview is at https://claude.ai/artifact/VhcVGyVCy3CTTMBeRBUmth.
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
-  - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimisation). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
-  - **Nodes are circles** filled with the rank colour (Unranked is a hollow ring), with a short label under each. Keep on-map text minimal.
+  - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimization). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
+  - **Nodes are circles** filled with the rank color (Unranked is a hollow ring), with a short label under each. Keep on-map text minimal.
   - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.
@@ -710,7 +712,7 @@ A public profile shows:
 ### 14.3 Skill page
 - Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
 - **Learn** opens the skill's tutorial (§3.2): a clean reading view with glossary hovers and links to prerequisite tutorials. It is offered prominently on a student's first visit to a skill, but never required.
-- **Start practising** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
+- **Start practicing** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
 - Entry points to the section quiz, unit quiz and Section Challenge.
 
 ### 14.4 Problem screen
@@ -728,7 +730,7 @@ A public profile shows:
 
 ### 14.6 Platform and accessibility
 - Responsive web app, desktop-first but usable on phones and tablets. Stylus input is supported on tablets.
-- Keyboard-navigable; MathLive's accessible math (speech output) enabled; colour is never the only rank signal (labels and icons too).
+- Keyboard-navigable; MathLive's accessible math (speech output) enabled; color is never the only rank signal (labels and icons too).
 
 ---
 
@@ -739,7 +741,7 @@ A public profile shows:
 |---|---|
 | Frontend | **SvelteKit** (TypeScript), static adapter |
 | Native (later) | **Capacitor** wrapping the same build |
-| Maths | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
+| Math | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
 | Handwriting | MyScript iink (free tier) |
 | Auth | Firebase Auth (Google + email) |
 | Database | Cloud Firestore (Spark free plan) |
@@ -752,7 +754,7 @@ Answer checking, θ updates, rank, gate and roll-up computation, question select
 
 ### 15.3 Firestore data model (sketch)
 ```
-users/{uid}                                              profile, settings, course enrolments
+users/{uid}                                              profile, settings, course enrollments
 users/{uid}/courses/{course}                             rolled-up ranks (for the hidden buffer)
 users/{uid}/courses/{course}/skillStates/{skillId}       θ, rank, gateCounts[1..6], seen ids, counts
 users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
