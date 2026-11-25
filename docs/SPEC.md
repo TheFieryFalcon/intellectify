@@ -387,6 +387,11 @@ Monthly answers must be **definitely not AI-generated**. Automated AI-text detec
 - **Every submission that earns milestone points goes to a moderation queue** before it counts. The moderator sees the writing replay, the follow-up answers and the signals.
 - The moderator marks each submission **Verified**, **Rejected** or **Needs follow-up**. Needs follow-up means a short chat or call with the student, or an extra follow-up question.
 - The owner moderates at first. A `moderator` role (Firebase custom claim) can be granted to trusted helpers later.
+- **Live explanation (Specialist monthly problems only, Year 11 and Year 12):**
+  - **Who:** the **top finisher** of each Specialist monthly problem, plus anyone claiming a **full solve**, must explain their solution live before their submission can be Verified.
+  - **How:** a short (about 10-minute) in-person chat or video call with the owner or a moderator, walking through the key steps and answering questions about them.
+  - **If not completed:** a student who can't or won't do it within the moderation window keeps only the milestones the moderator can verify from the writing history and follow-up answers. A full solve that wasn't explained live never counts as a full solve.
+  - **Methods** monthly problems don't need a live explanation; the other checks above apply as usual.
 - There's a **7-day moderation window** after the month closes. Leaderboards, XP, θ updates and achievements for the monthly problem apply only to Verified submissions, once that window ends.
 
 **Policy:**
