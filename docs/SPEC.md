@@ -849,7 +849,7 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 - A lock lasts until it is broken or replaced. A broken lock is gone, and the captured hex starts unlocked.
 
 **Combat** (all values tunable).
-- Attack strength = troops × assault multiplier × streak bonus.
+- Attack strength = troops × assault multiplier × (1 + streak bonus) (§14.4).
 - Defense strength = troops × (1 + terrain defense bonus).
 - **If attack beats defense:**
   - the hex is captured;
@@ -872,7 +872,11 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 - **Command:** extra moves for larger empires.
 - **Plunder:** capturing hexes takes troops.
 - **Flag spoils:** capturing a flag gives an immediate troop burst, half the sacked HQ's garrison.
-- **Hot streak:** each consecutive correct answer adds +25% to Assault strength and Rally troops, up to +100%. A wrong answer resets it.
+- **Hot streak:** consecutive correct answers boost Assault strength and Rally troops. The bonus **doubles with each correct answer** and caps at a 5-answer streak. A wrong answer resets it.
+
+  | Streak | 1 | 2 | 3 | 4 | 5+ |
+  |---|---|---|---|---|---|
+  | Bonus | +2% | +4% | +8% | +15% | +30% |
 
 The streak rewards accuracy, not speed. Spawn archetypes peak at different times (Coast early, Valley mid-game, Ridge late), so the lead changes hands as different engines kick in.
 
