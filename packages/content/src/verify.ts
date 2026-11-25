@@ -64,18 +64,19 @@ for (const line of lines) {
 }
 
 // Every auto-marked part of every question with verify code must be covered, for every variant.
-let missing = 0;
+const missing: string[] = [];
 for (const q of byId.values()) {
   const autoParts = q.parts.filter((p) => p.answer).map((p) => p.id);
   if (!q.verify) {
-    if (autoParts.length && q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select")) missing++;
+    if (autoParts.length && q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select")) missing.push(q.id);
     continue;
   }
   const variants = q.variants?.length ? q.variants.map((_, i) => `${q.id} variant ${i}`) : [q.id];
   for (const v of variants) for (const p of autoParts) if (!covered.get(v)?.has(p)) errors.push(`${v}: verify didn't return part ${p}`);
 }
 
-if (missing) console.warn(`warning: ${missing} question(s) with computed answers have no verify code yet`);
+// Every computed answer must be machine-checked (SPEC §11.3).
+for (const id of missing) errors.push(`${id}: computed answers need verify code`);
 if (errors.length) {
   errors.forEach((e) => console.error(`error: ${e}`));
   console.error(`\n${errors.length} verification error(s).`);

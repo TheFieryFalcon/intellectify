@@ -1,0 +1,518 @@
+# Converses and circle geometry problems (1.1.14, 1.1.15).
+
+- id: spec.geometry.circle-problems.which-cyclic
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1080
+  responseSkills: {reading: 1070}
+  stem: |
+    Which quadrilateral must be cyclic? Its angles are listed in order around the shape.
+  parts:
+  - id: a
+    options:
+    - {id: a, text: '$80^\circ, 100^\circ, 80^\circ, 100^\circ$'}
+    - {id: b, text: '$75^\circ, 95^\circ, 105^\circ, 85^\circ$'}
+    - {id: c, text: '$90^\circ, 80^\circ, 100^\circ, 90^\circ$'}
+    - {id: d, text: '$70^\circ, 80^\circ, 100^\circ, 110^\circ$'}
+    answer: {type: mcq, key: b}
+  solution: |
+    A quadrilateral is cyclic if a pair of opposite angles (first and third, or second and fourth) adds to $180^\circ$. Only (b) works: $75^\circ + 105^\circ = 180^\circ$. The opposite pairs add to $160^\circ$ and $200^\circ$ in (a), $190^\circ$ and $170^\circ$ in (c), and $170^\circ$ and $190^\circ$ in (d).
+  verify: |
+    def answers():
+        opts = {"a": (80, 100, 80, 100), "b": (75, 95, 105, 85), "c": (90, 80, 100, 90), "d": (70, 80, 100, 110)}
+        good = [k for k, a in opts.items() if a[0] + a[2] == 180]
+        return {"a": good[0] if len(good) == 1 else "ambiguous"}
+- id: spec.geometry.circle-problems.right-angle-on-circle
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1110
+  responseSkills: {reading: 1100, calculation: 1080}
+  variants:
+  - {ab: 10}
+  - {ab: 14}
+  stem: |
+    $A$ and $B$ are {{ab}} cm apart, and $M$ is the midpoint of $AB$. A point $P$ has $\angle APB = 90^\circ$. How far is $P$ from $M$?
+  parts:
+  - id: a
+    prompt: $PM$ (cm)
+    answer: {type: numeric, key: '\frac{ {{ab}} }{2}'}
+  solution: |
+    By the converse of the angle in a semicircle, $P$ lies on the circle with diameter $AB$. Its center is $M$ and its radius is $\tfrac{ {{ab}} }{2}$ cm, so $PM = \tfrac{ {{ab}} }{2}$ cm.
+  verify: |
+    def answers(ab):
+        import math
+        A, B = (-ab / 2, 0.0), (ab / 2, 0.0)
+        # Any P with a right angle at P: search along a ray from M for the point where angle APB = 90.
+        best = min((((ab * k / 4000) * math.cos(1.1), (ab * k / 4000) * math.sin(1.1)) for k in range(1, 4000)),
+                   key=lambda Q: abs(angle_at(A, Q, B) - 90))
+        return {"a": round(dist(best, (0, 0)), 1)}
+- id: spec.geometry.circle-problems.equal-angles-concyclic
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1150
+  responseSkills: {reading: 1140}
+  stem: |
+    $A$, $B$, $C$ and $D$ are four points with $C$ and $D$ on the same side of line $AB$, and $\angle ACB = \angle ADB = 35^\circ$. What can you conclude?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: $ABCD$ is a parallelogram}
+    - {id: b, text: '$A$, $B$, $C$ and $D$ lie on a circle'}
+    - {id: c, text: $AC = BD$}
+    - {id: d, text: Nothing}
+    answer: {type: mcq, key: b}
+  solution: |
+    $AB$ subtends equal angles at $C$ and $D$ on the same side, so by the converse of angles on the same arc, the four points are concyclic.
+- id: spec.geometry.circle-problems.cyclic-exterior
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1200
+  responseSkills: {reading: 1190, calculation: 1150}
+  variants:
+  - {e: 70}
+  - {e: 112}
+  stem: |
+    A quadrilateral $ABCD$ has an exterior angle at $C$ (between $DC$ and $BC$ extended) of ${{e}}^\circ$, and $\angle DAB = {{e}}^\circ$. Is $ABCD$ cyclic?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'Yes'}
+    - {id: b, text: 'No'}
+    - {id: c, text: Not enough information}
+    answer: {type: mcq, key: a}
+  solution: |
+    The interior angle at $C$ is $180^\circ - {{e}}^\circ$, so $\angle DAB + \angle BCD = 180^\circ$. By the converse of the cyclic quadrilateral theorem, $ABCD$ is cyclic.
+- id: spec.geometry.circle-problems.triangle-from-center-angles
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1300
+  responseSkills: {calculation: 1290, reading: 1280}
+  stem: |
+    Triangle $ABC$ has its corners on a circle with center $O$ inside the triangle. $\angle AOB = 140^\circ$ and $\angle BOC = 100^\circ$. Find the angles of the triangle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.684, -1.879], B: [1.732, 1], C: [-1.286, 1.532], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: polygon, points: [A, B, C] }
+      - { type: segment, from: O, to: A, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: segment, from: O, to: C, color: muted }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: O, label: 'O', pos: e }
+    ```
+  parts:
+  - id: a
+    prompt: $\angle BAC$ (°)
+    answer: {type: numeric, key: '50'}
+  - id: b
+    prompt: $\angle ABC$ (°)
+    answer: {type: numeric, key: '60'}
+  - id: c
+    prompt: $\angle ACB$ (°)
+    answer: {type: numeric, key: '70'}
+  solution: |
+    $\angle COA = 360^\circ - 140^\circ - 100^\circ = 120^\circ$. Each angle of the triangle is half the angle at the center on the opposite side: $\angle BAC = \tfrac{1}{2} \times 100^\circ = 50^\circ$, $\angle ABC = \tfrac{1}{2} \times 120^\circ = 60^\circ$ and $\angle ACB = \tfrac{1}{2} \times 140^\circ = 70^\circ$.
+  verify: |
+    def answers():
+        A = on_circle(0)
+        B = on_circle(140)
+        C = on_circle(240)
+        return {"a": approx(angle_at(B, A, C)), "b": approx(angle_at(A, B, C)), "c": approx(angle_at(A, C, B))}
+- id: spec.geometry.circle-problems.tangent-cyclic
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1320
+  responseSkills: {calculation: 1300, reading: 1310}
+  variants:
+  - {t: 70}
+  - {t: 54}
+  stem: |
+    $ABCD$ is a cyclic quadrilateral. The tangent at $A$ makes an angle of {{t}}° with $AB$, on the side away from $D$. Find $\angle ADB$ and $\angle ACB$.
+  parts:
+  - id: a
+    prompt: $\angle ADB$ (°)
+    answer: {type: numeric, key: '{{t}}'}
+  - id: b
+    prompt: $\angle ACB$ (°)
+    answer: {type: numeric, key: '{{t}}'}
+  solution: |
+    By the alternate segment theorem, the tangent–chord angle equals any angle on chord $AB$ in the alternate segment. $C$ and $D$ both lie in it, so $\angle ADB = \angle ACB = {{t}}^\circ$.
+  verify: |
+    def answers(t):
+        A = on_circle(270)
+        B = on_circle(270 + 2*t)
+        C, D = on_circle(120), on_circle(200)
+        Y = (3, -1)
+        assert abs(angle_at(Y, A, B) - t) < 1e-9
+        return {"a": approx(angle_at(A, D, B)), "b": approx(angle_at(A, C, B))}
+- id: spec.geometry.circle-problems.cyclic-four-angles
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1350
+  responseSkills: {calculation: 1340, reading: 1330}
+  stem: |
+    $ABCD$ is cyclic with $\angle DAB = (x + 20)^\circ$, $\angle ABC = (3x - 40)^\circ$ and $\angle BCD = (2x + 10)^\circ$. Find $\angle CDA$.
+  parts:
+  - id: a
+    prompt: $\angle CDA$ (°)
+    answer: {type: numeric, key: '70'}
+  solution: |
+    Opposite angles: $(x + 20) + (2x + 10) = 180$, so $x = 50$. Then $\angle ABC = 110^\circ$ and $\angle CDA = 180^\circ - 110^\circ = 70^\circ$.
+  verify: |
+    def answers():
+        x = symbols("x")
+        xv = solve(x + 20 + 2*x + 10 - 180, x)[0]
+        return {"a": 180 - (3*xv - 40)}
+- id: spec.geometry.circle-problems.find-x-if-cyclic
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1380
+  responseSkills: {calculation: 1370, reading: 1360}
+  stem: |
+    In quadrilateral $ABCD$, $\angle DAB = 3x^\circ$, $\angle ABC = 100^\circ$ and $\angle BCD = (2x + 30)^\circ$. If $ABCD$ is cyclic, find $x$ and $\angle ADC$.
+  parts:
+  - id: a
+    prompt: $x =$
+    answer: {type: numeric, key: '30'}
+  - id: b
+    prompt: $\angle ADC$ (°)
+    answer: {type: numeric, key: '80'}
+  solution: |
+    Cyclic means opposite angles add to $180^\circ$: $3x + 2x + 30 = 180$, so $x = 30$. Also $\angle ADC = 180^\circ - 100^\circ = 80^\circ$.
+  verify: |
+    def answers():
+        x = symbols("x")
+        return {"a": solve(5*x + 30 - 180, x)[0], "b": 180 - 100}
+- id: spec.geometry.circle-problems.parallelogram-cyclic
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1440
+  responseSkills: {proof: 1430, clarity: 1370}
+  stem: |
+    Prove that a parallelogram whose corners lie on a circle is a rectangle.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: opp, description: Opposite angles of a parallelogram are equal, points: 1, dimension: proof}
+      - {id: cyc, description: Opposite angles of a cyclic quadrilateral add to 180°, points: 1, dimension: proof}
+      - {id: right, description: 'So each is 90°, and all four angles are right angles', points: 2, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    In parallelogram $ABCD$, $\angle A = \angle C$. It is cyclic, so $\angle A + \angle C = 180^\circ$. So $\angle A = \angle C = 90^\circ$, and likewise $\angle B = \angle D = 90^\circ$: it is a rectangle.
+- id: spec.geometry.circle-problems.tangents-major-arc
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1420
+  responseSkills: {calculation: 1400, synthesis: 1400}
+  variants:
+  - {m: 50}
+  - {m: 36}
+  stem: |
+    Tangents from $M$ touch a circle at $S$ and $T$, and $\angle SMT = {{m}}^\circ$. $P$ is a point on the major arc $ST$. Find $\angle SPT$.
+
+    ```diagram
+    view: [-2.45, 2.45, -4.05, 2.45]
+    width: 230
+    points: { M: [0, -3.6], S: [1.663, -1.111], T: [-1.663, -1.111], P: [-0.347, 1.97], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: S }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: P, to: S }
+      - { type: segment, from: P, to: T }
+      - { type: angle, at: M, from: S, to: T, label: '{{m}}^\circ', radius: 22 }
+      - { type: angle, at: P, from: T, to: S, radius: 20 }
+      - { type: point, at: M, label: 'M' }
+      - { type: point, at: S, label: 'S' }
+      - { type: point, at: T, label: 'T' }
+      - { type: point, at: P, label: 'P' }
+    ```
+  parts:
+  - id: a
+    prompt: $\angle SPT$ (°)
+    answer: {type: numeric, key: '\frac{180-{{m}}}{2}'}
+  solution: |
+    With center $O$, $\angle OSM = \angle OTM = 90^\circ$, so $\angle SOT = 180^\circ - {{m}}^\circ$ (quadrilateral $OSMT$). The angle at the circumference is half: $\angle SPT = \tfrac{1}{2}(180^\circ - {{m}}^\circ)$.
+  verify: |
+    def answers(m):
+        import math
+        M = (0, -2 / math.sin(math.radians(m / 2)))
+        S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
+        Pp = on_circle(100, 2)
+        return {"a": approx(angle_at(S, Pp, T))}
+- id: spec.geometry.circle-problems.chords-cross-angle
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1450
+  responseSkills: {calculation: 1430, synthesis: 1420}
+  stem: |
+    $A$, $B$, $C$ and $D$ lie on a circle in that order, and chords $AC$ and $BD$ meet at $X$. $\angle ABD = 32^\circ$ and $\angle AXD = 110^\circ$. Find $\angle BDC$.
+  parts:
+  - id: a
+    prompt: $\angle BDC$ (°)
+    answer: {type: numeric, key: '78'}
+  solution: |
+    $\angle ACD = \angle ABD = 32^\circ$ (same arc $AD$). $\angle DXC = 180^\circ - 110^\circ = 70^\circ$ (angles on a straight line). In triangle $XCD$: $\angle XDC = 180^\circ - 70^\circ - 32^\circ = 78^\circ$, so $\angle BDC = 78^\circ$.
+  verify: |
+    def answers():
+        # Arcs: AD (not containing B) = 64; BC = 2 * angle BDC = 156; AB + CD = 360 - 64 - 156 = 140.
+        A = on_circle(0); B = on_circle(70); C = on_circle(70 + 156); D = on_circle(360 - 64)
+        X = line_meet(A, C, B, D)
+        assert abs(angle_at(A, B, D) - 32) < 1e-9 and abs(angle_at(A, X, D) - 110) < 1e-9
+        return {"a": approx(angle_at(B, D, C))}
+- id: spec.geometry.circle-problems.isosceles-trapezium
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1460
+  responseSkills: {calculation: 1440, reading: 1440}
+  stem: |
+    $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = 70^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
+  parts:
+  - id: a
+    prompt: $\angle BCD$ (°)
+    answer: {type: numeric, key: '110'}
+  - id: b
+    prompt: Is it cyclic?
+    options:
+    - {id: a, text: Cyclic}
+    - {id: b, text: Not cyclic}
+    answer: {type: mcq, key: a}
+  solution: |
+    In an isosceles trapezium the base angles are equal: $\angle ABC = 70^\circ$. Co-interior angles between the parallel sides add to $180^\circ$: $\angle BCD = 180^\circ - 70^\circ = 110^\circ$. So $\angle DAB + \angle BCD = 180^\circ$, and $ABCD$ is cyclic.
+  verify: |
+    def answers():
+        import math
+        A, B = (0.0, 0.0), (6.0, 0.0)
+        h = 2.0
+        D = (h / math.tan(math.radians(70)), h); C = (6 - D[0], h)
+        s = angle_at(B, C, D)
+        return {"a": approx(s), "b": "a" if abs(angle_at(D, A, B) + s - 180) < 1e-9 else "b"}
+- id: spec.geometry.circle-problems.kite-tangents-area
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1450
+  responseSkills: {calculation: 1430, synthesis: 1420}
+  stem: |
+    A point $M$ is 10 cm from the center $O$ of a circle of radius 6 cm. Tangents from $M$ touch the circle at $S$ and $T$. Find the area of quadrilateral $OSMT$.
+  parts:
+  - id: a
+    prompt: Area (cm²)
+    answer: {type: numeric, key: '48'}
+  solution: |
+    Each tangent has length $\sqrt{10^2 - 6^2} = 8$ (tangent ⟂ radius). $OSMT$ is two congruent right-angled triangles, each with area $\tfrac{1}{2} \times 6 \times 8 = 24$. Total: $48$ cm².
+  verify: |
+    def answers():
+        M = (10.0, 0.0)
+        S, T = tangent_point_toward((0, 0), 6, M, 1), tangent_point_toward((0, 0), 6, M, -1)
+        pts = [(0, 0), S, M, T]
+        area = abs(sum(pts[i][0]*pts[(i+1) % 4][1] - pts[(i+1) % 4][0]*pts[i][1] for i in range(4))) / 2
+        return {"a": approx(area)}
+- id: spec.geometry.circle-problems.prove-cyclic-converse
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1520
+  responseSkills: {proof: 1510, synthesis: 1480, clarity: 1430}
+  stem: |
+    Prove by contradiction: if a quadrilateral $ABCD$ has $\angle B + \angle D = 180^\circ$, then it is cyclic.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: circle, description: 'Draws the circle through A, B, C and supposes D is not on it', points: 1, dimension: proof}
+      - {id: meet, description: Lets AD (or line through D) meet the circle at D′ ≠ D, points: 1, dimension: synthesis}
+      - {id: angles, description: ∠AD′C = 180° − ∠B = ∠ADC (cyclic quadrilateral ABCD′), points: 2, dimension: proof}
+      - {id: contra, description: 'But an exterior angle of triangle DD′C can''t equal its interior opposite angle: contradiction', points: 1, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    Draw the circle through $A$, $B$, $C$, and suppose $D$ isn't on it. Let line $AD$ meet the circle again at $D' \ne D$. $ABCD'$ is cyclic, so $\angle AD'C = 180^\circ - \angle B = \angle ADC$.
+    But in triangle $DD'C$, one of $\angle AD'C$ and $\angle ADC$ is an exterior angle and the other an interior angle not next to it, so the exterior angle is larger. They can't be equal: contradiction. So $D$ is on the circle.
+- id: spec.geometry.circle-problems.prove-semicircle-converse
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1480
+  responseSkills: {proof: 1470, synthesis: 1440, clarity: 1400}
+  stem: |
+    $\angle APB = 90^\circ$ and $M$ is the midpoint of $AB$. Prove that $MP = MA = MB$, so $P$ lies on the circle with diameter $AB$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: rect, description: 'Completes rectangle APBQ (or uses a reflection), or uses vectors with P as origin', points: 1, dimension: synthesis}
+      - {id: diag, description: 'A rectangle''s diagonals are equal and bisect each other, so M is the midpoint of PQ too', points: 2, dimension: proof}
+      - {id: equal, description: So MP = ½PQ = ½AB = MA = MB, points: 1, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    Complete the rectangle $APBQ$ (draw lines through $A$ and $B$ parallel to $PB$ and $PA$). A rectangle's diagonals are equal and bisect each other, so $M$, the midpoint of $AB$, is also the midpoint of $PQ$, and $MP = \tfrac{1}{2}PQ = \tfrac{1}{2}AB = MA = MB$. So $P$ is on the circle with center $M$ and diameter $AB$.
+- id: spec.geometry.circle-problems.diameter-two-points
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1580
+  responseSkills: {synthesis: 1570, calculation: 1540}
+  stem: |
+    $AB$ is a diameter of a circle, and $C$ and $D$ are on the circle on the same side of $AB$. $\angle DAB = 50^\circ$ and $\angle CBA = 60^\circ$. Find $\angle DCA$.
+  parts:
+  - id: a
+    prompt: $\angle DCA$ (°)
+    answer: {type: numeric, key: '40'}
+  solution: |
+    Join $BD$. $\angle ADB = 90^\circ$ (angle in a semicircle), so $\angle DBA = 90^\circ - 50^\circ = 40^\circ$. $\angle DCA$ and $\angle DBA$ stand on the same arc $DA$: $\angle DCA = 40^\circ$.
+  verify: |
+    def answers():
+        A, B = on_circle(180), on_circle(0)
+        D = on_circle(100)        # angle DBA = 40 means arc AD = 80, so D is at 180 - 80 = 100
+        C = on_circle(180 - 120)  # angle CBA = 60 means arc AC = 120, so C is at 60
+        assert abs(angle_at(D, A, B) - 50) < 1e-9 and abs(angle_at(C, B, A) - 60) < 1e-9
+        return {"a": approx(angle_at(D, C, A))}
+- id: spec.geometry.circle-problems.altitudes-concyclic
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1600
+  responseSkills: {proof: 1590, synthesis: 1570, clarity: 1500}
+  stem: |
+    In triangle $ABC$, $E$ is on $AC$ with $BE \perp AC$, and $F$ is on $AB$ with $CF \perp AB$. Prove that $B$, $C$, $E$ and $F$ lie on a circle.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: right, description: ∠BEC = ∠BFC = 90°, points: 1, dimension: proof}
+      - {id: converse, description: 'By the converse of the angle in a semicircle, E and F lie on the circle with diameter BC', points: 3, dimension: synthesis}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    $\angle BEC = 90^\circ$ and $\angle BFC = 90^\circ$. By the converse of the angle in a semicircle, both $E$ and $F$ lie on the circle with diameter $BC$. So $B$, $C$, $E$ and $F$ are concyclic.
+- id: spec.geometry.circle-problems.isosceles-circumradius
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1650
+  responseSkills: {synthesis: 1640, calculation: 1600}
+  stem: |
+    A triangle has sides 10, 10 and 12. Find the radius of the circle through its three corners.
+  parts:
+  - id: a
+    prompt: Radius
+    answer: {type: numeric, key: '6.25'}
+  solution: |
+    The height to the side of length 12 is $\sqrt{10^2 - 6^2} = 8$, and by symmetry the center lies on this height. If the radius is $R$, the center is $8 - R$ above the base, and its distance to a base corner is $R$: $(8 - R)^2 + 6^2 = R^2$. So $100 - 16R = 0$ and $R = 6.25$.
+  verify: |
+    def answers():
+        A, B, C = (-6.0, 0.0), (6.0, 0.0), (0.0, 8.0)
+        k = symbols("k", real=True)
+        kv = solve((6**2 + k**2) - (8 - k)**2, k)[0]
+        return {"a": nsimplify(sqrt(36 + kv**2))}
+- id: spec.geometry.circle-problems.parallel-chords
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1620
+  responseSkills: {proof: 1610, clarity: 1520}
+  stem: |
+    Chords $AB$ and $CD$ of a circle are parallel, with $A$ and $C$ on the same side. Prove that $AC = BD$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: join, description: Joins BC (or AD), points: 1, dimension: proof}
+      - {id: alt, description: '∠ABC = ∠BCD (alternate angles, AB ∥ CD)', points: 1, dimension: proof}
+      - {id: arcs, description: 'Equal angles at the circumference stand on equal chords: AC = BD', points: 2, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    Join $BC$. $\angle ABC = \angle BCD$ (alternate angles, $AB \parallel CD$). $\angle ABC$ stands on chord $AC$ and $\angle BCD$ on chord $BD$. Equal angles at the circumference stand on equal arcs, so they subtend equal angles at the center, and equal angles at the center mean equal chords: $AC = BD$.
+- id: spec.geometry.circle-problems.hypotenuse-midpoint
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1580
+  responseSkills: {proof: 1570, clarity: 1490}
+  stem: |
+    Triangle $ABC$ has a right angle at $C$, and $M$ is the midpoint of $AB$. Prove that $MC = \tfrac{1}{2}AB$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: semi, description: 'By the converse of the angle in a semicircle, C is on the circle with diameter AB', points: 2, dimension: synthesis}
+      - {id: radius, description: Its center is M and its radius is ½AB, points: 1, dimension: proof}
+      - {id: conclude, description: 'So MC is a radius: MC = ½AB', points: 1, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    $\angle ACB = 90^\circ$, so $C$ lies on the circle with diameter $AB$ (converse of the angle in a semicircle). Its center is $M$ and its radius is $\tfrac{1}{2}AB$, and $MC$ is a radius. So $MC = \tfrac{1}{2}AB$.
+- id: spec.geometry.circle-problems.perpendicular-diagonals-radius
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1720
+  responseSkills: {synthesis: 1720, calculation: 1660}
+  stem: |
+    $ABCD$ is a cyclic quadrilateral whose diagonals meet at right angles at $X$. $AX = 3$, $XC = 8$ and $BX = 4$. Find $XD$ and the exact radius of the circle.
+  parts:
+  - id: a
+    prompt: $XD$
+    answer: {type: numeric, key: '6'}
+  - id: b
+    prompt: Radius
+    answer:
+      type: numeric
+      key: \frac{5\sqrt{5}}{2}
+      form: [exact]
+  solution: |
+    Intersecting chords: $XD = \tfrac{3 \times 8}{4} = 6$.
+    Put $X$ at the origin with $A(-3, 0)$, $C(8, 0)$, $B(0, 4)$, $D(0, -6)$. The center lies on the perpendicular bisectors of both chords: $x = 2.5$ and $y = -1$. The radius is the distance to $A$: $\sqrt{5.5^2 + 1^2} = \sqrt{31.25} = \tfrac{5\sqrt{5}}{2}$.
+  verify: |
+    def answers():
+        A, C, B = (-3, 0), (8, 0), (0, 4)
+        x0 = (A[0] + C[0]) / 2
+        y = symbols("y", real=True)
+        y0 = solve((x0 - A[0])**2 + y**2 - ((x0 - B[0])**2 + (y - B[1])**2), y)[0]
+        r = sqrt((x0 - A[0])**2 + y0**2)
+        t = line_circle((0, 0), 90, float(r), (x0, float(y0)))
+        return {"a": approx(-t[0]), "b": nsimplify(r)}
+- id: spec.geometry.circle-problems.bisector-equal-chords
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1700
+  responseSkills: {proof: 1700, synthesis: 1680, clarity: 1600}
+  stem: |
+    In triangle $ABC$, the bisector of angle $A$ meets the circle through $A$, $B$ and $C$ again at $D$. Prove that $DB = DC$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: bisect, description: ∠BAD = ∠DAC (bisector), points: 1, dimension: proof}
+      - {id: chords, description: 'Equal angles at the circumference stand on equal chords (or: ∠DBC = ∠DAC and ∠DCB = ∠DAB, same arcs)', points: 2, dimension: proof}
+      - {id: conclude, description: 'So triangle DBC is isosceles, or the chords are equal: DB = DC', points: 2, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    $\angle BAD = \angle DAC$. Also $\angle DCB = \angle DAB$ (same arc $DB$) and $\angle DBC = \angle DAC$ (same arc $DC$). So $\angle DCB = \angle DBC$, triangle $DBC$ is isosceles, and $DB = DC$.
+- id: spec.geometry.circle-problems.constant-angle
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1780
+  responseSkills: {proof: 1780, synthesis: 1760, clarity: 1660}
+  stem: |
+    Two circles meet at $P$ and $Q$. A line through $P$ meets the first circle again at $A$ and the second circle again at $B$, with $P$ between $A$ and $B$. Prove that $\angle AQB$ is the same for every such line.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: first, description: '∠PAQ is constant: angle on the fixed arc PQ of the first circle', points: 2, dimension: proof}
+      - {id: second, description: '∠PBQ is constant: angle on the fixed arc PQ of the second circle', points: 2, dimension: proof}
+      - {id: sum, description: 'In triangle AQB, ∠AQB = 180° − ∠QAB − ∠QBA is therefore constant', points: 1, dimension: synthesis}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    As the line turns, $A$ moves around the first circle but $\angle QAP$ always stands on the fixed chord $PQ$, so it is constant (angles on the same arc). Likewise $\angle QBP$ is constant in the second circle. In triangle $AQB$, $\angle AQB = 180^\circ - \angle QAB - \angle QBA$, which is therefore constant.
+- id: spec.geometry.circle-problems.extended-sides
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1760
+  responseSkills: {synthesis: 1760, calculation: 1700}
+  stem: |
+    $ABCD$ is a cyclic quadrilateral. Lines $AB$ and $DC$ meet at $E$ (beyond $B$ and $C$), and lines $AD$ and $BC$ meet at $F$ (beyond $D$ and $C$). $\angle AED = 30^\circ$ and $\angle AFB = 40^\circ$. Find $\angle DAB$.
+  parts:
+  - id: a
+    prompt: $\angle DAB$ (°)
+    answer: {type: numeric, key: '55'}
+  solution: |
+    Let $\angle DAB = x$. In triangle $ADE$, $\angle ADC = 180^\circ - x - 30^\circ$. In triangle $ABF$, $\angle ABC = 180^\circ - x - 40^\circ$. Opposite angles of the cyclic quadrilateral add to $180^\circ$: $(150^\circ - x) + (140^\circ - x) = 180^\circ$, so $2x = 110^\circ$ and $x = 55^\circ$.
+  verify: |
+    def answers():
+        # Angles A = 55, B = 85, C = 125, D = 95 give arcs AB = 140, BC = 50, CD = 60, DA = 110.
+        A, B, C, D = on_circle(0), on_circle(140), on_circle(190), on_circle(250)
+        E = line_meet(A, B, D, C)
+        F = line_meet(A, D, B, C)
+        assert abs(angle_at(A, E, D) - 30) < 1e-6 and abs(angle_at(A, F, B) - 40) < 1e-6
+        return {"a": approx(angle_at(D, A, B), 4)}
+- id: spec.geometry.circle-problems.square-center-circle
+  skills: {primary: spec.geometry.circle-problems}
+  rating: 1700
+  responseSkills: {synthesis: 1700, calculation: 1640}
+  stem: |
+    $ABCD$ is a square with side 2 and center $O$. Find the radius of the circle through $A$, $B$ and $O$.
+  parts:
+  - id: a
+    prompt: Radius
+    answer: {type: numeric, key: '1'}
+  solution: |
+    The diagonals of a square meet at right angles, so $\angle AOB = 90^\circ$. By the converse of the angle in a semicircle, $O$ lies on the circle with diameter $AB$. That circle passes through $A$, $B$ and $O$, and its radius is $\tfrac{1}{2}AB = 1$.
+  verify: |
+    def answers():
+        A, B, O = (0, 0), (2, 0), (1, 1)
+        k = symbols("k", real=True)
+        kv = solve((1 + k**2) - ((1 - 1)**2 + (1 - k)**2), k)[0]
+        return {"a": sqrt(1 + kv**2)}
