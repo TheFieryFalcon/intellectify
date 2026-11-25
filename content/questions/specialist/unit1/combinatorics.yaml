@@ -1,0 +1,150 @@
+# SAMPLE questions for Phase 0. They exercise the pipeline and are not a content set.
+# Each file holds a list of questions. Stems and solutions are Markdown with $…$ LaTeX.
+
+- id: spec.combinatorics.counting-principles.pin-codes
+  status: draft
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1080
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { n: 3, total: 1000 }
+    - { n: 4, total: 10000 }
+    - { n: 5, total: 100000 }
+  stem: |
+    A PIN is made of {{n}} digits, each chosen from 0 to 9. Digits may repeat.
+    How many different PINs are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{total}}' }
+  solution: |
+    Each of the {{n}} positions has 10 choices, so by the multiplication principle there are
+    $10^{ {{n}} } = {{total}}$ PINs.
+
+- id: spec.combinatorics.counting-principles.club-officers
+  status: draft
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1310
+  responseSkills: { calculation: 1250, reading: 1300 }
+  stem: |
+    A club has 12 members. In how many ways can a president, a secretary and a treasurer be
+    chosen, if no member can hold more than one position?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1320 }
+  solution: |
+    The positions are distinct, so order matters: ${}^{12}P_3 = 12 \times 11 \times 10 = 1320$.
+
+- id: spec.combinatorics.permutations.parallel
+  status: draft
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1500
+  responseSkills: { calculation: 1450, reading: 1450 }
+  stem: |
+    Consider arrangements of all the letters of the word **PARALLEL**.
+  parts:
+    - id: a
+      prompt: How many different arrangements are there?
+      marks: 2
+      answer: { type: numeric, key: 3360 }
+    - id: b
+      prompt: In how many of these arrangements are the three L's together?
+      marks: 2
+      answer: { type: numeric, key: 360 }
+  solution: |
+    **(a)** PARALLEL has 8 letters with A twice and L three times:
+    $\dfrac{8!}{2!\,3!} = \dfrac{40320}{12} = 3360$.
+
+    **(b)** Treat LLL as one block. We then arrange 6 objects (LLL, P, A, A, R, E) with A repeated:
+    $\dfrac{6!}{2!} = 360$.
+
+- id: spec.combinatorics.combinations.committee
+  status: draft
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1340
+  responseSkills: { calculation: 1300 }
+  stem: |
+    A committee of 4 is chosen from 7 women and 5 men.
+    How many committees contain exactly 2 women?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 210 }
+  solution: |
+    Choose the women and the men separately: $\binom{7}{2}\binom{5}{2} = 21 \times 10 = 210$.
+
+- id: spec.combinatorics.pascal.pascal-rule
+  status: draft
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1320
+  responseSkills: { reading: 1300 }
+  stem: |
+    Which single binomial coefficient equals $\binom{n}{r} + \binom{n}{r+1}$?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\binom{n+1}{r+1}$' }
+        - { id: b, text: '$\binom{n}{r+2}$' }
+        - { id: c, text: '$\binom{n+1}{r}$' }
+        - { id: d, text: '$\binom{2n}{2r+1}$' }
+      answer: { type: mcq, key: a }
+  solution: |
+    This is Pascal's rule. Choosing $r+1$ items from $n+1$, either a particular item is chosen
+    ($\binom{n}{r}$ ways for the rest) or it isn't ($\binom{n}{r+1}$ ways). So the sum is $\binom{n+1}{r+1}$.
+
+- id: spec.combinatorics.pascal.sum-of-squares
+  status: draft
+  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  rating: 1690
+  responseSkills: { synthesis: 1650, calculation: 1500 }
+  stem: |
+    Evaluate $\displaystyle\sum_{k=0}^{10} \binom{10}{k}^2$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 184756 }
+  solution: |
+    Count ways to choose 10 people from 10 women and 10 men. Choosing $k$ women and $10-k$ men gives
+    $\binom{10}{k}\binom{10}{10-k} = \binom{10}{k}^2$ ways, so the sum equals $\binom{20}{10} = 184756$.
+
+- id: spec.combinatorics.inclusion-exclusion.divisible-3-5-7
+  status: draft
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1490
+  responseSkills: { calculation: 1450 }
+  stem: |
+    How many integers from 1 to 1000 inclusive are divisible by at least one of 3, 5 or 7?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 543 }
+  solution: |
+    $|A_3|+|A_5|+|A_7| = 333+200+142 = 675$; pairwise $|A_{15}|+|A_{21}|+|A_{35}| = 66+47+28 = 141$;
+    triple $|A_{105}| = 9$. So $675 - 141 + 9 = 543$.
+
+- id: spec.combinatorics.pigeonhole.sum-to-21
+  status: draft
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1560
+  responseSkills: { reading: 1500, proof: 1500 }
+  stem: |
+    What is the smallest number of integers that must be chosen from $\{1, 2, \ldots, 20\}$ to
+    guarantee that two of the chosen integers add to 21?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 11 }
+  solution: |
+    Pair the numbers as $(1,20), (2,19), \ldots, (10,11)$: 10 pigeon-holes. Choosing 10 numbers,
+    one from each pair, avoids a sum of 21, but any 11 numbers must include both members of some pair.
+
+- id: spec.combinatorics.pigeonhole.divisor-pair
+  status: draft
+  skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
+  rating: 1770
+  responseSkills: { synthesis: 1750, proof: 1700 }
+  stem: |
+    What is the least $n$ such that any $n$ integers chosen from $\{1, 2, \ldots, 100\}$ must include two
+    distinct integers where one divides the other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 51 }
+  solution: |
+    Write each number as $2^a m$ with $m$ odd. There are 50 odd values of $m$, so any 51 numbers include two
+    with the same $m$, and the smaller divides the larger. The 50 numbers $51, 52, \ldots, 100$ show that 50 is
+    not enough, since no one of them divides another. So $n = 51$.

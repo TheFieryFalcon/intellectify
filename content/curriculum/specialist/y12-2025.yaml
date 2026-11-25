@@ -15,6 +15,7 @@ units:
       # ─────────────────────────────────────────────── 3.1
       - id: complex
         code: "3.1"
+        dotPointCount: 15
         name: Complex numbers
         hours: 18
         # Review dot points aren't separate skills. They map onto the Year 11
@@ -65,6 +66,7 @@ units:
       # ─────────────────────────────────────────────── 3.2
       - id: functions
         code: "3.2"
+        dotPointCount: 8
         name: Functions and sketching graphs
         hours: 16
         skills:
@@ -107,6 +109,7 @@ units:
       # ─────────────────────────────────────────────── 3.3
       - id: vectors-3d
         code: "3.3"
+        dotPointCount: 15
         name: Vectors in three dimensions
         hours: 21
         skills:
@@ -167,6 +170,7 @@ units:
       # ─────────────────────────────────────────────── 4.1
       - id: integration
         code: "4.1"
+        dotPointCount: 7
         name: Integration and applications of integration
         hours: 20
         skills:
@@ -211,6 +215,7 @@ units:
       # ─────────────────────────────────────────────── 4.2
       - id: differential-equations
         code: "4.2"
+        dotPointCount: 7
         name: Rates of change and differential equations
         hours: 20
         skills:
@@ -261,6 +266,7 @@ units:
       # ─────────────────────────────────────────────── 4.3
       - id: inference
         code: "4.3"
+        dotPointCount: 7
         name: Statistical inference
         hours: 15
         skills:
