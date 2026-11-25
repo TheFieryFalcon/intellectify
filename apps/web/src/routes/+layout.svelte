@@ -40,7 +40,7 @@
     {/if}
   </div>
   {#if session.backend?.kind === "local" && session.user}
-    <p class="local">Local mode: progress is saved in this browser.</p>
+    <p class="local">Local mode · saved in this browser</p>
   {/if}
 </header>
 

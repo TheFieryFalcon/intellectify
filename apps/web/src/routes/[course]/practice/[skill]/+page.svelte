@@ -144,7 +144,7 @@
   {#if !store?.loaded || pool === null}
     <p class="muted">Loading…</p>
   {:else if !question}
-    <p class="muted">No questions yet.</p>
+    <p class="muted">No questions yet</p>
   {:else}
     <article class="question">
       <div class="meta">
@@ -211,7 +211,7 @@
         {#if p.rankAfter > p.rankBefore}
           <p class="rank-up">Rank up: {RANK_LABEL[p.rankBefore]} → {RANK_LABEL[p.rankAfter]}</p>
         {:else if p.rankAfter < p.rankBefore}
-          <p class="muted">Rank dropped to {RANK_LABEL[p.rankAfter]}.</p>
+          <p class="muted">Rank down: {RANK_LABEL[p.rankBefore]} → {RANK_LABEL[p.rankAfter]}</p>
         {/if}
         {#if store.error}<p class="feedback bad">{store.error}</p>{/if}
         <h2>Solution</h2>

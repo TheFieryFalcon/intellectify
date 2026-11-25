@@ -11,44 +11,66 @@ terms:
   - term: permutation
     definition: An ordered arrangement of objects. ⁿPᵣ is the number of ways to arrange r of n different objects in order.
 ---
-Dot points 1.2.2 and 1.2.3.
-
 ## Key ideas
 
-**Multiplication principle (AND).** If a task is done in stages, and stage 1 can be done in $m$ ways and stage 2 in $n$ ways *whatever happened in stage 1*, the whole task can be done in $m \times n$ ways. This extends to any number of stages.
+Counting questions ask "how many ways?" without listing every possibility. Two principles do most of the work.
 
-**Addition principle (OR).** If a choice falls into one of several cases that never overlap, add the counts for each case.
+**Multiplication principle (AND).** Suppose a task happens in stages: stage 1 can be done in $m$ ways, and stage 2 can be done in $n$ ways *no matter how stage 1 went*. Then the whole task can be done in $m \times n$ ways. Picture a tree diagram: each of the $m$ first branches splits into $n$ second branches, giving $m \times n$ ends. The idea extends to any number of stages. An outfit made of one of 4 shirts, one of 3 pairs of pants and one of 2 pairs of shoes can be put together in $4 \times 3 \times 2 = 24$ ways.
 
-**Factorial.** $n! = n \times (n-1) \times \dots \times 2 \times 1$, with $0! = 1$. It counts the ways to arrange $n$ different objects in a row.
+**Addition principle (OR).** Suppose every outcome belongs to exactly one of several cases, with no outcome in two cases. Then the total is the sum of the counts for each case. If a meal is one of 5 pasta dishes or one of 3 salads, there are $5 + 3 = 8$ options.
 
-**Permutations.** The number of ways to choose and arrange $r$ of $n$ different objects is
+**Factorial.** Lining up $n$ different objects has $n$ options for the first place, $n - 1$ for the second, and so on down to 1. That product is written
+
+$$n! = n \times (n-1) \times \cdots \times 2 \times 1.$$
+
+We define $0! = 1$, which keeps the formulas below working when nothing is left to arrange.
+
+**Permutations.** Filling $r$ ordered places from $n$ different objects (no repeats) gives $n$ options, then $n - 1$, down to $n - r + 1$:
 
 $$^{n}P_{r} = n(n-1)\cdots(n-r+1) = \frac{n!}{(n-r)!}.$$
 
+For example, a president, secretary and treasurer can be elected from 10 people in $^{10}P_{3} = 10 \times 9 \times 8 = 720$ ways. Different jobs make order matter: Ana as president with Ben as secretary differs from the reverse.
+
+**Complements.** Sometimes the unwanted outcomes are easier to count. Then
+
+$$\text{wanted} = \text{total} - \text{unwanted}.$$
+
+This is especially useful for "at least one", whose complement is "none".
+
 ## Method
 
-1. Decide whether order matters. If it does, you are counting arrangements.
-2. Break the task into stages and count the options at each stage, filling the most restricted positions first.
-3. Multiply across stages (AND). Split into non-overlapping cases and add (OR).
-4. If "at least one" appears, it is often easier to count the complement (everything, minus the cases with none) and subtract.
+1. Decide whether order matters. Does swapping two items give a different outcome? If so, you are counting arrangements.
+2. Split the task into stages, and count the options at each stage. Fill the most restricted positions first, such as a first digit that can't be 0.
+3. Multiply across stages (AND). If outcomes fall into separate cases, count each case and add (OR).
+4. For "at least one", count the outcomes with none and subtract from the total.
+5. Sense-check the size of your answer, or list a small version of the problem by hand.
 
 ## Worked examples
 
 ### Example 1
 A PIN has 4 digits, and digits may repeat. How many PINs are there?
 
-Each of the 4 positions has 10 options, so there are $10^4 = 10\,000$ PINs.
+1. There are 4 stages, one per position.
+2. Repeats are allowed, so each position has all 10 digits available.
+3. Multiply: $10 \times 10 \times 10 \times 10 = 10^4 = 10\,000$ PINs.
 
 ### Example 2
 How many 4-digit numbers have all different digits?
 
-The first digit can't be 0, so it has 9 options. The second digit can be anything except the first: 9 options. Then 8, then 7. The total is $9 \times 9 \times 8 \times 7 = 4536$.
+1. The first digit is the most restricted: it can't be 0, leaving 9 options.
+2. The second digit can be any of the 10 digits except the first one: 9 options (0 is now allowed).
+3. The third digit avoids the two already used: 8 options. The fourth avoids three: 7 options.
+4. Multiply: $9 \times 9 \times 8 \times 7 = 4536$.
 
 ### Example 3
 How many positive integers less than 1000 contain at least one digit 7?
 
-Count the complement. Write each number from 0 to 999 with three digits (e.g. 042). Avoiding 7 in every place gives $9^3 = 729$ strings, including 000. So 728 of the numbers 1 to 999 have no 7, and $999 - 728 = 271$ do.
+1. "At least one 7" has a simpler complement: "no 7 at all".
+2. Write every number from 0 to 999 with three digits, padding with zeros (e.g. 42 becomes 042). Each of the 1000 strings is a different number.
+3. Strings with no 7 have 9 options in each place: $9^3 = 729$. This includes 000, which isn't positive, so 728 of the numbers 1 to 999 have no 7.
+4. Subtract from the 999 numbers: $999 - 728 = 271$.
 
 ## Watch out
-- A leading zero doesn't make a valid 4-digit number. Fill restricted positions first.
-- Only add when the cases can't overlap; otherwise you count some outcomes twice.
+- A number can't start with 0. Deal with the first digit before the others.
+- Only add counts when the cases can't overlap; otherwise some outcomes are counted twice.
+- Multiply only when the number of options at each stage doesn't depend on earlier choices.

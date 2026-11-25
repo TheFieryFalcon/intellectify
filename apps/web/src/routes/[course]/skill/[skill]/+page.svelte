@@ -59,7 +59,7 @@
     </div>
 
     {#if entry.skill.questionCount === 0}
-      <p class="muted">No questions yet.</p>
+      <p class="muted">No questions yet</p>
       {#if entry.skill.hasTutorial}<p><a class="btn" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a></p>{/if}
     {:else}
       <div class="actions">

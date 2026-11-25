@@ -134,11 +134,14 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 - It stops there. Harder technique and insight are learned through Tier 4–6 problems and their worked solutions, not the tutorial.
 - Where the syllabus says "prove", the tutorial includes the proof (or a proof sketch where the full proof is itself an exercise).
 
-**Concise above all.** Concision is the most important quality of a tutorial.
-- Say each thing once, in the fewest words that are still clear. No motivation paragraphs, history, filler or recaps.
+**Concise, but complete.** Say each thing once, in the fewest words that are still clear, but never so few that the reasoning is lost.
+- No motivation paragraphs, history, filler or recaps.
+- Explain *why* each rule or formula works, in a sentence or two (a short counting argument, a picture, a derivation), not just *what* it is.
+- Explain notation by what it means or counts, never by restating its own name (not "$\binom{n}{r}$: choosing $r$ to take is the same as choosing $n - r$ to leave").
 - Length budget: about **250–700 words of prose** per tutorial, not counting worked examples, formulas and diagrams. The build warns above 700 and fails above 1000.
 - Prefer a formula, a table or a diagram over a paragraph when it says the same thing.
 - Don't re-teach a suggested prerequisite. Link to that skill's tutorial instead.
+- **No metadata in the body** (§15.1). The tutorial page shows the skill's dot points and prerequisites as a metadata row built from the curriculum; the Markdown starts at "Key ideas". The build rejects anything before it.
 
 **Every technical term is explained**
 - Each technical term or symbol is defined at first use: **bold** term, then a one-line plain-English definition, plus notation if any (e.g. **permutation**: an ordered arrangement; ${}^nP_r$).
@@ -149,7 +152,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 **Structure** (fixed headings, so tutorials feel consistent):
 1. **Key ideas**: definitions, results and formulas, each stated precisely, with proofs where the syllabus asks for them.
 2. **Method**: how to approach the standard question types, as short numbered steps where that helps.
-3. **Worked examples**: **one to three**, rising in difficulty from about Tier 1 to low-to-mid Tier 3. Each shows full working laid out the way a top WACE answer would be.
+3. **Worked examples**: **one to three**, rising in difficulty from about Tier 1 to low-to-mid Tier 3. Each is set out as numbered steps, saying what is done and why, laid out the way a top WACE answer would be. A worked example must not duplicate a practice question.
 4. **Watch out** (optional): at most three common mistakes, one line each.
 
 **Format and behavior**
@@ -1075,6 +1078,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 ### 15.1 Visual identity
 - **Spelling:** all product copy, content (tutorials, questions, solutions, skill names) and code use standard **American** spelling (practice, color, center, factored, modeling). Mathematical notation still follows WACE conventions (§3.2).
 - **Copy is minimal:** labels over sentences, no explanatory filler on screens; show a number or a status rather than describe it.
+- **Non-learning information is data, not sentences.** Design rule, applied everywhere (screens, tutorials, questions, emails): metadata such as dot points, prerequisites, counts, dates, statuses and modes is shown as a bare label, list or chip, never wrapped in a sentence. Write "1.2.2, 1.2.3", not "Dot points 1.2.2 and 1.2.3."; "Local mode · saved in this browser", not "Local mode: progress is saved in this browser."; "No questions yet" with no full stop. Full sentences are reserved for learning content: explanations, worked solutions and feedback.
 - **Clean and academic:** light theme, minimal, plenty of white space. In the spirit of Khan Academy or Brilliant, but the design is original.
 - Rank colors are the main accent: Unranked gray, Bronze, Silver, Gold, Platinum, Diamond.
 - Typography is tuned for math: KaTeX output, and math fields at matching sizes.
