@@ -56,6 +56,13 @@ known skills, and each answer key passing its own checker). Nothing is written i
 
 ## Deploy
 
-Netlify builds with `pnpm build` and publishes `apps/web/build` (see `netlify.toml`). No environment
+Netlify project: `intellectify-klkn` (https://intellectify-klkn.netlify.app). It builds with `pnpm build` and
+publishes `apps/web/build` (see `netlify.toml`).
+
+The free plan allows about 20 production deploys a month (15 of 300 credits each), so:
+
+- the production branch is `main`, and merging to `main` is the release step;
+- branch deploys stay off, so day-to-day pushes to working branches cost nothing, and deploy previews for pull requests are free;
+- `netlify.toml` cancels builds when a push changes nothing that ends up on the site (for example docs only). No environment
 variables are needed. Add the Netlify domain to Firebase **Authentication → Settings → Authorized domains**
 so Google sign-in works there.
