@@ -1108,6 +1108,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
   - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimization). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
   - **Nodes** are filled with the rank color (Unranked is hollow), with a short label under each. Keep on-map text minimal. The **shape shows skill size** (§3.3): small circle (Small), circle (Medium), small diamond (Large), large diamond (Cornerstone). The legend above the tree explains both colors and shapes.
+  - **Progress ring:** each node's ring fills toward the next rank's color, **linearly in θ** from the current rank's floor to the next rank's floor (Diamond: toward θ 2000). It doesn't fill linearly in the 0–100 score, which is S-shaped and would crawl at the low ranks.
   - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.

@@ -18,7 +18,7 @@ export function rankVars(r: RankLevel, theta: number | null): string {
   return `--r: var(--${key}); --hi: var(--${key}-hi, var(--${key})); --next: var(--${next}); --p: ${progress(r, theta)}`;
 }
 
-/** Progress through the current rank's band toward the next floor (Diamond: toward 2000). */
+/** Progress through the current rank's band toward the next floor (Diamond: toward 2000). Linear in θ, not in score (SPEC §15.2). */
 export function progress(r: RankLevel, theta: number | null): number {
   if (theta === null || r === 0) return 0;
   const lo = RANK_FLOOR[r as Exclude<RankLevel, 0>];
