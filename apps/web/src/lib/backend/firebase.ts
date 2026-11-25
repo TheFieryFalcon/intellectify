@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -34,6 +35,7 @@ const AUTH_MESSAGES: Record<string, string> = {
   "auth/network-request-failed": "Couldn't reach the server. Check your connection.",
   "auth/popup-blocked": "Your browser blocked the Google sign-in window. Allow pop-ups and try again.",
   "auth/operation-not-allowed": "This sign-in method isn't enabled for the project yet.",
+  "auth/admin-restricted-operation": "This sign-in method isn't enabled for the project yet.",
   "auth/unauthorized-domain": "This site isn't on the project's list of authorized domains.",
 };
 
@@ -61,7 +63,13 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const courseDoc = (uid: string, course: string) => doc(db, "users", uid, "courses", course);
 
   const listeners = new Set<(u: User | null) => void>();
-  const toUser = (u: FirebaseUser): User => ({ uid: u.uid, displayName: u.displayName || u.email?.split("@")[0] || "Student", email: u.email, local: false });
+  const toUser = (u: FirebaseUser): User => ({
+    uid: u.uid,
+    displayName: u.displayName || u.email?.split("@")[0] || (u.isAnonymous ? `Anonymous ${u.uid.slice(0, 4)}` : "Student"),
+    email: u.email,
+    local: false,
+    anonymous: u.isAnonymous,
+  });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
   onAuthStateChanged(auth, (u) => {
@@ -98,7 +106,8 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       await sendPasswordResetEmail(auth, email.trim()).catch(friendly);
     },
     async signInAsGuest() {
-      throw new Error("Sign in with Google or email.");
+      // Anonymous accounts work on any domain, so deploy previews can be tested without adding them to Firebase.
+      await signInAnonymously(auth).catch(friendly);
     },
     async signOut() {
       await signOut(auth);
@@ -113,8 +122,8 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       if (grant.questionId) own.questionXpAt = { [grant.questionId]: Date.now() };
       if (grant.visitDay) own.lastVisitDay = grant.visitDay;
       batch.set(doc(db, "users", u.uid), own, { merge: true });
-      // Public mirror for leaderboards and profiles (SPEC §12.2).
-      batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
+      // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
       await batch.commit();
     },
     async loadProgress(uid, course) {

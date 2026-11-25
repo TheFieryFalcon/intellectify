@@ -6,6 +6,8 @@ export interface User {
   email: string | null;
   /** True for the local-only guest used when Firebase isn't configured. */
   local: boolean;
+  /** Signed in anonymously (Firebase), e.g. to test deploy previews. Kept off public leaderboards. */
+  anonymous?: boolean;
 }
 
 /** A skill's stored state: the engine's state plus selection history. */

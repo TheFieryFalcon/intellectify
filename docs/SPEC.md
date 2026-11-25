@@ -1149,7 +1149,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 | Native (later) | **Capacitor** wrapping the same build |
 | Math | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
 | Handwriting | MyScript iink (free tier) |
-| Auth | Firebase Auth (Google + email) |
+| Auth | Firebase Auth (Google + email; anonymous for testing deploy previews, kept off public leaderboards) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
 | Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
