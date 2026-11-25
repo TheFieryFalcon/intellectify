@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { GATE_COUNT, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
+  import { SKILL_SIZE, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
   import RankDot from "$lib/components/RankDot.svelte";
   import { dependentsOf, indexSkills } from "$lib/content";
   import { toStored } from "$lib/practice";
@@ -20,8 +20,9 @@
   const nextGoal = $derived.by(() => {
     if (!skillState || rank === 5) return null;
     const next = (rank + 1) as Exclude<RankLevel, 0>;
-    const correct = Math.min(skillState.gates.slice(next).reduce((a, b) => a + b, 0), GATE_COUNT);
-    const needs = [`${correct}/${GATE_COUNT} correct at Tier ${next}+`];
+    const gateCount = SKILL_SIZE[entry?.skill.size ?? "medium"].gateCount;
+    const correct = Math.min(skillState.gates.slice(next).reduce((a, b) => a + b, 0), gateCount);
+    const needs = [`${correct}/${gateCount} correct at Tier ${next}+`];
     if (skillState.theta < RANK_FLOOR[next]) needs.push(`θ ${RANK_FLOOR[next]}`);
     return `${RANK_LABEL[next]}: ${needs.join(", ")}`;
   });
@@ -80,6 +81,8 @@
     {/if}
 
     <dl>
+      <dt>Size</dt>
+      <dd class="size">{entry.skill.size}</dd>
       <dt>Dot points</dt>
       <dd>{[...entry.skill.dotPoints, ...entry.skill.reviewDotPoints].join(", ")}</dd>
       {#if entry.skill.prereqs.length || entry.skill.external.length}
@@ -102,6 +105,7 @@
 </div>
 
 <style>
+  .size { text-transform: capitalize; }
   .back { font-size: 13px; color: var(--muted); text-decoration: none; }
   .back:hover { color: var(--accent); }
   h1 { font-size: 30px; margin: 6px 0 6px; }

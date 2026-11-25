@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
-import { tierOf } from "@intellectify/engine";
+import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
 import { fillTemplate } from "./template.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
@@ -12,6 +12,7 @@ export interface BundleSkill {
   id: string;
   name: string;
   summary: string;
+  size: SkillSize;
   dotPoints: string[];
   reviewDotPoints: string[];
   prereqs: string[];
@@ -212,10 +213,17 @@ export function buildContent(contentDir: string): BuildResult {
             hours: s.hours,
             skills: s.skills.map((k) => {
               const review = reviewFor.get(k.id) ?? [];
+              // Size targets (SPEC §3.3), checked once a skill has any questions.
+              const qs = questions[k.id] ?? [];
+              const rules = SKILL_SIZE[k.size];
+              const tier5 = qs.filter((q) => tierOf(q.rating) === 5).length;
+              if (qs.length && qs.length < rules.minQuestions) warnings.push(`${k.id} (${k.size}): ${qs.length} questions; needs at least ${rules.minQuestions}`);
+              if (qs.length && tier5 < rules.minTier5) warnings.push(`${k.id} (${k.size}): ${tier5} Tier 5 questions; needs at least ${rules.minTier5}`);
               return {
                 id: k.id,
                 name: k.name,
                 summary: k.summary,
+                size: k.size,
                 dotPoints: k.dotPoints,
                 reviewDotPoints: review,
                 prereqs: k.prereqs,

@@ -1,10 +1,13 @@
 import dagre from "dagre";
 import type { CourseBundle } from "./content";
 
-/** Node box: progress ring on top, label below. */
+/** Node box: progress shape on top, label below. */
 export const NODE_W = 104;
-export const NODE_H = 84;
-export const RING = 44;
+/** Height of the shape area by skill size (SPEC §15.2): small circle, medium circle, small diamond, large diamond. */
+export const SHAPE_H = { small: 32, medium: 44, large: 50, cornerstone: 68 } as const;
+/** Label and gap below the shape. */
+const LABEL_H = 40;
+export const nodeHeight = (size: keyof typeof SHAPE_H) => SHAPE_H[size] + LABEL_H;
 const SECTION_LABEL = 30;
 const UNIT_HEADER = 34;
 const YEAR_HEADER = 40;
@@ -16,7 +19,9 @@ export interface LaidOutNode {
   /** Top-left of the node box. */
   x: number;
   y: number;
-  /** Center of the ring. */
+  /** Node height (shape plus label). */
+  h: number;
+  /** Center of the shape. */
   cx: number;
   cy: number;
 }
@@ -57,7 +62,7 @@ export function layoutTree(course: CourseBundle): TreeLayout {
     for (const s of u.sections) {
       g.setNode(`sec:${s.id}`, {});
       for (const k of s.skills) {
-        g.setNode(k.id, { width: NODE_W, height: NODE_H });
+        g.setNode(k.id, { width: NODE_W, height: nodeHeight(k.size) });
         g.setParent(k.id, `sec:${s.id}`);
       }
     }
@@ -88,8 +93,9 @@ export function layoutTree(course: CourseBundle): TreeLayout {
       for (const k of s.skills) {
         const n = g.node(k.id);
         const x = ox + n.x - NODE_W / 2;
-        const top = y + n.y - NODE_H / 2 + SECTION_LABEL;
-        nodes.set(k.id, { id: k.id, unit: unit.number, x, y: top, cx: x + NODE_W / 2, cy: top + RING / 2 });
+        const h = nodeHeight(k.size);
+        const top = y + n.y - h / 2 + SECTION_LABEL;
+        nodes.set(k.id, { id: k.id, unit: unit.number, x, y: top, h, cx: x + NODE_W / 2, cy: top + SHAPE_H[k.size] / 2 });
       }
     }
     y += h + UNIT_GAP;
@@ -103,7 +109,7 @@ export function layoutTree(course: CourseBundle): TreeLayout {
           const a = nodes.get(p);
           const b = nodes.get(k.id);
           if (!a || !b) continue;
-          const x1 = a.cx, y1 = a.y + NODE_H - 4;
+          const x1 = a.cx, y1 = a.y + a.h - 4;
           const x2 = b.cx, y2 = b.y - 3;
           const bend = Math.max(18, (y2 - y1) * 0.5);
           edges.push({ from: p, to: k.id, crossUnit: a.unit !== b.unit, d: `M${x1},${y1} C${x1},${y1 + bend} ${x2},${y2 - bend} ${x2},${y2}` });

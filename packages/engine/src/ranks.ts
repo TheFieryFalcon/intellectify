@@ -24,11 +24,11 @@ export function recordGate(gates: GateCounts, tier: Tier, outcome: number): Gate
 }
 
 /** Highest rank whose θ floor and gate are both met right now (no hysteresis). */
-export function eligibleRank(theta: number, gates: GateCounts): RankLevel {
+export function eligibleRank(theta: number, gates: GateCounts, gateCount = GATE_COUNT): RankLevel {
   let best: RankLevel = 0;
   for (let k = 1 as RankLevel; k <= 5; k++) {
     const floor = RANK_FLOOR[k as Exclude<RankLevel, 0>];
-    if (theta >= floor && correctAtOrAbove(gates, k) >= GATE_COUNT) best = k;
+    if (theta >= floor && correctAtOrAbove(gates, k) >= gateCount) best = k;
   }
   return best;
 }
@@ -38,12 +38,12 @@ export function eligibleRank(theta: number, gates: GateCounts): RankLevel {
  * promote to any newly eligible rank; demote only while θ is below floor_k − buffer_k.
  * Gate counts never decrease, so only θ can cause a demotion.
  */
-export function nextRank(current: RankLevel, theta: number, gates: GateCounts): RankLevel {
+export function nextRank(current: RankLevel, theta: number, gates: GateCounts, gateCount = GATE_COUNT): RankLevel {
   let r = current;
   while (r > 0 && theta < RANK_FLOOR[r as Exclude<RankLevel, 0>] - RANK_BUFFER[r as Exclude<RankLevel, 0>]) {
     r = (r - 1) as RankLevel;
   }
-  return Math.max(r, eligibleRank(theta, gates)) as RankLevel;
+  return Math.max(r, eligibleRank(theta, gates, gateCount)) as RankLevel;
 }
 
 export const rankName = (r: RankLevel) => RANKS[r];

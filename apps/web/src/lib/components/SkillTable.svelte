@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { RankLevel } from "@intellectify/engine";
+  import { SKILL_SIZE, type RankLevel } from "@intellectify/engine";
   import type { CourseProgress } from "$lib/backend";
   import type { CourseBundle } from "$lib/content";
   import { score } from "$lib/ranks";
@@ -20,7 +20,7 @@
           const rank = (st?.rank ?? 0) as RankLevel;
           const nextTier = Math.min(rank + 1, 5);
           const gate = st ? st.gates.slice(nextTier).reduce((a, b) => a + b, 0) : 0;
-          return { k, unit: u.number, section: s, rank, theta, score: theta === null ? null : score(theta), gate: rank === 5 ? null : Math.min(gate, 3), nextTier };
+          return { k, unit: u.number, section: s, rank, theta, score: theta === null ? null : score(theta), gate: rank === 5 ? null : Math.min(gate, SKILL_SIZE[k.size].gateCount), need: SKILL_SIZE[k.size].gateCount, nextTier };
         }),
       ),
     ),
@@ -58,7 +58,7 @@
           <td><RankDot rank={r.rank} label /></td>
           <td class="num">{r.score ?? ""}</td>
           <td class="num">{r.theta ?? ""}</td>
-          <td class="muted">{r.gate === null ? "" : `${TIER_RANK[r.nextTier]} ${r.gate}/3`}</td>
+          <td class="muted">{r.gate === null ? "" : `${TIER_RANK[r.nextTier]} ${r.gate}/${r.need}`}</td>
           <td class="num">{r.k.questionCount}</td>
         </tr>
       {/each}

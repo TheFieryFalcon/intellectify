@@ -190,3 +190,23 @@ describe("selection", () => {
     expect(pickQuestion([], 1500)).toBeNull();
   });
 });
+
+describe("skill sizes (SPEC §3.3)", () => {
+  it("bigger skills need more correct answers per rank", () => {
+    const g = gatesWith({ 5: 4 });
+    expect(eligibleRank(1750, g)).toBe(5); // medium: 3 needed
+    expect(eligibleRank(1750, g, 4)).toBe(5); // large: 4 needed
+    expect(eligibleRank(1750, g, 5)).toBe(0); // cornerstone: 5 needed at every rank, and there are only 4
+    expect(eligibleRank(1750, gatesWith({ 3: 1, 5: 4 }), 5)).toBe(3); // 5 at Tier ≥ 3, only 4 at Tier ≥ 4
+  });
+  it("cornerstone skills move θ more slowly and gate at 5", () => {
+    const s = { theta: 1500, rank: 3 as const, gates: gatesWith({ 4: 4 }), resolved: 10, dropTier: false };
+    const medium = applyOutcome(s, 1600, 1, 1, "medium");
+    const corner = applyOutcome(s, 1600, 1, 1, "cornerstone");
+    expect(corner.deltaTheta).toBeCloseTo(medium.deltaTheta * 0.7, 6);
+    const ready = { ...s, theta: 1600 };
+    expect(applyOutcome(ready, 1600, 1, 1, "medium").rankAfter).toBe(4);
+    expect(applyOutcome(ready, 1600, 1, 1, "cornerstone").rankAfter).toBe(4); // 5th correct at Tier 4
+    expect(applyOutcome({ ...ready, gates: gatesWith({ 4: 3 }) }, 1600, 1, 1, "cornerstone").rankAfter).toBe(3);
+  });
+});

@@ -15,6 +15,8 @@ export const Skill = z.object({
   id: z.string().regex(/^[a-z]+\.[a-z0-9-]+\.[a-z0-9-]+$/, "skill IDs look like spec.section.skill"),
   name: z.string().min(1),
   summary: z.string().min(1),
+  /** SPEC §3.3: sets the question targets and how much it takes to rank up. */
+  size: z.enum(["small", "medium", "large", "cornerstone"]),
   dotPoints: z.array(dotPoint).min(1),
   prereqs: z.array(z.string()).default([]),
   external: z.array(ExternalPrereq).default([]),

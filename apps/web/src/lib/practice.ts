@@ -9,6 +9,7 @@ import {
   tierOf,
   type RankLevel,
   type RollupChild,
+  type SkillSize,
   type Tier,
 } from "@intellectify/engine";
 import { fillTemplate } from "@intellectify/content/template";
@@ -63,19 +64,19 @@ export interface ResultSummary {
 }
 
 /** Apply a resolved question to every skill it touches (SPEC §5.1, §5.6). Pure: returns the new states. */
-export function scoreQuestion(progress: CourseProgress, question: QuestionT, parts: PartResult[]): ResultSummary {
+export function scoreQuestion(progress: CourseProgress, question: QuestionT, parts: PartResult[], sizeOf: (skillId: string) => SkillSize = () => "medium"): ResultSummary {
   const tier = tierOf(question.rating);
   const outcome = multiPartOutcome(parts.map((p) => ({ marks: p.marks, outcome: autoMarkedOutcome(tier, p.solvedOn) })));
 
   const skills: Record<string, StoredSkillState> = {};
   const primaryId = question.skills.primary;
   const before = stateOrNew(progress, primaryId);
-  const primary = applyOutcome(before, question.rating, outcome, 1);
+  const primary = applyOutcome(before, question.rating, outcome, 1, sizeOf(primaryId));
   skills[primaryId] = toStored(primary.state, [...before.seen, question.id].slice(-SEEN_LIMIT));
 
   for (const id of question.skills.secondary) {
     const s = stateOrNew(progress, id);
-    skills[id] = toStored(applyOutcome(s, question.rating, outcome, CONFIG.secondaryWeight).state, s.seen);
+    skills[id] = toStored(applyOutcome(s, question.rating, outcome, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
   }
 
   const responseSkills: Record<string, StoredSkillState> = {};

@@ -99,6 +99,7 @@
       store.progress,
       question,
       question.parts.map((p, i) => ({ id: p.id, marks: p.marks, solvedOn: parts[i]!.solvedOn })),
+      (id) => indexSkills(data.course).get(id)?.skill.size ?? "medium",
     );
     const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
     const rollups = computeRollups(data.course, after);

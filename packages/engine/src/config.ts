@@ -40,8 +40,21 @@ export const RANK_BUFFER: Record<Exclude<RankLevel, 0>, number> = {
   5: 30,
 };
 
-/** Correct answers at Tier ≥ k needed to unlock rank k. */
+/** Correct answers at Tier ≥ k needed to unlock rank k, for a medium skill. Bigger skills need more (SKILL_SIZE). */
 export const GATE_COUNT = 3;
+
+/**
+ * Skill sizes (SPEC §3.3). Bigger skills (foundational, difficult or heavily examined) get more questions
+ * and take more to rank up: a larger gate count, and θ moves more slowly (K is scaled down).
+ */
+export type SkillSize = "small" | "medium" | "large" | "cornerstone";
+export const SKILL_SIZES: readonly SkillSize[] = ["small", "medium", "large", "cornerstone"];
+export const SKILL_SIZE: Record<SkillSize, { minQuestions: number; minTier5: number; gateCount: number; kScale: number }> = {
+  small: { minQuestions: 10, minTier5: 3, gateCount: 3, kScale: 1 },
+  medium: { minQuestions: 15, minTier5: 4, gateCount: 3, kScale: 1 },
+  large: { minQuestions: 25, minTier5: 5, gateCount: 4, kScale: 0.85 },
+  cornerstone: { minQuestions: 40, minTier5: 7, gateCount: 5, kScale: 0.7 },
+};
 /** An outcome must exceed this to count toward a gate (SPEC §5.4). */
 export const GATE_OUTCOME = 0.6;
 

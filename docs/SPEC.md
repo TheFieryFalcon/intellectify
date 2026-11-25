@@ -168,6 +168,21 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 
 ---
 
+### 3.3 Skill sizes
+Every skill has a **size**, set in the curriculum file. Bigger skills are foundational (many skills build on them), difficult, or heavily examined, so they get more questions and take more to rank up.
+
+| Size | Tree node | Questions (min) | Tier 5 (min) | Correct answers per rank gate | θ speed |
+|---|---|---|---|---|---|
+| Small | small circle | 10 | 3 | 3 | ×1 |
+| Medium | circle | 15 | 4 | 3 | ×1 |
+| Large | small diamond | 25 | 5 | 4 | ×0.85 |
+| Cornerstone | large diamond | 40 | 7 | 5 | ×0.7 |
+
+- There is **no maximum**: a skill that deserves more questions gets them.
+- "θ speed" scales K in the rating update (§5.1), so θ moves more slowly in bigger skills and each rank takes more questions to earn.
+- Size is a judgment call based on how many skills depend on it (directly or not), its exam weight, and its difficulty. Specialist's Cornerstones: proof methods, the scalar product, and complex arithmetic.
+- The content build warns when a skill with questions is below its size's minimums.
+
 ## 4. Difficulty: tiers and question ratings
 
 Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 is the top of first-year university level, and only Tier 6 goes beyond. The tier is derived from the rating using **exam-anchored bands**:
@@ -183,7 +198,7 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 
 - Tiers are displayed as plain numbers ("Tier 1" … "Tier 6").
 - An LLM estimates the rating at generation time, and the owner adjusts it during review.
-- Content mix per skill: **15–30 questions**, scaled to skill size. Tiers 1–2 need only a couple of items each, since they are mostly parameterized templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parameterized template counts as one item.
+- Content mix per skill: at least **10–40 questions** depending on skill size (§3.3), with no maximum. Tiers 1–2 need only a couple of items each, since they are mostly parameterized templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parameterized template counts as one item.
 
 ---
 
@@ -194,7 +209,7 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 - Probability of a correct answer: `P(correct) = 1 / (1 + exp(-(θ − d) / S))`, with `S = 100` (tunable).
 - Update after a question resolves: `θ ← θ + K · w · (outcome − P)`
   - `outcome ∈ [0, 1]` (§6.2 credit rules)
-  - `K = 32` (tunable; constant, so there is no provisional fast-moving phase)
+  - `K = 32` × the skill-size speed (§3.3); tunable, and constant over time, so there is no provisional fast-moving phase
   - `w` = skill weight: 1.0 for the primary skill, 0.5 for secondary skills on cross-skill problems
 
 ### 5.2 Displayed numbers (everything is visible)
@@ -213,11 +228,13 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 
 | Rank | Requires θ ≥ | AND gate |
 |---|---|---|
-| Bronze | 1000 | ≥ 3 correct at Tier 1 or higher |
-| Silver | 1250 | ≥ 3 correct at Tier 2 or higher |
-| Gold | 1400 | ≥ 3 correct at Tier 3 or higher |
-| Platinum | 1550 | ≥ 3 correct at Tier 4 or higher |
-| Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
+| Bronze | 1000 | ≥ *g* correct at Tier 1 or higher |
+| Silver | 1250 | ≥ *g* correct at Tier 2 or higher |
+| Gold | 1400 | ≥ *g* correct at Tier 3 or higher |
+| Platinum | 1550 | ≥ *g* correct at Tier 4 or higher |
+| Diamond | 1700 | ≥ *g* correct at Tier 5 or higher |
+
+*g* depends on skill size (§3.3): 3 for Small and Medium skills, 4 for Large, 5 for Cornerstone. Response skills use 3.
 
 - **Correct** (for gates) means a resolved question with **outcome > 0.6**. Some consequences:
   - First-try answers always count.
@@ -1088,11 +1105,11 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Vertical tech tree** (strategy-game style). The draft preview is at https://claude.ai/artifact/VhcVGyVCy3CTTMBeRBUmth.
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
   - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimization). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
-  - **Nodes are circles** filled with the rank color (Unranked is a hollow ring), with a short label under each. Keep on-map text minimal.
+  - **Nodes** are filled with the rank color (Unranked is hollow), with a short label under each. Keep on-map text minimal. The **shape shows skill size** (§3.3): small circle (Small), circle (Medium), small diamond (Large), large diamond (Cornerstone). The legend above the tree explains both colors and shapes.
   - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.
-- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Platinum gate 2/3") and question counts.
+- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Platinum gate 2/4" for a Large skill) and question counts.
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
 ### 15.3 Skill page
@@ -1188,7 +1205,7 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |
