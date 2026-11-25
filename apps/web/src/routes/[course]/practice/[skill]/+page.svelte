@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import { maxAttempts, tierOf, type RankLevel } from "@intellectify/engine";
+  import { maxAttempts, tierOf, XP, type RankLevel } from "@intellectify/engine";
   import type { AnswerSpec } from "@intellectify/checker";
   import Markdown from "$lib/components/Markdown.svelte";
   import MathField from "$lib/components/MathField.svelte";
@@ -8,7 +8,8 @@
   import { indexSkills, loadQuestions, type QuestionT } from "$lib/content";
   import { computeRollups, scoreQuestion, serveQuestion, stateOrNew, type ResultSummary, type Served } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
-  import { courseProgress } from "$lib/session.svelte";
+  import { profileFor } from "$lib/profile.svelte";
+  import { courseProgress, session } from "$lib/session.svelte";
 
   let { data } = $props();
   const skillId = $derived(page.params.skill);
@@ -22,6 +23,8 @@
   let parts = $state<PartState[]>([]);
   let summary = $state<ResultSummary | null>(null);
   let checking = $state(false);
+  let xpGained = $state(0);
+  const profile = $derived(profileFor(session.backend, session.user));
   let checker: typeof import("@intellectify/checker") | null = null;
 
   const question = $derived(served?.question ?? null);
@@ -45,6 +48,7 @@
   function next() {
     if (!store || !pool) return;
     summary = null;
+    xpGained = 0;
     served = serveQuestion(pool, stateOrNew(store.progress, skillId));
     parts = (served?.question.parts ?? []).map(() => ({ answer: "", choice: [], attempts: 0, solvedOn: null, done: false, message: null }));
   }
@@ -98,6 +102,13 @@
     );
     const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
     const rollups = computeRollups(data.course, after);
+    // Rank-up XP for every rank newly reached, in content skills and response skills (SPEC §12.4).
+    let rankXp = 0;
+    const ranksGained = (before: RankLevel, now: RankLevel) => {
+      for (let r = before + 1; r <= now; r++) rankXp += XP.rankUp(r);
+    };
+    for (const [id, st] of Object.entries(result.changes.skills)) ranksGained((store.progress.skills[id]?.rank ?? 0) as RankLevel, st.rank as RankLevel);
+    for (const [id, st] of Object.entries(result.changes.responseSkills)) ranksGained((store.progress.responseSkills[id]?.rank ?? 0) as RankLevel, st.rank as RankLevel);
     summary = result;
     await store.save(
       { ...result.changes, rollupRanks: rollups.ranks },
@@ -115,6 +126,10 @@
         at: Date.now(),
       },
     );
+    if (profile) {
+      xpGained = (await profile.grantQuestion(question.id, tier, result.outcome)) + rankXp;
+      if (rankXp) await profile.grant(rankXp);
+    }
   }
 
   const fmtDelta = (d: number) => `${d >= 0 ? "+" : "−"}${Math.abs(Math.round(d))}`;
@@ -191,6 +206,7 @@
           <div><span class="k">θ</span><span class="v">{Math.round(p.after.theta)} <span class:up={p.deltaTheta >= 0} class:down={p.deltaTheta < 0}>{fmtDelta(p.deltaTheta)}</span></span></div>
           <div><span class="k">Score</span><span class="v">{score(p.after.theta)}</span></div>
           <div><span class="k">Rank</span><span class="v"><RankDot rank={p.rankAfter as RankLevel} label /></span></div>
+          <div><span class="k">XP</span><span class="v xp">+{xpGained}</span></div>
         </div>
         {#if p.rankAfter > p.rankBefore}
           <p class="rank-up">Rank up: {RANK_LABEL[p.rankBefore]} → {RANK_LABEL[p.rankAfter]}</p>
@@ -228,12 +244,13 @@
   .good { color: var(--good); }
   .bad { color: var(--bad); }
   .actions { display: flex; gap: 8px; }
-  .result-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .result-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
   @media (max-width: 520px) { .result-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .result-row div { display: flex; flex-direction: column; gap: 2px; }
   .k { font-size: 11px; color: var(--muted); }
   .v { font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .up { color: var(--good); font-size: 13px; }
+  .xp { color: var(--accent); }
   .down { color: var(--bad); font-size: 13px; }
   .rank-up { font-weight: 600; color: var(--accent); }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }

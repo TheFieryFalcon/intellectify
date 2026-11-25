@@ -39,6 +39,26 @@ export interface CourseProgress {
 
 export const emptyProgress = (): CourseProgress => ({ skills: {}, responseSkills: {}, rollupRanks: {} });
 
+/** Account-wide profile data (SPEC §12.4). */
+export interface Profile {
+  /** Total XP, never decreasing. */
+  xp: number;
+  /** When each question last earned XP (key: question ID), for the 30-day repeat rule. */
+  questionXpAt: Record<string, number>;
+  /** Perth date (YYYY-MM-DD) of the last first-visit bonus. */
+  lastVisitDay: string | null;
+}
+
+export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null });
+
+export interface XpGrant {
+  amount: number;
+  /** Question that earned it, recorded for the repeat rule. */
+  questionId?: string;
+  /** Set when this grant is the first-visit bonus for that day. */
+  visitDay?: string;
+}
+
 /** Everything the app needs from a backend. Firebase and local storage both implement it. */
 export interface Backend {
   readonly kind: "firebase" | "local";
@@ -51,6 +71,10 @@ export interface Backend {
   /** Local mode only: the single browser-local guest. */
   signInAsGuest(): Promise<void>;
   signOut(): Promise<void>;
+
+  loadProfile(uid: string): Promise<Profile>;
+  /** Add XP to the profile and the public leaderboard mirror. */
+  grantXp(user: User, grant: XpGrant): Promise<void>;
 
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */

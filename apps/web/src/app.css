@@ -19,6 +19,10 @@
   --gold: #d1a520;     --gold-hi: #f8de7e;
   --platinum: #5ea4ac; --platinum-hi: #d2eef0;
   --diamond: #3d8ee0;  --diamond-hi: #c4e2ff;
+  /* Level tiers (SPEC §12.4): Basic, then the rank colors, then the achievement-only tiers. */
+  --lvl-basic: #9aa3b0; --lvl-bronze: var(--bronze); --lvl-silver: var(--silver); --lvl-gold: var(--gold);
+  --lvl-platinum: var(--platinum); --lvl-diamond: var(--diamond); --lvl-ruby: #b3204f; --lvl-tanzanite: #4f4fc2;
+  --lvl-vibranium: #6d6896; --lvl-solarium: #e09a12; --lvl-antimatter: #1f1238;
   --font-display: "STIX Two Text", Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme: light;
@@ -28,6 +32,7 @@
     --bg: #12161d; --surface: #1a1f28; --ink: #e5e9f0; --muted: #8b94a4; --line: #262d38; --edge: #3a4352;
     --region: #171c24; --accent: #86a5ff; --accent-soft: #1f2a44; --on-accent: #0f1420; --good: #5cc28a; --bad: #ef7d73; --track: #2b3340;
     --unranked: #12161d;
+    --lvl-ruby: #e2557f; --lvl-tanzanite: #8d8cff; --lvl-vibranium: #a49fd0; --lvl-solarium: #f4b73a; --lvl-antimatter: #cbb8ff;
     --bronze: #c98a55; --silver: #a9b2bf; --gold: #ddb53b; --platinum: #74bcc4; --diamond: #64a9f0;
     color-scheme: dark;
   }

@@ -11,8 +11,8 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProgress, type Backend, type StoredSkillState, type User } from "./types";
+import { collection, doc, getDoc, getDocs, getFirestore, increment, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { emptyProfile, emptyProgress, type Backend, type Profile, type StoredSkillState, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -102,6 +102,20 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     },
     async signOut() {
       await signOut(auth);
+    },
+    async loadProfile(uid) {
+      const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
+      return { ...emptyProfile(), ...(d as Partial<Profile>) };
+    },
+    async grantXp(u, grant) {
+      const batch = writeBatch(db);
+      const own: Record<string, unknown> = { xp: increment(grant.amount) };
+      if (grant.questionId) own.questionXpAt = { [grant.questionId]: Date.now() };
+      if (grant.visitDay) own.lastVisitDay = grant.visitDay;
+      batch.set(doc(db, "users", u.uid), own, { merge: true });
+      // Public mirror for leaderboards and profiles (SPEC §12.2).
+      batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
+      await batch.commit();
     },
     async loadProgress(uid, course) {
       const progress = emptyProgress();

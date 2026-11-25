@@ -1,4 +1,4 @@
-import { emptyProgress, type Backend, type CourseProgress, type User } from "./types";
+import { emptyProfile, emptyProgress, type Backend, type CourseProgress, type Profile, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -7,6 +7,7 @@ import { emptyProgress, type Backend, type CourseProgress, type User } from "./t
 const USER_KEY = "intellectify:guest";
 const progressKey = (uid: string, course: string) => `intellectify:progress:${uid}:${course}`;
 const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${uid}:${course}`;
+const profileKey = (uid: string) => `intellectify:profile:${uid}`;
 
 const read = <T>(key: string, fallback: T): T => {
   try {
@@ -61,6 +62,16 @@ export function createLocalBackend(): Backend {
         /* ignore */
       }
       emit();
+    },
+    async loadProfile(uid) {
+      return { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}) };
+    },
+    async grantXp(u, grant) {
+      const p = { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}) };
+      p.xp += grant.amount;
+      if (grant.questionId) p.questionXpAt = { ...p.questionXpAt, [grant.questionId]: Date.now() };
+      if (grant.visitDay) p.lastVisitDay = grant.visitDay;
+      write(profileKey(u.uid), p);
     },
     async loadProgress(uid, course) {
       return { ...emptyProgress(), ...read<Partial<CourseProgress>>(progressKey(uid, course), {}) };
