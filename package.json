@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@10.28.0",
   "scripts": {
-    "test": "vitest run",
+    "test": "pnpm --filter @intellectify/web sync && vitest run",
     "typecheck": "pnpm -r typecheck",
     "content": "pnpm --filter @intellectify/content build:content",
     "dev": "pnpm content && pnpm --filter @intellectify/web dev",

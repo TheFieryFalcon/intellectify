@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare": "svelte-kit sync || echo ''",
+    "sync": "svelte-kit sync",
     "dev": "node scripts/copy-assets.mjs && vite dev",
     "build": "node scripts/copy-assets.mjs && vite build",
     "preview": "vite preview",
