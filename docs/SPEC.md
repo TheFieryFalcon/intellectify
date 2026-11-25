@@ -1,4 +1,4 @@
-# lms-khanlike: Product & Technical Specification
+# Intellectify: Product & Technical Specification
 
 **Status:** Draft v1, produced from a design interview (2026-11-25)
 **Scope of v1:** WACE Mathematics Specialist (pilot). Unit 1 is built to full depth first.
@@ -9,7 +9,7 @@
 
 ## 1. Vision
 
-The platform is a mastery-based practice platform for WACE ATAR courses. It combines:
+Intellectify is a mastery-based practice platform for WACE ATAR courses. It combines:
 
 - the **skill tree** of Khan Academy;
 - the **adaptive rating/mastery engine** of AoPS Alcumus;
