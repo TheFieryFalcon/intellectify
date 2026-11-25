@@ -1,0 +1,355 @@
+# Counting principles: multiplication and addition principles, factorial notation, nPr (1.2.2, 1.2.3).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.combinatorics.counting-principles.pin-codes
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1060
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { n: 3, total: 1000 }
+    - { n: 4, total: 10000 }
+    - { n: 5, total: 100000 }
+  stem: |
+    A PIN is made of {{n}} digits, each from 0 to 9. Digits may repeat. How many different PINs are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{total}}' }
+  solution: |
+    Each of the {{n}} positions has 10 options, so there are $10^{ {{n}} } = {{total}}$ PINs.
+  verify: |
+    def answers(n, total):
+        return {"a": 10**n}
+
+- id: spec.combinatorics.counting-principles.factorial-quotient
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1080
+  responseSkills: { calculation: 1080 }
+  variants:
+    - { n: 7, k: 5, v: 42 }
+    - { n: 9, k: 6, v: 504 }
+    - { n: 10, k: 7, v: 720 }
+    - { n: 12, k: 10, v: 132 }
+  stem: |
+    Evaluate $\dfrac{ {{n}}! }{ {{k}}! }$ without a calculator.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Cancel the common factors: $\dfrac{ {{n}}! }{ {{k}}! }$ is the product of the whole numbers from ${{k}}+1$ to ${{n}}$, which is ${{v}}$.
+  verify: |
+    def answers(n, k, v):
+        return {"a": factorial(n) / factorial(k)}
+
+- id: spec.combinatorics.counting-principles.npr-evaluate
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1120
+  responseSkills: { calculation: 1100 }
+  variants:
+    - { n: 8, r: 3, v: 336 }
+    - { n: 10, r: 2, v: 90 }
+    - { n: 6, r: 4, v: 360 }
+    - { n: 9, r: 3, v: 504 }
+  stem: |
+    Evaluate $^{ {{n}} }P_{ {{r}} }$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $^{ {{n}} }P_{ {{r}} } = \dfrac{ {{n}}! }{({{n}}-{{r}})!} = {{v}}$: multiply the {{r}} largest whole numbers up to {{n}}.
+  verify: |
+    def answers(n, r, v):
+        return {"a": factorial(n) / factorial(n - r)}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.combinatorics.counting-principles.club-officers
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1300
+  responseSkills: { calculation: 1250, reading: 1300 }
+  variants:
+    - { n: 12, v: 1320 }
+    - { n: 15, v: 2730 }
+    - { n: 20, v: 6840 }
+  stem: |
+    A club has {{n}} members. In how many ways can a president, a secretary and a treasurer be chosen if no member can hold more than one position?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The positions are different, so order matters: $^{ {{n}} }P_3 = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": n * (n - 1) * (n - 2)}
+
+- id: spec.combinatorics.counting-principles.number-plates
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1320
+  responseSkills: { calculation: 1300, reading: 1320 }
+  stem: |
+    A number plate has three letters (A–Z) followed by three digits (0–9). Letters may repeat but digits may not. How many number plates are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 12654720 }
+  solution: |
+    Letters: $26^3 = 17\,576$. Digits with no repeats: $10 \times 9 \times 8 = 720$. By the multiplication principle, $17\,576 \times 720 = 12\,654\,720$.
+  verify: |
+    def answers():
+        return {"a": 26**3 * 10 * 9 * 8}
+
+- id: spec.combinatorics.counting-principles.cafe-or
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1280
+  responseSkills: { reading: 1300, calculation: 1250 }
+  stem: |
+    A café offers 5 sandwiches and 4 salads. A meal is either one sandwich or one salad, together with one of 3 drinks. How many different meals are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 27 }
+  solution: |
+    Food: a sandwich *or* a salad, so $5 + 4 = 9$ options (addition principle). Then a drink: $9 \times 3 = 27$.
+  verify: |
+    def answers():
+        return {"a": (5 + 4) * 3}
+
+- id: spec.combinatorics.counting-principles.solve-npr
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1360
+  responseSkills: { calculation: 1350 }
+  variants:
+    - { v: 56, n: 8 }
+    - { v: 110, n: 11 }
+    - { v: 132, n: 12 }
+  stem: |
+    Find $n$ if $^{n}P_2 = {{v}}$.
+  parts:
+    - id: a
+      prompt: $n =$
+      answer: { type: numeric, key: '{{n}}' }
+  solution: |
+    $^{n}P_2 = n(n-1) = {{v}}$, so $n^2 - n - {{v}} = 0$. The positive solution is $n = {{n}}$.
+  verify: |
+    def answers(v, n):
+        x = symbols("x")
+        return {"a": [s for s in solve(x * (x - 1) - v, x) if s > 0][0]}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.combinatorics.counting-principles.distinct-digits
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1410
+  responseSkills: { calculation: 1380, reading: 1400 }
+  stem: |
+    How many 4-digit numbers have all four digits different?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 4536 }
+  solution: |
+    The first digit can't be 0: 9 options. The others then have 9, 8 and 7 options. $9 \times 9 \times 8 \times 7 = 4536$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(10), 4) if p[0] != 0)}
+
+- id: spec.combinatorics.counting-principles.even-distinct
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1480
+  responseSkills: { calculation: 1450, reading: 1450 }
+  stem: |
+    How many 4-digit **even** numbers have all four digits different?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2296 }
+  solution: |
+    Split by the last digit.
+
+    - Last digit 0: the first three digits come from the other 9 digits: $9 \times 8 \times 7 = 504$.
+    - Last digit 2, 4, 6 or 8: the first digit can't be 0 or the last digit, so it has 8 options; then 8 and 7. That's $8 \times 8 \times 7 = 448$ for each, so $4 \times 448 = 1792$.
+
+    Total: $504 + 1792 = 2296$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(10), 4) if p[0] != 0 and p[3] % 2 == 0)}
+
+- id: spec.combinatorics.counting-principles.contains-seven
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1450
+  responseSkills: { calculation: 1420, reading: 1450 }
+  variants:
+    - { d: 7, v: 271 }
+    - { d: 3, v: 271 }
+  stem: |
+    How many positive integers less than 1000 contain the digit {{d}} at least once?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Count the complement. Writing 0–999 with three digits, $9^3 = 729$ strings avoid {{d}}, including 000. So $728$ of the numbers 1–999 avoid {{d}}, and $999 - 728 = 271$ contain it.
+  verify: |
+    def answers(d, v):
+        return {"a": sum(1 for k in range(1, 1000) if str(d) in str(k))}
+
+- id: spec.combinatorics.counting-principles.npr-equation
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1440
+  responseSkills: { calculation: 1450 }
+  stem: |
+    Solve $^{n}P_3 = 20 \times {}^{n}P_1$ for $n$.
+  parts:
+    - id: a
+      prompt: $n =$
+      answer: { type: numeric, key: 6 }
+  solution: |
+    $n(n-1)(n-2) = 20n$. Since $n \ge 3$, divide by $n$: $(n-1)(n-2) = 20$, so $n^2 - 3n - 18 = 0$, $(n-6)(n+3) = 0$, and $n = 6$.
+  verify: |
+    def answers():
+        x = symbols("x")
+        return {"a": [s for s in solve(x * (x - 1) * (x - 2) - 20 * x, x) if s >= 3][0]}
+
+- id: spec.combinatorics.counting-principles.divisor-count
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1510
+  responseSkills: { calculation: 1450, synthesis: 1500 }
+  variants:
+    - { n: 720, v: 30 }
+    - { n: 360, v: 24 }
+    - { n: 1800, v: 36 }
+  stem: |
+    How many positive whole numbers divide exactly into {{n}}?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Write {{n}} as a product of prime powers. A divisor picks an exponent for each prime, anywhere from 0 up to that prime's power. By the multiplication principle, the number of divisors is the product of (each exponent + 1), which is {{v}}.
+  verify: |
+    def answers(n, v):
+        return {"a": divisor_count(n)}
+
+- id: spec.combinatorics.counting-principles.subsets-proof
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1470
+  responseSkills: { proof: 1450, clarity: 1450 }
+  stem: |
+    Explain why a set with $n$ elements has exactly $2^n$ subsets (including the empty set and the whole set).
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: stages, description: "Treats building a subset as n stages, one per element", points: 1, dimension: proof }
+          - { id: two-choices, description: "Each element is either in or out: 2 options per stage", points: 1, dimension: proof }
+          - { id: multiply, description: "Applies the multiplication principle to get 2 × 2 × … × 2 = 2^n", points: 1, dimension: proof }
+          - { id: one-to-one, description: "Notes each sequence of in/out choices gives a different subset, and every subset arises this way", points: 1, dimension: precision }
+          - { id: clear, description: "Clearly and correctly expressed", points: 1, dimension: clarity }
+  solution: |
+    Build a subset by going through the $n$ elements one at a time and deciding, for each, whether it is **in** or **out**: 2 choices per element. Each different sequence of decisions gives a different subset, and every subset comes from exactly one sequence. By the multiplication principle there are $2 \times 2 \times \dots \times 2 = 2^n$ sequences, so $2^n$ subsets.
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.combinatorics.counting-principles.square-divisors
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1590
+  responseSkills: { synthesis: 1580, calculation: 1500 }
+  variants:
+    - { e: 6, v: 16 }
+    - { e: 8, v: 25 }
+  stem: |
+    How many positive divisors of $10^{ {{e}} }$ are perfect squares?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $10^{ {{e}} } = 2^{ {{e}} } \cdot 5^{ {{e}} }$. A divisor $2^a 5^b$ is a perfect square exactly when $a$ and $b$ are both even. Each can be any even number from 0 to {{e}}, which is $\tfrac{ {{e}} }{2} + 1$ options, so there are $\left(\tfrac{ {{e}} }{2} + 1\right)^2 = {{v}}$ square divisors.
+  verify: |
+    def answers(e, v):
+        return {"a": sum(1 for d in divisors(10**e) if integer_nthroot(d, 2)[1])}
+
+- id: spec.combinatorics.counting-principles.odd-digits
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1570
+  responseSkills: { calculation: 1500, reading: 1550 }
+  stem: |
+    How many positive integers less than $10\,000$ have every digit odd?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 780 }
+  solution: |
+    Split by number of digits. Each digit has 5 odd options (1, 3, 5, 7, 9), so there are $5 + 5^2 + 5^3 + 5^4 = 5 + 25 + 125 + 625 = 780$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for k in range(1, 10000) if all(int(c) % 2 for c in str(k)))}
+
+- id: spec.combinatorics.counting-principles.mixed-code
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1600
+  responseSkills: { synthesis: 1580, calculation: 1550 }
+  stem: |
+    A code has 4 symbols, each a letter (A–Z) or a digit (0–9), and symbols may repeat. How many codes contain **at least one letter and at least one digit**?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1212640 }
+  solution: |
+    All codes: $36^4$. Remove the codes with no digit (all letters, $26^4$) and those with no letter (all digits, $10^4$). These two groups can't overlap, so the answer is $36^4 - 26^4 - 10^4 = 1\,679\,616 - 456\,976 - 10\,000 = 1\,212\,640$.
+  verify: |
+    def answers():
+        return {"a": 36**4 - 26**4 - 10**4}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.combinatorics.counting-principles.sum-of-arrangements
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1730
+  responseSkills: { synthesis: 1720, calculation: 1600 }
+  variants:
+    - { d: '1, 2, 3, 4', s: 10, v: 66660 }
+    - { d: '2, 4, 6, 8', s: 20, v: 133320 }
+    - { d: '1, 3, 5, 9', s: 18, v: 119988 }
+  stem: |
+    Every 4-digit number that uses each of the digits {{d}} exactly once is written down. Find the sum of all these numbers.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    There are $4! = 24$ numbers. By symmetry, each digit appears in each place value $24 \div 4 = 6$ times. So each place contributes $6 \times {{s}}$ times its place value, and the total is $6 \times {{s}} \times 1111 = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(d, s, v):
+        digits = [int(x) for x in d.split(",")]
+        return {"a": sum(int("".join(map(str, p))) for p in permutations(digits))}
+
+- id: spec.combinatorics.counting-principles.ordered-factor-triples
+  skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  rating: 1790
+  responseSkills: { synthesis: 1780, calculation: 1600 }
+  stem: |
+    How many ordered triples $(a, b, c)$ of positive integers satisfy $abc = 2^6 \times 3^4$?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 420 }
+  solution: |
+    Each of $a, b, c$ is $2^x 3^y$, and the exponents of 2 must add to 6 while those of 3 add to 4. These are independent, so multiply.
+
+    Sharing 6 identical factors of 2 among 3 numbers is like placing 2 dividers among 6 objects: $\binom{8}{2} = 28$ ways. For the factors of 3: $\binom{6}{2} = 15$ ways. Total $28 \times 15 = 420$.
+  verify: |
+    def answers():
+        n = 2**6 * 3**4
+        return {"a": sum(1 for a in divisors(n) for b in divisors(n // a))}
+
+- id: spec.combinatorics.counting-principles.no-adjacent-equal
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1760
+  responseSkills: { synthesis: 1750, proof: 1700 }
+  stem: |
+    A string of length $n$ uses only the digits 0, 1 and 2, and no two **adjacent** digits are equal (for example 0120 but not 0110).
+  parts:
+    - id: a
+      prompt: How many such strings have length 6?
+      marks: 1
+      answer: { type: numeric, key: 96 }
+    - id: b
+      prompt: Find a formula for the number of such strings of length $n$, in terms of $n$.
+      marks: 2
+      answer: { type: expression, key: '3 \cdot 2^{n-1}', vars: { n: { domain: [1, 8] } } }
+  solution: |
+    The first digit has 3 options. Each later digit can be anything except the digit just before it: 2 options, *whatever came before*. By the multiplication principle there are $3 \cdot 2^{n-1}$ strings, which is $3 \cdot 2^5 = 96$ when $n = 6$.
+  verify: |
+    from itertools import product
+    def answers():
+        count6 = sum(1 for s in product(range(3), repeat=6) if all(s[i] != s[i + 1] for i in range(5)))
+        n = symbols("n")
+        return {"a": count6, "b": 3 * 2**(n - 1)}

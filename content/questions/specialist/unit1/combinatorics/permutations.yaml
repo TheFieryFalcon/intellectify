@@ -1,0 +1,382 @@
+# Permutations: ordered arrangements, restrictions, repeated objects (1.2.1, 1.2.4).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.combinatorics.permutations.books-in-a-row
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1040
+  responseSkills: { calculation: 1040 }
+  variants:
+    - { n: 5, v: 120 }
+    - { n: 6, v: 720 }
+    - { n: 7, v: 5040 }
+  stem: |
+    In how many ways can {{n}} different books be arranged in a row on a shelf?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    ${{n}}! = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": factorial(n)}
+
+- id: spec.combinatorics.permutations.distinct-letters
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1090
+  responseSkills: { calculation: 1080, reading: 1090 }
+  variants:
+    - { w: MATHS, v: 120 }
+    - { w: PLANET, v: 720 }
+    - { w: NUMBERS, v: 5040 }
+  stem: |
+    How many different arrangements of the letters of the word **{{w}}** are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    All the letters are different, so there are $n!$ arrangements, where $n$ is the number of letters: ${{v}}$.
+  verify: |
+    def answers(w, v):
+        return {"a": factorial(len(w))}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.combinatorics.permutations.repeated-letters
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1290
+  responseSkills: { calculation: 1280, reading: 1290 }
+  variants:
+    - { w: BANANA, v: 60 }
+    - { w: LETTER, v: 180 }
+    - { w: COMMITTEE, v: 45360 }
+  stem: |
+    How many different arrangements of the letters of the word **{{w}}** are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Divide the factorial of the number of letters by the factorial of each repeated letter's count. This gives {{v}}.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers(w, v):
+        return {"a": sum(1 for _ in multiset_permutations(list(w)))}
+
+- id: spec.combinatorics.permutations.pair-together
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1330
+  responseSkills: { calculation: 1300, reading: 1330 }
+  variants:
+    - { n: 6, v: 240 }
+    - { n: 7, v: 1440 }
+    - { n: 8, v: 10080 }
+  stem: |
+    {{n}} people stand in a row. In how many ways can this be done if two particular people must stand next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Glue the pair into one block: $({{n}}-1)!$ arrangements of the blocks, times 2 for the order inside the pair. That's {{v}}.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": sum(1 for p in permutations(range(n)) if abs(p.index(0) - p.index(1)) == 1)}
+
+- id: spec.combinatorics.permutations.pair-apart
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1380
+  responseSkills: { calculation: 1350, reading: 1380 }
+  variants:
+    - { n: 6, v: 480 }
+    - { n: 7, v: 3600 }
+  stem: |
+    {{n}} people stand in a row. In how many ways can this be done if two particular people must **not** stand next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    All arrangements minus those with the pair together: ${{n}}! - 2 \times ({{n}}-1)! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": sum(1 for p in permutations(range(n)) if abs(p.index(0) - p.index(1)) != 1)}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.combinatorics.permutations.no-two-adjacent
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
+  rating: 1420
+  responseSkills: { calculation: 1400, reading: 1420 }
+  variants:
+    - { w: MISSISSIPPI, c: S, v: 7350 }
+    - { w: GENERATED, c: E, v: 25200 }
+    - { w: METASTASIS, c: S, v: 70560 }
+  stem: |
+    How many arrangements of the letters of the word **{{w}}** have no two {{c}}'s next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    First arrange the letters that aren't {{c}}, dividing by repeats. That leaves one more gap than there are such letters (between letters and at both ends). Then choose which gaps hold the {{c}}'s, at most one {{c}} per gap. Multiply the two counts to get {{v}}.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers(w, c, v):
+        ok = lambda p: all(not (p[i] == c and p[i + 1] == c) for i in range(len(p) - 1))
+        return {"a": sum(1 for p in multiset_permutations(list(w)) if ok(p))}
+
+- id: spec.combinatorics.permutations.parallel
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1460
+  responseSkills: { calculation: 1450, reading: 1450 }
+  stem: |
+    Consider arrangements of all the letters of the word **PARALLEL**.
+  parts:
+    - id: a
+      prompt: How many different arrangements are there?
+      marks: 2
+      answer: { type: numeric, key: 3360 }
+    - id: b
+      prompt: In how many of these arrangements are the three L's together?
+      marks: 2
+      answer: { type: numeric, key: 360 }
+  solution: |
+    **(a)** There are 8 letters, with A twice and L three times: $\dfrac{8!}{2!\,3!} = 3360$.
+
+    **(b)** Treat LLL as one block. That gives 6 objects (LLL, P, A, A, R, E) with A repeated: $\dfrac{6!}{2!} = 360$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        perms = list(multiset_permutations(list("PARALLEL")))
+        return {"a": len(perms), "b": sum(1 for p in perms if "LLL" in "".join(p))}
+
+- id: spec.combinatorics.permutations.alternate
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1430
+  responseSkills: { calculation: 1400, reading: 1430 }
+  stem: |
+    4 boys and 3 girls, all different, stand in a row so that boys and girls alternate. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 144 }
+  solution: |
+    With 4 boys and 3 girls, the pattern must be B G B G B G B. Arrange the boys in their places ($4!$) and the girls in theirs ($3!$): $24 \times 6 = 144$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        kids = ["B1", "B2", "B3", "B4", "G1", "G2", "G3"]
+        return {"a": sum(1 for p in permutations(kids) if all(p[i][0] != p[i + 1][0] for i in range(6)))}
+
+- id: spec.combinatorics.permutations.equation-consonants
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1460
+  responseSkills: { calculation: 1450, reading: 1460 }
+  stem: |
+    The word **EQUATION** has 8 different letters. How many of its arrangements:
+  parts:
+    - id: a
+      prompt: begin and end with a consonant?
+      marks: 2
+      answer: { type: numeric, key: 4320 }
+    - id: b
+      prompt: have all five vowels together?
+      marks: 2
+      answer: { type: numeric, key: 2880 }
+  solution: |
+    The consonants are Q, T and N; the vowels are E, U, A, I and O.
+
+    **(a)** Choose and order the first and last letters from the 3 consonants: $3 \times 2 = 6$. Arrange the other 6 letters in the middle: $6! = 720$. Total $4320$.
+
+    **(b)** Glue the vowels into one block: 4 objects in all, so $4! = 24$, times $5! = 120$ orders inside the block. Total $2880$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        perms = list(permutations("EQUATION"))
+        cons = set("QTN")
+        a = sum(1 for p in perms if p[0] in cons and p[-1] in cons)
+        vowel_positions = lambda p: sorted(i for i, ch in enumerate(p) if ch not in cons)
+        b = sum(1 for p in perms if (lambda v: v[-1] - v[0] == 4)(vowel_positions(p)))
+        return {"a": a, "b": b}
+
+- id: spec.combinatorics.permutations.round-table
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1500
+  responseSkills: { calculation: 1450, reading: 1500 }
+  variants:
+    - { n: 7, all: 720, apart: 480 }
+    - { n: 8, all: 5040, apart: 3600 }
+  stem: |
+    {{n}} people sit around a round table. Only the positions relative to each other matter, so rotating everyone counts as the same arrangement.
+  parts:
+    - id: a
+      prompt: How many seating arrangements are there?
+      marks: 1
+      answer: { type: numeric, key: '{{all}}' }
+    - id: b
+      prompt: In how many are two particular people **not** sitting next to each other?
+      marks: 2
+      answer: { type: numeric, key: '{{apart}}' }
+  solution: |
+    **(a)** Fix one person's seat and arrange the rest: $({{n}}-1)! = {{all}}$.
+
+    **(b)** Arrangements with the pair together: glue them, giving $({{n}}-2)!$ circular arrangements, times 2: $2({{n}}-2)!$. So the answer is ${{all}} - 2({{n}}-2)! = {{apart}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, all, apart):
+        # Fix person 0 in seat 0; seats are in a circle.
+        arr = [(0,) + p for p in permutations(range(1, n))]
+        adj = lambda p: abs(p.index(0) - p.index(1)) in (1, n - 1)
+        return {"a": len(arr), "b": sum(1 for p in arr if not adj(p))}
+
+- id: spec.combinatorics.permutations.greater-than
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1520
+  responseSkills: { calculation: 1480, reading: 1520 }
+  stem: |
+    Numbers are formed using the digits 1, 2, 3, 4 and 5, each used **at most once**. How many such numbers are greater than 4000?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 168 }
+  solution: |
+    - **4-digit numbers above 4000:** the first digit is 4 or 5 (2 options), then $4 \times 3 \times 2$, giving 48.
+    - **5-digit numbers:** all are above 4000: $5! = 120$.
+
+    Total $48 + 120 = 168$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        nums = {int("".join(p)) for r in range(1, 6) for p in permutations("12345", r)}
+        return {"a": sum(1 for x in nums if x > 4000)}
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.combinatorics.permutations.before
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1570
+  responseSkills: { synthesis: 1560, reading: 1550 }
+  stem: |
+    The six letters A, B, C, D, E, F are arranged in a row.
+  parts:
+    - id: a
+      prompt: In how many arrangements does A come somewhere before B?
+      marks: 1
+      answer: { type: numeric, key: 360 }
+    - id: b
+      prompt: In how many arrangements do A, B and C appear in that order (not necessarily together)?
+      marks: 2
+      answer: { type: numeric, key: 120 }
+  solution: |
+    **(a)** Swapping A and B pairs every arrangement with A first with one where B is first, so exactly half have A first: $6!/2 = 360$.
+
+    **(b)** The 3 letters A, B, C can appear in $3! = 6$ orders, each equally often, so $6!/6 = 120$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        perms = list(permutations("ABCDEF"))
+        return {"a": sum(1 for p in perms if p.index("A") < p.index("B")),
+                "b": sum(1 for p in perms if p.index("A") < p.index("B") < p.index("C"))}
+
+- id: spec.combinatorics.permutations.bookkeeper
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1600
+  responseSkills: { calculation: 1550, synthesis: 1580 }
+  stem: |
+    How many arrangements of the letters of **BOOKKEEPER** have the two O's **not** next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 120960 }
+  solution: |
+    BOOKKEEPER has 10 letters: B, O×2, K×2, E×3, P and R.
+
+    - All arrangements: $\dfrac{10!}{2!\,2!\,3!} = 151\,200$.
+    - With the O's together: treat OO as one object, giving 9 objects with K×2 and E×3: $\dfrac{9!}{2!\,3!} = 30\,240$.
+
+    The answer is $151\,200 - 30\,240 = 120\,960$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": sum(1 for p in multiset_permutations(list("BOOKKEEPER")) if "OO" not in "".join(p))}
+
+- id: spec.combinatorics.permutations.subject-blocks
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1580
+  responseSkills: { calculation: 1550, reading: 1560 }
+  stem: |
+    4 different Maths books, 3 different Physics books and 2 different Chemistry books are placed on a shelf so that books of the same subject are together. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1728 }
+  solution: |
+    Arrange the 3 subject blocks: $3! = 6$. Then arrange inside each block: $4! \times 3! \times 2! = 24 \times 6 \times 2 = 288$. Total $6 \times 288 = 1728$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        books = ["M1", "M2", "M3", "M4", "P1", "P2", "P3", "C1", "C2"]
+        def grouped(p):
+            subjects = [b[0] for b in p]
+            changes = sum(1 for i in range(8) if subjects[i] != subjects[i + 1])
+            return changes == 2
+        return {"a": sum(1 for p in permutations(books) if grouped(p))}
+
+- id: spec.combinatorics.permutations.dictionary-rank
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1640
+  responseSkills: { synthesis: 1620, reading: 1600 }
+  variants:
+    - { w: LEMON, v: 26 }
+    - { w: MATHS, v: 53 }
+    - { w: SPACE, v: 115 }
+  stem: |
+    All arrangements of the letters of **{{w}}** are listed in alphabetical order (like a dictionary). In what position is **{{w}}**?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Work left to right. For each position, count the arrangements that start the same way but have an earlier letter there: each earlier unused letter accounts for (number of remaining letters)! words. Add these counts, then add 1 for the word itself. This gives position {{v}}.
+  verify: |
+    from itertools import permutations
+    def answers(w, v):
+        words = sorted(set("".join(p) for p in permutations(w)))
+        return {"a": words.index(w) + 1}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.combinatorics.permutations.record-arrangements
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1780
+  responseSkills: { synthesis: 1780, proof: 1720 }
+  stem: |
+    The numbers $1, 2, \dots, n$ are arranged in a row so that every number after the first is either **larger than all** the numbers before it or **smaller than all** the numbers before it. For example, $3, 4, 2, 5, 1$ works for $n = 5$.
+  parts:
+    - id: a
+      prompt: How many such arrangements are there when $n = 6$?
+      marks: 1
+      answer: { type: numeric, key: 32 }
+    - id: b
+      prompt: Find a formula in terms of $n$.
+      marks: 2
+      answer: { type: expression, key: '2^{n-1}', vars: { n: { domain: [1, 8] } } }
+  solution: |
+    Look at the row from the **end**. The last number must be larger or smaller than everything before it, so it is either $n$ or $1$: 2 options. Remove it; the remaining numbers must satisfy the same rule, so the second-last number is the largest or smallest of what's left, again 2 options. This continues until one number is left. So there are $2^{n-1}$ arrangements, which is 32 for $n = 6$.
+  verify: |
+    from itertools import permutations
+    def ok(p):
+        return all(p[i] > max(p[:i]) or p[i] < min(p[:i]) for i in range(1, len(p)))
+    def answers():
+        n = symbols("n")
+        return {"a": sum(1 for p in permutations(range(1, 7)) if ok(p)), "b": 2**(n - 1)}
+
+- id: spec.combinatorics.permutations.no-consecutive-neighbors
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1760
+  responseSkills: { synthesis: 1760, calculation: 1650 }
+  stem: |
+    In how many ways can the numbers 1, 2, 3, 4, 5 be arranged in a row so that no two numbers that differ by 1 are next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 14 }
+  solution: |
+    Split by where 3 goes. Its neighbors can't be 2 or 4, so each neighbor of 3 is 1 or 5.
+
+    - **3 at an end:** its one neighbor is 1 or 5. Checking each way to finish (e.g. 3 1 4 2 5, 3 5 2 4 1, 3 1 5 2 4, 3 5 1 4 2) gives 4 arrangements starting with 3, and by reversal 4 ending with 3.
+    - **3 in the middle:** its neighbors must be exactly 1 and 5 (…1 3 5… or …5 3 1…). Then 2 and 4 go at the two ends, but 2 can't touch 1 and 4 can't touch 5. That leaves 2 1 3 5 4 at position 3, plus the arrangements with 3 in position 2 or 4. Counting these carefully gives 6.
+
+    Total: $4 + 4 + 6 = 14$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(1, 6)) if all(abs(p[i] - p[i + 1]) != 1 for i in range(4)))}
