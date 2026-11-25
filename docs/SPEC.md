@@ -29,13 +29,14 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 - Spaced repetition, rating decay, retention mechanics. Once earned, a rating only changes through further practice.
 - Hints. The design follows Alcumus: no hints, and the full worked solution is shown after the question is resolved.
 - Recommendations ("what to do next"). The student always chooses.
-- Native mobile apps. These come only after all five courses are done (see §17).
+- Native mobile apps. These come only after all four courses are done (see §17).
+- Mathematics Applications. It is not planned.
 - Empirical difficulty calibration from attempt data. Question ratings are author-set for now.
 - Privacy hardening of LLM calls. Not a concern for the current small, known group; revisit before any wider release.
 
 ### 1.3 Course roadmap
 1. **Mathematics Specialist**: pilot. Build the framework here.
-2. Mathematics Methods, Mathematics Applications.
+2. Mathematics Methods.
 3. Chemistry, Physics.
 
 ---
@@ -165,7 +166,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 
 ## 4. Difficulty: tiers and question ratings
 
-Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 is second-year university level. The tier is derived from the rating using **exam-anchored bands**:
+Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 is the top of first-year university level, and only Tier 6 goes beyond. The tier is derived from the rating using **exam-anchored bands**:
 
 | Tier | Rating band | Character |
 |---|---|---|
@@ -173,8 +174,8 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 | Tier 2 | 1250–1449 | Apply: routine multi-step application |
 | Tier 3 | 1450–1599 | Typical WACE exam question |
 | Tier 4 | 1600–1699 | Hardest WACE exam questions |
-| Tier 5 | 1700–1999 | Beyond exam: creative, unfamiliar, synthesis; up to 2nd-year uni |
-| Tier 6 | 2000+ | Reserved for the **monthly problem** (§8.6); exceptionally difficult |
+| Tier 5 | 1700–1999 | Beyond the exam: creative, unfamiliar, synthesis. **Never above first-year undergraduate level.** |
+| Tier 6 | 2000+ | Reserved for the **monthly problems** (§8.6). Exceptionally difficult, **up to second-year undergraduate level** in difficulty, but never needing unlearned knowledge (§8.6). |
 
 - Tiers are displayed as plain numbers ("Tier 1" … "Tier 6").
 - An LLM estimates the rating at generation time, and the owner adjusts it during review.
@@ -333,15 +334,33 @@ An endless adaptive stream for one skill (§5.7).
 - It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
 - A **daily streak** (consecutive days solved) feeds a leaderboard.
 
-### 8.6 Monthly problem (Tier 6)
-- One **exceptionally difficult** problem per month, rated 2000+, open for the whole month.
+### 8.6 Monthly problems (Tier 6)
+- **Two problems per course each month**, both open for the whole month:
+  - a **Year 11** problem;
+  - a **Year 12** problem.
+- **Scope: the previous unit.** Each problem covers the unit its year group finished most recently. Every unit is treated as **15 school weeks**:
+
+  | Year group is currently in | Monthly problem covers |
+  |---|---|
+  | Unit 1 (Year 11) | Year 10 content (Australian Curriculum, including 10A) |
+  | Unit 2 (Year 11) | Unit 1 |
+  | Unit 3 (Year 12) | Unit 2 |
+  | Unit 4 (Year 12) | Unit 3 |
+
+  - A problem may also use anything from earlier units and years.
+  - A Specialist problem may assume Methods content up to the same point, since Specialist students study Methods concurrently.
+- **Never requires unlearned knowledge.** Difficulty comes from insight, not from material the year group hasn't been taught. Every problem lists the dot points it relies on, and the build checks they all come from the allowed scope.
+- **Difficulty differs by course:**
+  - **Specialist:** rated 2000+, up to second-year undergraduate level in difficulty.
+  - **Methods:** **substantially easier**: about 1800–2000 on the shared scale, no harder than first-year undergraduate. It is still labeled the course's Tier 6 problem.
+- **School calendar.** Which unit each year group is in comes from a calendar file, `content/calendar/<year>.yaml`. It records WA term dates, semester boundaries and exam periods, and units are counted as 15 school weeks from the start of the school year, skipping holidays. The dates will be based on the owner's earlier project's calendar data.
 - **Milestone scoring:** the problem defines **5–7 named checkpoints** (e.g. "find a useful invariant", "reduce to a recurrence", "prove the lower bound", "prove the upper bound", "handle the edge cases", "full solution"), each worth points.
 - **Unlimited submissions with no penalty.** Each submission is LLM-marked against the milestones, and the student's score is the best milestone set achieved.
   - Free-tier marking gets a **generous** daily per-user cap (starting value 20, configurable). Quotas are opaque and change often, so the cap is tuned as usage shows. BYO-key users are unlimited.
 - At month end:
   - θ updates for the tagged skills (outcome = milestone points fraction);
   - the official solution is revealed (the discussion thread has been open all month);
-  - the monthly leaderboard is finalized.
+  - the monthly leaderboards are finalized, one per course and year group.
 
 ---
 
@@ -466,7 +485,7 @@ The owner edits the draft, and the edited file becomes the source of truth.
 Generation prompt emphasis by tier:
 - **T1–T2:** retrieval, notation, routine application.
 - **T3–T4:** WACE exam style and its hardest items.
-- **T5–T6:** creative, unfamiliar framing; multiple approaches; proof; synthesis across skills; no template feel.
+- **T5–T6:** creative, unfamiliar framing; multiple approaches; proof; synthesis across skills; no template feel. Tier 5 never goes above first-year undergraduate level. Tier 6 (monthly problems only) may reach second-year undergraduate difficulty, but only using knowledge already taught (§8.6).
 
 ### 11.3 Verification (all must pass before merge)
 1. **CAS verification:** run each question's SymPy `verify` code. It must reproduce every answer key, and every pre-generated variant. Any mismatch fails the build.
@@ -660,7 +679,7 @@ Group-wide boards:
 - achievement points;
 - course θ / rank;
 - daily streak;
-- monthly Tier 6 score;
+- monthly Tier 6 scores, per course and year group;
 - problems done: total, this week, today;
 - **XP and global level** (§12.4): all time, this month and this week;
 - **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
@@ -1079,7 +1098,7 @@ users/{uid}/stats                        achievement counters (streaks, per-tier
 users/{uid}/challengeProgress/{sectId}   Section Challenge progress
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 daily/{yyyy-mm-dd}                       problem id; submissions/{uid}
-monthly/{yyyy-mm}                        problem id; submissions/{uid} (best milestones)
+monthly/{yyyy-mm}/problems/{course-year} problem id; submissions/{uid} (best milestones)
 discussions/{problemKey}/posts/{postId}  body, author, ts; comments/{commentId}
 hiddenQuestions/{questionId}             reason, ts
 reports/{reportId}                       question id, note, verdict
@@ -1116,9 +1135,9 @@ netlify/functions/     mark, report
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
 | 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
-| 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; first monthly Tier 6 problems |
+| 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
-| 4: Methods, Applications | New curricula + content; cross-course prerequisites become live links |
+| 4: Methods | New curriculum + content; cross-course prerequisites become live links |
 | 5: Chemistry, Physics | Science-specific answer types (see §18) + content |
 | 6: Native apps | Capacitor iOS/Android builds |
 
