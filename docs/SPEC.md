@@ -81,10 +81,42 @@ Course (e.g. Mathematics Specialist)
 
   Dot-point counts for Unit 4 are approximate; they come from text extraction and some dot points contain inline formulas. Skill IDs reference dot-point IDs, e.g. `spec.1.2.pigeonhole → ["1.2.6"]`.
 
-- **Syllabus versions** are recorded in the curriculum YAML (`syllabusVersion: { y11: "2026", y12: "2025" }`).
+- **Mathematics Methods sections** (Phase 3; listed now because Specialist skills take prerequisites from them). Sources: Year 11 syllabus for teaching from 2026; Year 12 syllabus for teaching from 2026 and from 2027.
+
+  | Unit | Section (syllabus topic) | Hours | Dot points |
+  |---|---|---|---|
+  | 1 | 1.1 Counting and probability | 18 | 15 |
+  | 1 | 1.2 Functions and graphs | 22 | 24 |
+  | 1 | 1.3 Trigonometric functions | 15 | 16 |
+  | 2 | 2.1 Exponential functions | 10 | 7 |
+  | 2 | 2.2 Arithmetic and geometric sequences and series | 15 | 9 |
+  | 2 | 2.3 Introduction to differential calculus | 30 | 22 |
+  | 3 | 3.1 Further differentiation and applications | 20 | 16 |
+  | 3 | 3.2 Integrals | 20 | 22 |
+  | 3 | 3.3 Discrete random variables | 15 | 16 |
+  | 4 | 4.1 The logarithmic function | 18 | 14 |
+  | 4 | 4.2 Continuous random variables and the normal distribution | 15 | ~7 |
+  | 4 | 4.3 Interval estimates for proportions | 22 | ~10 |
+
+  The Year 12 Methods syllabi for 2026 and 2027 have **identical unit content**. The 2027 edition is part of the WACE Refreshment and only revises the rationale, aims and General Capabilities. Both are registered as versions anyway, which exercises the versioning infrastructure below.
+
 - The source PDFs live in a gitignored `content/syllabus/` folder, where the ingest script reads them. They are SCSA documents, so they aren't committed.
 
-The tree is drafted by an LLM script from the syllabus PDFs and then edited by hand (§11.1). The edited `curriculum/*.yaml` files are the source of truth.
+### 3.1 Syllabus versioning infrastructure
+WACE syllabi rarely change significantly, but Methods is under review. Build for change from the start.
+
+- **Versioned curricula:** `content/curriculum/<course>/<version>.yaml`, e.g. `specialist/y11-2026.yaml`, `methods/y12-2026.yaml`, `methods/y12-2027.yaml`. Each file records its source document, effective date and dot-point list.
+- **Stable skill IDs:** skills have IDs that are independent of syllabus numbering. Each skill maps to dot-point IDs **per version**, so a renumbered dot point doesn't change the skill.
+- **Version maps:** `content/curriculum/<course>/maps/<from>__<to>.yaml` declares how skills change between versions: `same`, `renamed`, `split: [a, b]`, `merged-into: c`, `removed`, `added`. The build checks that every skill in the old version is accounted for.
+- **Student-state migration:** a migration step runs when a student moves to a new version.
+  - Split: children inherit the parent's θ and gate counts.
+  - Merge: θ is the attempt-weighted average and gate counts are the max.
+  - Removed skills are archived but stay visible on the profile.
+  - Added skills start Unranked.
+- **Question tagging:** questions reference stable skill IDs plus dot-point IDs. The build warns when a question's dot points no longer exist in a version that serves it, and questions can be restricted to specific versions.
+- **Version selection:** each course enrolment records the syllabus version. It defaults to the current one for the student's year. During transition years the student can choose in settings.
+
+The tree is drafted by an LLM script from the syllabus PDFs and then edited by hand (§11.1). The edited `content/curriculum/<course>/<version>.yaml` files are the source of truth (§3.1).
 
 ---
 
@@ -118,14 +150,14 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
   - `w` = skill weight: 1.0 for the primary skill, 0.5 for secondary skills on cross-skill problems
 
 ### 5.2 Displayed numbers (everything is visible)
-- **Score (0–100)**, the Alcumus-style headline number: `round(100 · P(correct on a reference question of rating 1600))`. It is anchored to a fixed reference (the bottom of Tier 4, "hardest exam questions"), so it stays stable as content is added. The reference rating is configurable.
+- **Score (0–100)**, the Alcumus-style headline number: `round(100 · P(correct on a reference question of rating 1500))`. It is anchored to a fixed reference in the middle of Tier 3 (a typical exam question), so a score of 50 reads as roughly "exam-ready", and it stays stable as content is added. The reference rating is configurable.
 - **Raw θ** is shown next to the score.
 - **Question rating `d`** and tier are shown on every question.
 - **Δθ** is shown after every answer, e.g. "+14 → 1523".
 
 ### 5.3 Placement
 - On first opening a skill, the student can **choose a starting tier**. The default is **Tier 3**. θ is set to the **floor of that tier's band** (e.g. Tier 4 → 1600) and then updates at normal speed.
-- At any time the student can **drop a tier**: θ is reset to the floor of the next band down. Rank is then recomputed under the buffer rule (§5.4).
+- At any time the student can **drop a tier**. This is a **non-destructive selection shift**: θ, rank and gates are untouched, and question selection (§5.7) targets the tier below the one θ currently sits in. The student can switch it off at any time. θ keeps updating normally, and easier questions naturally give smaller gains.
 - Placement sets θ only. **Gate counts start at zero**, so placement alone never grants a rank.
 
 ### 5.4 Ranks
@@ -139,9 +171,14 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 | Platinum | 1600 | ≥ 3 correct at Tier 4 or higher |
 | Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
 
-- **Correct** means any resolved question with outcome > 0: a credited later attempt counts, and so does free-response at or above the 60% threshold. Harder solves satisfy lower gates.
+- **Correct** (for gates) means a resolved question with **outcome > 0.6**. Some consequences:
+  - First-try answers always count.
+  - Later attempts count only where their credit exceeds 0.6: Tier 4 attempt 2 (0.7) and Tier 5 attempts 2–5 (0.9 down to 0.656). They don't count at Tiers 1–3 (0.3, 0.5).
+  - Free-response counts with a rubric score above 60%.
+  - Harder solves satisfy lower gates.
 - **Every problem contributes**: single-skill practice, quizzes, section challenges, daily and monthly problems, and cross-skill problems all update θ and gate counts. For cross-skill problems this applies to every tagged skill.
-- **Buffer zone (hysteresis):** a student earns rank k when both conditions first hold. They lose it only when θ drops below `floor_k − 50` (tunable). Gate counts never decrease.
+- **Buffer zone (hysteresis):** a student earns rank k when both conditions first hold. They lose it only when θ drops below `floor_k − buffer_k`. Gate counts never decrease.
+  - The buffer varies by rank, sized to the band below, and is **not displayed** to students. Starting values (tunable): Bronze 25, Silver 50, Gold 45, Platinum 35, Diamond 30.
 
 ### 5.5 Roll-up: section, unit, course
 - **Section θ** = weighted average of its skills' θ (weight = number of dot points in the skill).
@@ -160,6 +197,7 @@ Alongside content skills, every student has **response skills**, each with its o
 ### 5.7 Question selection
 - Target success probability **P\* ≈ 0.65**, the Alcumus-like "edge of ability" (tunable). The ideal rating is `d* = θ − S·ln(P*/(1−P*))`.
 - Choose from the skill's pool by closeness to `d*`. **Down-weight questions already seen**, and never repeat a question seen in the last N sessions unless the pool is exhausted. Template questions may repeat with fresh parameters.
+- **Drop a tier** (§5.3) shifts `d*` down into the band one tier below θ's current band.
 - Hidden questions (reported, §11.5) are excluded.
 
 ---
@@ -249,17 +287,17 @@ An endless adaptive stream for one skill (§5.7).
   | Tier | 1 | 2 | 2 | 3 | 3 | 4 | 4 |
 
 - Normal attempt rules for its tier. It updates θ like any other problem.
-- When the day closes, a **solution discussion** opens (§13.1).
+- It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
 - A **daily streak** (consecutive days solved) feeds a leaderboard.
 
 ### 8.6 Monthly problem (Tier 6)
 - One **exceptionally difficult** problem per month, rated 2000+, open for the whole month.
-- **Milestone scoring:** the problem defines 3–5 named checkpoints (e.g. "reduce to a recurrence", "prove the bound", "full solution"), each worth points.
+- **Milestone scoring:** the problem defines **5–7 named checkpoints** (e.g. "find a useful invariant", "reduce to a recurrence", "prove the lower bound", "prove the upper bound", "handle the edge cases", "full solution"), each worth points.
 - **Unlimited submissions with no penalty.** Each submission is LLM-marked against the milestones, and the student's score is the best milestone set achieved.
-  - To protect free-tier quota, free-tier marking is limited to a small number of submissions per user per day. BYO-key users are unlimited.
+  - Free-tier marking gets a **generous** daily per-user cap (starting value 20, configurable). Quotas are opaque and change often, so the cap is tuned as usage shows. BYO-key users are unlimited.
 - At month end:
   - θ updates for the tagged skills (outcome = milestone points fraction);
-  - the official solution and discussion are revealed;
+  - the official solution is revealed (the discussion thread has been open all month);
   - the monthly leaderboard is finalised.
 
 ---
@@ -299,7 +337,10 @@ answer:
 - **Pre-generated variants:** the offline script produces concrete variants (e.g. 20 per template), each SymPy-verified, and ships them. Used wherever parameter choice can break "nice" answers.
 - **Mandatory rule for trigonometric simultaneous-equation problems** (collisions, interception, flight direction with wind, relative velocity): always pre-generate, and verify that
   - (a) answers are **small whole numbers**, or the intended exact values;
-  - (b) the problem is **solvable on a low-power scientific calculator**, with no CAS solve needed.
+  - (b) the problem is **solvable on a low-power CAS calculator**, meaning an old, slow, unreliable CAS with `solve` and graphing. In practice:
+    - `solve` on the system returns the intended solution quickly from default settings;
+    - any graph intersections are clearly identifiable in a standard window;
+    - no step relies on heavy symbolic simplification that a weak CAS would choke on or return in an unrecognisable form.
 - `requiresCalculator: true` is set only when a calculator is genuinely needed (combinations with large numbers, vector/trig calculations with non-exact values).
 
 ### 9.4 Diagrams
@@ -317,6 +358,11 @@ answer:
 - Input: question, model solution, **rubric** (criteria with points), **rubric dimensions** (mapped to response skills), and the student's answer (text + LaTeX).
 - Output (strict JSON): per-criterion points, total score `s`, per-dimension scores, short feedback per criterion, and overall feedback.
 - The rubric breakdown and feedback are shown to the student.
+- **The marker is instructed to be strict.** It acts as a demanding WACE marker:
+  - It awards a criterion only when the work clearly and correctly establishes it.
+  - It gives no credit for correct answers with missing or invalid justification where the rubric requires reasoning.
+  - It penalises imprecise language and notation according to the rubric dimensions.
+  - When in doubt, it does not award the mark.
 
 ### 10.2 Providers and transport
 - **Default: free tier.** A **Netlify Function `/api/mark`** holds the owner's **Gemini free-tier API key** and calls the model **synchronously**. Over quota, it returns **429**.
@@ -331,6 +377,7 @@ answer:
 - One appeal per marked submission. The student writes an argument.
 - The **same model** re-marks with the original submission, rubric, first verdict and the student's argument.
 - The re-mark is **final and can go up or down**. There is no manual review.
+- The appeal prompt keeps the strict stance. It changes a mark only if the student's argument identifies a concrete error in the original marking. Persuasive or emotional appeals without substance don't move the mark.
 
 ### 10.4 Bring-your-own key
 - Providers: **Gemini, Claude, OpenAI**.
@@ -348,7 +395,7 @@ answer:
 All generation runs **offline**, via scripts the owner runs (e.g. with Claude Code or the owner's own subscription). Output is files committed to git.
 
 ### 11.1 Syllabus → curriculum
-`scripts/ingest-syllabus` reads the supplied course PDFs and drafts `curriculum/<course>.yaml`:
+`scripts/ingest-syllabus` reads the supplied course PDFs and drafts `content/curriculum/<course>/<version>.yaml`:
 - units, sections, skill clusters and dot-point mapping;
 - **prerequisites, including cross-course** links, inferred from the other courses' syllabi even before those courses launch.
 
@@ -413,13 +460,13 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | **Total** | | **100** | **19** | |
 
 **Rules**
-- **Secret achievements (🔒)** show as a locked silhouette with only their tier visible. The name and criteria appear once earned. Secrets are esoteric and skew toward the high tiers.
+- **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
 - **Definitions:** criteria are declarative in `content/achievements.yaml` and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters live in `users/{uid}/stats`, e.g. consecutive first-try streaks, per-tier correct counts and daily streak.
 - **Rank names:** the Platinum and Diamond tiers share names with skill ranks (§5.4), so the UI must keep them visually distinct. Achievements are gem-shaped medallions; ranks are banners or labels on tree nodes.
 
 **Terms used below**
-- *Correct* = resolved with outcome > 0.
+- *Correct* = resolved with outcome > 0.6, the same as the rank gate (§5.4).
 - *First-try* = correct on attempt 1.
 - *T3+* = Tier 3 or higher.
 - Free-response counts as *100%* only with a rubric score of 100% and no appeal.
@@ -516,9 +563,9 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | T11 | Grand Prover | 150 free-response answers at 100% |
 | T12 | Top of the Month | Finish a calendar month #1 on the course θ leaderboard |
 | T13 | 🔒 Grandmaster Opening | Reach Diamond in a skill within 20 questions of first opening it |
-| T14 | 🔒 Contrapositive | Diamond in a skill while every one of its prerequisites is below Gold |
+| T14 | 🔒 Cart Before the Horse | Diamond in a skill while every one of its prerequisites is below Gold |
 | T15 | 🔒 Fractal | Every skill, section and unit of a year at the same rank (Platinum or higher) at once |
-| T16 | 🔒 Full Circle | Solve every daily problem of a week first-try and post a solution in each one's discussion |
+| T16 | 🔒 Show Your Working | Solve every daily problem of a week first-try and post a solution in each one's discussion |
 
 #### Vibranium (250 pts, 13)
 | # | Name | Criterion |
@@ -531,7 +578,7 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | V6 | Two Hundred Straight | 200 consecutive first-try correct at T4+ |
 | V7 | Challenge Master | Every Section Challenge in the course at average outcome ≥ 0.9 |
 | V8 | Diamond Everywhere | Every skill in the course at Diamond simultaneously |
-| V9 | 🔒 Zero Knowledge | 25 consecutive Tier 5 questions first-try correct |
+| V9 | 🔒 Flawless Frontier | 25 consecutive Tier 5 questions first-try correct |
 | V10 | 🔒 Lone Wolf | The only user to fully solve that month's Tier 6 problem (≥ 5 users attempted) |
 | V11 | 🔒 QED | 15 consecutive free-response answers at 100% |
 | V12 | 🔒 Unblemished | A calendar week with ≥ 100 questions, at least half T4+, every one first-try correct |
@@ -544,14 +591,14 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | S2 | Five Hundred Straight | 500 consecutive first-try correct at T4+ |
 | S3 | Total Mastery | Every skill and every response skill at Diamond, and every Section Challenge swept (all first-try) |
 | S4 | 🔒 Diamond Hands | Hold Diamond in every course skill continuously for 90 days |
-| S5 | 🔒 Untouchable | Fully solve a monthly Tier 6 problem with a single submission |
+| S5 | 🔒 One Shot | Fully solve a monthly Tier 6 problem with a single submission |
 
 #### Antimatter (1500 pts, 3)
 | # | Name | Criterion |
 |---|---|---|
 | A1 | Annihilation | Fully solve 12 consecutive monthly Tier 6 problems |
 | A2 | 🔒 Event Horizon | Reach the θ cap of 2300 in any skill |
-| A3 | 🔒 Zero Point | A calendar year in which every daily problem is solved first-try and every monthly problem is fully solved |
+| A3 | 🔒 Annus Mirabilis | A calendar year in which every daily problem is solved first-try and every monthly problem is fully solved |
 
 Thresholds are starting values. Tune them after Phase 1 testing, keeping each tier's intended feel.
 
@@ -576,7 +623,10 @@ A public profile shows:
 ## 13. Social
 
 ### 13.1 Solution discussions
-- These exist **only for daily and monthly problems**, and open after the problem closes.
+- Discussions exist **only for daily and monthly problems**, and each thread is **open and visible the whole time**, including while the problem is live.
+- **Not pushed at students:** problem screens, results and notifications never link to or preview discussions. Students reach them only through the **Discussions** page, which has search by date, problem and text.
+- **Spoilers rely on good faith.** There is no automated spoiler blocking.
+- **Spoiler tags:** `||label: hidden text||`, or `||hidden text||` without a label. Hidden text renders as a blurred block that is revealed on click. Hovering (or long-pressing on touch) shows a **tooltip with the author's label** describing what's hidden, e.g. "full solution to (b)" or "hint: consider parity". With no label, the tooltip says "Spoiler". LaTeX inside spoilers is supported.
 - **Anyone** can post and comment. Posts support Markdown and LaTeX.
 
 ### 13.2 Moderation
@@ -616,7 +666,7 @@ A public profile shows:
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
 ### 14.5 Other screens
-- **Profile, Leaderboards, Discussions** (daily/monthly).
+- **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
 
@@ -670,7 +720,7 @@ apps/web/              SvelteKit app
 packages/engine/       rating, selection, ranks, roll-up, achievements (pure TS, unit-tested)
 packages/checker/      answer checkers + form rules
 packages/diagrams/     diagram spec → SVG
-content/curriculum/    <course>.yaml
+content/curriculum/    <course>/<version>.yaml + maps/ (version-to-version skill maps)
 content/syllabus/      source PDFs (gitignored)
 content/questions/     <course>/<unit>/<section>/<skill>/*.yaml
 content/achievements.yaml
@@ -699,14 +749,20 @@ netlify/functions/     mark, report
 
 ---
 
-## 17. Open questions and risks
+## 17. Open questions, risks and decisions
 
-1. **"Drop a tier" semantics:** this spec resets θ to the floor of the lower band, and rank recomputes under the buffer rule. The alternative is a non-destructive selection shift. Confirm.
-2. **Gate "correct" threshold:** currently any credited outcome counts, including a 0.3 second try. Should gates require a first-try correct answer or outcome ≥ 0.5?
-3. **Score anchor:** with the reference at 1600, a fresh Gold student (θ 1450) shows a score of about 18. Consider anchoring at 1450 (Tier 3) so "exam-ready" reads as about 50.
-4. **Monthly free-tier submission cap:** this spec proposes a daily cap for free-tier users. The exact number is TBD.
-5. **Free-tier fragility:** Gemini and MyScript free tiers can change or vanish. Mitigations are the BYO key and keyboard fallback.
-6. **LLM marking reliability:** same-model appeals can be swayed by persuasive but wrong arguments. Monitor appeal outcomes. If abuse appears, switch to a second-model re-mark.
-7. **Science courses:** they will need unit-aware numeric answers, significant-figure rules, chemical formula and equation input, and possibly balanced-equation checkers. Spec these before Phase 4.
-8. **Syllabus updates:** WACE syllabi are revised periodically. Curriculum YAML should record the syllabus version, and question files should reference dot-point IDs so they can be remapped.
-9. **Client-side trust:** ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up.
+**Resolved**
+- *Drop a tier:* non-destructive selection shift (§5.3, §5.7). Rank loss only happens through the hidden per-rank buffer (§5.4).
+- *Gate threshold:* outcome > 0.6 (§5.4).
+- *Score anchor:* reference rating 1500 (§5.2).
+- *Monthly free-tier cap:* generous (20 per day to start), tuned as usage shows (§8.6).
+- *LLM strictness:* the marker and appeal prompts are strict (§10.1, §10.3).
+
+**Accepted risks (handle as they come)**
+1. **Free-tier fragility:** Gemini and MyScript free tiers can change or vanish. Mitigations are the BYO key and keyboard fallback.
+2. **Same-model appeals:** these can still be swayed by a persuasive wrong argument despite the strict prompt. Monitor appeal outcomes.
+3. **Syllabus changes:** the Methods review may resurface. The versioning infrastructure (§3.1) is built for it.
+4. **Client-side trust:** ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up.
+
+**Owner to specify later**
+- **Science answer types** (before Phase 4): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
