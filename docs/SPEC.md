@@ -229,12 +229,12 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 | Rank | Requires θ ≥ | AND gate (Small/Medium skill) |
 |---|---|---|
 | Bronze | 1000 | ≥ 3 correct at Tier 1 or higher |
-| Silver | 1280 (score 10) | ≥ 3 correct at Tier 2 or higher |
+| Silver | 1250 | ≥ 3 correct at Tier 2 or higher |
 | Gold | 1400 | ≥ 3 correct at Tier 3 or higher |
 | Platinum | 1550 | ≥ 3 correct at Tier 4 or higher |
 | Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
 
-- **Rank floors match the tier floors (§4), except Silver.** The Tier 2 floor, 1250, displays as a score of only 8, so Silver needs θ 1280, which displays as 10.
+- Rank floors match the tier floors (§4).
 - **Skill size adds to every gate** (§3.3): +1 for Large skills and +2 for Cornerstone skills. Response skills use the Small/Medium numbers.
 - **Ranks are earned in order:** rank *k* also needs every lower rank's floor and gate.
 
@@ -1108,7 +1108,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
   - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimization). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
   - **Nodes** are filled with the rank color (Unranked is hollow), with a short label under each. Keep on-map text minimal. The **shape shows skill size** (§3.3): small circle (Small), circle (Medium), small diamond (Large), large diamond (Cornerstone). The legend above the tree explains both colors and shapes.
-  - **Progress ring:** each node's ring fills toward the next rank's color, **linearly in θ** from the current rank's floor to the next rank's floor (Diamond: toward θ 2000). It doesn't fill linearly in the 0–100 score, which is S-shaped and would crawl at the low ranks.
+  - **Progress ring:** each node's ring fills toward the next rank's color, **linearly in the 0–100 score** from the current rank's floor to the next rank's floor (Diamond: toward θ 2000, score 99.3), so the ring always agrees with the number in the node.
   - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.

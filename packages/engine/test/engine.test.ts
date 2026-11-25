@@ -110,12 +110,6 @@ describe("ranks and gates", () => {
     expect(eligibleRank(1390, gatesWith({ 1: 2 }))).toBe(0);
   });
 
-  it("puts Silver at θ 1280, a displayed score of 10", () => {
-    expect(eligibleRank(1279, gatesWith({ 2: 3 }))).toBe(1);
-    expect(eligibleRank(1280, gatesWith({ 2: 3 }))).toBe(2);
-    expect(score(1280)).toBe(10);
-  });
-
   it("holds a rank inside the hidden buffer and drops below it", () => {
     const g = gatesWith({ 4: 3 });
     expect(nextRank(4, 1550 - 20, g)).toBe(4); // Platinum buffer is 35

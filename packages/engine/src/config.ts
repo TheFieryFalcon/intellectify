@@ -22,13 +22,10 @@ export type RankName = (typeof RANKS)[number];
 /** 0 = Unranked … 5 = Diamond. */
 export type RankLevel = 0 | 1 | 2 | 3 | 4 | 5;
 
-/**
- * θ needed for each rank; rank k corresponds to Tier k (SPEC §5.4).
- * Silver sits above the Tier 2 floor (1250, a score of only 8) at 1280, which displays as a score of 10.
- */
+/** θ needed for each rank; rank k corresponds to Tier k (SPEC §5.4). */
 export const RANK_FLOOR: Record<Exclude<RankLevel, 0>, number> = {
   1: TIER_FLOOR[1],
-  2: 1280,
+  2: TIER_FLOOR[2],
   3: TIER_FLOOR[3],
   4: TIER_FLOOR[4],
   5: TIER_FLOOR[5],
