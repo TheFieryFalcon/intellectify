@@ -82,7 +82,10 @@ Course (e.g. Mathematics Specialist)
   | 4 | 4.2 Rates of change and differential equations | 20 | ~7 |
   | 4 | 4.3 Statistical inference | 15 | ~7 |
 
-  Dot-point counts for Unit 4 are approximate; they come from text extraction and some dot points contain inline formulas. Skill IDs reference dot-point IDs, e.g. `spec.combinatorics.pigeonhole → ["1.2.6"]`. The draft Specialist tree is in `content/curriculum/specialist/`: 70 skills, 85 suggested-prerequisite edges, and 30 links to Methods dot points.
+  Dot-point counts for Unit 4 are approximate; they come from text extraction and some dot points contain inline formulas. Skill IDs reference dot-point IDs, e.g. `spec.combinatorics.pigeonhole → ["1.2.6"]`. The draft Specialist tree is in `content/curriculum/specialist/`: 69 skills, 87 suggested-prerequisite edges, and 30 links to Methods dot points.
+- **One map per course.** Year 11 and Year 12 form one continuous tree. Year 12 skills take Year 11 skills as suggested prerequisites.
+  - Where a later syllabus *reviews* earlier content (e.g. Specialist 3.1.1–3.1.3, "review Cartesian form"), there is no duplicate review skill. The section's `reviewDotPoints` maps those dot points onto the earlier skill, which then serves both years.
+  - Every dot point is covered exactly once, by a skill or by a review mapping.
 
 - **Mathematics Methods sections** (Phase 3; listed now because Specialist skills take prerequisites from them). Sources: Year 11 syllabus for teaching from 2026; Year 12 syllabus for teaching from 2026 and from 2027.
 

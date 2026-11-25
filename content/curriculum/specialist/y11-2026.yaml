@@ -2,7 +2,8 @@
 #
 # - Skill IDs are stable and independent of syllabus numbering (SPEC §3.1).
 # - `dotPoints` maps each skill to this version's syllabus content descriptors.
-#   Every dot point is used exactly once.
+#   Every dot point is covered exactly once, by a skill or by a section-level
+#   `reviewDotPoints` mapping onto an earlier skill.
 # - `prereqs` are skill IDs in this course (any version). They are
 #   SUGGESTIONS only: drawn as edges and listed as "Suggested first", but
 #   every skill is always open to practise (SPEC §3).

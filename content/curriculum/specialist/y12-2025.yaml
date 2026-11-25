@@ -17,18 +17,16 @@ units:
         code: "3.1"
         name: Complex numbers
         hours: 18
+        # Review dot points aren't separate skills. They map onto the Year 11
+        # skill they revisit, so the course is one continuous map (SPEC §3).
+        reviewDotPoints:
+          - { dotPoints: ["3.1.1", "3.1.2", "3.1.3"], skill: spec.real-complex.complex-arithmetic }
         skills:
-          - id: spec.complex.cartesian-review
-            name: Cartesian form review
-            summary: Re(z) and Im(z), Cartesian form and complex arithmetic (a Year 11 review).
-            dotPoints: ["3.1.1", "3.1.2", "3.1.3"]
-            prereqs: [spec.real-complex.complex-arithmetic]
-
           - id: spec.complex.polar-form
             name: Modulus, argument and polar form
             summary: "|z| and Arg(z); prove basic modulus–argument identities; convert between Cartesian and polar form."
             dotPoints: ["3.1.4", "3.1.5"]
-            prereqs: [spec.complex.cartesian-review, spec.real-complex.complex-plane]
+            prereqs: [spec.real-complex.complex-arithmetic, spec.real-complex.complex-plane]
             external:
               - { course: methods, version: y11-2026, dotPoints: ["1.3.8"], note: Exact trig values }
 
@@ -42,19 +40,19 @@ units:
             name: Operations as geometry in the Argand plane
             summary: Addition as vector addition; multiplication as a linear transformation (rotation and dilation).
             dotPoints: ["3.1.8", "3.1.9"]
-            prereqs: [spec.complex.de-moivre, spec.matrices.transformations]
+            prereqs: [spec.complex.de-moivre, spec.real-complex.complex-plane, spec.matrices.transformations]
 
           - id: spec.complex.loci
             name: Regions and loci in the complex plane
             summary: Subsets defined by relations such as |z − 3i| ≤ 4, Arg(z) = 3π/4 and |z − 1| = 2|z − i|.
             dotPoints: ["3.1.10"]
-            prereqs: [spec.complex.polar-form, spec.geometry.circle-angles]
+            prereqs: [spec.complex.polar-form, spec.real-complex.complex-plane, spec.geometry.circle-angles]
 
           - id: spec.complex.roots
             name: Roots of complex numbers
             summary: nth roots of unity and of general complex numbers, and their geometry in the plane.
             dotPoints: ["3.1.11", "3.1.12"]
-            prereqs: [spec.complex.de-moivre]
+            prereqs: [spec.complex.de-moivre, spec.real-complex.complex-plane]
 
           - id: spec.complex.polynomials
             name: Polynomials over the complex numbers
