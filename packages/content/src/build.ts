@@ -3,6 +3,7 @@ import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
 import { tierOf } from "@intellectify/engine";
+import { fillTemplate } from "./template.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
@@ -48,13 +49,6 @@ const listYaml = (dir: string): string[] => {
   }
   return out.sort();
 };
-
-/** Fill `{{name}}` placeholders from a variant's parameters. */
-export function fillTemplate<T>(value: T, params: Record<string, string | number>): T {
-  const sub = (s: string) => s.replace(/\{\{\s*(\w+)\s*\}\}/g, (m, k: string) => (k in params ? String(params[k]) : m));
-  const walk = (v: unknown): unknown => (typeof v === "string" ? sub(v) : Array.isArray(v) ? v.map(walk) : v && typeof v === "object" ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, walk(x)])) : v);
-  return walk(value) as T;
-}
 
 /** Load, validate and assemble all content under `contentDir`. Never throws on bad content; reports errors instead. */
 export function buildContent(contentDir: string): BuildResult {

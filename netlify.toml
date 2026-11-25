@@ -1,0 +1,12 @@
+[build]
+  command = "pnpm build"
+  publish = "apps/web/build"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: every route is served by index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
