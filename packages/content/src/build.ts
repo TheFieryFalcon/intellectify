@@ -4,6 +4,7 @@ import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
 import { tierOf } from "@intellectify/engine";
 import { fillTemplate } from "./template.js";
+import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
@@ -18,6 +19,7 @@ export interface BundleSkill {
   /** Weight in roll-ups: number of dot points (including review dot points it covers). */
   weight: number;
   questionCount: number;
+  hasTutorial: boolean;
 }
 export interface BundleSection {
   id: string;
@@ -34,7 +36,7 @@ export interface CourseBundle {
   responseSkills: { id: string; name: string }[];
 }
 export interface BuildResult {
-  bundles: { course: CourseBundle; questions: Record<string, QuestionT[]> }[];
+  bundles: { course: CourseBundle; questions: Record<string, QuestionT[]>; tutorials: Tutorial[] }[];
   errors: string[];
   warnings: string[];
 }
@@ -128,6 +130,11 @@ export function buildContent(contentDir: string): BuildResult {
     const cycle = findCycle(prereqsOf);
     if (cycle) errors.push(`prerequisite cycle: ${cycle.join(" → ")}`);
 
+    // Tutorials (SPEC §3.2).
+    const skillDotPoints = new Map<string, string[]>();
+    for (const v of versions) for (const u of v.units) for (const s of u.sections) for (const k of s.skills) skillDotPoints.set(k.id, [...k.dotPoints, ...(reviewFor.get(k.id) ?? [])]);
+    const tutorials = loadTutorials(contentDir, courseId, skillDotPoints, errors, warnings);
+
     // Questions.
     const questions: Record<string, QuestionT[]> = {};
     const qDir = join(contentDir, "questions", courseId);
@@ -211,12 +218,13 @@ export function buildContent(contentDir: string): BuildResult {
                 external: k.external,
                 weight: k.dotPoints.length + review.length,
                 questionCount: questions[k.id]?.length ?? 0,
+                hasTutorial: tutorials.has(k.id),
               };
             }),
           })),
         })),
     };
-    bundles.push({ course, questions });
+    bundles.push({ course, questions, tutorials: [...tutorials.values()] });
   }
   return { bundles, errors, warnings };
 }

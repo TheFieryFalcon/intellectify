@@ -32,6 +32,17 @@ export function loadQuestions(fetchFn: Fetch, course: string, skillId: string): 
   return questionCache.get(key)!;
 }
 
+export interface TutorialT {
+  skill: string;
+  terms: { term: string; definition: string }[];
+  markdown: string;
+}
+
+/** A skill's tutorial (SPEC §3.2), or null if it hasn't been written yet. */
+export function loadTutorial(fetchFn: Fetch, course: string, skillId: string): Promise<TutorialT | null> {
+  return fetchFn(`/content/${course}/tutorials/${skillId}.json`).then((r) => (r.ok ? (r.json() as Promise<TutorialT>) : null));
+}
+
 export interface SkillIndexEntry {
   skill: BundleSkill;
   unit: number;

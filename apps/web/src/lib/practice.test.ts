@@ -35,7 +35,7 @@ const course: CourseBundle = {
           code: "1.1",
           name: "A",
           hours: 1,
-          skills: ["one", "two"].map((s) => ({ id: `spec.a.${s}`, name: s, summary: "", dotPoints: ["1.1.1"], reviewDotPoints: [], prereqs: [], external: [], weight: 1, questionCount: 1 })),
+          skills: ["one", "two"].map((s) => ({ id: `spec.a.${s}`, name: s, summary: "", dotPoints: ["1.1.1"], reviewDotPoints: [], prereqs: [], external: [], weight: 1, questionCount: 1, hasTutorial: false })),
         },
       ],
     },

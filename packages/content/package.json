@@ -10,7 +10,8 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
-    "build:content": "tsx src/cli.ts"
+    "build:content": "tsx src/cli.ts",
+    "verify:content": "tsx src/verify.ts"
   },
   "dependencies": {
     "@intellectify/checker": "workspace:*",

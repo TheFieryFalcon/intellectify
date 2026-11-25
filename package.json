@@ -8,7 +8,8 @@
     "typecheck": "pnpm -r typecheck",
     "content": "pnpm --filter @intellectify/content build:content",
     "dev": "pnpm content && pnpm --filter @intellectify/web dev",
-    "build": "pnpm content && pnpm --filter @intellectify/web build"
+    "build": "pnpm content && pnpm --filter @intellectify/web build",
+    "verify": "pnpm --filter @intellectify/content verify:content"
   },
   "devDependencies": {
     "typescript": "5.6.3",
