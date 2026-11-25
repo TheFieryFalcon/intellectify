@@ -28,6 +28,7 @@ describe("diagrams (SPEC §9.4)", () => {
     expect(() => parseDiagram("view: [0, 4, 0, 4]\ndraw:\n  - { type: vector, from: O, to: Z }")).toThrow(/unknown point "O"/);
     expect(() => parseDiagram("view: [4, 0, 0, 4]\ndraw:\n  - { type: point, at: [1, 1] }")).toThrow(/view must be/);
     expect(() => parseDiagram("view: [0, 4, 0, 4]\ndraw:\n  - { type: circle, center: [1, 1] }")).toThrow(/radius or a through point/);
+    expect(() => parseDiagram("view: [0, 4, 0, 4]\ndraw:\n  - { type: text, at: [1, 1], text: '30^\\\\circ' }")).toThrow(/doubled backslash/);
   });
 
   it("takes numbers from filled template parameters", () => {

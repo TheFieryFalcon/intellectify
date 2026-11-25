@@ -73,6 +73,11 @@ export function parseDiagram(yamlSrc: string): DiagramT {
     if (e.type === "polygon") refs.push(...e.points);
   }
   for (const p of refs) if (typeof p === "string" && !(p in d.points)) throw new Error(`diagram: unknown point "${p}"`);
+  // "\\" in a label is a LaTeX line break, which is almost always a doubled backslash by mistake.
+  for (const e of d.draw) {
+    const text = "label" in e ? e.label : e.type === "text" ? e.text : undefined;
+    if (text?.includes("\\\\")) throw new Error(`diagram: label "${text}" contains a doubled backslash`);
+  }
   return d;
 }
 
