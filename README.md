@@ -30,13 +30,23 @@ pnpm test
 pnpm dev
 ```
 
-`pnpm dev` builds the content bundles and starts the app at http://localhost:5173. Without Firebase settings
-it runs in **local mode**: one guest user, progress saved in the browser.
+`pnpm dev` builds the content bundles and starts the app at http://localhost:5173.
 
-To use Firebase, copy `apps/web/.env.example` to `apps/web/.env` and fill in your project's web config. Then:
+## Firebase
 
-- in the Firebase console, enable the **Google** and **Email link** sign-in providers;
-- create a Firestore database and deploy the rules in `firestore.rules`.
+The app uses the Firebase project **intellectify-4357c** (web app "intellectify"):
+
+- **Authentication:** Google and Email/Password sign-in, with password reset by email.
+- **Firestore:** `(default)` database in `australia-southeast1`, with the rules in `firestore.rules`.
+
+The web config is in `apps/web/src/lib/firebase.config.ts`. It's public by design; the Firestore rules
+protect the data. To deploy rule changes with the Firebase CLI:
+
+```bash
+npx firebase-tools deploy --only firestore:rules
+```
+
+Local mode (one guest user, progress saved in the browser) is used only if the config is blanked out.
 
 ## Content
 
@@ -46,5 +56,6 @@ known skills, and each answer key passing its own checker). Nothing is written i
 
 ## Deploy
 
-Netlify builds with `pnpm build` and publishes `apps/web/build` (see `netlify.toml`). Set the
-`VITE_FIREBASE_*` variables in the Netlify site settings.
+Netlify builds with `pnpm build` and publishes `apps/web/build` (see `netlify.toml`). No environment
+variables are needed. Add the Netlify domain to Firebase **Authentication → Settings → Authorized domains**
+so Google sign-in works there.
