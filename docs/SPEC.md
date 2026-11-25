@@ -563,7 +563,7 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | T11 | Grand Prover | 150 free-response answers at 100% |
 | T12 | Top of the Month | Finish a calendar month #1 on the course θ leaderboard |
 | T13 | 🔒 Grandmaster Opening | Reach Diamond in a skill within 20 questions of first opening it |
-| T14 | 🔒 Cart Before the Horse | Diamond in a skill while every one of its prerequisites is below Gold |
+| T14 | 🔒 Contrapositive | Diamond in a skill while every one of its prerequisites is below Gold |
 | T15 | 🔒 Fractal | Every skill, section and unit of a year at the same rank (Platinum or higher) at once |
 | T16 | 🔒 Show Your Working | Solve every daily problem of a week first-try and post a solution in each one's discussion |
 
