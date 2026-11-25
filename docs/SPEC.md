@@ -29,7 +29,7 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 - Spaced repetition, rating decay, retention mechanics. Once earned, a rating only changes through further practice.
 - Hints. The design follows Alcumus: no hints, and the full worked solution is shown after the question is resolved.
 - Recommendations ("what to do next"). The student always chooses.
-- Native mobile apps. These come only after all five courses are done (see §16).
+- Native mobile apps. These come only after all five courses are done (see §17).
 - Empirical difficulty calibration from attempt data. Question ratings are author-set for now.
 - Privacy hardening of LLM calls. Not a concern for the current small, known group; revisit before any wider release.
 
@@ -661,7 +661,9 @@ Group-wide boards:
 - course θ / rank;
 - daily streak;
 - monthly Tier 6 score;
-- problems done: total, this week, today.
+- problems done: total, this week, today;
+- battle rating (Frontline) and duel rating (Divide, Draft, Exam Board) (§14.1);
+- Race personal bests and head-to-head wins (§14.5).
 
 ### 12.3 Profile page
 A public profile shows:
@@ -688,16 +690,240 @@ A public profile shows:
 
 ---
 
-## 14. UI / UX
+## 14. Competitive play (Phase 3)
 
-### 14.1 Visual identity
+Competitive play has one main mode, **Frontline** (2–6 players, territory and capture the flag), and four secondary 1v1 minigames: **Divide**, **Draft**, **Exam Board** and **Race**.
+
+### 14.1 Principles
+- **Depth over speed.** Every mode except Race has:
+  - a fixed number of questions per player, not a fixed time;
+  - a time limit per round or a time bank, never a reward for answering first;
+  - simultaneous rounds wherever possible.
+
+  Race is the deliberate exception: a short fluency drill at Tiers 1–2 only (§14.5).
+- **Difficulty is a choice, never a dominant one.** Each mode balances tiers through risk, exposure, durability, time cost or position, so no tier is automatically best.
+- **Answers count as practice.**
+  - Every competitive answer updates the skill's θ, gates and response skills like normal practice.
+  - Competitive questions allow **one attempt**: correct counts as a first-try solve, wrong as outcome 0.
+  - The worked solution is shown when the game ends, not mid-game.
+- **Separate ratings** (§12.2), which never touch mastery ranks:
+  - **Battle rating** for Frontline. This is a multiplayer rating, updated from final placement with a Weng-Lin/OpenSkill-style model.
+  - **Duel rating** for Divide, Draft and Exam Board. This uses Elo.
+  - **Race** has no rating, only its own leaderboard.
+- **Question pool.**
+  - Auto-marked questions only. Free-response is too slow to mark live.
+  - The lobby sets the syllabus scope (section, unit or course) and, for Frontline, the map.
+  - Questions are drawn from that scope, preferring ones no player in the game has seen.
+  - Competitive play needs deep pools, which is why it comes after Specialist Units 1–4 have full content.
+- **Live and correspondence play.**
+  - Frontline, Divide, Draft and Exam Board can be played **live** (round timers) or by **correspondence** (one round per day).
+  - Race is live only.
+- **Lobbies:** private games joined by invite link or code. No public matchmaking for now.
+
+### 14.2 Frontline: maps and setup
+A territory and capture-the-flag strategy game for 2–6 players, inspired by territorial.io and openfront.io. Players command troops on a fixed hex map to take territory, raid enemy headquarters and carry flags home.
+
+**Maps.** There are exactly three, each hand-designed, fixed and balanced, so map knowledge is part of the skill.
+
+| Map | Players | Hexes | Spawns | Relics | Rounds | Length |
+|---|---|---|---|---|---|---|
+| Small | 2–3 | ~25 | 4 | 1 | 6 | ~12 min |
+| Medium | 3–4 | ~45 | 6 | 3 | 8 | ~16 min |
+| Large | 5–6 | ~75 | 9 | 5 | 10 | ~20 min |
+
+**Terrain is difficulty.** Every hex has a fixed tier, like elevation. Any question asked in a hex is at that hex's tier. The skill comes from the lobby's syllabus scope.
+
+| Terrain | Tier | Troops per round | Defense bonus |
+|---|---|---|---|
+| Lowland | 1 | +1 | none |
+| Hills | 2 | +2 | +15% |
+| Highland | 3 | +3 | +30% |
+| Peak | 4 | +5 | +50% |
+| HQ | n/a | +3 | +50% |
+
+**Spawns.**
+- Each map has more spawns than its maximum player count.
+- Spawns differ in character but have roughly equal total value. Example archetypes:
+  - **Coast** (mostly lowland): fast and cheap early expansion, low income, many approaches.
+  - **Valley** (hills, central): best access to relics, contested from several sides.
+  - **Ridge** (highland/peak): rich and defensible, but slow to expand, with a single exit pass.
+- Spawns nobody picks become neutral territory.
+
+**Spawn draft.**
+- Players pick spawns in order of **lowest battle rating first**. Picks are visible, with about 20 seconds per pick.
+- The choice draws on the player's comfort tiers, map knowledge, and the visible ranks of their opponents. Counter-picking adds replayability.
+
+**Map data and balance.**
+- Maps are data files: each hex's coordinates and terrain, plus spawns, relics, HQ positions and the edge ring for each round. They live in `content/frontline/maps/`, carry a version number (e.g. `medium@1.2`), and are edited with a small map editor.
+- Before release, bot simulations at a range of skill levels play each spawn thousands of times and flag outlier win rates.
+- After release, win rate by spawn and rating band is tracked, and maps are retuned by publishing a new version.
+
+**Optional loadout** (lobby setting, off by default):
+- Each player picks 4 skills before the game.
+- Their Claim, Fortify and Rally questions come from their own loadout.
+- Assault questions come from the defender's loadout.
+
+**Optional handicap:** Rally payouts scaled to each player's own rating, so every tier has equal expected value (§14.1).
+
+### 14.3 Frontline: rounds and actions
+**Rounds.**
+- Rounds are simultaneous and **2 minutes** long (tunable; Tier 4-heavy play may need 2.5).
+- During a round each player acts whenever they like. All orders resolve together at the end of the round.
+- Each player answers **exactly one question per round**. Finishing early gives planning time only.
+
+**Each round, a player chooses one action**, which determines their question:
+
+| Action | Question tier | Effect |
+|---|---|---|
+| **Claim** | Target hex's tier | Take an adjacent neutral hex, moving at least 1 troop in. |
+| **Assault** | Target hex's tier | Attack an adjacent enemy hex. Correct: attack ×1.5. Wrong: ×0.75. A lock is broken only by a correct answer. |
+| **Fortify** | Own hex's tier | Place a lock on the hex (below). |
+| **Rally** | Player's choice, Tier 1–4 | Gain emergency troops: Tier 1 → 2, Tier 2 → 3, Tier 3 → 5, Tier 4 → 7. |
+
+**Moves need no question.**
+- Each player gets **3 moves per round, plus 1 for every 5 hexes owned**.
+- A move shifts troops between adjacent owned hexes, or sets up an attack from an owned hex.
+
+**Locks.**
+- To lock a hex at Tier t, the defender must solve a Tier t question themselves.
+- An attacker must answer a *different* Tier t question correctly to break the lock.
+- If the attacker fails, the attack bounces: the attacker loses half the attacking troops and the defender loses none.
+- A lock lasts until it is broken.
+
+**Combat** (all values tunable).
+- Attack strength = troops × assault multiplier × streak bonus.
+- Defense strength = troops × (1 + terrain defense bonus).
+- **If attack beats defense:**
+  - the hex is captured;
+  - surviving attackers = attacking troops × (1 − defense ÷ attack), rounded up;
+  - plunder = half the defender's troops in that hex, added to the attacker.
+- **If attack doesn't beat defense:**
+  - the attacker loses half the attacking troops;
+  - the defender loses troops × attack ÷ (2 × defense), rounded down.
+
+**Resolution order each round:**
+1. Moves.
+2. Assaults, strongest first, so several attacks on one hex resolve in turn.
+3. Claims. If two players claim the same hex, the higher tier solved wins; at equal tiers the claim fails for both.
+4. Income from territory.
+5. Relic points.
+
+### 14.4 Frontline: snowballing, flags and scoring
+**Snowballing is intended and available to everyone.** These engines compound:
+- **Territory:** more hexes produce more troops, which take more hexes.
+- **Command:** extra moves for larger empires.
+- **Plunder:** capturing hexes takes troops.
+- **Flag spoils:** capturing a flag gives an immediate troop burst, half the sacked HQ's garrison.
+- **Hot streak:** each consecutive correct answer adds +25% to Assault strength and Rally troops, up to +100%. A wrong answer resets it.
+
+The streak rewards accuracy, not speed. Spawn archetypes peak at different times (Coast early, Valley mid-game, Ridge late), so the lead changes hands as different engines kick in.
+
+**Bounty on the leader.**
+- The current leader is marked with a visible crown.
+- Each successful assault on a leader's hex gives **+2 points and double plunder**.
+- Capturing the leader's flag scores **+8** instead of +5.
+
+The leader feeds everyone else's snowball, which keeps the game swingy and gives trailing players a target.
+
+**Flags.**
+- Each HQ holds a flag.
+- **Capturing an HQ:**
+  - the HQ is **sacked**: it loses half its garrison and can't be re-flagged for 2 rounds;
+  - a visible **flag carrier** spawns with the attacking survivors, moving 1 hex per round;
+  - carrying it to the capturer's own HQ **banks** it.
+- Intercepting a carrier (capturing its hex) returns the flag to its owner.
+- Players are **never eliminated**. A sacked HQ keeps producing income and can be retaken.
+
+**Late game.**
+- **Relics** pay +2 points per round to whoever holds them.
+- At 75% of the rounds, the map's outer edge ring **collapses**. Those hexes become impassable, and troops on them are lost unless moved inward that round.
+- **Exact scores are hidden** until the final quarter of rounds; only the leader's crown is visible before then.
+
+**Scoring** (at game end):
+
+| Source | Points |
+|---|---|
+| Flag held or being carried | +5 each (+8 for the leader's flag) |
+| Flag banked at your HQ | +10 each (+13 for the leader's flag) |
+| Relic | +2 per round held |
+| Territory | +1 per 3 hexes |
+| Leader bounty | +2 per successful assault on the leader |
+
+Placement updates battle rating. Ties are broken by banked flags, then territory.
+
+### 14.5 1v1 minigames
+All four update duel rating except Race. Each uses a time bank per player (chess clock). Points are each question's tier unless stated otherwise.
+
+**Divide** (fair division, about 12–16 min).
+- **Each round** (2 rounds):
+  1. **Reveal:** 6 problems from Tiers 1–4, with full stems visible.
+  2. **Divide:** the **Divider** (alternating each round) splits them into two piles of any size.
+  3. **Choose:** the **Chooser** takes one pile, and the Divider gets the other.
+  4. **Solve:** both solve their piles at the same time.
+- **Steal:** a player may spend clock time attempting a problem their opponent failed, for half points.
+- **Strategy:**
+  - make piles you value equally but your opponent values unequally (their ranks are visible);
+  - plant problems you can solve where a failure lets you steal;
+  - weigh pile size against your time bank.
+
+**Draft** (pick and assign, about 12–15 min).
+- **Setup:** 8 problems laid face-up, with skill, tier and full stem visible.
+- **Draft:** players alternately take one, assigning it **to their own set or to their opponent's**, until each set has 4.
+- **Solve:** both solve their sets at the same time.
+- **Scoring:** points are scaled to the solver's rating (correct scores (1 − p) × 10, where p is the solver's probability of success; wrong scores 0), so dumping a hard problem on a strong opponent can hand them points.
+- **Strategy:** every pick is a trade-off between keeping a question you're sure of and sending one your opponent is weak at.
+
+**Exam Board** (paper construction, about 12–15 min).
+- **Pool:** 14 problems with visible stems and ratings, spanning a unit's sections.
+- **Build:** each player secretly builds a 4-question paper for the other, under these constraints:
+  - total rating no more than 4 × 1500;
+  - at least one question per section in scope;
+  - at least one Tier 1–2 question.
+- **Appeal:** on receiving the paper, the sitter may swap **one** question for any unused pool question of equal or lower rating.
+- **Sit:** both sit their papers at the same time.
+- **Strategy:**
+  - set questions with the biggest gap between their rating and *this* opponent's ability in that skill;
+  - anticipate the appeal, for example with a decoy;
+  - read what the opponent left in the pool.
+
+**Race** (fluency minigame, 3 min, live only).
+- **Questions:** both players get the **same stream of Tier 1–2 questions** from the lobby's scope, in the same order.
+- **Scoring:**
+  - correct +1;
+  - +1 bonus for every 5 correct in a row;
+  - wrong −1 plus a 3-second lockout, which discourages guessing.
+- **Display:** a tug-of-war bar shows the margin.
+- **Winning:** most points at 3:00 wins. Ties go to sudden death.
+- **Solo mode:** with no opponent online, a player can race their own best run (a "ghost").
+- **Ratings and records:** no rating. Race has its own leaderboard of personal bests and head-to-head wins.
+- **Why speed is allowed here:** Race is the one place where speed matters, deliberately limited to retrieval-level questions, as a warm-up and fluency drill.
+
+### 14.6 Architecture for competitive play
+- **Server-checked.** Competitive questions' answer keys don't ship in the public content bundle. The content build emits a separate key bundle that only Netlify Functions can read.
+- **Functions:**
+  - **create/join game**;
+  - **submit answer:** checked on the server, recording the outcome;
+  - **resolve round:** run when every player has submitted, or by a scheduled function when the round timer expires.
+- **Firestore:**
+  - `games/{gameId}`: mode, map version, scope, players, round and state;
+  - `games/{gameId}/orders/{uid_round}`: each player's orders, written by that player and validated by the resolver;
+  - only functions write game state.
+- **Live updates:** clients follow game documents with real-time listeners.
+- **Netlify credits:** functions use a small amount of compute, well within the free plan's credits (§16.5). No extra production deploys are needed.
+- **Balance tooling:** an offline script runs bot simulations of Frontline maps (§14.2).
+
+---
+
+## 15. UI / UX
+
+### 15.1 Visual identity
 - **Spelling:** all product copy, content (tutorials, questions, solutions, skill names) and code use standard **American** spelling (practice, color, center, factored, modeling). Mathematical notation still follows WACE conventions (§3.2).
 - **Copy is minimal:** labels over sentences, no explanatory filler on screens; show a number or a status rather than describe it.
 - **Clean and academic:** light theme, minimal, plenty of white space. In the spirit of Khan Academy or Brilliant, but the design is original.
 - Rank colors are the main accent: Unranked gray, Bronze, Silver, Gold, Platinum, Diamond.
 - Typography is tuned for math: KaTeX output, and math fields at matching sizes.
 
-### 14.2 Home = the tech tree
+### 15.2 Home = the tech tree
 - After login, the student lands **directly on the course tech tree**. A course switcher sits at the top.
 - **Vertical tech tree** (strategy-game style). The draft preview is at https://claude.ai/artifact/VhcVGyVCy3CTTMBeRBUmth.
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
@@ -709,13 +935,13 @@ A public profile shows:
 - **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Platinum gate 2/3") and question counts.
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
-### 14.3 Skill page
+### 15.3 Skill page
 - Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
 - **Learn** opens the skill's tutorial (§3.2): a clean reading view with glossary hovers and links to prerequisite tutorials. It is offered prominently on a student's first visit to a skill, but never required.
 - **Start practicing** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
 - Entry points to the section quiz, unit quiz and Section Challenge.
 
-### 14.4 Problem screen
+### 15.4 Problem screen
 - **Header:** tier, rating, calculator flag, skill(s).
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Submit**, **Give up**.
@@ -723,20 +949,20 @@ A public profile shows:
 - A small **Tutorial** link opens the skill's tutorial in a side panel (bottom sheet on phones) without leaving the question.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
-### 14.5 Other screens
+### 15.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
 
-### 14.6 Platform and accessibility
+### 15.6 Platform and accessibility
 - Responsive web app, desktop-first but usable on phones and tablets. Stylus input is supported on tablets.
 - Keyboard-navigable; MathLive's accessible math (speech output) enabled; color is never the only rank signal (labels and icons too).
 
 ---
 
-## 15. Architecture
+## 16. Architecture
 
-### 15.1 Stack
+### 16.1 Stack
 | Layer | Choice |
 |---|---|
 | Frontend | **SvelteKit** (TypeScript), static adapter |
@@ -746,13 +972,13 @@ A public profile shows:
 | Auth | Firebase Auth (Google + email) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
-| Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars) |
+| Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
 | Offline tooling | Node/TS scripts + Python (SymPy) for verification |
 
-### 15.2 Client-side logic
+### 16.2 Client-side logic
 Answer checking, θ updates, rank, gate and roll-up computation, question selection and achievement evaluation all run **on the client**. Results are then synced to Firestore. Firestore security rules ensure a user can only write their own documents.
 
-### 15.3 Firestore data model (sketch)
+### 16.3 Firestore data model (sketch)
 ```
 users/{uid}                                              profile, settings, course enrollments
 users/{uid}/courses/{course}                             rolled-up ranks (for the hidden buffer)
@@ -773,7 +999,7 @@ reports/{reportId}                       question id, note, verdict
 
 Leaderboards query `publicProfiles` directly, which is fine at small-group scale.
 
-### 15.4 Repository layout (proposed)
+### 16.4 Repository layout (proposed)
 ```
 apps/web/              SvelteKit app
 packages/engine/       rating, selection, ranks, roll-up, achievements (pure TS, unit-tested)
@@ -788,28 +1014,29 @@ scripts/               ingest-syllabus, generate, verify (SymPy), build-content
 netlify/functions/     mark, report
 ```
 
-### 15.5 Free-tier budget notes
+### 16.5 Free-tier budget notes
 - Firestore Spark: 50k reads / 20k writes per day. That's comfortable for a small group, because content is served from the CDN, not Firestore.
-- Netlify Functions free tier is ample for marking and reports.
+- Netlify free plan: 300 credits a month. Each production deploy costs 15, so merging to `main` is the release step and doc-only changes skip the build (`netlify.toml`). Functions (marking, reports, Phase 3 game rounds) use a small amount of compute credit.
 - Gemini free tier: rate-limited, so the client retry queue absorbs bursts.
 - MyScript: shared monthly quota, with a keyboard fallback when it runs out.
 
 ---
 
-## 16. Phasing
+## 17. Phasing
 
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
 | 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; leaderboards; discussions. **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; first monthly Tier 6 problems |
-| 3: Methods, Applications | New curricula + content; cross-course prerequisites become live links |
-| 4: Chemistry, Physics | Science-specific answer types (see §17) + content |
-| 5: Native apps | Capacitor iOS/Android builds |
+| 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, battle and duel ratings, server-side answer checking for competitive questions (§14) |
+| 4: Methods, Applications | New curricula + content; cross-course prerequisites become live links |
+| 5: Chemistry, Physics | Science-specific answer types (see §18) + content |
+| 6: Native apps | Capacitor iOS/Android builds |
 
 ---
 
-## 17. Open questions, risks and decisions
+## 18. Open questions, risks and decisions
 
 **Resolved**
 - *Drop a tier:* non-destructive selection shift (§5.3, §5.7). Rank loss only happens through the hidden per-rank buffer (§5.4).
@@ -822,7 +1049,12 @@ netlify/functions/     mark, report
 1. **Free-tier fragility:** Gemini and MyScript free tiers can change or vanish. Mitigations are the BYO key and keyboard fallback.
 2. **Same-model appeals:** these can still be swayed by a persuasive wrong argument despite the strict prompt. Monitor appeal outcomes.
 3. **Syllabus changes:** the Methods review may resurface. The versioning infrastructure (§3.1) is built for it.
-4. **Client-side trust:** ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up.
+4. **Client-side trust:** practice ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up. Competitive play (§14) is checked on the server from the start.
+
+**To tune in Phase 3 playtesting**
+- Frontline: round length, troop yields, multipliers, combat losses, streak cap, leader bounty and edge-collapse timing (§14.3, §14.4).
+- Frontline map balance: spawn values, checked by bot simulation, then live win rates (§14.2).
+- Minigame lengths, Race lockout and bonus values (§14.5).
 
 **Owner to specify later**
-- **Science answer types** (before Phase 4): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
+- **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.

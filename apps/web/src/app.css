@@ -1,4 +1,4 @@
-/* Clean, academic (docs/SPEC.md §14.1). Every color is a token; dark mode redefines tokens only. */
+/* Clean, academic (docs/SPEC.md §15.1). Every color is a token; dark mode redefines tokens only. */
 :root {
   --bg: #fafbfc;
   --surface: #ffffff;

@@ -44,7 +44,7 @@ export interface TreeLayout {
 }
 
 /**
- * One map per course (SPEC §14.2): units stacked top to bottom, Year 11 above Year 12.
+ * One map per course (SPEC §15.2): units stacked top to bottom, Year 11 above Year 12.
  * Each unit is a layered graph (dagre) with sections as compound clusters, so skills branch
  * the way their prerequisites do instead of sitting in columns.
  */
