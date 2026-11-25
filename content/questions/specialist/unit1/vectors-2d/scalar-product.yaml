@@ -1,0 +1,490 @@
+# The scalar product: definition, components, angles, parallel and perpendicular tests (1.3.10–1.3.12).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.vectors-2d.scalar-product.components
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1030
+  responseSkills: { calculation: 1030 }
+  variants:
+    - { a1: 3, a2: -2, b1: 4, b2: 5 }
+    - { a1: -1, a2: 6, b1: 2, b2: 3 }
+    - { a1: 5, a2: 2, b1: -3, b2: 7 }
+  stem: |
+    Find $({{a1}}\mathbf{i} + ({{a2}})\mathbf{j}) \cdot ({{b1}}\mathbf{i} + {{b2}}\mathbf{j})$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{a1}}\cdot{{b1}}+({{a2}})\cdot{{b2}}' }
+  solution: |
+    Multiply matching components and add: $({{a1}})({{b1}}) + ({{a2}})({{b2}})$.
+  verify: |
+    def answers(a1, a2, b1, b2):
+        return {"a": Matrix([a1, a2]).dot(Matrix([b1, b2]))}
+
+- id: spec.vectors-2d.scalar-product.self-dot
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1060
+  responseSkills: { calculation: 1060 }
+  variants:
+    - { x: 2, y: -5, v: 29 }
+    - { x: -3, y: 4, v: 25 }
+  stem: |
+    $\mathbf{a} = {{x}}\mathbf{i} + ({{y}})\mathbf{j}$. Find $\mathbf{a}\cdot\mathbf{a}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $\mathbf{a}\cdot\mathbf{a} = ({{x}})^2 + ({{y}})^2 = {{v}}$, which is $|\mathbf{a}|^2$.
+  verify: |
+    def answers(x, y, v):
+        return {"a": x**2 + y**2}
+
+- id: spec.vectors-2d.scalar-product.from-angle
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1080
+  responseSkills: { calculation: 1080 }
+  variants:
+    - { p: 4, q: 5, t: 60, v: 10 }
+    - { p: 6, q: 3, t: 120, v: -9 }
+    - { p: 2, q: 7, t: 90, v: 0 }
+  stem: |
+    $|\mathbf{a}| = {{p}}$, $|\mathbf{b}| = {{q}}$ and the angle between $\mathbf{a}$ and $\mathbf{b}$ is ${{t}}^\circ$. Find $\mathbf{a}\cdot\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $\mathbf{a}\cdot\mathbf{b} = |\mathbf{a}|\,|\mathbf{b}|\cos\theta = {{p}} \times {{q}} \times \cos {{t}}^\circ = {{v}}$.
+  verify: |
+    def answers(p, q, t, v):
+        return {"a": p*q*cos(rad(t))}
+
+- id: spec.vectors-2d.scalar-product.which-perpendicular
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1110
+  responseSkills: { calculation: 1100, reading: 1100 }
+  stem: |
+    Which pair of vectors is perpendicular?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$2\mathbf{i} + 3\mathbf{j}$ and $3\mathbf{i} + 2\mathbf{j}$' }
+        - { id: b, text: '$4\mathbf{i} - \mathbf{j}$ and $\mathbf{i} + 4\mathbf{j}$' }
+        - { id: c, text: '$\mathbf{i} + \mathbf{j}$ and $\mathbf{i} + 2\mathbf{j}$' }
+        - { id: d, text: '$5\mathbf{i} - 2\mathbf{j}$ and $-5\mathbf{i} + 2\mathbf{j}$' }
+      answer: { type: mcq, key: b }
+  solution: |
+    Perpendicular means the dot product is 0. Only $(4)(1) + (-1)(4) = 0$. (Option d is parallel: the second vector is $-1$ times the first.)
+
+- id: spec.vectors-2d.scalar-product.sign
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1150
+  responseSkills: { reading: 1150 }
+  stem: |
+    Non-zero vectors $\mathbf{a}$ and $\mathbf{b}$ have $\mathbf{a}\cdot\mathbf{b} = -6$. What kind of angle is there between them?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Acute' }
+        - { id: b, text: 'Right angle' }
+        - { id: c, text: 'Obtuse' }
+        - { id: d, text: "Can't tell" }
+      answer: { type: mcq, key: c }
+  solution: |
+    $\mathbf{a}\cdot\mathbf{b} = |\mathbf{a}|\,|\mathbf{b}|\cos\theta$ and the magnitudes are positive, so $\cos\theta < 0$. The angle is obtuse.
+
+- id: spec.vectors-2d.scalar-product.perpendicular-simple
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1200
+  responseSkills: { calculation: 1190 }
+  variants:
+    - { p: 2, x: 3, y: -6, k: 4 }
+    - { p: -5, x: 10, y: 4, k: 2 }
+  stem: |
+    Find $k$ so that $k\mathbf{i} + ({{p}})\mathbf{j}$ is perpendicular to ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$.
+  parts:
+    - id: a
+      prompt: $k =$
+      answer: { type: numeric, key: '{{k}}' }
+  solution: |
+    Set the dot product to 0: ${{x}}k + ({{p}})({{y}}) = 0$, so $k = {{k}}$.
+  verify: |
+    def answers(p, x, y, k):
+        kk = symbols("kk")
+        return {"a": solve(x*kk + p*y, kk)[0]}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.vectors-2d.scalar-product.parallel-or-perpendicular
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1260
+  responseSkills: { reading: 1250, calculation: 1220 }
+  variants:
+    - { a1: 6, a2: -4, b1: -9, b2: 6, key: a }
+    - { a1: 6, a2: -4, b1: 2, b2: 3, key: b }
+    - { a1: 6, a2: -4, b1: 3, b2: 4, key: c }
+  stem: |
+    Are ${{a1}}\mathbf{i} + ({{a2}})\mathbf{j}$ and ${{b1}}\mathbf{i} + {{b2}}\mathbf{j}$ parallel, perpendicular or neither?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Parallel' }
+        - { id: b, text: 'Perpendicular' }
+        - { id: c, text: 'Neither' }
+      answer: { type: mcq, key: '{{key}}' }
+  solution: |
+    Parallel if one is a multiple of the other; perpendicular if the dot product, $({{a1}})({{b1}}) + ({{a2}})({{b2}})$, is 0.
+  verify: |
+    def answers(a1, a2, b1, b2, key):
+        a, b = Matrix([a1, a2]), Matrix([b1, b2])
+        if a1*b2 - a2*b1 == 0: k = "a"
+        elif a.dot(b) == 0: k = "b"
+        else: k = "c"
+        return {"a": k}
+
+- id: spec.vectors-2d.scalar-product.angle-1dp
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1280
+  responseSkills: { calculation: 1280 }
+  requiresCalculator: true
+  variants:
+    - { a1: 2, a2: 3, b1: 4, b2: -1, v: 70.3 }
+    - { a1: -1, a2: 4, b1: 3, b2: 1, v: 85.6 }
+  stem: |
+    Find the angle between ${{a1}}\mathbf{i} + {{a2}}\mathbf{j}$ and ${{b1}}\mathbf{i} + ({{b2}})\mathbf{j}$, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Angle (°)
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $\cos\theta = \dfrac{({{a1}})({{b1}}) + ({{a2}})({{b2}})}{\sqrt{ {{a1}}^2 + {{a2}}^2 }\sqrt{ {{b1}}^2 + {{b2}}^2 }}$, so $\theta \approx {{v}}^\circ$.
+  verify: |
+    def answers(a1, a2, b1, b2, v):
+        a, b = Matrix([a1, a2]), Matrix([b1, b2])
+        return {"a": round(float(deg(acos(a.dot(b) / (a.norm()*b.norm())))), 1)}
+
+- id: spec.vectors-2d.scalar-product.angle-exact
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1310
+  responseSkills: { calculation: 1300 }
+  variants:
+    - { a: '\sqrt{3}\mathbf{i} + \mathbf{j}', b: '\sqrt{3}\mathbf{i} - \mathbf{j}', av: '[sqrt(3), 1]', bv: '[sqrt(3), -1]', t: 60 }
+    - { a: '\mathbf{i}', b: '-\mathbf{i} + \sqrt{3}\mathbf{j}', av: '[1, 0]', bv: '[-1, sqrt(3)]', t: 120 }
+    - { a: '2\mathbf{i} + 2\mathbf{j}', b: '-3\mathbf{j}', av: '[2, 2]', bv: '[0, -3]', t: 135 }
+  stem: |
+    Find the exact angle between ${{a}}$ and ${{b}}$, in degrees.
+  parts:
+    - id: a
+      prompt: Angle (°)
+      answer: { type: numeric, key: '{{t}}' }
+  solution: |
+    Use $\cos\theta = \dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|\,|\mathbf{b}|}$, which gives an exact value of cosine, so $\theta = {{t}}^\circ$.
+  verify: |
+    def answers(a, b, av, bv, t):
+        u, v = Matrix(sympify(av)), Matrix(sympify(bv))
+        return {"a": deg(acos(simplify(u.dot(v) / (u.norm()*v.norm()))))}
+
+- id: spec.vectors-2d.scalar-product.unit-perpendicular
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1340
+  responseSkills: { calculation: 1320, reading: 1320 }
+  variants:
+    - { x: 3, y: 4, m: 5, r1: 4, r2: -3 }
+    - { x: 5, y: -12, m: 13, r1: 12, r2: 5 }
+  stem: |
+    Find the unit vector that is perpendicular to ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$ and has a positive $\mathbf{i}$-component.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['\frac{ {{r1}} }{ {{m}} }', '\frac{ {{r2}} }{ {{m}} }'] }
+  solution: |
+    Swapping the components and changing one sign gives the perpendicular vectors $\pm\left(({{y}})\mathbf{i} - {{x}}\mathbf{j}\right)$. Take the one with a positive $\mathbf{i}$-component, ${{r1}}\mathbf{i} + ({{r2}})\mathbf{j}$, and divide by its magnitude, {{m}}.
+  verify: |
+    def answers(x, y, m, r1, r2):
+        p = Matrix([y, -x])
+        if p[0] < 0: p = -p
+        return {"a": list(p / p.norm())}
+
+- id: spec.vectors-2d.scalar-product.expand
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1360
+  responseSkills: { calculation: 1340, reading: 1330 }
+  variants:
+    - { p: 3, q: 2, d: 4 }
+    - { p: 5, q: 1, d: -2 }
+  stem: |
+    $|\mathbf{a}| = {{p}}$, $|\mathbf{b}| = {{q}}$ and $\mathbf{a}\cdot\mathbf{b} = {{d}}$. Find $(\mathbf{a} + 2\mathbf{b})\cdot(\mathbf{a} - \mathbf{b})$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{p}}^2+{{d}}-2\cdot{{q}}^2' }
+  solution: |
+    Expand like brackets: $\mathbf{a}\cdot\mathbf{a} - \mathbf{a}\cdot\mathbf{b} + 2\,\mathbf{b}\cdot\mathbf{a} - 2\,\mathbf{b}\cdot\mathbf{b} = |\mathbf{a}|^2 + \mathbf{a}\cdot\mathbf{b} - 2|\mathbf{b}|^2 = {{p}}^2 + ({{d}}) - 2({{q}})^2$.
+  verify: |
+    def answers(p, q, d):
+        return {"a": p**2 + d - 2*q**2}
+
+- id: spec.vectors-2d.scalar-product.perpendicular-quadratic
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1390
+  responseSkills: { calculation: 1380 }
+  stem: |
+    Find all values of $k$ for which $k\mathbf{i} + 2\mathbf{j}$ and $(k - 1)\mathbf{i} - 6\mathbf{j}$ are perpendicular.
+  parts:
+    - id: a
+      answer: { type: set, key: ['4', '-3'] }
+  solution: |
+    $k(k - 1) - 12 = 0$, so $k^2 - k - 12 = (k - 4)(k + 3) = 0$, and $k = 4$ or $k = -3$.
+  verify: |
+    def answers():
+        k = symbols("k")
+        return {"a": solve(k*(k - 1) - 12, k)}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.vectors-2d.scalar-product.right-angle-corner
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1410
+  responseSkills: { calculation: 1390, reading: 1400 }
+  stem: |
+    $A(2, 1)$, $B(5, 5)$ and $C(-2, 4)$ form a triangle. At which corner, if any, is there a right angle?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$A$' }
+        - { id: b, text: '$B$' }
+        - { id: c, text: '$C$' }
+        - { id: d, text: 'None' }
+      answer: { type: mcq, key: a }
+  solution: |
+    $\overrightarrow{AB} = 3\mathbf{i} + 4\mathbf{j}$ and $\overrightarrow{AC} = -4\mathbf{i} + 3\mathbf{j}$, with dot product $-12 + 12 = 0$. So the angle at $A$ is $90^\circ$.
+  verify: |
+    def answers():
+        A, B, C = Matrix([2, 1]), Matrix([5, 5]), Matrix([-2, 4])
+        corners = {"a": (B - A).dot(C - A), "b": (A - B).dot(C - B), "c": (A - C).dot(B - C)}
+        right = [k for k, v in corners.items() if v == 0]
+        return {"a": right[0] if right else "d"}
+
+- id: spec.vectors-2d.scalar-product.perpendicular-given-length
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1420
+  responseSkills: { calculation: 1400, synthesis: 1400 }
+  stem: |
+    Find the vector $\mathbf{b}$ with $|\mathbf{b}| = \sqrt{40}$ that is perpendicular to $\mathbf{a} = \mathbf{i} + 3\mathbf{j}$ and has a positive $\mathbf{i}$-component.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['6', '-2'] }
+  solution: |
+    $3\mathbf{i} - \mathbf{j}$ is perpendicular to $\mathbf{a}$ (dot product $3 - 3 = 0$) and has magnitude $\sqrt{10}$. Doubling it gives magnitude $2\sqrt{10} = \sqrt{40}$: $\mathbf{b} = 6\mathbf{i} - 2\mathbf{j}$.
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        sols = solve([x + 3*y, x**2 + y**2 - 40], [x, y], dict=True)
+        s = [t for t in sols if t[x] > 0][0]
+        return {"a": [s[x], s[y]]}
+
+- id: spec.vectors-2d.scalar-product.magnitude-combination
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1440
+  responseSkills: { calculation: 1420, reading: 1420 }
+  variants:
+    - { p: 4, q: 5, v: 7 }
+    - { p: 3, q: 8, v: '2\sqrt{13}' }
+  stem: |
+    $|\mathbf{a}| = {{p}}$, $|\mathbf{b}| = {{q}}$ and the angle between them is $120^\circ$. Find the exact value of $|2\mathbf{a} + \mathbf{b}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}', form: [exact] }
+  solution: |
+    $\mathbf{a}\cdot\mathbf{b} = {{p}} \times {{q}} \times \cos 120^\circ$. Then
+    $|2\mathbf{a} + \mathbf{b}|^2 = 4|\mathbf{a}|^2 + 4\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2$, so $|2\mathbf{a} + \mathbf{b}| = {{v}}$.
+  verify: |
+    def answers(p, q, v):
+        d = p*q*cos(2*pi/3)
+        return {"a": sqrt(4*p**2 + 4*d + q**2)}
+
+- id: spec.vectors-2d.scalar-product.triangle-angle
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1450
+  responseSkills: { calculation: 1430, reading: 1420 }
+  requiresCalculator: true
+  stem: |
+    Triangle $ABC$ has corners $A(1, 2)$, $B(4, 6)$ and $C(6, 1)$. Find angle $BAC$, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Angle (°)
+      answer: { type: numeric, key: 64.4 }
+  solution: |
+    Use the two vectors starting at $A$: $\overrightarrow{AB} = 3\mathbf{i} + 4\mathbf{j}$ and $\overrightarrow{AC} = 5\mathbf{i} - \mathbf{j}$.
+    $\cos\angle BAC = \dfrac{15 - 4}{5\sqrt{26}} = \dfrac{11}{5\sqrt{26}}$, so $\angle BAC \approx 64.4^\circ$.
+  verify: |
+    def answers():
+        A, B, C = Matrix([1, 2]), Matrix([4, 6]), Matrix([6, 1])
+        u, v = B - A, C - A
+        return {"a": round(float(deg(acos(u.dot(v) / (u.norm()*v.norm())))), 1)}
+
+- id: spec.vectors-2d.scalar-product.difference-of-squares
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1470
+  responseSkills: { proof: 1460, clarity: 1400 }
+  stem: |
+    Prove that $(\mathbf{a} + \mathbf{b})\cdot(\mathbf{a} - \mathbf{b}) = |\mathbf{a}|^2 - |\mathbf{b}|^2$, and hence that if $|\mathbf{a}| = |\mathbf{b}|$, then $\mathbf{a} + \mathbf{b}$ and $\mathbf{a} - \mathbf{b}$ are perpendicular (when neither is zero).
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: expand, description: "Expands to a·a − a·b + b·a − b·b", points: 1, dimension: proof }
+          - { id: simplify, description: "Uses a·b = b·a and a·a = |a|² to reach |a|² − |b|²", points: 1, dimension: proof }
+          - { id: hence, description: "With |a| = |b| the dot product is 0, so the (non-zero) vectors are perpendicular", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with each step justified", points: 1, dimension: clarity }
+  solution: |
+    $(\mathbf{a} + \mathbf{b})\cdot(\mathbf{a} - \mathbf{b}) = \mathbf{a}\cdot\mathbf{a} - \mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{a} - \mathbf{b}\cdot\mathbf{b} = |\mathbf{a}|^2 - |\mathbf{b}|^2$, since $\mathbf{a}\cdot\mathbf{b} = \mathbf{b}\cdot\mathbf{a}$.
+    If $|\mathbf{a}| = |\mathbf{b}|$, this is 0. Two non-zero vectors with a dot product of 0 are perpendicular.
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.vectors-2d.scalar-product.given-dot-and-length
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1560
+  responseSkills: { calculation: 1540, synthesis: 1520 }
+  stem: |
+    $\mathbf{a} = 2\mathbf{i} + \mathbf{j}$. The vector $\mathbf{b}$ has $|\mathbf{b}| = 5$ and $\mathbf{a}\cdot\mathbf{b} = 5$. If $\mathbf{b}$ has a negative $\mathbf{j}$-component, find $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['4', '-3'] }
+  solution: |
+    Let $\mathbf{b} = x\mathbf{i} + y\mathbf{j}$. Then $2x + y = 5$ and $x^2 + y^2 = 25$. Substituting $y = 5 - 2x$: $5x^2 - 20x = 0$, so $x = 0$ or $x = 4$, giving $\mathbf{b} = 5\mathbf{j}$ or $4\mathbf{i} - 3\mathbf{j}$. Only the second has a negative $\mathbf{j}$-component.
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        sols = solve([2*x + y - 5, x**2 + y**2 - 25], [x, y], dict=True)
+        s = [t for t in sols if t[y] < 0][0]
+        return {"a": [s[x], s[y]]}
+
+- id: spec.vectors-2d.scalar-product.difference-from-sum
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1590
+  responseSkills: { calculation: 1560, synthesis: 1570 }
+  stem: |
+    $|\mathbf{a}| = 3$, $|\mathbf{b}| = 5$ and $|2\mathbf{a} + \mathbf{b}| = 7$. Find the exact value of $|\mathbf{a} - \mathbf{b}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '2\sqrt{10}', form: [exact] }
+  solution: |
+    $|2\mathbf{a} + \mathbf{b}|^2 = 4|\mathbf{a}|^2 + 4\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2$, so $49 = 36 + 4\,\mathbf{a}\cdot\mathbf{b} + 25$ and $\mathbf{a}\cdot\mathbf{b} = -3$.
+    Then $|\mathbf{a} - \mathbf{b}|^2 = 9 - 2(-3) + 25 = 40$, so $|\mathbf{a} - \mathbf{b}| = 2\sqrt{10}$.
+  verify: |
+    def answers():
+        d = symbols("d")
+        dv = solve(4*9 + 4*d + 25 - 49, d)[0]
+        return {"a": sqrt(9 - 2*dv + 25)}
+
+- id: spec.vectors-2d.scalar-product.angle-45-check
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1610
+  responseSkills: { calculation: 1580, synthesis: 1600 }
+  stem: |
+    Find all values of $k$ for which the angle between $k\mathbf{i} + \mathbf{j}$ and $\mathbf{i} + \mathbf{j}$ is $45^\circ$.
+  parts:
+    - id: a
+      prompt: $k =$
+      answer: { type: numeric, key: 0 }
+  solution: |
+    $\cos 45^\circ = \dfrac{k + 1}{\sqrt{k^2 + 1}\,\sqrt{2}}$, so $\dfrac{k + 1}{\sqrt{k^2 + 1}} = 1$. This needs $k + 1 > 0$. Squaring: $k^2 + 2k + 1 = k^2 + 1$, so $k = 0$, which satisfies $k + 1 > 0$. The only value is $k = 0$.
+  verify: |
+    def answers():
+        k = symbols("k", real=True)
+        sols = [s for s in solve((k + 1)**2 - (k**2 + 1), k) if s + 1 > 0]
+        return {"a": sols[0]}
+
+- id: spec.vectors-2d.scalar-product.perpendicular-combination
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1630
+  responseSkills: { synthesis: 1620, calculation: 1580 }
+  stem: |
+    $\mathbf{a}$ and $\mathbf{b}$ are non-zero vectors with $|\mathbf{a}| = |\mathbf{b}|$, and $\mathbf{a} + 2\mathbf{b}$ is perpendicular to $5\mathbf{a} - 4\mathbf{b}$. Find the angle between $\mathbf{a}$ and $\mathbf{b}$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 60 }
+  solution: |
+    Let $|\mathbf{a}| = |\mathbf{b}| = r$. Then $(\mathbf{a} + 2\mathbf{b})\cdot(5\mathbf{a} - 4\mathbf{b}) = 5r^2 + 6\,\mathbf{a}\cdot\mathbf{b} - 8r^2 = 0$, so $\mathbf{a}\cdot\mathbf{b} = \tfrac{1}{2}r^2$.
+    Then $\cos\theta = \dfrac{\tfrac{1}{2}r^2}{r^2} = \tfrac{1}{2}$, so $\theta = 60^\circ$.
+  verify: |
+    def answers():
+        c = symbols("c")
+        cv = solve(5 + 6*c - 8, c)[0]  # with r = 1, a·b = cos θ
+        return {"a": deg(acos(cv))}
+
+- id: spec.vectors-2d.scalar-product.cosine-rule-proof
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1650
+  responseSkills: { proof: 1650, clarity: 1550 }
+  stem: |
+    In triangle $ABC$, let $\mathbf{b} = \overrightarrow{AC}$ and $\mathbf{c} = \overrightarrow{AB}$, and let $A$ also stand for the angle at corner $A$. Use the scalar product to prove the cosine rule, $|BC|^2 = |\mathbf{b}|^2 + |\mathbf{c}|^2 - 2|\mathbf{b}|\,|\mathbf{c}|\cos A$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: bc, description: "Writes BC = b − c", points: 1, dimension: proof }
+          - { id: square, description: "|BC|² = (b − c)·(b − c), expanded to |b|² − 2b·c + |c|²", points: 2, dimension: proof }
+          - { id: angle, description: "Uses b·c = |b||c|cos A, since A is the angle between b and c drawn from A", points: 1, dimension: proof }
+          - { id: clear, description: "Clear, complete and correctly concluded", points: 1, dimension: clarity }
+  solution: |
+    $\overrightarrow{BC} = \overrightarrow{AC} - \overrightarrow{AB} = \mathbf{b} - \mathbf{c}$. So
+    $|BC|^2 = (\mathbf{b} - \mathbf{c})\cdot(\mathbf{b} - \mathbf{c}) = |\mathbf{b}|^2 - 2\,\mathbf{b}\cdot\mathbf{c} + |\mathbf{c}|^2$.
+    $\mathbf{b}$ and $\mathbf{c}$ both start at $A$, so the angle between them is $A$, and $\mathbf{b}\cdot\mathbf{c} = |\mathbf{b}|\,|\mathbf{c}|\cos A$. Substituting gives the cosine rule.
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.vectors-2d.scalar-product.angle-60-quadratic
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1700
+  responseSkills: { calculation: 1680, synthesis: 1680 }
+  stem: |
+    Find the exact values of $k$ for which the angle between $k\mathbf{i} + \mathbf{j}$ and $\mathbf{i} + k\mathbf{j}$ is $60^\circ$.
+  parts:
+    - id: a
+      answer: { type: set, key: ['2+\sqrt{3}', '2-\sqrt{3}'], form: [exact] }
+  solution: |
+    Both vectors have magnitude $\sqrt{k^2 + 1}$, and their dot product is $2k$. So $\dfrac{2k}{k^2 + 1} = \cos 60^\circ = \tfrac{1}{2}$, giving $k^2 - 4k + 1 = 0$ and $k = 2 \pm \sqrt{3}$.
+    Both values are positive, so $\cos\theta > 0$ as needed, and both work.
+  verify: |
+    def answers():
+        k = symbols("k", real=True)
+        return {"a": [s for s in solve(2*k/(k**2 + 1) - Rational(1, 2), k)]}
+
+- id: spec.vectors-2d.scalar-product.minimize
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1720
+  responseSkills: { synthesis: 1710, calculation: 1660 }
+  stem: |
+    $\mathbf{a}$ and $\mathbf{b}$ are unit vectors with an angle of $60^\circ$ between them. Find the real number $t$ that makes $|\mathbf{a} + t\mathbf{b}|$ as small as possible, and the exact smallest value.
+  parts:
+    - id: a
+      prompt: $t =$
+      answer: { type: numeric, key: '-\frac{1}{2}' }
+    - id: b
+      prompt: Smallest value
+      answer: { type: numeric, key: '\frac{\sqrt{3}}{2}', form: [exact] }
+  solution: |
+    $\mathbf{a}\cdot\mathbf{b} = \cos 60^\circ = \tfrac{1}{2}$, so $|\mathbf{a} + t\mathbf{b}|^2 = 1 + 2t\left(\tfrac{1}{2}\right) + t^2 = t^2 + t + 1 = \left(t + \tfrac{1}{2}\right)^2 + \tfrac{3}{4}$.
+    This is smallest when $t = -\tfrac{1}{2}$, with value $\sqrt{\tfrac{3}{4}} = \tfrac{\sqrt{3}}{2}$.
+  verify: |
+    def answers():
+        t = symbols("t", real=True)
+        f = 1 + t + t**2
+        t0 = solve(diff(f, t), t)[0]
+        return {"a": t0, "b": sqrt(f.subs(t, t0))}
+
+- id: spec.vectors-2d.scalar-product.closed-triangle
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1750
+  responseSkills: { synthesis: 1750, calculation: 1680 }
+  stem: |
+    Vectors $\mathbf{a}$, $\mathbf{b}$ and $\mathbf{c}$ satisfy $\mathbf{a} + \mathbf{b} + \mathbf{c} = \mathbf{0}$, with $|\mathbf{a}| = 3$, $|\mathbf{b}| = 5$ and $|\mathbf{c}| = 7$.
+  parts:
+    - id: a
+      prompt: Find $\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{a}$.
+      answer: { type: numeric, key: '-\frac{83}{2}' }
+    - id: b
+      prompt: Find the angle between $\mathbf{a}$ and $\mathbf{b}$, in degrees.
+      answer: { type: numeric, key: 60 }
+  solution: |
+    Dot $\mathbf{a} + \mathbf{b} + \mathbf{c}$ with itself: $0 = |\mathbf{a}|^2 + |\mathbf{b}|^2 + |\mathbf{c}|^2 + 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{a})$. So the sum is $-\tfrac{9 + 25 + 49}{2} = -\tfrac{83}{2}$.
+    For the angle, $\mathbf{c} = -(\mathbf{a} + \mathbf{b})$, so $49 = 9 + 2\,\mathbf{a}\cdot\mathbf{b} + 25$ and $\mathbf{a}\cdot\mathbf{b} = \tfrac{15}{2}$. Then $\cos\theta = \dfrac{15/2}{3 \times 5} = \tfrac{1}{2}$, so $\theta = 60^\circ$.
+  verify: |
+    def answers():
+        d = solve(9 + 2*symbols("d") + 25 - 49, symbols("d"))[0]
+        return {"a": -Rational(9 + 25 + 49, 2), "b": deg(acos(d / 15))}

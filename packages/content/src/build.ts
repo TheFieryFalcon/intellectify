@@ -161,11 +161,15 @@ export function buildContent(contentDir: string): BuildResult {
         for (const s of [q.skills.primary, ...q.skills.secondary]) if (!skillUnit.has(s)) errors.push(`${where}: unknown skill ${s}`);
         for (const r of Object.keys(q.responseSkills)) if (!rsIds.has(r)) errors.push(`${where}: unknown response skill ${r}`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
-        for (const p of q.parts) {
-          if (p.answer && p.options && (p.answer.type === "mcq" || p.answer.type === "multi-select")) {
-            const ids = new Set(p.options.map((o) => o.id));
-            const keys = Array.isArray(p.answer.key) ? p.answer.key : [p.answer.key];
-            for (const k of keys) if (!ids.has(k)) errors.push(`${where} part ${p.id}: answer ${k} isn't one of the options`);
+        // MCQ keys may be templated ({{key}}), so check them once per filled variant.
+        for (const params of q.variants ?? [{}]) {
+          const filled = q.variants ? fillTemplate(q, params) : q;
+          for (const p of filled.parts) {
+            if (p.answer && p.options && (p.answer.type === "mcq" || p.answer.type === "multi-select")) {
+              const ids = new Set(p.options.map((o) => o.id));
+              const keys = Array.isArray(p.answer.key) ? p.answer.key : [p.answer.key];
+              for (const k of keys) if (!ids.has(k)) errors.push(`${where} part ${p.id}: answer ${k} isn't one of the options`);
+            }
           }
         }
         // Self-check: every answer key must be accepted by its own checker, for every variant.

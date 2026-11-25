@@ -1,0 +1,446 @@
+# Projections: scalar and vector projections, perpendicular parts (1.3.13).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.vectors-2d.projection.onto-j
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1060
+  responseSkills: { reading: 1060 }
+  variants:
+    - { x: 7, y: -2 }
+    - { x: -4, y: 9 }
+  stem: |
+    Find the scalar projection of ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$ onto $\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{y}}' }
+  solution: |
+    $\mathbf{j}$ is already a unit vector, so the scalar projection is $({{x}}\mathbf{i} + ({{y}})\mathbf{j})\cdot\mathbf{j} = {{y}}$: the $\mathbf{j}$-component.
+  verify: |
+    def answers(x, y):
+        return {"a": Matrix([x, y]).dot(Matrix([0, 1]))}
+
+- id: spec.vectors-2d.projection.onto-i
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1080
+  responseSkills: { reading: 1080 }
+  variants:
+    - { x: 5, y: -3 }
+    - { x: -6, y: 2 }
+  stem: |
+    Find the vector projection of ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$ onto $\mathbf{i}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{x}}', '0'] }
+  solution: |
+    The shadow on the $x$-axis keeps only the $\mathbf{i}$-component: ${{x}}\mathbf{i}$.
+  verify: |
+    def answers(x, y):
+        a, b = Matrix([x, y]), Matrix([1, 0])
+        return {"a": list(a.dot(b) / b.dot(b) * b)}
+
+- id: spec.vectors-2d.projection.which-formula
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1120
+  responseSkills: { reading: 1120 }
+  stem: |
+    Which expression is the vector projection of $\mathbf{a}$ onto $\mathbf{b}$?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|}$' }
+        - { id: b, text: '$\left(\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|^2}\right)\mathbf{a}$' }
+        - { id: c, text: '$\left(\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2}\right)\mathbf{b}$' }
+        - { id: d, text: '$\left(\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2}\right)\mathbf{a}$' }
+      answer: { type: mcq, key: c }
+  solution: |
+    The projection onto $\mathbf{b}$ lies along $\mathbf{b}$, so it is a multiple of $\mathbf{b}$: $\left(\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2}\right)\mathbf{b}$. Option a is the scalar projection, a number.
+
+- id: spec.vectors-2d.projection.from-angle
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1150
+  responseSkills: { calculation: 1140 }
+  variants:
+    - { m: 10, t: 60, v: 5 }
+    - { m: 8, t: 120, v: -4 }
+    - { m: 6, t: 90, v: 0 }
+  stem: |
+    $|\mathbf{a}| = {{m}}$ and the angle between $\mathbf{a}$ and $\mathbf{b}$ is ${{t}}^\circ$. Find the scalar projection of $\mathbf{a}$ onto $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Scalar projection $= |\mathbf{a}|\cos\theta = {{m}}\cos {{t}}^\circ = {{v}}$.
+  verify: |
+    def answers(m, t, v):
+        return {"a": m*cos(rad(t))}
+
+- id: spec.vectors-2d.projection.scalar-basic
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1180
+  responseSkills: { calculation: 1170 }
+  variants:
+    - { a1: 5, a2: 2, b1: 3, b2: 4 }
+    - { a1: 1, a2: 7, b1: 12, b2: 5 }
+  stem: |
+    Find the scalar projection of ${{a1}}\mathbf{i} + {{a2}}\mathbf{j}$ onto ${{b1}}\mathbf{i} + {{b2}}\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\frac{ {{a1}}\cdot({{b1}})+{{a2}}\cdot{{b2}} }{\sqrt{ ({{b1}})^2+({{b2}})^2 }}' }
+  solution: |
+    $\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|} = \dfrac{({{a1}})({{b1}}) + ({{a2}})({{b2}})}{\sqrt{ ({{b1}})^2 + ({{b2}})^2 }}$.
+  verify: |
+    def answers(a1, a2, b1, b2):
+        a, b = Matrix([a1, a2]), Matrix([b1, b2])
+        return {"a": a.dot(b) / b.norm()}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.vectors-2d.projection.scalar-negative
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1270
+  responseSkills: { calculation: 1260 }
+  stem: |
+    Find the scalar projection of $\mathbf{i} - 3\mathbf{j}$ onto $4\mathbf{i} + 3\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: -1 }
+  solution: |
+    $\dfrac{(1)(4) + (-3)(3)}{5} = \dfrac{-5}{5} = -1$. It is negative because the angle between the vectors is obtuse.
+  verify: |
+    def answers():
+        a, b = Matrix([1, -3]), Matrix([4, 3])
+        return {"a": a.dot(b) / b.norm()}
+
+- id: spec.vectors-2d.projection.vector-basic
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1290
+  responseSkills: { calculation: 1280 }
+  variants:
+    - { a1: 2, a2: 5, b1: 1, b2: 1 }
+    - { a1: 3, a2: -1, b1: 2, b2: 1 }
+    - { a1: 1, a2: 6, b1: -3, b2: 4 }
+  stem: |
+    Find the vector projection of ${{a1}}\mathbf{i} + ({{a2}})\mathbf{j}$ onto ${{b1}}\mathbf{i} + {{b2}}\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['\frac{ {{a1}}\cdot({{b1}})+({{a2}})\cdot{{b2}} }{ ({{b1}})^2+({{b2}})^2 }\cdot({{b1}})', '\frac{ {{a1}}\cdot({{b1}})+({{a2}})\cdot{{b2}} }{ ({{b1}})^2+({{b2}})^2 }\cdot{{b2}}'] }
+  solution: |
+    $\left(\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2}\right)\mathbf{b}$, with $\mathbf{a}\cdot\mathbf{b} = ({{a1}})({{b1}}) + ({{a2}})({{b2}})$ and $|\mathbf{b}|^2 = ({{b1}})^2 + ({{b2}})^2$.
+  verify: |
+    def answers(a1, a2, b1, b2):
+        a, b = Matrix([a1, a2]), Matrix([b1, b2])
+        return {"a": list(a.dot(b) / b.dot(b) * b)}
+
+- id: spec.vectors-2d.projection.both-ways
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1320
+  responseSkills: { calculation: 1300, reading: 1310 }
+  stem: |
+    $\mathbf{a} = 3\mathbf{i} + 4\mathbf{j}$ and $\mathbf{b} = 6\mathbf{i} - 8\mathbf{j}$. Find:
+  parts:
+    - id: a
+      prompt: the scalar projection of $\mathbf{a}$ onto $\mathbf{b}$
+      answer: { type: numeric, key: -1.4 }
+    - id: b
+      prompt: the scalar projection of $\mathbf{b}$ onto $\mathbf{a}$
+      answer: { type: numeric, key: -2.8 }
+  solution: |
+    $\mathbf{a}\cdot\mathbf{b} = 18 - 32 = -14$, $|\mathbf{a}| = 5$ and $|\mathbf{b}| = 10$.
+    Onto $\mathbf{b}$: divide by $|\mathbf{b}|$, giving $-1.4$. Onto $\mathbf{a}$: divide by $|\mathbf{a}|$, giving $-2.8$.
+  verify: |
+    def answers():
+        a, b = Matrix([3, 4]), Matrix([6, -8])
+        return {"a": a.dot(b) / b.norm(), "b": a.dot(b) / a.norm()}
+
+- id: spec.vectors-2d.projection.perpendicular-part
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1360
+  responseSkills: { calculation: 1340, reading: 1340 }
+  variants:
+    - { a1: 5, a2: 1, b1: 1, b2: 1 }
+    - { a1: 1, a2: 8, b1: 2, b2: 1 }
+  stem: |
+    $\mathbf{a} = {{a1}}\mathbf{i} + {{a2}}\mathbf{j}$ and $\mathbf{b} = {{b1}}\mathbf{i} + {{b2}}\mathbf{j}$. Write $\mathbf{a}$ as the sum of a vector parallel to $\mathbf{b}$ and a vector perpendicular to $\mathbf{b}$.
+  parts:
+    - id: par
+      prompt: Parallel part
+      answer: { type: vector, key: ['\frac{ {{a1}}\cdot({{b1}})+{{a2}}\cdot{{b2}} }{ ({{b1}})^2+({{b2}})^2 }\cdot({{b1}})', '\frac{ {{a1}}\cdot({{b1}})+{{a2}}\cdot{{b2}} }{ ({{b1}})^2+({{b2}})^2 }\cdot{{b2}}'] }
+    - id: perp
+      prompt: Perpendicular part
+      answer: { type: vector, key: ['{{a1}}-\frac{ {{a1}}\cdot({{b1}})+{{a2}}\cdot{{b2}} }{ ({{b1}})^2+({{b2}})^2 }\cdot({{b1}})', '{{a2}}-\frac{ {{a1}}\cdot({{b1}})+{{a2}}\cdot{{b2}} }{ ({{b1}})^2+({{b2}})^2 }\cdot{{b2}}'] }
+  solution: |
+    The parallel part is the vector projection of $\mathbf{a}$ onto $\mathbf{b}$. The perpendicular part is $\mathbf{a}$ minus that; check that its dot product with $\mathbf{b}$ is 0.
+  verify: |
+    def answers(a1, a2, b1, b2):
+        a, b = Matrix([a1, a2]), Matrix([b1, b2])
+        p = a.dot(b) / b.dot(b) * b
+        assert (a - p).dot(b) == 0
+        return {"par": list(p), "perp": list(a - p)}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.vectors-2d.projection.unknown-component
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1410
+  responseSkills: { calculation: 1400, reading: 1390 }
+  variants:
+    - { s: 4, k: 4 }
+    - { s: -2, k: -6 }
+  stem: |
+    The scalar projection of $k\mathbf{i} + 2\mathbf{j}$ onto $3\mathbf{i} + 4\mathbf{j}$ is ${{s}}$. Find $k$.
+  parts:
+    - id: a
+      prompt: $k =$
+      answer: { type: numeric, key: '{{k}}' }
+  solution: |
+    $\dfrac{3k + 8}{5} = {{s}}$, so $3k = 5({{s}}) - 8$ and $k = {{k}}$.
+  verify: |
+    def answers(s, k):
+        kk = symbols("kk")
+        return {"a": solve((3*kk + 8)/5 - s, kk)[0]}
+
+- id: spec.vectors-2d.projection.distance-to-line-origin
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1430
+  responseSkills: { calculation: 1410, synthesis: 1400 }
+  stem: |
+    Find the exact shortest distance from the point $P(5, 5)$ to the line through the origin in the direction of $2\mathbf{i} + \mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\sqrt{5}', form: [exact] }
+  solution: |
+    $\mathbf{p} = 5\mathbf{i} + 5\mathbf{j}$. Its vector projection onto $2\mathbf{i} + \mathbf{j}$ is $\tfrac{15}{5}(2\mathbf{i} + \mathbf{j}) = 6\mathbf{i} + 3\mathbf{j}$.
+    The perpendicular part is $\mathbf{p} - (6\mathbf{i} + 3\mathbf{j}) = -\mathbf{i} + 2\mathbf{j}$, with length $\sqrt{5}$.
+  verify: |
+    def answers():
+        p, b = Matrix([5, 5]), Matrix([2, 1])
+        return {"a": (p - p.dot(b) / b.dot(b) * b).norm()}
+
+- id: spec.vectors-2d.projection.ramp-force
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1460
+  responseSkills: { calculation: 1440, reading: 1430 }
+  stem: |
+    A force $\mathbf{F} = 10\mathbf{i} + 5\mathbf{j}$ N acts on a box on a ramp. The ramp slopes upward in the direction $4\mathbf{i} + 3\mathbf{j}$. Find:
+  parts:
+    - id: a
+      prompt: the part of $\mathbf{F}$ acting along the ramp (N)
+      answer: { type: numeric, key: 11 }
+    - id: b
+      prompt: the magnitude of the part of $\mathbf{F}$ at right angles to the ramp (N)
+      answer: { type: numeric, key: 2 }
+  solution: |
+    Along the ramp: the scalar projection, $\dfrac{40 + 15}{5} = 11$ N.
+    The two parts are at right angles and combine to $\mathbf{F}$, so by Pythagoras the other part has magnitude $\sqrt{|\mathbf{F}|^2 - 11^2} = \sqrt{125 - 121} = 2$ N.
+  verify: |
+    def answers():
+        F, d = Matrix([10, 5]), Matrix([4, 3])
+        s = F.dot(d) / d.norm()
+        return {"a": s, "b": (F - F.dot(d) / d.dot(d) * d).norm()}
+
+- id: spec.vectors-2d.projection.foot-of-perpendicular
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1490
+  responseSkills: { calculation: 1460, synthesis: 1460 }
+  stem: |
+    A line passes through $A(1, 1)$ in the direction $\mathbf{i} + \mathbf{j}$. Find the position vector of the point $F$ on the line closest to $P(4, 7)$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['5.5', '5.5'] }
+  solution: |
+    $\overrightarrow{AP} = 3\mathbf{i} + 6\mathbf{j}$. Its vector projection onto $\mathbf{i} + \mathbf{j}$ is $\tfrac{9}{2}(\mathbf{i} + \mathbf{j})$, which is $\overrightarrow{AF}$.
+    So $\overrightarrow{OF} = (\mathbf{i} + \mathbf{j}) + 4.5\mathbf{i} + 4.5\mathbf{j} = 5.5\mathbf{i} + 5.5\mathbf{j}$.
+  verify: |
+    def answers():
+        A, P, d = Matrix([1, 1]), Matrix([4, 7]), Matrix([1, 1])
+        F = A + (P - A).dot(d) / d.dot(d) * d
+        assert (P - F).dot(d) == 0
+        return {"a": list(F)}
+
+- id: spec.vectors-2d.projection.distance-to-line-two-points
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1520
+  responseSkills: { calculation: 1490, synthesis: 1490 }
+  stem: |
+    Find the shortest distance from $P(2, 6)$ to the line through $A(0, 1)$ and $B(4, 4)$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2.8 }
+  solution: |
+    $\overrightarrow{AB} = 4\mathbf{i} + 3\mathbf{j}$ and $\overrightarrow{AP} = 2\mathbf{i} + 5\mathbf{j}$. The scalar projection of $\overrightarrow{AP}$ onto $\overrightarrow{AB}$ is $\tfrac{8 + 15}{5} = \tfrac{23}{5}$.
+    By Pythagoras, the distance is $\sqrt{|\overrightarrow{AP}|^2 - \left(\tfrac{23}{5}\right)^2} = \sqrt{29 - \tfrac{529}{25}} = \sqrt{\tfrac{196}{25}} = \tfrac{14}{5} = 2.8$.
+  verify: |
+    def answers():
+        A, B, P = Matrix([0, 1]), Matrix([4, 4]), Matrix([2, 6])
+        d, ap = B - A, P - A
+        return {"a": (ap - ap.dot(d) / d.dot(d) * d).norm()}
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.vectors-2d.projection.two-projections
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1580
+  responseSkills: { synthesis: 1570, calculation: 1530 }
+  requiresCalculator: true
+  stem: |
+    The scalar projection of $\mathbf{a}$ onto $\mathbf{b}$ is 3, and the scalar projection of $\mathbf{b}$ onto $\mathbf{a}$ is 6. Also, $|\mathbf{a}| = 4$.
+  parts:
+    - id: a
+      prompt: Find $|\mathbf{b}|$.
+      answer: { type: numeric, key: 8 }
+    - id: b
+      prompt: Find the angle between $\mathbf{a}$ and $\mathbf{b}$, correct to one decimal place (°).
+      answer: { type: numeric, key: 41.4 }
+  solution: |
+    $\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|} = 6$, so $\mathbf{a}\cdot\mathbf{b} = 24$. Then $\dfrac{24}{|\mathbf{b}|} = 3$, so $|\mathbf{b}| = 8$.
+    $\cos\theta = \dfrac{24}{4 \times 8} = \tfrac{3}{4}$, so $\theta \approx 41.4^\circ$.
+  verify: |
+    def answers():
+        d = 6 * 4
+        nb = d / 3
+        return {"a": nb, "b": round(float(deg(acos(Rational(d, 4) / nb))), 1)}
+
+- id: spec.vectors-2d.projection.from-projection-and-length
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1600
+  responseSkills: { synthesis: 1590, calculation: 1540 }
+  stem: |
+    The vector projection of $\mathbf{a}$ onto $\mathbf{i} + \mathbf{j}$ is $3\mathbf{i} + 3\mathbf{j}$, and $|\mathbf{a}| = \sqrt{26}$. If the $\mathbf{i}$-component of $\mathbf{a}$ is larger than its $\mathbf{j}$-component, find $\mathbf{a}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['5', '1'] }
+  solution: |
+    $\mathbf{a}$ is its projection plus a part perpendicular to $\mathbf{i} + \mathbf{j}$, which is a multiple of $\mathbf{i} - \mathbf{j}$: $\mathbf{a} = (3 + t)\mathbf{i} + (3 - t)\mathbf{j}$.
+    $|\mathbf{a}|^2 = 18 + 2t^2 = 26$, so $t = \pm 2$. The $\mathbf{i}$-component is larger when $t = 2$: $\mathbf{a} = 5\mathbf{i} + \mathbf{j}$.
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        b = Matrix([1, 1])
+        sols = solve([(x + y) / 2 - 3, x**2 + y**2 - 26], [x, y], dict=True)
+        s = [t for t in sols if t[x] > t[y]][0]
+        a = Matrix([s[x], s[y]])
+        assert a.dot(b) / b.dot(b) * b == Matrix([3, 3])
+        return {"a": list(a)}
+
+- id: spec.vectors-2d.projection.triangle-area
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1620
+  responseSkills: { synthesis: 1610, calculation: 1560 }
+  stem: |
+    Use projections to find the area of the triangle with corners $O(0, 0)$, $A(4, 1)$ and $B(1, 3)$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 5.5 }
+  solution: |
+    Take $OA$ as the base, with length $\sqrt{17}$. The height is the length of the part of $\overrightarrow{OB}$ perpendicular to $\overrightarrow{OA}$.
+    Vector projection of $\overrightarrow{OB}$ onto $\overrightarrow{OA}$: $\tfrac{7}{17}(4\mathbf{i} + \mathbf{j})$. Perpendicular part: $\left(1 - \tfrac{28}{17}\right)\mathbf{i} + \left(3 - \tfrac{7}{17}\right)\mathbf{j} = \tfrac{11}{17}(-\mathbf{i} + 4\mathbf{j})$, with length $\tfrac{11}{\sqrt{17}}$.
+    Area $= \tfrac{1}{2} \times \sqrt{17} \times \tfrac{11}{\sqrt{17}} = 5.5$.
+  verify: |
+    def answers():
+        A, B = Matrix([4, 1]), Matrix([1, 3])
+        h = (B - B.dot(A) / A.dot(A) * A).norm()
+        area = A.norm() * h / 2
+        assert simplify(area - abs(A[0]*B[1] - A[1]*B[0]) / 2) == 0
+        return {"a": simplify(area)}
+
+- id: spec.vectors-2d.projection.altitude
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1660
+  responseSkills: { synthesis: 1640, calculation: 1600 }
+  stem: |
+    Triangle $ABC$ has $A(0, 0)$, $B(5, 0)$ and $C(1, 4)$. $D$ is the point on $BC$ for which $AD$ is perpendicular to $BC$.
+  parts:
+    - id: a
+      prompt: Find the position vector of $D$.
+      answer: { type: vector, key: ['2.5', '2.5'] }
+    - id: b
+      prompt: Hence find the area of the triangle.
+      answer: { type: numeric, key: 10 }
+  solution: |
+    $\overrightarrow{BC} = -4\mathbf{i} + 4\mathbf{j}$ and $\overrightarrow{BA} = -5\mathbf{i}$. The vector projection of $\overrightarrow{BA}$ onto $\overrightarrow{BC}$ is $\tfrac{20}{32}(-4\mathbf{i} + 4\mathbf{j}) = -2.5\mathbf{i} + 2.5\mathbf{j}$, which is $\overrightarrow{BD}$.
+    So $\overrightarrow{OD} = 5\mathbf{i} + (-2.5\mathbf{i} + 2.5\mathbf{j}) = 2.5\mathbf{i} + 2.5\mathbf{j}$.
+    Area $= \tfrac{1}{2}|BC|\,|AD| = \tfrac{1}{2}(4\sqrt{2})(2.5\sqrt{2}) = 10$.
+  verify: |
+    def answers():
+        A, B, C = Matrix([0, 0]), Matrix([5, 0]), Matrix([1, 4])
+        d = C - B
+        D = B + (A - B).dot(d) / d.dot(d) * d
+        assert (D - A).dot(d) == 0
+        return {"a": list(D), "b": d.norm() * (D - A).norm() / 2}
+
+- id: spec.vectors-2d.projection.reflection
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1690
+  responseSkills: { synthesis: 1690, calculation: 1620 }
+  stem: |
+    A line passes through the origin in the direction $2\mathbf{i} + \mathbf{j}$. Find the position vector of the mirror image of $P(5, 1)$ in the line (the point the same distance from the line, directly opposite $P$ on the other side).
+  parts:
+    - id: a
+      answer: { type: vector, key: ['3.8', '3.4'] }
+  solution: |
+    The vector projection of $\mathbf{p} = 5\mathbf{i} + \mathbf{j}$ onto $2\mathbf{i} + \mathbf{j}$ is $\tfrac{11}{5}(2\mathbf{i} + \mathbf{j})$: the point $F$ on the line closest to $P$.
+    The image is as far beyond $F$ as $P$ is before it, so it is $2\overrightarrow{OF} - \mathbf{p} = \left(\tfrac{44}{5} - 5\right)\mathbf{i} + \left(\tfrac{22}{5} - 1\right)\mathbf{j} = 3.8\mathbf{i} + 3.4\mathbf{j}$.
+  verify: |
+    def answers():
+        p, d = Matrix([5, 1]), Matrix([2, 1])
+        F = p.dot(d) / d.dot(d) * d
+        Q = 2*F - p
+        assert Q.norm() == p.norm()
+        return {"a": list(Q)}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.vectors-2d.projection.reverse-projection
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1710
+  responseSkills: { synthesis: 1710, reading: 1650 }
+  stem: |
+    $|\mathbf{a}| = 2$ and $|\mathbf{b}| = 3$. The vector projection of $\mathbf{a}$ onto $\mathbf{b}$ is $\tfrac{1}{3}\mathbf{b}$. Find the vector projection of $\mathbf{b}$ onto $\mathbf{a}$, in terms of $\mathbf{a}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{3}{4}a', vars: { a: {} } }
+  solution: |
+    $\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2} = \tfrac{1}{3}$, so $\mathbf{a}\cdot\mathbf{b} = \tfrac{1}{3} \times 9 = 3$.
+    The vector projection of $\mathbf{b}$ onto $\mathbf{a}$ is $\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}|^2}\,\mathbf{a} = \tfrac{3}{4}\mathbf{a}$.
+  verify: |
+    def answers():
+        a = symbols("a")
+        d = Rational(1, 3) * 3**2
+        return {"a": d / 2**2 * a}
+
+- id: spec.vectors-2d.projection.closest-to-origin
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1730
+  responseSkills: { synthesis: 1720, calculation: 1680 }
+  stem: |
+    Find the position vector of the point on the line through $A(1, 2)$ and $B(7, 5)$ that is closest to the origin.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['-\frac{3}{5}', '\frac{6}{5}'] }
+  solution: |
+    The closest point $P$ has $\overrightarrow{OP}$ perpendicular to the line. $\overrightarrow{AB} = 6\mathbf{i} + 3\mathbf{j}$, so $\overrightarrow{AP}$ is the vector projection of $\overrightarrow{AO} = -\mathbf{i} - 2\mathbf{j}$ onto $\overrightarrow{AB}$:
+    $\dfrac{-6 - 6}{45}(6\mathbf{i} + 3\mathbf{j}) = -\tfrac{4}{15}(6\mathbf{i} + 3\mathbf{j}) = -\tfrac{8}{5}\mathbf{i} - \tfrac{4}{5}\mathbf{j}$.
+    So $\overrightarrow{OP} = (\mathbf{i} + 2\mathbf{j}) + \left(-\tfrac{8}{5}\mathbf{i} - \tfrac{4}{5}\mathbf{j}\right) = -\tfrac{3}{5}\mathbf{i} + \tfrac{6}{5}\mathbf{j}$. Check: $\left(-\tfrac{3}{5}\right)(6) + \tfrac{6}{5}(3) = 0$. ✓
+  verify: |
+    def answers():
+        A, B, O = Matrix([1, 2]), Matrix([7, 5]), Matrix([0, 0])
+        d = B - A
+        P = A + (O - A).dot(d) / d.dot(d) * d
+        assert P.dot(d) == 0
+        return {"a": list(P)}
+
+- id: spec.vectors-2d.projection.unit-vector-from-projection
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1750
+  responseSkills: { synthesis: 1750, calculation: 1680 }
+  stem: |
+    The scalar projection of $3\mathbf{i} + 4\mathbf{j}$ onto the unit vector $\mathbf{u}$ is 4. One possibility is $\mathbf{u} = \mathbf{j}$. Find the other.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['\frac{24}{25}', '\frac{7}{25}'] }
+  solution: |
+    Let $\mathbf{u} = x\mathbf{i} + y\mathbf{j}$ with $x^2 + y^2 = 1$. The scalar projection onto a unit vector is just the dot product, so $3x + 4y = 4$.
+    Substituting $x = \tfrac{4 - 4y}{3}$: $\tfrac{16(1 - y)^2}{9} + y^2 = 1$, which gives $25y^2 - 32y + 7 = 0$, so $(y - 1)(25y - 7) = 0$.
+    $y = 1$ gives $\mathbf{j}$. The other is $y = \tfrac{7}{25}$, $x = \tfrac{24}{25}$: $\mathbf{u} = \tfrac{24}{25}\mathbf{i} + \tfrac{7}{25}\mathbf{j}$.
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        sols = solve([3*x + 4*y - 4, x**2 + y**2 - 1], [x, y], dict=True)
+        s = [t for t in sols if t[y] != 1][0]
+        return {"a": [s[x], s[y]]}
