@@ -21,6 +21,9 @@ from pathlib import Path
 import sympy
 import yaml
 
+sys.path.insert(0, str(Path(__file__).parent))
+import verify_geometry  # noqa: E402
+
 
 def to_payload(value):
     if isinstance(value, str):
@@ -41,6 +44,7 @@ def main(root: str) -> int:
             variants = q.get("variants") or [{}]
             for i, params in enumerate(variants):
                 ns = {"sympy": sympy, **{k: getattr(sympy, k) for k in dir(sympy) if not k.startswith("_")}}
+                ns.update({k: getattr(verify_geometry, k) for k in dir(verify_geometry) if not k.startswith("_") and k not in ("math", "sympy")})
                 try:
                     exec(code, ns)
                     result = ns["answers"](**params)
