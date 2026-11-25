@@ -365,3 +365,22 @@
     Right side: $\overrightarrow{MN} = \tfrac{1}{2}(\mathbf{b} + \mathbf{d}) - \tfrac{1}{2}(\mathbf{a} + \mathbf{c})$, so $4MN^2 = |(\mathbf{b} + \mathbf{d}) - (\mathbf{a} + \mathbf{c})|^2$. Then
     $AC^2 + BD^2 + 4MN^2 = (|\mathbf{a}|^2 + |\mathbf{c}|^2 - 2\,\mathbf{a}\cdot\mathbf{c}) + (|\mathbf{b}|^2 + |\mathbf{d}|^2 - 2\,\mathbf{b}\cdot\mathbf{d}) + |\mathbf{b} + \mathbf{d}|^2 + |\mathbf{a} + \mathbf{c}|^2 - 2(\mathbf{a} + \mathbf{c})\cdot(\mathbf{b} + \mathbf{d})$.
     $|\mathbf{b} + \mathbf{d}|^2 + |\mathbf{a} + \mathbf{c}|^2 = S + 2\,\mathbf{b}\cdot\mathbf{d} + 2\,\mathbf{a}\cdot\mathbf{c}$, which cancels the $\mathbf{a}\cdot\mathbf{c}$ and $\mathbf{b}\cdot\mathbf{d}$ terms. What remains is $2S - 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{a}\cdot\mathbf{d} + \mathbf{c}\cdot\mathbf{b} + \mathbf{c}\cdot\mathbf{d})$, equal to the left side.
+
+- id: spec.vectors-2d.proofs.rectangle-point
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1730
+  responseSkills: { proof: 1730, synthesis: 1700, clarity: 1600 }
+  stem: |
+    $ABCD$ is a rectangle and $P$ is any point (inside or outside it). Use vectors to prove that $PA^2 + PC^2 = PB^2 + PD^2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: origin, description: "Takes the rectangle's center as origin: c = −a and d = −b", points: 1, dimension: synthesis }
+          - { id: equal, description: "Uses equal diagonals (a rectangle's diagonals are equal and bisect each other): |a| = |b|", points: 1, dimension: proof }
+          - { id: expand, description: "PA² + PC² = |p − a|² + |p + a|² = 2|p|² + 2|a|², and likewise for B and D", points: 2, dimension: proof }
+          - { id: conclude, description: "Equal because |a| = |b|", points: 1, dimension: clarity }
+  solution: |
+    Take the center of the rectangle as the origin. Its diagonals bisect each other, so $\mathbf{c} = -\mathbf{a}$ and $\mathbf{d} = -\mathbf{b}$. They are also equal in length, so $|\mathbf{a}| = |\mathbf{b}|$.
+    $PA^2 + PC^2 = |\mathbf{p} - \mathbf{a}|^2 + |\mathbf{p} + \mathbf{a}|^2 = 2|\mathbf{p}|^2 + 2|\mathbf{a}|^2$, since the $\mathbf{p}\cdot\mathbf{a}$ terms cancel.
+    Likewise $PB^2 + PD^2 = 2|\mathbf{p}|^2 + 2|\mathbf{b}|^2$. These are equal because $|\mathbf{a}| = |\mathbf{b}|$.

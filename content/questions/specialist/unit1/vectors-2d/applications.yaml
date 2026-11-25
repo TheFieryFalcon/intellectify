@@ -495,3 +495,81 @@
         s0 = [v for v in solve(expand(p.dot(p)) - 380**2, s)][0]
         pv = p.subs(s, s0)
         return {"a": round(float(deg(atan2(pv[0], pv[1]))), 1), "b": 960 / s0}
+
+- id: spec.vectors-2d.applications.two-strings
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1700
+  responseSkills: { synthesis: 1690, calculation: 1650 }
+  requiresCalculator: true
+  stem: |
+    A mass hangs at rest from two strings. Its weight is 196 N, straight down. One string makes an angle of $30^\circ$ with the vertical and the other $60^\circ$ with the vertical, on opposite sides. Find the pull (tension) in each string, correct to one decimal place where needed.
+  parts:
+    - id: a
+      prompt: String at $30^\circ$ (N)
+      answer: { type: numeric, key: 169.7 }
+    - id: b
+      prompt: String at $60^\circ$ (N)
+      answer: { type: numeric, key: 98 }
+  solution: |
+    Let the tensions be $T_1$ (at $30^\circ$) and $T_2$ (at $60^\circ$). The three forces add to zero.
+    Sideways: $T_1\sin 30^\circ = T_2\sin 60^\circ$, so $T_1 = \sqrt{3}\,T_2$.
+    Up and down: $T_1\cos 30^\circ + T_2\cos 60^\circ = 196$, so $\tfrac{3}{2}T_2 + \tfrac{1}{2}T_2 = 196$ and $T_2 = 98$ N. Then $T_1 = 98\sqrt{3} \approx 169.7$ N.
+  verify: |
+    def answers():
+        t1, t2 = symbols("t1 t2", positive=True)
+        s = solve([t1*sin(pi/6) - t2*sin(pi/3), t1*cos(pi/6) + t2*cos(pi/3) - 196], [t1, t2], dict=True)[0]
+        return {"a": round(float(s[t1]), 1), "b": s[t2]}
+
+- id: spec.vectors-2d.applications.true-wind
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1760
+  responseSkills: { synthesis: 1760, reading: 1700 }
+  stem: |
+    A cyclist rides due east at 12 km/h, and the wind seems to her to blow from due north. When she speeds up to 24 km/h due east, the wind seems to blow from the north-east. Find the true wind's exact speed, and the true bearing it blows *from*.
+  parts:
+    - id: a
+      prompt: Speed (km/h)
+      answer: { type: numeric, key: '12\sqrt{2}', form: [exact] }
+    - id: b
+      prompt: Blows from (°T)
+      answer: { type: numeric, key: 315 }
+  solution: |
+    Let the true wind be $\mathbf{w} = p\mathbf{i} + q\mathbf{j}$. The wind she feels is $\mathbf{w}$ minus her velocity.
+    At 12 km/h: $(p - 12)\mathbf{i} + q\mathbf{j}$ blows from the north, i.e. points due south, so $p = 12$ (and $q < 0$).
+    At 24 km/h: $-12\mathbf{i} + q\mathbf{j}$ blows from the north-east, i.e. points south-west, so $q = -12$.
+    $\mathbf{w} = 12\mathbf{i} - 12\mathbf{j}$: speed $12\sqrt{2} \approx 17.0$ km/h, moving south-east, so it blows from the north-west ($315^\circ\text{T}$).
+  verify: |
+    def answers():
+        p, q = symbols("p q", real=True)
+        # At 12 km/h the felt wind (p − 12, q) points due south: no east part.
+        # At 24 km/h the felt wind (p − 24, q) points south-west: equal parts.
+        s = solve([p - 12, (p - 24) - q], [p, q], dict=True)[0]
+        w = Matrix([s[p], s[q]])
+        assert w[1] < 0 and w[0] - 24 < 0
+        frm = -w
+        return {"a": w.norm(), "b": deg(atan2(frm[0], frm[1])) % 360}
+
+- id: spec.vectors-2d.applications.least-drift
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1790
+  responseSkills: { synthesis: 1790, calculation: 1700 }
+  requiresCalculator: true
+  stem: |
+    A river is 400 m wide and flows at 5 m/s. A boat moves at 3 m/s through the water, so it can't cross without being carried downstream. Find the angle between the boat's heading and the straight-across direction (upstream) that makes the downstream drift as small as possible, and that smallest drift, each correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Angle upstream from straight across (°)
+      answer: { type: numeric, key: 36.9 }
+    - id: b
+      prompt: Smallest drift (m)
+      answer: { type: numeric, key: 533.3 }
+  solution: |
+    Heading at angle $\theta$ upstream from straight across, the boat's ground velocity has across part $3\cos\theta$ and downstream part $5 - 3\sin\theta$. The drift is $400 \times \dfrac{5 - 3\sin\theta}{3\cos\theta}$.
+    Geometrically: the ground velocity is the current $5$ plus a vector of length 3 in any direction, so its tip lies on a circle of radius 3 around the tip of the current. The drift is least when the ground velocity is as close to straight across as possible, i.e. when it touches the circle. Then the heading is at right angles to the ground velocity, and $\sin\theta = \tfrac{3}{5}$, so $\theta \approx 36.9^\circ$.
+    Then the across part is $3 \times \tfrac{4}{5} = 2.4$ and the downstream part is $5 - 1.8 = 3.2$, so the drift is $400 \times \tfrac{3.2}{2.4} \approx 533.3$ m.
+  verify: |
+    def answers():
+        th = symbols("th")
+        drift = 400 * (5 - 3*sin(th)) / (3*cos(th))
+        crit = [s for s in solve(diff(drift, th), th) if 0 < s.evalf() < pi/2][0]
+        return {"a": round(float(deg(crit)), 1), "b": round(float(drift.subs(th, crit)), 1)}

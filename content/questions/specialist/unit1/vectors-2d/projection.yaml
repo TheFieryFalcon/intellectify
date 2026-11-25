@@ -444,3 +444,26 @@
         sols = solve([3*x + 4*y - 4, x**2 + y**2 - 1], [x, y], dict=True)
         s = [t for t in sols if t[y] != 1][0]
         return {"a": [s[x], s[y]]}
+
+- id: spec.vectors-2d.projection.onto-sum
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1720
+  responseSkills: { synthesis: 1720, calculation: 1650 }
+  stem: |
+    Non-zero vectors $\mathbf{a}$ and $\mathbf{b}$ satisfy $|\mathbf{a}| = |\mathbf{b}| = |\mathbf{a} - \mathbf{b}|$. Find the vector projection of $\mathbf{a}$ onto $\mathbf{a} + \mathbf{b}$, in terms of $\mathbf{a}$ and $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{1}{2}(a+b)', vars: { a: {}, b: {} } }
+  solution: |
+    Let $|\mathbf{a}| = |\mathbf{b}| = r$. From $|\mathbf{a} - \mathbf{b}|^2 = r^2$: $2r^2 - 2\,\mathbf{a}\cdot\mathbf{b} = r^2$, so $\mathbf{a}\cdot\mathbf{b} = \tfrac{1}{2}r^2$.
+    Then $\mathbf{a}\cdot(\mathbf{a} + \mathbf{b}) = \tfrac{3}{2}r^2$ and $|\mathbf{a} + \mathbf{b}|^2 = 2r^2 + r^2 = 3r^2$. The projection is $\dfrac{\tfrac{3}{2}r^2}{3r^2}(\mathbf{a} + \mathbf{b}) = \tfrac{1}{2}(\mathbf{a} + \mathbf{b})$.
+  verify: |
+    def answers():
+        A, B = symbols("a b")
+        # A concrete case: unit vectors at 60°, then express the projection in terms of a and b.
+        a, b = Matrix([1, 0]), Matrix([cos(pi/3), sin(pi/3)])
+        assert simplify((a - b).norm() - 1) == 0
+        p = a.dot(a + b) / (a + b).dot(a + b) * (a + b)
+        x, y = symbols("x y")
+        s = solve(list(x*a + y*b - p), [x, y])
+        return {"a": simplify(s[x])*A + simplify(s[y])*B}

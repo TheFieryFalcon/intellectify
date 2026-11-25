@@ -101,17 +101,24 @@ describe("ranks and gates", () => {
 
   it("lets harder solves satisfy lower gates", () => {
     expect(correctAtOrAbove(gatesWith({ 5: 3 }), 3)).toBe(3);
-    expect(eligibleRank(1460, gatesWith({ 5: 3 }))).toBe(3);
+    expect(eligibleRank(1460, gatesWith({ 5: 10 }))).toBe(3);
   });
 
   it("needs both θ and the gate", () => {
-    expect(eligibleRank(1800, gatesWith({ 3: 3 }))).toBe(3); // θ high enough for Diamond, gate only Gold
-    expect(eligibleRank(1390, gatesWith({ 5: 3 }))).toBe(2); // gate fine for Diamond, θ only Silver
+    expect(eligibleRank(1800, gatesWith({ 2: 7, 3: 3 }))).toBe(3); // θ high enough for Diamond, gate only Gold
+    expect(eligibleRank(1390, gatesWith({ 5: 10 }))).toBe(2); // gate fine for Diamond, θ only Silver
     expect(eligibleRank(1390, gatesWith({ 1: 2 }))).toBe(0);
   });
 
+  it("needs 10 correct at Tier 2+ for Silver, and earns ranks in order", () => {
+    expect(eligibleRank(1300, gatesWith({ 2: 9 }))).toBe(1);
+    expect(eligibleRank(1300, gatesWith({ 2: 10 }))).toBe(2);
+    expect(eligibleRank(1800, gatesWith({ 5: 9 }))).toBe(1); // plenty for Gold–Diamond, but Silver isn't met
+    expect(eligibleRank(1800, gatesWith({ 1: 5, 2: 5, 5: 3 }))).toBe(1); // Silver needs 10 at Tier 2+: only 5 + 3 = 8
+  });
+
   it("holds a rank inside the hidden buffer and drops below it", () => {
-    const g = gatesWith({ 4: 3 });
+    const g = gatesWith({ 2: 7, 4: 3 });
     expect(nextRank(4, 1550 - 20, g)).toBe(4); // Platinum buffer is 35
     expect(nextRank(4, 1550 - 36, g)).toBe(3);
   });
@@ -122,11 +129,13 @@ describe("ranks and gates", () => {
     expect(s.rank).toBe(0);
   });
 
-  it("reaches Gold after three Tier 3 solves from the default placement", () => {
+  it("needs ten Tier 3 solves to reach Gold from the default placement (Silver's gate)", () => {
     let s = newSkillState();
-    for (let i = 0; i < 3; i++) s = applyOutcome(s, 1500, 1).state;
+    for (let i = 0; i < 9; i++) s = applyOutcome(s, 1500, 1).state;
+    expect(s.rank).toBe(1);
+    s = applyOutcome(s, 1500, 1).state;
     expect(s.rank).toBe(3);
-    expect(s.resolved).toBe(3);
+    expect(s.resolved).toBe(10);
   });
 });
 
@@ -193,20 +202,21 @@ describe("selection", () => {
 
 describe("skill sizes (SPEC §3.3)", () => {
   it("bigger skills need more correct answers per rank", () => {
-    const g = gatesWith({ 5: 4 });
-    expect(eligibleRank(1750, g)).toBe(5); // medium: 3 needed
-    expect(eligibleRank(1750, g, 4)).toBe(5); // large: 4 needed
-    expect(eligibleRank(1750, g, 5)).toBe(0); // cornerstone: 5 needed at every rank, and there are only 4
-    expect(eligibleRank(1750, gatesWith({ 3: 1, 5: 4 }), 5)).toBe(3); // 5 at Tier ≥ 3, only 4 at Tier ≥ 4
+    const g = gatesWith({ 2: 7, 5: 4 });
+    expect(eligibleRank(1750, g, "medium")).toBe(5); // Silver 10 (7 + 4 = 11), Diamond 3
+    expect(eligibleRank(1750, g, "large")).toBe(5); // Silver 11, Diamond 4
+    expect(eligibleRank(1750, g, "cornerstone")).toBe(1); // Silver 12: only 11
+    expect(eligibleRank(1750, gatesWith({ 2: 8, 5: 4 }), "cornerstone")).toBe(2); // Silver 12 met; Gold needs 5 at Tier 3+
+    expect(eligibleRank(1750, gatesWith({ 2: 7, 5: 5 }), "cornerstone")).toBe(5);
   });
-  it("cornerstone skills move θ more slowly and gate at 5", () => {
-    const s = { theta: 1500, rank: 3 as const, gates: gatesWith({ 4: 4 }), resolved: 10, dropTier: false };
+  it("cornerstone skills move θ more slowly and need 2 extra per gate", () => {
+    const s = { theta: 1500, rank: 3 as const, gates: gatesWith({ 2: 8, 4: 4 }), resolved: 20, dropTier: false };
     const medium = applyOutcome(s, 1600, 1, 1, "medium");
     const corner = applyOutcome(s, 1600, 1, 1, "cornerstone");
     expect(corner.deltaTheta).toBeCloseTo(medium.deltaTheta * 0.7, 6);
     const ready = { ...s, theta: 1600 };
     expect(applyOutcome(ready, 1600, 1, 1, "medium").rankAfter).toBe(4);
     expect(applyOutcome(ready, 1600, 1, 1, "cornerstone").rankAfter).toBe(4); // 5th correct at Tier 4
-    expect(applyOutcome({ ...ready, gates: gatesWith({ 4: 3 }) }, 1600, 1, 1, "cornerstone").rankAfter).toBe(3);
+    expect(applyOutcome({ ...ready, gates: gatesWith({ 2: 8, 4: 3 }) }, 1600, 1, 1, "cornerstone").rankAfter).toBe(3);
   });
 });

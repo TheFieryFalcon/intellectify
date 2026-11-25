@@ -302,3 +302,23 @@
     def answers(u, a, b):
         x = symbols("x")
         return {"a": solve(a + b - x - u, x)[0]}
+
+- id: spec.combinatorics.inclusion-exclusion.not-a-power
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1720
+  responseSkills: { synthesis: 1710, calculation: 1680 }
+  stem: |
+    How many integers from 1 to 1000 are **not** a perfect square, a perfect cube or a perfect fifth power?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 960 }
+  solution: |
+    Let $S$, $C$, $F$ be the squares, cubes and fifth powers up to 1000. $|S| = 31$ ($31^2 = 961$), $|C| = 10$ and $|F| = 3$ ($1, 32, 243$).
+    A number that is both a square and a cube is a sixth power: $1, 64, 729$, so $|S \cap C| = 3$. Squares and fifth powers are tenth powers: only 1. Cubes and fifth powers are fifteenth powers: only 1. All three are thirtieth powers: only 1.
+    $|S \cup C \cup F| = 31 + 10 + 3 - 3 - 1 - 1 + 1 = 40$, so $1000 - 40 = 960$ are none of these.
+  verify: |
+    def answers():
+        def is_power(n, k):
+            r = round(n ** (1 / k))
+            return any((r + d) ** k == n for d in (-1, 0, 1))
+        return {"a": sum(1 for n in range(1, 1001) if not any(is_power(n, k) for k in (2, 3, 5)))}

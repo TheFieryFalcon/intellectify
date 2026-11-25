@@ -334,3 +334,130 @@
     from itertools import product
     def answers():
         return {"a": sum(1 for p in product(range(1, 5), repeat=4) if sum(p) == 10)}
+
+- id: spec.combinatorics.combinations.handshakes
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1120
+  responseSkills: { calculation: 1100, reading: 1120 }
+  variants:
+    - { n: 12, v: 66 }
+    - { n: 20, v: 190 }
+  stem: |
+    At a meeting of {{n}} people, every person shakes hands once with every other person. How many handshakes are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Each handshake is an unordered pair of people: $\dbinom{ {{n}} }{2} = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": binomial(n, 2)}
+
+- id: spec.combinatorics.combinations.triangles-from-points
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1290
+  responseSkills: { calculation: 1270, reading: 1290 }
+  variants:
+    - { n: 8, v: 56 }
+    - { n: 11, v: 165 }
+  stem: |
+    {{n}} points are marked on a circle. How many triangles have all three corners at these points?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    No three points on a circle lie on one straight line, so every group of 3 points makes a triangle: $\dbinom{ {{n}} }{3} = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": binomial(n, 3)}
+
+- id: spec.combinatorics.combinations.toppings
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1370
+  responseSkills: { calculation: 1350, reading: 1360 }
+  stem: |
+    A pizza shop offers 12 different toppings. How many different pizzas have at least 10 toppings?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 79 }
+  solution: |
+    Add the separate cases: $\dbinom{12}{10} + \dbinom{12}{11} + \dbinom{12}{12} = 66 + 12 + 1 = 79$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(12, k) for k in (10, 11, 12))}
+
+- id: spec.combinatorics.combinations.books-to-students
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1480
+  responseSkills: { calculation: 1460, reading: 1460 }
+  stem: |
+    9 different books are given to 3 students, Ana, Ben and Cy, so that each student gets 3 books. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1680 }
+  solution: |
+    Ana's 3 books: $\dbinom{9}{3} = 84$. Ben's 3 from the remaining 6: $\dbinom{6}{3} = 20$. Cy gets the last 3. Total: $84 \times 20 = 1680$.
+  verify: |
+    def answers():
+        return {"a": binomial(9, 3) * binomial(6, 3) * binomial(3, 3)}
+
+- id: spec.combinatorics.combinations.chessboard-rectangles
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1700
+  responseSkills: { synthesis: 1700, calculation: 1620 }
+  variants:
+    - { n: 8, v: 1296 }
+    - { n: 6, v: 441 }
+  stem: |
+    How many rectangles (of any size, including squares) can be found on an {{n}} by {{n}} grid of squares, with sides along the grid lines?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    A rectangle is decided by its two horizontal sides and its two vertical sides. The grid has ${{n}} + 1$ horizontal lines and ${{n}} + 1$ vertical lines, so there are $\dbinom{ {{n}} + 1 }{2}^2 = {{v}}$ rectangles.
+  verify: |
+    def answers(n, v):
+        return {"a": sum((n - h + 1) * (n - w + 1) for h in range(1, n + 1) for w in range(1, n + 1))}
+
+- id: spec.combinatorics.combinations.sum-divisible-by-3
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1760
+  responseSkills: { synthesis: 1760, calculation: 1680 }
+  stem: |
+    In how many ways can 3 different numbers be selected from $1, 2, \dots, 30$ so that their sum is divisible by 3?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1360 }
+  solution: |
+    Sort the numbers by remainder on division by 3: remainder 0, 1 or 2, with 10 numbers in each group. The sum is divisible by 3 exactly when the three remainders are all equal, or are 0, 1 and 2.
+    - All from one group: $3 \times \dbinom{10}{3} = 360$.
+    - One from each group: $10^3 = 1000$.
+
+    Total: $1360$.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        return {"a": sum(1 for c in combos(range(1, 31), 3) if sum(c) % 3 == 0)}
+
+- id: spec.combinatorics.combinations.paths-below-diagonal
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1850
+  responseSkills: { synthesis: 1850, proof: 1780 }
+  stem: |
+    A path on a grid goes from $(0, 0)$ to $(6, 6)$ using steps of one unit right or one unit up. How many such paths never go above the line $y = x$ (they may touch it)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 132 }
+  solution: |
+    All paths: 12 steps, 6 of them up: $\binom{12}{6} = 924$.
+    Count the bad paths, which touch the line $y = x + 1$. For a bad path, take the part after its first touch of $y = x + 1$ and swap rights and ups (reflect it in that line). This turns it into a path ending at $(5, 7)$, and every path to $(5, 7)$ comes from exactly one bad path this way (it must cross $y = x + 1$, and reflecting back undoes the swap).
+    Paths to $(5, 7)$: $\binom{12}{5} = 792$. So the good paths number $924 - 792 = 132$.
+  verify: |
+    from functools import lru_cache
+    def answers():
+        @lru_cache(None)
+        def f(x, y):
+            if y > x: return 0
+            if x == 0 and y == 0: return 1
+            return (f(x - 1, y) if x > 0 else 0) + (f(x, y - 1) if y > 0 else 0)
+        return {"a": f(6, 6)}

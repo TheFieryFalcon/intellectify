@@ -283,3 +283,22 @@
   verify: |
     def answers(m):
         return {"a": m + 1}
+
+- id: spec.combinatorics.pigeonhole.equal-subset-sums
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1780
+  responseSkills: { proof: 1780, synthesis: 1760, clarity: 1650 }
+  stem: |
+    Ten different two-digit numbers (from 10 to 99) are chosen. Prove that two **non-overlapping**, non-empty groups of these numbers have the same sum.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: count, description: "Counts the non-empty groups (subsets): 2¹⁰ − 1 = 1023", points: 1, dimension: proof }
+          - { id: range, description: "Bounds the sums: every group sums to at least 10 and at most 90 + 91 + … + 99 = 945, so at most 936 possible sums", points: 2, dimension: proof }
+          - { id: php, description: "More groups than possible sums, so two different groups have equal sums", points: 1, dimension: proof }
+          - { id: disjoint, description: "Removes the numbers the two groups share; both stay non-empty and their sums stay equal", points: 2, dimension: synthesis }
+  solution: |
+    There are $2^{10} - 1 = 1023$ non-empty groups. Each sum is at least 10 and at most $90 + 91 + \cdots + 99 = 945$, so there are at most $936$ possible sums.
+    $1023 > 936$, so by the pigeonhole principle two different groups $A$ and $B$ have the same sum.
+    Remove the numbers they share from both. The sums stay equal (the same amount was taken from each). Neither group becomes empty: if $A$ lost everything, $A$ would sit inside $B$, and then $B$'s extra numbers would have to sum to 0, which is impossible for positive numbers with $A \ne B$. So the two remaining groups don't overlap, are non-empty and have equal sums.

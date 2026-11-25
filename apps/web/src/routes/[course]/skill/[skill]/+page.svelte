@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { SKILL_SIZE, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
+  import { gateCount as gateFor, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
   import RankDot from "$lib/components/RankDot.svelte";
   import { dependentsOf, indexSkills } from "$lib/content";
   import { toStored } from "$lib/practice";
@@ -20,7 +20,7 @@
   const nextGoal = $derived.by(() => {
     if (!skillState || rank === 5) return null;
     const next = (rank + 1) as Exclude<RankLevel, 0>;
-    const gateCount = SKILL_SIZE[entry?.skill.size ?? "medium"].gateCount;
+    const gateCount = gateFor(next, entry?.skill.size);
     const correct = Math.min(skillState.gates.slice(next).reduce((a, b) => a + b, 0), gateCount);
     const needs = [`${correct}/${gateCount} correct at Tier ${next}+`];
     if (skillState.theta < RANK_FLOOR[next]) needs.push(`θ ${RANK_FLOOR[next]}`);

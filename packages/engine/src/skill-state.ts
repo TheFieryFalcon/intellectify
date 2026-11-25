@@ -36,7 +36,7 @@ export function applyOutcome(state: SkillState, rating: number, outcome: number,
   const rules = SKILL_SIZE[size];
   const theta = updateTheta(state.theta, rating, outcome, weight * rules.kScale);
   const gates = recordGate(state.gates, tierOf(rating), outcome);
-  const rank = nextRank(state.rank, theta, gates, rules.gateCount);
+  const rank = nextRank(state.rank, theta, gates, size);
   return {
     state: { ...state, theta, gates, rank, resolved: state.resolved + 1 },
     deltaTheta: theta - state.theta,

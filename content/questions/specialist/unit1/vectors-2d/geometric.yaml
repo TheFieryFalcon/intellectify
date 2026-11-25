@@ -418,3 +418,84 @@
     - From $B$: $\mathbf{b} + \tfrac{2}{3}\left(\tfrac{1}{2}\mathbf{a} - \mathbf{b}\right) = \tfrac{1}{3}\mathbf{a} + \tfrac{1}{3}\mathbf{b}$.
 
     All three points are the same point, $\tfrac{1}{3}(\mathbf{a} + \mathbf{b})$. So the three lines pass through it, and it is $\tfrac{2}{3}$ of the way along each.
+
+- id: spec.vectors-2d.geometric.point-on-diagonal
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1330
+  responseSkills: { reading: 1320, calculation: 1280 }
+  variants:
+    - { p: 1, q: 3 }
+    - { p: 2, q: 1 }
+  stem: |
+    $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. $P$ lies on the diagonal $OB$ with $OP : PB = {{p}} : {{q}}$. Find $\overrightarrow{AP}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{ {{p}} }{ {{p}}+{{q}} }(a+c)-a', vars: { a: {}, c: {} } }
+  solution: |
+    $\overrightarrow{OB} = \mathbf{a} + \mathbf{c}$, so $\overrightarrow{OP} = \tfrac{ {{p}} }{ {{p}} + {{q}} }(\mathbf{a} + \mathbf{c})$. Then $\overrightarrow{AP} = \overrightarrow{OP} - \overrightarrow{OA} = \tfrac{ {{p}} }{ {{p}} + {{q}} }(\mathbf{a} + \mathbf{c}) - \mathbf{a}$.
+  verify: |
+    def answers(p, q):
+        a, c = symbols("a c")
+        return {"a": Rational(p, p + q) * (a + c) - a}
+
+- id: spec.vectors-2d.geometric.hexagon-midpoints
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1700
+  responseSkills: { synthesis: 1690, reading: 1650 }
+  stem: |
+    $ABCDEF$ is a regular hexagon (all sides equal, all angles $120^\circ$). $\overrightarrow{AB} = \mathbf{a}$ and $\overrightarrow{BC} = \mathbf{b}$. $M$ is the midpoint of $CD$ and $N$ is the midpoint of $EF$. Find $\overrightarrow{MN}$ in terms of $\mathbf{a}$ and $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '-\frac{3}{2}a', vars: { a: {}, b: {} } }
+  solution: |
+    In a regular hexagon, opposite sides are equal and parallel, and the long diagonal $AD$ is twice $BC$. So $\overrightarrow{CD} = \mathbf{b} - \mathbf{a}$, $\overrightarrow{DE} = -\mathbf{a}$ and $\overrightarrow{EF} = -\mathbf{b}$.
+    Taking $A$ as the origin: $C = \mathbf{a} + \mathbf{b}$, $D = 2\mathbf{b}$, $E = 2\mathbf{b} - \mathbf{a}$ and $F = \mathbf{b} - \mathbf{a}$.
+    $M = \tfrac{1}{2}(\mathbf{a} + 3\mathbf{b})$ and $N = \tfrac{1}{2}(3\mathbf{b} - 2\mathbf{a})$, so $\overrightarrow{MN} = -\tfrac{3}{2}\mathbf{a}$.
+  verify: |
+    def answers():
+        a, b, x, y = symbols("a b x y")
+        P = [Matrix([cos(pi + k*pi/3), sin(pi + k*pi/3)]) for k in range(6)]
+        A, B, C, D, E, F = P
+        va, vb = B - A, C - B
+        M, N = (C + D) / 2, (E + F) / 2
+        s = solve(list(x*va + y*vb - (N - M)), [x, y])
+        return {"a": simplify(s[x])*a + simplify(s[y])*b}
+
+- id: spec.vectors-2d.geometric.line-meets-side
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1740
+  responseSkills: { synthesis: 1740, calculation: 1680 }
+  stem: |
+    In triangle $OAB$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ is on $OA$ with $OP : PA = 1 : 2$, and $Q$ is the midpoint of $AB$. The line through $P$ and $Q$ meets the line $OB$ at $R$. Find $\overrightarrow{OR}$ in terms of $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '-b', vars: { a: {}, b: {} } }
+  solution: |
+    $\overrightarrow{OP} = \tfrac{1}{3}\mathbf{a}$ and $\overrightarrow{OQ} = \tfrac{1}{2}(\mathbf{a} + \mathbf{b})$. Points on line $PQ$ have position vectors
+    $\tfrac{1}{3}\mathbf{a} + t\left(\tfrac{1}{2}\mathbf{a} + \tfrac{1}{2}\mathbf{b} - \tfrac{1}{3}\mathbf{a}\right) = \left(\tfrac{1}{3} + \tfrac{t}{6}\right)\mathbf{a} + \tfrac{t}{2}\mathbf{b}$.
+    On line $OB$ there is no $\mathbf{a}$ part, and $\mathbf{a}$, $\mathbf{b}$ aren't parallel, so $\tfrac{1}{3} + \tfrac{t}{6} = 0$, giving $t = -2$. Then $\overrightarrow{OR} = -\mathbf{b}$: $R$ is as far from $O$ as $B$ is, on the opposite side.
+  verify: |
+    def answers():
+        a, b, t = symbols("a b t")
+        P, Q = Rational(1, 3)*a, (a + b) / 2
+        X = expand(P + t*(Q - P))
+        t0 = solve(X.coeff(a), t)[0]
+        return {"a": X.subs(t, t0)}
+
+- id: spec.vectors-2d.geometric.quadrilateral-identity
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1720
+  responseSkills: { proof: 1710, synthesis: 1680, clarity: 1600 }
+  stem: |
+    $ABCD$ is any quadrilateral. $P$ is the midpoint of $AC$ and $Q$ is the midpoint of $BD$. Prove that $\overrightarrow{AB} + \overrightarrow{AD} + \overrightarrow{CB} + \overrightarrow{CD} = 4\overrightarrow{PQ}$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Uses position vectors a, b, c, d (or an equivalent setup)", points: 1, dimension: proof }
+          - { id: lhs, description: "Left side = (b − a) + (d − a) + (b − c) + (d − c) = 2(b + d) − 2(a + c)", points: 2, dimension: proof }
+          - { id: rhs, description: "PQ = ½(b + d) − ½(a + c), so 4PQ = 2(b + d) − 2(a + c)", points: 2, dimension: proof }
+          - { id: clear, description: "Concludes clearly", points: 1, dimension: clarity }
+  solution: |
+    With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$, the left side is $(\mathbf{b} - \mathbf{a}) + (\mathbf{d} - \mathbf{a}) + (\mathbf{b} - \mathbf{c}) + (\mathbf{d} - \mathbf{c}) = 2(\mathbf{b} + \mathbf{d}) - 2(\mathbf{a} + \mathbf{c})$.
+    $\overrightarrow{PQ} = \tfrac{1}{2}(\mathbf{b} + \mathbf{d}) - \tfrac{1}{2}(\mathbf{a} + \mathbf{c})$, so $4\overrightarrow{PQ}$ is the same expression.

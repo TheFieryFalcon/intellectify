@@ -488,3 +488,330 @@
     def answers():
         d = solve(9 + 2*symbols("d") + 25 - 49, symbols("d"))[0]
         return {"a": -Rational(9 + 25 + 49, 2), "b": deg(acos(d / 15))}
+
+- id: spec.vectors-2d.scalar-product.unit-vectors
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1040
+  responseSkills: { calculation: 1040, reading: 1030 }
+  stem: |
+    Evaluate:
+  parts:
+    - id: a
+      prompt: $\mathbf{i}\cdot\mathbf{j}$
+      answer: { type: numeric, key: 0 }
+    - id: b
+      prompt: $(2\mathbf{i})\cdot(3\mathbf{i})$
+      answer: { type: numeric, key: 6 }
+  solution: |
+    $\mathbf{i}$ and $\mathbf{j}$ are perpendicular, so $\mathbf{i}\cdot\mathbf{j} = 0$. And $(2\mathbf{i})\cdot(3\mathbf{i}) = 6\,\mathbf{i}\cdot\mathbf{i} = 6 \times 1 = 6$.
+  verify: |
+    def answers():
+        i, j = Matrix([1, 0]), Matrix([0, 1])
+        return {"a": i.dot(j), "b": (2*i).dot(3*i)}
+
+- id: spec.vectors-2d.scalar-product.same-or-opposite
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1130
+  responseSkills: { reading: 1120, calculation: 1100 }
+  variants:
+    - { way: 'the same direction', v: 12 }
+    - { way: 'opposite directions', v: -12 }
+  stem: |
+    $|\mathbf{a}| = 3$ and $|\mathbf{b}| = 4$, and the vectors point in {{way}}. Find $\mathbf{a}\cdot\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The angle between them is $0^\circ$ or $180^\circ$, so $\mathbf{a}\cdot\mathbf{b} = 3 \times 4 \times \cos\theta = {{v}}$.
+  verify: |
+    def answers(way, v):
+        t = 0 if "same" in way else pi
+        return {"a": 3*4*cos(t)}
+
+- id: spec.vectors-2d.scalar-product.distribute
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1260
+  responseSkills: { calculation: 1250 }
+  variants:
+    - { a1: 1, a2: 2, b1: 3, b2: -1, c1: -2, c2: 4 }
+    - { a1: -3, a2: 1, b1: 2, b2: 5, c1: 4, c2: -2 }
+  stem: |
+    $\mathbf{a} = {{a1}}\mathbf{i} + {{a2}}\mathbf{j}$, $\mathbf{b} = {{b1}}\mathbf{i} + ({{b2}})\mathbf{j}$ and $\mathbf{c} = ({{c1}})\mathbf{i} + {{c2}}\mathbf{j}$. Find $\mathbf{a}\cdot(\mathbf{b} + \mathbf{c})$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{a1}}\cdot({{b1}}+({{c1}}))+{{a2}}\cdot({{b2}}+({{c2}}))' }
+  solution: |
+    Add first: $\mathbf{b} + \mathbf{c} = ({{b1}} + ({{c1}}))\mathbf{i} + ({{b2}} + ({{c2}}))\mathbf{j}$. Then take the dot product with $\mathbf{a}$. (Or compute $\mathbf{a}\cdot\mathbf{b} + \mathbf{a}\cdot\mathbf{c}$, which gives the same.)
+  verify: |
+    def answers(a1, a2, b1, b2, c1, c2):
+        a, b, c = Matrix([a1, a2]), Matrix([b1, b2]), Matrix([c1, c2])
+        assert a.dot(b + c) == a.dot(b) + a.dot(c)
+        return {"a": a.dot(b + c)}
+
+- id: spec.vectors-2d.scalar-product.given-value
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1320
+  responseSkills: { calculation: 1310 }
+  variants:
+    - { t: 10, k: -4 }
+    - { t: 3, k: 3 }
+  stem: |
+    Find $k$ if $(2\mathbf{i} + k\mathbf{j})\cdot(3\mathbf{i} - \mathbf{j}) = {{t}}$.
+  parts:
+    - id: a
+      prompt: $k =$
+      answer: { type: numeric, key: '{{k}}' }
+  solution: |
+    $6 - k = {{t}}$, so $k = {{k}}$.
+  verify: |
+    def answers(t, k):
+        kk = symbols("kk")
+        return {"a": solve(6 - kk - t, kk)[0]}
+
+- id: spec.vectors-2d.scalar-product.angle-type
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1380
+  responseSkills: { calculation: 1360, reading: 1370 }
+  variants:
+    - { b1: -1, b2: -4, key: a }
+    - { b1: 2, b2: 3, key: b }
+    - { b1: -2, b2: 1, key: c }
+  stem: |
+    Is the angle between $3\mathbf{i} - 2\mathbf{j}$ and ${{b1}}\mathbf{i} + ({{b2}})\mathbf{j}$ acute, a right angle, or obtuse?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Acute' }
+        - { id: b, text: 'Right angle' }
+        - { id: c, text: 'Obtuse' }
+      answer: { type: mcq, key: '{{key}}' }
+  solution: |
+    The sign of the dot product decides: $(3)({{b1}}) + (-2)({{b2}})$ is positive for acute, zero for a right angle and negative for obtuse.
+  verify: |
+    def answers(b1, b2, key):
+        d = 3*b1 - 2*b2
+        return {"a": "a" if d > 0 else "b" if d == 0 else "c"}
+
+- id: spec.vectors-2d.scalar-product.from-sum-length
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1440
+  responseSkills: { calculation: 1420, reading: 1420 }
+  stem: |
+    $|\mathbf{a}| = 3$, $|\mathbf{b}| = 8$ and $|\mathbf{a} + \mathbf{b}| = 7$. Find:
+  parts:
+    - id: a
+      prompt: $\mathbf{a}\cdot\mathbf{b}$
+      answer: { type: numeric, key: -12 }
+    - id: b
+      prompt: the angle between $\mathbf{a}$ and $\mathbf{b}$ (°)
+      answer: { type: numeric, key: 120 }
+  solution: |
+    $|\mathbf{a} + \mathbf{b}|^2 = |\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2$, so $49 = 9 + 2\,\mathbf{a}\cdot\mathbf{b} + 64$ and $\mathbf{a}\cdot\mathbf{b} = -12$.
+    $\cos\theta = \dfrac{-12}{3 \times 8} = -\tfrac{1}{2}$, so $\theta = 120^\circ$.
+  verify: |
+    def answers():
+        d = Rational(49 - 9 - 64, 2)
+        return {"a": d, "b": deg(acos(d / 24))}
+
+- id: spec.vectors-2d.scalar-product.rectangle-diagonals
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1460
+  responseSkills: { calculation: 1440, synthesis: 1420 }
+  requiresCalculator: true
+  stem: |
+    A rectangle has sides of length 4 and 3. Find the acute angle between its diagonals, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Angle (°)
+      answer: { type: numeric, key: 73.7 }
+  solution: |
+    Put the rectangle's sides along $4\mathbf{i}$ and $3\mathbf{j}$. The diagonals are $4\mathbf{i} + 3\mathbf{j}$ and $-4\mathbf{i} + 3\mathbf{j}$, both of length 5, with dot product $-16 + 9 = -7$.
+    $\cos\theta = -\tfrac{7}{25}$, so $\theta \approx 106.3^\circ$. The acute angle is $180^\circ - 106.3^\circ = 73.7^\circ$.
+  verify: |
+    def answers():
+        u, v = Matrix([4, 3]), Matrix([-4, 3])
+        t = deg(acos(u.dot(v) / (u.norm()*v.norm())))
+        return {"a": round(float(min(t, 180 - t)), 1)}
+
+- id: spec.vectors-2d.scalar-product.angle-in-triangle-exact
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1430
+  responseSkills: { calculation: 1410, reading: 1410 }
+  stem: |
+    Triangle $ABC$ has corners $A(0, 0)$, $B(4, 0)$ and $C(1, 3)$. Find the exact size of angle $ABC$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 45 }
+  solution: |
+    Use the two vectors starting at $B$: $\overrightarrow{BA} = -4\mathbf{i}$ and $\overrightarrow{BC} = -3\mathbf{i} + 3\mathbf{j}$.
+    $\cos\angle ABC = \dfrac{12}{4 \times 3\sqrt{2}} = \dfrac{1}{\sqrt{2}}$, so $\angle ABC = 45^\circ$.
+  verify: |
+    def answers():
+        A, B, C = Matrix([0, 0]), Matrix([4, 0]), Matrix([1, 3])
+        u, v = A - B, C - B
+        return {"a": deg(acos(simplify(u.dot(v) / (u.norm()*v.norm()))))}
+
+- id: spec.vectors-2d.scalar-product.perpendicular-combination-angle
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1580
+  responseSkills: { calculation: 1560, synthesis: 1550 }
+  requiresCalculator: true
+  stem: |
+    $|\mathbf{a}| = 2$, $|\mathbf{b}| = 3$, and $2\mathbf{a} + \mathbf{b}$ is perpendicular to $\mathbf{a} - \mathbf{b}$. Find:
+  parts:
+    - id: a
+      prompt: $\mathbf{a}\cdot\mathbf{b}$
+      answer: { type: numeric, key: -1 }
+    - id: b
+      prompt: the angle between $\mathbf{a}$ and $\mathbf{b}$, correct to one decimal place (°)
+      answer: { type: numeric, key: 99.6 }
+  solution: |
+    $(2\mathbf{a} + \mathbf{b})\cdot(\mathbf{a} - \mathbf{b}) = 2|\mathbf{a}|^2 - \mathbf{a}\cdot\mathbf{b} - |\mathbf{b}|^2 = 8 - \mathbf{a}\cdot\mathbf{b} - 9 = 0$, so $\mathbf{a}\cdot\mathbf{b} = -1$.
+    $\cos\theta = -\tfrac{1}{6}$, so $\theta \approx 99.6^\circ$.
+  verify: |
+    def answers():
+        d = symbols("d")
+        dv = solve(2*4 - 2*d + d - 9, d)[0]
+        return {"a": dv, "b": round(float(deg(acos(dv / 6))), 1)}
+
+- id: spec.vectors-2d.scalar-product.rotated-axes
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1630
+  responseSkills: { synthesis: 1620, calculation: 1580 }
+  stem: |
+    $\mathbf{u} = \cos 30^\circ\,\mathbf{i} + \sin 30^\circ\,\mathbf{j}$ and $\mathbf{v} = -\sin 30^\circ\,\mathbf{i} + \cos 30^\circ\,\mathbf{j}$ are perpendicular unit vectors. Find the exact numbers $x$ and $y$ with $5\mathbf{i} = x\mathbf{u} + y\mathbf{v}$.
+  parts:
+    - id: x
+      prompt: $x =$
+      answer: { type: numeric, key: '\frac{5\sqrt{3}}{2}', form: [exact] }
+    - id: y
+      prompt: $y =$
+      answer: { type: numeric, key: '-\frac{5}{2}', form: [exact] }
+  solution: |
+    Dot both sides with $\mathbf{u}$: since $\mathbf{u}\cdot\mathbf{u} = 1$ and $\mathbf{u}\cdot\mathbf{v} = 0$, $x = 5\mathbf{i}\cdot\mathbf{u} = 5\cos 30^\circ = \tfrac{5\sqrt{3}}{2}$.
+    Dot with $\mathbf{v}$: $y = 5\mathbf{i}\cdot\mathbf{v} = -5\sin 30^\circ = -\tfrac{5}{2}$.
+  verify: |
+    def answers():
+        u = Matrix([cos(pi/6), sin(pi/6)])
+        v = Matrix([-sin(pi/6), cos(pi/6)])
+        x, y = symbols("x y")
+        s = solve(list(x*u + y*v - Matrix([5, 0])), [x, y])
+        return {"x": simplify(s[x]), "y": simplify(s[y])}
+
+- id: spec.vectors-2d.scalar-product.angle-45-length
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1710
+  responseSkills: { synthesis: 1700, calculation: 1660 }
+  stem: |
+    The vector $\mathbf{v}$ has magnitude $\sqrt{10}$ and makes an angle of $45^\circ$ with $2\mathbf{i} + \mathbf{j}$. If $\mathbf{v}$ has a positive $\mathbf{j}$-component, find $\mathbf{v}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['1', '3'] }
+  solution: |
+    Let $\mathbf{v} = x\mathbf{i} + y\mathbf{j}$. Then $2x + y = \sqrt{10} \times \sqrt{5} \times \cos 45^\circ = 5$, and $x^2 + y^2 = 10$.
+    Substituting $y = 5 - 2x$: $5x^2 - 20x + 15 = 0$, so $x = 1$ or $x = 3$, giving $\mathbf{i} + 3\mathbf{j}$ or $3\mathbf{i} - \mathbf{j}$. Only the first has a positive $\mathbf{j}$-component.
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        sols = solve([2*x + y - sqrt(10)*sqrt(5)*cos(pi/4), x**2 + y**2 - 10], [x, y], dict=True)
+        s = [t for t in sols if t[y] > 0][0]
+        return {"a": [simplify(s[x]), simplify(s[y])]}
+
+- id: spec.vectors-2d.scalar-product.obtuse-range
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1720
+  responseSkills: { synthesis: 1710, reading: 1700 }
+  stem: |
+    For which real numbers $t$ is the angle between $\mathbf{i} + t\mathbf{j}$ and $t\mathbf{i} + \mathbf{j}$ obtuse (strictly between $90^\circ$ and $180^\circ$)?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$t < 0$' }
+        - { id: b, text: '$t < 0$ and $t \ne -1$' }
+        - { id: c, text: '$-1 < t < 0$' }
+        - { id: d, text: '$t < -1$' }
+      answer: { type: mcq, key: b }
+  solution: |
+    The dot product is $2t$, so the angle is obtuse or $180^\circ$ exactly when $t < 0$.
+    It is $180^\circ$ when the vectors point in opposite directions: $t\mathbf{i} + \mathbf{j} = k(\mathbf{i} + t\mathbf{j})$ with $k < 0$, which needs $t = k$ and $1 = kt = t^2$, so $t = -1$. Excluding that leaves $t < 0$, $t \ne -1$.
+  verify: |
+    def answers():
+        def obtuse(t):
+            u, v = Matrix([1, t]), Matrix([t, 1])
+            c = u.dot(v) / (u.norm()*v.norm())
+            return bool(-1 < c < 0)
+        tests = {Rational(-5): True, Rational(-1): False, Rational(-1, 2): True, Rational(0): False, Rational(2): False}
+        assert all(obtuse(t) == want for t, want in tests.items())
+        return {"a": "b"}
+
+- id: spec.vectors-2d.scalar-product.right-angle-on-axis
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1730
+  responseSkills: { synthesis: 1720, calculation: 1680 }
+  stem: |
+    $A$ is $(1, 2)$ and $B$ is $(5, 1)$. Find the exact $x$-coordinates of all points $P$ on the $x$-axis for which angle $APB$ is a right angle.
+  parts:
+    - id: a
+      answer: { type: set, key: ['3+\sqrt{2}', '3-\sqrt{2}'], form: [exact] }
+  solution: |
+    Let $P$ be $(x, 0)$. A right angle at $P$ means $\overrightarrow{PA}\cdot\overrightarrow{PB} = 0$:
+    $(1 - x)(5 - x) + (2)(1) = 0$, so $x^2 - 6x + 7 = 0$ and $x = 3 \pm \sqrt{2}$.
+  verify: |
+    def answers():
+        x = symbols("x", real=True)
+        A, B, P = Matrix([1, 2]), Matrix([5, 1]), Matrix([x, 0])
+        return {"a": solve((A - P).dot(B - P), x)}
+
+- id: spec.vectors-2d.scalar-product.cauchy-schwarz
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1750
+  responseSkills: { proof: 1750, synthesis: 1700, clarity: 1620 }
+  stem: |
+    For $\mathbf{a} = a_1\mathbf{i} + a_2\mathbf{j}$ and $\mathbf{b} = b_1\mathbf{i} + b_2\mathbf{j}$, prove using components only (no angles) that $(\mathbf{a}\cdot\mathbf{b})^2 \le |\mathbf{a}|^2\,|\mathbf{b}|^2$, and state exactly when equality holds.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: write, description: "Writes both sides in components: (a₁b₁ + a₂b₂)² and (a₁² + a₂²)(b₁² + b₂²)", points: 1, dimension: proof }
+          - { id: subtract, description: "Shows the difference is (a₁b₂ − a₂b₁)²", points: 2, dimension: proof }
+          - { id: conclude, description: "A square is ≥ 0, giving the inequality", points: 1, dimension: proof }
+          - { id: equality, description: "Equality exactly when a₁b₂ = a₂b₁, i.e. one vector is a multiple of the other (parallel, or one is zero)", points: 1, dimension: synthesis }
+  solution: |
+    $|\mathbf{a}|^2|\mathbf{b}|^2 - (\mathbf{a}\cdot\mathbf{b})^2 = (a_1^2 + a_2^2)(b_1^2 + b_2^2) - (a_1b_1 + a_2b_2)^2 = a_1^2b_2^2 + a_2^2b_1^2 - 2a_1b_1a_2b_2 = (a_1b_2 - a_2b_1)^2 \ge 0$.
+    Equality holds exactly when $a_1b_2 = a_2b_1$, which means one vector is a multiple of the other: they are parallel, or one is the zero vector.
+  verify: |
+    def answers():
+        a1, a2, b1, b2 = symbols("a1 a2 b1 b2", real=True)
+        assert expand((a1**2 + a2**2)*(b1**2 + b2**2) - (a1*b1 + a2*b2)**2 - (a1*b2 - a2*b1)**2) == 0
+        return {}
+
+- id: spec.vectors-2d.scalar-product.three-unit-vectors
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1820
+  responseSkills: { synthesis: 1820, proof: 1760 }
+  stem: |
+    $\mathbf{a}$, $\mathbf{b}$ and $\mathbf{c}$ are unit vectors in the plane. Find the largest possible value of
+    $$|\mathbf{a} - \mathbf{b}|^2 + |\mathbf{b} - \mathbf{c}|^2 + |\mathbf{c} - \mathbf{a}|^2.$$
+  parts:
+    - id: a
+      answer: { type: numeric, key: 9 }
+  solution: |
+    Expanding, each $|\mathbf{a} - \mathbf{b}|^2 = 2 - 2\,\mathbf{a}\cdot\mathbf{b}$, so the sum is $6 - 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{a})$.
+    Also $0 \le |\mathbf{a} + \mathbf{b} + \mathbf{c}|^2 = 3 + 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{a})$, so $\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{a} \ge -\tfrac{3}{2}$.
+    So the sum is at most $6 + 3 = 9$. It equals 9 when $\mathbf{a} + \mathbf{b} + \mathbf{c} = \mathbf{0}$, e.g. three unit vectors $120^\circ$ apart.
+  verify: |
+    def answers():
+        u = lambda t: Matrix([cos(t), sin(t)])
+        a, b, c = u(0), u(2*pi/3), u(4*pi/3)
+        s = simplify((a - b).dot(a - b) + (b - c).dot(b - c) + (c - a).dot(c - a))
+        # A coarse numeric search confirms nothing beats it.
+        import math
+        best = 0
+        for i in range(0, 360, 10):
+            for j in range(0, 360, 10):
+                x, y = math.radians(i), math.radians(j)
+                v = [(1, 0), (math.cos(x), math.sin(x)), (math.cos(y), math.sin(y))]
+                d = lambda p, q: (p[0] - q[0])**2 + (p[1] - q[1])**2
+                best = max(best, d(v[0], v[1]) + d(v[1], v[2]) + d(v[2], v[0]))
+        assert best <= s + 1e-9
+        return {"a": s}

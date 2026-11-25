@@ -40,21 +40,28 @@ export const RANK_BUFFER: Record<Exclude<RankLevel, 0>, number> = {
   5: 30,
 };
 
-/** Correct answers at Tier ≥ k needed to unlock rank k, for a medium skill. Bigger skills need more (SKILL_SIZE). */
-export const GATE_COUNT = 3;
+/**
+ * Correct answers at Tier ≥ k needed to unlock rank k, before the skill-size extra (SPEC §5.4).
+ * Silver is deliberately high: it should mean sustained Tier 2 work, not a few lucky answers.
+ */
+export const GATE_BASE: Record<Exclude<RankLevel, 0>, number> = { 1: 3, 2: 10, 3: 3, 4: 3, 5: 3 };
 
 /**
  * Skill sizes (SPEC §3.3). Bigger skills (foundational, difficult or heavily examined) get more questions
- * and take more to rank up: a larger gate count, and θ moves more slowly (K is scaled down).
+ * and take more to rank up: extra correct answers at every gate, and θ moves more slowly (K is scaled down).
  */
 export type SkillSize = "small" | "medium" | "large" | "cornerstone";
 export const SKILL_SIZES: readonly SkillSize[] = ["small", "medium", "large", "cornerstone"];
-export const SKILL_SIZE: Record<SkillSize, { minQuestions: number; minTier5: number; gateCount: number; kScale: number }> = {
-  small: { minQuestions: 10, minTier5: 3, gateCount: 3, kScale: 1 },
-  medium: { minQuestions: 15, minTier5: 4, gateCount: 3, kScale: 1 },
-  large: { minQuestions: 25, minTier5: 5, gateCount: 4, kScale: 0.85 },
-  cornerstone: { minQuestions: 40, minTier5: 7, gateCount: 5, kScale: 0.7 },
+export const SKILL_SIZE: Record<SkillSize, { minQuestions: number; minTier5: number; gateExtra: number; kScale: number }> = {
+  small: { minQuestions: 10, minTier5: 3, gateExtra: 0, kScale: 1 },
+  medium: { minQuestions: 15, minTier5: 4, gateExtra: 0, kScale: 1 },
+  large: { minQuestions: 25, minTier5: 5, gateExtra: 1, kScale: 0.85 },
+  cornerstone: { minQuestions: 40, minTier5: 7, gateExtra: 2, kScale: 0.7 },
 };
+
+/** Correct answers at Tier ≥ k needed for rank k in a skill of this size. */
+export const gateCount = (rank: Exclude<RankLevel, 0>, size: SkillSize = "medium"): number => GATE_BASE[rank] + SKILL_SIZE[size].gateExtra;
+
 /** An outcome must exceed this to count toward a gate (SPEC §5.4). */
 export const GATE_OUTCOME = 0.6;
 

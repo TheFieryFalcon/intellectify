@@ -401,3 +401,157 @@
     from sympy.utilities.iterables import multiset_permutations
     def answers():
         return {"a": sum(1 for p in multiset_permutations([1, 1, 2, 2, 3, 3]) if all(p[i] != p[i + 1] for i in range(5)))}
+
+- id: spec.combinatorics.permutations.fixed-end
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1070
+  responseSkills: { calculation: 1060, reading: 1070 }
+  variants:
+    - { n: 5, v: 24 }
+    - { n: 7, v: 720 }
+  stem: |
+    {{n}} people line up for a photo. In how many ways can they line up if one particular person must stand at the left end?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    That person's place is fixed, and the other ${{n}} - 1$ people fill the rest in $({{n}} - 1)! = {{v}}$ ways.
+  verify: |
+    def answers(n, v):
+        return {"a": factorial(n - 1)}
+
+- id: spec.combinatorics.permutations.vowel-ends
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1350
+  responseSkills: { calculation: 1330, reading: 1350 }
+  stem: |
+    How many arrangements of the letters of **NUMBER** begin and end with a vowel?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 48 }
+  solution: |
+    The vowels are U and E. Fill the restricted places first: 2 options for the first letter, then 1 for the last. The 4 consonants fill the middle in $4! = 24$ ways. Total: $2 \times 1 \times 24 = 48$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations("NUMBER") if p[0] in "UE" and p[-1] in "UE")}
+
+- id: spec.combinatorics.permutations.couples-in-a-row
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1450
+  responseSkills: { calculation: 1430, reading: 1440 }
+  variants:
+    - { c: 3, v: 48 }
+    - { c: 4, v: 384 }
+  stem: |
+    {{c}} couples sit in a row of $2 \times {{c}}$ seats. In how many ways can they sit if each couple sits together?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Tape each couple into a block: {{c}} blocks can be arranged in ${{c}}!$ ways. Each couple can sit in 2 orders, giving $2^{ {{c}} }$. Total ${{c}}! \times 2^{ {{c}} } = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(c, v):
+        people = list(range(2 * c))  # couple k is people 2k and 2k + 1
+        return {"a": sum(1 for p in permutations(people) if all(p[i] // 2 == p[i + 1] // 2 for i in range(0, 2 * c, 2)))}
+
+- id: spec.combinatorics.permutations.vowels-together
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1480
+  responseSkills: { calculation: 1460, reading: 1460 }
+  stem: |
+    How many arrangements of the letters of **TRIANGLE** have the three vowels (I, A and E) all together?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 4320 }
+  solution: |
+    Tape the vowels into one block. There are now 6 items (the block and 5 consonants), arranged in $6! = 720$ ways. The vowels inside the block can be in $3! = 6$ orders. Total: $720 \times 6 = 4320$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        def together(p):
+            idx = sorted(i for i, ch in enumerate(p) if ch in "IAE")
+            return idx[2] - idx[0] == 2
+        return {"a": sum(1 for p in permutations("TRIANGLE") if together(p))}
+
+- id: spec.combinatorics.permutations.alternate-round-couple
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1720
+  responseSkills: { synthesis: 1710, calculation: 1660 }
+  stem: |
+    5 men and 5 women, all different, sit around a round table so that men and women alternate. One particular man and woman are a couple and must sit next to each other. Rotations of the whole table count as the same seating. How many seatings are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1152 }
+  solution: |
+    Seat the man from the couple first; since rotations count as the same, his seat can be taken as fixed. Seats alternate man–woman, so his partner must take one of the 2 women's seats beside him: 2 ways.
+    The other 4 men fill the remaining men's seats in $4! = 24$ ways, and the other 4 women fill the remaining women's seats in $4! = 24$ ways. Total: $2 \times 24 \times 24 = 1152$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        # Fix man 0 in seat 0 (removes rotations). Seats 0..9 around the table; even seats men, odd seats women.
+        count = 0
+        for men in permutations(range(1, 5)):
+            for women in permutations(range(5)):
+                seat = [None] * 10
+                seat[0] = ("m", 0)
+                for i, m in enumerate(men): seat[2 * (i + 1)] = ("m", m)
+                for i, w in enumerate(women): seat[2 * i + 1] = ("w", w)
+                k = seat.index(("w", 0))
+                if k in (1, 9): count += 1
+        return {"a": count}
+
+- id: spec.combinatorics.permutations.mathematics-no-repeats
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  rating: 1770
+  responseSkills: { synthesis: 1760, calculation: 1700 }
+  stem: |
+    How many arrangements of the letters of **MATHEMATICS** have no two identical letters next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2772000 }
+  solution: |
+    MATHEMATICS has 11 letters, with M, A and T each appearing twice. All arrangements: $\dfrac{11!}{2!\,2!\,2!} = 4\,989\,600$.
+    Let $A_M$, $A_A$, $A_T$ be the arrangements where that pair is together.
+    - One pair taped: $\dfrac{10!}{2!\,2!} = 907\,200$, for each of 3 pairs.
+    - Two pairs taped: $\dfrac{9!}{2!} = 181\,440$, for each of 3 choices.
+    - All three taped: $8! = 40\,320$.
+
+    By inclusion–exclusion, $|A_M \cup A_A \cup A_T| = 2\,721\,600 - 544\,320 + 40\,320 = 2\,217\,600$. So $4\,989\,600 - 2\,217\,600 = 2\,772\,000$ arrangements have no equal neighbors.
+  verify: |
+    def answers():
+        # Count arrangements of a multiset with no equal neighbors by dynamic programming over remaining counts.
+        from functools import lru_cache
+        counts = {}
+        for ch in "MATHEMATICS": counts[ch] = counts.get(ch, 0) + 1
+        letters = sorted(counts)
+        @lru_cache(None)
+        def go(rem, last):
+            if sum(rem) == 0: return 1
+            total = 0
+            for i, r in enumerate(rem):
+                if r and i != last:
+                    nxt = list(rem); nxt[i] -= 1
+                    total += go(tuple(nxt), i)
+            return total
+        return {"a": go(tuple(counts[c] for c in letters), -1)}
+
+- id: spec.combinatorics.permutations.exactly-one-fixed
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  rating: 1820
+  responseSkills: { synthesis: 1820, calculation: 1720 }
+  stem: |
+    The numbers 1 to 7 are arranged in a row. In how many arrangements is **exactly one** number in its own position (the number $k$ in position $k$)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1855 }
+  solution: |
+    First count arrangements of $n$ numbers with **no** number in its own position; call this $D_n$. By inclusion–exclusion over the sets "number $k$ is in place $k$":
+    $$D_n = n! - \binom{n}{1}(n-1)! + \binom{n}{2}(n-2)! - \cdots = n!\left(1 - \tfrac{1}{1!} + \tfrac{1}{2!} - \cdots + \tfrac{(-1)^n}{n!}\right).$$
+    So $D_6 = 720 - 720 + 360 - 120 + 30 - 6 + 1 = 265$.
+    For exactly one fixed number: pick which number stays put (7 ways), then arrange the other 6 with none in place ($D_6 = 265$ ways). Total: $7 \times 265 = 1855$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(7)) if sum(p[i] == i for i in range(7)) == 1)}

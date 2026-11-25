@@ -353,3 +353,114 @@
         count6 = sum(1 for s in product(range(3), repeat=6) if all(s[i] != s[i + 1] for i in range(5)))
         n = symbols("n")
         return {"a": count6, "b": 3 * 2**(n - 1)}
+
+- id: spec.combinatorics.counting-principles.three-course-meal
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1040
+  responseSkills: { calculation: 1030, reading: 1040 }
+  variants:
+    - { e: 4, m: 6, d: 3 }
+    - { e: 5, m: 7, d: 4 }
+  stem: |
+    A restaurant offers {{e}} entrées, {{m}} mains and {{d}} desserts. How many different three-course meals (one of each) are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{e}}\cdot{{m}}\cdot{{d}}' }
+  solution: |
+    Three stages, each independent of the others: ${{e}} \times {{m}} \times {{d}}$.
+  verify: |
+    def answers(e, m, d):
+        return {"a": e * m * d}
+
+- id: spec.combinatorics.counting-principles.vowel-start
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1270
+  responseSkills: { calculation: 1250, reading: 1270 }
+  stem: |
+    A "word" is any string of letters from A to Z. How many 3-letter words have no repeated letter and start with a vowel (A, E, I, O or U)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 3000 }
+  solution: |
+    Fill the restricted first place first: 5 vowels. Then 25 letters remain for the second place and 24 for the third: $5 \times 25 \times 24 = 3000$.
+  verify: |
+    from itertools import permutations
+    from string import ascii_uppercase as L
+    def answers():
+        return {"a": sum(1 for w in permutations(L, 3) if w[0] in "AEIOU")}
+
+- id: spec.combinatorics.counting-principles.palindromes
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1430
+  responseSkills: { calculation: 1400, synthesis: 1420 }
+  variants:
+    - { n: 5, v: 900 }
+    - { n: 6, v: 900 }
+    - { n: 7, v: 9000 }
+  stem: |
+    A palindrome reads the same forwards and backwards, like 12321. How many {{n}}-digit numbers are palindromes?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The first half of the digits (rounded up) decides the whole number, because the rest mirrors it. The first digit has 9 options (not 0), and each other digit in the first half has 10. This gives {{v}}.
+  verify: |
+    def answers(n, v):
+        half = (n + 1) // 2
+        return {"a": 9 * 10**(half - 1)}
+
+- id: spec.combinatorics.counting-principles.digit-product
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1700
+  responseSkills: { synthesis: 1690, calculation: 1650 }
+  stem: |
+    How many 3-digit numbers have digits whose product is 24?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 21 }
+  solution: |
+    No digit can be 0, so list the ways to write 24 as a product of three digits from 1 to 9 (ignoring order): $1 \times 3 \times 8$, $1 \times 4 \times 6$, $2 \times 3 \times 4$ and $2 \times 2 \times 6$.
+    Three different digits can be ordered in $3! = 6$ ways; a set with a repeated digit in $\tfrac{3!}{2!} = 3$ ways. Total: $6 + 6 + 6 + 3 = 21$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(100, 1000) if prod(int(c) for c in str(n)) == 24)}
+
+- id: spec.combinatorics.counting-principles.staircase
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1730
+  responseSkills: { synthesis: 1730, calculation: 1660 }
+  variants:
+    - { n: 10, v: 89 }
+    - { n: 12, v: 233 }
+  stem: |
+    You climb a staircase of {{n}} steps, taking either 1 or 2 steps at a time. In how many different ways can you reach the top?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Let $w_n$ be the number of ways to climb $n$ steps. The last move is either a 1-step (from step $n - 1$) or a 2-step (from step $n - 2$), and these cases don't overlap, so $w_n = w_{n-1} + w_{n-2}$.
+    With $w_1 = 1$ and $w_2 = 2$: $1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, \dots$, so $w_{ {{n}} } = {{v}}$.
+  verify: |
+    from itertools import product
+    def answers(n, v):
+        count = 0
+        for k in range(n + 1):  # number of 2-steps
+            if 2 * k <= n:
+                count += binomial(n - k, k)
+        return {"a": count}
+
+- id: spec.combinatorics.counting-principles.digit-sum-ten
+  skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  rating: 1760
+  responseSkills: { synthesis: 1760, calculation: 1680 }
+  stem: |
+    How many positive integers less than 1000 have digits that add to 10?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 63 }
+  solution: |
+    Write each number with three digits, padding with zeros (e.g. 46 as 046). We need digits $a + b + c = 10$ with each digit from 0 to 9.
+    Without the "at most 9" rule, sharing 10 among 3 digits gives $\binom{12}{2} = 66$ ways. The only bad ones put 10 in a single place: 3 ways. So the answer is $66 - 3 = 63$. (000 has digit sum 0, so it isn't counted.)
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(1, 1000) if sum(int(c) for c in str(n)) == 10)}

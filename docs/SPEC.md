@@ -171,12 +171,12 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 ### 3.3 Skill sizes
 Every skill has a **size**, set in the curriculum file. Bigger skills are foundational (many skills build on them), difficult, or heavily examined, so they get more questions and take more to rank up.
 
-| Size | Tree node | Questions (min) | Tier 5 (min) | Correct answers per rank gate | θ speed |
+| Size | Tree node | Questions (min) | Tier 5 (min) | Extra correct answers per rank gate (§5.4) | θ speed |
 |---|---|---|---|---|---|
-| Small | small circle | 10 | 3 | 3 | ×1 |
-| Medium | circle | 15 | 4 | 3 | ×1 |
-| Large | small diamond | 25 | 5 | 4 | ×0.85 |
-| Cornerstone | large diamond | 40 | 7 | 5 | ×0.7 |
+| Small | small circle | 10 | 3 | +0 | ×1 |
+| Medium | circle | 15 | 4 | +0 | ×1 |
+| Large | small diamond | 25 | 5 | +1 | ×0.85 |
+| Cornerstone | large diamond | 40 | 7 | +2 | ×0.7 |
 
 - There is **no maximum**: a skill that deserves more questions gets them.
 - "θ speed" scales K in the rating update (§5.1), so θ moves more slowly in bigger skills and each rank takes more questions to earn.
@@ -226,15 +226,17 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 ### 5.4 Ranks
 Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diamond**. **Diamond = "Mastered".**
 
-| Rank | Requires θ ≥ | AND gate |
+| Rank | Requires θ ≥ | AND gate (Small/Medium skill) |
 |---|---|---|
-| Bronze | 1000 | ≥ *g* correct at Tier 1 or higher |
-| Silver | 1250 | ≥ *g* correct at Tier 2 or higher |
-| Gold | 1400 | ≥ *g* correct at Tier 3 or higher |
-| Platinum | 1550 | ≥ *g* correct at Tier 4 or higher |
-| Diamond | 1700 | ≥ *g* correct at Tier 5 or higher |
+| Bronze | 1000 | ≥ 3 correct at Tier 1 or higher |
+| Silver | 1250 | ≥ 10 correct at Tier 2 or higher |
+| Gold | 1400 | ≥ 3 correct at Tier 3 or higher |
+| Platinum | 1550 | ≥ 3 correct at Tier 4 or higher |
+| Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
 
-*g* depends on skill size (§3.3): 3 for Small and Medium skills, 4 for Large, 5 for Cornerstone. Response skills use 3.
+- **Skill size adds to every gate** (§3.3): +1 for Large skills and +2 for Cornerstone skills. For example, Silver in a Cornerstone skill needs 12 correct at Tier 2 or higher. Response skills use the Small/Medium numbers.
+- **Silver is deliberately the big gate.** It means sustained Tier 2 work across many questions, not a few lucky answers. The later gates are smaller because their θ floors are already hard to reach.
+- **Ranks are earned in order.** Rank *k* needs its own gate and every lower one, so a student can't skip Silver's gate by solving a few harder questions.
 
 - **Correct** (for gates) means a resolved question with **outcome > 0.6**. Some consequences:
   - First-try answers always count.
@@ -1109,7 +1111,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
   - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.
-- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Platinum gate 2/4" for a Large skill) and question counts.
+- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Silver 7/10") and question counts.
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
 ### 15.3 Skill page
