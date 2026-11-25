@@ -4,6 +4,8 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import LevelBadge from "$lib/components/LevelBadge.svelte";
+  import TierCelebration from "$lib/components/TierCelebration.svelte";
+  import TierGem from "$lib/components/TierGem.svelte";
   import { profileFor } from "$lib/profile.svelte";
   import { session, startSession } from "$lib/session.svelte";
 
@@ -14,7 +16,7 @@
 
   // Level-up toast: shows for a few seconds after a grant crosses a level boundary.
   $effect(() => {
-    if (!profile?.levelUp) return;
+    if (!profile?.levelUp || profile.levelUp.newTier) return;
     const t = setTimeout(() => profile && (profile.levelUp = null), 4000);
     return () => clearTimeout(t);
   });
@@ -42,10 +44,12 @@
   {/if}
 </header>
 
-{#if profile?.levelUp}
-  <div class="toast" class:big={profile.levelUp.newTier} role="status" style="--t: var(--lvl-{profile.levelUp.tier.key})">
-    <span class="gem"></span>
-    <span>Level {profile.levelUp.level}{#if profile.levelUp.newTier} · <strong>{profile.levelUp.tier.name}</strong>{/if}</span>
+{#if profile?.levelUp?.newTier}
+  <TierCelebration levelUp={profile.levelUp} onclose={() => profile && (profile.levelUp = null)} />
+{:else if profile?.levelUp}
+  <div class="toast" role="status">
+    <TierGem tier={profile.levelUp.tier.key} size={12} />
+    <span>Level {profile.levelUp.level}</span>
   </div>
 {/if}
 
@@ -67,7 +71,5 @@
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
   .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 22, 35, 0.18); font-weight: 500; animation: rise 0.25s ease-out; }
-  .toast.big { padding: 14px 24px; font-size: 16px; border-color: var(--t); }
-  .toast .gem { width: 12px; height: 12px; transform: rotate(45deg); border-radius: 2px; background: var(--t); }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
 </style>
