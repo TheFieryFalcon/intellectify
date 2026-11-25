@@ -1,17 +1,18 @@
-import { initializeApp } from "firebase/app";
+import { FirebaseError, initializeApp } from "firebase/app";
 import {
-  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   getAuth,
-  isSignInWithEmailLink,
+  GoogleAuthProvider,
   onAuthStateChanged,
-  sendSignInLinkToEmail,
-  signInAnonymously,
-  signInWithEmailLink,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
+  type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, getFirestore, writeBatch } from "firebase/firestore";
-import { emptyProgress, type Backend, type StoredSkillState } from "./types";
+import { collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { emptyProgress, type Backend, type StoredSkillState, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -20,7 +21,30 @@ export interface FirebaseConfig {
   appId: string;
 }
 
-const EMAIL_KEY = "intellectify:email-for-sign-in";
+/** Plain-English messages for the auth errors students can actually hit. */
+const AUTH_MESSAGES: Record<string, string> = {
+  "auth/invalid-credential": "Wrong email or password.",
+  "auth/wrong-password": "Wrong email or password.",
+  "auth/user-not-found": "Wrong email or password.",
+  "auth/invalid-email": "That email address isn't valid.",
+  "auth/email-already-in-use": "An account with that email already exists. Sign in instead.",
+  "auth/weak-password": "Use a password of at least 6 characters.",
+  "auth/missing-password": "Enter your password.",
+  "auth/too-many-requests": "Too many attempts. Wait a few minutes and try again.",
+  "auth/network-request-failed": "Couldn't reach the server. Check your connection.",
+  "auth/popup-blocked": "Your browser blocked the Google sign-in window. Allow pop-ups and try again.",
+  "auth/operation-not-allowed": "This sign-in method isn't enabled for the project yet.",
+  "auth/unauthorized-domain": "This site isn't on the project's list of authorized domains.",
+};
+
+/** Rethrow Firebase auth errors with a readable message. Returns silently if the user closed the popup. */
+function friendly(err: unknown): never | void {
+  if (err instanceof FirebaseError) {
+    if (err.code === "auth/popup-closed-by-user" || err.code === "auth/cancelled-popup-request") return;
+    throw new Error(AUTH_MESSAGES[err.code] ?? "Sign-in failed. Try again.");
+  }
+  throw err;
+}
 
 /**
  * Firestore layout (docs/SPEC.md §15.3):
@@ -36,31 +60,45 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const db = getFirestore(app);
   const courseDoc = (uid: string, course: string) => doc(db, "users", uid, "courses", course);
 
+  const listeners = new Set<(u: User | null) => void>();
+  const toUser = (u: FirebaseUser): User => ({ uid: u.uid, displayName: u.displayName || u.email?.split("@")[0] || "Student", email: u.email, local: false });
+  const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
+
+  onAuthStateChanged(auth, (u) => {
+    emit(u);
+    // Keep a small profile document (name, email, last seen) for profiles and leaderboards.
+    if (u) void setDoc(doc(db, "users", u.uid), { displayName: toUser(u).displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true }).catch(() => {});
+  });
+
   return {
     kind: "firebase",
     onUser(cb) {
-      return onAuthStateChanged(auth, (u) =>
-        cb(u ? { uid: u.uid, displayName: u.displayName ?? u.email?.split("@")[0] ?? "Student", email: u.email, local: false } : null),
-      );
+      listeners.add(cb);
+      if (auth.currentUser !== undefined) cb(auth.currentUser ? toUser(auth.currentUser) : null);
+      return () => listeners.delete(cb);
     },
     async signInWithGoogle() {
-      await signInWithPopup(auth, new GoogleAuthProvider());
+      await signInWithPopup(auth, new GoogleAuthProvider()).catch(friendly);
     },
-    async sendEmailLink(email) {
-      await sendSignInLinkToEmail(auth, email, { url: `${location.origin}/auth/email-link`, handleCodeInApp: true });
-      localStorage.setItem(EMAIL_KEY, email);
+    async signInWithEmail(email, password) {
+      await signInWithEmailAndPassword(auth, email.trim(), password).catch(friendly);
     },
-    async completeEmailLink(href) {
-      if (!isSignInWithEmailLink(auth, href)) return false;
-      let email = localStorage.getItem(EMAIL_KEY);
-      if (!email) email = window.prompt("Confirm your email to finish signing in") ?? "";
-      if (!email) throw new Error("Enter the email address the link was sent to.");
-      await signInWithEmailLink(auth, email, href);
-      localStorage.removeItem(EMAIL_KEY);
-      return true;
+    async signUpWithEmail(name, email, password) {
+      try {
+        const { user } = await createUserWithEmailAndPassword(auth, email.trim(), password);
+        if (name.trim()) {
+          await updateProfile(user, { displayName: name.trim() });
+          emit(auth.currentUser);
+        }
+      } catch (err) {
+        friendly(err);
+      }
+    },
+    async sendPasswordReset(email) {
+      await sendPasswordResetEmail(auth, email.trim()).catch(friendly);
     },
     async signInAsGuest() {
-      await signInAnonymously(auth);
+      throw new Error("Sign in with Google or email.");
     },
     async signOut() {
       await signOut(auth);

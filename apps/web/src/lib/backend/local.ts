@@ -39,11 +39,14 @@ export function createLocalBackend(): Backend {
     async signInWithGoogle() {
       throw new Error("Google sign-in needs Firebase. Continue as a guest instead.");
     },
-    async sendEmailLink() {
+    async signInWithEmail() {
       throw new Error("Email sign-in needs Firebase. Continue as a guest instead.");
     },
-    async completeEmailLink() {
-      return false;
+    async signUpWithEmail() {
+      throw new Error("Email sign-in needs Firebase. Continue as a guest instead.");
+    },
+    async sendPasswordReset() {
+      throw new Error("Email sign-in needs Firebase.");
     },
     async signInAsGuest() {
       user = { uid: "guest", displayName: "Guest", email: null, local: true };

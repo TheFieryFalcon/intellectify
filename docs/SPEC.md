@@ -47,7 +47,7 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 | Student (only user role) | Signs in, picks a course, practices, competes on leaderboards, posts in discussions. |
 | Owner (you) | Not an in-app role. Authors content offline via scripts and git; holds the server-side API keys. |
 
-Sign-in uses **Google** or **email** (Firebase Auth: Google provider + email link/password).
+Sign-in uses **Google** or **email and password** (Firebase Auth, project `intellectify-4357c`), with password reset by email.
 
 ---
 

@@ -45,9 +45,10 @@ export interface Backend {
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
   onUser(cb: (user: User | null) => void): () => void;
   signInWithGoogle(): Promise<void>;
-  sendEmailLink(email: string): Promise<void>;
-  /** Finish an email-link sign-in if the current URL is one. Returns true if it was. */
-  completeEmailLink(href: string): Promise<boolean>;
+  signInWithEmail(email: string, password: string): Promise<void>;
+  signUpWithEmail(name: string, email: string, password: string): Promise<void>;
+  sendPasswordReset(email: string): Promise<void>;
+  /** Local mode only: the single browser-local guest. */
   signInAsGuest(): Promise<void>;
   signOut(): Promise<void>;
 
