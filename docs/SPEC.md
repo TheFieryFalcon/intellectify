@@ -129,7 +129,7 @@ The tree is drafted by an LLM script from the syllabus PDFs and then edited by h
 Every skill has a tutorial. Together the tutorials do the job of a very good WA community textbook (in the vein of Lucarelli or O.T. Lee): a student who has never met a topic can learn it here, then practice it.
 
 **Scope**
-- A tutorial covers everything a student needs to reach **low-to-mid Tier 3** (ratings up to about 1530): every dot point the skill covers, including review dot points mapped onto it (§3).
+- A tutorial covers everything a student needs to reach **low-to-mid Tier 3** (ratings up to about 1480): every dot point the skill covers, including review dot points mapped onto it (§3).
 - It stops there. Harder technique and insight are learned through Tier 4–6 problems and their worked solutions, not the tutorial.
 - Where the syllabus says "prove", the tutorial includes the proof (or a proof sketch where the full proof is itself an exercise).
 
@@ -171,9 +171,9 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 | Tier | Rating band | Character |
 |---|---|---|
 | Tier 1 | 1000–1249 | Recall: definitions, notation, one-step procedures |
-| Tier 2 | 1250–1449 | Apply: routine multi-step application |
-| Tier 3 | 1450–1599 | Typical WACE exam question |
-| Tier 4 | 1600–1699 | Hardest WACE exam questions |
+| Tier 2 | 1250–1399 | Apply: routine multi-step application |
+| Tier 3 | 1400–1549 | Typical WACE exam question |
+| Tier 4 | 1550–1699 | Hardest WACE exam questions |
 | Tier 5 | 1700–1999 | Beyond the exam: creative, unfamiliar, synthesis. **Never above first-year undergraduate level.** |
 | Tier 6 | 2000+ | Reserved for the **monthly problems** (§8.6). Exceptionally difficult, **up to second-year undergraduate level** in difficulty, but never needing unlearned knowledge (§8.6). |
 
@@ -200,7 +200,7 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 - **Δθ** is shown after every answer, e.g. "+14 → 1523".
 
 ### 5.3 Placement
-- On first opening a skill, the student can **choose a starting tier**. The default is **Tier 3**. θ is set to the **floor of that tier's band** (e.g. Tier 4 → 1600) and then updates at normal speed.
+- On first opening a skill, the student can **choose a starting tier**. The default is **Tier 3**. θ is set to the **floor of that tier's band** (e.g. Tier 4 → 1550) and then updates at normal speed.
 - At any time the student can **drop a tier**. This is a **non-destructive selection shift**: θ, rank and gates are untouched, and question selection (§5.7) targets the tier below the one θ currently sits in. The student can switch it off at any time. θ keeps updating normally, and easier questions naturally give smaller gains.
 - Placement sets θ only. **Gate counts start at zero**, so placement alone never grants a rank.
 
@@ -211,8 +211,8 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 |---|---|---|
 | Bronze | 1000 | ≥ 3 correct at Tier 1 or higher |
 | Silver | 1250 | ≥ 3 correct at Tier 2 or higher |
-| Gold | 1450 | ≥ 3 correct at Tier 3 or higher |
-| Platinum | 1600 | ≥ 3 correct at Tier 4 or higher |
+| Gold | 1400 | ≥ 3 correct at Tier 3 or higher |
+| Platinum | 1550 | ≥ 3 correct at Tier 4 or higher |
 | Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
 
 - **Correct** (for gates) means a resolved question with **outcome > 0.6**. Some consequences:

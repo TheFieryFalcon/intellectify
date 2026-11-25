@@ -121,7 +121,7 @@
 - id: spec.combinatorics.pigeonhole.sum-to-21
   status: draft
   skills: { primary: spec.combinatorics.pigeonhole }
-  rating: 1560
+  rating: 1500
   responseSkills: { reading: 1500, proof: 1500 }
   stem: |
     What is the smallest number of integers that must be chosen from $\{1, 2, \ldots, 20\}$ to

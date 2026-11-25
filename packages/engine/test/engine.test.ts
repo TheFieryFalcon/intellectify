@@ -53,7 +53,7 @@ describe("rating", () => {
   });
 
   it("maps ratings to exam-anchored tiers", () => {
-    expect([999, 1000, 1249, 1250, 1449, 1450, 1599, 1600, 1699, 1700, 1999, 2000].map(tierOf)).toEqual([
+    expect([999, 1000, 1249, 1250, 1399, 1400, 1549, 1550, 1699, 1700, 1999, 2000].map(tierOf)).toEqual([
       1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6,
     ]);
   });
@@ -112,13 +112,13 @@ describe("ranks and gates", () => {
 
   it("holds a rank inside the hidden buffer and drops below it", () => {
     const g = gatesWith({ 4: 3 });
-    expect(nextRank(4, 1600 - 20, g)).toBe(4); // Platinum buffer is 35
-    expect(nextRank(4, 1600 - 36, g)).toBe(3);
+    expect(nextRank(4, 1550 - 20, g)).toBe(4); // Platinum buffer is 35
+    expect(nextRank(4, 1550 - 36, g)).toBe(3);
   });
 
   it("placement alone never grants a rank", () => {
     const s = newSkillState(4);
-    expect(s.theta).toBe(1600);
+    expect(s.theta).toBe(1550);
     expect(s.rank).toBe(0);
   });
 

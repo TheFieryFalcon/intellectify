@@ -57,8 +57,8 @@ describe("scoreQuestion", () => {
       { id: "a", marks: 2, solvedOn: 1 },
       { id: "b", marks: 2, solvedOn: 1 },
     ]);
-    const primary = r.changes.skills["spec.a.one"]!.theta - 1450;
-    const secondary = r.changes.skills["spec.a.two"]!.theta - 1450;
+    const primary = r.changes.skills["spec.a.one"]!.theta - 1400;
+    const secondary = r.changes.skills["spec.a.two"]!.theta - 1400;
     expect(secondary).toBeCloseTo(primary / 2);
     expect(r.changes.responseSkills["calculation"]!.resolved).toBe(1);
     expect(r.changes.skills["spec.a.one"]!.seen).toEqual(["q1"]);

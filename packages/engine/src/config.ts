@@ -10,8 +10,8 @@ export const TIERS: readonly Tier[] = [1, 2, 3, 4, 5, 6];
 export const TIER_FLOOR: Record<Tier, number> = {
   1: 1000,
   2: 1250,
-  3: 1450,
-  4: 1600,
+  3: 1400,
+  4: 1550,
   5: 1700,
   6: 2000,
 };
