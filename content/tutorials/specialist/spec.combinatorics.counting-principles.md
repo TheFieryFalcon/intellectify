@@ -48,27 +48,27 @@ This is especially useful for "at least one", whose complement is "none".
 ## Worked examples
 
 ### Example 1
-A PIN has 4 digits, and digits may repeat. How many PINs are there?
+A bike lock has 3 dials, and each dial shows one of the letters A to F. How many different codes are there?
 
-1. There are 4 stages, one per position.
-2. Repeats are allowed, so each position has all 10 digits available.
-3. Multiply: $10 \times 10 \times 10 \times 10 = 10^4 = 10\,000$ PINs.
+1. There are 3 stages, one per dial.
+2. Each dial has 6 options, whatever the other dials show.
+3. Multiply: $6 \times 6 \times 6 = 6^3 = 216$ codes.
 
 ### Example 2
-How many 4-digit numbers have all different digits?
+How many 3-digit numbers have all different digits?
 
 1. The first digit is the most restricted: it can't be 0, leaving 9 options.
 2. The second digit can be any of the 10 digits except the first one: 9 options (0 is now allowed).
-3. The third digit avoids the two already used: 8 options. The fourth avoids three: 7 options.
-4. Multiply: $9 \times 9 \times 8 \times 7 = 4536$.
+3. The third digit avoids the two already used: 8 options.
+4. Multiply: $9 \times 9 \times 8 = 648$.
 
 ### Example 3
-How many positive integers less than 1000 contain at least one digit 7?
+How many 3-digit numbers contain at least one 0?
 
-1. "At least one 7" has a simpler complement: "no 7 at all".
-2. Write every number from 0 to 999 with three digits, padding with zeros (e.g. 42 becomes 042). Each of the 1000 strings is a different number.
-3. Strings with no 7 have 9 options in each place: $9^3 = 729$. This includes 000, which isn't positive, so 728 of the numbers 1 to 999 have no 7.
-4. Subtract from the 999 numbers: $999 - 728 = 271$.
+1. "At least one 0" has a simpler complement: "no 0 at all".
+2. All 3-digit numbers: $9 \times 10 \times 10 = 900$ (the first digit can't be 0).
+3. With no 0 anywhere, every digit has 9 options (1 to 9): $9^3 = 729$.
+4. Subtract: $900 - 729 = 171$.
 
 ## Watch out
 - A number can't start with 0. Deal with the first digit before the others.

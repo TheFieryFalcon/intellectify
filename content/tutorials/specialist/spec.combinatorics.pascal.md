@@ -43,25 +43,25 @@ A **counting argument** proves an identity by showing that both sides count the 
 ## Worked examples
 
 ### Example 1
-Write $\binom{9}{4} + \binom{9}{5}$ as a single combination and evaluate it.
+Write $\binom{7}{2} + \binom{7}{3}$ as a single combination and evaluate it.
 
-1. These are neighbors in row 9 ($r = 4$ and $r + 1 = 5$).
-2. By Pascal's rule, the sum is the entry below them in row 10, at position 5: $\binom{10}{5}$.
-3. $\binom{10}{5} = \dfrac{10!}{5!\,5!} = 252$.
+1. These are neighbors in row 7 ($r = 2$ and $r + 1 = 3$).
+2. By Pascal's rule, the sum is the entry below them in row 8, at position 3: $\binom{8}{3}$.
+3. $\binom{8}{3} = \dfrac{8!}{3!\,5!} = 56$.
 
 ### Example 2
-Find $n$ if $\binom{n}{4} = \binom{n}{6}$ and $n \ge 6$.
+Find $n$ if $\binom{n}{3} = \binom{n}{5}$ and $n \ge 5$.
 
 1. Two different positions in the same row have equal values, so they are mirror images.
-2. Mirror positions $r$ and $n - r$ add to $n$, so $4 + 6 = n$ and $n = 10$.
+2. Mirror positions $r$ and $n - r$ add to $n$, so $3 + 5 = n$ and $n = 8$.
 
 ### Example 3
-Show that $\binom{3}{3} + \binom{4}{3} + \binom{5}{3} = \binom{6}{4}$.
+Show that $\binom{2}{2} + \binom{3}{2} + \binom{4}{2} = \binom{5}{3}$.
 
-1. Both $\binom{3}{3}$ and $\binom{4}{4}$ equal 1, so replace the first term with $\binom{4}{4}$.
-2. Pascal's rule on row 4: $\binom{4}{4} + \binom{4}{3} = \binom{5}{4}$.
-3. Pascal's rule on row 5: $\binom{5}{4} + \binom{5}{3} = \binom{6}{4}$.
-4. Check with numbers: $1 + 4 + 10 = 15 = \binom{6}{4}$. ✓
+1. Both $\binom{2}{2}$ and $\binom{3}{3}$ equal 1, so replace the first term with $\binom{3}{3}$.
+2. Pascal's rule on row 3: $\binom{3}{3} + \binom{3}{2} = \binom{4}{3}$.
+3. Pascal's rule on row 4: $\binom{4}{3} + \binom{4}{2} = \binom{5}{3}$.
+4. Check with numbers: $1 + 3 + 6 = 10 = \binom{5}{3}$. ✓
 
 ## Watch out
 - Rows and positions are counted from 0, not 1.

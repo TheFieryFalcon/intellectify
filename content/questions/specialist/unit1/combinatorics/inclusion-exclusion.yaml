@@ -247,3 +247,58 @@
     from itertools import permutations
     def answers():
         return {"a": sum(1 for p in permutations(range(5)) if all(p[i] != i for i in range(5)))}
+
+- id: spec.combinatorics.inclusion-exclusion.only-a
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1080
+  responseSkills: { reading: 1080, calculation: 1060 }
+  variants:
+    - { a: 12, b: 9, ab: 4 }
+    - { a: 25, b: 18, ab: 7 }
+  stem: |
+    $|A| = {{a}}$, $|B| = {{b}}$ and $|A \cap B| = {{ab}}$. How many elements are in $A$ but not in $B$?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{a}}-{{ab}}' }
+  solution: |
+    Remove the overlap from $A$: ${{a}} - {{ab}}$.
+  verify: |
+    def answers(a, b, ab):
+        return {"a": a - ab}
+
+- id: spec.combinatorics.inclusion-exclusion.two-divisors
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1160
+  responseSkills: { calculation: 1150, reading: 1140 }
+  variants:
+    - { p: 2, q: 5, n: 100, l: 10 }
+    - { p: 3, q: 7, n: 210, l: 21 }
+  stem: |
+    How many integers from 1 to {{n}} are divisible by {{p}} or {{q}} (or both)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\frac{ {{n}} }{ {{p}} }+\frac{ {{n}} }{ {{q}} }-\frac{ {{n}} }{ {{l}} }' }
+  solution: |
+    Multiples of {{p}}: $\tfrac{ {{n}} }{ {{p}} }$. Multiples of {{q}}: $\tfrac{ {{n}} }{ {{q}} }$. Both means multiples of {{l}}: $\tfrac{ {{n}} }{ {{l}} }$. Add the first two and subtract the overlap.
+  verify: |
+    def answers(p, q, n, l):
+        return {"a": sum(1 for k in range(1, n + 1) if k % p == 0 or k % q == 0)}
+
+- id: spec.combinatorics.inclusion-exclusion.find-overlap
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1320
+  responseSkills: { reading: 1310, calculation: 1280 }
+  variants:
+    - { u: 28, a: 20, b: 15 }
+    - { u: 41, a: 30, b: 24 }
+  stem: |
+    In a club, {{a}} members swim, {{b}} members run, and {{u}} members do at least one of the two. How many do both?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{a}}+{{b}}-{{u}}' }
+  solution: |
+    $|S \cup R| = |S| + |R| - |S \cap R|$, so $|S \cap R| = {{a}} + {{b}} - {{u}}$.
+  verify: |
+    def answers(u, a, b):
+        x = symbols("x")
+        return {"a": solve(a + b - x - u, x)[0]}

@@ -216,3 +216,70 @@
         assert not any(b % a == 0 for a, b in combos(example, 2))
         assert len(odd_parts) == len(example)                       # so the bound is tight
         return {"a": len(odd_parts) + 1}
+
+- id: spec.combinatorics.pigeonhole.shared-birthday
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1060
+  responseSkills: { reading: 1060 }
+  stem: |
+    Including 29 February, there are 366 possible birthdays. What is the least number of people needed to be sure that two of them share a birthday?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 367 }
+  solution: |
+    The boxes are the 366 birthdays. 367 people force two into the same box, while 366 people could all have different birthdays.
+  verify: |
+    def answers():
+        return {"a": 366 + 1}
+
+- id: spec.combinatorics.pigeonhole.thirteen-cards
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1180
+  responseSkills: { reading: 1170, calculation: 1120 }
+  stem: |
+    A standard deck has 52 cards: 13 in each of 4 suits. You are dealt 13 cards. Must some suit have at least 4 of your cards?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Yes' }
+        - { id: b, text: 'No' }
+        - { id: c, text: 'It depends on the cards' }
+      answer: { type: mcq, key: a }
+  solution: |
+    The 4 suits are the boxes. If every suit had at most 3 cards, there would be at most $3 \times 4 = 12$ cards. You have 13, so some suit has at least 4.
+
+- id: spec.combinatorics.pigeonhole.same-suit
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1300
+  responseSkills: { reading: 1290, calculation: 1260 }
+  variants:
+    - { k: 3, v: 9 }
+    - { k: 5, v: 17 }
+  stem: |
+    A standard deck has 52 cards: 13 in each of 4 suits. What is the least number of cards you must draw to be sure of getting {{k}} of the same suit?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    With 4 suits as boxes, $({{k}} - 1) \times 4 + 1 = {{v}}$ cards force {{k}} into one suit. With one fewer, each suit could have exactly ${{k}} - 1$.
+  verify: |
+    def answers(k, v):
+        return {"a": (k - 1) * 4 + 1}
+
+- id: spec.combinatorics.pigeonhole.same-remainder
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1340
+  responseSkills: { reading: 1330, synthesis: 1300 }
+  variants:
+    - { m: 7 }
+    - { m: 9 }
+  stem: |
+    What is the least number of whole numbers you must take to be sure that two of them leave the same remainder when divided by {{m}}?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{m}}+1' }
+  solution: |
+    Dividing by {{m}} leaves one of {{m}} remainders ($0, 1, \dots, {{m}} - 1$), so ${{m}} + 1$ numbers force two to share one. The numbers $0, 1, \dots, {{m}} - 1$ show that {{m}} numbers aren't enough.
+  verify: |
+    def answers(m):
+        return {"a": m + 1}

@@ -380,3 +380,24 @@
     from itertools import permutations
     def answers():
         return {"a": sum(1 for p in permutations(range(1, 6)) if all(abs(p[i] - p[i + 1]) != 1 for i in range(4)))}
+
+- id: spec.combinatorics.permutations.no-equal-neighbors
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  rating: 1740
+  responseSkills: { synthesis: 1740, calculation: 1680 }
+  stem: |
+    How many 6-digit numbers use each of the digits 1, 1, 2, 2, 3, 3 exactly once and have no two equal digits next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 30 }
+  solution: |
+    All arrangements: $\dfrac{6!}{2!\,2!\,2!} = 90$. Let $A_1$, $A_2$, $A_3$ be the arrangements with the two 1s, 2s or 3s together.
+    - One pair taped together: 5 objects with two repeated pairs, $\dfrac{5!}{2!\,2!} = 30$, for each of 3 pairs: 90.
+    - Two pairs taped: $\dfrac{4!}{2!} = 12$, for each of 3 choices of two pairs: 36.
+    - All three taped: $3! = 6$.
+
+    By inclusion–exclusion, $|A_1 \cup A_2 \cup A_3| = 90 - 36 + 6 = 60$. So $90 - 60 = 30$ numbers have no equal neighbors.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": sum(1 for p in multiset_permutations([1, 1, 2, 2, 3, 3]) if all(p[i] != p[i + 1] for i in range(5)))}

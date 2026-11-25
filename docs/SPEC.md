@@ -442,7 +442,7 @@ answer:
   - (b) the problem is **solvable on a low-power CAS calculator**, meaning an old, slow, unreliable CAS with `solve` and graphing. In practice:
     - `solve` on the system returns the intended solution quickly from default settings;
     - any graph intersections are clearly identifiable in a standard window;
-    - no step relies on heavy symbolic simplification that a weak CAS would choke on or return in an unrecognisable form.
+    - no step relies on heavy symbolic simplification that a weak CAS would choke on or return in an unrecognizable form.
 - `requiresCalculator: true` is set only when a calculator is genuinely needed (combinations with large numbers, vector/trig calculations with non-exact values).
 
 ### 9.4 Diagrams

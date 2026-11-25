@@ -35,28 +35,28 @@ Proofs with the pigeonhole principle are often proofs by contradiction in disgui
 ## Worked examples
 
 ### Example 1
-A drawer holds black, white and grey socks. How many socks must you take, without looking, to be sure of a matching pair?
+A bag holds counters in 4 colors. Without looking, how many counters must you take to be sure of two the same color?
 
-1. The boxes are the 3 colors.
-2. Taking 4 socks puts 4 objects into 3 boxes, so two socks share a color.
-3. Taking 3 socks isn't enough: they could be one black, one white and one grey.
-4. So the answer is **4**.
+1. The boxes are the 4 colors.
+2. Taking 5 counters puts 5 objects into 4 boxes, so two counters share a color.
+3. Taking 4 isn't enough: they could all be different colors.
+4. So the answer is **5**.
 
 ### Example 2
-Prove that from any 11 numbers taken from $1, 2, \dots, 20$, two of them add to 21.
+Prove that from any 6 numbers taken from $1, 2, \dots, 10$, two of them add to 11.
 
-1. We want two numbers adding to 21, so make each box a pair that adds to 21: $\{1, 20\}, \{2, 19\}, \dots, \{10, 11\}$. That's 10 boxes, and every number from 1 to 20 is in exactly one box.
-2. Eleven numbers in 10 boxes put two of them in the same box.
-3. Two different numbers in the same box are the two members of that pair, so they add to 21.
-4. Ten numbers aren't enough: $1, 2, \dots, 10$ has no two numbers adding to 21.
+1. We want two numbers adding to 11, so make each box a pair that adds to 11: $\{1, 10\}, \{2, 9\}, \{3, 8\}, \{4, 7\}, \{5, 6\}$. That's 5 boxes, and every number from 1 to 10 is in exactly one box.
+2. Six numbers in 5 boxes put two of them in the same box.
+3. Two different numbers in the same box are the two members of that pair, so they add to 11.
+4. Five numbers aren't enough: $1, 2, 3, 4, 5$ has no two numbers adding to 11.
 
 ### Example 3
-What is the least number of people needed to be sure that at least 4 of them share a birth month?
+What is the least number of people needed to be sure that at least 3 of them were born on the same day of the week?
 
-1. The boxes are the 12 months, and we want some box to hold at least $3 + 1 = 4$ people.
-2. The general form with $k = 3$: more than $3 \times 12 = 36$ people guarantees it, so 37 people are enough.
-3. 36 people aren't enough: exactly 3 people born in each month gives 36 people with no month holding 4.
-4. So the answer is **37**.
+1. The boxes are the 7 days, and we want some box to hold at least $2 + 1 = 3$ people.
+2. The general form with $k = 2$: more than $2 \times 7 = 14$ people guarantees it, so 15 people are enough.
+3. 14 people aren't enough: exactly 2 people born on each day gives 14 people with no day holding 3.
+4. So the answer is **15**.
 
 ## Watch out
 - The principle says some box has two objects, not which box.

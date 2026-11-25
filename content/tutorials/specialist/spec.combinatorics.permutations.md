@@ -32,28 +32,28 @@ $$\frac{n!}{a!\,b!\,c!\cdots}.$$
 ## Worked examples
 
 ### Example 1
-In how many ways can 6 people stand in a row if two of them, Ann and Bo, must stand together?
+In how many ways can 7 different books be placed on a shelf if the 3 math books must stay together?
 
-1. Tape Ann and Bo together as a single block. There are now 5 items: the block and the other 4 people.
+1. Tape the 3 math books together as a single block. There are now 5 items: the block and the 4 other books.
 2. Five items can be lined up in $5! = 120$ ways.
-3. Inside the block, the order is Ann–Bo or Bo–Ann: 2 ways.
-4. Total: $120 \times 2 = 240$.
+3. Inside the block, the math books can be in $3! = 6$ orders.
+4. Total: $120 \times 6 = 720$.
 
 ### Example 2
-How many arrangements of the letters of PARALLEL are there?
+How many arrangements of the letters of SEASIDE are there?
 
-1. Count the letters: P, A, R, A, L, L, E, L. That's 8 letters, with A appearing twice and L three times.
-2. If every letter were different, there would be $8!$ orderings.
-3. Swapping the two A's, or rearranging the three L's, doesn't change the word, so divide by $2!$ and $3!$:
-$$\frac{8!}{2!\,3!} = \frac{40\,320}{12} = 3360.$$
+1. Count the letters: S, E, A, S, I, D, E. That's 7 letters, with S appearing twice and E twice.
+2. If every letter were different, there would be $7!$ orderings.
+3. Swapping the two S's, or the two E's, doesn't change the word, so divide by $2!$ twice:
+$$\frac{7!}{2!\,2!} = \frac{5040}{4} = 1260.$$
 
 ### Example 3
-How many arrangements of MISSISSIPPI have no two S's next to each other?
+How many arrangements of the letters of COFFEE have the two F's apart?
 
-1. Set the four S's aside. The other 7 letters are M, I, I, I, I, P, P, with 4 I's and 2 P's. They can be arranged in $\dfrac{7!}{4!\,2!} = 105$ ways.
-2. In any such row, there are 8 gaps: 6 between neighboring letters and 1 at each end.
-3. Putting each S in a different gap keeps all the S's apart. Since the S's are identical, an arrangement is decided by which 4 of the 8 gaps hold an S. There are $\binom{8}{4} = 70$ such sets of gaps.
-4. Total: $105 \times 70 = 7350$.
+1. Set the two F's aside. The other 4 letters are C, O, E, E, with E twice. They can be arranged in $\dfrac{4!}{2!} = 12$ ways.
+2. In any such row, there are 5 gaps: 3 between neighboring letters and 1 at each end.
+3. Putting the F's in different gaps keeps them apart. The F's are identical, so an arrangement is decided by which 2 of the 5 gaps hold an F: $\binom{5}{2} = 10$ sets of gaps.
+4. Total: $12 \times 10 = 120$.
 
 ## Watch out
 - After taping objects into a block, multiply by the orders inside the block.

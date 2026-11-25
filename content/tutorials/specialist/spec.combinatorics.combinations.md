@@ -34,26 +34,26 @@ For example, there are $^{5}P_{2} = 20$ ordered pairs from 5 people, and each un
 ## Worked examples
 
 ### Example 1
-A committee of 4 is formed from 7 women and 5 men. How many committees have exactly 2 women?
+A team of 5 is formed from 6 juniors and 8 seniors. How many teams have exactly 3 seniors?
 
-1. The committee then has 2 women and 2 men.
-2. Groups of 2 women from 7: $\binom{7}{2} = 21$. Groups of 2 men from 5: $\binom{5}{2} = 10$.
-3. Any women's pair can go with any men's pair: $21 \times 10 = 210$.
+1. The team then has 3 seniors and 2 juniors.
+2. Groups of 3 seniors from 8: $\binom{8}{3} = 56$. Groups of 2 juniors from 6: $\binom{6}{2} = 15$.
+3. Any group of seniors can go with any group of juniors: $56 \times 15 = 840$.
 
 ### Example 2
-For the same group, how many committees contain at least one man?
+For the same players, how many teams of 5 contain at least one junior?
 
-1. The complement of "at least one man" is "no men", i.e. all women.
-2. All committees of 4 from 12 people: $\binom{12}{4} = 495$.
-3. All-women committees: $\binom{7}{4} = 35$.
-4. Subtract: $495 - 35 = 460$.
+1. The complement of "at least one junior" is "no juniors", i.e. all seniors.
+2. All teams of 5 from 14 players: $\binom{14}{5} = 2002$.
+3. All-senior teams: $\binom{8}{5} = 56$.
+4. Subtract: $2002 - 56 = 1946$.
 
 ### Example 3
-How many solutions does $x + y + z = 10$ have, where $x$, $y$ and $z$ are whole numbers ($\ge 0$)?
+In how many ways can 6 identical apples be shared among 3 children, if some children may get none?
 
-1. Think of 10 identical units shared among $x$, $y$ and $z$.
-2. Write 10 dots and 2 dividers in a row, 12 symbols in all. For example, ••|•••••|••• means $x = 2$, $y = 5$, $z = 3$.
-3. Each solution matches one row, decided by where the 2 dividers sit among the 12 places: $\binom{12}{2} = 66$.
+1. Write 6 dots (apples) and 2 dividers in a row, 8 symbols in all. For example, ••|•|••• means the children get 2, 1 and 3 apples.
+2. Each sharing matches exactly one row, decided by where the 2 dividers sit among the 8 places.
+3. So there are $\binom{8}{2} = 28$ ways.
 
 ## Watch out
 - Don't multiply by $r!$ unless the selected objects are then put in order.

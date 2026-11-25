@@ -1,0 +1,367 @@
+# Geometric proofs with vectors (1.3.15–1.3.17). The three named proofs are worked in the tutorial;
+# these questions use the same techniques on converses and related results.
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.vectors-2d.proofs.perpendicular-test
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1050
+  responseSkills: { reading: 1050 }
+  stem: |
+    To prove that $AB$ is perpendicular to $CD$ using vectors, what should you show?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\overrightarrow{AB} = \overrightarrow{CD}$' }
+        - { id: b, text: '$\overrightarrow{AB}\cdot\overrightarrow{CD} = 0$' }
+        - { id: c, text: '$\overrightarrow{CD} = k\,\overrightarrow{AB}$ for some number $k$' }
+        - { id: d, text: '$|\overrightarrow{AB}| = |\overrightarrow{CD}|$' }
+      answer: { type: mcq, key: b }
+  solution: |
+    Non-zero vectors are perpendicular exactly when their scalar product is 0.
+
+- id: spec.vectors-2d.proofs.collinear-test
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1080
+  responseSkills: { reading: 1080 }
+  stem: |
+    To prove that points $A$, $B$ and $C$ lie on one straight line, what should you show?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\overrightarrow{AC} = k\,\overrightarrow{AB}$ for some number $k$' }
+        - { id: b, text: '$\overrightarrow{AB}\cdot\overrightarrow{AC} = 0$' }
+        - { id: c, text: '$|\overrightarrow{AB}| = |\overrightarrow{AC}|$' }
+        - { id: d, text: '$\overrightarrow{AB} + \overrightarrow{BC} = \overrightarrow{AC}$' }
+      answer: { type: mcq, key: a }
+  solution: |
+    If $\overrightarrow{AC}$ is a multiple of $\overrightarrow{AB}$, the two segments are parallel and share the point $A$, so they lie on one line. (Option d is true for any three points.)
+
+- id: spec.vectors-2d.proofs.midpoint-vector
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1100
+  responseSkills: { reading: 1100 }
+  stem: |
+    $A$ and $B$ have position vectors $\mathbf{a}$ and $\mathbf{b}$. What is the position vector of the midpoint of $AB$?
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{1}{2}(a+b)', vars: { a: {}, b: {} } }
+  solution: |
+    Start at $A$ and go halfway to $B$: $\mathbf{a} + \tfrac{1}{2}(\mathbf{b} - \mathbf{a}) = \tfrac{1}{2}(\mathbf{a} + \mathbf{b})$.
+  verify: |
+    def answers():
+        a, b = symbols("a b")
+        return {"a": a + (b - a) / 2}
+
+- id: spec.vectors-2d.proofs.expand-square
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1180
+  responseSkills: { reading: 1170, calculation: 1150 }
+  stem: |
+    Which expression equals $|\mathbf{a} - \mathbf{c}|^2$?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$|\mathbf{a}|^2 - |\mathbf{c}|^2$' }
+        - { id: b, text: '$|\mathbf{a}|^2 + |\mathbf{c}|^2$' }
+        - { id: c, text: '$|\mathbf{a}|^2 - 2\,\mathbf{a}\cdot\mathbf{c} + |\mathbf{c}|^2$' }
+        - { id: d, text: '$(|\mathbf{a}| - |\mathbf{c}|)^2$' }
+      answer: { type: mcq, key: c }
+  solution: |
+    $|\mathbf{a} - \mathbf{c}|^2 = (\mathbf{a} - \mathbf{c})\cdot(\mathbf{a} - \mathbf{c}) = \mathbf{a}\cdot\mathbf{a} - 2\,\mathbf{a}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{c}$.
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.vectors-2d.proofs.midpoint-quad-reason
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1300
+  responseSkills: { reading: 1300, proof: 1280 }
+  stem: |
+    $P$, $Q$, $R$ and $S$ are the midpoints of the sides $AB$, $BC$, $CD$ and $DA$ of a quadrilateral. A student shows that $\overrightarrow{PQ} = \overrightarrow{SR}$. Why does this prove that $PQRS$ is a parallelogram?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Its diagonals are perpendicular' }
+        - { id: b, text: 'One pair of opposite sides is equal in length and parallel' }
+        - { id: c, text: 'All four sides are equal' }
+        - { id: d, text: 'It has a right angle' }
+      answer: { type: mcq, key: b }
+  solution: |
+    Equal vectors have the same length and direction. A quadrilateral with one pair of opposite sides equal and parallel is a parallelogram.
+
+- id: spec.vectors-2d.proofs.classify-quadrilateral
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1330
+  responseSkills: { calculation: 1310, reading: 1320 }
+  variants:
+    - { dx: 3, dy: 5, key: a }
+    - { dx: 1, dy: 4, key: b }
+  stem: |
+    $A(1, 1)$, $B(4, 3)$, $C(6, 7)$ and $D({{dx}}, {{dy}})$ are the corners of quadrilateral $ABCD$. Which best describes it?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'A parallelogram, but not a rhombus' }
+        - { id: b, text: 'Neither a parallelogram nor a rhombus' }
+        - { id: c, text: 'A rhombus' }
+      answer: { type: mcq, key: '{{key}}' }
+  solution: |
+    Compare $\overrightarrow{AB} = 3\mathbf{i} + 2\mathbf{j}$ with $\overrightarrow{DC}$. If they are equal, $ABCD$ is a parallelogram; it is a rhombus only if also $|\overrightarrow{AB}| = |\overrightarrow{AD}|$.
+  verify: |
+    def answers(dx, dy, key):
+        A, B, C, D = Matrix([1, 1]), Matrix([4, 3]), Matrix([6, 7]), Matrix([dx, dy])
+        if B - A != C - D: return {"a": "b"}
+        return {"a": "c" if (B - A).norm() == (D - A).norm() else "a"}
+
+- id: spec.vectors-2d.proofs.equal-sum-difference
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1360
+  responseSkills: { proof: 1350, clarity: 1300 }
+  stem: |
+    $\mathbf{a}$ and $\mathbf{b}$ are non-zero vectors with $|\mathbf{a} + \mathbf{b}| = |\mathbf{a} - \mathbf{b}|$. Prove that $\mathbf{a}$ and $\mathbf{b}$ are perpendicular.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: square, description: "Squares both sides and writes them as dot products", points: 1, dimension: proof }
+          - { id: expand, description: "Expands: |a|² + 2a·b + |b|² = |a|² − 2a·b + |b|²", points: 1, dimension: proof }
+          - { id: conclude, description: "Gets a·b = 0, so the non-zero vectors are perpendicular", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out", points: 1, dimension: clarity }
+  solution: |
+    Square both sides: $(\mathbf{a} + \mathbf{b})\cdot(\mathbf{a} + \mathbf{b}) = (\mathbf{a} - \mathbf{b})\cdot(\mathbf{a} - \mathbf{b})$, so $|\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2 = |\mathbf{a}|^2 - 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2$.
+    So $4\,\mathbf{a}\cdot\mathbf{b} = 0$, giving $\mathbf{a}\cdot\mathbf{b} = 0$. The vectors are non-zero, so they are perpendicular.
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.vectors-2d.proofs.diagonals-bisect
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1420
+  responseSkills: { proof: 1410, clarity: 1350 }
+  stem: |
+    Use vectors to prove that the diagonals of a parallelogram cut each other in half (they meet at the midpoint of each).
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Sets up parallelogram OABC with OA = a, OC = c, so OB = a + c", points: 1, dimension: proof }
+          - { id: mid1, description: "Midpoint of OB has position vector ½(a + c)", points: 1, dimension: proof }
+          - { id: mid2, description: "Midpoint of AC has position vector ½(a + c)", points: 1, dimension: proof }
+          - { id: conclude, description: "The midpoints are the same point, so the diagonals meet there and cut each other in half", points: 1, dimension: clarity }
+  solution: |
+    Let the parallelogram be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$, so $\overrightarrow{OB} = \mathbf{a} + \mathbf{c}$.
+    The midpoint of $OB$ has position vector $\tfrac{1}{2}(\mathbf{a} + \mathbf{c})$. The midpoint of $AC$ has position vector $\tfrac{1}{2}(\mathbf{a} + \mathbf{c})$ too.
+    They are the same point, so the diagonals meet at the midpoint of each.
+
+- id: spec.vectors-2d.proofs.parallelogram-law-numeric
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1440
+  responseSkills: { calculation: 1420, synthesis: 1420 }
+  variants:
+    - { p: 5, q: 7, d: 8, v: '2\sqrt{21}' }
+    - { p: 4, q: 6, d: 6, v: '2\sqrt{17}' }
+  stem: |
+    A parallelogram has sides of length {{p}} and {{q}}, and one diagonal of length {{d}}. Find the exact length of the other diagonal.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}', form: [exact] }
+  solution: |
+    The sum of the squares of the diagonals equals the sum of the squares of the four sides: ${{d}}^2 + x^2 = 2({{p}}^2 + {{q}}^2)$. So $x = {{v}}$.
+  verify: |
+    def answers(p, q, d, v):
+        return {"a": sqrt(2*(p**2 + q**2) - d**2)}
+
+- id: spec.vectors-2d.proofs.perpendicular-diagonals-rhombus
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1460
+  responseSkills: { proof: 1450, clarity: 1400 }
+  stem: |
+    Use vectors to prove that if the diagonals of a parallelogram are perpendicular, then the parallelogram is a rhombus.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Parallelogram OABC with sides a, c; diagonals a + c and a − c", points: 1, dimension: proof }
+          - { id: dot, description: "Perpendicular diagonals: (a + c)·(a − c) = 0", points: 1, dimension: proof }
+          - { id: expand, description: "Expands to |a|² − |c|² = 0, so |a| = |c|", points: 1, dimension: proof }
+          - { id: conclude, description: "Adjacent sides equal, and opposite sides of a parallelogram are equal, so all four sides are equal: a rhombus", points: 1, dimension: clarity }
+  solution: |
+    Let the parallelogram be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Its diagonals are $\mathbf{a} + \mathbf{c}$ and $\mathbf{a} - \mathbf{c}$.
+    Perpendicular diagonals give $(\mathbf{a} + \mathbf{c})\cdot(\mathbf{a} - \mathbf{c}) = |\mathbf{a}|^2 - |\mathbf{c}|^2 = 0$, so $|\mathbf{a}| = |\mathbf{c}|$.
+    Adjacent sides are equal, and opposite sides of a parallelogram are equal, so all four sides are equal: $OABC$ is a rhombus.
+
+- id: spec.vectors-2d.proofs.equal-diagonals-rectangle
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1490
+  responseSkills: { proof: 1480, clarity: 1420 }
+  stem: |
+    Use vectors to prove that a parallelogram whose diagonals are equal in length is a rectangle.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Parallelogram OABC with sides a, c; diagonals a + c and a − c", points: 1, dimension: proof }
+          - { id: equal, description: "Sets |a + c|² = |a − c|² and expands both", points: 1, dimension: proof }
+          - { id: dot, description: "Gets 4a·c = 0, so a·c = 0 and the sides at O are perpendicular", points: 1, dimension: proof }
+          - { id: conclude, description: "A parallelogram with one right angle has four right angles (co-interior angles), so it is a rectangle", points: 1, dimension: clarity }
+  solution: |
+    Let the parallelogram be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Equal diagonals give $|\mathbf{a} + \mathbf{c}|^2 = |\mathbf{a} - \mathbf{c}|^2$:
+    $|\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{c} + |\mathbf{c}|^2 = |\mathbf{a}|^2 - 2\,\mathbf{a}\cdot\mathbf{c} + |\mathbf{c}|^2$, so $\mathbf{a}\cdot\mathbf{c} = 0$.
+    The angle at $O$ is a right angle. Neighboring angles of a parallelogram add to $180^\circ$, so every angle is a right angle: it is a rectangle.
+
+- id: spec.vectors-2d.proofs.semicircle
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1510
+  responseSkills: { proof: 1500, synthesis: 1480, clarity: 1420 }
+  stem: |
+    $AB$ is a diameter of a circle with center $O$, and $P$ is any other point on the circle. Use vectors to prove that angle $APB$ is a right angle.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Takes O as origin: OB = b, OA = −b, OP = p, with |p| = |b| (both are radii)", points: 1, dimension: proof }
+          - { id: vectors, description: "PA = −b − p and PB = b − p", points: 1, dimension: proof }
+          - { id: dot, description: "PA·PB = −(b + p)·(b − p) = −(|b|² − |p|²) = 0", points: 2, dimension: proof }
+          - { id: conclude, description: "Concludes the angle at P is 90°", points: 1, dimension: clarity }
+  solution: |
+    Take $O$ as the origin, with $\overrightarrow{OB} = \mathbf{b}$, $\overrightarrow{OA} = -\mathbf{b}$ and $\overrightarrow{OP} = \mathbf{p}$. All three are radii, so $|\mathbf{p}| = |\mathbf{b}|$.
+    $\overrightarrow{PA} = -\mathbf{b} - \mathbf{p}$ and $\overrightarrow{PB} = \mathbf{b} - \mathbf{p}$, so
+    $\overrightarrow{PA}\cdot\overrightarrow{PB} = -(\mathbf{b} + \mathbf{p})\cdot(\mathbf{b} - \mathbf{p}) = -(|\mathbf{b}|^2 - |\mathbf{p}|^2) = 0$.
+    So $PA$ is perpendicular to $PB$, and angle $APB = 90^\circ$.
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.vectors-2d.proofs.rectangle-midpoints
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1560
+  responseSkills: { proof: 1550, synthesis: 1520, clarity: 1450 }
+  stem: |
+    Use vectors to prove that joining the midpoints of the sides of a rectangle, in order, gives a rhombus.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Rectangle OABC with OA = a, OC = c and a·c = 0; writes the four midpoints", points: 1, dimension: proof }
+          - { id: sides, description: "Finds two adjacent sides of the inner shape, e.g. ½(c − a) and ½(a + c) (up to sign)", points: 2, dimension: proof }
+          - { id: equal, description: "Shows they have equal length using a·c = 0: both squared lengths are ¼(|a|² + |c|²)", points: 1, dimension: proof }
+          - { id: conclude, description: "The inner shape is a parallelogram (midpoint result) with adjacent sides equal, so a rhombus", points: 1, dimension: clarity }
+  solution: |
+    Let the rectangle be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$, where $\mathbf{a}\cdot\mathbf{c} = 0$. The midpoints of $OA$, $AB$, $BC$ and $CO$ are $P = \tfrac{1}{2}\mathbf{a}$, $Q = \mathbf{a} + \tfrac{1}{2}\mathbf{c}$, $R = \tfrac{1}{2}\mathbf{a} + \mathbf{c}$ and $S = \tfrac{1}{2}\mathbf{c}$.
+    Joining midpoints of any quadrilateral gives a parallelogram. Its sides $\overrightarrow{PQ} = \tfrac{1}{2}(\mathbf{a} + \mathbf{c})$ and $\overrightarrow{QR} = \tfrac{1}{2}(\mathbf{c} - \mathbf{a})$ have
+    $|\overrightarrow{PQ}|^2 = \tfrac{1}{4}(|\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{c} + |\mathbf{c}|^2) = \tfrac{1}{4}(|\mathbf{a}|^2 + |\mathbf{c}|^2)$ and $|\overrightarrow{QR}|^2 = \tfrac{1}{4}(|\mathbf{a}|^2 + |\mathbf{c}|^2)$.
+    Adjacent sides are equal, so $PQRS$ is a rhombus.
+
+- id: spec.vectors-2d.proofs.bisecting-diagonals-converse
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1580
+  responseSkills: { proof: 1570, clarity: 1480 }
+  stem: |
+    The diagonals of quadrilateral $ABCD$ cut each other in half (they share a midpoint). Use vectors to prove that $ABCD$ is a parallelogram.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Position vectors a, b, c, d; the shared midpoint gives ½(a + c) = ½(b + d)", points: 2, dimension: proof }
+          - { id: sides, description: "Rearranges to b − a = c − d, i.e. AB = DC", points: 2, dimension: proof }
+          - { id: conclude, description: "One pair of opposite sides equal and parallel, so a parallelogram", points: 1, dimension: clarity }
+  solution: |
+    Let the corners have position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$. The midpoints of $AC$ and $BD$ coincide: $\tfrac{1}{2}(\mathbf{a} + \mathbf{c}) = \tfrac{1}{2}(\mathbf{b} + \mathbf{d})$.
+    Rearranging, $\mathbf{b} - \mathbf{a} = \mathbf{c} - \mathbf{d}$, i.e. $\overrightarrow{AB} = \overrightarrow{DC}$. One pair of opposite sides is equal and parallel, so $ABCD$ is a parallelogram.
+
+- id: spec.vectors-2d.proofs.median-length
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1630
+  responseSkills: { proof: 1620, synthesis: 1600, clarity: 1500 }
+  stem: |
+    In triangle $ABC$, $M$ is the midpoint of $BC$. Use vectors to prove that $AB^2 + AC^2 = 2AM^2 + 2BM^2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Takes M as origin with MB = u and MC = −u, and MA = v (or an equivalent setup)", points: 1, dimension: proof }
+          - { id: sides, description: "AB = u − v and AC = −u − v", points: 1, dimension: proof }
+          - { id: expand, description: "Expands |u − v|² + |u + v|² = 2|u|² + 2|v|²", points: 2, dimension: proof }
+          - { id: conclude, description: "Identifies |v| = AM and |u| = BM to finish", points: 1, dimension: clarity }
+  solution: |
+    Take $M$ as the origin, with $\overrightarrow{MB} = \mathbf{u}$, $\overrightarrow{MC} = -\mathbf{u}$ and $\overrightarrow{MA} = \mathbf{v}$. Then $\overrightarrow{AB} = \mathbf{u} - \mathbf{v}$ and $\overrightarrow{AC} = -\mathbf{u} - \mathbf{v}$.
+    $AB^2 + AC^2 = |\mathbf{u} - \mathbf{v}|^2 + |\mathbf{u} + \mathbf{v}|^2 = 2|\mathbf{u}|^2 + 2|\mathbf{v}|^2$, since the $\mathbf{u}\cdot\mathbf{v}$ terms cancel.
+    $|\mathbf{v}| = AM$ and $|\mathbf{u}| = BM$, so $AB^2 + AC^2 = 2AM^2 + 2BM^2$.
+
+- id: spec.vectors-2d.proofs.median-length-numeric
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1650
+  responseSkills: { synthesis: 1640, calculation: 1600 }
+  stem: |
+    In triangle $ABC$, $AB = 7$, $AC = 9$ and $BC = 8$. $M$ is the midpoint of $BC$. Find the exact length of $AM$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '7', form: [exact] }
+  solution: |
+    Using $AB^2 + AC^2 = 2AM^2 + 2BM^2$ with $BM = 4$: $49 + 81 = 2AM^2 + 32$, so $AM^2 = 49$ and $AM = 7$.
+  verify: |
+    def answers():
+        # Place B and C on the x-axis and find A from the side lengths.
+        x, y = symbols("x y", real=True)
+        B, C = Matrix([0, 0]), Matrix([8, 0])
+        s = [t for t in solve([x**2 + y**2 - 49, (x - 8)**2 + y**2 - 81], [x, y], dict=True) if t[y] > 0][0]
+        A = Matrix([s[x], s[y]])
+        return {"a": (A - (B + C) / 2).norm()}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.vectors-2d.proofs.perpendicular-diagonals-sides
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1720
+  responseSkills: { proof: 1720, synthesis: 1700, clarity: 1600 }
+  stem: |
+    The diagonals $AC$ and $BD$ of quadrilateral $ABCD$ are perpendicular. Use vectors to prove that $AB^2 + CD^2 = AD^2 + BC^2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Uses position vectors a, b, c, d and states (c − a)·(d − b) = 0", points: 1, dimension: proof }
+          - { id: expand, description: "Expands AB² + CD² − AD² − BC² in dot products; the squared terms cancel", points: 2, dimension: proof }
+          - { id: factor, description: "Simplifies the remainder to 2(a − c)·(d − b) (or an equivalent factorization)", points: 2, dimension: synthesis }
+          - { id: conclude, description: "This is 0 by perpendicularity, giving the result", points: 1, dimension: clarity }
+  solution: |
+    With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$:
+    $AB^2 + CD^2 - AD^2 - BC^2 = |\mathbf{b} - \mathbf{a}|^2 + |\mathbf{d} - \mathbf{c}|^2 - |\mathbf{d} - \mathbf{a}|^2 - |\mathbf{c} - \mathbf{b}|^2$.
+    Expanding, every $|\cdot|^2$ term cancels, leaving
+    $-2\,\mathbf{a}\cdot\mathbf{b} - 2\,\mathbf{c}\cdot\mathbf{d} + 2\,\mathbf{a}\cdot\mathbf{d} + 2\,\mathbf{b}\cdot\mathbf{c} = 2\,\mathbf{a}\cdot(\mathbf{d} - \mathbf{b}) - 2\,\mathbf{c}\cdot(\mathbf{d} - \mathbf{b}) = 2(\mathbf{a} - \mathbf{c})\cdot(\mathbf{d} - \mathbf{b})$.
+    The diagonals are perpendicular, so $(\mathbf{c} - \mathbf{a})\cdot(\mathbf{d} - \mathbf{b}) = 0$, and the difference is 0.
+
+- id: spec.vectors-2d.proofs.altitudes-meet
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1740
+  responseSkills: { proof: 1740, synthesis: 1720, clarity: 1620 }
+  stem: |
+    In triangle $ABC$, draw a line from each corner that meets the opposite side at a right angle. Use vectors to prove that these three lines pass through one point.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Lets H be where the lines from A and B meet, and takes H as the origin", points: 1, dimension: synthesis }
+          - { id: conditions, description: "Writes a·(c − b) = 0 and b·(c − a) = 0", points: 2, dimension: proof }
+          - { id: subtract, description: "Combines them to get c·(b − a) = 0 (or equivalent)", points: 2, dimension: proof }
+          - { id: conclude, description: "So HC is perpendicular to AB: the line from C at right angles to AB also passes through H", points: 1, dimension: clarity }
+  solution: |
+    Let the lines from $A$ and $B$ meet at $H$, and take $H$ as the origin, with $A$, $B$, $C$ at $\mathbf{a}$, $\mathbf{b}$, $\mathbf{c}$.
+    $HA$ is perpendicular to $BC$: $\mathbf{a}\cdot(\mathbf{c} - \mathbf{b}) = 0$, so $\mathbf{a}\cdot\mathbf{c} = \mathbf{a}\cdot\mathbf{b}$.
+    $HB$ is perpendicular to $CA$: $\mathbf{b}\cdot(\mathbf{c} - \mathbf{a}) = 0$, so $\mathbf{b}\cdot\mathbf{c} = \mathbf{a}\cdot\mathbf{b}$.
+    So $\mathbf{c}\cdot\mathbf{a} = \mathbf{c}\cdot\mathbf{b}$, i.e. $\mathbf{c}\cdot(\mathbf{b} - \mathbf{a}) = 0$: $HC$ is perpendicular to $AB$. The line from $C$ at right angles to $AB$ therefore passes through $H$ too.
+
+- id: spec.vectors-2d.proofs.quadrilateral-midpoints-diagonals
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1780
+  responseSkills: { proof: 1780, synthesis: 1760, clarity: 1650 }
+  stem: |
+    In any quadrilateral $ABCD$, let $M$ and $N$ be the midpoints of the diagonals $AC$ and $BD$. Use vectors to prove that
+    $$AB^2 + BC^2 + CD^2 + DA^2 = AC^2 + BD^2 + 4MN^2.$$
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Position vectors a, b, c, d; MN = ½(b + d − a − c)", points: 1, dimension: proof }
+          - { id: lhs, description: "Expands the four sides: 2(|a|² + |b|² + |c|² + |d|²) − 2(a·b + b·c + c·d + d·a)", points: 2, dimension: proof }
+          - { id: rhs, description: "Expands AC² + BD² + |b + d − a − c|² and simplifies to the same expression", points: 2, dimension: proof }
+          - { id: clear, description: "Clearly organized, with the conclusion stated", points: 1, dimension: clarity }
+  solution: |
+    With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$, let $S = |\mathbf{a}|^2 + |\mathbf{b}|^2 + |\mathbf{c}|^2 + |\mathbf{d}|^2$.
+    Left side: $|\mathbf{b} - \mathbf{a}|^2 + |\mathbf{c} - \mathbf{b}|^2 + |\mathbf{d} - \mathbf{c}|^2 + |\mathbf{a} - \mathbf{d}|^2 = 2S - 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{d} + \mathbf{d}\cdot\mathbf{a})$.
+    Right side: $\overrightarrow{MN} = \tfrac{1}{2}(\mathbf{b} + \mathbf{d}) - \tfrac{1}{2}(\mathbf{a} + \mathbf{c})$, so $4MN^2 = |(\mathbf{b} + \mathbf{d}) - (\mathbf{a} + \mathbf{c})|^2$. Then
+    $AC^2 + BD^2 + 4MN^2 = (|\mathbf{a}|^2 + |\mathbf{c}|^2 - 2\,\mathbf{a}\cdot\mathbf{c}) + (|\mathbf{b}|^2 + |\mathbf{d}|^2 - 2\,\mathbf{b}\cdot\mathbf{d}) + |\mathbf{b} + \mathbf{d}|^2 + |\mathbf{a} + \mathbf{c}|^2 - 2(\mathbf{a} + \mathbf{c})\cdot(\mathbf{b} + \mathbf{d})$.
+    $|\mathbf{b} + \mathbf{d}|^2 + |\mathbf{a} + \mathbf{c}|^2 = S + 2\,\mathbf{b}\cdot\mathbf{d} + 2\,\mathbf{a}\cdot\mathbf{c}$, which cancels the $\mathbf{a}\cdot\mathbf{c}$ and $\mathbf{b}\cdot\mathbf{d}$ terms. What remains is $2S - 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{a}\cdot\mathbf{d} + \mathbf{c}\cdot\mathbf{b} + \mathbf{c}\cdot\mathbf{d})$, equal to the left side.

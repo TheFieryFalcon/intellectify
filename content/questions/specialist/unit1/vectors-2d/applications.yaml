@@ -1,0 +1,497 @@
+# Displacement, force and velocity: resultants, equilibrium, navigation, relative velocity, collisions (1.3.14).
+# i is east and j is north throughout. Wind and current questions are built to have whole-number speeds and times.
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.vectors-2d.applications.speed
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1020
+  responseSkills: { calculation: 1020 }
+  variants:
+    - { x: 6, y: -8, v: 10 }
+    - { x: -9, y: 12, v: 15 }
+  stem: |
+    A particle has velocity ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$ m/s. Find its speed.
+  parts:
+    - id: a
+      prompt: Speed (m/s)
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Speed is the magnitude of velocity: $\sqrt{({{x}})^2 + ({{y}})^2} = {{v}}$ m/s.
+  verify: |
+    def answers(x, y, v):
+        return {"a": sqrt(x**2 + y**2)}
+
+- id: spec.vectors-2d.applications.resultant-force
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1050
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { a1: 2, a2: -4, b1: 5, b2: 7, c1: -1, c2: 1 }
+    - { a1: -3, a2: 6, b1: 8, b2: -2, c1: 4, c2: 5 }
+  stem: |
+    Forces $\mathbf{F}_1 = {{a1}}\mathbf{i} + ({{a2}})\mathbf{j}$ N, $\mathbf{F}_2 = {{b1}}\mathbf{i} + ({{b2}})\mathbf{j}$ N and $\mathbf{F}_3 = {{c1}}\mathbf{i} + {{c2}}\mathbf{j}$ N act on a particle. Find the resultant force.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{a1}}+{{b1}}+({{c1}})', '{{a2}}+({{b2}})+{{c2}}'] }
+  solution: |
+    Add the components: $({{a1}} + {{b1}} + ({{c1}}))\mathbf{i} + ({{a2}} + ({{b2}}) + {{c2}})\mathbf{j}$ N.
+  verify: |
+    def answers(a1, a2, b1, b2, c1, c2):
+        return {"a": [a1 + b1 + c1, a2 + b2 + c2]}
+
+- id: spec.vectors-2d.applications.position-at-time
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1080
+  responseSkills: { calculation: 1070, reading: 1070 }
+  variants:
+    - { x: 2, y: -1, u: 3, w: 4, t: 5 }
+    - { x: -4, y: 6, u: 2, w: -3, t: 4 }
+  stem: |
+    A particle starts at position ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$ m and moves with constant velocity ${{u}}\mathbf{i} + ({{w}})\mathbf{j}$ m/s. Find its position after {{t}} seconds.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{x}}+{{t}}\cdot{{u}}', '{{y}}+{{t}}\cdot({{w}})'] }
+  solution: |
+    $\mathbf{r} = \mathbf{r}_0 + t\mathbf{v} = ({{x}}\mathbf{i} + ({{y}})\mathbf{j}) + {{t}}({{u}}\mathbf{i} + ({{w}})\mathbf{j})$.
+  verify: |
+    def answers(x, y, u, w, t):
+        return {"a": [x + t*u, y + t*w]}
+
+- id: spec.vectors-2d.applications.equilibrium
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1100
+  responseSkills: { calculation: 1090, reading: 1100 }
+  variants:
+    - { a1: 4, a2: -1, b1: -6, b2: 5 }
+    - { a1: -2, a2: -7, b1: 9, b2: 3 }
+  stem: |
+    Forces ${{a1}}\mathbf{i} + ({{a2}})\mathbf{j}$ N and ${{b1}}\mathbf{i} + {{b2}}\mathbf{j}$ N act on a particle. Find the third force that keeps the particle in equilibrium.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['-({{a1}}+({{b1}}))', '-({{a2}}+{{b2}})'] }
+  solution: |
+    The three forces must add to $\mathbf{0}$, so the third force is minus the sum of the other two.
+  verify: |
+    def answers(a1, a2, b1, b2):
+        return {"a": [-(a1 + b1), -(a2 + b2)]}
+
+- id: spec.vectors-2d.applications.bearing-axis
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1120
+  responseSkills: { reading: 1120 }
+  variants:
+    - { s: 10, b: '180', x: 0, y: -10 }
+    - { s: 25, b: '270', x: -25, y: 0 }
+  stem: |
+    A boat travels at {{s}} km/h on a bearing of ${{b}}^\circ\text{T}$. Write its velocity in the form $a\mathbf{i} + b\mathbf{j}$ ($\mathbf{i}$ east, $\mathbf{j}$ north).
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{x}}', '{{y}}'] }
+  solution: |
+    ${{b}}^\circ\text{T}$ points along a compass axis, so all {{s}} km/h is in that direction: ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$.
+  verify: |
+    def answers(s, b, x, y):
+        t = rad(int(b))
+        return {"a": [s*sin(t), s*cos(t)]}
+
+- id: spec.vectors-2d.applications.current-across
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1150
+  responseSkills: { calculation: 1130, reading: 1150 }
+  variants:
+    - { h: 8, c: 6, v: 10 }
+    - { h: 15, c: 8, v: 17 }
+  stem: |
+    A boat points due east and moves through the water at {{h}} km/h. The water flows due north at {{c}} km/h. Find the boat's actual speed.
+  parts:
+    - id: a
+      prompt: Speed (km/h)
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Ground velocity $= {{h}}\mathbf{i} + {{c}}\mathbf{j}$, with magnitude $\sqrt{ {{h}}^2 + {{c}}^2 } = {{v}}$ km/h.
+  verify: |
+    def answers(h, c, v):
+        return {"a": sqrt(h**2 + c**2)}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.vectors-2d.applications.work
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1260
+  responseSkills: { calculation: 1250 }
+  variants:
+    - { f1: 5, f2: 2, s1: 3, s2: -1 }
+    - { f1: 12, f2: -3, s1: 4, s2: 6 }
+  stem: |
+    A constant force $\mathbf{F} = {{f1}}\mathbf{i} + ({{f2}})\mathbf{j}$ N moves an object through the displacement $\mathbf{s} = {{s1}}\mathbf{i} + ({{s2}})\mathbf{j}$ m. Find the work done, in joules.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{f1}}\cdot{{s1}}+({{f2}})\cdot({{s2}})' }
+  solution: |
+    Work $= \mathbf{F}\cdot\mathbf{s} = ({{f1}})({{s1}}) + ({{f2}})({{s2}})$ J.
+  verify: |
+    def answers(f1, f2, s1, s2):
+        return {"a": f1*s1 + f2*s2}
+
+- id: spec.vectors-2d.applications.relative-velocity
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1270
+  responseSkills: { calculation: 1250, reading: 1270 }
+  variants:
+    - { a1: 3, a2: 4, b1: -1, b2: 2 }
+    - { a1: -5, a2: 1, b1: 2, b2: -6 }
+  stem: |
+    Car $A$ has velocity ${{a1}}\mathbf{i} + {{a2}}\mathbf{j}$ m/s and car $B$ has velocity ${{b1}}\mathbf{i} + ({{b2}})\mathbf{j}$ m/s. Find the velocity of $A$ relative to $B$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{a1}}-({{b1}})', '{{a2}}-({{b2}})'] }
+  solution: |
+    ${}^{A}\mathbf{v}_{B} = \mathbf{v}_A - \mathbf{v}_B$.
+  verify: |
+    def answers(a1, a2, b1, b2):
+        return {"a": [a1 - b1, a2 - b2]}
+
+- id: spec.vectors-2d.applications.bearing-components
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1300
+  responseSkills: { calculation: 1290, reading: 1290 }
+  variants:
+    - { d: 20, b: '060', k1: '10\sqrt{3}', k2: '10' }
+    - { d: 12, b: '135', k1: '6\sqrt{2}', k2: '-6\sqrt{2}' }
+    - { d: 8, b: '210', k1: '-4', k2: '-4\sqrt{3}' }
+  stem: |
+    A hiker walks {{d}} km on a bearing of ${{b}}^\circ\text{T}$. Write the displacement in the form $a\mathbf{i} + b\mathbf{j}$ ($\mathbf{i}$ east, $\mathbf{j}$ north), with exact values.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{k1}}', '{{k2}}'], form: [exact] }
+  solution: |
+    East component $= {{d}}\sin {{b}}^\circ$ and north component $= {{d}}\cos {{b}}^\circ$, giving ${{k1}}\,\mathbf{i} + ({{k2}})\mathbf{j}$.
+  verify: |
+    def answers(d, b, k1, k2):
+        t = rad(int(b))
+        return {"a": [d*sin(t), d*cos(t)]}
+
+- id: spec.vectors-2d.applications.plane-crosswind
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1340
+  responseSkills: { calculation: 1320, reading: 1340 }
+  requiresCalculator: true
+  stem: |
+    A plane points due north with an airspeed (speed through the air) of 300 km/h. A wind blows from the west at 50 km/h, so the air moves due east. Find the plane's ground speed, and the bearing of its actual path, each correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Ground speed (km/h)
+      answer: { type: numeric, key: 304.1 }
+    - id: b
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: 9.5 }
+  solution: |
+    Ground velocity $= 50\mathbf{i} + 300\mathbf{j}$, so the speed is $\sqrt{50^2 + 300^2} \approx 304.1$ km/h.
+    The path is east of north by $\tan^{-1}\tfrac{50}{300} \approx 9.5^\circ$: bearing $009.5^\circ\text{T}$.
+  verify: |
+    def answers():
+        g = Matrix([50, 300])
+        return {"a": round(float(g.norm()), 1), "b": round(float(deg(atan2(g[0], g[1]))), 1)}
+
+- id: spec.vectors-2d.applications.two-legs
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1380
+  responseSkills: { calculation: 1360, reading: 1360 }
+  stem: |
+    A yacht sails 5 km on a bearing of $030^\circ\text{T}$, then 5 km on a bearing of $150^\circ\text{T}$. Find the distance and true bearing of its final position from the start.
+  parts:
+    - id: a
+      prompt: Distance (km)
+      answer: { type: numeric, key: 5 }
+    - id: b
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: 90 }
+  solution: |
+    Leg 1: $5\sin 30^\circ\,\mathbf{i} + 5\cos 30^\circ\,\mathbf{j} = 2.5\mathbf{i} + \tfrac{5\sqrt{3}}{2}\mathbf{j}$. Leg 2: $5\sin 150^\circ\,\mathbf{i} + 5\cos 150^\circ\,\mathbf{j} = 2.5\mathbf{i} - \tfrac{5\sqrt{3}}{2}\mathbf{j}$.
+    The sum is $5\mathbf{i}$: 5 km due east, on a bearing of $090^\circ\text{T}$.
+  verify: |
+    def answers():
+        leg = lambda d, b: Matrix([d*sin(rad(b)), d*cos(rad(b))])
+        r = simplify(leg(5, 30) + leg(5, 150))
+        return {"a": r.norm(), "b": deg(atan2(r[0], r[1])) % 360}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.vectors-2d.applications.velocity-from-displacement
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1400
+  responseSkills: { calculation: 1380, reading: 1390 }
+  stem: |
+    A drone flies in a straight line at constant velocity from $(3, 5)$ to $(15, -4)$ (in meters) in 3 seconds. Find its velocity and its speed.
+  parts:
+    - id: a
+      prompt: Velocity (m/s)
+      answer: { type: vector, key: ['4', '-3'] }
+    - id: b
+      prompt: Speed (m/s)
+      answer: { type: numeric, key: 5 }
+  solution: |
+    Displacement $= 12\mathbf{i} - 9\mathbf{j}$ m, so the velocity is $\tfrac{1}{3}(12\mathbf{i} - 9\mathbf{j}) = 4\mathbf{i} - 3\mathbf{j}$ m/s, and the speed is 5 m/s.
+  verify: |
+    def answers():
+        v = (Matrix([15, -4]) - Matrix([3, 5])) / 3
+        return {"a": list(v), "b": v.norm()}
+
+- id: spec.vectors-2d.applications.collide-or-not
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1410
+  responseSkills: { reading: 1400, calculation: 1380 }
+  stem: |
+    At noon, ship $A$ is at $\mathbf{i} + 2\mathbf{j}$ km with velocity $3\mathbf{i} + \mathbf{j}$ km/h, and ship $B$ is at $9\mathbf{i} - 2\mathbf{j}$ km with velocity $-\mathbf{i} + 2\mathbf{j}$ km/h. Will they collide?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Yes, at 2 pm' }
+        - { id: b, text: 'Yes, at 4 pm' }
+        - { id: c, text: 'No' }
+      answer: { type: mcq, key: c }
+  solution: |
+    $\mathbf{r}_A = (1 + 3t)\mathbf{i} + (2 + t)\mathbf{j}$ and $\mathbf{r}_B = (9 - t)\mathbf{i} + (-2 + 2t)\mathbf{j}$.
+    The $\mathbf{i}$-components match when $1 + 3t = 9 - t$, so $t = 2$. Then the $\mathbf{j}$-components are $4$ and $2$, which differ. Their paths cross, but not at the same time, so they don't collide.
+  verify: |
+    def answers():
+        t = symbols("t")
+        ts = solve(1 + 3*t - (9 - t), t)
+        hit = any((2 + s) == (-2 + 2*s) for s in ts)
+        return {"a": "a" if hit else "c"}
+
+- id: spec.vectors-2d.applications.equilibrium-bearing
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1420
+  responseSkills: { calculation: 1400, reading: 1410 }
+  requiresCalculator: true
+  stem: |
+    Two forces act on a particle: 6 N due east and 8 N due north. Find the magnitude and true bearing of the third force that keeps the particle in equilibrium, with the bearing correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Magnitude (N)
+      answer: { type: numeric, key: 10 }
+    - id: b
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: 216.9 }
+  solution: |
+    The third force is $-(6\mathbf{i} + 8\mathbf{j}) = -6\mathbf{i} - 8\mathbf{j}$ N, with magnitude 10 N.
+    It points south-west: west of south by $\tan^{-1}\tfrac{6}{8} \approx 36.9^\circ$, so the bearing is $180^\circ + 36.9^\circ = 216.9^\circ\text{T}$.
+  verify: |
+    def answers():
+        F = -Matrix([6, 8])
+        return {"a": F.norm(), "b": round(float(deg(atan2(F[0], F[1])) % 360), 1)}
+
+- id: spec.vectors-2d.applications.river-crossing
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1440
+  responseSkills: { calculation: 1420, reading: 1430 }
+  variants:
+    - { w: 100, s: 2, c: 1.5, t: 50, d: 75 }
+    - { w: 60, s: 1.5, c: 2, t: 40, d: 80 }
+  stem: |
+    A river is {{w}} m wide with straight, parallel banks, and flows at {{c}} m/s. A swimmer swims at {{s}} m/s through the water, always pointing straight across. Find how long the crossing takes and how far downstream the swimmer lands.
+  parts:
+    - id: t
+      prompt: Time (s)
+      answer: { type: numeric, key: '{{t}}' }
+    - id: d
+      prompt: Distance downstream (m)
+      answer: { type: numeric, key: '{{d}}' }
+  solution: |
+    The current only moves the swimmer along the river, so it doesn't change the crossing speed of {{s}} m/s: the time is ${{w}} \div {{s}} = {{t}}$ s.
+    In that time the current carries the swimmer ${{c}} \times {{t}} = {{d}}$ m downstream.
+  verify: |
+    def answers(w, s, c, t, d):
+        T = Rational(str(w)) / Rational(str(s))
+        return {"t": T, "d": Rational(str(c)) * T}
+
+- id: spec.vectors-2d.applications.heading-due-north
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1460
+  responseSkills: { calculation: 1440, synthesis: 1420 }
+  requiresCalculator: true
+  stem: |
+    A boat moves through the water at 13 km/h. The current flows due east at 5 km/h. The boat must travel due north. Find the bearing the boat should point on, correct to one decimal place, and its actual speed.
+  parts:
+    - id: a
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: 337.4 }
+    - id: b
+      prompt: Actual speed (km/h)
+      answer: { type: numeric, key: 12 }
+  solution: |
+    The boat must point west of north to cancel the current, so its velocity through the water is $-5\mathbf{i} + v\mathbf{j}$ with magnitude 13. Then $v = \sqrt{169 - 25} = 12$, and the ground velocity is $12\mathbf{j}$: 12 km/h due north.
+    The angle west of north is $\sin^{-1}\tfrac{5}{13} \approx 22.6^\circ$, so the bearing is $360^\circ - 22.6^\circ = 337.4^\circ\text{T}$.
+  verify: |
+    def answers():
+        v = sqrt(13**2 - 5**2)
+        return {"a": round(float(360 - deg(asin(Rational(5, 13)))), 1), "b": v}
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.vectors-2d.applications.intercept-fixed-time
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1550
+  responseSkills: { synthesis: 1530, calculation: 1500 }
+  stem: |
+    At noon, a patrol boat is at the origin and a ship is at $6\mathbf{i} + 8\mathbf{j}$ km, moving with velocity $-2\mathbf{i}$ km/h. The patrol boat leaves at noon at constant velocity and meets the ship at 2 pm. Find the patrol boat's velocity and its speed.
+  parts:
+    - id: a
+      prompt: Velocity (km/h)
+      answer: { type: vector, key: ['1', '4'] }
+    - id: b
+      prompt: Speed (km/h)
+      answer: { type: numeric, key: '\sqrt{17}' }
+  solution: |
+    At 2 pm the ship is at $(6\mathbf{i} + 8\mathbf{j}) + 2(-2\mathbf{i}) = 2\mathbf{i} + 8\mathbf{j}$. The patrol boat covers that displacement in 2 hours, so its velocity is $\mathbf{i} + 4\mathbf{j}$ km/h, with speed $\sqrt{17} \approx 4.12$ km/h.
+  verify: |
+    def answers():
+        meet = Matrix([6, 8]) + 2*Matrix([-2, 0])
+        v = meet / 2
+        return {"a": list(v), "b": v.norm()}
+
+- id: spec.vectors-2d.applications.plane-due-north
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1580
+  responseSkills: { synthesis: 1560, calculation: 1540 }
+  requiresCalculator: true
+  stem: |
+    A town is 400 km due north of an airport. A plane with an airspeed of 250 km/h flies there, with a wind of 70 km/h blowing from the east (so the air moves due west). Find the bearing the plane must point on, correct to one decimal place, and the flight time in minutes.
+  parts:
+    - id: a
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: 16.3 }
+    - id: b
+      prompt: Flight time (minutes)
+      answer: { type: numeric, key: 100 }
+  solution: |
+    The plane must point east of north to cancel the wind, so its velocity through the air is $70\mathbf{i} + v\mathbf{j}$, with magnitude 250. Then $v = \sqrt{250^2 - 70^2} = 240$, and the ground velocity is $240\mathbf{j}$ km/h.
+    Bearing: east of north by $\sin^{-1}\tfrac{70}{250} \approx 16.3^\circ$, i.e. $016.3^\circ\text{T}$. Time: $\tfrac{400}{240}$ h $= 100$ minutes.
+  verify: |
+    def answers():
+        v = sqrt(250**2 - 70**2)
+        return {"a": round(float(deg(asin(Rational(70, 250)))), 1), "b": Rational(400) / v * 60}
+
+- id: spec.vectors-2d.applications.closest-approach
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1610
+  responseSkills: { synthesis: 1600, calculation: 1560 }
+  stem: |
+    At $t = 0$ hours, ship $A$ is at the origin and ship $B$ is at $10\mathbf{i}$ km. $A$ moves with velocity $3\mathbf{i} + 4\mathbf{j}$ km/h and $B$ with velocity $-\mathbf{i} + 2\mathbf{j}$ km/h. Find when the ships are closest, and the exact closest distance.
+  parts:
+    - id: t
+      prompt: Time (hours)
+      answer: { type: numeric, key: 2 }
+    - id: d
+      prompt: Closest distance (km)
+      answer: { type: numeric, key: '2\sqrt{5}', form: [exact] }
+  solution: |
+    $\overrightarrow{AB} = \mathbf{r}_B - \mathbf{r}_A = (10 - 4t)\mathbf{i} - 2t\,\mathbf{j}$, so
+    $|\overrightarrow{AB}|^2 = (10 - 4t)^2 + 4t^2 = 20t^2 - 80t + 100 = 20(t - 2)^2 + 20$.
+    This is smallest at $t = 2$, when the distance is $\sqrt{20} = 2\sqrt{5}$ km.
+  verify: |
+    def answers():
+        t = symbols("t", real=True)
+        rel = Matrix([10, 0]) + t*Matrix([-1, 2]) - t*Matrix([3, 4])
+        d2 = expand(rel.dot(rel))
+        t0 = solve(diff(d2, t), t)[0]
+        return {"t": t0, "d": sqrt(d2.subs(t, t0))}
+
+- id: spec.vectors-2d.applications.apparent-wind
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1640
+  responseSkills: { synthesis: 1630, reading: 1600 }
+  requiresCalculator: true
+  stem: |
+    A cyclist rides due north at 20 km/h. The wind blows from the east at 15 km/h. Find the speed of the wind as the cyclist feels it (the wind's velocity relative to the cyclist), and the true bearing it seems to come *from*, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Speed (km/h)
+      answer: { type: numeric, key: 25 }
+    - id: b
+      prompt: Seems to come from (°T)
+      answer: { type: numeric, key: 36.9 }
+  solution: |
+    Wind $\mathbf{w} = -15\mathbf{i}$ (moving west); cyclist $\mathbf{c} = 20\mathbf{j}$. Relative to the cyclist: $\mathbf{w} - \mathbf{c} = -15\mathbf{i} - 20\mathbf{j}$, with speed 25 km/h.
+    That air moves towards the south-west, so it comes from the north-east: east of north by $\tan^{-1}\tfrac{15}{20} \approx 36.9^\circ$, i.e. from $036.9^\circ\text{T}$.
+  verify: |
+    def answers():
+        rel = Matrix([-15, 0]) - Matrix([0, 20])
+        frm = -rel
+        return {"a": rel.norm(), "b": round(float(deg(atan2(frm[0], frm[1])) % 360), 1)}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.vectors-2d.applications.intercept-speed
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1700
+  responseSkills: { synthesis: 1700, calculation: 1650 }
+  stem: |
+    At noon, ship $B$ is 8 km due east of ship $A$ and sails due north at 3 km/h. Also at noon, $A$ sets off at 5 km/h in a fixed direction chosen so that it meets $B$. Find when they meet and $A$'s velocity.
+  parts:
+    - id: t
+      prompt: Time after noon (hours)
+      answer: { type: numeric, key: 2 }
+    - id: v
+      prompt: $A$'s velocity (km/h)
+      answer: { type: vector, key: ['4', '3'] }
+  solution: |
+    Put $A$ at the origin. After $t$ hours, $B$ is at $8\mathbf{i} + 3t\,\mathbf{j}$. $A$ travels $5t$ km in a straight line to that point, so
+    $(5t)^2 = 8^2 + (3t)^2$, giving $16t^2 = 64$ and $t = 2$.
+    They meet at $8\mathbf{i} + 6\mathbf{j}$, so $A$'s velocity is $\tfrac{1}{2}(8\mathbf{i} + 6\mathbf{j}) = 4\mathbf{i} + 3\mathbf{j}$ km/h (speed 5 ✓).
+  verify: |
+    def answers():
+        t = symbols("t", positive=True)
+        t0 = solve((5*t)**2 - (8**2 + (3*t)**2), t)[0]
+        meet = Matrix([8, 3*t0])
+        return {"t": t0, "v": list(meet / t0)}
+
+- id: spec.vectors-2d.applications.swim-upstream
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1740
+  responseSkills: { synthesis: 1740, calculation: 1680 }
+  requiresCalculator: true
+  stem: |
+    A river is 100 m wide with straight, parallel banks, and flows at 1 m/s. A swimmer swims at 2 m/s through the water and wants to land at the point on the far bank 50 m upstream of the point directly opposite. Find the angle between the swimmer's heading and the straight-across direction, correct to one decimal place, and the time taken, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Angle upstream from straight across (°)
+      answer: { type: numeric, key: 53.1 }
+    - id: b
+      prompt: Time (s)
+      answer: { type: numeric, key: 83.3 }
+  solution: |
+    Let the heading make angle $\theta$ upstream from straight across. The swimmer's velocity over the riverbed has across part $2\cos\theta$ and upstream part $2\sin\theta - 1$.
+    To land 50 m upstream after 100 m across, the upstream part must be half the across part: $2\sin\theta - 1 = \cos\theta$.
+    Solving (e.g. with a calculator) gives $\sin\theta = 0.8$, $\cos\theta = 0.6$, so $\theta \approx 53.1^\circ$. The across speed is $1.2$ m/s, so the time is $\tfrac{100}{1.2} \approx 83.3$ s.
+  verify: |
+    def answers():
+        th = symbols("th")
+        sols = [s for s in solve(2*sin(th) - 1 - cos(th), th) if 0 < s.evalf() < pi/2]
+        t0 = sols[0]
+        return {"a": round(float(deg(t0)), 1), "b": round(float(100 / (2*cos(t0))), 1)}
+
+- id: spec.vectors-2d.applications.plane-track
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1760
+  responseSkills: { synthesis: 1760, calculation: 1700 }
+  requiresCalculator: true
+  stem: |
+    A plane flies from $P$ to $Q$, which is 960 km from $P$ on a bearing of $060^\circ\text{T}$. Its airspeed is 380 km/h, and a 100 km/h wind blows from the north (so the air moves due south). Find the bearing the plane must point on, correct to one decimal place, and the flight time.
+  parts:
+    - id: a
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: 46.8 }
+    - id: b
+      prompt: Time (hours)
+      answer: { type: numeric, key: 3 }
+  solution: |
+    The ground velocity is $s(\sin 60^\circ\,\mathbf{i} + \cos 60^\circ\,\mathbf{j})$ for some ground speed $s$. The velocity through the air is that minus the wind: $\mathbf{p} = \tfrac{\sqrt{3}}{2}s\,\mathbf{i} + \left(\tfrac{1}{2}s + 100\right)\mathbf{j}$.
+    $|\mathbf{p}| = 380$: $\tfrac{3}{4}s^2 + \tfrac{1}{4}s^2 + 100s + 10\,000 = 144\,400$, so $s^2 + 100s - 134\,400 = 0$, i.e. $(s - 320)(s + 420) = 0$ and $s = 320$ km/h. The time is $960 \div 320 = 3$ hours.
+    Then $\mathbf{p} = 160\sqrt{3}\,\mathbf{i} + 260\,\mathbf{j}$, which is east of north by $\tan^{-1}\tfrac{160\sqrt{3}}{260} \approx 46.8^\circ$: bearing $046.8^\circ\text{T}$.
+  verify: |
+    def answers():
+        s = symbols("s", positive=True)
+        d = Matrix([sin(pi/3), cos(pi/3)])
+        w = Matrix([0, -100])
+        p = s*d - w
+        s0 = [v for v in solve(expand(p.dot(p)) - 380**2, s)][0]
+        pv = p.subs(s, s0)
+        return {"a": round(float(deg(atan2(pv[0], pv[1]))), 1), "b": 960 / s0}

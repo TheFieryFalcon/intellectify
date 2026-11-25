@@ -44,19 +44,19 @@ So every element in the union is counted exactly once. This is the **inclusionâ€
 ## Worked examples
 
 ### Example 1
-In a class of 30, 18 play soccer, 12 play netball and 5 play both. How many play neither?
+In a group of 50 people, 28 own a dog, 20 own a cat and 9 own both. How many own neither?
 
-1. Let $S$ be the soccer players and $N$ the netball players.
-2. $|S \cup N| = 18 + 12 - 5 = 25$ students play at least one sport.
-3. The rest play neither: $30 - 25 = 5$.
+1. Let $D$ be the dog owners and $C$ the cat owners.
+2. $|D \cup C| = 28 + 20 - 9 = 39$ people own at least one.
+3. The rest own neither: $50 - 39 = 11$.
 
 ### Example 2
-How many integers from 1 to 1000 are divisible by 3, 5 or 7?
+How many integers from 1 to 600 are divisible by 4, 5 or 6?
 
-1. Single sets: $\lfloor 1000/3 \rfloor = 333$, $\lfloor 1000/5 \rfloor = 200$ and $\lfloor 1000/7 \rfloor = 142$, for a sum of 675.
-2. Pairs use the lowest common multiples 15, 21 and 35: $66 + 47 + 28 = 141$.
-3. All three use 105: $\lfloor 1000/105 \rfloor = 9$.
-4. Combine: $675 - 141 + 9 = 543$.
+1. Single sets: $\lfloor 600/4 \rfloor = 150$, $\lfloor 600/5 \rfloor = 120$ and $\lfloor 600/6 \rfloor = 100$, for a sum of 370.
+2. Pairs use lowest common multiples. Divisible by 4 and 5 means divisible by 20: 30. By 4 and 6 means by 12 (not 24): 50. By 5 and 6 means by 30: 20. The sum is 100.
+3. All three means divisible by 60: 10.
+4. Combine: $370 - 100 + 10 = 280$.
 
 ### Example 3
 In a survey of 50 people, 20 like tea, 25 like coffee and 15 like juice. 8 like tea and coffee, 5 like tea and juice, 6 like coffee and juice, and 3 like all three. How many like only coffee?
