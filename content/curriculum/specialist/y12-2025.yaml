@@ -1,0 +1,291 @@
+# Mathematics Specialist ATAR, Year 12 (Units 3–4). DRAFT skill tree.
+# Same conventions as y11-2026.yaml. Prerequisites are suggestions only and
+# never lock a skill.
+id: y12-2025
+course: specialist
+year: 12
+source:
+  title: Mathematics Specialist ATAR Year 12 Syllabus
+  publisher: School Curriculum and Standards Authority (WA)
+  effectiveFrom: 2025-01-01
+
+units:
+  - number: 3
+    sections:
+      # ─────────────────────────────────────────────── 3.1
+      - id: complex
+        code: "3.1"
+        name: Complex numbers
+        hours: 18
+        skills:
+          - id: spec.complex.cartesian-review
+            name: Cartesian form review
+            summary: Re(z) and Im(z), Cartesian form and complex arithmetic (a Year 11 review).
+            dotPoints: ["3.1.1", "3.1.2", "3.1.3"]
+            prereqs: [spec.real-complex.complex-arithmetic]
+
+          - id: spec.complex.polar-form
+            name: Modulus, argument and polar form
+            summary: "|z| and Arg(z); prove basic modulus–argument identities; convert between Cartesian and polar form."
+            dotPoints: ["3.1.4", "3.1.5"]
+            prereqs: [spec.complex.cartesian-review, spec.real-complex.complex-plane]
+            external:
+              - { course: methods, version: y11-2026, dotPoints: ["1.3.8"], note: Exact trig values }
+
+          - id: spec.complex.de-moivre
+            name: Polar operations and de Moivre's theorem
+            summary: Multiplication, division and powers in polar form and their geometric meaning; prove and use de Moivre's theorem.
+            dotPoints: ["3.1.6", "3.1.7"]
+            prereqs: [spec.complex.polar-form, spec.trigonometry.compound-angles, spec.real-complex.induction]
+
+          - id: spec.complex.argand-transformations
+            name: Operations as geometry in the Argand plane
+            summary: Addition as vector addition; multiplication as a linear transformation (rotation and dilation).
+            dotPoints: ["3.1.8", "3.1.9"]
+            prereqs: [spec.complex.de-moivre, spec.matrices.transformations]
+
+          - id: spec.complex.loci
+            name: Regions and loci in the complex plane
+            summary: Subsets defined by relations such as |z − 3i| ≤ 4, Arg(z) = 3π/4 and |z − 1| = 2|z − i|.
+            dotPoints: ["3.1.10"]
+            prereqs: [spec.complex.polar-form, spec.geometry.circle-angles]
+
+          - id: spec.complex.roots
+            name: Roots of complex numbers
+            summary: nth roots of unity and of general complex numbers, and their geometry in the plane.
+            dotPoints: ["3.1.11", "3.1.12"]
+            prereqs: [spec.complex.de-moivre]
+
+          - id: spec.complex.polynomials
+            name: Polynomials over the complex numbers
+            summary: Prove and apply the factor and remainder theorems; conjugate roots of real polynomials; solve simple polynomial equations.
+            dotPoints: ["3.1.13", "3.1.14", "3.1.15"]
+            prereqs: [spec.real-complex.quadratic-roots]
+            external:
+              - { course: methods, version: y11-2026, dotPoints: ["1.2.15", "1.2.16"], note: Factorising and solving cubics }
+
+      # ─────────────────────────────────────────────── 3.2
+      - id: functions
+        code: "3.2"
+        name: Functions and sketching graphs
+        hours: 16
+        skills:
+          - id: spec.functions.composition
+            name: Composite functions
+            summary: When a composition is defined, and finding it, including domain and range.
+            dotPoints: ["3.2.1", "3.2.2"]
+            prereqs: []
+            external:
+              - { course: methods, version: y11-2026, dotPoints: ["1.2.19", "1.2.20"], note: Functions, domain and range }
+
+          - id: spec.functions.inverses
+            name: One-to-one and inverse functions
+            summary: Test for one-to-one; find inverses; the reflection property in y = x.
+            dotPoints: ["3.2.3", "3.2.4", "3.2.5"]
+            prereqs: [spec.functions.composition]
+
+          - id: spec.functions.absolute-value
+            name: Absolute value
+            summary: Use |x| and the graph of y = |x|, including equations and inequalities.
+            dotPoints: ["3.2.6"]
+            prereqs: []
+            external:
+              - { course: methods, version: y11-2026, dotPoints: ["1.2.22", "1.2.23"], note: Translations and dilations of graphs }
+
+          - id: spec.functions.graph-relationships
+            name: Related graphs
+            summary: From y = f(x) to y = 1/f(x), y = |f(x)| and y = f(|x|).
+            dotPoints: ["3.2.7"]
+            prereqs: [spec.functions.absolute-value, spec.trigonometry.reciprocal]
+
+          - id: spec.functions.rational
+            name: Rational functions
+            summary: Sketch simple rational functions with low-degree polynomials, including asymptotes (oblique where needed) and intercepts.
+            dotPoints: ["3.2.8"]
+            prereqs: [spec.functions.graph-relationships, spec.complex.polynomials]
+            external:
+              - { course: methods, version: y11-2026, dotPoints: ["1.2.10", "1.2.11"], note: Hyperbolas and power-function graphs }
+
+      # ─────────────────────────────────────────────── 3.3
+      - id: vectors-3d
+        code: "3.3"
+        name: Vectors in three dimensions
+        hours: 21
+        skills:
+          - id: spec.vectors-3d.algebra
+            name: Vectors and coordinates in 3D
+            summary: i, j, k; magnitude, dot product, parallel and perpendicular vectors; 3D coordinates and equations of spheres.
+            dotPoints: ["3.3.1", "3.3.3"]
+            prereqs: [spec.vectors-2d.scalar-product]
+
+          - id: spec.vectors-3d.proofs
+            name: Vector proofs in 2D and 3D
+            summary: Prove geometric results in the plane and construct simple proofs in three dimensions.
+            dotPoints: ["3.3.2"]
+            prereqs: [spec.vectors-3d.algebra, spec.vectors-2d.proofs]
+
+          - id: spec.vectors-3d.lines-curves
+            name: Vector equations of lines and curves
+            summary: Parametric vector equations of curves (Cartesian form in 2D); lines and line segments in 2D and 3D.
+            dotPoints: ["3.3.4", "3.3.5"]
+            prereqs: [spec.vectors-3d.algebra]
+
+          - id: spec.vectors-3d.particles
+            name: Crossing paths and meeting particles
+            summary: Two particles given as vector functions of time; decide whether their paths cross or the particles meet.
+            dotPoints: ["3.3.6"]
+            prereqs: [spec.vectors-3d.lines-curves]
+
+          - id: spec.vectors-3d.planes
+            name: Cross product and planes
+            summary: Normals via the cross product; vector and Cartesian equations of planes.
+            dotPoints: ["3.3.7", "3.3.8"]
+            prereqs: [spec.vectors-3d.algebra, spec.vectors-3d.lines-curves]
+
+          - id: spec.vectors-3d.linear-systems
+            name: Systems of linear equations
+            summary: Elimination for systems in several variables; unique, no and infinitely many solutions, interpreted geometrically in 3D.
+            dotPoints: ["3.3.9", "3.3.10"]
+            prereqs: [spec.vectors-3d.planes, spec.matrices.linear-systems]
+
+          - id: spec.vectors-3d.vector-calculus
+            name: Vector functions and calculus
+            summary: Position vectors as functions of time; Cartesian equations of paths, including ellipses and hyperbolas; differentiate and integrate vector functions.
+            dotPoints: ["3.3.11", "3.3.12", "3.3.13"]
+            prereqs: [spec.vectors-3d.lines-curves, spec.trigonometry.identities]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.1.5", "3.1.9", "3.2.5"], note: Derivatives and integrals of trig functions; chain rule }
+
+          - id: spec.vectors-3d.motion
+            name: Motion with vectors
+            summary: Rectilinear motion with constant and variable acceleration; projectile and circular motion.
+            dotPoints: ["3.3.14", "3.3.15"]
+            prereqs: [spec.vectors-3d.vector-calculus, spec.vectors-2d.applications]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.1.12", "3.2.21", "3.2.22"], note: Kinematics via differentiation and integration }
+
+  - number: 4
+    sections:
+      # ─────────────────────────────────────────────── 4.1
+      - id: integration
+        code: "4.1"
+        name: Integration and applications of integration
+        hours: 20
+        skills:
+          - id: spec.integration.trig-identities
+            name: Integrating with trig identities
+            summary: Integrals using sin²x = ½(1 − cos 2x), cos²x = ½(1 + cos 2x) and 1 + tan²x = sec²x.
+            dotPoints: ["4.1.1"]
+            prereqs: [spec.trigonometry.identities]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.2.5", "3.2.7"], note: Basic trig antiderivatives; f(ax − b) }
+
+          - id: spec.integration.substitution
+            name: Integration by substitution
+            summary: Use u = g(x) to integrate f(g(x))·g′(x), including definite integrals with changed limits.
+            dotPoints: ["4.1.2"]
+            prereqs: []
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.1.8", "3.2.17"], note: Chain rule; fundamental theorem }
+
+          - id: spec.integration.log-partial-fractions
+            name: Logarithmic integrals and partial fractions
+            summary: ∫ 1/x dx = ln|x| + c for x ≠ 0; partial fractions in simple cases.
+            dotPoints: ["4.1.3", "4.1.4"]
+            prereqs: [spec.integration.substitution, spec.complex.polynomials]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["4.1.12", "4.1.13"], note: ln integrals for x > 0 and f′/f }
+
+          - id: spec.integration.areas
+            name: Areas and numerical integration
+            summary: Areas between curves y = f(x) or x = f(y); evaluate integrals numerically with technology.
+            dotPoints: ["4.1.5", "4.1.7"]
+            prereqs: [spec.integration.substitution, spec.functions.inverses]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.2.19", "3.2.20"], note: Area under and between curves }
+
+          - id: spec.integration.volumes
+            name: Volumes of revolution
+            summary: Volumes of solids of revolution about either axis.
+            dotPoints: ["4.1.6"]
+            prereqs: [spec.integration.areas, spec.integration.trig-identities]
+
+      # ─────────────────────────────────────────────── 4.2
+      - id: differential-equations
+        code: "4.2"
+        name: Rates of change and differential equations
+        hours: 20
+        skills:
+          - id: spec.differential-equations.implicit
+            name: Implicit differentiation
+            summary: Gradients of curves defined implicitly.
+            dotPoints: ["4.2.1"]
+            prereqs: []
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.1.8", "3.1.9"], note: Chain, product and quotient rules }
+
+          - id: spec.differential-equations.related-rates
+            name: Related rates and increments
+            summary: Related rates as chain-rule instances; the increments formula δy ≈ (dy/dx)δx applied to differential equations.
+            dotPoints: ["4.2.2", "4.2.3"]
+            prereqs: [spec.differential-equations.implicit]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.1.10"], note: Increments formula }
+
+          - id: spec.differential-equations.slope-fields
+            name: Slope fields
+            summary: Read, sketch and interpret slope fields of first-order differential equations.
+            dotPoints: ["4.2.5"]
+            prereqs: []
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.2.8", "3.2.9"], note: Families of antiderivatives and initial conditions }
+
+          - id: spec.differential-equations.separable
+            name: Separable differential equations
+            summary: Solve dy/dx = f(x), dy/dx = g(y) and dy/dx = f(x)g(y) by separation of variables.
+            dotPoints: ["4.2.4"]
+            prereqs: [spec.integration.log-partial-fractions, spec.differential-equations.slope-fields]
+
+          - id: spec.differential-equations.modelling
+            name: Formulating DEs and the logistic equation
+            summary: Build differential equations from rate situations, including the logistic equation in chemistry, biology and economics.
+            dotPoints: ["4.2.6"]
+            prereqs: [spec.differential-equations.separable]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.1.4"], note: Exponential growth and decay models }
+
+          - id: spec.differential-equations.motion
+            name: Rectilinear motion and SHM
+            summary: Constant and non-constant acceleration, including simple harmonic motion, using dv/dt, v·dv/dx and d(½v²)/dx.
+            dotPoints: ["4.2.7"]
+            prereqs: [spec.differential-equations.separable, spec.vectors-3d.motion, spec.trigonometry.periodic-models]
+
+      # ─────────────────────────────────────────────── 4.3
+      - id: inference
+        code: "4.3"
+        name: Statistical inference
+        hours: 15
+        skills:
+          - id: spec.inference.sample-means
+            name: The distribution of sample means
+            summary: X̄ as a random variable; mean μ and standard deviation σ/√n; approximate normality for large n; the standardised statistic with s (n ≥ 30).
+            dotPoints: ["4.3.1", "4.3.2", "4.3.3"]
+            prereqs: []
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["3.3.5", "3.3.6", "4.2.3", "4.2.7", "4.3.4", "4.3.5"], note: Expectation and variance; normal distribution; sample proportions }
+
+          - id: spec.inference.confidence-intervals
+            name: Confidence intervals for the mean
+            summary: Interval estimates; x̄ ± z·s/√n; simulation shows that most but not all intervals contain μ.
+            dotPoints: ["4.3.4", "4.3.5", "4.3.6"]
+            prereqs: [spec.inference.sample-means]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["4.3.7", "4.3.8", "4.3.10"], note: Confidence intervals for proportions }
+
+          - id: spec.inference.population-intervals
+            name: Intervals for values vs intervals for μ
+            summary: Use x̄ and s to estimate intervals covering a given proportion of a normal variable's values, and compare with a confidence interval for μ.
+            dotPoints: ["4.3.7"]
+            prereqs: [spec.inference.confidence-intervals]
+            external:
+              - { course: methods, version: y12-2026, dotPoints: ["4.2.7"], note: Normal quantiles }

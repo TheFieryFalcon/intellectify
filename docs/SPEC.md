@@ -61,7 +61,10 @@ Course (e.g. Mathematics Specialist)
 ```
 
 - **Skills are clustered dot points.** Each skill lists the syllabus content descriptors it covers, e.g. `["1.1.3", "1.1.4"]`.
-- **Prerequisites form a DAG.** Each skill has a home in the hierarchy but may list prerequisite skills anywhere, **including in other courses**. For example, Specialist integration techniques depend on Methods calculus skills, even before Methods is launched. Prerequisites are informational: they are drawn as edges in the tree and **never lock** a skill.
+- **Prerequisites form a DAG.** Each skill has a home in the hierarchy but may list prerequisite skills anywhere, **including in other courses**. For example, Specialist integration techniques depend on Methods calculus skills, even before Methods is launched. Prerequisites are **suggestions, not requirements**:
+  - They are drawn as edges in the tree and listed on the skill page as "Suggested first".
+  - Every skill can be opened and practised at any time, whatever the student's ranks elsewhere. There are no locks, no gates and no warnings.
+  - Unlike the Section Challenge's "Recommended at Gold" notice (§8.4), prerequisites never interrupt starting a skill.
 - **Mathematics Specialist sections**, confirmed against the SCSA syllabi. Sources: Year 11 syllabus for teaching from 2026; Year 12 syllabus for teaching from January 2025.
 
   | Unit | Section (syllabus topic) | Hours | Dot points |
@@ -79,7 +82,7 @@ Course (e.g. Mathematics Specialist)
   | 4 | 4.2 Rates of change and differential equations | 20 | ~7 |
   | 4 | 4.3 Statistical inference | 15 | ~7 |
 
-  Dot-point counts for Unit 4 are approximate; they come from text extraction and some dot points contain inline formulas. Skill IDs reference dot-point IDs, e.g. `spec.1.2.pigeonhole → ["1.2.6"]`.
+  Dot-point counts for Unit 4 are approximate; they come from text extraction and some dot points contain inline formulas. Skill IDs reference dot-point IDs, e.g. `spec.combinatorics.pigeonhole → ["1.2.6"]`. The draft Specialist tree is in `content/curriculum/specialist/`: 70 skills, 85 suggested-prerequisite edges, and 30 links to Methods dot points.
 
 - **Mathematics Methods sections** (Phase 3; listed now because Specialist skills take prerequisites from them). Sources: Year 11 syllabus for teaching from 2026; Year 12 syllabus for teaching from 2026 and from 2027.
 
@@ -658,7 +661,7 @@ A public profile shows:
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
 ### 14.3 Skill page
-- Shows rank, score, θ, gate progress per rank, dot points covered, prerequisites, and recent attempts.
+- Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
 - **Start practising** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
 - Entry points to the section quiz, unit quiz and Section Challenge.
 
