@@ -1,0 +1,218 @@
+# Pigeonhole principle (1.2.6).
+
+- id: spec.combinatorics.pigeonhole.socks
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1100
+  responseSkills: { reading: 1100 }
+  variants:
+    - { c: 3, colors: 'black, white and grey', v: 4 }
+    - { c: 5, colors: 'red, blue, green, white and black', v: 6 }
+  stem: |
+    A drawer contains plenty of socks in {{c}} colors ({{colors}}). Without looking, how many socks must you take to be **sure** of getting two of the same color?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    With {{c}} colors as boxes, ${{c}} + 1 = {{v}}$ socks force a pair, while {{c}} socks could all be different colors.
+  verify: |
+    def answers(c, colors, v):
+        return {"a": c + 1}
+
+- id: spec.combinatorics.pigeonhole.months
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1320
+  responseSkills: { reading: 1320, calculation: 1280 }
+  stem: |
+    Consider people's birth months.
+  parts:
+    - id: a
+      prompt: What is the least number of people needed to guarantee that two share a birth month?
+      marks: 1
+      answer: { type: numeric, key: 13 }
+    - id: b
+      prompt: What is the least number needed to guarantee that **four** share a birth month?
+      marks: 2
+      answer: { type: numeric, key: 37 }
+  solution: |
+    **(a)** There are 12 months, so 13 people force two into the same month. 12 people could all have different months.
+
+    **(b)** $3 \times 12 + 1 = 37$ forces some month to have 4. With 36 people, each month could have exactly 3.
+  verify: |
+    def answers():
+        return {"a": 12 + 1, "b": 3 * 12 + 1}
+
+- id: spec.combinatorics.pigeonhole.sum-to-21
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1500
+  responseSkills: { reading: 1480, proof: 1480 }
+  stem: |
+    What is the least number of integers that must be chosen from $\{1, 2, \dots, 20\}$ to guarantee that two of them add to 21?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 11 }
+  solution: |
+    Pair the numbers as $\{1, 20\}, \{2, 19\}, \dots, \{10, 11\}$, giving 10 boxes. Eleven numbers force two into one pair, and that pair adds to 21. Ten numbers aren't enough: $1, 2, \dots, 10$ has no pair adding to 21.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        boxes = {frozenset((k, 21 - k)) for k in range(1, 21)}       # 10 pairs adding to 21
+        example = range(1, 11)                                       # 10 numbers, no pair adds to 21
+        assert not any(a + b == 21 for a, b in combos(example, 2))
+        assert len(boxes) == len(example)
+        return {"a": len(boxes) + 1}
+
+- id: spec.combinatorics.pigeonhole.difference-by-4
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1430
+  responseSkills: { proof: 1430, clarity: 1400 }
+  stem: |
+    Prove that among any 5 integers, there are two whose difference is divisible by 4.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: boxes, description: "Uses the 4 possible remainders on division by 4 (0, 1, 2, 3) as boxes", points: 2, dimension: proof }
+          - { id: php, description: "5 integers in 4 boxes, so two share a remainder", points: 1, dimension: proof }
+          - { id: conclude, description: "Same remainder means their difference is a multiple of 4", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly expressed", points: 1, dimension: clarity }
+  solution: |
+    Dividing by 4 leaves remainder 0, 1, 2 or 3: 4 boxes. Five integers put two in the same box, say $a = 4p + r$ and $b = 4q + r$. Then $a - b = 4(p - q)$ is divisible by 4.
+
+- id: spec.combinatorics.pigeonhole.points-in-square
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1520
+  responseSkills: { proof: 1500, synthesis: 1480 }
+  stem: |
+    Five points are placed inside or on a square of side length 2. Prove that two of them are at most $\sqrt{2}$ apart.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: split, description: "Divides the square into four 1 × 1 squares", points: 2, dimension: synthesis }
+          - { id: php, description: "Five points in four small squares: two share a small square", points: 1, dimension: proof }
+          - { id: diag, description: "The furthest apart two points in a 1 × 1 square can be is the diagonal, √2", points: 1, dimension: proof }
+          - { id: clear, description: "Clear and complete", points: 1, dimension: clarity }
+  solution: |
+    Split the square into four $1 \times 1$ squares. Five points put two in the same small square (a point on a shared edge can be assigned to either). Two points in a $1 \times 1$ square are at most the diagonal apart: $\sqrt{1^2 + 1^2} = \sqrt{2}$.
+
+- id: spec.combinatorics.pigeonhole.two-coprime
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1600
+  responseSkills: { proof: 1600, synthesis: 1580 }
+  stem: |
+    Let $n \ge 1$. Prove that if $n + 1$ different numbers are chosen from $\{1, 2, \dots, 2n\}$, two of them have no common factor other than 1.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: boxes, description: "Pairs consecutive numbers: {1,2}, {3,4}, …, {2n−1, 2n} — n boxes", points: 2, dimension: synthesis }
+          - { id: php, description: "n + 1 numbers in n boxes: two consecutive numbers are chosen", points: 1, dimension: proof }
+          - { id: coprime, description: "Explains why consecutive numbers share no factor > 1 (a common factor would divide their difference, 1)", points: 2, dimension: proof }
+  solution: |
+    Make $n$ boxes $\{1, 2\}, \{3, 4\}, \dots, \{2n-1, 2n\}$. Choosing $n + 1$ numbers puts two in one box, so two consecutive numbers $k$ and $k + 1$ are chosen. Any common factor of $k$ and $k + 1$ divides their difference, which is 1. So they have no common factor other than 1.
+
+- id: spec.combinatorics.pigeonhole.divides-in-20
+  skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
+  rating: 1640
+  responseSkills: { synthesis: 1640, proof: 1600 }
+  stem: |
+    What is the least number of integers that must be chosen from $\{1, 2, \dots, 20\}$ to guarantee that one of them divides another?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 11 }
+  solution: |
+    Write each number as $2^a \times m$, where $m$ is odd. There are 10 possible odd values of $m$ ($1, 3, \dots, 19$). Eleven numbers force two with the same $m$, and then the smaller divides the larger. Ten numbers aren't enough: in $11, 12, \dots, 20$ no number divides another.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        odd_parts = {k // (k & -k) for k in range(1, 21)}
+        example = range(11, 21)
+        assert not any(b % a == 0 for a, b in combos(example, 2))
+        assert len(odd_parts) == len(example)
+        return {"a": len(odd_parts) + 1}
+
+- id: spec.combinatorics.pigeonhole.equilateral-triangle
+  skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.geometry.circle-problems] }
+  rating: 1660
+  responseSkills: { proof: 1650, synthesis: 1640 }
+  stem: |
+    Ten points lie inside or on an equilateral triangle with sides of length 3. Prove that two of them are at most 1 unit apart.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: split, description: "Divides the triangle into 9 equilateral triangles of side 1 (lines parallel to the sides at the thirds)", points: 2, dimension: synthesis }
+          - { id: php, description: "Ten points in nine small triangles: two share one", points: 1, dimension: proof }
+          - { id: diameter, description: "Two points in an equilateral triangle of side 1 are at most 1 apart (the longest distance is a side)", points: 1, dimension: proof }
+          - { id: clear, description: "Clear and complete", points: 1, dimension: clarity }
+  solution: |
+    Draw lines parallel to each side through the points that split the sides into thirds. This divides the triangle into 9 equilateral triangles of side 1. Ten points put two in the same small triangle, and no two points of a side-1 equilateral triangle are more than 1 apart.
+
+- id: spec.combinatorics.pigeonhole.friends-strangers
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1690
+  responseSkills: { proof: 1690, clarity: 1640 }
+  stem: |
+    Any two people are either friends or strangers. Prove that in any group of 6 people there are 3 who are all friends with each other, or 3 who are all strangers to each other.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: pick, description: "Picks one person and sorts the other 5 into friends/strangers of that person", points: 1, dimension: proof }
+          - { id: php, description: "Pigeonhole: 5 people in 2 groups means one group has at least 3", points: 1, dimension: proof }
+          - { id: case, description: "Case analysis on those 3: if any two of them are friends (in the friends case) we get 3 friends; otherwise those 3 are mutual strangers", points: 2, dimension: proof }
+          - { id: symmetric, description: "Handles the strangers case symmetrically", points: 1, dimension: clarity }
+  solution: |
+    Pick a person $P$. Of the other 5, at least 3 are friends of $P$, or at least 3 are strangers to $P$, by pigeonhole with 2 boxes. Suppose 3 are friends of $P$ (the other case is the same with the roles swapped). If any two of those 3 are friends, they and $P$ are 3 mutual friends. If not, those 3 are mutual strangers.
+
+- id: spec.combinatorics.pigeonhole.sum-or-difference-10
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1760
+  responseSkills: { proof: 1760, synthesis: 1750 }
+  stem: |
+    Prove that among any 7 different integers there are two whose sum or difference is divisible by 10.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: boxes, description: "Groups remainders mod 10 as {0}, {5}, {1,9}, {2,8}, {3,7}, {4,6}: 6 boxes", points: 2, dimension: synthesis }
+          - { id: php, description: "7 integers in 6 boxes: two share a box", points: 1, dimension: proof }
+          - { id: cases, description: "Same remainder gives a difference divisible by 10; remainders adding to 10 give a sum divisible by 10 (including the 0 and 5 boxes)", points: 2, dimension: proof }
+  solution: |
+    Sort the integers by remainder when divided by 10, using 6 boxes: $\{0\}, \{5\}, \{1, 9\}, \{2, 8\}, \{3, 7\}, \{4, 6\}$. Seven integers put two in the same box. If their remainders are equal, their difference is divisible by 10. If the remainders are a pair like 3 and 7, they add to 10, so the sum is divisible by 10.
+
+- id: spec.combinatorics.pigeonhole.three-sum-to-3
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1790
+  responseSkills: { proof: 1790, synthesis: 1760 }
+  stem: |
+    Prove that among any 5 integers, some 3 of them have a sum divisible by 3.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: remainders, description: "Considers remainders on division by 3", points: 1, dimension: proof }
+          - { id: all-three, description: "Case: all three remainders 0, 1, 2 appear — one of each sums to a multiple of 3", points: 2, dimension: proof }
+          - { id: two-classes, description: "Otherwise at most two remainders appear among 5 numbers, so one appears ≥ 3 times (pigeonhole) and those three sum to 3r", points: 2, dimension: proof }
+  solution: |
+    Look at the remainders when dividing by 3. If all three remainders 0, 1 and 2 appear, take one number with each; their sum has remainder $0 + 1 + 2 = 3$, so it is divisible by 3. Otherwise only two remainders appear among 5 numbers, so one appears at least 3 times. Three numbers with the same remainder $r$ have a sum with remainder $3r$, which is divisible by 3.
+
+- id: spec.combinatorics.pigeonhole.divisor-pair-100
+  skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
+  rating: 1770
+  responseSkills: { synthesis: 1770, proof: 1700 }
+  stem: |
+    What is the least $n$ such that any $n$ integers chosen from $\{1, 2, \dots, 100\}$ must include two different integers where one divides the other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 51 }
+  solution: |
+    Write each number as $2^a m$ with $m$ odd. There are 50 odd values of $m$, so 51 numbers force two with the same $m$, and the smaller divides the larger. The 50 numbers $51, 52, \dots, 100$ show 50 isn't enough: no one of them divides another (twice the smallest is already over 100).
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        odd_parts = {k // (k & -k) for k in range(1, 101)}          # boxes: odd part of each number
+        example = range(51, 101)                                    # 50 numbers, no one divides another
+        assert not any(b % a == 0 for a, b in combos(example, 2))
+        assert len(odd_parts) == len(example)                       # so the bound is tight
+        return {"a": len(odd_parts) + 1}

@@ -1,0 +1,336 @@
+# Combinations: unordered selections, nCr notation (1.2.7, 1.2.8).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.combinatorics.combinations.evaluate
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1050
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { n: 5, r: 2, v: 10 }
+    - { n: 8, r: 3, v: 56 }
+    - { n: 10, r: 4, v: 210 }
+  stem: |
+    Evaluate $\dbinom{ {{n}} }{ {{r}} }$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $\dbinom{ {{n}} }{ {{r}} } = \dfrac{ {{n}}! }{ {{r}}!\,({{n}}-{{r}})! } = {{v}}$.
+  verify: |
+    def answers(n, r, v):
+        return {"a": binomial(n, r)}
+
+- id: spec.combinatorics.combinations.choose-team
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1100
+  responseSkills: { calculation: 1080, reading: 1100 }
+  variants:
+    - { n: 10, r: 3, v: 120 }
+    - { n: 12, r: 5, v: 792 }
+  stem: |
+    In how many ways can a team of {{r}} be chosen from {{n}} people?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Order doesn't matter: $\dbinom{ {{n}} }{ {{r}} } = {{v}}$.
+  verify: |
+    def answers(n, r, v):
+        return {"a": binomial(n, r)}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.combinatorics.combinations.exactly-two-women
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1330
+  responseSkills: { calculation: 1300, reading: 1330 }
+  stem: |
+    A committee of 4 is chosen from 7 women and 5 men. How many committees contain exactly 2 women?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 210 }
+  solution: |
+    $\dbinom{7}{2}\dbinom{5}{2} = 21 \times 10 = 210$.
+  verify: |
+    def answers():
+        return {"a": binomial(7, 2) * binomial(5, 2)}
+
+- id: spec.combinatorics.combinations.at-least-one-man
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1360
+  responseSkills: { calculation: 1330, reading: 1360 }
+  stem: |
+    A committee of 4 is chosen from 7 women and 5 men. How many committees contain at least one man?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 460 }
+  solution: |
+    All committees minus those with no men: $\dbinom{12}{4} - \dbinom{7}{4} = 495 - 35 = 460$.
+  verify: |
+    def answers():
+        return {"a": binomial(12, 4) - binomial(7, 4)}
+
+- id: spec.combinatorics.combinations.solve-ncr
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1330
+  responseSkills: { calculation: 1330 }
+  variants:
+    - { v: 45, n: 10, w: 90 }
+    - { v: 28, n: 8, w: 56 }
+    - { v: 66, n: 12, w: 132 }
+  stem: |
+    Find $n$ if $\dbinom{n}{2} = {{v}}$.
+  parts:
+    - id: a
+      prompt: $n =$
+      answer: { type: numeric, key: '{{n}}' }
+  solution: |
+    $\dfrac{n(n-1)}{2} = {{v}}$, so $n^2 - n - {{w}} = 0$, giving $n = {{n}}$ (the positive solution).
+  verify: |
+    def answers(v, n, w):
+        x = symbols("x")
+        return {"a": [s for s in solve(x * (x - 1) / 2 - v, x) if s > 0][0]}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.combinatorics.combinations.diagonals
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1420
+  responseSkills: { reading: 1420, calculation: 1380 }
+  variants:
+    - { n: 10, v: 35 }
+    - { n: 12, v: 54 }
+  stem: |
+    A diagonal of a polygon joins two corners that aren't next to each other. How many diagonals does a {{n}}-sided polygon have?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Any 2 corners make a line segment: $\dbinom{ {{n}} }{2}$. Remove the {{n}} sides: $\dbinom{ {{n}} }{2} - {{n}} = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": binomial(n, 2) - n}
+
+- id: spec.combinatorics.combinations.at-least-two-girls
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1460
+  responseSkills: { calculation: 1430, reading: 1460 }
+  stem: |
+    A committee of 5 is chosen from 6 boys and 5 girls. How many committees contain at least 2 girls?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 381 }
+  solution: |
+    Total $\dbinom{11}{5} = 462$. Subtract the committees with 0 girls ($\dbinom{6}{5} = 6$) and with exactly 1 girl ($5 \times \dbinom{6}{4} = 75$): $462 - 6 - 75 = 381$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(5, g) * binomial(6, 5 - g) for g in range(2, 6))}
+
+- id: spec.combinatorics.combinations.feuding-pair
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1470
+  responseSkills: { calculation: 1430, reading: 1470 }
+  stem: |
+    A team of 4 is chosen from 10 people, but two of them, Sam and Kai, refuse to be on the team together. How many teams are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 182 }
+  solution: |
+    All teams $\dbinom{10}{4} = 210$, minus teams with both Sam and Kai, which need 2 more from the other 8: $\dbinom{8}{2} = 28$. Answer $182$.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        return {"a": sum(1 for t in combos(range(10), 4) if not (0 in t and 1 in t))}
+
+- id: spec.combinatorics.combinations.grid-paths
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1440
+  responseSkills: { reading: 1440, synthesis: 1420 }
+  variants:
+    - { r: 5, u: 3, v: 56 }
+    - { r: 6, u: 4, v: 210 }
+  stem: |
+    On a grid of streets, you walk from one corner to the opposite corner using only steps **right** or **up**. The trip needs {{r}} steps right and {{u}} steps up. How many different routes are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    A route is a list of {{r}} R's and {{u}} U's in some order. Choose which of the $\,{{r}}+{{u}}\,$ steps are U's: $\dbinom{ {{r}}+{{u}} }{ {{u}} } = {{v}}$.
+  verify: |
+    def answers(r, u, v):
+        return {"a": binomial(r + u, u)}
+
+- id: spec.combinatorics.combinations.triangles-two-lines
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1500
+  responseSkills: { reading: 1500, synthesis: 1480 }
+  stem: |
+    6 points are marked on one line and 4 points on a different, parallel line. How many triangles have all three corners at marked points?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 96 }
+  solution: |
+    Three points on the same line make no triangle, so take 2 from one line and 1 from the other: $\dbinom{6}{2} \times 4 + \dbinom{4}{2} \times 6 = 60 + 36 = 96$.
+  verify: |
+    def answers():
+        return {"a": binomial(10, 3) - binomial(6, 3) - binomial(4, 3)}
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.combinatorics.combinations.whole-number-solutions
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1580
+  responseSkills: { synthesis: 1580, calculation: 1500 }
+  stem: |
+    Consider the equation $x + y + z = 10$.
+  parts:
+    - id: a
+      prompt: How many solutions have $x$, $y$ and $z$ all whole numbers ($\ge 0$)?
+      marks: 1
+      answer: { type: numeric, key: 66 }
+    - id: b
+      prompt: How many solutions have $x$, $y$ and $z$ all positive whole numbers ($\ge 1$)?
+      marks: 2
+      answer: { type: numeric, key: 36 }
+  solution: |
+    **(a)** Place 2 dividers among 10 identical objects: $\dbinom{12}{2} = 66$.
+
+    **(b)** Give each variable 1 first, leaving 7 to share freely: $\dbinom{9}{2} = 36$.
+  verify: |
+    def answers():
+        a = sum(1 for x in range(11) for y in range(11) if 10 - x - y >= 0)
+        b = sum(1 for x in range(1, 11) for y in range(1, 11) if 10 - x - y >= 1)
+        return {"a": a, "b": b}
+
+- id: spec.combinatorics.combinations.more-women
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1560
+  responseSkills: { calculation: 1520, reading: 1550 }
+  stem: |
+    A committee of 6 is chosen from 7 men and 5 women. How many committees contain more women than men?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 112 }
+  solution: |
+    More women than men in 6 people means 4 or 5 women.
+
+    - 4 women and 2 men: $\dbinom{5}{4}\dbinom{7}{2} = 105$.
+    - 5 women and 1 man: $1 \times 7 = 7$.
+
+    Total $112$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(5, w) * binomial(7, 6 - w) for w in range(6) if w > 6 - w)}
+
+- id: spec.combinatorics.combinations.two-hearts
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1550
+  responseSkills: { calculation: 1520, reading: 1540 }
+  stem: |
+    A standard deck has 52 cards, 13 in each of 4 suits (hearts, diamonds, clubs, spades). How many 5-card hands contain exactly 2 hearts?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 712842 }
+  solution: |
+    Choose 2 of the 13 hearts and 3 of the 39 other cards: $\dbinom{13}{2}\dbinom{39}{3} = 78 \times 9139 = 712\,842$.
+  verify: |
+    def answers():
+        return {"a": binomial(13, 2) * binomial(39, 3)}
+
+- id: spec.combinatorics.combinations.examination
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
+  rating: 1650
+  responseSkills: { synthesis: 1640, calculation: 1600 }
+  stem: |
+    How many different 4-letter arrangements can be made from the letters of the word **EXAMINATION**? (Each letter can be used no more times than it appears in the word.)
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2454 }
+  solution: |
+    EXAMINATION has 8 different letters: A, I and N appear twice, and E, X, M, T and O once.
+
+    - **All 4 letters different:** $^{8}P_{4} = 1680$.
+    - **One repeated pair plus 2 other different letters:** choose the pair (3 ways) and 2 of the other 7 letters ($\binom{7}{2} = 21$), then arrange $\frac{4!}{2!} = 12$ ways. That's $3 \times 21 \times 12 = 756$.
+    - **Two repeated pairs:** $\binom{3}{2} = 3$ choices, each arranged $\frac{4!}{2!\,2!} = 6$ ways, giving $18$.
+
+    Total $1680 + 756 + 18 = 2454$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": len(set(permutations("EXAMINATION", 4)))}
+
+- id: spec.combinatorics.combinations.pairs-up
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1680
+  responseSkills: { synthesis: 1660, calculation: 1600 }
+  variants:
+    - { n: 8, k: 4, v: 105 }
+    - { n: 6, k: 3, v: 15 }
+  stem: |
+    In how many ways can {{n}} people be split into {{k}} pairs? (Only who is paired with whom matters.)
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Choose the pairs one at a time with $\binom{ {{n}} }{2}\binom{ {{n}}-2 }{2}\cdots\binom{2}{2}$, then divide by ${{k}}!$, because the order the pairs were chosen in doesn't matter. This gives {{v}}.
+
+    Alternatively: the first person can be paired with ${{n}}-1$ others; the next unpaired person with ${{n}}-3$ others, and so on. The product of these odd numbers is {{v}}.
+  verify: |
+    def answers(n, k, v):
+        result = 1
+        for m in range(n - 1, 0, -2):
+            result *= m
+        return {"a": result}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.combinatorics.combinations.every-suit
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1720
+  responseSkills: { synthesis: 1720, calculation: 1620 }
+  stem: |
+    From a standard 52-card deck (13 cards in each of 4 suits), how many 5-card hands contain at least one card of every suit?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 685464 }
+  solution: |
+    Five cards covering four suits means one suit appears twice and the others once. Choose that suit (4 ways), 2 of its cards ($\binom{13}{2} = 78$), and one card from each other suit ($13^3$): $4 \times 78 \times 2197 = 685\,464$.
+  verify: |
+    def answers():
+        return {"a": 4 * binomial(13, 2) * 13**3}
+
+- id: spec.combinatorics.combinations.no-consecutive-subsets
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1800
+  responseSkills: { synthesis: 1800, proof: 1720 }
+  stem: |
+    How many subsets of $\{1, 2, 3, \dots, 10\}$ (including the empty set) contain **no two consecutive numbers**?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 144 }
+  solution: |
+    **Method 1 (by size).** Choosing $k$ non-consecutive numbers from $1, \dots, n$ is the same as choosing $k$ numbers from $1, \dots, n-k+1$: subtract 0 from the smallest, 1 from the next, 2 from the next, and so on, which closes the gaps. So there are $\binom{n-k+1}{k}$ such subsets. For $n = 10$: $1 + 10 + 36 + 56 + 35 + 6 = 144$.
+
+    **Method 2 (building up).** Let $a_n$ be the count for $\{1, \dots, n\}$. A subset either leaves out $n$ ($a_{n-1}$ ways) or includes $n$ and so leaves out $n - 1$ ($a_{n-2}$ ways). So $a_n = a_{n-1} + a_{n-2}$, with $a_1 = 2$ and $a_2 = 3$, which gives $a_{10} = 144$.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        total = sum(1 for k in range(11) for s in combos(range(1, 11), k) if all(s[i + 1] - s[i] > 1 for i in range(len(s) - 1)))
+        return {"a": total}
+
+- id: spec.combinatorics.combinations.capped-sharing
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  rating: 1790
+  responseSkills: { synthesis: 1790, calculation: 1650 }
+  stem: |
+    10 identical sweets are shared among 4 children so that every child gets **at least 1** and **no child gets more than 4**. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 44 }
+  solution: |
+    Give each child 1 sweet first. Then share the remaining 6 so that no child gets more than 3 extra.
+
+    - Without the cap: $\binom{9}{3} = 84$ ways.
+    - Remove the cases where some child gets 4 or more extra: give that child 4 and share the other 2 freely, which is $4 \times \binom{5}{3} = 40$. Two children can't both get 4 or more extra, since $8 > 6$.
+
+    Answer: $84 - 40 = 44$.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for p in product(range(1, 5), repeat=4) if sum(p) == 10)}
