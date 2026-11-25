@@ -229,14 +229,14 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 | Rank | Requires θ ≥ | AND gate (Small/Medium skill) |
 |---|---|---|
 | Bronze | 1000 | ≥ 3 correct at Tier 1 or higher |
-| Silver | 1250 | ≥ 10 correct at Tier 2 or higher |
+| Silver | 1280 (score 10) | ≥ 3 correct at Tier 2 or higher |
 | Gold | 1400 | ≥ 3 correct at Tier 3 or higher |
 | Platinum | 1550 | ≥ 3 correct at Tier 4 or higher |
 | Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
 
-- **Skill size adds to every gate** (§3.3): +1 for Large skills and +2 for Cornerstone skills. For example, Silver in a Cornerstone skill needs 12 correct at Tier 2 or higher. Response skills use the Small/Medium numbers.
-- **Silver is deliberately the big gate.** It means sustained Tier 2 work across many questions, not a few lucky answers. The later gates are smaller because their θ floors are already hard to reach.
-- **Ranks are earned in order.** Rank *k* needs its own gate and every lower one, so a student can't skip Silver's gate by solving a few harder questions.
+- **Rank floors match the tier floors (§4), except Silver.** The Tier 2 floor, 1250, displays as a score of only 8, so Silver needs θ 1280, which displays as 10.
+- **Skill size adds to every gate** (§3.3): +1 for Large skills and +2 for Cornerstone skills. Response skills use the Small/Medium numbers.
+- **Ranks are earned in order:** rank *k* also needs every lower rank's floor and gate.
 
 - **Correct** (for gates) means a resolved question with **outcome > 0.6**. Some consequences:
   - First-try answers always count.
@@ -1111,7 +1111,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
   - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.
-- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Silver 7/10") and question counts.
+- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Silver 2/3") and question counts.
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
 ### 15.3 Skill page

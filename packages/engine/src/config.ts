@@ -22,10 +22,13 @@ export type RankName = (typeof RANKS)[number];
 /** 0 = Unranked … 5 = Diamond. */
 export type RankLevel = 0 | 1 | 2 | 3 | 4 | 5;
 
-/** θ needed for each rank; rank k corresponds to Tier k (SPEC §5.4). */
+/**
+ * θ needed for each rank; rank k corresponds to Tier k (SPEC §5.4).
+ * Silver sits above the Tier 2 floor (1250, a score of only 8) at 1280, which displays as a score of 10.
+ */
 export const RANK_FLOOR: Record<Exclude<RankLevel, 0>, number> = {
   1: TIER_FLOOR[1],
-  2: TIER_FLOOR[2],
+  2: 1280,
   3: TIER_FLOOR[3],
   4: TIER_FLOOR[4],
   5: TIER_FLOOR[5],
@@ -40,11 +43,8 @@ export const RANK_BUFFER: Record<Exclude<RankLevel, 0>, number> = {
   5: 30,
 };
 
-/**
- * Correct answers at Tier ≥ k needed to unlock rank k, before the skill-size extra (SPEC §5.4).
- * Silver is deliberately high: it should mean sustained Tier 2 work, not a few lucky answers.
- */
-export const GATE_BASE: Record<Exclude<RankLevel, 0>, number> = { 1: 3, 2: 10, 3: 3, 4: 3, 5: 3 };
+/** Correct answers at Tier ≥ k needed to unlock rank k, before the skill-size extra (SPEC §5.4). */
+export const GATE_BASE: Record<Exclude<RankLevel, 0>, number> = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
 
 /**
  * Skill sizes (SPEC §3.3). Bigger skills (foundational, difficult or heavily examined) get more questions
