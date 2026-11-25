@@ -463,7 +463,11 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 - **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
 - **Definitions:** criteria are declarative in `content/achievements.yaml` and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters live in `users/{uid}/stats`, e.g. consecutive first-try streaks, per-tier correct counts and daily streak.
-- **Rank names:** the Platinum and Diamond tiers share names with skill ranks (§5.4), so the UI must keep them visually distinct. Achievements are gem-shaped medallions; ranks are banners or labels on tree nodes.
+- **Tier designs continue the rank ladder:** the Platinum and Diamond achievement tiers deliberately parallel the Platinum and Diamond mastery ranks (§5.4). Their designs are **very similar**:
+  - same colours, materials and finish (metallic platinum, faceted diamond);
+  - same frame shape and insignia motif.
+  - The only differences are the achievement's own emblem in the centre and where it appears: achievement shelves and toasts, as opposed to tree nodes and rank labels.
+  - Ruby, Tanzanite, Vibranium, Solarium and Antimatter extend the same visual language upward. Each step is more elaborate than the last, e.g. richer materials, glow and motion for Solarium, and an inverted or void treatment for Antimatter.
 
 **Terms used below**
 - *Correct* = resolved with outcome > 0.6, the same as the rank gate (§5.4).
