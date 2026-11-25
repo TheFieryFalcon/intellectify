@@ -124,6 +124,43 @@ WACE syllabi rarely change significantly, but Methods is under review. Build for
 
 The tree is drafted by an LLM script from the syllabus PDFs and then edited by hand (§11.1). The edited `content/curriculum/<course>/<version>.yaml` files are the source of truth (§3.1).
 
+### 3.2 Tutorials
+Every skill has a tutorial. Together the tutorials do the job of a very good WA community textbook (in the vein of Lucarelli or O.T. Lee): a student who has never met a topic can learn it here, then practise it.
+
+**Scope**
+- A tutorial covers everything a student needs to reach **low-to-mid Tier 3** (ratings up to about 1530): every dot point the skill covers, including review dot points mapped onto it (§3).
+- It stops there. Harder technique and insight are learned through Tier 4–6 problems and their worked solutions, not the tutorial.
+- Where the syllabus says "prove", the tutorial includes the proof (or a proof sketch where the full proof is itself an exercise).
+
+**Concise above all.** Concision is the most important quality of a tutorial.
+- Say each thing once, in the fewest words that are still clear. No motivation paragraphs, history, filler or recaps.
+- Length budget: about **250–700 words of prose** per tutorial, not counting worked examples, formulas and diagrams. The build warns above 700 and fails above 1000.
+- Prefer a formula, a table or a diagram over a paragraph when it says the same thing.
+- Don't re-teach a suggested prerequisite. Link to that skill's tutorial instead.
+
+**Every technical term is explained**
+- Each technical term or symbol is defined at first use: **bold** term, then a one-line plain-English definition, plus notation if any (e.g. **permutation**: an ordered arrangement; ${}^nP_r$).
+- Terms defined in other skills' tutorials link there instead of being redefined.
+- All defined terms feed a course **glossary**. Wherever a glossary term appears in a tutorial, question or solution, hovering or tapping it shows the definition.
+- Use WA/WACE notation and conventions (cis θ, $\binom{n}{r}$ and ${}^nC_r$, column vectors, i/j/k), matching how exams and markers write.
+
+**Structure** (fixed headings, so tutorials feel consistent):
+1. **Key ideas**: definitions, results and formulas, each stated precisely, with proofs where the syllabus asks for them.
+2. **Method**: how to approach the standard question types, as short numbered steps where that helps.
+3. **Worked examples**: **one to three**, rising in difficulty from about Tier 1 to low-to-mid Tier 3. Each shows full working laid out the way a top WACE answer would be.
+4. **Watch out** (optional): at most three common mistakes, one line each.
+
+**Format and behaviour**
+- One Markdown file per skill: `content/tutorials/<course>/<skillId>.md`, with the same `$…$` LaTeX and declarative diagram specs (§9.4) as questions.
+- Front matter records the dot points covered, the glossary terms it defines, and its review status.
+- Tutorials are free to read at any time and **never affect θ, ranks or gates**.
+
+**Build checks**
+- Every skill has a tutorial; a missing one is a warning until Phase 1 content is complete, then an error.
+- Each tutorial has 1–3 worked examples and stays within the length budget.
+- Every dot point the skill covers is referenced.
+- Glossary terms are defined exactly once across the course, and every term link resolves.
+
 ---
 
 ## 4. Difficulty: tiers and question ratings
@@ -437,6 +474,12 @@ Generation prompt emphasis by tier:
 3. **Constraint checks:** schema validation, form-rule sanity, diagram spec validity, and the trig simultaneous-equation constraints (§9.3).
 4. **Owner review** in git/PR, with flagged items highlighted.
 
+Tutorials (§3.2) go through the same pipeline:
+- `scripts/generate-tutorial --skill <id>` drafts one from the syllabus dot points, the suggested prerequisites' glossary terms and the style rules in §3.2.
+- Every worked example has SymPy verification of its final answers.
+- Gemini cross-checks the examples and flags any undefined technical term.
+- The owner reviews each tutorial, with a deliberate pass for concision.
+
 ### 11.4 Build
 `npm run build:content` validates everything and emits static JSON bundles (per course, per skill) deployed with the site to the Netlify CDN. This costs no Firestore reads.
 
@@ -666,6 +709,7 @@ A public profile shows:
 
 ### 14.3 Skill page
 - Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
+- **Learn** opens the skill's tutorial (§3.2): a clean reading view with glossary hovers and links to prerequisite tutorials. It is offered prominently on a student's first visit to a skill, but never required.
 - **Start practising** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
 - Entry points to the section quiz, unit quiz and Section Challenge.
 
@@ -674,6 +718,7 @@ A public profile shows:
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Submit**, **Give up**.
 - **After resolving:** worked solution; Δθ and score change; rank and achievement toasts; Report issue; Next.
+- A small **Tutorial** link opens the skill's tutorial in a side panel (bottom sheet on phones) without leaving the question.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
 ### 14.5 Other screens
@@ -735,6 +780,7 @@ packages/diagrams/     diagram spec → SVG
 content/curriculum/    <course>/<version>.yaml + maps/ (version-to-version skill maps)
 content/syllabus/      source PDFs (gitignored)
 content/questions/     <course>/<unit>/<section>/<skill>/*.yaml
+content/tutorials/     <course>/<skillId>.md (one per skill) + glossary built from them
 content/achievements.yaml
 scripts/               ingest-syllabus, generate, verify (SymPy), build-content
 netlify/functions/     mark, report
@@ -753,8 +799,8 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 questions at full depth (15–30 per skill); LLM marking; quizzes; Section Challenges; daily problem; achievements; leaderboards; discussions. **Owner tests before continuing.** |
-| 2: Specialist Units 2–4 | Content for the remaining units; first monthly Tier 6 problems |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; leaderboards; discussions. **Owner tests before continuing.** |
+| 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; first monthly Tier 6 problems |
 | 3: Methods, Applications | New curricula + content; cross-course prerequisites become live links |
 | 4: Chemistry, Physics | Science-specific answer types (see §17) + content |
 | 5: Native apps | Capacitor iOS/Android builds |
