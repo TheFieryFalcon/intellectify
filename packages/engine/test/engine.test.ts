@@ -106,8 +106,8 @@ describe("ranks and gates", () => {
 
   it("needs both θ and the gate", () => {
     expect(eligibleRank(1800, gatesWith({ 3: 3 }))).toBe(3); // θ high enough for Diamond, gate only Gold
-    expect(eligibleRank(1440, gatesWith({ 5: 3 }))).toBe(2); // gate fine for Diamond, θ only Silver
-    expect(eligibleRank(1440, gatesWith({ 1: 2 }))).toBe(0);
+    expect(eligibleRank(1390, gatesWith({ 5: 3 }))).toBe(2); // gate fine for Diamond, θ only Silver
+    expect(eligibleRank(1390, gatesWith({ 1: 2 }))).toBe(0);
   });
 
   it("holds a rank inside the hidden buffer and drops below it", () => {
