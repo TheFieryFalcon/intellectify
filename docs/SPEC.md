@@ -767,9 +767,11 @@ Competitive play has one main mode, **Frontline** (2–6 players, territory and 
   - The worked solution is shown when the game ends, not mid-game.
 - **Every player has an Elo rating for every game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race. These ratings are separate from skill θ and never touch mastery ranks.
 - **Question pool.**
+  - Competitive modes draw from **the same question pool as normal practice**. There is no separate competitive bank, so every question written serves both.
   - Auto-marked questions only. Free-response is too slow to mark live.
   - The lobby sets the syllabus scope (section, unit or course) and, for Frontline, the map.
-  - Questions are drawn from that scope, preferring ones no player in the game has seen.
+  - Questions are drawn from that scope at the tier each action needs, preferring ones no player in the game has seen.
+  - Questions answered in a game count as seen for practice selection too (§5.7), and questions hidden after a confirmed report are excluded (§11.5).
   - Competitive play needs deep pools, which is why it comes after Specialist Units 1–4 have full content.
 - **Live and correspondence play.**
   - Frontline, Divide, Draft and Exam Board can be played **live** (round timers) or by **correspondence** (one round per day).
@@ -961,7 +963,9 @@ Each minigame has its own Elo (§14.7), updated after every game. Except for Rac
 - **Why speed is allowed here:** Race is the one place where speed matters, deliberately limited to retrieval-level questions, as a warm-up and fluency drill.
 
 ### 14.6 Architecture for competitive play
-- **Server-checked.** Competitive questions' answer keys don't ship in the public content bundle. The content build emits a separate key bundle that only Netlify Functions can read.
+- **Server-checked.** In games, answers are checked and recorded by Netlify Functions, which also resolve every round, so the game state can't be edited by a client.
+  - Because competitive questions share the practice pool, their answer keys are in the public content bundle. A determined player could look one up mid-game.
+  - This is accepted for a small group, like the client-side trust risk (§18). If it becomes a problem, the fix is to move all answer keys server-side.
 - **Functions:**
   - **create/join game**;
   - **submit answer:** checked on the server, recording the outcome;
@@ -1133,7 +1137,7 @@ netlify/functions/     mark, report
 1. **Free-tier fragility:** Gemini and MyScript free tiers can change or vanish. Mitigations are the BYO key and keyboard fallback.
 2. **Same-model appeals:** these can still be swayed by a persuasive wrong argument despite the strict prompt. Monitor appeal outcomes.
 3. **Syllabus changes:** the Methods review may resurface. The versioning infrastructure (§3.1) is built for it.
-4. **Client-side trust:** practice ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up. Competitive play (§14) is checked on the server from the start.
+4. **Client-side trust:** practice ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up. Competitive games are checked and resolved on the server, but their questions share the public practice pool, so answer keys can still be looked up (§14.6).
 
 **To tune in Phase 3 playtesting**
 - Frontline: round length, troop yields, multipliers, combat losses, streak cap, leader bounty and edge-collapse timing (§14.3, §14.4).
