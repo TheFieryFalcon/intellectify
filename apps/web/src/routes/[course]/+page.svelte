@@ -30,7 +30,7 @@
   }
 </script>
 
-<div class="wrap">
+<div class="wrap wide">
   <div class="head">
     <div>
       <h1>{data.course.name}</h1>

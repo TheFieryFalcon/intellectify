@@ -4,7 +4,7 @@
   import type { CourseBundle } from "$lib/content";
   import type { Rollups } from "$lib/practice";
   import { RANK_LABEL, rankKey, rankVars, score } from "$lib/ranks";
-  import { layoutTree, NODE_W, SHAPE_H } from "$lib/treeLayout";
+  import { LABEL_W, layoutTree, NODE_W, SHAPE_H } from "$lib/treeLayout";
 
   let { course, progress, rollups }: { course: CourseBundle; progress: CourseProgress; rollups: Rollups } = $props();
 
@@ -58,7 +58,7 @@
         </text>
       {/each}
       {#each layout.edges as e (e.from + e.to)}
-        <path d={e.d} class:cross={e.crossUnit} class:lit={edgeLit(e.from, e.to)} />
+        <path d={e.d} class:hidden={e.hidden} class:lit={edgeLit(e.from, e.to)} />
       {/each}
     </svg>
 
@@ -79,7 +79,7 @@
         <span class="shape" style="height:{SHAPE_H[s.size]}px">
           <span class="ring"><span class="disc"><span class="num">{st.theta === null ? "" : score(st.theta)}</span></span></span>
         </span>
-        <span class="label">{s.name}</span>
+        <span class="label" style="max-width:{LABEL_W}px">{s.name}</span>
       </a>
     {/each}
   </div>
@@ -93,11 +93,11 @@
   .region-label { fill: var(--muted); font-size: 11.5px; font-weight: 500; }
   .year { fill: var(--muted); font-family: var(--font-display); font-size: 16px; }
   .unit { fill: var(--muted); font-size: 12px; font-weight: 600; }
-  path { fill: none; stroke: var(--edge); stroke-width: 1.2; transition: opacity 0.15s; }
-  path.cross { opacity: 0; }
+  path { fill: none; stroke: var(--edge); stroke-width: 1.3; stroke-linecap: round; transition: opacity 0.15s, stroke 0.15s; }
+  path.hidden { opacity: 0; }
   path.lit { stroke: var(--accent); stroke-width: 1.6; opacity: 1; }
   .map.focus path:not(.lit) { opacity: 0.12; }
-  .map.focus path.cross:not(.lit) { opacity: 0; }
+  .map.focus path.hidden:not(.lit) { opacity: 0; }
 
   .node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; text-decoration: none; color: var(--ink); transition: opacity 0.15s; }
   .map.focus .node:not(.lit) { opacity: 0.3; }
@@ -119,5 +119,6 @@
   .node.size-large:hover .ring, .node.size-cornerstone:hover .ring { transform: rotate(45deg) scale(1.07); }
   .node:focus-visible { outline: none; }
   .node:focus-visible .ring { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .label { font-size: 11px; line-height: 1.3; max-width: 100px; }
+  /* A soft background behind labels so nearby lines never cut through the text. */
+  .label { font-size: 11px; line-height: 14.5px; padding: 0 3px; border-radius: 4px; background: var(--region); box-shadow: 0 0 0 2px var(--region); }
 </style>

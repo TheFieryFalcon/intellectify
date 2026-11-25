@@ -52,5 +52,6 @@ button { font: inherit; }
 .muted { color: var(--muted); }
 .wrap { max-width: 1320px; margin: 0 auto; padding: 24px 16px 56px; }
 .narrow { max-width: 760px; }
+.wide { max-width: 1680px; }
 input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); width: 100%; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
