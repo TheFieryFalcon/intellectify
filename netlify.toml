@@ -1,0 +1,19 @@
+[build]
+  command = "pnpm build"
+  publish = "apps/web/build"
+  # Save deploy credits: cancel the build (exit 0) when nothing that ends up on the site changed,
+  # e.g. a push that only touches docs/. A first build or a retry (same commit) always builds.
+  ignore = """
+    test "$CACHED_COMMIT_REF" != "$COMMIT_REF" && \
+    git diff --quiet "$CACHED_COMMIT_REF" "$COMMIT_REF" -- \
+      apps/web packages content package.json pnpm-lock.yaml pnpm-workspace.yaml netlify.toml
+  """
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: every route is served by index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,0 +1,65 @@
+# SAMPLE questions for Phase 0.
+
+- id: spec.vectors-2d.components.combine
+  status: draft
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1090
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { a1: 3, a2: -2, b1: -1, b2: 5, r1: 7, r2: -9 }
+    - { a1: 4, a2: 1, b1: 2, b2: -3, r1: 6, r2: 5 }
+  stem: |
+    Given $\mathbf{a} = \begin{pmatrix} {{a1}} \\ {{a2}} \end{pmatrix}$ and
+    $\mathbf{b} = \begin{pmatrix} {{b1}} \\ {{b2}} \end{pmatrix}$, find $2\mathbf{a} - \mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{r1}}', '{{r2}}'] }
+  solution: |
+    $2\mathbf{a} - \mathbf{b} = \begin{pmatrix} 2({{a1}}) - ({{b1}}) \\ 2({{a2}}) - ({{b2}}) \end{pmatrix}
+    = \begin{pmatrix} {{r1}} \\ {{r2}} \end{pmatrix}$.
+
+- id: spec.vectors-2d.scalar-product.angle
+  status: draft
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1330
+  responseSkills: { calculation: 1300 }
+  requiresCalculator: true
+  stem: |
+    Find the angle between $\mathbf{a} = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$ and
+    $\mathbf{b} = \begin{pmatrix} 3 \\ -1 \end{pmatrix}$, correct to the nearest degree.
+  parts:
+    - id: a
+      prompt: Angle in degrees
+      answer: { type: numeric, key: 82 }
+  solution: |
+    $\cos\theta = \dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{a}||\mathbf{b}|} = \dfrac{3 - 2}{\sqrt{5}\sqrt{10}} = \dfrac{1}{\sqrt{50}}$,
+    so $\theta \approx 81.87^\circ \approx 82^\circ$.
+
+- id: spec.vectors-2d.scalar-product.perpendicular-k
+  status: draft
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1480
+  responseSkills: { calculation: 1400, reading: 1400 }
+  stem: |
+    For what value of $k$ are $\begin{pmatrix} k \\ 3 \end{pmatrix}$ and $\begin{pmatrix} 2 \\ k - 5 \end{pmatrix}$ perpendicular?
+  parts:
+    - id: a
+      prompt: $k =$
+      answer: { type: numeric, key: 3 }
+  solution: |
+    Perpendicular means the dot product is zero: $2k + 3(k - 5) = 0$, so $5k = 15$ and $k = 3$.
+
+- id: spec.vectors-2d.projection.vector-projection
+  status: draft
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1520
+  responseSkills: { calculation: 1450 }
+  stem: |
+    Find the vector projection of $\mathbf{a} = \begin{pmatrix} 4 \\ 2 \end{pmatrix}$ onto
+    $\mathbf{b} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$. Give exact values.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['\frac{12}{5}', '\frac{16}{5}'], form: [exact] }
+  solution: |
+    $\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2}\,\mathbf{b} = \dfrac{20}{25}\begin{pmatrix} 3 \\ 4 \end{pmatrix}
+    = \begin{pmatrix} 12/5 \\ 16/5 \end{pmatrix}$.

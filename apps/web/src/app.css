@@ -1,0 +1,51 @@
+/* Clean, academic (docs/SPEC.md §14.1). Every color is a token; dark mode redefines tokens only. */
+:root {
+  --bg: #fafbfc;
+  --surface: #ffffff;
+  --ink: #1c2330;
+  --muted: #6b7484;
+  --line: #e2e6ec;
+  --edge: #c3cad5;
+  --region: #f0f3f7;
+  --accent: #3157c8;
+  --accent-soft: #e8edfb;
+  --on-accent: #ffffff;
+  --good: #2f8a57;
+  --bad: #c2453b;
+  --track: #dde2e9;
+  --unranked: #ffffff;
+  --bronze: #b7773f;   --bronze-hi: #e7b07a;
+  --silver: #9aa4b1;   --silver-hi: #eef1f5;
+  --gold: #d1a520;     --gold-hi: #f8de7e;
+  --platinum: #5ea4ac; --platinum-hi: #d2eef0;
+  --diamond: #3d8ee0;  --diamond-hi: #c4e2ff;
+  --font-display: "STIX Two Text", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161d; --surface: #1a1f28; --ink: #e5e9f0; --muted: #8b94a4; --line: #262d38; --edge: #3a4352;
+    --region: #171c24; --accent: #86a5ff; --accent-soft: #1f2a44; --on-accent: #0f1420; --good: #5cc28a; --bad: #ef7d73; --track: #2b3340;
+    --unranked: #12161d;
+    --bronze: #c98a55; --silver: #a9b2bf; --gold: #ddb53b; --platinum: #74bcc4; --diamond: #64a9f0;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; text-wrap: balance; }
+a { color: var(--accent); }
+button { font: inherit; }
+.btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 8px 14px; cursor: pointer; text-decoration: none; font-weight: 500; }
+.btn:hover { border-color: var(--edge); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { filter: brightness(1.05); }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.quiet { border-color: transparent; background: none; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.muted { color: var(--muted); }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 24px 16px 56px; }
+.narrow { max-width: 760px; }
+input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); width: 100%; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

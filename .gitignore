@@ -1,0 +1,11 @@
+node_modules/
+content/syllabus/
+dist/
+.svelte-kit/
+build/
+apps/web/static/content/
+.env
+.env.*
+!.env.example
+.netlify/
+apps/web/static/mathlive/

@@ -1,0 +1,13 @@
+# Mathematics Specialist ATAR: course manifest.
+# See docs/SPEC.md §3 and §3.1 (syllabus versioning).
+id: specialist
+name: Mathematics Specialist
+shortName: Specialist
+skillIdPrefix: spec
+versions:
+  y11:
+    current: y11-2026
+    available: [y11-2026]
+  y12:
+    current: y12-2025
+    available: [y12-2025]
