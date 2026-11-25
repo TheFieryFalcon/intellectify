@@ -337,10 +337,12 @@ An endless adaptive stream for one skill (§5.7).
 
 ### 8.3 Unit quiz
 - **15 questions**, fixed mix: 2×T1, 4×T2, 6×T3, 3×T4, drawn across the unit.
-- Both quiz mixes are **config-driven**.
+- Both quiz mixes are **config-driven**. Questions are spread round-robin across the skills, falling back to the nearest tier when a tier runs short, and served easiest first. After each question the solution is shown.
+- Section quiz, unit quiz and Section Challenge are linked from every skill page (§15.3).
 
 ### 8.4 Section Challenge
-- **10–25 Tier 4–5 cross-skill (synthesis) problems**; the count scales with section size.
+- **10–25 Tier 4–5 cross-skill (synthesis) problems**; the count scales with section size: the section's dot points, clamped to 10–25.
+- Problems tagged with secondary skills come first (up to a third of the challenge); the rest are drawn round-robin from the section's Tier 4–5 questions.
 - **Untimed**, and progress is saved across sessions.
 - **Soft gate:** always available. If any skill in the section is below Gold, a "Recommended at Gold" warning appears before starting.
 - Each problem has one **primary skill** (full update) and secondary skills (0.5× update).

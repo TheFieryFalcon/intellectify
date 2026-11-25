@@ -62,6 +62,15 @@ export interface XpGrant {
 }
 
 /** Everything the app needs from a backend. Firebase and local storage both implement it. */
+/** Saved Section Challenge progress (SPEC §8.4: untimed, resumable). */
+export interface ChallengeState {
+  questions: { id: string; variant: number | null }[];
+  /** One entry per finished question, in order. */
+  results: { id: string; outcome: number; firstTry: boolean }[];
+  startedAt: number;
+  finishedAt: number | null;
+}
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -86,4 +95,8 @@ export interface Backend {
     changes: { skills: Record<string, StoredSkillState>; responseSkills: Record<string, StoredSkillState>; rollupRanks: Record<string, RankLevel> },
     attempt: AttemptRecord | null,
   ): Promise<void>;
+
+  /** Section Challenge progress; `null` clears it (to start again). */
+  loadChallenge(uid: string, course: string, section: string): Promise<ChallengeState | null>;
+  saveChallenge(uid: string, course: string, section: string, state: ChallengeState | null): Promise<void>;
 }

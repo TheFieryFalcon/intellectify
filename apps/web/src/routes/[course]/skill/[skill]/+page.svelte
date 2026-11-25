@@ -80,6 +80,13 @@
       </div>
     {/if}
 
+    <nav class="reviews" aria-label="Reviews">
+      <span class="label">Review</span>
+      <a href="/{data.course.id}/quiz/section/{entry.section.id}">Section quiz</a>
+      <a href="/{data.course.id}/quiz/unit/{entry.unit}">Unit {entry.unit} quiz</a>
+      <a href="/{data.course.id}/challenge/{entry.section.id}">Section Challenge</a>
+    </nav>
+
     <dl>
       <dt>Size</dt>
       <dd class="size">{entry.skill.size}</dd>
@@ -106,6 +113,10 @@
 
 <style>
   .size { text-transform: capitalize; }
+  .reviews { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 18px 0 4px; font-size: 13px; }
+  .reviews .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-right: 4px; }
+  .reviews a { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; background: var(--surface); }
+  .reviews a:hover { border-color: var(--accent); color: var(--accent); }
   .back { font-size: 13px; color: var(--muted); text-decoration: none; }
   .back:hover { color: var(--accent); }
   h1 { font-size: 30px; margin: 6px 0 6px; }
