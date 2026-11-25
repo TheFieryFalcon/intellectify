@@ -1,0 +1,631 @@
+# Achievements (docs/SPEC.md §12.1). Generated from the spec's tables; rules are evaluated client-side.
+# `pending` rules wait for a feature (daily or monthly problems, free response, …) and can't be earned yet.
+
+- id: P1
+  name: Groundwork
+  tier: platinum
+  points: 10
+  criterion: 100 correct answers at T3+
+  rule: {kind: count, stat: correctT3, gte: 100}
+- id: P2
+  name: First Light
+  tier: platinum
+  points: 10
+  criterion: Gold in 10 skills
+  rule: {kind: skillsAtRank, rank: 3, count: 10}
+- id: P3
+  name: Gilded Section
+  tier: platinum
+  points: 10
+  criterion: Every skill in one section at Gold+
+  rule: {kind: sectionAllAtRank, rank: 3}
+- id: P4
+  name: Platinum Standard
+  tier: platinum
+  points: 10
+  criterion: First skill at Platinum rank
+  rule: {kind: skillsAtRank, rank: 4, count: 1}
+- id: P5
+  name: Over the Edge
+  tier: platinum
+  points: 10
+  criterion: First Tier 5 question correct
+  rule: {kind: count, stat: correctT5, gte: 1}
+- id: P6
+  name: Clean Sheet
+  tier: platinum
+  points: 10
+  criterion: A perfect Section Quiz (8/8, all first-try)
+  rule: {kind: count, stat: perfectSectionQuizzes, gte: 1}
+- id: P7
+  name: Ten in a Row
+  tier: platinum
+  points: 10
+  criterion: 10 consecutive first-try correct at T3+
+  rule: {kind: best, stat: firstTryStreakT3, gte: 10}
+- id: P8
+  name: Full Week
+  tier: platinum
+  points: 10
+  criterion: Solve all 7 daily problems of one Mon–Sun week
+  rule: {kind: pending, feature: daily}
+- id: P9
+  name: Weekend Warrior
+  tier: platinum
+  points: 10
+  criterion: Solve 4 weekend (Tier 4) daily problems
+  rule: {kind: pending, feature: daily}
+- id: P10
+  name: Proof Positive
+  tier: platinum
+  points: 10
+  criterion: A free-response answer at 100%
+  rule: {kind: pending, feature: freeResponse}
+- id: P11
+  name: Challenger
+  tier: platinum
+  points: 10
+  criterion: Complete a Section Challenge with average outcome ≥ 0.5
+  rule: {kind: challengeAvg, min: 0.5}
+- id: P12
+  name: Fortnight
+  tier: platinum
+  points: 10
+  criterion: 14-day daily-problem streak
+  rule: {kind: pending, feature: daily}
+- id: P13
+  name: Tier 4 Ten
+  tier: platinum
+  points: 10
+  criterion: 10 Tier 4 questions first-try correct
+  rule: {kind: count, stat: firstTryT4, gte: 10}
+- id: P14
+  name: Unit Scholar
+  tier: platinum
+  points: 10
+  criterion: ≥ 13/15 on a Unit Quiz
+  rule: {kind: count, stat: unitQuiz13, gte: 1}
+- id: P15
+  name: All-Rounder
+  tier: platinum
+  points: 10
+  criterion: Every response skill at Silver+
+  rule: {kind: responseAllAtRank, rank: 2}
+- id: P16
+  name: Wordsmith
+  tier: platinum
+  points: 10
+  criterion: Gold in both Clarity of expression and Precision of language
+  rule:
+    kind: responseSkillsAtRank
+    skills: [clarity, precision]
+    rank: 3
+- id: P17
+  name: First Milestone
+  tier: platinum
+  points: 10
+  criterion: Score at least one milestone on a monthly Tier 6 problem
+  rule: {kind: pending, feature: monthly}
+- id: P18
+  name: Spot the Flaw
+  tier: platinum
+  points: 10
+  criterion: Submit a report that auto-reverification confirms (question hidden)
+  rule: {kind: pending, feature: reports}
+- id: P19
+  name: Comeback
+  tier: platinum
+  points: 10
+  criterion: Regain a rank previously lost under the buffer rule
+  rule: {kind: flag, flag: comeback}
+- id: P20
+  name: Synthesist
+  tier: platinum
+  points: 10
+  criterion: 10 cross-skill problems correct
+  rule: {kind: count, stat: crossSkillCorrect, gte: 10}
+- id: P21
+  name: Broad Base
+  tier: platinum
+  points: 10
+  criterion: Gold in at least one skill in every section of a unit
+  rule: {kind: unitEverySectionHasRank, rank: 3}
+- id: P22
+  name: Explorer
+  tier: platinum
+  points: 10
+  criterion: Resolve at least 10 questions in every skill of a unit
+  rule: {kind: unitEverySkillResolved, min: 10}
+- id: P23
+  name: Last Gasp
+  tier: platinum
+  points: 10
+  secret: true
+  criterion: Solve a Tier 5 question on its 5th and final attempt
+  rule: {kind: flag, flag: lastGasp}
+- id: D1
+  name: Deep Roots
+  tier: diamond
+  points: 25
+  criterion: 500 correct at T3+
+  rule: {kind: count, stat: correctT3, gte: 500}
+- id: D2
+  name: Diamond Cut
+  tier: diamond
+  points: 25
+  criterion: First skill at Diamond rank
+  rule: {kind: skillsAtRank, rank: 5, count: 1}
+- id: D3
+  name: Platinum Section
+  tier: diamond
+  points: 25
+  criterion: Every skill in a section at Platinum+
+  rule: {kind: sectionAllAtRank, rank: 4}
+- id: D4
+  name: Frontier Ten
+  tier: diamond
+  points: 25
+  criterion: 10 Tier 5 questions correct
+  rule: {kind: count, stat: correctT5, gte: 10}
+- id: D5
+  name: Twenty-Five Straight
+  tier: diamond
+  points: 25
+  criterion: 25 consecutive first-try correct at T4+
+  rule: {kind: best, stat: firstTryStreakT4, gte: 25}
+- id: D6
+  name: Flawless Unit
+  tier: diamond
+  points: 25
+  criterion: A perfect Unit Quiz (15/15, all first-try)
+  rule: {kind: count, stat: perfectUnitQuizzes, gte: 1}
+- id: D7
+  name: Calendar Month
+  tier: diamond
+  points: 25
+  criterion: Every daily problem of a calendar month solved
+  rule: {kind: pending, feature: daily}
+- id: D8
+  name: Challenge Conquered
+  tier: diamond
+  points: 25
+  criterion: A Section Challenge with average outcome ≥ 0.8
+  rule: {kind: challengeAvg, min: 0.8}
+- id: D9
+  name: Unit Challenger
+  tier: diamond
+  points: 25
+  criterion: Complete all three Section Challenges of a unit
+  rule: {kind: unitChallenges, min: 0}
+- id: D10
+  name: Prover
+  tier: diamond
+  points: 25
+  criterion: 10 free-response answers at 100%
+  rule: {kind: pending, feature: freeResponse}
+- id: D11
+  name: Well-Rounded
+  tier: diamond
+  points: 25
+  criterion: Every response skill at Gold+
+  rule: {kind: responseAllAtRank, rank: 3}
+- id: D12
+  name: Rigour
+  tier: diamond
+  points: 25
+  criterion: Platinum in the Proof response skill
+  rule:
+    kind: responseSkillsAtRank
+    skills: [proof]
+    rank: 4
+- id: D13
+  name: Halfway There
+  tier: diamond
+  points: 25
+  criterion: ≥ 50% of milestone points on a monthly problem
+  rule: {kind: pending, feature: monthly}
+- id: D14
+  name: Sharpshooter
+  tier: diamond
+  points: 25
+  criterion: 50 first-try correct at T4+ within one calendar week
+  rule: {kind: best, stat: weekFirstTryT4, gte: 50}
+- id: D15
+  name: Golden Unit
+  tier: diamond
+  points: 25
+  criterion: Unit rank Gold
+  rule: {kind: unitRank, rank: 3}
+- id: D16
+  name: Sunday Best
+  tier: diamond
+  points: 25
+  criterion: 8 Sunday daily problems solved first-try
+  rule: {kind: pending, feature: daily}
+- id: D17
+  name: Ascent
+  tier: diamond
+  points: 25
+  criterion: Raise one skill's θ by 300 within 7 days
+  rule: {kind: flag, flag: ascent}
+- id: D18
+  name: Cross-Pollinator
+  tier: diamond
+  points: 25
+  criterion: 50 cross-skill problems correct
+  rule: {kind: count, stat: crossSkillCorrect, gte: 50}
+- id: D19
+  name: Steady Hand
+  tier: diamond
+  points: 25
+  criterion: 50 consecutive resolved questions at T3+ with outcome > 0 (no give-ups)
+  rule: {kind: best, stat: noGiveUpStreakT3, gte: 50}
+- id: D20
+  name: Annotator
+  tier: diamond
+  points: 25
+  criterion: Post solutions in 25 different daily/monthly discussions
+  rule: {kind: pending, feature: discussions}
+- id: D21
+  name: Counterexample
+  tier: diamond
+  points: 25
+  secret: true
+  criterion: A confirmed report on a Tier 5 or Tier 6 question
+  rule: {kind: pending, feature: reports}
+- id: D22
+  name: Contradiction
+  tier: diamond
+  points: 25
+  secret: true
+  criterion: Solve a Tier 5 question first-try in a skill where you are Unranked
+  rule: {kind: flag, flag: contradiction}
+- id: R1
+  name: Bedrock
+  tier: ruby
+  points: 50
+  criterion: 2,000 correct at T3+
+  rule: {kind: count, stat: correctT3, gte: 2000}
+- id: R2
+  name: Diamond Section
+  tier: ruby
+  points: 50
+  criterion: Every skill in a section at Diamond
+  rule: {kind: sectionAllAtRank, rank: 5}
+- id: R3
+  name: Frontier Fifty
+  tier: ruby
+  points: 50
+  criterion: 50 Tier 5 questions correct
+  rule: {kind: count, stat: correctT5, gte: 50}
+- id: R4
+  name: Fifty Straight
+  tier: ruby
+  points: 50
+  criterion: 50 consecutive first-try correct at T4+
+  rule: {kind: best, stat: firstTryStreakT4, gte: 50}
+- id: R5
+  name: Platinum Unit
+  tier: ruby
+  points: 50
+  criterion: Unit rank Platinum
+  rule: {kind: unitRank, rank: 4}
+- id: R6
+  name: Century
+  tier: ruby
+  points: 50
+  criterion: 100-day daily-problem streak
+  rule: {kind: pending, feature: daily}
+- id: R7
+  name: Clean Sweep
+  tier: ruby
+  points: 50
+  criterion: A Section Challenge with every problem first-try correct
+  rule: {kind: challengeSweep}
+- id: R8
+  name: Master Prover
+  tier: ruby
+  points: 50
+  criterion: 50 free-response answers at 100%
+  rule: {kind: pending, feature: freeResponse}
+- id: R9
+  name: Polished
+  tier: ruby
+  points: 50
+  criterion: Every response skill at Platinum+
+  rule: {kind: responseAllAtRank, rank: 4}
+- id: R10
+  name: Fluent in Proof
+  tier: ruby
+  points: 50
+  criterion: Diamond in the Proof response skill
+  rule:
+    kind: responseSkillsAtRank
+    skills: [proof]
+    rank: 5
+- id: R11
+  name: Quiz Machine
+  tier: ruby
+  points: 50
+  criterion: 10 perfect Section Quizzes
+  rule: {kind: count, stat: perfectSectionQuizzes, gte: 10}
+- id: R12
+  name: Diamond Ten
+  tier: ruby
+  points: 50
+  criterion: Diamond in 10 skills
+  rule: {kind: skillsAtRank, rank: 5, count: 10}
+- id: R13
+  name: Regular
+  tier: ruby
+  points: 50
+  criterion: At least one milestone on 3 consecutive monthly problems
+  rule: {kind: pending, feature: monthly}
+- id: R14
+  name: Perfect Week
+  tier: ruby
+  points: 50
+  criterion: Every daily problem of a Mon–Sun week solved first-try
+  rule: {kind: pending, feature: daily}
+- id: R15
+  name: Frontier Streak
+  tier: ruby
+  points: 50
+  criterion: 5 consecutive Tier 5 questions first-try correct
+  rule: {kind: best, stat: firstTryStreakT5, gte: 5}
+- id: R16
+  name: Taxicab
+  tier: ruby
+  points: 50
+  secret: true
+  criterion: θ exactly 1729 in any skill after an update
+  rule: {kind: flag, flag: taxicab}
+- id: R17
+  name: Clutch Appeal
+  tier: ruby
+  points: 50
+  secret: true
+  criterion: An appeal that moves a score from below 60% to 100%
+  rule: {kind: pending, feature: appeals}
+- id: R18
+  name: Ouroboros
+  tier: ruby
+  points: 50
+  secret: true
+  criterion: Reach Diamond in a skill after having dropped it to Tier 1
+  rule: {kind: flag, flag: ouroboros}
+- id: T1
+  name: Bedrock II
+  tier: tanzanite
+  points: 100
+  criterion: 5,000 correct at T3+
+  rule: {kind: count, stat: correctT3, gte: 5000}
+- id: T2
+  name: Diamond Unit
+  tier: tanzanite
+  points: 100
+  criterion: Unit rank Diamond
+  rule: {kind: unitRank, rank: 5}
+- id: T3
+  name: Frontier Hundred
+  tier: tanzanite
+  points: 100
+  criterion: 100 Tier 5 questions first-try correct
+  rule: {kind: count, stat: firstTryT5, gte: 100}
+- id: T4
+  name: Hundred Straight
+  tier: tanzanite
+  points: 100
+  criterion: 100 consecutive first-try correct at T4+
+  rule: {kind: best, stat: firstTryStreakT4, gte: 100}
+- id: T5
+  name: Tier Six
+  tier: tanzanite
+  points: 100
+  criterion: Fully solve a monthly Tier 6 problem (all milestones)
+  rule: {kind: pending, feature: monthly}
+- id: T6
+  name: Half-Year
+  tier: tanzanite
+  points: 100
+  criterion: 182-day daily-problem streak
+  rule: {kind: pending, feature: daily}
+- id: T7
+  name: Unit Sweep
+  tier: tanzanite
+  points: 100
+  criterion: All three Section Challenges of a unit at average outcome ≥ 0.9
+  rule: {kind: unitChallenges, min: 0.9}
+- id: T8
+  name: Diamond Mind
+  tier: tanzanite
+  points: 100
+  criterion: Every response skill at Diamond
+  rule: {kind: responseAllAtRank, rank: 5}
+- id: T9
+  name: Year Diamond
+  tier: tanzanite
+  points: 100
+  criterion: Both units of a year (1–2 or 3–4) at unit rank Diamond
+  rule: {kind: yearUnitsAtRank, rank: 5}
+- id: T10
+  name: Perfect Year
+  tier: tanzanite
+  points: 100
+  criterion: A perfect Unit Quiz in both units of a year
+  rule: {kind: yearPerfectUnitQuizzes}
+- id: T11
+  name: Grand Prover
+  tier: tanzanite
+  points: 100
+  criterion: 150 free-response answers at 100%
+  rule: {kind: pending, feature: freeResponse}
+- id: T12
+  name: Top of the Month
+  tier: tanzanite
+  points: 100
+  criterion: 'Finish a calendar month #1 on the course θ leaderboard'
+  rule: {kind: pending, feature: leaderboards}
+- id: T13
+  name: Grandmaster Opening
+  tier: tanzanite
+  points: 100
+  secret: true
+  criterion: Reach Diamond in a skill within 20 questions of first opening it
+  rule: {kind: flag, flag: grandmaster}
+- id: T14
+  name: Contrapositive
+  tier: tanzanite
+  points: 100
+  secret: true
+  criterion: Diamond in a skill while every one of its prerequisites is below Gold
+  rule: {kind: contrapositive}
+- id: T15
+  name: Fractal
+  tier: tanzanite
+  points: 100
+  secret: true
+  criterion: Every skill, section and unit of a year at the same rank (Platinum or higher) at once
+  rule: {kind: fractal}
+- id: T16
+  name: Show Your Working
+  tier: tanzanite
+  points: 100
+  secret: true
+  criterion: Solve every daily problem of a week first-try and post a solution in each one's discussion
+  rule: {kind: pending, feature: daily}
+- id: V1
+  name: Course Diamond
+  tier: vibranium
+  points: 250
+  criterion: Course rank Diamond
+  rule: {kind: courseRank, rank: 5}
+- id: V2
+  name: Ten Thousand
+  tier: vibranium
+  points: 250
+  criterion: 10,000 correct at T3+
+  rule: {kind: count, stat: correctT3, gte: 10000}
+- id: V3
+  name: Frontier Five Hundred
+  tier: vibranium
+  points: 250
+  criterion: 500 Tier 5 questions correct
+  rule: {kind: count, stat: correctT5, gte: 500}
+- id: V4
+  name: Triple Six
+  tier: vibranium
+  points: 250
+  criterion: Fully solve 3 monthly Tier 6 problems
+  rule: {kind: pending, feature: monthly}
+- id: V5
+  name: Orbit
+  tier: vibranium
+  points: 250
+  criterion: 365-day daily-problem streak
+  rule: {kind: pending, feature: daily}
+- id: V6
+  name: Two Hundred Straight
+  tier: vibranium
+  points: 250
+  criterion: 200 consecutive first-try correct at T4+
+  rule: {kind: best, stat: firstTryStreakT4, gte: 200}
+- id: V7
+  name: Challenge Master
+  tier: vibranium
+  points: 250
+  criterion: Every Section Challenge in the course at average outcome ≥ 0.9
+  rule: {kind: allChallenges, min: 0.9}
+- id: V8
+  name: Diamond Everywhere
+  tier: vibranium
+  points: 250
+  criterion: Every skill in the course at Diamond simultaneously
+  rule: {kind: skillsAtRank, rank: 5, count: all}
+- id: V9
+  name: Flawless Frontier
+  tier: vibranium
+  points: 250
+  secret: true
+  criterion: 25 consecutive Tier 5 questions first-try correct
+  rule: {kind: best, stat: firstTryStreakT5, gte: 25}
+- id: V10
+  name: Lone Wolf
+  tier: vibranium
+  points: 250
+  secret: true
+  criterion: The only user to fully solve that month's Tier 6 problem (≥ 5 users attempted)
+  rule: {kind: pending, feature: monthly}
+- id: V11
+  name: QED
+  tier: vibranium
+  points: 250
+  secret: true
+  criterion: 15 consecutive free-response answers at 100%
+  rule: {kind: pending, feature: freeResponse}
+- id: V12
+  name: Unblemished
+  tier: vibranium
+  points: 250
+  secret: true
+  criterion: A calendar week with ≥ 100 questions, at least half T4+, every one first-try correct
+  rule: {kind: flag, flag: unblemished}
+- id: V13
+  name: Speed of Thought
+  tier: vibranium
+  points: 250
+  secret: true
+  criterion: Fully solve a monthly Tier 6 problem within 72 hours of release
+  rule: {kind: pending, feature: monthly}
+- id: S1
+  name: Six Suns
+  tier: solarium
+  points: 600
+  criterion: Fully solve 6 consecutive monthly Tier 6 problems
+  rule: {kind: pending, feature: monthly}
+- id: S2
+  name: Five Hundred Straight
+  tier: solarium
+  points: 600
+  criterion: 500 consecutive first-try correct at T4+
+  rule: {kind: best, stat: firstTryStreakT4, gte: 500}
+- id: S3
+  name: Total Mastery
+  tier: solarium
+  points: 600
+  criterion: Every skill and every response skill at Diamond, and every Section Challenge swept (all first-try)
+  rule: {kind: totalMastery}
+- id: S4
+  name: Diamond Hands
+  tier: solarium
+  points: 600
+  secret: true
+  criterion: Hold Diamond in every course skill continuously for 90 days
+  rule: {kind: flag, flag: diamondHands}
+- id: S5
+  name: One Shot
+  tier: solarium
+  points: 600
+  secret: true
+  criterion: Fully solve a monthly Tier 6 problem with a single submission
+  rule: {kind: pending, feature: monthly}
+- id: A1
+  name: Annihilation
+  tier: antimatter
+  points: 1500
+  criterion: Fully solve 12 consecutive monthly Tier 6 problems
+  rule: {kind: pending, feature: monthly}
+- id: A2
+  name: Event Horizon
+  tier: antimatter
+  points: 1500
+  secret: true
+  criterion: Reach the θ cap of 2300 in any skill
+  rule: {kind: flag, flag: eventHorizon}
+- id: A3
+  name: Annus Mirabilis
+  tier: antimatter
+  points: 1500
+  secret: true
+  criterion: A calendar year in which every daily problem is solved first-try and every monthly problem is fully solved
+  rule: {kind: pending, feature: daily}

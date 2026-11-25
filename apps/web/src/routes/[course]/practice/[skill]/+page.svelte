@@ -9,6 +9,7 @@
   import { RANK_LABEL, score } from "$lib/ranks";
   import { recordResult } from "$lib/record";
   import { profileFor } from "$lib/profile.svelte";
+  import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
 
   let { data } = $props();
@@ -16,6 +17,7 @@
   const entry = $derived(indexSkills(data.course).get(skillId));
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
+  const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
 
   let pool = $state<QuestionT[] | null>(null);
   let served = $state<Served | null>(null);
@@ -47,7 +49,7 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !served) return;
-    const r = await recordResult({ course: data.course, store, profile, served, parts, answers });
+    const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements });
     summary = r.summary;
     xpGained = r.xp;
   }

@@ -598,7 +598,9 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 **Rules**
 - **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
-- **Definitions:** criteria are declarative in `content/achievements.yaml` and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters live in `users/{uid}/stats`, e.g. consecutive first-try streaks, per-tier correct counts and daily streak.
+- **Definitions:** criteria are declarative in `content/achievements.yaml` (generated from the tables below; the build checks tier counts, secrets and points against them) and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters (first-try streaks, per-tier correct counts, weekly counts, one-off flags) and earned dates live in `users/{uid}/courses/{course}/meta/achievements`.
+- Achievements whose feature doesn't exist yet (daily and monthly problems, free response, discussions, reports, appeals, leaderboards) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
+- Earning one grants XP (2 × points) and shows a toast.
 - **Tier designs continue the rank ladder:** the Platinum and Diamond achievement tiers deliberately parallel the Platinum and Diamond mastery ranks (§5.4). Their designs are **very similar**:
   - same colors, materials and finish (metallic platinum, faceted diamond);
   - same frame shape and insignia motif.

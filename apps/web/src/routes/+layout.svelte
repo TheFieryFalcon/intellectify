@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { achievementToasts } from "$lib/achievements.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
   import { goto } from "$app/navigation";
@@ -13,6 +14,13 @@
   startSession();
 
   const profile = $derived(profileFor(session.backend, session.user));
+
+  // Achievement toasts: one at a time, a few seconds each (SPEC §12.1).
+  $effect(() => {
+    if (!achievementToasts.length) return;
+    const t = setTimeout(() => achievementToasts.shift(), 4500);
+    return () => clearTimeout(t);
+  });
 
   // Level-up toast: shows for a few seconds after a grant crosses a level boundary.
   $effect(() => {
@@ -44,6 +52,14 @@
   {/if}
 </header>
 
+{#if achievementToasts.length}
+  {@const a = achievementToasts[0]!}
+  <div class="toast achievement" role="status">
+    <TierGem tier={a.tier} size={14} />
+    <span><span class="muted">Achievement</span> {a.name} <span class="pts">+{a.points}</span></span>
+  </div>
+{/if}
+
 {#if profile?.levelUp?.newTier}
   <TierCelebration levelUp={profile.levelUp} onclose={() => profile && (profile.levelUp = null)} />
 {:else if profile?.levelUp}
@@ -70,6 +86,8 @@
   .who { font-size: 13px; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
+  .toast.achievement { bottom: calc(env(safe-area-inset-bottom, 0px) + 76px); }
+  .toast .pts { color: var(--accent); font-variant-numeric: tabular-nums; }
   .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 22, 35, 0.18); font-weight: 500; animation: rise 0.25s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
 </style>

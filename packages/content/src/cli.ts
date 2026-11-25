@@ -12,7 +12,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const contentDir = join(root, "content");
 const outDir = join(root, "apps/web/static/content");
 
-const { bundles, errors, warnings } = buildContent(contentDir);
+const { bundles, achievements, errors, warnings } = buildContent(contentDir);
 warnings.forEach((w) => console.warn(`warning: ${w}`));
 if (errors.length) {
   errors.forEach((e) => console.error(`error: ${e}`));
@@ -34,4 +34,6 @@ for (const { course, questions, tutorials } of bundles) {
   const qCount = Object.values(questions).reduce((a, q) => a + q.length, 0);
   console.log(`${course.id}: ${skills.length} skills, ${qCount} questions, ${tutorials.length} tutorials → ${dir}`);
 }
+writeFileSync(join(outDir, "achievements.json"), JSON.stringify(achievements));
+console.log(`achievements: ${achievements.length} (${achievements.filter((a) => a.rule.kind !== "pending").length} earnable now)`);
 writeFileSync(join(outDir, "index.json"), JSON.stringify(bundles.map((b) => ({ id: b.course.id, name: b.course.name }))));

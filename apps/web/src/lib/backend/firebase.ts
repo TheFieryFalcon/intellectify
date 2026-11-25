@@ -13,7 +13,7 @@ import {
   type User as FirebaseUser,
 } from "firebase/auth";
 import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProfile, emptyProgress, type Backend, type ChallengeState, type Profile, type StoredSkillState, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type Profile, type StoredSkillState, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -56,6 +56,7 @@ function friendly(err: unknown): never | void {
  *   users/{uid}/courses/{course}/responseSkillStates/{id}
  *   users/{uid}/courses/{course}/attempts/{attemptId}
  *   users/{uid}/courses/{course}/challenges/{sectionId}   Section Challenge progress
+ *   users/{uid}/courses/{course}/meta/achievements         achievement stats and earned dates
  */
 export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const app = initializeApp(config);
@@ -126,6 +127,13 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
       if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
       await batch.commit();
+    },
+    async loadAchievements(uid, course) {
+      const d = await getDoc(doc(courseDoc(uid, course), "meta", "achievements"));
+      return d.exists() ? (d.data() as AchievementRecord) : null;
+    },
+    async saveAchievements(uid, course, record) {
+      await setDoc(doc(courseDoc(uid, course), "meta", "achievements"), record);
     },
     async loadChallenge(uid, course, section) {
       const d = await getDoc(doc(courseDoc(uid, course), "challenges", section));

@@ -11,6 +11,7 @@
   import { recordResult } from "$lib/record";
   import { buildChallenge, challengeLength, serve, type ChallengeState } from "$lib/review";
   import { profileFor } from "$lib/profile.svelte";
+  import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
 
   let { data } = $props();
@@ -18,6 +19,7 @@
   const section = $derived(data.course.units.flatMap((u) => u.sections).find((s) => s.id === sectionId) ?? null);
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
+  const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
 
   let pool = $state<Map<string, QuestionT> | null>(null);
   let pools: Map<string, QuestionT[]> = new Map();
@@ -63,7 +65,7 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !current || !ch) return;
-    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers });
+    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements });
     lastOutcome = r.summary.outcome;
     ch = { ...ch, results: [...ch.results, { id: current.question.id, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }] };
     resolved = true;
@@ -78,6 +80,10 @@
       ch = { ...ch, finishedAt: Date.now() };
       await save(ch);
       if (profile) await profile.grant(XP.sectionChallenge);
+      if (store) {
+        const avg = ch.results.reduce((t, r) => t + r.outcome, 0) / ch.results.length;
+        await achievements?.challenge({ section: sectionId, average: avg, allFirstTry: ch.results.every((r) => r.firstTry) }, store, profile);
+      }
       finishing = false;
     }
   }

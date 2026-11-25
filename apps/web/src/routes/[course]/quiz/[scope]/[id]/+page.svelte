@@ -11,6 +11,7 @@
   import { recordResult } from "$lib/record";
   import { buildQuiz, QUIZ_MIX } from "$lib/review";
   import { profileFor } from "$lib/profile.svelte";
+  import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
   import type { StoredSkillState } from "$lib/backend";
 
@@ -18,6 +19,7 @@
   const scope = $derived(page.params.scope === "unit" ? "unit" : "section");
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
+  const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
 
   /** The skills in scope, and a name for the header. */
   const target = $derived.by(() => {
@@ -52,7 +54,7 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !current) return;
-    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers });
+    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements });
     results = [...results, { skill: current.question.skills.primary, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }];
     xp += r.xp;
     resolved = true;
@@ -66,6 +68,10 @@
       return;
     }
     done = true;
+    if (store) {
+      const unit = scope === "unit" ? Number(page.params.id) : (data.course.units.find((u) => u.sections.some((sec) => sec.id === page.params.id))?.number ?? 0);
+      await achievements?.quiz({ scope, unit, correct: results.filter((r) => r.outcome > 0.6).length, total: results.length, allFirstTry: results.every((r) => r.firstTry) }, store, profile);
+    }
     const bonus = scope === "unit" ? XP.unitQuiz : XP.sectionQuiz;
     if (profile) await profile.grant(bonus);
     xp += bonus;

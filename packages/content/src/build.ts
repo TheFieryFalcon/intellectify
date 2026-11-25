@@ -5,6 +5,7 @@ import { checkAnswer } from "@intellectify/checker";
 import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
 import { fillTemplate } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
+import { loadAchievements, type AchievementT } from "./achievements.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
@@ -39,6 +40,7 @@ export interface CourseBundle {
 }
 export interface BuildResult {
   bundles: { course: CourseBundle; questions: Record<string, QuestionT[]>; tutorials: Tutorial[] }[];
+  achievements: AchievementT[];
   errors: string[];
   warnings: string[];
 }
@@ -241,7 +243,7 @@ export function buildContent(contentDir: string): BuildResult {
     };
     bundles.push({ course, questions, tutorials: [...tutorials.values()] });
   }
-  return { bundles, errors, warnings };
+  return { bundles, achievements: loadAchievements(contentDir, errors), errors, warnings };
 }
 
 /** LaTeX that should satisfy a spec: its own key, rendered as a student would type it. */

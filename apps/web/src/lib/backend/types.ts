@@ -71,6 +71,12 @@ export interface ChallengeState {
   finishedAt: number | null;
 }
 
+/** Achievement stats (opaque here; see lib/achievements.ts) and earned achievements with their dates. */
+export interface AchievementRecord {
+  stats: unknown;
+  earned: Record<string, number>;
+}
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -95,6 +101,10 @@ export interface Backend {
     changes: { skills: Record<string, StoredSkillState>; responseSkills: Record<string, StoredSkillState>; rollupRanks: Record<string, RankLevel> },
     attempt: AttemptRecord | null,
   ): Promise<void>;
+
+  /** Achievement stats and earned achievements for one course (SPEC §12.1). */
+  loadAchievements(uid: string, course: string): Promise<AchievementRecord | null>;
+  saveAchievements(uid: string, course: string, record: AchievementRecord): Promise<void>;
 
   /** Section Challenge progress; `null` clears it (to start again). */
   loadChallenge(uid: string, course: string, section: string): Promise<ChallengeState | null>;

@@ -36,6 +36,7 @@
       <h1>{data.course.name}</h1>
       {#if rollups}<p class="muted course-rank"><RankDot rank={rollups.course.rank} /> Course rank: {RANK_LABEL[rollups.course.rank]}</p>{/if}
     </div>
+    <a class="ach" href="/{data.course.id}/achievements">Achievements</a>
     <div class="toggles" role="group" aria-label="View">
       <button aria-pressed={view === "tree"} onclick={() => setView("tree")}>Tree</button>
       <button aria-pressed={view === "table"} onclick={() => setView("table")}>Table</button>
@@ -64,6 +65,8 @@
   .toggles { display: flex; gap: 16px; }
   .toggles button { border: 0; background: none; color: var(--muted); padding: 2px 0; cursor: pointer; border-bottom: 1.5px solid transparent; }
   .toggles button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .ach { margin-left: auto; margin-right: 12px; font-size: 13px; color: var(--muted); text-decoration: none; align-self: flex-end; padding-bottom: 6px; }
+  .ach:hover { color: var(--accent); }
   .key { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 12px; color: var(--muted); margin-bottom: 18px; }
   .sep { width: 1px; height: 14px; background: var(--line); }
   .size { display: inline-flex; align-items: center; gap: 6px; text-transform: capitalize; }

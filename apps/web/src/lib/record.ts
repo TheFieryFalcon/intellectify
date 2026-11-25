@@ -8,6 +8,7 @@ import { indexSkills } from "./content";
 import { computeRollups, scoreQuestion, type PartResult, type ResultSummary, type Served } from "./practice";
 import type { ProfileStore } from "./profile.svelte";
 import type { CourseProgressStore } from "./session.svelte";
+import type { AchievementsStore } from "./achievements.svelte";
 
 export async function recordResult(opts: {
   course: CourseBundle;
@@ -16,10 +17,12 @@ export async function recordResult(opts: {
   served: Served;
   parts: PartResult[];
   answers: string[];
+  achievements?: AchievementsStore | null;
 }): Promise<{ summary: ResultSummary; xp: number }> {
   const { course, store, profile, served, parts } = opts;
   const question = served.question;
   const index = indexSkills(course);
+  const before = store.progress.skills[question.skills.primary];
   const result = scoreQuestion(store.progress, question, parts, (id) => index.get(id)?.skill.size ?? "medium");
   const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
   const rollups = computeRollups(course, after);
@@ -47,6 +50,21 @@ export async function recordResult(opts: {
       deltaTheta: result.primary.deltaTheta,
       at: Date.now(),
     },
+  );
+  await opts.achievements?.question(
+    {
+      skill: question.skills.primary,
+      tier: tierOf(question.rating),
+      outcome: result.outcome,
+      firstTry: parts.every((p) => p.solvedOn === 1),
+      lastSolvedOn: Math.max(0, ...parts.map((p) => p.solvedOn ?? 0)),
+      crossSkill: question.skills.secondary.length > 0,
+      before,
+      after: result.changes.skills,
+      at: Date.now(),
+    },
+    store,
+    profile,
   );
   let xp = 0;
   if (profile) {

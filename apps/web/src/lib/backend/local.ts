@@ -1,4 +1,4 @@
-import { emptyProfile, emptyProgress, type Backend, type ChallengeState, type CourseProgress, type Profile, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type Profile, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -8,6 +8,7 @@ const USER_KEY = "intellectify:guest";
 const progressKey = (uid: string, course: string) => `intellectify:progress:${uid}:${course}`;
 const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${uid}:${course}`;
 const profileKey = (uid: string) => `intellectify:profile:${uid}`;
+const achievementsKey = (uid: string, course: string) => `intellectify:achievements:${uid}:${course}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
 
 const read = <T>(key: string, fallback: T): T => {
@@ -88,6 +89,12 @@ export function createLocalBackend(): Backend {
       const attempts = read<unknown[]>(attemptsKey(uid, course), []);
       attempts.push(attempt);
       write(attemptsKey(uid, course), attempts.slice(-500));
+    },
+    async loadAchievements(uid, course) {
+      return read<AchievementRecord | null>(achievementsKey(uid, course), null);
+    },
+    async saveAchievements(uid, course, record) {
+      write(achievementsKey(uid, course), record);
     },
     async loadChallenge(uid, course, section) {
       return read<ChallengeState | null>(challengeKey(uid, course, section), null);
