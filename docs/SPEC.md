@@ -654,12 +654,13 @@ A public profile shows:
 
 ### 14.2 Home = the tech tree
 - After login, the student lands **directly on the course tech tree**. A course switcher sits at the top.
-- **Vertical tech tree** (strategy-game style):
-  - laid out top to bottom by prerequisite depth;
-  - nodes are skills, coloured and labelled by rank with a mini score (0–100);
-  - edges are prerequisites, with cross-course prerequisites shown as stub nodes;
-  - grouping bands show Unit and Section;
-  - section and unit nodes show rolled-up ranks.
+- **Vertical tech tree** (strategy-game style). The draft preview is at https://claude.ai/artifact/VhcVGyVCy3CTTMBeRBUmth.
+  - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
+  - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimisation). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
+  - **Nodes are circles** filled with the rank colour (Unranked is a hollow ring), with a short label under each. Keep on-map text minimal.
+  - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
+  - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
+  - Section and unit rolled-up ranks show on the region and unit labels.
 - **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Platinum gate 2/3") and question counts.
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
