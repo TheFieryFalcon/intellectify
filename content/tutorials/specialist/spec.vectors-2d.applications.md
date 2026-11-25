@@ -31,6 +31,20 @@ after time $t$. Two objects collide only if their position vectors are equal at 
 $$r\sin\beta\,\mathbf{i} + r\cos\beta\,\mathbf{j}.$$
 Sine goes with east here because the angle is measured from north, not from east.
 
+```diagram
+view: [-0.6, 3.6, -0.6, 3.4]
+width: 200
+points: { O: [0, 0], N: [0, 3], P: [2.6, 1.5], E: [2.6, 0] }
+alt: "A vector on bearing beta: east part r sin beta, north part r cos beta"
+draw:
+  - { type: segment, from: O, to: N, dashed: true, color: muted }
+  - { type: text, at: N, text: '\text{N}', pos: n }
+  - { type: segment, from: O, to: E, dashed: true, color: muted, label: 'r\sin\beta', side: right }
+  - { type: segment, from: E, to: P, dashed: true, color: muted, label: 'r\cos\beta', side: right }
+  - { type: vector, from: O, to: P, label: 'r' }
+  - { type: angle, at: O, from: N, to: P, label: '\beta', radius: 22 }
+```
+
 **Work done by a force.** A constant force $\mathbf{F}$ that moves an object through a displacement $\mathbf{s}$ does work $\mathbf{F}\cdot\mathbf{s}$. Only the part of the force along the motion does any work.
 
 ## Method
@@ -53,6 +67,18 @@ Forces $\mathbf{F}_1 = 3\mathbf{i} + 5\mathbf{j}$ N and $\mathbf{F}_2 = -7\mathb
 A boat heads due north at 12 km/h through water that flows east at 5 km/h. Find the boat's speed over the seabed and its bearing.
 
 1. Through the water: $12\mathbf{j}$. Current: $5\mathbf{i}$.
+
+```diagram
+view: [-1.5, 6.5, -0.6, 12.8]
+width: 150
+points: { O: [0, 0], W: [0, 12], G: [5, 12] }
+alt: "Velocity triangle: 12 north through the water plus 5 east current gives 13 over the seabed"
+draw:
+  - { type: vector, from: O, to: W, label: '12', side: left }
+  - { type: vector, from: W, to: G, label: '5', color: muted }
+  - { type: vector, from: O, to: G, label: '13', color: ink, side: right }
+  - { type: angle, at: O, from: W, to: G, label: '\theta', radius: 30 }
+```
 2. Ground velocity: $5\mathbf{i} + 12\mathbf{j}$, so the speed is $\sqrt{5^2 + 12^2} = 13$ km/h.
 3. The angle east of north satisfies $\tan\theta = \tfrac{5}{12}$, so $\theta \approx 22.6^\circ$. The boat travels on a bearing of about $022.6^\circ\text{T}$.
 

@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
+import { diagramErrors } from "./diagram-check.js";
 
 /**
  * Tutorials (docs/SPEC.md §3.2): one Markdown file per skill at
@@ -32,6 +33,7 @@ export function proseWordCount(markdown: string): number {
   const beforeExamples = markdown.split(/^## Worked examples/m)[0] ?? "";
   const after = markdown.split(/^## Watch out/m)[1] ?? "";
   const text = (beforeExamples + "\n" + after)
+    .replace(/```[\s\S]*?```/g, " ")
     .replace(/\$\$[\s\S]*?\$\$/g, " ")
     .replace(/\$[^$]*\$/g, " ")
     .replace(/^#+ .*$/gm, " ")
@@ -65,6 +67,7 @@ export function loadTutorials(contentDir: string, course: string, skillDotPoints
     if (`${skill}.md` !== name) errors.push(`${where}: file name should be ${skill}.md`);
     if (!skillDotPoints.has(skill)) errors.push(`${where}: unknown skill ${skill}`);
     for (const h of REQUIRED_HEADINGS) if (!markdown.includes(`\n${h}`) && !markdown.startsWith(h)) errors.push(`${where}: missing heading "${h}"`);
+    for (const e of diagramErrors(markdown)) errors.push(`${where}: ${e}`);
     const examples = (markdown.match(/^### Example/gm) ?? []).length;
     if (examples < 1 || examples > 3) errors.push(`${where}: needs 1–3 worked examples ("### Example …"), found ${examples}`);
     const proseWords = proseWordCount(markdown);

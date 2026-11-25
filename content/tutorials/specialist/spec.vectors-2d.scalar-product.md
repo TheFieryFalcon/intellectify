@@ -13,6 +13,17 @@ terms:
 $$\mathbf{a}\cdot\mathbf{b} = |\mathbf{a}|\,|\mathbf{b}|\cos\theta,$$
 where $\theta$ is the angle between $\mathbf{a}$ and $\mathbf{b}$ drawn from the same point, with $0^\circ \le \theta \le 180^\circ$. The result is a number, not a vector, which is why it is called the *scalar* product. It measures how much two vectors point the same way.
 
+```diagram
+view: [-0.3, 4.6, -0.3, 2.9]
+width: 220
+points: { O: [0, 0], A: [4.2, 0.6], B: [1.6, 2.6] }
+alt: "The angle theta between a and b, drawn from the same point"
+draw:
+  - { type: vector, from: O, to: A, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: B, label: '\mathbf{b}' }
+  - { type: angle, at: O, from: A, to: B, label: '\theta', radius: 26 }
+```
+
 **In components.** For $\mathbf{a} = a_1\mathbf{i} + a_2\mathbf{j}$ and $\mathbf{b} = b_1\mathbf{i} + b_2\mathbf{j}$,
 $$\mathbf{a}\cdot\mathbf{b} = a_1b_1 + a_2b_2.$$
 This follows from the definition. $\mathbf{i}$ and $\mathbf{j}$ have length 1, and the angle between them is $90^\circ$, so $\mathbf{i}\cdot\mathbf{i} = \mathbf{j}\cdot\mathbf{j} = 1$ and $\mathbf{i}\cdot\mathbf{j} = 0$. Expanding $(a_1\mathbf{i} + a_2\mathbf{j})\cdot(b_1\mathbf{i} + b_2\mathbf{j})$ like brackets leaves only $a_1b_1 + a_2b_2$.

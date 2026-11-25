@@ -11,6 +11,21 @@ terms:
 
 **The picture.** Draw $\mathbf{a}$ and $\mathbf{b}$ from the same point, and imagine the line through $\mathbf{b}$ as the ground. Shine a light from directly above that line, so the light rays meet it at right angles. The shadow that $\mathbf{a}$ casts on the line is the *projection of $\mathbf{a}$ onto $\mathbf{b}$*. It measures how far $\mathbf{a}$ reaches in the direction of $\mathbf{b}$.
 
+```diagram
+view: [-0.3, 5.6, -0.4, 3.3]
+width: 270
+points: { O: [0, 0], A: [2, 3], P: [2.5, 0.5], B: [5, 1] }
+alt: "The projection of a onto b is the shadow of a on the line of b"
+draw:
+  - { type: vector, from: O, to: B, color: ink }
+  - { type: text, at: B, text: '\mathbf{b}', pos: se }
+  - { type: vector, from: O, to: A, label: '\mathbf{a}' }
+  - { type: segment, from: A, to: P, dashed: true, color: muted }
+  - { type: angle, at: P, from: O, to: A, right: true }
+  - { type: vector, from: O, to: P, color: good }
+  - { type: text, at: [1.4, 0.05], text: '\text{shadow}', pos: s }
+```
+
 **Scalar projection.** The signed length of the shadow. From the right-angled triangle, this length is $|\mathbf{a}|\cos\theta$, where $\theta$ is the angle between the vectors. Using the scalar product,
 $$\text{scalar projection of } \mathbf{a} \text{ onto } \mathbf{b} = |\mathbf{a}|\cos\theta = \frac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|} = \mathbf{a}\cdot\hat{\mathbf{b}}.$$
 If the angle is obtuse, the shadow falls behind the starting point, pointing opposite to $\mathbf{b}$, and the scalar projection is negative.

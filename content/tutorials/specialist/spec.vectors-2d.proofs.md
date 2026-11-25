@@ -39,6 +39,25 @@ Comparing squared lengths avoids square roots, and $|\mathbf{v}|^2 = \mathbf{v}\
 Prove that the diagonals of a **rhombus** are perpendicular.
 
 1. Let the rhombus be $OABC$, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. All sides are equal, so $|\mathbf{a}| = |\mathbf{c}|$.
+
+```diagram
+view: [-0.4, 6.4, -0.4, 3.9]
+width: 260
+points: { O: [0, 0], A: [4, 0], B: [6, 3.46], C: [2, 3.46], M: [3, 1.73] }
+alt: "Rhombus OABC with diagonals a + c and a − c meeting at right angles"
+draw:
+  - { type: segment, from: A, to: B, ticks: 1 }
+  - { type: segment, from: C, to: B, ticks: 1 }
+  - { type: vector, from: O, to: A, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: C, label: '\mathbf{c}' }
+  - { type: segment, from: O, to: B, dashed: true, color: muted }
+  - { type: segment, from: C, to: A, dashed: true, color: muted }
+  - { type: angle, at: M, from: B, to: A, right: true }
+  - { type: point, at: O, label: O, dot: false }
+  - { type: point, at: A, label: A, dot: false }
+  - { type: point, at: B, label: B, dot: false }
+  - { type: point, at: C, label: C, dot: false }
+```
 2. The diagonals are $\overrightarrow{OB} = \mathbf{a} + \mathbf{c}$ and $\overrightarrow{CA} = \mathbf{a} - \mathbf{c}$.
 3. Their dot product is $(\mathbf{a} + \mathbf{c})\cdot(\mathbf{a} - \mathbf{c}) = \mathbf{a}\cdot\mathbf{a} - \mathbf{a}\cdot\mathbf{c} + \mathbf{c}\cdot\mathbf{a} - \mathbf{c}\cdot\mathbf{c} = |\mathbf{a}|^2 - |\mathbf{c}|^2$.
 4. Since $|\mathbf{a}| = |\mathbf{c}|$, this is 0. So the diagonals of a rhombus are perpendicular.

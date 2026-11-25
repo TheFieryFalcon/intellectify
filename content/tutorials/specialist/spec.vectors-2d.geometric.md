@@ -29,11 +29,48 @@ terms:
 
 **Scalar multiples.** $3\mathbf{a}$ is three copies of $\mathbf{a}$ placed end to end: it points the same way and is 3 times as long. In general $k\mathbf{a}$ is parallel to $\mathbf{a}$ with magnitude $|k|\,|\mathbf{a}|$. If $k > 0$ it points the same way as $\mathbf{a}$; if $k < 0$ it points the opposite way.
 
+```diagram
+view: [-0.2, 9.2, -0.3, 1.6]
+width: 340
+alt: "a, 2a and minus a"
+draw:
+  - { type: vector, from: [0, 0], to: [2, 1], label: '\mathbf{a}' }
+  - { type: vector, from: [3, 0], to: [7, 2], label: '2\mathbf{a}' }
+  - { type: vector, from: [9, 1], to: [7, 0], label: '-\mathbf{a}', side: right }
+```
+
 **Adding: the triangle rule.** Walking from $A$ to $B$ and then from $B$ to $C$ has the same overall effect as walking straight from $A$ to $C$. So
 $$\overrightarrow{AB} + \overrightarrow{BC} = \overrightarrow{AC}.$$
 To add two vectors, draw the second one starting at the head (arrowhead) of the first. The sum runs from the tail of the first to the head of the second. The sum of vectors is called their **resultant**.
 
+```diagram
+view: [-0.3, 5.3, -0.3, 3.4]
+width: 260
+points: { A: [0, 0], B: [3.2, 0.6], C: [4.8, 3] }
+alt: "Triangle rule: AB plus BC equals AC"
+draw:
+  - { type: vector, from: A, to: B, label: '\mathbf{a}', side: right }
+  - { type: vector, from: B, to: C, label: '\mathbf{b}', side: right }
+  - { type: vector, from: A, to: C, label: '\mathbf{a} + \mathbf{b}', color: ink }
+  - { type: point, at: A, label: A }
+  - { type: point, at: B, label: B, dot: false }
+  - { type: point, at: C, label: C, dot: false }
+```
+
 **Adding: the parallelogram rule.** Draw $\mathbf{a}$ and $\mathbf{b}$ from the same starting point, then complete the parallelogram. The diagonal from that shared point is $\mathbf{a} + \mathbf{b}$. This gives the same answer as the triangle rule, because the opposite sides of a parallelogram are equal vectors.
+
+```diagram
+view: [-0.3, 5.5, -0.3, 3.4]
+width: 260
+points: { O: [0, 0], A: [3.8, 0.4], C: [1.2, 2.8], B: [5, 3.2] }
+alt: "Parallelogram rule: the diagonal from the shared tail is a plus b"
+draw:
+  - { type: segment, from: A, to: B, dashed: true, color: muted }
+  - { type: segment, from: C, to: B, dashed: true, color: muted }
+  - { type: vector, from: O, to: A, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: C, label: '\mathbf{b}' }
+  - { type: vector, from: O, to: B, label: '\mathbf{a} + \mathbf{b}', color: ink, side: right }
+```
 
 **Subtracting.** $\mathbf{a} - \mathbf{b}$ means $\mathbf{a} + (-\mathbf{b})$. With $\mathbf{a}$ and $\mathbf{b}$ drawn from the same point, $\mathbf{a} - \mathbf{b}$ runs from the head of $\mathbf{b}$ to the head of $\mathbf{a}$. A useful case: for any point $O$, $\overrightarrow{AB} = \overrightarrow{AO} + \overrightarrow{OB} = \overrightarrow{OB} - \overrightarrow{OA}$.
 
@@ -65,6 +102,21 @@ $|\mathbf{a}| = 5$, $|\mathbf{b}| = 8$ and the angle between $\mathbf{a}$ and $\
 
 1. The angle between two vectors is measured with them drawn from the same point.
 2. Redraw them head to tail. The angle inside the triangle, between the two sides, is now $180^\circ - 60^\circ = 120^\circ$.
+
+```diagram
+view: [-0.4, 10.8, -0.4, 4]
+width: 360
+points: { O: [0, 0], P: [3, 0], Q: [2, 3.46] }
+alt: "Tail to tail the angle is 60 degrees; head to tail the angle inside the triangle is 120 degrees"
+draw:
+  - { type: vector, from: O, to: P, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: Q, label: '\mathbf{b}' }
+  - { type: angle, at: O, from: P, to: Q, label: '60^\circ' }
+  - { type: vector, from: [5.3, 0], to: [8.3, 0], label: '\mathbf{a}', side: right }
+  - { type: vector, from: [8.3, 0], to: [10.3, 3.46], label: '\mathbf{b}', side: right }
+  - { type: vector, from: [5.3, 0], to: [10.3, 3.46], label: '\mathbf{a} + \mathbf{b}', color: ink }
+  - { type: angle, at: [8.3, 0], from: [5.3, 0], to: [10.3, 3.46], label: '120^\circ', radius: 14 }
+```
 3. Cosine rule: $|\mathbf{a} + \mathbf{b}|^2 = 5^2 + 8^2 - 2(5)(8)\cos 120^\circ = 25 + 64 + 40 = 129$.
 4. So $|\mathbf{a} + \mathbf{b}| = \sqrt{129} \approx 11.4$.
 

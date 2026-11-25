@@ -470,6 +470,8 @@ answer:
   - function curves, asymptotes, Argand diagrams, slope fields;
   - 3D vectors as projected views.
 - Diagram specs reference question parameters, so diagrams update with parameterized variants. They are LLM-authorable and validated at build time.
+- **Format (implemented):** a fenced ` ```diagram ` block of YAML inside any Markdown (tutorials, stems, solutions, prompts, options). It has a `view` in math coordinates (`[xmin, xmax, ymin, ymax]`, y up), optional `width`, `grid`, `axes`, named `points`, a screen-reader `alt`, and a `draw` list. Element types so far: `point`, `segment` (dashed, equal-length ticks), `vector` (arrowhead), `angle` (arc or right-angle mark), `circle` (radius or through a point), `polygon`, `text` and `north` (bearing arrow). Labels are LaTeX. Colors are theme tokens (`ink`, `accent`, `muted`, `good`, `bad`), so diagrams work in dark mode. Function curves, Argand diagrams, slope fields and 3D views come later.
+- The build parses and renders every diagram, for every question variant, and fails on unknown points, bad numbers or unfilled placeholders.
 
 ---
 

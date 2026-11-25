@@ -4,6 +4,7 @@ import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
 import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
 import { fillTemplate } from "./template.js";
+import { diagramErrors } from "./diagram-check.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
@@ -162,9 +163,11 @@ export function buildContent(contentDir: string): BuildResult {
         for (const s of [q.skills.primary, ...q.skills.secondary]) if (!skillUnit.has(s)) errors.push(`${where}: unknown skill ${s}`);
         for (const r of Object.keys(q.responseSkills)) if (!rsIds.has(r)) errors.push(`${where}: unknown response skill ${r}`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
-        // MCQ keys may be templated ({{key}}), so check them once per filled variant.
+        // MCQ keys and diagrams may be templated ({{key}}), so check them once per filled variant.
         for (const params of q.variants ?? [{}]) {
           const filled = q.variants ? fillTemplate(q, params) : q;
+          const texts = [filled.stem, filled.solution, ...filled.parts.flatMap((p) => [p.prompt ?? "", ...(p.options ?? []).map((o) => o.text)])];
+          for (const t of texts) for (const e of diagramErrors(t)) errors.push(`${where}${q.variants ? ` variant ${JSON.stringify(params)}` : ""}: ${e}`);
           for (const p of filled.parts) {
             if (p.answer && p.options && (p.answer.type === "mcq" || p.answer.type === "multi-select")) {
               const ids = new Set(p.options.map((o) => o.id));

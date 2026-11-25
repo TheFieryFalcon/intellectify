@@ -17,6 +17,18 @@ terms:
 $$3\mathbf{i} - 2\mathbf{j} = (3, -2) = \begin{pmatrix} 3 \\ -2 \end{pmatrix}.$$
 The numbers 3 and $-2$ are the vector's $x$- and $y$-components.
 
+```diagram
+view: [-0.6, 4, -2.8, 1.4]
+width: 230
+grid: true
+axes: true
+alt: "The vector 3i − 2j is 3 across and 2 down"
+draw:
+  - { type: segment, from: [0, 0], to: [3, 0], color: muted, label: '3', side: left }
+  - { type: segment, from: [3, 0], to: [3, -2], dashed: true, color: muted, label: '-2', side: left }
+  - { type: vector, from: [0, 0], to: [3, -2], label: '3\mathbf{i} - 2\mathbf{j}', side: right }
+```
+
 **Working in components.** Moves across and moves up can be combined separately, so each operation works one component at a time. With $\mathbf{a} = a_1\mathbf{i} + a_2\mathbf{j}$ and $\mathbf{b} = b_1\mathbf{i} + b_2\mathbf{j}$:
 - addition and subtraction: $\mathbf{a} \pm \mathbf{b} = (a_1 \pm b_1)\mathbf{i} + (a_2 \pm b_2)\mathbf{j}$;
 - scalar multiple: $k\mathbf{a} = ka_1\mathbf{i} + ka_2\mathbf{j}$;
@@ -48,6 +60,21 @@ Going the other way, $r = |\mathbf{a}|$ and $\tan\theta = \dfrac{a_2}{a_1}$. A c
 $A$ is the point $(2, -1)$ and $B$ is $(5, 3)$. Find $\overrightarrow{AB}$ and $|\overrightarrow{AB}|$.
 
 1. End minus start: $\overrightarrow{AB} = (5 - 2)\mathbf{i} + (3 - (-1))\mathbf{j} = 3\mathbf{i} + 4\mathbf{j}$.
+
+```diagram
+view: [-0.5, 6, -1.6, 3.6]
+width: 240
+grid: true
+axes: true
+points: { A: [2, -1], B: [5, 3] }
+alt: "AB goes 3 across and 4 up from A to B"
+draw:
+  - { type: segment, from: A, to: [5, -1], dashed: true, color: muted, label: '3', side: right }
+  - { type: segment, from: [5, -1], to: B, dashed: true, color: muted, label: '4', side: right }
+  - { type: vector, from: A, to: B, label: '\overrightarrow{AB}' }
+  - { type: point, at: A, label: 'A(2, -1)', pos: w }
+  - { type: point, at: B, label: 'B(5, 3)', pos: w, dot: false }
+```
 2. Magnitude: $|\overrightarrow{AB}| = \sqrt{3^2 + 4^2} = 5$.
 
 ### Example 2
