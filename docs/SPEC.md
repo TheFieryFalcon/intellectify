@@ -187,7 +187,7 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
   - The buffer varies by rank, sized to the band below, and is **not displayed** to students. Starting values (tunable): Bronze 25, Silver 50, Gold 45, Platinum 35, Diamond 30.
 
 ### 5.5 Roll-up: section, unit, course
-- **Section θ** = weighted average of its skills' θ (weight = number of dot points in the skill).
+- **Section θ** = weighted average of its *started* skills' θ (weight = number of dot points in the skill, including review dot points it covers). Unstarted skills don't enter the average but count as Unranked for the cap below.
 - **Section rank** = the rank implied by section θ, **capped at one rank above the lowest skill rank** in the section. Example: one Silver skill caps the section at Gold. The same buffer rule applies.
 - Units roll up from sections, and the course rolls up from units, using the same rule.
 
@@ -707,10 +707,11 @@ Answer checking, θ updates, rank, gate and roll-up computation, question select
 
 ### 15.3 Firestore data model (sketch)
 ```
-users/{uid}                              profile, settings, course enrolments
-users/{uid}/skillStates/{skillId}        θ, rank, gateCounts[1..6], seen ids, counts
-users/{uid}/responseSkillStates/{rsId}   θ, rank, gateCounts
-users/{uid}/attempts/{attemptId}         question id/version/params, answers, outcome, Δθ, ts
+users/{uid}                                              profile, settings, course enrolments
+users/{uid}/courses/{course}                             rolled-up ranks (for the hidden buffer)
+users/{uid}/courses/{course}/skillStates/{skillId}       θ, rank, gateCounts[1..6], seen ids, counts
+users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
+users/{uid}/courses/{course}/attempts/{attemptId}        question id/version/variant, answers, outcome, Δθ, ts
 users/{uid}/markingJobs/{jobId}          pending/complete, provider, result, appeal
 users/{uid}/achievements/{achId}         earnedAt
 users/{uid}/stats                        achievement counters (streaks, per-tier counts)
