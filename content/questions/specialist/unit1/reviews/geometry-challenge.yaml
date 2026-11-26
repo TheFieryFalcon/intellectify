@@ -75,22 +75,28 @@
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   rating: 1600
   responseSkills: { reading: 1560, reasoning: 1570, calculation: 1540, synthesis: 1560 }
+  variants:
+    - { t: 58, a: 54, v: 68, _B: '1.798, 0.877', _A: '-1.389, 1.439' }
+    - { t: 50, a: 60, v: 70, _B: '1.97, 0.347', _A: '-1.286, 1.532' }
+    - { t: 62, a: 48, v: 70, _B: '1.658, 1.118', _A: '-1.286, 1.532' }
+    - { t: 55, a: 65, v: 60, _B: '1.879, 0.684', _A: '-1.732, 1' }
+    - { t: 64, a: 52, v: 64, _B: '1.576, 1.231', _A: '-1.576, 1.231' }
   stem: |
-    A tangent touches a circle at $T$. Points $A$ and $B$ are on the circle, on opposite sides of the line through $T$ and the center. Chord $TB$ makes an angle of $58^\circ$ with the tangent, and $\angle ATB = 54^\circ$. Find $\angle TBA$, in degrees.
+    A tangent touches a circle at $T$. Points $A$ and $B$ are on the circle, on opposite sides of the line through $T$ and the center. Chord $TB$ makes an angle of ${{t}}^\circ$ with the tangent, and $\angle ATB = {{a}}^\circ$. Find $\angle TBA$, in degrees.
 
     ```diagram
     view: [-3.25, 3.25, -2.45, 2.45]
     width: 230
     alt: "Tangent at T; chord TB at 58 degrees to it; angle ATB of 54 degrees; angle TBA unknown"
-    points: { T: [-0, -2], A: [-1.389, 1.439], B: [1.798, 0.877], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
+    points: { T: [-0, -2], A: [{{_A}}], B: [{{_B}}], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: L, to: R, color: muted }
       - { type: segment, from: T, to: A }
       - { type: segment, from: T, to: B }
       - { type: segment, from: A, to: B }
-      - { type: angle, at: T, from: R, to: B, label: '58^\circ', radius: 26 }
-      - { type: angle, at: T, from: B, to: A, label: '54^\circ', radius: 22 }
+      - { type: angle, at: T, from: R, to: B, label: '{{t}}^\circ', radius: 26 }
+      - { type: angle, at: T, from: B, to: A, label: '{{a}}^\circ', radius: 22 }
       - { type: angle, at: B, from: A, to: T, label: '?', radius: 20 }
       - { type: point, at: T, label: 'T', pos: s }
       - { type: point, at: A, label: 'A', pos: nw }
@@ -98,13 +104,15 @@
     ```
   parts:
     - id: a
-      answer: { type: numeric, key: 68 }
+      answer: { type: numeric, key: '{{v}}' }
   solution: |
-    The tangent is a straight line, so the angle between chord $TA$ and the tangent on $A$'s side is $180^\circ - 54^\circ - 58^\circ = 68^\circ$. By the alternate segment theorem, that equals the angle chord $TA$ subtends at $B$: $\angle TBA = 68^\circ$.
+    The tangent is a straight line, so the angle between chord $TA$ and the tangent on $A$'s side is $180^\circ - {{a}}^\circ - {{t}}^\circ = {{v}}^\circ$. By the alternate segment theorem, that equals the angle chord $TA$ subtends at $B$: $\angle TBA = {{v}}^\circ$.
   verify: |
-    def answers():
-        T, A, B = on_circle(270, 2), on_circle(134, 2), on_circle(26, 2)
-        return {"a": approx(angle_at(T, B, A), 4)}
+    def answers(t, a, v):
+        T, L, R = (0, -2), (-3, -2), (3, -2)
+        B, A = on_circle(270 + 2*t, 2), on_circle(270 - 2*(180 - t - a), 2)
+        assert abs(angle_at(R, T, B) - t) < 1e-9 and abs(angle_at(A, T, B) - a) < 1e-9
+        return {"a": approx(angle_at(T, B, A))}
 
 - id: spec.geometry.ch.tangent-meets-diameter
   pool: challenge
@@ -168,31 +176,37 @@
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   rating: 1720
   responseSkills: { reading: 1710, reasoning: 1710, calculation: 1690, synthesis: 1700 }
+  variants:
+    - { p: 6, q: 8, h: 10, r: '5', _A: '6, 0', _B: '0, 8', _view: '-1.5, 8, -1.5, 9.5' }
+    - { p: 5, q: 12, h: 13, r: '6.5', _A: '5, 0', _B: '0, 12', _view: '-1.5, 7, -1.5, 13.5' }
+    - { p: 8, q: 15, h: 17, r: '8.5', _A: '8, 0', _B: '0, 15', _view: '-1.5, 10, -1.5, 16.5' }
+    - { p: 9, q: 12, h: 15, r: '7.5', _A: '9, 0', _B: '0, 12', _view: '-1.5, 11, -1.5, 13.5' }
+    - { p: 12, q: 16, h: 20, r: '10', _A: '12, 0', _B: '0, 16', _view: '-1.5, 14, -1.5, 17.5' }
   stem: |
-    A circle passes through the points $(0, 0)$, $(6, 0)$ and $(0, 8)$ on a coordinate grid. Find its radius.
+    A circle passes through the points $(0, 0)$, $({{p}}, 0)$ and $(0, {{q}})$ on a coordinate grid. Find its radius.
 
     ```diagram
-    view: [-1.5, 8, -1.5, 9.5]
+    view: [{{_view}}]
     width: 220
     axes: true
     grid: true
-    points: { O: [0, 0], A: [6, 0], B: [0, 8] }
+    points: { O: [0, 0], A: [{{_A}}], B: [{{_B}}] }
     draw:
       - { type: polygon, points: [O, A, B] }
       - { type: point, at: O, label: '(0, 0)', pos: sw }
-      - { type: point, at: A, label: '(6, 0)', pos: s }
-      - { type: point, at: B, label: '(0, 8)', pos: e }
+      - { type: point, at: A, label: '({{p}}, 0)', pos: s }
+      - { type: point, at: B, label: '(0, {{q}})', pos: e }
     ```
   parts:
     - id: a
-      answer: { type: numeric, key: 5 }
+      answer: { type: numeric, key: '{{r}}' }
   solution: |
-    The segments from $(0, 0)$ to the other two points lie along the axes, so the angle at $(0, 0)$ is $90^\circ$. By the converse of the angle in a semicircle, the chord joining $(6, 0)$ and $(0, 8)$ is a diameter. Its length is $\sqrt{6^2 + 8^2} = 10$, so the radius is 5.
+    The segments from $(0, 0)$ to the other two points lie along the axes, so the angle at $(0, 0)$ is $90^\circ$. By the converse of the angle in a semicircle, the chord joining $({{p}}, 0)$ and $(0, {{q}})$ is a diameter. Its length is $\sqrt{ {{p}}^2 + {{q}}^2 } = {{h}}$, so the radius is {{r}}.
   verify: |
-    def answers():
-        x, y, r = sympy.symbols("x y r", real=True)
-        s = sympy.solve([x**2 + y**2 - r**2, (x - 6)**2 + y**2 - r**2, x**2 + (y - 8)**2 - r**2], [x, y, r], dict=True)
-        return {"a": next(v[r] for v in s if v[r] > 0)}
+    def answers(p, q, h, r):
+        # Circle through (0, 0), (p, 0), (0, q): center (p/2, q/2) from the perpendicular bisectors.
+        cx, cy = Rational(p, 2), Rational(q, 2)
+        return {"a": sqrt(cx ** 2 + cy ** 2)}
 
 - id: spec.geometry.ch.determinant-one-coprime
   pool: challenge
