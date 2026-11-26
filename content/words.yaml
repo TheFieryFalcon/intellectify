@@ -107,6 +107,56 @@ person:
   - Leilani
   - Rafael
   - Siddharth
+  - Bartholomew
+  - Ophelia
+  - Juniper
+  - Atlas
+  - Ignatius
+  - Persephone
+  - Zephyr
+  - Wolfgang
+  - Clementine
+  - Thaddeus
+  - Saoirse
+  - Xiomara
+  - Oluwaseun
+  - Bjørn
+  - Quetzalli
+  - Kaveh
+  - Tavita
+  - Zoltan
+  - Mirabel
+  - Peregrine
+  - Florian
+  - Aiyana
+  - Inti
+  - Anahera
+  - Lowanna
+  - Kalani
+  - Tsering
+  - Bilal
+  - Zainab
+  - Siosaia
+  - Rangi
+  - Olamide
+  - Yerlan
+  - Batbayar
+  - Nasrin
+  - Esperanza
+  - Ximena
+  - Matías
+  - Ekaterina
+  - Sven
+  - Aoife
+  - Cosima
+  - Leopold
+  - Marisol
+  - Hiroshi
+  - Imani
+  - Ezekiel
+  - Soraya
+  - Tobias
+  - Magnus
 
 # Flies with an airspeed and a heading, and can be blown by wind.
 aircraft:
@@ -118,6 +168,18 @@ aircraft:
   - glider
   - drone
   - air ambulance
+  - airship
+  - biplane
+  - gyrocopter
+  - crop duster
+  - cargo plane
+  - water bomber
+  - flying boat
+  - stunt plane
+  - solar-powered plane
+  - pizza-delivery drone
+  - weather drone
+  - bush plane
 
 # Moves through water with a heading, and can be carried by a current.
 vessel:
@@ -129,6 +191,18 @@ vessel:
   - fishing boat
   - catamaran
   - tugboat
+  - hovercraft
+  - paddle steamer
+  - houseboat
+  - submarine
+  - icebreaker
+  - Viking longship replica
+  - pedal-powered swan boat
+  - amphibious bus
+  - pirate ship replica
+  - research vessel
+  - dragon boat
+  - lifeboat
 
 # Crosses a river under its own power, pointing straight across.
 crosser:
@@ -136,6 +210,14 @@ crosser:
   - { name: kayaker, verb: paddles }
   - { name: rower, verb: rows }
   - { name: paddleboarder, verb: paddles }
+  - { name: platypus, verb: swims }
+  - { name: duck, verb: paddles }
+  - { name: lifeguard, verb: swims }
+  - { name: canoeist, verb: paddles }
+  - { name: otter, verb: swims }
+  - { name: labrador, verb: swims }
+  - { name: triathlete, verb: swims }
+  - { name: dragon boat crew, verb: paddles }
 
 # Travels on roads.
 road:
@@ -145,12 +227,26 @@ road:
   - van
   - motorbike
   - taxi
+  - ice-cream van
+  - tractor
+  - monster truck
+  - tuk-tuk
+  - campervan
+  - fire engine
+  - double-decker bus
+  - limousine
+  - street sweeper
+  - vintage roadster
+  - garbage truck
+  - school bus
 
 # Matching distance and speed units (time stays in hours).
 units:
   - { name: km, distance: km, speed: km/h }
   - { name: nautical miles, distance: nautical miles, speed: knots }
   - { name: miles, distance: miles, speed: mph }
+  - { name: furlongs, distance: furlongs, speed: furlongs per hour }
+  - { name: leagues, distance: leagues, speed: leagues per hour }
 
 # School clubs and groups (singular; "the {{club}}").
 club:
@@ -164,6 +260,22 @@ club:
   - student council
   - coding club
   - photography club
+  - cheese-tasting society
+  - competitive yo-yo club
+  - astronomy club
+  - beekeeping club
+  - speed-cubing club
+  - bird-watching society
+  - underwater hockey team
+  - origami club
+  - board game club
+  - model rocketry club
+  - juggling club
+  - dragon boat crew
+  - medieval fencing club
+  - esports team
+  - sock puppet theatre troupe
+  - stargazing society
 
 # Team sports.
 sport:
@@ -175,6 +287,20 @@ sport:
   - water polo
   - football
   - cricket
+  - underwater hockey
+  - ultimate frisbee
+  - sepak takraw
+  - korfball
+  - roller derby
+  - kabaddi
+  - bossaball
+  - hurling
+  - dodgeball
+  - lacrosse
+  - ice hockey
+  - rugby
+  - handball
+  - bubble soccer
 
 # School subjects.
 subject:
@@ -188,6 +314,18 @@ subject:
   - Music
   - English
   - Economics
+  - Astronomy
+  - Philosophy
+  - Latin
+  - Japanese
+  - Marine Biology
+  - Robotics
+  - Psychology
+  - Cryptography
+  - Palaeontology
+  - Forensic Science
+  - Linguistics
+  - Ancient Greek
 
 # Places that sell food and drink.
 shop:
@@ -197,6 +335,18 @@ shop:
   - juice bar
   - sandwich shop
   - canteen
+  - dumpling house
+  - ramen bar
+  - churro cart
+  - bubble tea shop
+  - gelato bar
+  - sushi train
+  - dosa stall
+  - taco stand
+  - pancake parlour
+  - cat café
+  - fish and chip shop
+  - dessert bar on the pier
 
 # Colors, for socks, marbles, shirts.
 color:
@@ -208,6 +358,20 @@ color:
   - white
   - orange
   - purple
+  - teal
+  - magenta
+  - turquoise
+  - maroon
+  - gold
+  - silver
+  - lime
+  - lavender
+  - crimson
+  - chartreuse
+  - vermilion
+  - cerulean
+  - glow-in-the-dark
+  - tartan
 
 # Things to pick blind from a bag (with plurals).
 snack:
@@ -218,6 +382,20 @@ snack:
   - { name: mandarin, plural: mandarins }
   - { name: muesli bar, plural: muesli bars }
   - { name: cookie, plural: cookies }
+  - { name: dumpling, plural: dumplings }
+  - { name: samosa, plural: samosas }
+  - { name: lamington, plural: lamingtons }
+  - { name: mochi, plural: mochi }
+  - { name: durian, plural: durians }
+  - { name: pickled onion, plural: pickled onions }
+  - { name: fortune cookie, plural: fortune cookies }
+  - { name: jam doughnut, plural: jam doughnuts }
+  - { name: dragon fruit, plural: dragon fruit }
+  - { name: rambutan, plural: rambutans }
+  - { name: lychee, plural: lychees }
+  - { name: passionfruit, plural: passionfruit }
+  - { name: mangosteen, plural: mangosteens }
+  - { name: kiwifruit, plural: kiwifruit }
 
 # Places with rows of seats.
 venue:
@@ -226,3 +404,11 @@ venue:
   - concert hall
   - lecture theatre
   - stadium
+  - planetarium
+  - drive-in cinema
+  - opera house
+  - comedy club
+  - circus tent
+  - open-air amphitheatre
+  - school hall
+  - lecture hall in a castle
