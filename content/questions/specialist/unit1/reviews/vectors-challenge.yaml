@@ -1,0 +1,283 @@
+# Section Challenge: Vectors in the plane (1.3). A fixed sequence, green → yellow → red → black (SPEC §8.4).
+
+- id: spec.vectors-2d.ch.matrix-times-vector
+  pool: challenge
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1570
+  responseSkills: { reading: 1560, calculation: 1540 }
+  stem: |
+    A $2 \times 2$ matrix acts on a vector by $\begin{pmatrix} a & b \\ c & d \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} ax + by \\ cx + dy \end{pmatrix}$.
+
+    Find $\begin{pmatrix} 2 & 1 \\ -1 & 3 \end{pmatrix}\begin{pmatrix} 4 \\ -2 \end{pmatrix}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['6', '-10'] }
+  solution: |
+    $\begin{pmatrix} 2(4) + 1(-2) \\ -1(4) + 3(-2) \end{pmatrix} = \begin{pmatrix} 6 \\ -10 \end{pmatrix}$.
+  verify: |
+    def answers():
+        M = sympy.Matrix([[2, 1], [-1, 3]])
+        return {"a": list(M * sympy.Matrix([4, -2]))}
+
+- id: spec.vectors-2d.ch.quarter-turn
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.components] }
+  rating: 1600
+  responseSkills: { reading: 1580, calculation: 1570, reasoning: 1590, synthesis: 1580 }
+  stem: |
+    The vector $3\mathbf{i} + 4\mathbf{j}$ is turned through $90^\circ$ anticlockwise. Find the new vector.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['-4', '3'] }
+  solution: |
+    The new vector has the same length, 5, and is perpendicular to $3\mathbf{i} + 4\mathbf{j}$, so it is $\pm(-4\mathbf{i} + 3\mathbf{j})$ (dot product $-12 + 12 = 0$). Turning anticlockwise from a vector pointing into the first quadrant lands in the second quadrant: $-4\mathbf{i} + 3\mathbf{j}$.
+  verify: |
+    def answers():
+        R = sympy.Matrix([[0, -1], [1, 0]])
+        return {"a": list(R * sympy.Matrix([3, 4]))}
+
+- id: spec.vectors-2d.ch.sum-equals-difference
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1630
+  responseSkills: { reasoning: 1620, calculation: 1600 }
+  stem: |
+    Non-zero vectors $\mathbf{a}$ and $\mathbf{b}$ satisfy $|\mathbf{a} + \mathbf{b}| = |\mathbf{a} - \mathbf{b}|$. Find $\mathbf{a} \cdot \mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 0 }
+  solution: |
+    Square both sides: $|\mathbf{a}|^2 + 2\,\mathbf{a} \cdot \mathbf{b} + |\mathbf{b}|^2 = |\mathbf{a}|^2 - 2\,\mathbf{a} \cdot \mathbf{b} + |\mathbf{b}|^2$, so $4\,\mathbf{a} \cdot \mathbf{b} = 0$ and $\mathbf{a} \cdot \mathbf{b} = 0$: a parallelogram with equal diagonals is a rectangle.
+  verify: |
+    def answers():
+        a1, a2, b1, b2 = sympy.symbols("a1 a2 b1 b2", real=True)
+        lhs = (a1 + b1)**2 + (a2 + b2)**2 - (a1 - b1)**2 - (a2 - b2)**2
+        return {"a": sympy.simplify(lhs / 4 - (a1 * b1 + a2 * b2))}
+
+- id: spec.vectors-2d.ch.distance-to-line
+  pool: challenge
+  skills: { primary: spec.vectors-2d.projection, secondary: [spec.vectors-2d.geometric] }
+  rating: 1660
+  responseSkills: { reading: 1640, calculation: 1640, reasoning: 1650, synthesis: 1640 }
+  stem: |
+    Find the shortest distance from the point $P(7, 4)$ to the line through $A(1, 1)$ in the direction of $3\mathbf{i} + 4\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 3 }
+  solution: |
+    $\overrightarrow{AP} = 6\mathbf{i} + 3\mathbf{j}$, with $|\overrightarrow{AP}|^2 = 45$. Its scalar projection onto the line's direction is $\dfrac{18 + 12}{5} = 6$. By Pythagoras, the distance is $\sqrt{45 - 36} = 3$.
+  verify: |
+    def answers():
+        ap = sympy.Matrix([6, 3]); d = sympy.Matrix([3, 4])
+        proj = ap.dot(d) / d.norm()
+        return {"a": sympy.sqrt(ap.dot(ap) - proj**2)}
+
+- id: spec.vectors-2d.ch.forces-5-8-7
+  pool: challenge
+  skills: { primary: spec.vectors-2d.applications, secondary: [spec.vectors-2d.scalar-product] }
+  rating: 1690
+  responseSkills: { reading: 1670, calculation: 1670, reasoning: 1680, synthesis: 1670 }
+  stem: |
+    Two forces of 5 N and 8 N act on a particle, and their resultant has magnitude 7 N. Find the angle between the two forces, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 120 }
+  solution: |
+    $|\mathbf{F}_1 + \mathbf{F}_2|^2 = 25 + 64 + 2(5)(8)\cos\theta = 49$, so $\cos\theta = -\tfrac{1}{2}$ and $\theta = 120^\circ$.
+  verify: |
+    def answers():
+        c = sympy.Rational(49 - 25 - 64, 2 * 5 * 8)
+        return {"a": sympy.deg(sympy.acos(c))}
+
+- id: spec.vectors-2d.ch.two-a-minus-three-b
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1720
+  responseSkills: { calculation: 1700, reasoning: 1710 }
+  stem: |
+    $\mathbf{a}$ and $\mathbf{b}$ are unit vectors with an angle of $60^\circ$ between them. Find $|2\mathbf{a} - 3\mathbf{b}|$ exactly.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\sqrt{7}', form: [exact] }
+  solution: |
+    $|2\mathbf{a} - 3\mathbf{b}|^2 = 4|\mathbf{a}|^2 - 12\,\mathbf{a} \cdot \mathbf{b} + 9|\mathbf{b}|^2 = 4 - 12 \times \tfrac{1}{2} + 9 = 7$, so the length is $\sqrt{7}$.
+  verify: |
+    def answers():
+        return {"a": sympy.sqrt(4 - 12 * sympy.Rational(1, 2) + 9)}
+
+- id: spec.vectors-2d.ch.unit-sum-root3
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1750
+  responseSkills: { calculation: 1730, reasoning: 1740 }
+  stem: |
+    Unit vectors $\mathbf{u}$ and $\mathbf{v}$ satisfy $|\mathbf{u} + \mathbf{v}| = \sqrt{3}$. Find the angle between them, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 60 }
+  solution: |
+    $|\mathbf{u} + \mathbf{v}|^2 = 1 + 2\,\mathbf{u} \cdot \mathbf{v} + 1 = 3$, so $\mathbf{u} \cdot \mathbf{v} = \tfrac{1}{2} = \cos\theta$, and $\theta = 60^\circ$.
+  verify: |
+    def answers():
+        return {"a": sympy.deg(sympy.acos(sympy.Rational(3 - 2, 2)))}
+
+- id: spec.vectors-2d.ch.rotation-matrix-proof
+  pool: challenge
+  skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  rating: 1780
+  responseSkills: { reasoning: 1770, proof: 1760, clarity: 1720, synthesis: 1750 }
+  stem: |
+    A $2 \times 2$ matrix acts on a vector by $\begin{pmatrix} a & b \\ c & d \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} ax + by \\ cx + dy \end{pmatrix}$.
+
+    Prove that $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ turns every non-zero vector $\begin{pmatrix} x \\ y \end{pmatrix}$ into a vector of the same length that is perpendicular to it.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: product, description: "Computes the image: (0x − y, x + 0y) = (−y, x)", points: 1, dimension: reasoning }
+          - { id: perp, description: "Dot product with (x, y): −xy + yx = 0, so perpendicular", points: 2, dimension: reasoning }
+          - { id: length, description: "Length √(y² + x²) = √(x² + y²), the same", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The image is $\begin{pmatrix} 0x - 1y \\ 1x + 0y \end{pmatrix} = \begin{pmatrix} -y \\ x \end{pmatrix}$.
+
+    Its dot product with $\begin{pmatrix} x \\ y \end{pmatrix}$ is $-yx + xy = 0$, so it is perpendicular to the original vector. Its length is $\sqrt{(-y)^2 + x^2} = \sqrt{x^2 + y^2}$, the same as the original.
+
+- id: spec.vectors-2d.ch.semicircle-by-vectors
+  pool: challenge
+  skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  rating: 1810
+  responseSkills: { reasoning: 1800, proof: 1790, clarity: 1750, synthesis: 1780 }
+  stem: |
+    $AB$ is a diameter of a circle with center $O$, and $C$ is any other point on the circle. Use vectors to prove that $\angle ACB = 90^\circ$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Lets OA = a, so OB = −a, and OC = c with |c| = |a| (radii)", points: 1, dimension: proof }
+          - { id: sides, description: "CA = a − c and CB = −a − c", points: 1, dimension: reasoning }
+          - { id: dot, description: "CA · CB = −|a|² + |c|² = 0", points: 2, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $\overrightarrow{OA} = \mathbf{a}$. Then $\overrightarrow{OB} = -\mathbf{a}$, and let $\overrightarrow{OC} = \mathbf{c}$, where $|\mathbf{c}| = |\mathbf{a}|$ (radii).
+
+    $\overrightarrow{CA} = \mathbf{a} - \mathbf{c}$ and $\overrightarrow{CB} = -\mathbf{a} - \mathbf{c}$, so
+    $$\overrightarrow{CA} \cdot \overrightarrow{CB} = -|\mathbf{a}|^2 - \mathbf{a} \cdot \mathbf{c} + \mathbf{c} \cdot \mathbf{a} + |\mathbf{c}|^2 = |\mathbf{c}|^2 - |\mathbf{a}|^2 = 0.$$
+    So $CA \perp CB$, and $\angle ACB = 90^\circ$.
+
+- id: spec.vectors-2d.ch.closest-approach-3
+  pool: challenge
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1840
+  responseSkills: { reading: 1830, calculation: 1820, reasoning: 1830 }
+  stem: |
+    At noon, ship $A$ is at the origin with velocity $3\mathbf{i} + 4\mathbf{j}$ km/h, and ship $B$ is at $10\mathbf{i} + 3\mathbf{j}$ km with velocity $-\mathbf{i} + 4\mathbf{j}$ km/h. Find the closest the ships come to each other, in km.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 3 }
+  solution: |
+    After $t$ hours, $\mathbf{r}_B - \mathbf{r}_A = (10 - t - 3t)\mathbf{i} + (3 + 4t - 4t)\mathbf{j} = (10 - 4t)\mathbf{i} + 3\mathbf{j}$. Its length $\sqrt{(10 - 4t)^2 + 9}$ is least when $10 - 4t = 0$, at $t = 2.5$, giving 3 km.
+  verify: |
+    def answers():
+        t = sympy.symbols("t", real=True)
+        d2 = (10 - 4 * t)**2 + 3**2
+        tm = sympy.solve(sympy.diff(d2, t), t)[0]
+        return {"a": sympy.sqrt(d2.subs(t, tm))}
+
+- id: spec.vectors-2d.ch.max-3x-4y
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.components] }
+  rating: 1870
+  responseSkills: { reasoning: 1860, calculation: 1840, synthesis: 1850 }
+  stem: |
+    Real numbers $x$ and $y$ satisfy $x^2 + y^2 = 1$. Find the largest possible value of $3x + 4y$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 5 }
+  solution: |
+    $3x + 4y = (3\mathbf{i} + 4\mathbf{j}) \cdot (x\mathbf{i} + y\mathbf{j}) = 5 \times 1 \times \cos\theta$, where $\theta$ is the angle between the vectors. This is largest, 5, when $\cos\theta = 1$: $x = \tfrac{3}{5}$, $y = \tfrac{4}{5}$.
+  verify: |
+    def answers():
+        t = sympy.symbols("t", real=True)
+        f = 3 * sympy.cos(t) + 4 * sympy.sin(t)
+        return {"a": sympy.maximum(f, t, sympy.Interval(0, 2 * sympy.pi))}
+
+- id: spec.vectors-2d.ch.dot-forces-equality
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1880
+  responseSkills: { reasoning: 1870, calculation: 1850 }
+  stem: |
+    A vector $\mathbf{v}$ has $|\mathbf{v}| = \sqrt{5}$ and $\mathbf{v} \cdot (\mathbf{i} + 2\mathbf{j}) = 5$. Find $\mathbf{v}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['1', '2'] }
+  solution: |
+    $|\mathbf{i} + 2\mathbf{j}| = \sqrt{5}$, so $\mathbf{v} \cdot (\mathbf{i} + 2\mathbf{j}) = \sqrt{5} \times \sqrt{5} \cos\theta = 5\cos\theta = 5$. Then $\cos\theta = 1$: $\mathbf{v}$ points the same way as $\mathbf{i} + 2\mathbf{j}$ and has the same length, so $\mathbf{v} = \mathbf{i} + 2\mathbf{j}$.
+  verify: |
+    def answers():
+        x, y = sympy.symbols("x y", real=True)
+        s = sympy.solve([x**2 + y**2 - 5, x + 2 * y - 5], [x, y], dict=True)
+        return {"a": [s[0][x], s[0][y]]}
+
+- id: spec.vectors-2d.ch.triangle-area-determinant
+  pool: challenge
+  skills: { primary: spec.vectors-2d.components, secondary: [spec.vectors-2d.geometric] }
+  rating: 1890
+  responseSkills: { reading: 1880, calculation: 1870, reasoning: 1880, synthesis: 1870 }
+  stem: |
+    The parallelogram with sides $\mathbf{a} = a_1\mathbf{i} + a_2\mathbf{j}$ and $\mathbf{b} = b_1\mathbf{i} + b_2\mathbf{j}$ from one corner has area $|a_1 b_2 - a_2 b_1|$, the size of the determinant of the matrix with columns $\mathbf{a}$ and $\mathbf{b}$. Use this to find the area of the triangle with corners $(1, 2)$, $(5, 3)$ and $(2, 7)$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\frac{19}{2}', form: [exact] }
+  solution: |
+    From $(1, 2)$, the sides are $\mathbf{a} = 4\mathbf{i} + \mathbf{j}$ and $\mathbf{b} = \mathbf{i} + 5\mathbf{j}$. The parallelogram has area $|4 \times 5 - 1 \times 1| = 19$, and the triangle is half of it: $\tfrac{19}{2}$.
+  verify: |
+    def answers():
+        return {"a": sympy.Rational(abs(4 * 5 - 1 * 1), 2)}
+
+- id: spec.vectors-2d.ch.altitudes-concurrent
+  pool: challenge
+  skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  rating: 1920
+  responseSkills: { reasoning: 1910, proof: 1910, clarity: 1860, synthesis: 1900 }
+  stem: |
+    In triangle $ABC$, let $H$ be the point where the altitude from $A$ (perpendicular to $BC$) meets the altitude from $B$ (perpendicular to $CA$). Use vectors to prove that $CH$ is perpendicular to $AB$, so all three altitudes pass through $H$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: given, description: "Writes the two altitudes as (h − a) · (b − c) = 0 and (h − b) · (c − a) = 0, with position vectors a, b, c, h", points: 1, dimension: proof }
+          - { id: add, description: "Adds and expands the two equations", points: 1, dimension: reasoning }
+          - { id: simplify, description: "Simplifies the sum to (h − c) · (b − a) = 0", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So CH ⟂ AB: H lies on the third altitude", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Use position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{h}$. The two altitudes give
+    $$(\mathbf{h} - \mathbf{a}) \cdot (\mathbf{b} - \mathbf{c}) = 0 \quad\text{and}\quad (\mathbf{h} - \mathbf{b}) \cdot (\mathbf{c} - \mathbf{a}) = 0.$$
+    Expanding and adding:
+    $$\mathbf{h} \cdot \mathbf{b} - \mathbf{h} \cdot \mathbf{c} - \mathbf{a} \cdot \mathbf{b} + \mathbf{a} \cdot \mathbf{c} + \mathbf{h} \cdot \mathbf{c} - \mathbf{h} \cdot \mathbf{a} - \mathbf{b} \cdot \mathbf{c} + \mathbf{a} \cdot \mathbf{b} = \mathbf{h} \cdot (\mathbf{b} - \mathbf{a}) - \mathbf{c} \cdot (\mathbf{b} - \mathbf{a}) = 0,$$
+    i.e. $(\mathbf{h} - \mathbf{c}) \cdot (\mathbf{b} - \mathbf{a}) = 0$. So $CH \perp AB$, and $H$ lies on the third altitude too.
+
+- id: spec.vectors-2d.ch.dot-bound
+  pool: challenge
+  skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.proofs] }
+  rating: 1975
+  responseSkills: { reasoning: 1960, proof: 1960, clarity: 1910, synthesis: 1950 }
+  stem: |
+    Without using angles, prove that $|\mathbf{a} \cdot \mathbf{b}| \le |\mathbf{a}|\,|\mathbf{b}|$ for all vectors $\mathbf{a}$ and $\mathbf{b}$ in the plane.
+
+    (Hint: for $\mathbf{b} \ne \mathbf{0}$, consider $|\mathbf{a} - t\mathbf{b}|^2$, which is never negative, for every real number $t$.)
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: zero, description: "Deals with b = 0 (both sides are 0)", points: 1, dimension: proof }
+          - { id: expand, description: "Expands |a − tb|² = |a|² − 2t(a · b) + t²|b|² ≥ 0 for every t", points: 1, dimension: reasoning }
+          - { id: choose, description: "Chooses t = (a · b)/|b|² (or uses the discriminant) to get |a|² − (a · b)²/|b|² ≥ 0", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Rearranges to (a · b)² ≤ |a|²|b|², and takes square roots", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    If $\mathbf{b} = \mathbf{0}$, both sides are 0. Otherwise, for every real $t$,
+    $$0 \le |\mathbf{a} - t\mathbf{b}|^2 = |\mathbf{a}|^2 - 2t\,(\mathbf{a} \cdot \mathbf{b}) + t^2|\mathbf{b}|^2.$$
+    Take $t = \dfrac{\mathbf{a} \cdot \mathbf{b}}{|\mathbf{b}|^2}$: then $0 \le |\mathbf{a}|^2 - \dfrac{(\mathbf{a} \cdot \mathbf{b})^2}{|\mathbf{b}|^2}$, so $(\mathbf{a} \cdot \mathbf{b})^2 \le |\mathbf{a}|^2|\mathbf{b}|^2$. Taking square roots, $|\mathbf{a} \cdot \mathbf{b}| \le |\mathbf{a}|\,|\mathbf{b}|$.
