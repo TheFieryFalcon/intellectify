@@ -6,6 +6,23 @@
   responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
   stem: |
     $AB$ is a diameter of a circle, and $C$ and $D$ are points on the circle on opposite sides of $AB$. Prove that $\angle ACB + \angle ADB = 180^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [0.684, 1.879], D: [-0.684, -1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: B, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -22,6 +39,21 @@
   responseSkills: { reasoning: 1290, clarity: 1250 }
   stem: |
     Use the theorem "the angle at the center is twice the angle at the circumference" to prove that an angle in a semicircle is $90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [-0.845, 1.813], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
     - id: a
       rubric:
@@ -38,6 +70,21 @@
   responseSkills: { reasoning: 1350, proof: 1350, clarity: 1310 }
   stem: |
     $AB$ is a chord of a circle that is not a diameter, and $C$ is a point on the major arc. Prove that $\angle ACB$ is acute.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.532, -1.286], B: [1.532, -1.286], C: [-0.347, 1.97], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
     - id: a
       rubric:
@@ -55,6 +102,26 @@
   responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
   stem: |
     Prove that equal chords of a circle subtend equal angles at the circumference (each angle measured at a point on the major arc of its chord).
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-1, 1.732], P: [0.518, 1.932], Q: [-0.684, -1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: Q, to: C }
+      - { type: segment, from: Q, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: P, label: 'P' }
+      - { type: point, at: Q, label: 'Q' }
+    ```
   parts:
     - id: a
       rubric:
@@ -74,6 +141,24 @@
   responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
   stem: |
     $A$, $B$, $C$, $D$ lie on a circle with center $O$, with $C$ and $D$ on the same side of chord $AB$. Use the angle-at-the-center theorem to prove that $\angle ACB = \angle ADB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, -1], B: [1.732, -1], C: [0.518, 1.932], D: [-1.286, 1.532], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: B, to: D }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -90,6 +175,25 @@
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
     $A$, $B$, $C$, $D$ lie on a circle in that order, and $\angle ABD = \angle CBD$. Prove that $AD = CD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, 0.684], B: [-0, -2], C: [1.879, 0.684], D: [0, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: B, to: A }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: B, from: A, to: D, radius: 26 }
+      - { type: angle, at: B, from: D, to: C, radius: 30 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -107,6 +211,24 @@
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
     $ABCD$ is a cyclic quadrilateral with $\angle DAB = 90^\circ$. Prove that $BD$ is a diameter of the circle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1, 1.732], B: [-1.732, -1], C: [1, -1.732], D: [1.732, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: B, to: D }
+      - { type: angle, at: A, from: B, to: D, right: true }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -124,6 +246,23 @@
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
     $ABCD$ is a cyclic quadrilateral with $AB = AD$. Prove that the diagonal $CA$ bisects angle $BCD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.879, -0.684], C: [-0, -2], D: [1.879, -0.684], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: A, to: D, ticks: 1 }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: C, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -141,6 +280,21 @@
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
   stem: |
     $AB$ and $AC$ are equal chords of a circle with center $O$. Prove that $AO$ bisects angle $BAC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.732, -1], C: [1.732, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: A, to: C, ticks: 1 }
+      - { type: segment, from: A, to: O }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
     - id: a
       rubric:
@@ -158,6 +312,23 @@
   responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
   stem: |
     $ABC$ is a triangle inscribed in a circle with center $O$, and $\angle BAC$ is acute. Prove that $\angle OBC = 90^\circ - \angle BAC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.684, 1.879], B: [-1.532, -1.286], C: [1.532, -1.286], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: O, to: C }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
     - id: a
       rubric:
@@ -175,6 +346,22 @@
   responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
   stem: |
     $ABCD$ is a cyclic quadrilateral with $AB \parallel DC$. Prove that $\angle DAB = \angle ABC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, 1], B: [1.732, 1], C: [1.532, -1.286], D: [-1.532, -1.286], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -192,6 +379,25 @@
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
     The diagonals of cyclic quadrilateral $ABCD$ meet at $X$. Prove that triangles $ABX$ and $DCX$ are similar.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.732, 1], D: [-1, 1.732], X: [-0.087, 0.151], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: e }
+    ```
   parts:
     - id: a
       rubric:
@@ -209,6 +415,22 @@
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
     $ABCD$ is a kite with $AB = AD$ and $CB = CD$, and its corners lie on a circle. Prove that $\angle ABC = \angle ADC = 90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.879, -0.684], C: [-0, -2], D: [1.879, -0.684], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: A, to: D, ticks: 1 }
+      - { type: segment, from: C, to: B, ticks: 2 }
+      - { type: segment, from: C, to: D, ticks: 2 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -226,6 +448,26 @@
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
     $ABCDE$ is a regular pentagon with its corners on a circle. Prove that the diagonals $AC$ and $AD$ divide angle $BAE$ into three equal angles.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.902, 0.618], C: [-1.176, -1.618], D: [1.176, -1.618], E: [1.902, 0.618], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: E, to: A }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
   parts:
     - id: a
       rubric:
@@ -243,6 +485,25 @@
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
     $AD$ is a diameter of a circle, and $B$ and $C$ are points on the circle on opposite sides of $AD$ with $\angle BAD = \angle CAD$. Prove that $AB = AC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], D: [2, 0], B: [-1.147, 1.638], C: [-1.147, -1.638], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: A, from: B, to: D, radius: 26 }
+      - { type: angle, at: A, from: D, to: C, radius: 30 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -260,6 +521,24 @@
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
   stem: |
     Two circles have equal radii and meet at $A$ and $B$. $C$ is on the first circle and $D$ on the second, each on the major arc $AB$ of its circle. Prove that $\angle ACB = \angle ADB$.
+
+    ```diagram
+    view: [-3, 3, -2.1, 2.1]
+    width: 280
+    points: { A: [0, 1.323], B: [0, -1.323], C: [-2.445, 0.414], D: [2.404, 0.547], P1: [-0.9, 0], P2: [0.9, 0] }
+    draw:
+      - { type: circle, center: P1, radius: 1.6 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: D, to: B }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -277,6 +556,20 @@
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
   stem: |
     $A$, $B$, $C$ lie on a circle. Prove that $\angle ACB = 90^\circ$ if and only if $AB$ is a diameter.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1.879, -0.684], C: [0.347, 1.97], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
     - id: a
       rubric:
@@ -298,6 +591,26 @@
   responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
   stem: |
     Chords $AC$ and $BD$ of a circle with center $O$ meet at $X$ inside the circle. Prove that $\angle AXB = \tfrac{1}{2}(\angle AOB + \angle COD)$, where these are the angles at the center on the arcs $AB$ and $CD$ that don't contain the other points.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.684, 1.879], B: [-1.97, -0.347], C: [-0.684, -1.879], D: [1.732, -1], X: [-0.684, -0.574], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: segment, from: O, to: A, dashed: true }
+      - { type: segment, from: O, to: B, dashed: true }
+      - { type: segment, from: O, to: C, dashed: true }
+      - { type: segment, from: O, to: D, dashed: true }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: w }
+      - { type: point, at: O, label: 'O', pos: ne }
+    ```
   parts:
     - id: a
       rubric:
@@ -319,6 +632,23 @@
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
     $A$, $B$, $C$ lie on a circle with center $O$, and $O$ lies outside angle $ACB$ (with $C$ on the major arc $AB$). Prove that $\angle AOB = 2\angle ACB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [0.347, -1.97], C: [-1.732, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: O, to: A, dashed: true }
+      - { type: segment, from: O, to: B, dashed: true }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
     - id: a
       rubric:
@@ -341,6 +671,23 @@
   responseSkills: { reasoning: 1650, proof: 1650, clarity: 1610 }
   stem: |
     $AB$ is a chord of a circle, $C$ is a point on the circle, and $P$ is a point inside the circle on the same side of $AB$ as $C$. Prove that $\angle APB > \angle ACB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, -1], B: [1.732, -1], C: [-0.347, 1.97], P: [0.45, 0.2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: P, label: 'P', pos: e }
+    ```
   parts:
     - id: a
       rubric:
@@ -363,6 +710,26 @@
   responseSkills: { reasoning: 1670, proof: 1670, clarity: 1630 }
   stem: |
     From a point $P$ outside a circle with center $O$, one line cuts the circle at $B$ then $A$, and another at $C$ then $D$ ($B$ and $C$ nearer $P$). Prove that $\angle APD = \tfrac{1}{2}(\angle AOD - \angle BOC)$, using the angles at the center on arcs $AD$ and $BC$ that don't contain the other two points.
+
+    ```diagram
+    view: [-2.5, 4.9, -2.5, 2.5]
+    width: 320
+    points: { P: [4.4, 0.2], A: [-1.376, 1.451], B: [1.853, 0.752], C: [1.917, -0.571], D: [-1.257, -1.556], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: D }
+      - { type: segment, from: O, to: A, dashed: true }
+      - { type: segment, from: O, to: B, dashed: true }
+      - { type: segment, from: O, to: C, dashed: true }
+      - { type: segment, from: O, to: D, dashed: true }
+      - { type: point, at: P, label: 'P', pos: e }
+      - { type: point, at: O, label: 'O', pos: w }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: C, label: 'C', pos: se }
+      - { type: point, at: D, label: 'D', pos: sw }
+    ```
   parts:
     - id: a
       rubric:
@@ -384,6 +751,29 @@
   responseSkills: { reasoning: 1750, proof: 1750, clarity: 1710 }
   stem: |
     $ABCDEF$ is a hexagon with all six corners on a circle. Prove that $\angle A + \angle C + \angle E = 360^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.347, 1.97], B: [-1.732, 1], C: [-1.638, -1.147], D: [-0.347, -1.97], E: [1.532, -1.286], F: [1.732, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: E, to: F }
+      - { type: segment, from: F, to: A }
+      - { type: angle, at: A, from: F, to: B, radius: 16 }
+      - { type: angle, at: C, from: B, to: D, radius: 16 }
+      - { type: angle, at: E, from: D, to: F, radius: 16 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+      - { type: point, at: F, label: 'F' }
+    ```
   parts:
     - id: a
       rubric:
@@ -405,6 +795,26 @@
   responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730 }
   stem: |
     $ABCD$ is a cyclic quadrilateral. The bisector of angle $A$ meets the circle again at $P$, and the bisector of angle $C$ meets it again at $Q$. Prove that $PQ$ is a diameter.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [-1, -1.732], C: [-0, -2], D: [1, 1.732], P: [1.732, -1], Q: [-1.732, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: A, to: P }
+      - { type: segment, from: C, to: Q }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: P, label: 'P' }
+      - { type: point, at: Q, label: 'Q' }
+    ```
   parts:
     - id: a
       rubric:

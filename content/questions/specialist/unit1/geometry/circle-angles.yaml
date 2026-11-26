@@ -268,6 +268,25 @@
   - {e: 72}
   stem: |
     $ABCD$ is a cyclic quadrilateral. Side $BC$ is extended beyond $C$ to $E$, and $\angle DCE = {{e}}^\circ$. Find $\angle DAB$.
+
+    ```diagram
+    view: [-2.45, 3.13, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [0.684, -1.879], C: [1.97, 0.347], D: [-0.684, 1.879], E: [2.677, 1.571], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: C, to: E }
+      - { type: angle, at: C, from: E, to: D, label: '{{e}}^\circ', radius: 24 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
   parts:
   - id: a
     prompt: $\angle DAB$ (°)
@@ -367,6 +386,20 @@
   responseSkills: {reading: 1330, reasoning: 1330}
   stem: |
     $PQ$ is a diameter of a circle and $R$ is another point on the circle. Which result shows that $\angle PRQ = 90^\circ$?
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { P: [-2, 0], Q: [2, 0], R: [0.845, 1.813], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: Q }
+      - { type: segment, from: P, to: R }
+      - { type: segment, from: Q, to: R }
+      - { type: point, at: P, label: 'P' }
+      - { type: point, at: Q, label: 'Q' }
+      - { type: point, at: R, label: 'R' }
+    ```
   parts:
   - id: a
     options:
@@ -464,6 +497,21 @@
   responseSkills: {reasoning: 1460, proof: 1460, clarity: 1400}
   stem: |
     $AB$ is a diameter of a circle with center $O$, and $C$ is another point on the circle. Without using the angle-at-the-center theorem, prove that $\angle ACB = 90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     rubric:
@@ -481,6 +529,24 @@
   responseSkills: {reading: 1460, calculation: 1470, reasoning: 1480}
   stem: |
     $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle AOB = (3x + 10)^\circ$ and $\angle ACB = (x + 20)^\circ$. Find $x$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 300
+    points: { A: [-1.638, -1.147], B: [1.638, -1.147], C: [0, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: O, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: angle, at: O, from: A, to: B, label: '(3x + 10)^\circ', radius: 12 }
+      - { type: angle, at: C, from: A, to: B, label: '(x + 20)^\circ', radius: 58 }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     prompt: $x =$
@@ -539,6 +605,23 @@
   responseSkills: {reasoning: 1520, proof: 1520, clarity: 1450}
   stem: |
     Use the angle-at-the-center theorem to prove that the opposite angles of a cyclic quadrilateral add to $180^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-0.684, 1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -555,6 +638,24 @@
   responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1570}
   stem: |
     Triangle $ABC$ has all three corners on a circle with center $O$, and $\angle BAC = x^\circ$ is acute. Find $\angle OBC$ in terms of $x$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.684, 1.879], B: [-1.532, -1.286], C: [1.532, -1.286], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: O, to: C }
+      - { type: angle, at: A, from: B, to: C, label: 'x^\circ', radius: 22 }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     prompt: $\angle OBC$ (°)
@@ -617,6 +718,25 @@
   responseSkills: {calculation: 1580, reasoning: 1640, synthesis: 1630}
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle in that order. Chords $AC$ and $BD$ meet at $X$. $\angle ABD = 40^\circ$ and $\angle BDC = 25^\circ$. Find $\angle AXB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.286, 1.532], B: [-1.732, -1], C: [-0.347, -1.97], D: [1.286, 1.532], X: [-0.814, -0.23], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: angle, at: B, from: A, to: D, label: '40^\circ', radius: 22 }
+      - { type: angle, at: D, from: B, to: C, label: '25^\circ', radius: 26 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: e }
+    ```
   parts:
   - id: a
     prompt: $\angle AXB$ (°)
@@ -635,6 +755,26 @@
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
   stem: |
     $ABCDE$ is a regular pentagon (all sides and angles equal) with its corners on a circle. Find $\angle CAD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.902, 0.618], C: [-1.176, -1.618], D: [1.176, -1.618], E: [1.902, 0.618], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: E, to: A }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
   parts:
   - id: a
     prompt: $\angle CAD$ (°)
@@ -654,6 +794,23 @@
   - {a: 45, v: '5\sqrt{2}'}
   stem: |
     Triangle $ABC$ has all three corners on a circle of radius 5, and $\angle BAC = {{a}}^\circ$. Find the exact length of $BC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.347, 1.97], B: [-1.732, -1], C: [-0, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: O, to: B, dashed: true, label: '5' }
+      - { type: angle, at: A, from: B, to: C, label: '{{a}}^\circ', radius: 34 }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     prompt: $BC =$
@@ -674,6 +831,23 @@
   responseSkills: {calculation: 1650, reasoning: 1710, synthesis: 1710}
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle in that order, with $AB = BC = CD$ and $\angle ABC = 130^\circ$. Find $\angle BAD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.532, 1.286], B: [0, 2], C: [1.532, 1.286], D: [1.97, -0.347], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: B, to: C, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: segment, from: D, to: A }
+      - { type: angle, at: B, from: C, to: A, label: '130^\circ', radius: 16 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     prompt: $\angle BAD$ (°)
@@ -692,6 +866,29 @@
   responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1750}
   stem: |
     $A_1A_2 \dots A_{12}$ is a regular 12-sided polygon with its corners on a circle. The diagonals $A_1A_5$ and $A_2A_8$ meet at $X$. Find the acute angle between them, $\angle A_1XA_2$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 260
+    points: { A1: [0, 2], A2: [1, 1.732], A3: [1.732, 1], A4: [2, 0], A5: [1.732, -1], A6: [1, -1.732], A7: [0, -2], A8: [-1, -1.732], A9: [-1.732, -1], A10: [-2, -0], A11: [-1.732, 1], A12: [-1, 1.732], X: [0.577, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A1, to: A5 }
+      - { type: segment, from: A2, to: A8 }
+      - { type: point, at: A1, label: 'A_{1}' }
+      - { type: point, at: A2, label: 'A_{2}' }
+      - { type: point, at: A3, label: 'A_{3}' }
+      - { type: point, at: A4, label: 'A_{4}' }
+      - { type: point, at: A5, label: 'A_{5}' }
+      - { type: point, at: A6, label: 'A_{6}' }
+      - { type: point, at: A7, label: 'A_{7}' }
+      - { type: point, at: A8, label: 'A_{8}' }
+      - { type: point, at: A9, label: 'A_{9}' }
+      - { type: point, at: A10, label: 'A_{10}' }
+      - { type: point, at: A11, label: 'A_{11}' }
+      - { type: point, at: A12, label: 'A_{12}' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     prompt: $\angle A_1XA_2$ (°)
@@ -710,6 +907,22 @@
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1690}
   stem: |
     Two circles meet at $A$ and $B$. $AC$ is a diameter of the first circle and $AD$ is a diameter of the second. Prove that $C$, $B$ and $D$ lie on one straight line.
+
+    ```diagram
+    view: [-3, 3.4, -2.4, 2.3]
+    width: 280
+    points: { A: [-0.2, 1.386], B: [-0.2, -1.386], C: [-1.8, -1.386], D: [2.4, -1.386], P1: [-1, 0], P2: [1.1, 0] }
+    draw:
+      - { type: circle, center: P1, radius: 1.6 }
+      - { type: circle, center: P2, radius: 1.9 }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: A, to: B, dashed: true }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -726,6 +939,25 @@
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Triangle $ABC$ is acute, with all three corners on a circle with center $O$. $D$ is the point on $BC$ with $AD$ perpendicular to $BC$. Prove that $\angle BAD = \angle OAC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.347, 1.97], B: [-1.638, -1.147], C: [1.638, -1.147], D: [-0.347, -1.147], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: O, to: A }
+      - { type: angle, at: D, from: C, to: A, right: true }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D', pos: s }
+    ```
   parts:
   - id: a
     rubric:
