@@ -4,7 +4,7 @@
   import { gateCount as gateFor, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
   import RankDot from "$lib/components/RankDot.svelte";
   import { dependentsOf, indexSkills } from "$lib/content";
-  import { toStored } from "$lib/practice";
+  import { getStartTier, toStored } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { courseProgress } from "$lib/session.svelte";
 
@@ -27,12 +27,12 @@
     return `${RANK_LABEL[next]}: ${needs.join(", ")}`;
   });
 
-  let startTier = $state<Tier>(3);
+
   const rankOf = (id: string) => (store?.progress.skills[id]?.rank ?? 0) as RankLevel;
 
   async function start() {
     if (!entry || !store) return;
-    if (!skillState) await store.saveSkill(entry.skill.id, toStored(newSkillState(startTier)));
+    if (!skillState) await store.saveSkill(entry.skill.id, toStored(newSkillState(getStartTier())));
     goto(`/${data.course.id}/practice/${entry.skill.id}`);
   }
   async function toggleDrop() {
@@ -64,14 +64,7 @@
       {#if entry.skill.hasTutorial}<p><a class="btn" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a></p>{/if}
     {:else}
       <div class="actions">
-        {#if !skillState}
-          <div class="tiers" role="radiogroup" aria-label="Starting tier">
-            <span class="muted">Start at</span>
-            {#each [1, 2, 3, 4, 5] as t (t)}
-              <button role="radio" aria-checked={startTier === t} class:on={startTier === t} onclick={() => (startTier = t as Tier)}>Tier {t}</button>
-            {/each}
-          </div>
-        {/if}
+
         <button class="btn primary" onclick={start}>Practice</button>
         {#if entry.skill.hasTutorial}<a class="btn" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a>{/if}
         {#if skillState}
@@ -124,10 +117,6 @@
   .status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-variant-numeric: tabular-nums; }
   .goal { font-size: 13px; }
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin: 20px 0 28px; }
-  .tiers { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  .tiers span { margin-right: 4px; }
-  .tiers button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
-  .tiers button.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
   .drop { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
   dl { display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; margin: 0; }
   dt { color: var(--muted); font-size: 13px; }

@@ -21,9 +21,14 @@ const RECENT = 20;
 
 export const toStored = (s: ReturnType<typeof newSkillState>, seen: string[] = []): StoredSkillState => ({ ...s, seen, updatedAt: Date.now() });
 
-/** A skill's state, or a fresh one placed at `startTier` if it hasn't been opened. */
-export function stateOrNew(progress: CourseProgress, skillId: string, startTier: Tier = CONFIG.defaultStartTier): StoredSkillState {
-  return progress.skills[skillId] ?? toStored(newSkillState(startTier));
+/** The student's starting tier from onboarding (SPEC §5.3); Tier 3 until they've given a mark. */
+let startTier: Tier = CONFIG.defaultStartTier;
+export const setStartTier = (t: Tier) => (startTier = t);
+export const getStartTier = () => startTier;
+
+/** A skill's state, or a fresh one placed at the student's starting tier if it hasn't been opened. */
+export function stateOrNew(progress: CourseProgress, skillId: string, tier: Tier = startTier): StoredSkillState {
+  return progress.skills[skillId] ?? toStored(newSkillState(tier));
 }
 
 /** Free-response parts need LLM marking (Phase 1), so Phase 0 practice only serves auto-marked questions. */

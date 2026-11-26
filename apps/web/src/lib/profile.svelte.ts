@@ -1,5 +1,6 @@
 import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
-import { emptyProfile, type Backend, type Profile, type User } from "./backend";
+import { emptyProfile, type Backend, type Placement, type Profile, type User } from "./backend";
+import { setStartTier } from "./practice";
 
 /** Today's date in Perth (YYYY-MM-DD): days roll over at local midnight for WA students. */
 export const perthDay = (d = new Date()) => new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Perth" }).format(d);
@@ -30,6 +31,7 @@ export class ProfileStore {
     } catch {
       // Offline or blocked: start from zero locally; grants still try to save.
     }
+    if (this.profile.placement) setStartTier(this.profile.placement.tier);
     this.loaded = true;
     const today = perthDay();
     if (this.profile.lastVisitDay !== today) await this.grant(XP.firstVisitOfDay, { visitDay: today });
@@ -40,6 +42,7 @@ export class ProfileStore {
     if (amount <= 0 && !extra.visitDay) return;
     const before = levelProgress(this.profile.xp);
     this.profile = {
+      ...this.profile,
       xp: this.profile.xp + amount,
       questionXpAt: extra.questionId ? { ...this.profile.questionXpAt, [extra.questionId]: Date.now() } : this.profile.questionXpAt,
       lastVisitDay: extra.visitDay ?? this.profile.lastVisitDay,
@@ -51,6 +54,13 @@ export class ProfileStore {
     } catch {
       // A failed save loses this grant on reload; practice itself is unaffected.
     }
+  }
+
+  /** Save the onboarding placement; new skills start at its tier from now on. */
+  async setPlacement(placement: Placement) {
+    this.profile = { ...this.profile, placement };
+    setStartTier(placement.tier);
+    await this.backend.setPlacement(this.user.uid, placement);
   }
 
   /** XP for a resolved question, applying the 30-day repeat rule. Returns the amount granted. */

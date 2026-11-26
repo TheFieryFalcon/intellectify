@@ -33,6 +33,11 @@
   $effect(() => {
     if (session.ready && !session.user && !publicRoute) goto("/login", { replaceState: true });
   });
+  // Onboarding: signed-in students give their maths mark once, before anything else (SPEC §5.3).
+  $effect(() => {
+    if (profile?.loaded && !profile.profile.placement && !publicRoute && !page.url.pathname.startsWith("/onboarding") && !page.url.pathname.startsWith("/dev"))
+      goto("/onboarding", { replaceState: true });
+  });
 </script>
 
 <header>

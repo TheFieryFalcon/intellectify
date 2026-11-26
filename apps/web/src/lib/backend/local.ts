@@ -68,6 +68,9 @@ export function createLocalBackend(): Backend {
     async loadProfile(uid) {
       return { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}) };
     },
+    async setPlacement(uid, placement) {
+      write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), placement });
+    },
     async grantXp(u, grant) {
       const p = { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}) };
       p.xp += grant.amount;

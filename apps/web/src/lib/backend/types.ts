@@ -49,9 +49,18 @@ export interface Profile {
   questionXpAt: Record<string, number>;
   /** Perth date (YYYY-MM-DD) of the last first-visit bonus. */
   lastVisitDay: string | null;
+  /** Onboarding placement (SPEC §5.3): the maths mark given, its year, and the starting tier it sets. */
+  placement: Placement | null;
 }
 
-export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null });
+export interface Placement {
+  mark: number;
+  year: 10 | 11 | 12;
+  tier: 1 | 2 | 3 | 4;
+  at: number;
+}
+
+export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null, placement: null });
 
 export interface XpGrant {
   amount: number;
@@ -90,6 +99,8 @@ export interface Backend {
   signOut(): Promise<void>;
 
   loadProfile(uid: string): Promise<Profile>;
+  /** Save the onboarding placement. */
+  setPlacement(uid: string, placement: Placement): Promise<void>;
   /** Add XP to the profile and the public leaderboard mirror. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
 

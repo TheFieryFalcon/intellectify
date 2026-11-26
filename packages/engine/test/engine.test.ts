@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   applyOutcome,
+  placementTier,
   autoMarkedOutcome,
   correctAtOrAbove,
   eligibleRank,
@@ -209,5 +210,13 @@ describe("skill sizes (SPEC §3.3)", () => {
     expect(applyOutcome(ready, 1600, 1, 1, "medium").rankAfter).toBe(4);
     expect(applyOutcome(ready, 1600, 1, 1, "cornerstone").rankAfter).toBe(4); // 5th correct at Tier 4
     expect(applyOutcome({ ...ready, gates: gatesWith({ 4: 3 }) }, 1600, 1, 1, "cornerstone").rankAfter).toBe(3);
+  });
+});
+
+describe("placement by maths mark (SPEC §5.3)", () => {
+  it("maps marks to tiers, one lower for a Year 10 mark", () => {
+    expect([30, 40, 59, 60, 74, 75, 100].map((m) => placementTier(m, 11))).toEqual([1, 2, 2, 3, 3, 4, 4]);
+    expect([30, 50, 65, 90].map((m) => placementTier(m, 10))).toEqual([1, 1, 2, 3]);
+    expect(placementTier(80, 12)).toBe(4);
   });
 });

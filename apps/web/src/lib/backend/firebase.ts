@@ -118,6 +118,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
       return { ...emptyProfile(), ...(d as Partial<Profile>) };
     },
+    async setPlacement(uid, placement) {
+      await setDoc(doc(db, "users", uid), { placement }, { merge: true });
+    },
     async grantXp(u, grant) {
       const batch = writeBatch(db);
       const own: Record<string, unknown> = { xp: increment(grant.amount) };

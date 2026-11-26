@@ -38,3 +38,15 @@ export function tierOf(rating: number): Tier {
 export function placementTheta(tier: Tier = CONFIG.defaultStartTier): number {
   return TIER_FLOOR[tier];
 }
+
+/** Year level a placement mark comes from. */
+export type MarkYear = 10 | 11 | 12;
+
+/**
+ * Starting tier from the student's current maths mark (SPEC §5.3): under 40% → Tier 1, 40–60% → Tier 2,
+ * 60–75% → Tier 3, 75–100% → Tier 4. A Year 10 mark is one tier lower (never below Tier 1).
+ */
+export function placementTier(markPercent: number, year: MarkYear): Tier {
+  const t = markPercent >= 75 ? 4 : markPercent >= 60 ? 3 : markPercent >= 40 ? 2 : 1;
+  return Math.max(1, year === 10 ? t - 1 : t) as Tier;
+}

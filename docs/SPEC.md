@@ -220,7 +220,17 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 - **Δθ** is shown after every answer, e.g. "+14 → 1523".
 
 ### 5.3 Placement
-- On first opening a skill, the student can **choose a starting tier**. The default is **Tier 3**. θ is set to the **floor of that tier's band** (e.g. Tier 4 → 1550) and then updates at normal speed.
+- **Onboarding** asks once for the student's **most recent maths mark** (0–100%) and the **year it is from** (Year 10, 11 or 12). That sets the starting tier for every skill:
+
+  | Mark | Starting tier |
+  |---|---|
+  | under 40% | Tier 1 |
+  | 40–59% | Tier 2 |
+  | 60–74% | Tier 3 |
+  | 75–100% | Tier 4 |
+
+  A **Year 10** mark starts **one tier lower** (never below Tier 1). Tier 5 is never a starting tier.
+- On first opening a skill, θ is set to the **floor of the starting tier's band** (e.g. Tier 4 → 1550) and then updates at normal speed. There is no per-skill tier chooser.
 - At any time the student can **drop a tier**. This is a **non-destructive selection shift**: θ, rank and gates are untouched, and question selection (§5.7) targets the tier below the one θ currently sits in. The student can switch it off at any time. θ keeps updating normally, and easier questions naturally give smaller gains.
 - Placement sets θ only. **Gate counts start at zero**, so placement alone never grants a rank.
 
