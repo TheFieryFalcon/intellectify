@@ -1,0 +1,266 @@
+# Intersecting chords, secants and tangents: written proofs (1.1.8).
+
+- id: spec.geometry.chord-secant-lengths.equal-parts-equal-chords
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1330
+  responseSkills: { reasoning: 1320, proof: 1320, clarity: 1280 }
+  stem: |
+    Chords $AB$ and $CD$ of a circle meet at $X$, with $AX = CX$. Prove that $XB = XD$, and hence that $AB = CD$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'product', description: "Intersecting chords: AX × XB = CX × XD", points: 2, dimension: reasoning }
+          - { id: 'cancel', description: "AX = CX ≠ 0, so XB = XD", points: 1, dimension: reasoning }
+          - { id: 'add', description: "AB = AX + XB = CX + XD = CD", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    By the intersecting chords theorem, $AX \times XB = CX \times XD$. Since $AX = CX \ne 0$, dividing gives $XB = XD$. Then $AB = AX + XB = CX + XD = CD$.
+
+- id: spec.geometry.chord-secant-lengths.tangents-equal-by-power
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1420
+  responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
+  stem: |
+    From a point $M$ outside a circle, two tangents touch the circle at $S$ and $T$, and a secant cuts it at $A$ and $B$. Use the tangent–secant theorem to prove that $MS = MT$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'both', description: "MS² = MA × MB and MT² = MA × MB", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So MS² = MT², and since lengths are positive, MS = MT", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    By the tangent–secant theorem, $MS^2 = MA \times MB$ and $MT^2 = MA \times MB$. So $MS^2 = MT^2$, and since lengths are positive, $MS = MT$.
+
+- id: spec.geometry.chord-secant-lengths.two-secants-proof
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1500
+  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  stem: |
+    From a point $M$ outside a circle, one line cuts the circle at $A$ and $B$, and another at $C$ and $D$. Prove that $MA \times MB = MC \times MD$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'route', description: "Uses a tangent MT: MT² = MA × MB and MT² = MC × MD; or similar triangles MAD and MCB", points: 2, dimension: reasoning }
+          - { id: 'justify', description: "Justifies the step used (tangent–secant theorem, or equal angles: common angle at M and ∠MBC = ∠MDA on the same arc AC)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "MA × MB = MC × MD", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw a tangent from $M$, touching the circle at $T$. By the tangent–secant theorem, $MT^2 = MA \times MB$ and also $MT^2 = MC \times MD$. Hence $MA \times MB = MC \times MD$.
+
+    (Alternatively, triangles $MAD$ and $MCB$ share the angle at $M$ and have $\angle MDA = \angle MBC$, angles on the same arc $AC$, so they are similar and $\tfrac{MA}{MC} = \tfrac{MD}{MB}$.)
+
+- id: spec.geometry.chord-secant-lengths.perpendicular-chord-diameter
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1500
+  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  stem: |
+    $AB$ is a diameter of a circle, and the chord $CD$ is perpendicular to $AB$, meeting it at $X$. Prove that $CX^2 = AX \times XB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'bisect', description: "The diameter is perpendicular to CD, so it bisects it: CX = XD", points: 2, dimension: reasoning }
+          - { id: 'product', description: "Intersecting chords: AX × XB = CX × XD", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So AX × XB = CX²", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB$ passes through the center and is perpendicular to the chord $CD$, so it bisects $CD$: $CX = XD$. By the intersecting chords theorem, $AX \times XB = CX \times XD = CX^2$.
+
+- id: spec.geometry.chord-secant-lengths.power-inside
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1600
+  responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550 }
+  stem: |
+    $X$ is a point inside a circle with center $O$ and radius $r$, with $OX = d$. Prove that every chord $AB$ through $X$ has $AX \times XB = r^2 - d^2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'diameter', description: "The diameter through X meets the circle at points r − d and r + d from X", points: 2, dimension: reasoning }
+          - { id: 'product', description: "Intersecting chords with that diameter: AX × XB = (r − d)(r + d)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "= r² − d², the same for every chord through X", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The diameter through $X$ (any diameter, if $X = O$) meets the circle at $P$ and $Q$ with $XP = r - d$ and $XQ = r + d$. For any chord $AB$ through $X$, the intersecting chords theorem gives $AX \times XB = XP \times XQ = (r - d)(r + d) = r^2 - d^2$.
+
+- id: spec.geometry.chord-secant-lengths.power-outside
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1520
+  responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
+  stem: |
+    $M$ is a point outside a circle with center $O$ and radius $r$, with $OM = d$. Prove that every secant from $M$, cutting the circle at $A$ and $B$, has $MA \times MB = d^2 - r^2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'tangent', description: "A tangent MT has MT ⟂ OT, so MT² = d² − r² (Pythagoras)", points: 2, dimension: reasoning }
+          - { id: 'secant', description: "Tangent–secant theorem: MA × MB = MT²", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So MA × MB = d² − r² for every secant", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw a tangent $MT$. It is perpendicular to the radius $OT$, so by Pythagoras $MT^2 = OM^2 - OT^2 = d^2 - r^2$. By the tangent–secant theorem, every secant from $M$ has $MA \times MB = MT^2 = d^2 - r^2$.
+
+- id: spec.geometry.chord-secant-lengths.tangent-by-pythagoras
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1560
+  responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
+  stem: |
+    From $M$, a tangent touches a circle with center $O$ and radius $r$ at $T$, and the line from $M$ through $O$ meets the circle at $A$ (nearer $M$) and $B$. Without using the tangent–secant theorem, prove that $MT^2 = MA \times MB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'pythag', description: "MT ⟂ OT, so MT² = MO² − r²", points: 1, dimension: reasoning }
+          - { id: 'lengths', description: "MA = MO − r and MB = MO + r", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "MA × MB = MO² − r² = MT²", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The tangent is perpendicular to the radius, so $MT^2 = MO^2 - r^2$. Since $A$ and $B$ lie on line $MO$ at distance $r$ from $O$, $MA = MO - r$ and $MB = MO + r$. So $MA \times MB = MO^2 - r^2 = MT^2$.
+
+- id: spec.geometry.chord-secant-lengths.radius-from-tangent
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1550
+  responseSkills: { reasoning: 1540, proof: 1540, clarity: 1500 }
+  stem: |
+    From $M$, a tangent of length $t$ touches a circle, and the line from $M$ through the center meets the circle first at $A$, with $MA = a$. Prove that the radius is $r = \dfrac{t^2 - a^2}{2a}$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'mb', description: "The line through the center gives MB = a + 2r", points: 1, dimension: reasoning }
+          - { id: 'power', description: "Tangent–secant: t² = a(a + 2r)", points: 2, dimension: reasoning }
+          - { id: 'solve', description: "Rearranges to r = (t² − a²)/(2a)", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The line through the center meets the circle at $A$ and at $B$, the other end of a diameter, so $MB = a + 2r$. By the tangent–secant theorem, $t^2 = a(a + 2r) = a^2 + 2ar$, so $r = \dfrac{t^2 - a^2}{2a}$.
+
+- id: spec.geometry.chord-secant-lengths.tangent-between
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1460
+  responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
+  stem: |
+    From $M$, a tangent touches a circle at $T$, and a secant cuts it at $A$ and $B$ with $A$ between $M$ and $B$. Prove that $MA < MT < MB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'power', description: "MT² = MA × MB", points: 1, dimension: reasoning }
+          - { id: 'bounds', description: "MA < MB gives MA² < MA × MB < MB²", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So MA² < MT² < MB², and taking square roots of positive numbers, MA < MT < MB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    By the tangent–secant theorem, $MT^2 = MA \times MB$. Since $0 < MA < MB$, we have $MA^2 < MA \times MB < MB^2$, i.e. $MA^2 < MT^2 < MB^2$. All are positive lengths, so $MA < MT < MB$.
+
+- id: spec.geometry.chord-secant-lengths.bisecting-chords-diameters
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1480
+  responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
+  stem: |
+    Two different chords of a circle bisect each other. Prove that both are diameters.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'perp', description: "If the common midpoint X isn't the center O, then OX is perpendicular to both chords (the line from the center to a chord's midpoint is perpendicular to it)", points: 2, dimension: reasoning }
+          - { id: 'contra', description: "Two different lines through X perpendicular to OX is impossible", points: 1, dimension: proof }
+          - { id: 'conclude', description: "So X = O, and both chords pass through the center: they are diameters", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the chords $AB$ and $CD$ have the same midpoint $X$. Suppose $X$ is not the center $O$. The line from the center to the midpoint of a chord is perpendicular to the chord, so $OX \perp AB$ and $OX \perp CD$. But through $X$ there is only one line perpendicular to $OX$, so $AB$ and $CD$ would be the same line, contradicting their being different chords. Hence $X = O$, and both chords pass through the center: both are diameters.
+
+- id: spec.geometry.chord-secant-lengths.am-gm-circle
+  skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-problems] }
+  rating: 1680
+  responseSkills: { reasoning: 1670, proof: 1670, clarity: 1630, synthesis: 1660 }
+  stem: |
+    Use a circle to prove that for positive numbers $a$ and $b$, $\sqrt{ab} \le \dfrac{a + b}{2}$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'construct', description: "Draws a diameter AB of length a + b with X on it, AX = a, XB = b, and the chord CD through X perpendicular to AB", points: 1, dimension: proof }
+          - { id: 'cx', description: "Then CX² = AX × XB = ab (perpendicular chord bisected, intersecting chords), so CX = √(ab)", points: 2, dimension: reasoning }
+          - { id: 'bound', description: "CX is at most the radius (a + b)/2, since C is on the circle and X is on a diameter (OC = r and CX ≤ OC in right triangle OXC)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So √(ab) ≤ (a + b)/2", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw a circle with diameter $AB = a + b$, so the radius is $r = \dfrac{a + b}{2}$, and mark $X$ on $AB$ with $AX = a$, $XB = b$. Let the chord through $X$ perpendicular to $AB$ meet the circle at $C$ and $D$. The diameter bisects it, so $CX = XD$, and by intersecting chords $CX^2 = AX \times XB = ab$: $CX = \sqrt{ab}$.
+
+    In triangle $OXC$, the angle at $X$ is $90^\circ$, so the hypotenuse $OC = r$ is at least as long as $CX$ (equal when $X = O$). Hence $\sqrt{ab} \le \dfrac{a + b}{2}$.
+
+- id: spec.geometry.chord-secant-lengths.altitude-mean-proportional
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1640
+  responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
+  stem: |
+    Triangle $ABC$ has a right angle at $C$, and $D$ is the foot of the perpendicular from $C$ to $AB$. Use a circle to prove that $CD^2 = AD \times DB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'circle', description: "C lies on the circle with diameter AB (converse of the angle in a semicircle)", points: 1, dimension: reasoning }
+          - { id: 'chord', description: "Extend CD to meet the circle again at E; the diameter AB is perpendicular to chord CE, so CD = DE", points: 2, dimension: reasoning }
+          - { id: 'product', description: "Intersecting chords: AD × DB = CD × DE = CD²", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\angle ACB = 90^\circ$, so $C$ lies on the circle with diameter $AB$. Extend $CD$ to meet that circle again at $E$. The diameter $AB$ is perpendicular to the chord $CE$, so it bisects it: $CD = DE$. By the intersecting chords theorem, $AD \times DB = CD \times DE = CD^2$.
+
+- id: spec.geometry.chord-secant-lengths.equal-chords-split
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1640
+  responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
+  stem: |
+    Two equal chords $AB$ and $CD$ of a circle meet at $X$. Prove that the two pieces of $AB$ are equal, in some order, to the two pieces of $CD$: either $AX = CX$ and $XB = XD$, or $AX = XD$ and $XB = CX$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'sum', description: "AX + XB = CX + XD = L (equal chords)", points: 1, dimension: reasoning }
+          - { id: 'product', description: "AX × XB = CX × XD (intersecting chords)", points: 1, dimension: reasoning }
+          - { id: 'quadratic', description: "So {AX, XB} and {CX, XD} are both the roots of t² − Lt + P = 0 (same sum and product)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "A quadratic has at most two roots, so the pairs are the same numbers", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $L = AB = CD$. Then $AX + XB = L = CX + XD$, and by the intersecting chords theorem $AX \times XB = CX \times XD = P$.
+
+    Two numbers with sum $L$ and product $P$ are the roots of $t^2 - Lt + P = 0$, since $(t - u)(t - v) = t^2 - (u + v)t + uv$. A quadratic has at most two roots, so $\{AX, XB\}$ and $\{CX, XD\}$ are the same pair of numbers. Hence $AX = CX$ and $XB = XD$, or $AX = XD$ and $XB = CX$.
+
+- id: spec.geometry.chord-secant-lengths.half-chord-bound
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1580
+  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
+  stem: |
+    A chord $AB$ of a circle has length 10, and another chord $CD$ passes through the midpoint $X$ of $AB$. Prove that $CX \times XD = 25$, and deduce that the shorter of $CX$ and $XD$ is at most 5.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'product', description: "CX × XD = AX × XB = 5 × 5 = 25 (intersecting chords)", points: 2, dimension: reasoning }
+          - { id: 'bound', description: "If both pieces were greater than 5, their product would exceed 25", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So the shorter piece is at most 5", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $X$ is the midpoint of $AB$, so $AX = XB = 5$, and by the intersecting chords theorem $CX \times XD = 5 \times 5 = 25$. If both $CX$ and $XD$ were greater than 5, their product would be greater than 25. So the shorter of them is at most 5.
+
+- id: spec.geometry.chord-secant-lengths.concyclic-by-power
+  skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-problems] }
+  rating: 1800
+  responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750, synthesis: 1780 }
+  stem: |
+    Two circles meet at $P$ and $Q$. $M$ is a point on line $PQ$ outside both circles. A line through $M$ cuts the first circle at $A$ and $B$, and another line through $M$ cuts the second circle at $C$ and $D$ (the two lines are different). Prove that $A$, $B$, $C$, $D$ lie on one circle.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'first', description: "In the first circle, MA × MB = MP × MQ (two secants from M)", points: 1, dimension: reasoning }
+          - { id: 'second', description: "In the second circle, MC × MD = MP × MQ", points: 1, dimension: reasoning }
+          - { id: 'equal', description: "So MA × MB = MC × MD", points: 1, dimension: reasoning }
+          - { id: 'converse', description: "The circle through A, B, C meets line MC again at D' with MC × MD' = MA × MB, so MD' = MD and D' = D (same side of M): A, B, C, D concyclic", points: 2, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    From $M$, the first circle has secants $MAB$ and $MPQ$, so $MA \times MB = MP \times MQ$. The second circle has secants $MCD$ and $MPQ$, so $MC \times MD = MP \times MQ$. Hence $MA \times MB = MC \times MD$.
+
+    Now take the circle through $A$, $B$, $C$. Line $MC$ meets it again at a point $D'$, with $MC \times MD' = MA \times MB = MC \times MD$ by the two-secants theorem. So $MD' = MD$, and since $D'$ and $D$ lie on the same ray from $M$, $D' = D$. Hence $A$, $B$, $C$, $D$ lie on one circle.

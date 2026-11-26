@@ -1,0 +1,422 @@
+# Angles in circles: written proofs (1.1.6).
+
+- id: spec.geometry.circle-angles.diameter-two-right-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1280
+  responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
+  stem: |
+    $AB$ is a diameter of a circle, and $C$ and $D$ are points on the circle on opposite sides of $AB$. Prove that $\angle ACB + \angle ADB = 180^\circ$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'each', description: "∠ACB = 90° and ∠ADB = 90°, each an angle in a semicircle", points: 2, dimension: reasoning }
+          - { id: 'sum', description: "So their sum is 180°", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB$ is a diameter, so $\angle ACB = 90^\circ$ and $\angle ADB = 90^\circ$ (angles in a semicircle). Their sum is $180^\circ$.
+
+- id: spec.geometry.circle-angles.semicircle-from-center
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1300
+  responseSkills: { reasoning: 1290, clarity: 1250 }
+  stem: |
+    Use the theorem "the angle at the center is twice the angle at the circumference" to prove that an angle in a semicircle is $90^\circ$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "For a diameter AB, the angle at the center is ∠AOB = 180° (a straight line)", points: 2, dimension: reasoning }
+          - { id: 'half', description: "The angle at the circumference on the same arc is half of that: 90°", points: 1, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $AB$ be a diameter with center $O$, and $C$ a point on the circle. $A$, $O$, $B$ lie on a straight line, so the angle at the center standing on arc $AB$ is $\angle AOB = 180^\circ$. The angle at the circumference on the same arc is half of this: $\angle ACB = 90^\circ$.
+
+- id: spec.geometry.circle-angles.minor-arc-acute
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1360
+  responseSkills: { reasoning: 1350, proof: 1350, clarity: 1310 }
+  stem: |
+    $AB$ is a chord of a circle that is not a diameter, and $C$ is a point on the major arc. Prove that $\angle ACB$ is acute.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "∠ACB = ½∠AOB, the angle at the center on the minor arc", points: 1, dimension: reasoning }
+          - { id: 'less', description: "∠AOB < 180° because AB is not a diameter (A, O, B aren't collinear and the minor arc is less than half the circle)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠ACB < 90°", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $C$ is on the major arc, so $\angle ACB$ stands on the minor arc $AB$, and $\angle ACB = \tfrac{1}{2}\angle AOB$. Since $AB$ is not a diameter, the minor arc is less than half the circle, so $\angle AOB < 180^\circ$. Hence $\angle ACB < 90^\circ$: it is acute.
+
+- id: spec.geometry.circle-angles.equal-chords-equal-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1380
+  responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
+  stem: |
+    Prove that equal chords of a circle subtend equal angles at the circumference (each angle measured at a point on the major arc of its chord).
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "Equal chords subtend equal angles at the center (congruent isosceles triangles, SSS)", points: 2, dimension: reasoning }
+          - { id: 'half', description: "Each angle at the circumference is half the matching angle at the center", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So the angles at the circumference are equal", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $AB = CD$ be chords of a circle with center $O$. Triangles $OAB$ and $OCD$ have $OA = OC$, $OB = OD$ (radii) and $AB = CD$, so they are congruent and $\angle AOB = \angle COD$.
+
+    An angle at the circumference standing on a chord's minor arc is half the angle at the center on that arc, so the two angles at the circumference are $\tfrac{1}{2}\angle AOB = \tfrac{1}{2}\angle COD$: they are equal.
+
+- id: spec.geometry.circle-angles.same-segment-proof
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1380
+  responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
+  stem: |
+    $A$, $B$, $C$, $D$ lie on a circle with center $O$, with $C$ and $D$ on the same side of chord $AB$. Use the angle-at-the-center theorem to prove that $\angle ACB = \angle ADB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'each', description: "∠ACB = ½∠AOB and ∠ADB = ½∠AOB, both standing on the same arc AB", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠ACB = ∠ADB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $C$ and $D$ are on the same side of $AB$, so $\angle ACB$ and $\angle ADB$ stand on the same arc $AB$. Each is half the angle at the center on that arc: $\angle ACB = \tfrac{1}{2}\angle AOB = \angle ADB$.
+
+- id: spec.geometry.circle-angles.equal-angles-equal-chords
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1400
+  responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
+  stem: |
+    $A$, $B$, $C$, $D$ lie on a circle in that order, and $\angle ABD = \angle CBD$. Prove that $AD = CD$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "∠ABD and ∠CBD are angles at the circumference on chords AD and CD; the matching angles at the center are ∠AOD = 2∠ABD and ∠COD = 2∠CBD", points: 2, dimension: reasoning }
+          - { id: 'equal', description: "So ∠AOD = ∠COD", points: 1, dimension: reasoning }
+          - { id: 'congruent', description: "Triangles AOD and COD are congruent (SAS: radii and the equal angle), so AD = CD", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\angle ABD$ stands on chord $AD$ and $\angle CBD$ on chord $CD$, so $\angle AOD = 2\angle ABD = 2\angle CBD = \angle COD$. Triangles $AOD$ and $COD$ have $OA = OC$, $OD$ common and the angles between them equal, so they are congruent (SAS), and $AD = CD$.
+
+- id: spec.geometry.circle-angles.right-angle-diameter
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1400
+  responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral with $\angle DAB = 90^\circ$. Prove that $BD$ is a diameter of the circle.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "∠DAB = 90° is an angle at the circumference on arc BD, so the angle at the center on that arc is 180°", points: 2, dimension: reasoning }
+          - { id: 'line', description: "So B, O, D are collinear: BD passes through the center", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "A chord through the center is a diameter", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\angle DAB$ stands on arc $BD$, so the angle at the center on that arc is $2 \times 90^\circ = 180^\circ$. A $180^\circ$ angle at $O$ means $B$, $O$, $D$ lie on a straight line, so the chord $BD$ passes through the center: it is a diameter.
+
+- id: spec.geometry.circle-angles.equal-sides-bisects
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1420
+  responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral with $AB = AD$. Prove that the diagonal $CA$ bisects angle $BCD$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'chords', description: "AB and AD are equal chords", points: 1, dimension: reasoning }
+          - { id: 'angles', description: "So they subtend equal angles at C: ∠ACB = ∠ACD", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Hence CA bisects ∠BCD", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB$ and $AD$ are equal chords, and equal chords subtend equal angles at the circumference. At $C$, chord $AB$ subtends $\angle ACB$ and chord $AD$ subtends $\angle ACD$, so $\angle ACB = \angle ACD$, and $CA$ bisects $\angle BCD$.
+
+- id: spec.geometry.circle-angles.center-chord-bisects-angle
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1440
+  responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
+  stem: |
+    $AB$ and $AC$ are equal chords of a circle with center $O$. Prove that $AO$ bisects angle $BAC$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'triangles', description: "Triangles OAB and OAC: OA common, OB = OC (radii), AB = AC", points: 2, dimension: reasoning }
+          - { id: 'congruent', description: "They are congruent (SSS)", points: 1, dimension: proof }
+          - { id: 'conclude', description: "So ∠OAB = ∠OAC: AO bisects ∠BAC", points: 1, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    In triangles $OAB$ and $OAC$: $OA$ is common, $OB = OC$ (radii) and $AB = AC$ (given). So the triangles are congruent (SSS), and $\angle OAB = \angle OAC$. Hence $AO$ bisects $\angle BAC$.
+
+- id: spec.geometry.circle-angles.obc-acute
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1450
+  responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
+  stem: |
+    $ABC$ is a triangle inscribed in a circle with center $O$, and $\angle BAC$ is acute. Prove that $\angle OBC = 90^\circ - \angle BAC$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "∠BOC = 2∠BAC (angle at the center)", points: 2, dimension: reasoning }
+          - { id: 'isosceles', description: "OB = OC, so ∠OBC = ∠OCB", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "Angle sum: ∠OBC = ½(180° − 2∠BAC) = 90° − ∠BAC", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\angle BAC$ is acute, so it stands on the minor arc $BC$, and $\angle BOC = 2\angle BAC$. $OB = OC$ (radii), so triangle $OBC$ is isosceles with $\angle OBC = \angle OCB = \tfrac{1}{2}(180^\circ - 2\angle BAC) = 90^\circ - \angle BAC$.
+
+- id: spec.geometry.circle-angles.cyclic-trapezium-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1450
+  responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral with $AB \parallel DC$. Prove that $\angle DAB = \angle ABC$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'parallel', description: "AB ∥ DC: ∠DAB + ∠ADC = 180° (co-interior angles)", points: 2, dimension: reasoning }
+          - { id: 'cyclic', description: "Cyclic: ∠ABC + ∠ADC = 180° (opposite angles)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠DAB = ∠ABC", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB \parallel DC$, so the co-interior angles at $A$ and $D$ add to $180^\circ$: $\angle DAB = 180^\circ - \angle ADC$. $ABCD$ is cyclic, so opposite angles add to $180^\circ$: $\angle ABC = 180^\circ - \angle ADC$. Hence $\angle DAB = \angle ABC$.
+
+- id: spec.geometry.circle-angles.diagonals-similar
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1480
+  responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
+  stem: |
+    The diagonals of cyclic quadrilateral $ABCD$ meet at $X$. Prove that triangles $ABX$ and $DCX$ are similar.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'first', description: "∠BAC = ∠BDC (same arc BC), i.e. ∠BAX = ∠CDX", points: 1, dimension: reasoning }
+          - { id: 'second', description: "∠ABD = ∠ACD (same arc AD), i.e. ∠ABX = ∠DCX (or vertically opposite angles at X)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Two pairs of equal angles: the triangles are similar", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\angle BAX = \angle BAC = \angle BDC = \angle CDX$ (angles on the same arc $BC$). $\angle AXB = \angle DXC$ (vertically opposite). Two pairs of equal angles, so triangles $ABX$ and $DCX$ are similar.
+
+- id: spec.geometry.circle-angles.kite-cyclic-right-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1480
+  responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
+  stem: |
+    $ABCD$ is a kite with $AB = AD$ and $CB = CD$, and its corners lie on a circle. Prove that $\angle ABC = \angle ADC = 90^\circ$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'congruent', description: "Triangles ABC and ADC are congruent (SSS, AC common), so ∠ABC = ∠ADC", points: 2, dimension: reasoning }
+          - { id: 'cyclic', description: "Cyclic: ∠ABC + ∠ADC = 180°", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So each is 90°", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Triangles $ABC$ and $ADC$ have $AB = AD$, $CB = CD$ and $AC$ common, so they are congruent (SSS) and $\angle ABC = \angle ADC$. The kite is cyclic, so these opposite angles add to $180^\circ$. Each is therefore $90^\circ$.
+
+- id: spec.geometry.circle-angles.pentagon-trisect
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1500
+  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  stem: |
+    $ABCDE$ is a regular pentagon with its corners on a circle. Prove that the diagonals $AC$ and $AD$ divide angle $BAE$ into three equal angles.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'chords', description: "BC, CD and DE are equal chords (sides of a regular pentagon)", points: 1, dimension: reasoning }
+          - { id: 'angles', description: "So they subtend equal angles at A: ∠BAC = ∠CAD = ∠DAE", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "These three angles make up ∠BAE, so it is split into three equal parts", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The sides $BC$, $CD$ and $DE$ are equal chords, and equal chords subtend equal angles at the circumference. At $A$ they subtend $\angle BAC$, $\angle CAD$ and $\angle DAE$, so these are equal. Together they make up $\angle BAE$, which is therefore divided into three equal angles.
+
+- id: spec.geometry.circle-angles.diameter-equal-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1500
+  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  stem: |
+    $AD$ is a diameter of a circle, and $B$ and $C$ are points on the circle on opposite sides of $AD$ with $\angle BAD = \angle CAD$. Prove that $AB = AC$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'right', description: "∠ABD = ∠ACD = 90° (angles in a semicircle)", points: 1, dimension: reasoning }
+          - { id: 'congruent', description: "Triangles ABD and ACD: AD common, ∠BAD = ∠CAD, right angles at B and C, so congruent (AAS)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So AB = AC", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AD$ is a diameter, so $\angle ABD = \angle ACD = 90^\circ$. Triangles $ABD$ and $ACD$ share the side $AD$, have $\angle BAD = \angle CAD$ and a right angle each, so they are congruent (two angles and a side). Hence $AB = AC$.
+
+- id: spec.geometry.circle-angles.equal-circles-equal-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1560
+  responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
+  stem: |
+    Two circles have equal radii and meet at $A$ and $B$. $C$ is on the first circle and $D$ on the second, each on the major arc $AB$ of its circle. Prove that $\angle ACB = \angle ADB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'center', description: "In each circle, the angle at the center on the minor arc AB comes from a triangle with sides r, r and AB", points: 1, dimension: reasoning }
+          - { id: 'congruent', description: "Those isosceles triangles are congruent (SSS), so the two center angles are equal", points: 2, dimension: reasoning }
+          - { id: 'half', description: "∠ACB and ∠ADB are half of equal angles, so they are equal", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the centers be $O_1$ and $O_2$ and the common radius $r$. Triangles $O_1AB$ and $O_2AB$ both have sides $r$, $r$ and $AB$, so they are congruent and $\angle AO_1B = \angle AO_2B$. Each of $\angle ACB$ and $\angle ADB$ stands on the minor arc of its circle, so each is half the center angle: $\angle ACB = \tfrac{1}{2}\angle AO_1B = \tfrac{1}{2}\angle AO_2B = \angle ADB$.
+
+- id: spec.geometry.circle-angles.right-triangle-iff-diameter
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1580
+  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
+  stem: |
+    $A$, $B$, $C$ lie on a circle. Prove that $\angle ACB = 90^\circ$ if and only if $AB$ is a diameter.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'if', description: "If AB is a diameter, ∠ACB = 90° (angle in a semicircle)", points: 1, dimension: reasoning }
+          - { id: 'onlyif', description: "If ∠ACB = 90°, the angle at the center on arc AB is 180°, so A, O, B are collinear and AB is a diameter", points: 2, dimension: reasoning }
+          - { id: 'both', description: "Both directions shown", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    (If) If $AB$ is a diameter, then $\angle ACB = 90^\circ$, the angle in a semicircle.
+
+    (Only if) If $\angle ACB = 90^\circ$, the angle at the center on the arc $AB$ that $C$ doesn't lie on is $2 \times 90^\circ = 180^\circ$, so $A$, $O$, $B$ are collinear and $AB$ is a diameter.
+
+    Both directions hold.
+
+- id: spec.geometry.circle-angles.chords-crossing-half-sum
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1620
+  responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
+  stem: |
+    Chords $AC$ and $BD$ of a circle with center $O$ meet at $X$ inside the circle. Prove that $\angle AXB = \tfrac{1}{2}(\angle AOB + \angle COD)$, where these are the angles at the center on the arcs $AB$ and $CD$ that don't contain the other points.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'exterior', description: "∠AXB is an exterior angle of triangle XBC (A, X, C collinear): ∠AXB = ∠XBC + ∠XCB", points: 2, dimension: reasoning }
+          - { id: 'arcs', description: "∠XBC = ∠DBC = ½∠COD and ∠XCB = ∠ACB = ½∠AOB (angles at the circumference)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠AXB = ½(∠AOB + ∠COD)", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $A$, $X$, $C$ are collinear, so $\angle AXB$ is an exterior angle of triangle $XBC$: $\angle AXB = \angle XBC + \angle XCB$.
+
+    $\angle XBC = \angle DBC$ stands on arc $CD$, so it equals $\tfrac{1}{2}\angle COD$. $\angle XCB = \angle ACB$ stands on arc $AB$, so it equals $\tfrac{1}{2}\angle AOB$.
+
+    Hence $\angle AXB = \tfrac{1}{2}(\angle AOB + \angle COD)$.
+
+- id: spec.geometry.circle-angles.center-outside-case
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1640
+  responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
+  stem: |
+    $A$, $B$, $C$ lie on a circle with center $O$, and $O$ lies outside angle $ACB$ (with $C$ on the major arc $AB$). Prove that $\angle AOB = 2\angle ACB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'diameter', description: "Draws the diameter CE through C", points: 1, dimension: proof }
+          - { id: 'isosceles', description: "Isosceles triangles OAC and OBC give ∠AOE = 2∠ACE and ∠BOE = 2∠BCE (exterior angle of each triangle)", points: 2, dimension: reasoning }
+          - { id: 'subtract', description: "With O outside the angle, ∠AOB = ∠AOE − ∠BOE (or the other way round) and ∠ACB = ∠ACE − ∠BCE", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠AOB = 2(∠ACE − ∠BCE) = 2∠ACB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw the diameter $CE$. Label so that $B$ lies inside angle $ACE$ (O is outside angle $ACB$, so one of $CA$, $CB$ lies between the other and $CE$).
+
+    $OA = OC$, so triangle $OAC$ is isosceles and its exterior angle $\angle AOE = 2\angle ACE$. Likewise $\angle BOE = 2\angle BCE$.
+
+    Now $\angle ACB = \angle ACE - \angle BCE$ and $\angle AOB = \angle AOE - \angle BOE$, so $\angle AOB = 2\angle ACE - 2\angle BCE = 2\angle ACB$.
+
+- id: spec.geometry.circle-angles.inside-point-larger-angle
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1660
+  responseSkills: { reasoning: 1650, proof: 1650, clarity: 1610 }
+  stem: |
+    $AB$ is a chord of a circle, $C$ is a point on the circle, and $P$ is a point inside the circle on the same side of $AB$ as $C$. Prove that $\angle APB > \angle ACB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'extend', description: "Extends AP to meet the circle at Q (on the same side of AB as C)", points: 1, dimension: proof }
+          - { id: 'arc', description: "∠AQB = ∠ACB (same arc AB)", points: 1, dimension: reasoning }
+          - { id: 'exterior', description: "∠APB is an exterior angle of triangle PQB, so ∠APB = ∠PQB + ∠PBQ > ∠PQB = ∠AQB", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠APB > ∠ACB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Extend $AP$ beyond $P$ to meet the circle at $Q$; $Q$ is on the same side of $AB$ as $P$ and $C$, so $\angle AQB = \angle ACB$ (same arc).
+
+    $A$, $P$, $Q$ are collinear, so $\angle APB$ is an exterior angle of triangle $PQB$: $\angle APB = \angle PQB + \angle PBQ > \angle PQB = \angle AQB$.
+
+    Hence $\angle APB > \angle ACB$.
+
+- id: spec.geometry.circle-angles.secants-half-difference
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1680
+  responseSkills: { reasoning: 1670, proof: 1670, clarity: 1630 }
+  stem: |
+    From a point $P$ outside a circle with center $O$, one line cuts the circle at $B$ then $A$, and another at $C$ then $D$ ($B$ and $C$ nearer $P$). Prove that $\angle APD = \tfrac{1}{2}(\angle AOD - \angle BOC)$, using the angles at the center on arcs $AD$ and $BC$ that don't contain the other two points.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'exterior', description: "∠ABD is an exterior angle of triangle PBD: ∠ABD = ∠BPD + ∠BDP", points: 2, dimension: reasoning }
+          - { id: 'arcs', description: "∠ABD = ½∠AOD (arc AD) and ∠BDP = ∠BDC = ½∠BOC (arc BC)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠APD = ∠BPD = ½(∠AOD − ∠BOC)", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $P$, $B$, $A$ are collinear, so $\angle ABD$ is an exterior angle of triangle $PBD$: $\angle ABD = \angle BPD + \angle BDP$.
+
+    $\angle ABD$ stands on arc $AD$, so it is $\tfrac{1}{2}\angle AOD$. $\angle BDP = \angle BDC$ stands on arc $BC$, so it is $\tfrac{1}{2}\angle BOC$.
+
+    Hence $\angle APD = \angle BPD = \tfrac{1}{2}\angle AOD - \tfrac{1}{2}\angle BOC$.
+
+- id: spec.geometry.circle-angles.hexagon-alternate-angles
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1760
+  responseSkills: { reasoning: 1750, proof: 1750, clarity: 1710 }
+  stem: |
+    $ABCDEF$ is a hexagon with all six corners on a circle. Prove that $\angle A + \angle C + \angle E = 360^\circ$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'arcs', description: "Writes the circle as six arcs AB, BC, CD, DE, EF, FA, with center angles adding to 360°", points: 1, dimension: proof }
+          - { id: 'each', description: "Each interior angle is half the arc it stands on: e.g. ∠A = ½(BC + CD + DE + EF), the arc from B to F not containing A", points: 2, dimension: reasoning }
+          - { id: 'sum', description: "Adding ∠A, ∠C, ∠E counts every arc twice, so the sum is ½ × 2 × 360° = 360°", points: 2, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $a, b, c, d, e, f$ be the angles at the center on arcs $AB, BC, CD, DE, EF, FA$, so $a + b + c + d + e + f = 360^\circ$.
+
+    $\angle A = \angle FAB$ stands on the arc from $B$ to $F$ not containing $A$, which is made of arcs $BC, CD, DE, EF$: $\angle A = \tfrac{1}{2}(b + c + d + e)$. Likewise $\angle C = \tfrac{1}{2}(d + e + f + a)$ and $\angle E = \tfrac{1}{2}(f + a + b + c)$.
+
+    Adding, each of $a, \dots, f$ appears exactly twice: $\angle A + \angle C + \angle E = \tfrac{1}{2} \times 2 \times 360^\circ = 360^\circ$.
+
+- id: spec.geometry.circle-angles.opposite-bisectors-diameter
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1780
+  responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral. The bisector of angle $A$ meets the circle again at $P$, and the bisector of angle $C$ meets it again at $Q$. Prove that $PQ$ is a diameter.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'p', description: "∠BAP = ∠PAD, so chords BP = PD: P is the midpoint of the arc BD not containing A (the one containing C)", points: 2, dimension: reasoning }
+          - { id: 'q', description: "Likewise Q is the midpoint of the arc BD not containing C (the one containing A)", points: 1, dimension: reasoning }
+          - { id: 'diameter', description: "P and Q are both on the perpendicular bisector of chord BD (equidistant from B and D), which passes through the center; so PQ is a diameter", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "States the conclusion", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AP$ bisects $\angle BAD$, so $\angle BAP = \angle PAD$; equal angles at the circumference stand on equal chords, so $PB = PD$. $P$ lies on the arc $BD$ that doesn't contain $A$.
+
+    Likewise $CQ$ bisects $\angle BCD$, so $QB = QD$, with $Q$ on the arc $BD$ that doesn't contain $C$, i.e. the other arc.
+
+    Points equidistant from $B$ and $D$ lie on the perpendicular bisector of $BD$, which passes through the center $O$. That line meets the circle in two points, one on each arc $BD$: these are $P$ and $Q$. So $PQ$ is a chord through $O$, a diameter.
