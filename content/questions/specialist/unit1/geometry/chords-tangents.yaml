@@ -1,0 +1,473 @@
+# Chords and the alternate segment (1.1.10, 1.1.11).
+
+- id: spec.geometry.chords-tangents.tangent-radius
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1050
+  responseSkills: {calculation: 1040, reading: 1040}
+  variants:
+  - {x: 52}
+  - {x: 37}
+  stem: |
+    A tangent touches a circle with center $O$ at $T$. $M$ is a point on the tangent, and $\angle TOM = {{x}}^\circ$. Find $\angle TMO$.
+
+    ```diagram
+    view: [-2.5, 3.1, -2.6, 2.5]
+    width: 230
+    points: { T: [-0, -2], M: [2.6, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: O, to: T }
+      - { type: segment, from: O, to: M }
+      - { type: segment, from: T, to: M }
+      - { type: angle, at: T, from: M, to: O, right: true }
+      - { type: angle, at: O, from: T, to: M, label: '{{x}}^\circ', radius: 18 }
+      - { type: point, at: T, label: 'T' }
+      - { type: point, at: M, label: 'M' }
+      - { type: point, at: O, label: 'O', pos: n }
+    ```
+  parts:
+  - id: a
+    prompt: $\angle TMO$ (°)
+    answer: {type: numeric, key: '90-{{x}}'}
+  solution: |
+    A tangent is perpendicular to the radius at the point of contact, so $\angle OTM = 90^\circ$ and $\angle TMO = 180^\circ - 90^\circ - {{x}}^\circ$.
+  verify: |
+    def answers(x):
+        import math
+        T, O = (0, -2), (0, 0)
+        M = (2 * math.tan(math.radians(x)), -2)
+        assert abs(angle_at(T, O, M) - x) < 1e-9
+        return {"a": approx(angle_at(T, M, O))}
+- id: spec.geometry.chords-tangents.equal-tangents
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1080
+  responseSkills: {reading: 1080, calculation: 1030}
+  variants:
+  - {d: 7}
+  - {d: 11}
+  stem: |
+    Two tangents are drawn from a point $M$ to a circle, touching it at $S$ and $T$. $MS = {{d}}$ cm. Find $MT$.
+  parts:
+  - id: a
+    prompt: $MT$ (cm)
+    answer: {type: numeric, key: '{{d}}'}
+  solution: |
+    The two tangents from one outside point are equal in length.
+  verify: |
+    def answers(d):
+        import math
+        M = (0, -math.hypot(d, 2))
+        S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
+        assert abs(dist(M, S) - d) < 1e-9
+        return {"a": approx(dist(M, T))}
+- id: spec.geometry.chords-tangents.alternate-segment
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1120
+  responseSkills: {reading: 1110, calculation: 1080}
+  variants:
+  - {t: 52}
+  - {t: 68}
+  stem: |
+    A tangent touches a circle at $T$. Chord $TB$ makes an angle of ${{t}}^\circ$ with the tangent, and $A$ is on the circle in the alternate segment. Find $\angle TAB$.
+
+    ```diagram
+    view: [-2.9, 2.9, -2.5, 2.5]
+    width: 230
+    points: { T: [-0, -2], A: [-1.732, 1], B: [1.941, 0.484], X: [-2.8, -2], Y: [2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: X, to: Y }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: A, to: B }
+      - { type: angle, at: T, from: Y, to: B, label: '{{t}}^\circ', radius: 24 }
+      - { type: angle, at: A, from: T, to: B, radius: 20 }
+      - { type: point, at: T, label: 'T' }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+    ```
+  parts:
+  - id: a
+    prompt: $\angle TAB$ (°)
+    answer: {type: numeric, key: '{{t}}'}
+  solution: |
+    By the alternate segment theorem, the angle between the tangent and the chord $TB$ equals the angle $TAB$ in the alternate segment.
+  verify: |
+    def answers(t):
+        T, Y = (0, -2), (3, -2)
+        B, A = on_circle(270 + 2*t, 2), on_circle(160, 2)
+        assert abs(angle_at(Y, T, B) - t) < 1e-9
+        return {"a": approx(angle_at(T, A, B))}
+- id: spec.geometry.chords-tangents.equal-chords
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1160
+  responseSkills: {reading: 1150, calculation: 1110}
+  variants:
+  - {c: 74}
+  - {c: 118}
+  stem: |
+    In a circle with center $O$, chords $AB$ and $CD$ have equal length, and $\angle AOB = {{c}}^\circ$. Find $\angle COD$.
+  parts:
+  - id: a
+    prompt: $\angle COD$ (°)
+    answer: {type: numeric, key: '{{c}}'}
+  solution: |
+    Equal chords subtend equal angles at the center.
+  verify: |
+    def answers(c):
+        A, B = on_circle(0), on_circle(c)
+        C = on_circle(200)
+        # Find D on the circle with CD = AB by search, not by assuming equal angles.
+        D = min((on_circle(200 + k / 100) for k in range(1, 18000)), key=lambda Q: abs(dist(C, Q) - dist(A, B)))
+        return {"a": round(angle_at(C, (0, 0), D))}
+- id: spec.geometry.chords-tangents.two-tangents-center
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1280
+  responseSkills: {reading: 1260, calculation: 1260, reasoning: 1270}
+  variants:
+  - {m: 40}
+  - {m: 64}
+  stem: |
+    Tangents from $M$ touch a circle with center $O$ at $S$ and $T$, and $\angle SMT = {{m}}^\circ$. Find $\angle SOT$.
+
+    ```diagram
+    view: [-2.45, 2.45, -4.05, 2.45]
+    width: 230
+    points: { M: [0, -3.6], S: [1.663, -1.111], T: [-1.663, -1.111], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: S }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: O, to: S, color: muted }
+      - { type: segment, from: O, to: T, color: muted }
+      - { type: angle, at: M, from: S, to: T, label: '{{m}}^\circ', radius: 22 }
+      - { type: angle, at: O, from: T, to: S, radius: 14 }
+      - { type: point, at: M, label: 'M' }
+      - { type: point, at: S, label: 'S' }
+      - { type: point, at: T, label: 'T' }
+      - { type: point, at: O, label: 'O', pos: n }
+    ```
+  parts:
+  - id: a
+    prompt: $\angle SOT$ (°)
+    answer: {type: numeric, key: '180-{{m}}'}
+  solution: |
+    $\angle OSM = \angle OTM = 90^\circ$ (tangent ⟂ radius). The angles of quadrilateral $OSMT$ add to $360^\circ$: $\angle SOT = 360^\circ - 180^\circ - {{m}}^\circ$.
+  verify: |
+    def answers(m):
+        import math
+        M = (0, -2 / math.sin(math.radians(m / 2)))
+        S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
+        assert abs(angle_at(S, M, T) - m) < 1e-9
+        return {"a": approx(angle_at(S, (0, 0), T))}
+- id: spec.geometry.chords-tangents.tangent-triangle
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1310
+  responseSkills: {reading: 1290, calculation: 1290, reasoning: 1300}
+  variants:
+  - {m: 50}
+  - {m: 76}
+  stem: |
+    Tangents from $M$ touch a circle at $S$ and $T$, and $\angle SMT = {{m}}^\circ$. Find $\angle MST$.
+  parts:
+  - id: a
+    prompt: $\angle MST$ (°)
+    answer: {type: numeric, key: '\frac{180-{{m}}}{2}'}
+  solution: |
+    $MS = MT$ (tangents from one point), so triangle $MST$ is isosceles: $\angle MST = \tfrac{1}{2}(180^\circ - {{m}}^\circ)$.
+  verify: |
+    def answers(m):
+        import math
+        M = (0, -2 / math.sin(math.radians(m / 2)))
+        S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
+        return {"a": approx(angle_at(M, S, T))}
+- id: spec.geometry.chords-tangents.tangent-both-sides
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1350
+  responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
+  stem: |
+    A tangent $XY$ touches a circle at $T$. Chords $TA$ and $TB$ make angles $\angle XTA = 60^\circ$ and $\angle YTB = 50^\circ$ with the tangent. Find $\angle ATB$, $\angle TAB$ and $\angle TBA$.
+
+    ```diagram
+    view: [-2.9, 2.9, -2.5, 2.5]
+    width: 230
+    points: { T: [-0, -2], A: [-1.732, 1], B: [1.97, 0.347], X: [-2.8, -2], Y: [2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: X, to: Y }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: A, to: B }
+      - { type: angle, at: T, from: A, to: X, label: '60^\circ', radius: 22 }
+      - { type: angle, at: T, from: Y, to: B, label: '50^\circ', radius: 22 }
+      - { type: point, at: T, label: 'T' }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: X, label: 'X' }
+      - { type: point, at: Y, label: 'Y' }
+    ```
+  parts:
+  - id: a
+    prompt: $\angle ATB$ (°)
+    answer: {type: numeric, key: '70'}
+  - id: b
+    prompt: $\angle TAB$ (°)
+    answer: {type: numeric, key: '50'}
+  - id: c
+    prompt: $\angle TBA$ (°)
+    answer: {type: numeric, key: '60'}
+  solution: |
+    Angles on the straight line $XY$: $\angle ATB = 180^\circ - 60^\circ - 50^\circ = 70^\circ$. By the alternate segment theorem, $\angle TAB = \angle YTB = 50^\circ$ and $\angle TBA = \angle XTA = 60^\circ$.
+  verify: |
+    def answers():
+        T, X, Y = (0, -2), (-3, -2), (3, -2)
+        A, B = on_circle(270 - 120, 2), on_circle(270 + 100, 2)
+        assert abs(angle_at(X, T, A) - 60) < 1e-9 and abs(angle_at(Y, T, B) - 50) < 1e-9
+        return {"a": approx(angle_at(A, T, B)), "b": approx(angle_at(T, A, B)), "c": approx(angle_at(T, B, A))}
+- id: spec.geometry.chords-tangents.tangent-length
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1380
+  responseSkills: {reading: 1350, calculation: 1370, reasoning: 1370}
+  variants:
+  - {d: 13, r: 5, v: 12}
+  - {d: 10, r: 6, v: 8}
+  - {d: 25, r: 7, v: 24}
+  stem: |
+    A point $M$ is {{d}} cm from the center of a circle of radius {{r}} cm. Find the length of a tangent from $M$ to the circle.
+  parts:
+  - id: a
+    prompt: Length (cm)
+    answer: {type: numeric, key: '{{v}}'}
+  solution: |
+    The tangent is perpendicular to the radius at the point of contact, so the radius, the tangent and $OM$ form a right-angled triangle with hypotenuse $OM$: $\sqrt{ {{d}}^2 - {{r}}^2 } = {{v}}$ cm.
+  verify: |
+    def answers(d, r, v):
+        M = (d, 0)
+        T = tangent_point_toward((0, 0), r, M, 1)
+        return {"a": approx(dist(M, T))}
+- id: spec.geometry.chords-tangents.tangent-chord-center
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1420
+  responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1390}
+  variants:
+  - {t: 64}
+  - {t: 41}
+  stem: |
+    A tangent touches a circle with center $O$ at $T$. Chord $TA$ makes an angle of ${{t}}^\circ$ with the tangent.
+
+    ```diagram
+    view: [-2.9, 2.9, -2.5, 2.5]
+    width: 230
+    points: { T: [-0, -2], A: [1.576, 1.231], Y: [2.8, -2], X: [-2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: X, to: Y }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: O, to: T, color: muted }
+      - { type: segment, from: O, to: A, color: muted }
+      - { type: angle, at: T, from: Y, to: A, label: '{{t}}^\circ', radius: 24 }
+      - { type: point, at: T, label: 'T' }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: O, label: 'O', pos: w }
+    ```
+  parts:
+  - id: a
+    prompt: Find $\angle OTA$ (°).
+    answer: {type: numeric, key: '90-{{t}}'}
+  - id: b
+    prompt: Find $\angle TOA$ (°).
+    answer: {type: numeric, key: '2\cdot{{t}}'}
+  solution: |
+    (a) $\angle OTY = 90^\circ$ (tangent ⟂ radius), so $\angle OTA = 90^\circ - {{t}}^\circ$.
+    (b) $OT = OA$, so $\angle OAT = \angle OTA$ and $\angle TOA = 180^\circ - 2(90^\circ - {{t}}^\circ) = 2 \times {{t}}^\circ$.
+  verify: |
+    def answers(t):
+        T, Y, O = (0, -2), (3, -2), (0, 0)
+        A = on_circle(270 + 2*t, 2)
+        assert abs(angle_at(Y, T, A) - t) < 1e-9
+        return {"a": approx(angle_at(O, T, A)), "b": approx(angle_at(T, O, A))}
+- id: spec.geometry.chords-tangents.equal-chords-two-step
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1450
+  responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
+  variants:
+  - {y: 25}
+  - {y: 33}
+  stem: |
+    In a circle with center $O$, chords $AB$ and $CD$ are equal, and $\angle OAB = {{y}}^\circ$. Find $\angle COD$.
+  parts:
+  - id: a
+    prompt: $\angle COD$ (°)
+    answer: {type: numeric, key: '180-2\cdot{{y}}'}
+  solution: |
+    $OA = OB$, so $\angle AOB = 180^\circ - 2 \times {{y}}^\circ$. Equal chords subtend equal angles at the center, so $\angle COD$ is the same.
+  verify: |
+    def answers(y):
+        c = 180 - 2*y
+        A, B = on_circle(0), on_circle(c)
+        assert abs(angle_at((0, 0), A, B) - y) < 1e-9
+        C = on_circle(200)
+        D = min((on_circle(200 + k / 100) for k in range(1, 18000)), key=lambda Q: abs(dist(C, Q) - dist(A, B)))
+        return {"a": round(angle_at(C, (0, 0), D))}
+- id: spec.geometry.chords-tangents.diameter-tangent
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1480
+  responseSkills: {calculation: 1430, reasoning: 1470, synthesis: 1460}
+  variants:
+  - {x: 35}
+  - {x: 28}
+  stem: |
+    $AB$ is a diameter of a circle. The tangent at $B$ meets $AC$ extended at $D$, where $C$ is on the circle and $\angle CAB = {{x}}^\circ$. Find $\angle CBD$.
+  parts:
+  - id: a
+    prompt: $\angle CBD$ (°)
+    answer: {type: numeric, key: '{{x}}'}
+  solution: |
+    By the alternate segment theorem, the angle between tangent $BD$ and chord $BC$ equals the angle in the alternate segment on chord $BC$, which is $\angle CAB = {{x}}^\circ$. (Or: $\angle ACB = 90^\circ$ in the semicircle, so $\angle CBA = 90^\circ - {{x}}^\circ$, and the tangent makes $90^\circ$ with $AB$.)
+  verify: |
+    def answers(x):
+        A, B = on_circle(180, 2), on_circle(0, 2)
+        C = on_circle(2 * x, 2)
+        D = line_meet(A, C, B, (2, 5))
+        assert abs(angle_at(C, A, B) - x) < 1e-9
+        return {"a": approx(angle_at(C, B, D))}
+- id: spec.geometry.chords-tangents.prove-equal-tangents
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1500
+  responseSkills: {reasoning: 1490, proof: 1490, clarity: 1420}
+  stem: |
+    Tangents from an outside point $M$ touch a circle with center $O$ at $S$ and $T$. Prove that $MS = MT$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: right, description: ∠OSM = ∠OTM = 90° (tangent ⟂ radius), points: 1, dimension: reasoning}
+      - {id: sides, description: OS = OT (radii) and OM is common, points: 1, dimension: reasoning}
+      - {id: congruent, description: 'Triangles OSM and OTM are congruent (right angle, hypotenuse, side)', points: 2, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    Join $OS$, $OT$ and $OM$. $\angle OSM = \angle OTM = 90^\circ$ (tangent ⟂ radius), $OS = OT$ (radii) and $OM$ is common. So right-angled triangles $OSM$ and $OTM$ are congruent (hypotenuse and one side), and $MS = MT$.
+- id: spec.geometry.chords-tangents.incircle-tangents
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1600
+  responseSkills: {calculation: 1550, reasoning: 1590, synthesis: 1590}
+  stem: |
+    A circle touches all three sides of triangle $ABC$, where $AB = 7$, $BC = 8$ and $CA = 9$. Find the distance from $A$ to the point where the circle touches $AB$.
+  parts:
+  - id: a
+    prompt: Distance
+    answer: {type: numeric, key: '4'}
+  solution: |
+    Let the tangent lengths from $A$, $B$ and $C$ be $a$, $b$ and $c$ (tangents from one point are equal). Then $a + b = 7$, $b + c = 8$ and $c + a = 9$. Adding: $2(a + b + c) = 24$, so $a + b + c = 12$ and $a = 12 - 8 = 4$.
+  verify: |
+    def answers():
+        import math
+        A, B = (0.0, 0.0), (7.0, 0.0)
+        # C with CA = 9 and CB = 8.
+        x = (81 - 64 + 49) / 14
+        C = (x, math.sqrt(81 - x*x))
+        a, b, c = dist(B, C), dist(C, A), dist(A, B)
+        I = ((a*A[0] + b*B[0] + c*C[0]) / (a + b + c), (a*A[1] + b*B[1] + c*C[1]) / (a + b + c))
+        foot = (I[0], 0.0)  # AB lies on the x-axis
+        return {"a": approx(dist(A, foot))}
+- id: spec.geometry.chords-tangents.prove-alternate-segment
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1620
+  responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520, synthesis: 1580}
+  stem: |
+    A tangent touches a circle at $T$, and $TB$ is a chord. $A$ is a point on the circle in the alternate segment. Prove that the angle between the tangent and $TB$ equals $\angle TAB$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: diam, description: 'Draws the diameter TD and uses ∠(tangent, TD) = 90°', points: 1, dimension: reasoning}
+      - {id: semi, description: '∠TBD = 90° (angle in a semicircle), so ∠BTD = 90° − ∠TDB', points: 1, dimension: reasoning}
+      - {id: subtract, description: Tangent–chord angle = 90° − ∠BTD = ∠TDB, points: 1, dimension: reasoning}
+      - {id: same, description: ∠TDB = ∠TAB (same arc TB), points: 1, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    Draw the diameter $TD$ and join $DB$. The tangent is perpendicular to $TD$, so the tangent–chord angle is $90^\circ - \angle BTD$. In triangle $TBD$, $\angle TBD = 90^\circ$ (angle in a semicircle), so $\angle TDB = 90^\circ - \angle BTD$ too. So the tangent–chord angle equals $\angle TDB$, which equals $\angle TAB$ (same arc $TB$).
+- id: spec.geometry.chords-tangents.chord-of-contact
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1700
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1690}
+  stem: |
+    A circle has center $O$ and radius 3. A point $M$ is 5 units from $O$, and the tangents from $M$ touch the circle at $S$ and $T$. Find the length $ST$.
+  parts:
+  - id: a
+    prompt: $ST$
+    answer: {type: numeric, key: '4.8'}
+  solution: |
+    $MS = \sqrt{5^2 - 3^2} = 4$. $OM$ cuts $ST$ at right angles at its midpoint $N$ (by symmetry, as triangles $OSM$ and $OTM$ are congruent). In right-angled triangle $OSM$, the height to the hypotenuse is $SN = \dfrac{OS \times MS}{OM} = \dfrac{3 \times 4}{5} = 2.4$ (two expressions for the area). So $ST = 4.8$.
+  verify: |
+    def answers():
+        M = (5, 0)
+        S, T = tangent_point_toward((0, 0), 3, M, 1), tangent_point_toward((0, 0), 3, M, -1)
+        return {"a": approx(dist(S, T))}
+- id: spec.geometry.chords-tangents.common-tangent
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1730
+  responseSkills: {calculation: 1670, reasoning: 1720, synthesis: 1720}
+  stem: |
+    Two circles of radius 4 and 9 touch each other on the outside. A straight line touches both circles, at $A$ and $B$, without passing between them. Find $AB$.
+  parts:
+  - id: a
+    prompt: $AB$
+    answer: {type: numeric, key: '12'}
+  solution: |
+    The centers $P$ and $Q$ are $4 + 9 = 13$ apart. $PA$ and $QB$ are both perpendicular to $AB$, so $PABQ$ is a trapezium with right angles at $A$ and $B$. Draw the line from $P$ parallel to $AB$, meeting $QB$ at $R$: $QR = 9 - 4 = 5$ and $PR = AB$. By Pythagoras, $AB = \sqrt{13^2 - 5^2} = 12$.
+  verify: |
+    def answers():
+        import math
+        P, Q = (0.0, 0.0), (13.0, 0.0)
+        # A line n·x = c (|n| = 1) with distance 4 from P and 9 from Q, both on the same side.
+        c = 4.0
+        cosphi = (c - 9) / 13
+        n = (cosphi, math.sqrt(1 - cosphi**2))
+        A = (c * n[0], c * n[1])
+        B = (Q[0] + 9 * n[0], Q[1] + 9 * n[1])
+        assert abs(dist(P, A) - 4) < 1e-9 and abs(dist(Q, B) - 9) < 1e-9
+        return {"a": approx(dist(A, B))}
+- id: spec.geometry.chords-tangents.tangent-secant-angles
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1700
+  responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
+  stem: |
+    The tangent at $A$ to a circle meets the line $BC$, extended beyond $C$, at $P$, where $B$ and $C$ are on the circle. $\angle APB = 30^\circ$ and $\angle ABC = 40^\circ$. Find $\angle ACB$.
+  parts:
+  - id: a
+    prompt: $\angle ACB$ (°)
+    answer: {type: numeric, key: '70'}
+  solution: |
+    By the alternate segment theorem, $\angle PAC = \angle ABC = 40^\circ$. In triangle $APC$, $\angle ACP = 180^\circ - 30^\circ - 40^\circ = 110^\circ$. So $\angle ACB = 180^\circ - 110^\circ = 70^\circ$ (angles on a straight line).
+  verify: |
+    def answers():
+        import math
+        # Build triangle ABC with angles B = 40, C = 70 (so A = 70) on a circle, then find P and check angle APB.
+        B = on_circle(270 - 70, 2)   # arc AC (not containing B) = 2*40 = 80; arc AB = 2*70 = 140; arc BC = 140
+        C = on_circle(270 + 70, 2)
+        A = on_circle(270 + 70 + 80, 2)
+        assert abs(angle_at(A, B, C) - 40) < 1e-6 and abs(angle_at(A, C, B) - 70) < 1e-6
+        tdir = (-A[1], A[0])   # tangent at A is perpendicular to OA
+        P = line_meet(A, (A[0] + tdir[0], A[1] + tdir[1]), B, C)
+        assert abs(angle_at(A, P, B) - 30) < 1e-6
+        return {"a": approx(angle_at(A, C, B), 4)}
+- id: spec.geometry.chords-tangents.touching-circles-bisect
+  skills: {primary: spec.geometry.chords-tangents}
+  rating: 1810
+  responseSkills: {reasoning: 1810, proof: 1810, clarity: 1680, synthesis: 1790}
+  stem: |
+    Two circles touch on the inside at $T$ (the smaller circle is inside the larger, and they share a tangent at $T$). A chord $AB$ of the larger circle touches the smaller circle at $C$. Prove that $TC$ bisects $\angle ATB$.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: tangent, description: 'Uses the common tangent at T, and names where TA and TB cross the small circle (P and Q)', points: 1, dimension: synthesis}
+      - {id: parallel, description: Alternate segment theorem in both circles shows PQ ∥ AB (or equivalent), points: 2, dimension: reasoning}
+      - {id: alt, description: 'Alternate segment theorem for tangent AB at C: ∠ACP = ∠CTP and ∠BCQ = ∠CTQ (or equivalent)', points: 2, dimension: reasoning}
+      - {id: conclude, description: Combines these to show ∠ATC = ∠CTB, points: 1, dimension: proof}
+      - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
+  solution: |
+    Let $TA$ and $TB$ meet the small circle again at $P$ and $Q$. Let $\ell$ be the common tangent at $T$.
+    By the alternate segment theorem in each circle, the angle between $\ell$ and $TA$ equals both $\angle TBA$ (large circle) and $\angle TQP$ (small circle). So $\angle TQP = \angle TBA$, and $PQ \parallel AB$.
+    Now $AB$ touches the small circle at $C$. By the alternate segment theorem, $\angle ACP = \angle CTP$, i.e. $\angle ACP = \angle ATC$. Also $\angle ACP = \angle CPQ$ (alternate angles, $PQ \parallel AB$), and $\angle CPQ = \angle CTQ$ (same arc $CQ$ of the small circle). So $\angle ATC = \angle CTQ = \angle CTB$: $TC$ bisects $\angle ATB$.

@@ -1,4 +1,4 @@
-import { emptyProgress, type Backend, type CourseProgress, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Profile, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -7,6 +7,10 @@ import { emptyProgress, type Backend, type CourseProgress, type User } from "./t
 const USER_KEY = "intellectify:guest";
 const progressKey = (uid: string, course: string) => `intellectify:progress:${uid}:${course}`;
 const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${uid}:${course}`;
+const profileKey = (uid: string) => `intellectify:profile:${uid}`;
+const achievementsKey = (uid: string, course: string) => `intellectify:achievements:${uid}:${course}`;
+const markingKey = (uid: string) => `intellectify:marking:${uid}`;
+const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
 
 const read = <T>(key: string, fallback: T): T => {
   try {
@@ -62,6 +66,19 @@ export function createLocalBackend(): Backend {
       }
       emit();
     },
+    async loadProfile(uid) {
+      return { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}) };
+    },
+    async setPlacement(uid, placement) {
+      write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), placement });
+    },
+    async grantXp(u, grant) {
+      const p = { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}) };
+      p.xp += grant.amount;
+      if (grant.questionId) p.questionXpAt = { ...p.questionXpAt, [grant.questionId]: Date.now() };
+      if (grant.visitDay) p.lastVisitDay = grant.visitDay;
+      write(profileKey(u.uid), p);
+    },
     async loadProgress(uid, course) {
       return { ...emptyProgress(), ...read<Partial<CourseProgress>>(progressKey(uid, course), {}) };
     },
@@ -76,6 +93,30 @@ export function createLocalBackend(): Backend {
       const attempts = read<unknown[]>(attemptsKey(uid, course), []);
       attempts.push(attempt);
       write(attemptsKey(uid, course), attempts.slice(-500));
+    },
+    async loadAchievements(uid, course) {
+      return read<AchievementRecord | null>(achievementsKey(uid, course), null);
+    },
+    async saveAchievements(uid, course, record) {
+      write(achievementsKey(uid, course), record);
+    },
+    async loadMarkingJobs(uid) {
+      return read<MarkingJob[]>(markingKey(uid), []).sort((a, b) => b.createdAt - a.createdAt);
+    },
+    async saveMarkingJob(uid, job) {
+      const jobs = read<MarkingJob[]>(markingKey(uid), []).filter((j) => j.id !== job.id);
+      // Keep the newest 200.
+      write(markingKey(uid), [job, ...jobs].sort((a, b) => b.createdAt - a.createdAt).slice(0, 200));
+    },
+    async idToken() {
+      return null;
+    },
+    async loadChallenge(uid, course, section) {
+      return read<ChallengeState | null>(challengeKey(uid, course, section), null);
+    },
+    async saveChallenge(uid, course, section, state) {
+      if (state) write(challengeKey(uid, course, section), state);
+      else localStorage.removeItem(challengeKey(uid, course, section));
     },
   };
 }

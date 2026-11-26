@@ -1,0 +1,324 @@
+# Inclusion–exclusion for two and three sets (1.2.5).
+
+- id: spec.combinatorics.inclusion-exclusion.two-set-formula
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1050
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { a: 20, b: 15, ab: 6, v: 29 }
+    - { a: 34, b: 27, ab: 11, v: 50 }
+  stem: |
+    $|A| = {{a}}$, $|B| = {{b}}$ and $|A \cap B| = {{ab}}$. Find $|A \cup B|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $|A \cup B| = {{a}} + {{b}} - {{ab}} = {{v}}$.
+  verify: |
+    def answers(a, b, ab, v):
+        return {"a": a + b - ab}
+
+- id: spec.combinatorics.inclusion-exclusion.neither
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1280
+  responseSkills: { reading: 1280, calculation: 1250 }
+  variants:
+    - { n: 30, s: 18, t: 12, b: 5, v: 5 }
+    - { n: 40, s: 22, t: 19, b: 7, v: 6 }
+  stem: |
+    In a class of {{n}}, {{s}} students play soccer, {{t}} play netball and {{b}} play both. How many play neither?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Soccer or netball: ${{s}} + {{t}} - {{b}}$. Neither: {{n}} minus that, which is {{v}}.
+  verify: |
+    def answers(n, s, t, b, v):
+        return {"a": n - (s + t - b)}
+
+- id: spec.combinatorics.inclusion-exclusion.div-2-or-3
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1340
+  responseSkills: { calculation: 1320, reading: 1330 }
+  variants:
+    - { p: 2, q: 3, n: 100, v: 67 }
+    - { p: 4, q: 6, n: 120, v: 40 }
+  stem: |
+    How many integers from 1 to {{n}} are divisible by {{p}} or {{q}}?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Count the multiples of {{p}}, plus the multiples of {{q}}, minus the multiples of their **lowest common multiple**. That gives {{v}}.
+  verify: |
+    def answers(p, q, n, v):
+        return {"a": sum(1 for k in range(1, n + 1) if k % p == 0 or k % q == 0)}
+
+- id: spec.combinatorics.inclusion-exclusion.three-languages
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1440
+  responseSkills: {reading: 1440, calculation: 1400, reasoning: 1420}
+  stem: |
+    Of 100 students, 45 study French, 40 German and 35 Japanese. 15 study French and German, 12 French and Japanese, 10 German and Japanese, and 5 study all three.
+  parts:
+    - id: a
+      prompt: How many study at least one of these languages?
+      marks: 2
+      answer: { type: numeric, key: 88 }
+    - id: b
+      prompt: How many study **exactly one** of them?
+      marks: 2
+      answer: { type: numeric, key: 61 }
+  solution: |
+    **(a)** $45 + 40 + 35 - 15 - 12 - 10 + 5 = 88$.
+
+    **(b)** Fill in a Venn diagram from the middle out.
+
+    - Exactly two languages: French and German only $15 - 5 = 10$, French and Japanese only $12 - 5 = 7$, German and Japanese only $10 - 5 = 5$.
+    - Exactly one: French only $45 - 10 - 7 - 5 = 23$, German only $40 - 10 - 5 - 5 = 20$, Japanese only $35 - 7 - 5 - 5 = 18$.
+
+    So $23 + 20 + 18 = 61$ study exactly one. Check: $61 + 22 + 5 = 88$. ✓
+  verify: |
+    def answers():
+        F, G, J, FG, FJ, GJ, FGJ = 45, 40, 35, 15, 12, 10, 5
+        at_least_one = F + G + J - FG - FJ - GJ + FGJ
+        exactly_one = (F - FG - FJ + FGJ) + (G - FG - GJ + FGJ) + (J - FJ - GJ + FGJ)
+        return {"a": at_least_one, "b": exactly_one}
+
+- id: spec.combinatorics.inclusion-exclusion.divisible-3-5-7
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1480
+  responseSkills: {reading: 1450, calculation: 1450, reasoning: 1460}
+  variants:
+    - { a: 3, b: 5, c: 7, n: 1000, v: 543 }
+    - { a: 2, b: 5, c: 9, n: 900, v: 580 }
+  stem: |
+    How many integers from 1 to {{n}} are divisible by at least one of {{a}}, {{b}} and {{c}}?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Add the counts of multiples of {{a}}, {{b}} and {{c}}. Subtract the counts of multiples of each pair's lowest common multiple. Add back the count of multiples of all three's lowest common multiple. This gives {{v}}.
+  verify: |
+    def answers(a, b, c, n, v):
+        return {"a": sum(1 for k in range(1, n + 1) if k % a == 0 or k % b == 0 or k % c == 0)}
+
+- id: spec.combinatorics.inclusion-exclusion.coprime-to-30
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1470
+  responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1450}
+  stem: |
+    How many integers from 1 to 1000 are divisible by **none** of 2, 3 and 5?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 266 }
+  solution: |
+    Divisible by at least one: $(500 + 333 + 200) - (166 + 100 + 66) + 33 = 734$. So none: $1000 - 734 = 266$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for k in range(1, 1001) if k % 2 and k % 3 and k % 5)}
+
+- id: spec.combinatorics.inclusion-exclusion.find-triple
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1450
+  responseSkills: {reading: 1440, calculation: 1420, reasoning: 1430}
+  stem: |
+    Sets $A$, $B$ and $C$ have $|A| = 25$, $|B| = 30$, $|C| = 20$, $|A \cap B| = 10$, $|A \cap C| = 8$, $|B \cap C| = 6$ and $|A \cup B \cup C| = 55$. Find $|A \cap B \cap C|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 4 }
+  solution: |
+    $55 = 25 + 30 + 20 - 10 - 8 - 6 + x = 51 + x$, so $x = 4$.
+  verify: |
+    def answers():
+        x = symbols("x")
+        return {"a": solve(Eq(55, 25 + 30 + 20 - 10 - 8 - 6 + x), x)[0]}
+
+- id: spec.combinatorics.inclusion-exclusion.squares-or-cubes
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1560
+  responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
+  variants:
+    - { n: 1000, v: 38 }
+    - { n: 10000, v: 117 }
+  stem: |
+    How many integers from 1 to {{n}} are perfect squares or perfect cubes?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Squares plus cubes, minus numbers that are both, which are the sixth powers. Counting how many squares, cubes and sixth powers are at most {{n}} gives {{v}}.
+  verify: |
+    def answers(n, v):
+        return {"a": sum(1 for k in range(1, n + 1) if integer_nthroot(k, 2)[1] or integer_nthroot(k, 3)[1])}
+
+- id: spec.combinatorics.inclusion-exclusion.not-in-place
+  skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  rating: 1600
+  responseSkills: {calculation: 1520, reasoning: 1580, synthesis: 1600}
+  stem: |
+    The numbers 1 to 6 are arranged in a row. In how many arrangements is 1 **not** first, 2 **not** second and 3 **not** third?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 426 }
+  solution: |
+    Let $A_k$ be the arrangements with $k$ in position $k$, for $k = 1, 2, 3$. Then $|A_k| = 5! = 120$, each pair overlaps in $4! = 24$, and all three overlap in $3! = 6$. So $|A_1 \cup A_2 \cup A_3| = 360 - 72 + 6 = 294$, and the answer is $720 - 294 = 426$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(1, 7)) if p[0] != 1 and p[1] != 2 and p[2] != 3)}
+
+- id: spec.combinatorics.inclusion-exclusion.every-letter
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1620
+  responseSkills: {calculation: 1550, reasoning: 1600, synthesis: 1620}
+  variants:
+    - { n: 5, v: 150 }
+    - { n: 6, v: 540 }
+  stem: |
+    How many strings of length {{n}}, made from the letters A, B and C, use **every** letter at least once?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Count all $3^{ {{n}} }$ strings. Subtract those missing a given letter ($3 \times 2^{ {{n}} }$). Add back those missing two letters ($3 \times 1$), which were subtracted twice. This gives {{v}}.
+  verify: |
+    from itertools import product
+    def answers(n, v):
+        return {"a": sum(1 for s in product("ABC", repeat=n) if set(s) == {"A", "B", "C"})}
+
+- id: spec.combinatorics.inclusion-exclusion.three-set-proof
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1700
+  responseSkills: {reasoning: 1700, proof: 1700, clarity: 1650}
+  stem: |
+    Prove the inclusion–exclusion formula for three sets:
+    $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|.$$
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: approach, description: "Shows every element of the union is counted exactly once by the right-hand side (or derives it from the two-set formula)", points: 1, dimension: reasoning }
+          - { id: one, description: "An element in exactly one set: counted 1 time", points: 1, dimension: reasoning }
+          - { id: two, description: "An element in exactly two sets: counted 2 − 1 = 1 time", points: 1, dimension: reasoning }
+          - { id: three, description: "An element in all three: counted 3 − 3 + 1 = 1 time", points: 1, dimension: proof }
+          - { id: outside, description: "Elements in no set are counted 0 times; concludes clearly", points: 1, dimension: clarity }
+  solution: |
+    Check how many times the right-hand side counts each element.
+
+    - In exactly one set: once, in a single term.
+    - In exactly two sets: in two single terms and one pair term: $2 - 1 = 1$.
+    - In all three: $3 - 3 + 1 = 1$.
+    - In none: 0.
+
+    So the right-hand side counts every element of $A \cup B \cup C$ exactly once, and nothing else. It therefore equals $|A \cup B \cup C|$.
+
+- id: spec.combinatorics.inclusion-exclusion.coprime-to-210
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1740
+  responseSkills: {calculation: 1600, reasoning: 1720, synthesis: 1740}
+  stem: |
+    How many integers from 1 to 210 have **no factor in common** with 210 other than 1?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 48 }
+  solution: |
+    $210 = 2 \times 3 \times 5 \times 7$, so remove the numbers divisible by 2, 3, 5 or 7. Extending inclusion–exclusion to four sets (add singles, subtract pairs, add triples, subtract the quadruple):
+
+    $210 - (105 + 70 + 42 + 30) + (35 + 21 + 15 + 14 + 10 + 6) - (7 + 5 + 3 + 2) + 1 = 48$.
+
+    Equivalently, $210 \times \frac12 \times \frac23 \times \frac45 \times \frac67 = 48$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for k in range(1, 211) if gcd(k, 210) == 1)}
+
+- id: spec.combinatorics.inclusion-exclusion.letters-envelopes
+  skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  rating: 1770
+  responseSkills: {calculation: 1650, reasoning: 1750, synthesis: 1770}
+  stem: |
+    5 letters are put into 5 addressed envelopes, one each, at random. In how many ways can this be done so that **no** letter is in its correct envelope?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 44 }
+  solution: |
+    Let $A_k$ be the arrangements with letter $k$ in the correct envelope. By inclusion–exclusion over all five sets, the number with **at least one** correct is $\binom51 4! - \binom52 3! + \binom53 2! - \binom54 1! + \binom55 0! = 120 - 60 + 20 - 5 + 1 = 76$. So $120 - 76 = 44$ have none correct.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(5)) if all(p[i] != i for i in range(5)))}
+
+- id: spec.combinatorics.inclusion-exclusion.only-a
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1080
+  responseSkills: { reading: 1080, calculation: 1060 }
+  variants:
+    - { a: 12, b: 9, ab: 4 }
+    - { a: 25, b: 18, ab: 7 }
+  stem: |
+    $|A| = {{a}}$, $|B| = {{b}}$ and $|A \cap B| = {{ab}}$. How many elements are in $A$ but not in $B$?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{a}}-{{ab}}' }
+  solution: |
+    Remove the overlap from $A$: ${{a}} - {{ab}}$.
+  verify: |
+    def answers(a, b, ab):
+        return {"a": a - ab}
+
+- id: spec.combinatorics.inclusion-exclusion.two-divisors
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1160
+  responseSkills: { calculation: 1150, reading: 1140 }
+  variants:
+    - { p: 2, q: 5, n: 100, l: 10 }
+    - { p: 3, q: 7, n: 210, l: 21 }
+  stem: |
+    How many integers from 1 to {{n}} are divisible by {{p}} or {{q}} (or both)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\frac{ {{n}} }{ {{p}} }+\frac{ {{n}} }{ {{q}} }-\frac{ {{n}} }{ {{l}} }' }
+  solution: |
+    Multiples of {{p}}: $\tfrac{ {{n}} }{ {{p}} }$. Multiples of {{q}}: $\tfrac{ {{n}} }{ {{q}} }$. Both means multiples of {{l}}: $\tfrac{ {{n}} }{ {{l}} }$. Add the first two and subtract the overlap.
+  verify: |
+    def answers(p, q, n, l):
+        return {"a": sum(1 for k in range(1, n + 1) if k % p == 0 or k % q == 0)}
+
+- id: spec.combinatorics.inclusion-exclusion.find-overlap
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1320
+  responseSkills: { reading: 1310, calculation: 1280 }
+  variants:
+    - { u: 28, a: 20, b: 15 }
+    - { u: 41, a: 30, b: 24 }
+  stem: |
+    In a club, {{a}} members swim, {{b}} members run, and {{u}} members do at least one of the two. How many do both?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{a}}+{{b}}-{{u}}' }
+  solution: |
+    $|S \cup R| = |S| + |R| - |S \cap R|$, so $|S \cap R| = {{a}} + {{b}} - {{u}}$.
+  verify: |
+    def answers(u, a, b):
+        x = symbols("x")
+        return {"a": solve(a + b - x - u, x)[0]}
+
+- id: spec.combinatorics.inclusion-exclusion.not-a-power
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1720
+  responseSkills: {calculation: 1680, reasoning: 1700, synthesis: 1710}
+  stem: |
+    How many integers from 1 to 1000 are **not** a perfect square, a perfect cube or a perfect fifth power?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 960 }
+  solution: |
+    Let $S$, $C$, $F$ be the squares, cubes and fifth powers up to 1000. $|S| = 31$ ($31^2 = 961$), $|C| = 10$ and $|F| = 3$ ($1, 32, 243$).
+    A number that is both a square and a cube is a sixth power: $1, 64, 729$, so $|S \cap C| = 3$. Squares and fifth powers are tenth powers: only 1. Cubes and fifth powers are fifteenth powers: only 1. All three are thirtieth powers: only 1.
+    $|S \cup C \cup F| = 31 + 10 + 3 - 3 - 1 - 1 + 1 = 40$, so $1000 - 40 = 960$ are none of these.
+  verify: |
+    def answers():
+        def is_power(n, k):
+            r = round(n ** (1 / k))
+            return any((r + d) ** k == n for d in (-1, 0, 1))
+        return {"a": sum(1 for n in range(1, 1001) if not any(is_power(n, k) for k in (2, 3, 5)))}

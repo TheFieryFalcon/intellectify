@@ -55,13 +55,14 @@
     {#if firebaseConfigured}
       {#if mode !== "reset"}
         <button class="btn wide" disabled={busy} onclick={() => run(() => session.backend!.signInWithGoogle())}>Continue with Google</button>
+        <button class="btn wide" disabled={busy} onclick={() => run(() => session.backend!.signInAsGuest())}>Continue anonymously</button>
         <div class="or muted">or</div>
       {/if}
 
       <form onsubmit={submit}>
         {#if mode === "sign-up"}
-          <label for="name">Name</label>
-          <input id="name" type="text" bind:value={name} autocomplete="name" />
+          <label for="name">Username</label>
+          <input id="name" type="text" bind:value={name} autocomplete="username" />
         {/if}
         <label for="email">Email</label>
         <input id="email" type="email" required bind:value={email} autocomplete="email" />
@@ -83,7 +84,7 @@
         {/if}
       </div>
     {:else}
-      <p class="muted">Local mode: progress is saved in this browser.</p>
+      <p class="muted">Local mode · saved in this browser</p>
       <button class="btn primary wide" disabled={busy} onclick={() => run(() => session.backend!.signInAsGuest())}>Continue</button>
     {/if}
 

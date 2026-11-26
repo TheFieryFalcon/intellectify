@@ -1,0 +1,699 @@
+# Combinations: unordered selections, nCr notation (1.2.7, 1.2.8).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.combinatorics.combinations.evaluate
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1050
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { n: 5, r: 2, v: 10 }
+    - { n: 8, r: 3, v: 56 }
+    - { n: 10, r: 4, v: 210 }
+  stem: |
+    Evaluate $\dbinom{ {{n}} }{ {{r}} }$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $\dbinom{ {{n}} }{ {{r}} } = \dfrac{ {{n}}! }{ {{r}}!\,({{n}}-{{r}})! } = {{v}}$.
+  verify: |
+    def answers(n, r, v):
+        return {"a": binomial(n, r)}
+
+- id: spec.combinatorics.combinations.choose-team
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1100
+  responseSkills: { calculation: 1080, reading: 1100 }
+  variants:
+    - { n: 10, r: 3, v: 120 }
+    - { n: 12, r: 5, v: 792 }
+  stem: |
+    In how many ways can a team of {{r}} be chosen from {{n}} people?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Order doesn't matter: $\dbinom{ {{n}} }{ {{r}} } = {{v}}$.
+  verify: |
+    def answers(n, r, v):
+        return {"a": binomial(n, r)}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.combinatorics.combinations.exactly-two-women
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1330
+  responseSkills: { calculation: 1300, reading: 1330 }
+  stem: |
+    A committee of 4 is chosen from 7 women and 5 men. How many committees contain exactly 2 women?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 210 }
+  solution: |
+    $\dbinom{7}{2}\dbinom{5}{2} = 21 \times 10 = 210$.
+  verify: |
+    def answers():
+        return {"a": binomial(7, 2) * binomial(5, 2)}
+
+- id: spec.combinatorics.combinations.at-least-one-man
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1360
+  responseSkills: { calculation: 1330, reading: 1360 }
+  stem: |
+    A committee of 4 is chosen from 7 women and 5 men. How many committees contain at least one man?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 460 }
+  solution: |
+    All committees minus those with no men: $\dbinom{12}{4} - \dbinom{7}{4} = 495 - 35 = 460$.
+  verify: |
+    def answers():
+        return {"a": binomial(12, 4) - binomial(7, 4)}
+
+- id: spec.combinatorics.combinations.solve-ncr
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1330
+  responseSkills: { calculation: 1330 }
+  variants:
+    - { v: 45, n: 10, w: 90 }
+    - { v: 28, n: 8, w: 56 }
+    - { v: 66, n: 12, w: 132 }
+  stem: |
+    Find $n$ if $\dbinom{n}{2} = {{v}}$.
+  parts:
+    - id: a
+      prompt: $n =$
+      answer: { type: numeric, key: '{{n}}' }
+  solution: |
+    $\dfrac{n(n-1)}{2} = {{v}}$, so $n^2 - n - {{w}} = 0$, giving $n = {{n}}$ (the positive solution).
+  verify: |
+    def answers(v, n, w):
+        x = symbols("x")
+        return {"a": [s for s in solve(x * (x - 1) / 2 - v, x) if s > 0][0]}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.combinatorics.combinations.diagonals
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1420
+  responseSkills: {reading: 1420, calculation: 1380, reasoning: 1400}
+  variants:
+    - { n: 10, v: 35 }
+    - { n: 12, v: 54 }
+  stem: |
+    A diagonal of a polygon joins two corners that aren't next to each other. How many diagonals does a {{n}}-sided polygon have?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Any 2 corners make a line segment: $\dbinom{ {{n}} }{2}$. Remove the {{n}} sides: $\dbinom{ {{n}} }{2} - {{n}} = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": binomial(n, 2) - n}
+
+- id: spec.combinatorics.combinations.at-least-two-girls
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1460
+  responseSkills: {reading: 1460, calculation: 1430, reasoning: 1440}
+  stem: |
+    A committee of 5 is chosen from 6 boys and 5 girls. How many committees contain at least 2 girls?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 381 }
+  solution: |
+    Total $\dbinom{11}{5} = 462$. Subtract the committees with 0 girls ($\dbinom{6}{5} = 6$) and with exactly 1 girl ($5 \times \dbinom{6}{4} = 75$): $462 - 6 - 75 = 381$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(5, g) * binomial(6, 5 - g) for g in range(2, 6))}
+
+- id: spec.combinatorics.combinations.feuding-pair
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1470
+  responseSkills: {reading: 1470, calculation: 1430, reasoning: 1450}
+  stem: |
+    A team of 4 is chosen from 10 people, but two of them, Sam and Kai, refuse to be on the team together. How many teams are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 182 }
+  solution: |
+    All teams $\dbinom{10}{4} = 210$, minus teams with both Sam and Kai, which need 2 more from the other 8: $\dbinom{8}{2} = 28$. Answer $182$.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        return {"a": sum(1 for t in combos(range(10), 4) if not (0 in t and 1 in t))}
+
+- id: spec.combinatorics.combinations.grid-paths
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1440
+  responseSkills: {reading: 1440, calculation: 1390, reasoning: 1420, synthesis: 1420}
+  variants:
+    - { r: 5, u: 3, v: 56 }
+    - { r: 6, u: 4, v: 210 }
+  stem: |
+    On a grid of streets, you walk from one corner to the opposite corner using only steps **right** or **up**. The trip needs {{r}} steps right and {{u}} steps up. How many different routes are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    A route is a list of {{r}} R's and {{u}} U's in some order. Choose which of the $\,{{r}}+{{u}}\,$ steps are U's: $\dbinom{ {{r}}+{{u}} }{ {{u}} } = {{v}}$.
+  verify: |
+    def answers(r, u, v):
+        return {"a": binomial(r + u, u)}
+
+- id: spec.combinatorics.combinations.triangles-two-lines
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1500
+  responseSkills: {reading: 1500, calculation: 1450, reasoning: 1480, synthesis: 1480}
+  stem: |
+    6 points are marked on one line and 4 points on a different, parallel line. How many triangles have all three corners at marked points?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 96 }
+  solution: |
+    Three points on the same line make no triangle, so take 2 from one line and 1 from the other: $\dbinom{6}{2} \times 4 + \dbinom{4}{2} \times 6 = 60 + 36 = 96$.
+  verify: |
+    def answers():
+        return {"a": binomial(10, 3) - binomial(6, 3) - binomial(4, 3)}
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.combinatorics.combinations.whole-number-solutions
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1580
+  responseSkills: {calculation: 1500, reasoning: 1560, synthesis: 1580}
+  stem: |
+    Consider the equation $x + y + z = 10$.
+  parts:
+    - id: a
+      prompt: How many solutions have $x$, $y$ and $z$ all whole numbers ($\ge 0$)?
+      marks: 1
+      answer: { type: numeric, key: 66 }
+    - id: b
+      prompt: How many solutions have $x$, $y$ and $z$ all positive whole numbers ($\ge 1$)?
+      marks: 2
+      answer: { type: numeric, key: 36 }
+  solution: |
+    **(a)** Place 2 dividers among 10 identical objects: $\dbinom{12}{2} = 66$.
+
+    **(b)** Give each variable 1 first, leaving 7 to share freely: $\dbinom{9}{2} = 36$.
+  verify: |
+    def answers():
+        a = sum(1 for x in range(11) for y in range(11) if 10 - x - y >= 0)
+        b = sum(1 for x in range(1, 11) for y in range(1, 11) if 10 - x - y >= 1)
+        return {"a": a, "b": b}
+
+- id: spec.combinatorics.combinations.more-women
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1560
+  responseSkills: {reading: 1550, calculation: 1520, reasoning: 1540}
+  stem: |
+    A committee of 6 is chosen from 7 men and 5 women. How many committees contain more women than men?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 112 }
+  solution: |
+    More women than men in 6 people means 4 or 5 women.
+
+    - 4 women and 2 men: $\dbinom{5}{4}\dbinom{7}{2} = 105$.
+    - 5 women and 1 man: $1 \times 7 = 7$.
+
+    Total $112$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(5, w) * binomial(7, 6 - w) for w in range(6) if w > 6 - w)}
+
+- id: spec.combinatorics.combinations.two-hearts
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1550
+  responseSkills: {reading: 1540, calculation: 1520, reasoning: 1530}
+  stem: |
+    A standard deck has 52 cards, 13 in each of 4 suits (hearts, diamonds, clubs, spades). How many 5-card hands contain exactly 2 hearts?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 712842 }
+  solution: |
+    Choose 2 of the 13 hearts and 3 of the 39 other cards: $\dbinom{13}{2}\dbinom{39}{3} = 78 \times 9139 = 712\,842$.
+  verify: |
+    def answers():
+        return {"a": binomial(13, 2) * binomial(39, 3)}
+
+- id: spec.combinatorics.combinations.examination
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
+  rating: 1650
+  responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
+  stem: |
+    How many different 4-letter arrangements can be made from the letters of the word **EXAMINATION**? (Each letter can be used no more times than it appears in the word.)
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2454 }
+  solution: |
+    EXAMINATION has 8 different letters: A, I and N appear twice, and E, X, M, T and O once.
+
+    - **All 4 letters different:** $^{8}P_{4} = 1680$.
+    - **One repeated pair plus 2 other different letters:** choose the pair (3 ways) and 2 of the other 7 letters ($\binom{7}{2} = 21$), then arrange $\frac{4!}{2!} = 12$ ways. That's $3 \times 21 \times 12 = 756$.
+    - **Two repeated pairs:** $\binom{3}{2} = 3$ choices, each arranged $\frac{4!}{2!\,2!} = 6$ ways, giving $18$.
+
+    Total $1680 + 756 + 18 = 2454$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": len(set(permutations("EXAMINATION", 4)))}
+
+- id: spec.combinatorics.combinations.pairs-up
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1680
+  responseSkills: {calculation: 1600, reasoning: 1660, synthesis: 1660}
+  variants:
+    - { n: 8, k: 4, v: 105 }
+    - { n: 6, k: 3, v: 15 }
+  stem: |
+    In how many ways can {{n}} people be split into {{k}} pairs? (Only who is paired with whom matters.)
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Choose the pairs one at a time with $\binom{ {{n}} }{2}\binom{ {{n}}-2 }{2}\cdots\binom{2}{2}$, then divide by ${{k}}!$, because the order the pairs were chosen in doesn't matter. This gives {{v}}.
+
+    Alternatively: the first person can be paired with ${{n}}-1$ others; the next unpaired person with ${{n}}-3$ others, and so on. The product of these odd numbers is {{v}}.
+  verify: |
+    def answers(n, k, v):
+        result = 1
+        for m in range(n - 1, 0, -2):
+            result *= m
+        return {"a": result}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.combinatorics.combinations.every-suit
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1720
+  responseSkills: {calculation: 1620, reasoning: 1700, synthesis: 1720}
+  stem: |
+    From a standard 52-card deck (13 cards in each of 4 suits), how many 5-card hands contain at least one card of every suit?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 685464 }
+  solution: |
+    Five cards covering four suits means one suit appears twice and the others once. Choose that suit (4 ways), 2 of its cards ($\binom{13}{2} = 78$), and one card from each other suit ($13^3$): $4 \times 78 \times 2197 = 685\,464$.
+  verify: |
+    def answers():
+        return {"a": 4 * binomial(13, 2) * 13**3}
+
+- id: spec.combinatorics.combinations.no-consecutive-subsets
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1800
+  responseSkills: {calculation: 1750, reasoning: 1780, proof: 1720, synthesis: 1800}
+  stem: |
+    How many subsets of $\{1, 2, 3, \dots, 10\}$ (including the empty set) contain **no two consecutive numbers**?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 144 }
+  solution: |
+    **Method 1 (by size).** Choosing $k$ non-consecutive numbers from $1, \dots, n$ is the same as choosing $k$ numbers from $1, \dots, n-k+1$: subtract 0 from the smallest, 1 from the next, 2 from the next, and so on, which closes the gaps. So there are $\binom{n-k+1}{k}$ such subsets. For $n = 10$: $1 + 10 + 36 + 56 + 35 + 6 = 144$.
+
+    **Method 2 (building up).** Let $a_n$ be the count for $\{1, \dots, n\}$. A subset either leaves out $n$ ($a_{n-1}$ ways) or includes $n$ and so leaves out $n - 1$ ($a_{n-2}$ ways). So $a_n = a_{n-1} + a_{n-2}$, with $a_1 = 2$ and $a_2 = 3$, which gives $a_{10} = 144$.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        total = sum(1 for k in range(11) for s in combos(range(1, 11), k) if all(s[i + 1] - s[i] > 1 for i in range(len(s) - 1)))
+        return {"a": total}
+
+- id: spec.combinatorics.combinations.capped-sharing
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  rating: 1790
+  responseSkills: {calculation: 1650, reasoning: 1770, synthesis: 1790}
+  stem: |
+    10 identical sweets are shared among 4 children so that every child gets **at least 1** and **no child gets more than 4**. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 44 }
+  solution: |
+    Give each child 1 sweet first. Then share the remaining 6 so that no child gets more than 3 extra.
+
+    - Without the cap: $\binom{9}{3} = 84$ ways.
+    - Remove the cases where some child gets 4 or more extra: give that child 4 and share the other 2 freely, which is $4 \times \binom{5}{3} = 40$. Two children can't both get 4 or more extra, since $8 > 6$.
+
+    Answer: $84 - 40 = 44$.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for p in product(range(1, 5), repeat=4) if sum(p) == 10)}
+
+- id: spec.combinatorics.combinations.handshakes
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1120
+  responseSkills: { calculation: 1100, reading: 1120 }
+  variants:
+    - { n: 12, v: 66 }
+    - { n: 20, v: 190 }
+  stem: |
+    At a meeting of {{n}} people, every person shakes hands once with every other person. How many handshakes are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Each handshake is an unordered pair of people: $\dbinom{ {{n}} }{2} = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": binomial(n, 2)}
+
+- id: spec.combinatorics.combinations.triangles-from-points
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1290
+  responseSkills: { calculation: 1270, reading: 1290 }
+  variants:
+    - { n: 8, v: 56 }
+    - { n: 11, v: 165 }
+  stem: |
+    {{n}} points are marked on a circle. How many triangles have all three corners at these points?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    No three points on a circle lie on one straight line, so every group of 3 points makes a triangle: $\dbinom{ {{n}} }{3} = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": binomial(n, 3)}
+
+- id: spec.combinatorics.combinations.toppings
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1370
+  responseSkills: { calculation: 1350, reading: 1360 }
+  stem: |
+    A pizza shop offers 12 different toppings. How many different pizzas have at least 10 toppings?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 79 }
+  solution: |
+    Add the separate cases: $\dbinom{12}{10} + \dbinom{12}{11} + \dbinom{12}{12} = 66 + 12 + 1 = 79$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(12, k) for k in (10, 11, 12))}
+
+- id: spec.combinatorics.combinations.books-to-students
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1480
+  responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
+  stem: |
+    9 different books are given to 3 students, Ana, Ben and Cy, so that each student gets 3 books. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1680 }
+  solution: |
+    Ana's 3 books: $\dbinom{9}{3} = 84$. Ben's 3 from the remaining 6: $\dbinom{6}{3} = 20$. Cy gets the last 3. Total: $84 \times 20 = 1680$.
+  verify: |
+    def answers():
+        return {"a": binomial(9, 3) * binomial(6, 3) * binomial(3, 3)}
+
+- id: spec.combinatorics.combinations.chessboard-rectangles
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1700
+  responseSkills: {calculation: 1620, reasoning: 1680, synthesis: 1700}
+  variants:
+    - { n: 8, v: 1296 }
+    - { n: 6, v: 441 }
+  stem: |
+    How many rectangles (of any size, including squares) can be found on an {{n}} by {{n}} grid of squares, with sides along the grid lines?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    A rectangle is decided by its two horizontal sides and its two vertical sides. The grid has ${{n}} + 1$ horizontal lines and ${{n}} + 1$ vertical lines, so there are $\dbinom{ {{n}} + 1 }{2}^2 = {{v}}$ rectangles.
+  verify: |
+    def answers(n, v):
+        return {"a": sum((n - h + 1) * (n - w + 1) for h in range(1, n + 1) for w in range(1, n + 1))}
+
+- id: spec.combinatorics.combinations.sum-divisible-by-3
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1760
+  responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
+  stem: |
+    In how many ways can 3 different numbers be selected from $1, 2, \dots, 30$ so that their sum is divisible by 3?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1360 }
+  solution: |
+    Sort the numbers by remainder on division by 3: remainder 0, 1 or 2, with 10 numbers in each group. The sum is divisible by 3 exactly when the three remainders are all equal, or are 0, 1 and 2.
+    - All from one group: $3 \times \dbinom{10}{3} = 360$.
+    - One from each group: $10^3 = 1000$.
+
+    Total: $1360$.
+  verify: |
+    from itertools import combinations as combos
+    def answers():
+        return {"a": sum(1 for c in combos(range(1, 31), 3) if sum(c) % 3 == 0)}
+
+- id: spec.combinatorics.combinations.paths-below-diagonal
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1850
+  responseSkills: {calculation: 1800, reasoning: 1830, proof: 1780, synthesis: 1850}
+  stem: |
+    A path on a grid goes from $(0, 0)$ to $(6, 6)$ using steps of one unit right or one unit up. How many such paths never go above the line $y = x$ (they may touch it)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 132 }
+  solution: |
+    All paths: 12 steps, 6 of them up: $\binom{12}{6} = 924$.
+    Count the bad paths, which touch the line $y = x + 1$. For a bad path, take the part after its first touch of $y = x + 1$ and swap rights and ups (reflect it in that line). This turns it into a path ending at $(5, 7)$, and every path to $(5, 7)$ comes from exactly one bad path this way (it must cross $y = x + 1$, and reflecting back undoes the swap).
+    Paths to $(5, 7)$: $\binom{12}{5} = 792$. So the good paths number $924 - 792 = 132$.
+  verify: |
+    from functools import lru_cache
+    def answers():
+        @lru_cache(None)
+        def f(x, y):
+            if y > x: return 0
+            if x == 0 and y == 0: return 1
+            return (f(x - 1, y) if x > 0 else 0) + (f(x, y - 1) if y > 0 else 0)
+        return {"a": f(6, 6)}
+
+- id: spec.combinatorics.combinations.pick-toppings
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1260
+  responseSkills: {calculation: 1250}
+  variants:
+  - {n: 9, r: 3, v: 84}
+  - {n: 12, r: 2, v: 66}
+  stem: |
+    A pizza comes with any {{r}} different toppings from a list of {{n}}. How many different pizzas are possible?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '{{v}}'}
+  solution: |
+    Order doesn't matter: $\dbinom{ {{n}} }{ {{r}} } = {{v}}$.
+  verify: |
+    def answers(n, r, v):
+        return {"a": binomial(n, r)}
+- id: spec.combinatorics.combinations.lotto
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1290
+  responseSkills: {calculation: 1280, reading: 1270}
+  requiresCalculator: true
+  stem: |
+    In a lottery, players choose 6 different numbers from 1 to 45. How many different entries are possible?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '8145060'}
+  solution: |
+    $\dbinom{45}{6} = 8\,145\,060$.
+  verify: |
+    def answers():
+        return {"a": binomial(45, 6)}
+- id: spec.combinatorics.combinations.at-least-three-women
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1320
+  responseSkills: {calculation: 1300, reading: 1310}
+  stem: |
+    A committee of 5 is chosen from 6 men and 4 women. How many committees have at least 3 women?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '66'}
+  solution: |
+    Exactly 3 women: $\dbinom{4}{3}\dbinom{6}{2} = 60$. Exactly 4: $\dbinom{4}{4}\dbinom{6}{1} = 6$. Total $66$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        people = ["W"] * 4 + ["M"] * 6
+        return {"a": sum(1 for c in combinations(range(10), 5) if sum(people[i] == "W" for i in c) >= 3)}
+- id: spec.combinatorics.combinations.three-aces
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1350
+  responseSkills: {calculation: 1330, reading: 1340}
+  requiresCalculator: true
+  stem: |
+    A standard deck has 52 cards, including 4 aces. How many 5-card hands contain exactly 3 aces?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '4512'}
+  solution: |
+    Choose the 3 aces: $\dbinom{4}{3} = 4$. Choose 2 of the 48 non-aces: $\dbinom{48}{2} = 1128$. Total $4 \times 1128 = 4512$.
+  verify: |
+    def answers():
+        return {"a": binomial(4, 3) * binomial(48, 2)}
+- id: spec.combinatorics.combinations.quadrilaterals
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1380
+  responseSkills: {calculation: 1360, reading: 1370}
+  stem: |
+    10 points are marked on a circle. How many quadrilaterals have all four corners at these points?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '210'}
+  solution: |
+    Any 4 of the points, joined in order around the circle, make exactly one quadrilateral: $\dbinom{10}{4} = 210$.
+  verify: |
+    def answers():
+        return {"a": binomial(10, 4)}
+- id: spec.combinatorics.combinations.both-or-neither
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1410
+  responseSkills: {calculation: 1390, reasoning: 1390, synthesis: 1390}
+  stem: |
+    A team of 4 is chosen from 12 people. Two of them, Kai and Lee, insist on being chosen together or not at all. How many teams are possible?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '255'}
+  solution: |
+    Both in: choose 2 more from the other 10, $\dbinom{10}{2} = 45$. Both out: choose all 4 from the other 10, $\dbinom{10}{4} = 210$. Total $255$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        return {"a": sum(1 for c in combinations(range(12), 4) if (0 in c) == (1 in c))}
+- id: spec.combinatorics.combinations.split-groups
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1440
+  responseSkills: {reading: 1420, calculation: 1420, reasoning: 1420}
+  stem: |
+    In how many ways can 12 people be split into a group of 7 and a group of 5?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '792'}
+  solution: |
+    Choosing the group of 5 decides the group of 7: $\dbinom{12}{5} = 792$. (The groups have different sizes, so there is no double counting.)
+  verify: |
+    def answers():
+        return {"a": binomial(12, 5)}
+- id: spec.combinatorics.combinations.three-evens
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1470
+  responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1440}
+  stem: |
+    How many subsets of $\{1, 2, \dots, 10\}$ contain exactly 3 even numbers?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '320'}
+  solution: |
+    Choose the 3 even numbers from 5: $\dbinom{5}{3} = 10$. Each of the 5 odd numbers is either in or out: $2^5 = 32$. Total $320$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        n = 0
+        for k in range(11):
+            n += sum(1 for c in combinations(range(1, 11), k) if sum(x % 2 == 0 for x in c) == 3)
+        return {"a": n}
+- id: spec.combinatorics.combinations.balls-nonempty
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1500
+  responseSkills: {calculation: 1480, reasoning: 1480, synthesis: 1470}
+  stem: |
+    8 identical balls are placed in 3 different boxes so that no box is empty. In how many ways can this be done?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '21'}
+  solution: |
+    Line up the 8 balls. There are 7 gaps between them; choosing 2 gaps for dividers splits the balls into 3 non-empty groups: $\dbinom{7}{2} = 21$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for a in range(1, 9) for b in range(1, 9) if 8 - a - b >= 1)}
+- id: spec.combinatorics.combinations.increasing-digits
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1560
+  responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
+  stem: |
+    How many 4-digit numbers have digits that strictly increase from left to right (like 1359)?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '126'}
+  solution: |
+    0 can't be used (it would have to come first). Any 4 different digits from 1 to 9 can be arranged in increasing order in exactly one way: $\dbinom{9}{4} = 126$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(1000, 10000) if all(a < b for a, b in zip(str(n), str(n)[1:])))}
+- id: spec.combinatorics.combinations.all-four-suits
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1620
+  responseSkills: {calculation: 1570, reasoning: 1600, synthesis: 1610}
+  requiresCalculator: true
+  stem: |
+    A standard deck has 52 cards, 13 in each of 4 suits. How many 5-card hands contain at least one card of every suit?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '685464'}
+  solution: |
+    Five cards over four suits with every suit present means one suit has 2 cards and the others 1. Choose the doubled suit (4 ways) and its 2 cards ($\dbinom{13}{2} = 78$), then one card from each other suit ($13^3$). Total $4 \times 78 \times 2197 = 685\,464$.
+  verify: |
+    def answers():
+        from itertools import product
+        # count hands by suit pattern (2,1,1,1) directly
+        return {"a": sum(binomial(13, a) * binomial(13, b) * binomial(13, c) * binomial(13, d)
+                         for a, b, c, d in product(range(1, 6), repeat=4) if a + b + c + d == 5)}
+- id: spec.combinatorics.combinations.solutions-at-least-two
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1660
+  responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1650}
+  stem: |
+    How many solutions does $a + b + c + d = 20$ have, where $a$, $b$, $c$ and $d$ are whole numbers that are each at least 2?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '455'}
+  solution: |
+    Give each variable 2 first. That leaves 12 to share freely among 4 variables: place 3 dividers among 12 objects, $\dbinom{15}{3} = 455$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for a in range(2, 21) for b in range(2, 21) for c in range(2, 21) if 20 - a - b - c >= 2)}
+- id: spec.combinatorics.combinations.no-consecutive-three
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1690
+  responseSkills: {calculation: 1630, reasoning: 1670, synthesis: 1680}
+  stem: |
+    In how many ways can 3 numbers be chosen from 1 to 20 so that no two of them are consecutive?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '816'}
+  solution: |
+    Write the chosen numbers as $x < y < z$ with $y \ge x + 2$ and $z \ge y + 2$. Then $x$, $y - 1$, $z - 2$ are three **different** numbers from 1 to 18, and every such choice comes from exactly one valid $(x, y, z)$. So there are $\dbinom{18}{3} = 816$ choices.
+  verify: |
+    from itertools import combinations
+    def answers():
+        return {"a": sum(1 for c in combinations(range(1, 21), 3) if c[1] - c[0] > 1 and c[2] - c[1] > 1)}
+- id: spec.combinatorics.combinations.grid-triangles
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1730
+  responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1730}
+  stem: |
+    16 points form a 4 by 4 square grid. How many triangles have all three corners at these points?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '516'}
+  solution: |
+    Every 3 points make a triangle unless they lie on a line. Total triples: $\dbinom{16}{3} = 560$. Subtract the collinear ones:
+    - 4 rows and 4 columns, each with $\dbinom{4}{3} = 4$ triples: $32$.
+    - 2 long diagonals with 4 points each: $8$.
+    - 4 shorter diagonals with 3 points each: $4$.
+
+    That's $44$ collinear triples, so $560 - 44 = 516$ triangles.
+  verify: |
+    from itertools import combinations
+    def answers():
+        pts = [(x, y) for x in range(4) for y in range(4)]
+        col = lambda a, b, c: (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0]) == 0
+        return {"a": sum(1 for t in combinations(pts, 3) if not col(*t))}
+- id: spec.combinatorics.combinations.two-pairs-committee
+  skills: {primary: spec.combinatorics.combinations}
+  rating: 1370
+  responseSkills: {calculation: 1350, reading: 1360}
+  stem: |
+    A mixed-doubles squad of 2 women and 2 men is chosen from 7 women and 6 men. How many squads are possible?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '315'}
+  solution: |
+    $\dbinom{7}{2}\dbinom{6}{2} = 21 \times 15 = 315$.
+  verify: |
+    def answers():
+        return {"a": binomial(7, 2) * binomial(6, 2)}

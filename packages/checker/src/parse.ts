@@ -19,6 +19,12 @@ export function preprocessLatex(latex: string): string {
   s = s.replace(/(?:\{\})?\^\{?\s*([^{}\s]+?)\s*\}?\s*([CP])_\{?\s*([^{}\s]+?)\s*\}?(?=$|[^A-Za-z0-9])/g, (_m, n, kind, r) => `\\operatorname{n${kind}r}\\left(${n},${r}\\right)`);
   s = s.replace(/\\mathrm\{cis\}|\\text\{cis\}/g, "\\operatorname{cis}");
   s = s.replace(/(^|[^A-Za-z\\{])cis(?=\s*[\\({0-9A-Za-z])/g, "$1\\operatorname{cis}");
+  // Vector names: bold, arrow, tilde or underline around one letter means that letter.
+  // i, j and k stay the unit vectors (\mathbf{i}), whichever decoration is used.
+  s = s.replace(/\\(?:mathbf|boldsymbol|bm|vec|tilde|utilde|hat|overrightarrow|underline)\s*\{\s*([A-Za-z])\s*\}|\\underset\s*\{\s*\\sim\s*\}\s*\{\s*([A-Za-z])\s*\}/g, (_m, a, b) => {
+    const v = (a ?? b) as string;
+    return "ijk".includes(v) ? `\\mathbf{${v}}` : ` ${v} `;
+  });
   return s;
 }
 

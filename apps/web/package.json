@@ -23,6 +23,7 @@
     "vite": "6.0.7"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.14.0",
     "@intellectify/checker": "workspace:*",
     "@intellectify/content": "workspace:*",
     "@intellectify/engine": "workspace:*",

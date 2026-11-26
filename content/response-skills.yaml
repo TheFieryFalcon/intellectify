@@ -1,5 +1,6 @@
 # Response skills (docs/SPEC.md §5.6). Each has its own θ and Bronze→Diamond rank.
 - { id: calculation, name: Calculation }
+- { id: reasoning, name: Reasoning }
 - { id: reading, name: Reading and interpretation }
 - { id: proof, name: Proof }
 - { id: clarity, name: Clarity of expression }

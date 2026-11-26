@@ -29,13 +29,14 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 - Spaced repetition, rating decay, retention mechanics. Once earned, a rating only changes through further practice.
 - Hints. The design follows Alcumus: no hints, and the full worked solution is shown after the question is resolved.
 - Recommendations ("what to do next"). The student always chooses.
-- Native mobile apps. These come only after all five courses are done (see §16).
+- Native mobile apps. These come only after all four courses are done (see §17).
+- Mathematics Applications. It is not planned.
 - Empirical difficulty calibration from attempt data. Question ratings are author-set for now.
 - Privacy hardening of LLM calls. Not a concern for the current small, known group; revisit before any wider release.
 
 ### 1.3 Course roadmap
 1. **Mathematics Specialist**: pilot. Build the framework here.
-2. Mathematics Methods, Mathematics Applications.
+2. Mathematics Methods.
 3. Chemistry, Physics.
 
 ---
@@ -45,7 +46,8 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 | Role | Description |
 |---|---|
 | Student (only user role) | Signs in, picks a course, practices, competes on leaderboards, posts in discussions. |
-| Owner (you) | Not an in-app role. Authors content offline via scripts and git; holds the server-side API keys. |
+| Owner (you) | Authors content offline via scripts and git; holds the server-side API keys; moderates monthly answers through an admin page (§8.6). |
+| Moderator (later) | Optional trusted helpers who can verify monthly answers (§8.6). |
 
 Sign-in uses **Google** or **email and password** (Firebase Auth, project `intellectify-4357c`), with password reset by email.
 
@@ -128,15 +130,18 @@ The tree is drafted by an LLM script from the syllabus PDFs and then edited by h
 Every skill has a tutorial. Together the tutorials do the job of a very good WA community textbook (in the vein of Lucarelli or O.T. Lee): a student who has never met a topic can learn it here, then practice it.
 
 **Scope**
-- A tutorial covers everything a student needs to reach **low-to-mid Tier 3** (ratings up to about 1530): every dot point the skill covers, including review dot points mapped onto it (§3).
+- A tutorial covers everything a student needs to reach **low-to-mid Tier 3** (ratings up to about 1480): every dot point the skill covers, including review dot points mapped onto it (§3).
 - It stops there. Harder technique and insight are learned through Tier 4–6 problems and their worked solutions, not the tutorial.
 - Where the syllabus says "prove", the tutorial includes the proof (or a proof sketch where the full proof is itself an exercise).
 
-**Concise above all.** Concision is the most important quality of a tutorial.
-- Say each thing once, in the fewest words that are still clear. No motivation paragraphs, history, filler or recaps.
+**Concise, but complete.** Say each thing once, in the fewest words that are still clear, but never so few that the reasoning is lost.
+- No motivation paragraphs, history, filler or recaps.
+- Explain *why* each rule or formula works, in a sentence or two (a short counting argument, a picture, a derivation), not just *what* it is.
+- Explain notation by what it means or counts, never by restating its own name (not "$\binom{n}{r}$: choosing $r$ to take is the same as choosing $n - r$ to leave").
 - Length budget: about **250–700 words of prose** per tutorial, not counting worked examples, formulas and diagrams. The build warns above 700 and fails above 1000.
 - Prefer a formula, a table or a diagram over a paragraph when it says the same thing.
 - Don't re-teach a suggested prerequisite. Link to that skill's tutorial instead.
+- **No metadata in the body** (§15.1). The tutorial page shows the skill's dot points and prerequisites as a metadata row built from the curriculum; the Markdown starts at "Key ideas". The build rejects anything before it.
 
 **Every technical term is explained**
 - Each technical term or symbol is defined at first use: **bold** term, then a one-line plain-English definition, plus notation if any (e.g. **permutation**: an ordered arrangement; ${}^nP_r$).
@@ -147,7 +152,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 **Structure** (fixed headings, so tutorials feel consistent):
 1. **Key ideas**: definitions, results and formulas, each stated precisely, with proofs where the syllabus asks for them.
 2. **Method**: how to approach the standard question types, as short numbered steps where that helps.
-3. **Worked examples**: **one to three**, rising in difficulty from about Tier 1 to low-to-mid Tier 3. Each shows full working laid out the way a top WACE answer would be.
+3. **Worked examples**: **one to three**, rising in difficulty from about Tier 1 to low-to-mid Tier 3. Each is set out as numbered steps, saying what is done and why, laid out the way a top WACE answer would be. A worked example must not duplicate a practice question.
 4. **Watch out** (optional): at most three common mistakes, one line each.
 
 **Format and behavior**
@@ -163,22 +168,38 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 
 ---
 
+### 3.3 Skill sizes
+Every skill has a **size**, set in the curriculum file. Bigger skills are foundational (many skills build on them), difficult, or heavily examined, so they get more questions and take more to rank up.
+
+| Size | Tree node | Questions (min) | Tier 5 (min) | Extra correct answers per rank gate (§5.4) | θ speed |
+|---|---|---|---|---|---|
+| Small | small circle | 10 | 3 | +0 | ×1 |
+| Medium | circle | 15 | 4 | +0 | ×1 |
+| Large | small diamond | 25 | 5 | +1 | ×0.85 |
+| Cornerstone | large diamond | 40 | 7 | +2 | ×0.7 |
+
+- There is **no maximum**: a skill that deserves more questions gets them.
+- "θ speed" scales K in the rating update (§5.1), so θ moves more slowly in bigger skills and each rank takes more questions to earn.
+- Size is a judgment call, led by **how often exams test the skill**, then its difficulty. Specialist's Cornerstones: proof methods, permutations, combinations, the scalar product, displacement/force/velocity, converses and circle problems, complex arithmetic and induction.
+- **First-order foundations that exams rarely test on their own** (counting principles, vectors as directed line segments, component form, logic, matrix arithmetic, 3D vector algebra, …) are **Small**, even though everything builds on them. Their questions stay; only the rank requirements drop.
+- The content build warns when a skill with questions is below its size's minimums.
+
 ## 4. Difficulty: tiers and question ratings
 
-Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 is second-year university level. The tier is derived from the rating using **exam-anchored bands**:
+Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 is the top of first-year university level, and only Tier 6 goes beyond. The tier is derived from the rating using **exam-anchored bands**:
 
 | Tier | Rating band | Character |
 |---|---|---|
 | Tier 1 | 1000–1249 | Recall: definitions, notation, one-step procedures |
-| Tier 2 | 1250–1449 | Apply: routine multi-step application |
-| Tier 3 | 1450–1599 | Typical WACE exam question |
-| Tier 4 | 1600–1699 | Hardest WACE exam questions |
-| Tier 5 | 1700–1999 | Beyond exam: creative, unfamiliar, synthesis; up to 2nd-year uni |
-| Tier 6 | 2000+ | Reserved for the **monthly problem** (§8.6); exceptionally difficult |
+| Tier 2 | 1250–1399 | Apply: routine multi-step application |
+| Tier 3 | 1400–1549 | Typical WACE exam question |
+| Tier 4 | 1550–1699 | Hardest WACE exam questions |
+| Tier 5 | 1700–1999 | Beyond the exam: creative, unfamiliar, synthesis. **Never above first-year undergraduate level.** |
+| Tier 6 | 2000+ | Reserved for the **monthly problems** (§8.6). Exceptionally difficult, **up to second-year undergraduate level** in difficulty, but never needing unlearned knowledge (§8.6). |
 
 - Tiers are displayed as plain numbers ("Tier 1" … "Tier 6").
 - An LLM estimates the rating at generation time, and the owner adjusts it during review.
-- Content mix per skill: **15–30 questions**, scaled to skill size. Tiers 1–2 need only a couple of items each, since they are mostly parameterized templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parameterized template counts as one item.
+- Content mix per skill: at least **10–40 questions** depending on skill size (§3.3), with no maximum. Tiers 1–2 need only a couple of items each, since they are mostly parameterized templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parameterized template counts as one item.
 
 ---
 
@@ -189,7 +210,7 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 - Probability of a correct answer: `P(correct) = 1 / (1 + exp(-(θ − d) / S))`, with `S = 100` (tunable).
 - Update after a question resolves: `θ ← θ + K · w · (outcome − P)`
   - `outcome ∈ [0, 1]` (§6.2 credit rules)
-  - `K = 32` (tunable; constant, so there is no provisional fast-moving phase)
+  - `K = 32` × the skill-size speed (§3.3); tunable, and constant over time, so there is no provisional fast-moving phase
   - `w` = skill weight: 1.0 for the primary skill, 0.5 for secondary skills on cross-skill problems
 
 ### 5.2 Displayed numbers (everything is visible)
@@ -199,20 +220,36 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 - **Δθ** is shown after every answer, e.g. "+14 → 1523".
 
 ### 5.3 Placement
-- On first opening a skill, the student can **choose a starting tier**. The default is **Tier 3**. θ is set to the **floor of that tier's band** (e.g. Tier 4 → 1600) and then updates at normal speed.
+- **Onboarding** asks once for the student's **most recent maths mark** (0–100%) and **where it is from**: Year 10, Year 11 Methods, Year 11 Specialist, Year 12 Methods or Year 12 Specialist. That sets a starting tier **per course**.
+- Methods questions sit **a tier below** Specialist ones, so **Methods always starts one tier above Specialist** (capped at Tier 5).
+
+  | Mark | Specialist or Year 10 mark → Specialist | Methods mark → Methods |
+  |---|---|---|
+  | under 40% | Tier 1 | Tier 1 |
+  | 40–59% | Tier 2 | Tier 2 |
+  | 60–74% | Tier 3 | Tier 3 |
+  | 75–89% | Tier 4 | Tier 4 |
+  | 90–100% | Tier 4 | Tier 5 |
+
+  The other course follows from the one-tier shift (e.g. a 95% Methods mark: Methods Tier 5, Specialist Tier 4). A **Year 10** mark starts **one tier lower** (never below Tier 1).
+- On first opening a skill, θ is set to the **floor of the starting tier's band** (e.g. Tier 4 → 1550) and then updates at normal speed. There is no per-skill tier chooser.
 - At any time the student can **drop a tier**. This is a **non-destructive selection shift**: θ, rank and gates are untouched, and question selection (§5.7) targets the tier below the one θ currently sits in. The student can switch it off at any time. θ keeps updating normally, and easier questions naturally give smaller gains.
 - Placement sets θ only. **Gate counts start at zero**, so placement alone never grants a rank.
 
 ### 5.4 Ranks
 Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diamond**. **Diamond = "Mastered".**
 
-| Rank | Requires θ ≥ | AND gate |
+| Rank | Requires θ ≥ | AND gate (Small/Medium skill) |
 |---|---|---|
 | Bronze | 1000 | ≥ 3 correct at Tier 1 or higher |
 | Silver | 1250 | ≥ 3 correct at Tier 2 or higher |
-| Gold | 1450 | ≥ 3 correct at Tier 3 or higher |
-| Platinum | 1600 | ≥ 3 correct at Tier 4 or higher |
+| Gold | 1400 | ≥ 3 correct at Tier 3 or higher |
+| Platinum | 1550 | ≥ 3 correct at Tier 4 or higher |
 | Diamond | 1700 | ≥ 3 correct at Tier 5 or higher |
+
+- Rank floors match the tier floors (§4).
+- **Skill size adds to every gate** (§3.3): +1 for Large skills and +2 for Cornerstone skills. Response skills use the Small/Medium numbers.
+- **Ranks are earned in order:** rank *k* also needs every lower rank's floor and gate.
 
 - **Correct** (for gates) means a resolved question with **outcome > 0.6**. Some consequences:
   - First-try answers always count.
@@ -231,7 +268,22 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 ### 5.6 Response skills
 Alongside content skills, every student has **response skills**, each with its own θ and Bronze→Diamond rank (same rules as §5.4):
 
-`Calculation` · `Reading & interpretation` · `Proof` · `Clarity of expression` · `Precision of language` · `Synthesis` (list is configurable)
+`Calculation` · `Reasoning` · `Reading & interpretation` · `Proof` · `Clarity of expression` · `Precision of language` · `Synthesis` (list is configurable)
+
+**Tagging rules** (the content build enforces the first four):
+
+| Response skill | Tag when the question… |
+|---|---|
+| Every question | has at least one response skill |
+| Calculation | has a computed answer (anything but MCQ or multi-select) |
+| Synthesis | is cross-skill (has secondary skills), or combines several results at Tier 4–5 |
+| Rubric dimensions | each rubric criterion's dimension is also listed in `responseSkills` |
+| Reasoning | needs a chain of deductions: choosing which result applies and justifying each step (angle chasing with reasons, case analysis, complements, logical deduction) |
+| Proof | asks for a written proof; rubric criteria on proof *structure* (the setup, the assumption, the contradiction or contrapositive, a case split that covers every case, the conclusion) |
+| Reading | turns words, a diagram or notation into mathematics |
+| Clarity, Precision | grades how the answer is written (rubric only) |
+
+In a rubric, a deductive step ("so ∠XAC = ∠XDB") is a Reasoning criterion, and the structure of the proof is a Proof criterion. A "prove that" question always keeps at least one Proof criterion: the step that completes the argument.
 
 - **Auto-marked questions** carry a coarse difficulty per response skill they exercise, e.g. `{calculation: 1500, reading: 1300}`. A tier-level value is fine. The question's outcome updates each listed response skill against that difficulty.
 - **Free-response questions** use **rubric dimensions** that map to response skills. Each dimension is scored separately and updates its response skill using that dimension's score as the outcome.
@@ -313,10 +365,12 @@ An endless adaptive stream for one skill (§5.7).
 
 ### 8.3 Unit quiz
 - **15 questions**, fixed mix: 2×T1, 4×T2, 6×T3, 3×T4, drawn across the unit.
-- Both quiz mixes are **config-driven**.
+- Both quiz mixes are **config-driven**. Questions are spread round-robin across the skills, falling back to the nearest tier when a tier runs short, and served easiest first. After each question the solution is shown.
+- Section quiz, unit quiz and Section Challenge are linked from every skill page (§15.3).
 
 ### 8.4 Section Challenge
-- **10–25 Tier 4–5 cross-skill (synthesis) problems**; the count scales with section size.
+- **10–25 Tier 4–5 cross-skill (synthesis) problems**; the count scales with section size: the section's dot points, clamped to 10–25.
+- Problems tagged with secondary skills come first (up to a third of the challenge); the rest are drawn round-robin from the section's Tier 4–5 questions.
 - **Untimed**, and progress is saved across sessions.
 - **Soft gate:** always available. If any skill in the section is below Gold, a "Recommended at Gold" warning appears before starting.
 - Each problem has one **primary skill** (full update) and secondary skills (0.5× update).
@@ -333,15 +387,69 @@ An endless adaptive stream for one skill (§5.7).
 - It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
 - A **daily streak** (consecutive days solved) feeds a leaderboard.
 
-### 8.6 Monthly problem (Tier 6)
-- One **exceptionally difficult** problem per month, rated 2000+, open for the whole month.
+### 8.6 Monthly problems (Tier 6)
+- **Two problems per course each month**, both open for the whole month:
+  - a **Year 11** problem;
+  - a **Year 12** problem.
+- **Scope: the previous unit.** Each problem covers the unit its year group finished most recently. Every unit is treated as **15 school weeks**:
+
+  | Year group is currently in | Monthly problem covers |
+  |---|---|
+  | Unit 1 (Year 11) | Year 10 content (Australian Curriculum, including 10A) |
+  | Unit 2 (Year 11) | Unit 1 |
+  | Unit 3 (Year 12) | Unit 2 |
+  | Unit 4 (Year 12) | Unit 3 |
+
+  - A problem may also use anything from earlier units and years.
+  - A Specialist problem may assume Methods content up to the same point, since Specialist students study Methods concurrently.
+- **Never requires unlearned knowledge.** Difficulty comes from insight, not from material the year group hasn't been taught. Every problem lists the dot points it relies on, and the build checks they all come from the allowed scope.
+- **Difficulty differs by course:**
+  - **Specialist:** rated 2000+, up to second-year undergraduate level in difficulty.
+  - **Methods:** **substantially easier**: about 1800–2000 on the shared scale, no harder than first-year undergraduate. It is still labeled the course's Tier 6 problem.
+- **School calendar.** Which unit each year group is in comes from a calendar file, `content/calendar/<year>.yaml`. It records WA term dates, semester boundaries and exam periods, and units are counted as 15 school weeks from the start of the school year, skipping holidays. The dates will be based on the owner's earlier project's calendar data.
 - **Milestone scoring:** the problem defines **5–7 named checkpoints** (e.g. "find a useful invariant", "reduce to a recurrence", "prove the lower bound", "prove the upper bound", "handle the edge cases", "full solution"), each worth points.
 - **Unlimited submissions with no penalty.** Each submission is LLM-marked against the milestones, and the student's score is the best milestone set achieved.
   - Free-tier marking gets a **generous** daily per-user cap (starting value 20, configurable). Quotas are opaque and change often, so the cap is tuned as usage shows. BYO-key users are unlimited.
-- At month end:
+- **Answers must be the student's own work, definitely not AI-generated** (see Moderation below).
+- At month end, after moderation:
   - θ updates for the tagged skills (outcome = milestone points fraction);
   - the official solution is revealed (the discussion thread has been open all month);
-  - the monthly leaderboard is finalized.
+  - the monthly leaderboards are finalized, one per course and year group.
+
+#### Moderation of monthly answers
+Monthly answers must be **definitely not AI-generated**. Automated AI-text detectors can't prove that on their own, since they misfire on genuine student writing. So the burden of proof is on the submission: it must carry evidence of being the student's own work, and a person verifies it before it counts.
+
+**Writing rules (enforced by the answer editor):**
+- Answers are written **in the app**, typed in the math editor or handwritten with the stylus.
+- **Pasting is blocked** in the monthly answer editor.
+- The editor records a **writing history**: timestamped keystrokes and strokes, which a moderator can replay as the answer was written.
+- Handwritten working may also be uploaded as photos of paper pages. A photo-only submission still needs a writing summary in the editor, and goes straight to human review.
+
+**Follow-up check (for any submission that earns milestone points):**
+- The student answers **one or two short follow-up questions about their own solution**, inside the app with a time limit. For example: "Why does step 3 hold?" or "What changes if n is even?"
+- An LLM generates and marks these from the submission. Someone who wrote the solution can answer them easily; someone who pasted it usually can't.
+
+**Automated signals (for prioritizing review, never proof on their own):**
+- Large instantaneous insertions, or typing rhythm that doesn't match writing.
+- Time from first opening the problem to submission that's implausibly short for the answer's length.
+- Close similarity to reference solutions generated by several AI models when the problem was authored.
+- Style that departs sharply from the student's own earlier free-response answers.
+
+**Human verification:**
+- **Every submission that earns milestone points goes to a moderation queue** before it counts. The moderator sees the writing replay, the follow-up answers and the signals.
+- The moderator marks each submission **Verified**, **Rejected** or **Needs follow-up**. Needs follow-up means a short chat or call with the student, or an extra follow-up question.
+- The owner moderates at first. A `moderator` role (Firebase custom claim) can be granted to trusted helpers later.
+- **Live explanation (Specialist monthly problems only, Year 11 and Year 12):**
+  - **Who:** the **top finisher** of each Specialist monthly problem, plus anyone claiming a **full solve**, must explain their solution live before their submission can be Verified.
+  - **How:** a short (about 10-minute) in-person chat or video call with the owner or a moderator, walking through the key steps and answering questions about them.
+  - **If not completed:** a student who can't or won't do it within the moderation window keeps only the milestones the moderator can verify from the writing history and follow-up answers. A full solve that wasn't explained live never counts as a full solve.
+  - **Methods** monthly problems don't need a live explanation; the other checks above apply as usual.
+- There's a **7-day moderation window** after the month closes. Leaderboards, XP, θ updates and achievements for the monthly problem apply only to Verified submissions, once that window ends.
+
+**Policy:**
+- Using AI to produce a monthly answer disqualifies the student from that month's problem. A second offense bars them from monthly problems for the rest of the year.
+- AI tools remain fine for learning elsewhere in the app; the rule applies only to monthly answers.
+- Students see the rules and agree to an honor pledge before their first monthly submission.
 
 ---
 
@@ -383,7 +491,7 @@ answer:
   - (b) the problem is **solvable on a low-power CAS calculator**, meaning an old, slow, unreliable CAS with `solve` and graphing. In practice:
     - `solve` on the system returns the intended solution quickly from default settings;
     - any graph intersections are clearly identifiable in a standard window;
-    - no step relies on heavy symbolic simplification that a weak CAS would choke on or return in an unrecognisable form.
+    - no step relies on heavy symbolic simplification that a weak CAS would choke on or return in an unrecognizable form.
 - `requiresCalculator: true` is set only when a calculator is genuinely needed (combinations with large numbers, vector/trig calculations with non-exact values).
 
 ### 9.4 Diagrams
@@ -392,6 +500,8 @@ answer:
   - function curves, asymptotes, Argand diagrams, slope fields;
   - 3D vectors as projected views.
 - Diagram specs reference question parameters, so diagrams update with parameterized variants. They are LLM-authorable and validated at build time.
+- **Format (implemented):** a fenced ` ```diagram ` block of YAML inside any Markdown (tutorials, stems, solutions, prompts, options). It has a `view` in math coordinates (`[xmin, xmax, ymin, ymax]`, y up), optional `width`, `grid`, `axes`, named `points`, a screen-reader `alt`, and a `draw` list. Element types so far: `point`, `segment` (dashed, equal-length ticks), `vector` (arrowhead), `angle` (arc or right-angle mark), `circle` (radius or through a point), `polygon`, `text` and `north` (bearing arrow). Labels are LaTeX. Colors are theme tokens (`ink`, `accent`, `muted`, `good`, `bad`), so diagrams work in dark mode. Function curves, Argand diagrams, slope fields and 3D views come later.
+- The build parses and renders every diagram, for every question variant, and fails on unknown points, bad numbers or unfilled placeholders.
 
 ---
 
@@ -415,6 +525,15 @@ answer:
   - The open app retries with exponential backoff. If the app is closed, it resumes on the next visit.
   - When a result lands, a toast appears and θ, gates and achievements update at that moment, using θ at application time.
 - **Nudge to BYO key:** the pending state explains that the free queue may be slow, and offers a one-tap "Add your own key for instant marking".
+- **As built:**
+  - The function loads the question, rubric and model solution from the deploy's own content files (never from the request), and needs a Firebase ID token.
+  - Models, best first: Gemini 3.8 Flash, then 3.5 Flash (both at low reasoning effort), then 3.5 Flash-Lite, within a 50 s budget. If every model is over quota, the reply is 429.
+  - Points come from the rubric, not the model: awards are clamped to each criterion's maximum and rounded to halves, and missing criteria score 0.
+  - Content skills get `freeResponseOutcome(s)`. Each rubric dimension updates its response skill using that dimension's own score.
+  - Jobs live in `users/{uid}/markingJobs`. The open app marks one at a time and retries with backoff (15 s, doubling, up to 30 min; Retry-After wins if longer).
+  - Every written answer is listed at `/{course}/marked`.
+  - An appeal moves θ by K·w·(new − old), which is exact because the expected score is unchanged, and corrects the gate count. XP isn't clawed back.
+  - The key is the Netlify environment variable `GEMINI_API_KEY`, scoped to Functions.
 
 ### 10.3 Appeals
 - One appeal per marked submission. The student writes an argument.
@@ -426,6 +545,7 @@ answer:
 - Providers: **Gemini, Claude, OpenAI**.
 - The key is stored **only on the device** (localStorage) and never sent to the owner's servers.
 - Calls go **directly from the browser** to the provider (e.g. Anthropic's direct-browser-access header).
+- As built: Claude uses `claude-opus-5-5` at medium effort, with structured output and the default server-side refusal fallback. Gemini uses the same model chain as the free tier. OpenAI uses `gpt-5-mini`. The key is set at `/settings`.
 - BYO keys also enable:
   - instant marking, with no queue;
   - unlimited monthly-problem submissions;
@@ -466,10 +586,15 @@ The owner edits the draft, and the edited file becomes the source of truth.
 Generation prompt emphasis by tier:
 - **T1–T2:** retrieval, notation, routine application.
 - **T3–T4:** WACE exam style and its hardest items.
-- **T5–T6:** creative, unfamiliar framing; multiple approaches; proof; synthesis across skills; no template feel.
+- **T5–T6:** creative, unfamiliar framing; multiple approaches; proof; synthesis across skills; no template feel. Tier 5 never goes above first-year undergraduate level. Tier 6 (monthly problems only) may reach second-year undergraduate difficulty, but only using knowledge already taught (§8.6).
+
+Language rules for every question and solution:
+- **Only taught terms.** Use vocabulary from the syllabus up to that skill (and the glossary built from tutorials, §3.2).
+- **No untaught jargon.** Describe any other concept in plain English inside the question, without naming it. For example, write "the point where the three lines from each corner to the midpoint of the opposite side meet", not "the centroid".
+- **Templates for routine setups.** Questions whose setup is routine use parameterized variants. For example, a "no two identical letters adjacent" arrangement question uses a list of words (MISSISSIPPI, GENERATED, METASTASIS, …), with each variant's answer computed and verified by the generator.
 
 ### 11.3 Verification (all must pass before merge)
-1. **CAS verification:** run each question's SymPy `verify` code. It must reproduce every answer key, and every pre-generated variant. Any mismatch fails the build.
+1. **CAS verification:** run each question's SymPy `verify` code. It must reproduce every answer key, and every pre-generated variant. Any mismatch fails the build, and so does a question with computed answers but no `verify` code. Geometry answers are measured from a figure built from coordinates (helpers in `scripts/verify_geometry.py`), not re-derived from the theorem being tested.
 2. **Multi-model cross-check:** **Gemini** (owner's key) solves the question independently. Disagreement with the key flags the question.
 3. **Constraint checks:** schema validation, form-rule sanity, diagram spec validity, and the trig simultaneous-equation constraints (§9.3).
 4. **Owner review** in git/PR, with flagged items highlighted.
@@ -511,7 +636,9 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 **Rules**
 - **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
-- **Definitions:** criteria are declarative in `content/achievements.yaml` and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters live in `users/{uid}/stats`, e.g. consecutive first-try streaks, per-tier correct counts and daily streak.
+- **Definitions:** criteria are declarative in `content/achievements.yaml` (generated from the tables below; the build checks tier counts, secrets and points against them) and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters (first-try streaks, per-tier correct counts, weekly counts, one-off flags) and earned dates live in `users/{uid}/courses/{course}/meta/achievements`.
+- Achievements whose feature doesn't exist yet (daily and monthly problems, free response, discussions, reports, appeals, leaderboards) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
+- Earning one grants XP (4 × points) and shows a toast.
 - **Tier designs continue the rank ladder:** the Platinum and Diamond achievement tiers deliberately parallel the Platinum and Diamond mastery ranks (§5.4). Their designs are **very similar**:
   - same colors, materials and finish (metallic platinum, faceted diamond);
   - same frame shape and insignia motif.
@@ -660,16 +787,85 @@ Group-wide boards:
 - achievement points;
 - course θ / rank;
 - daily streak;
-- monthly Tier 6 score;
-- problems done: total, this week, today.
+- monthly Tier 6 scores, per course and year group;
+- problems done: total, this week, today;
+- **XP and global level** (§12.4): all time, this month and this week;
+- **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
+- Race personal bests (§14.5).
 
 ### 12.3 Profile page
 A public profile shows:
-- display name;
+- display name, global level and tier badge (§12.4);
 - course ranks, plus the tech tree as a read-only view;
 - response-skill ranks;
 - achievements, earned and secret;
+- Elo per game mode, current and peak (§14.7);
 - leaderboard positions.
+
+### 12.4 Global level
+One account-wide **level**, earned with **XP** from almost everything a student does. It scales slowly: an hour gets a new student a few levels, while **level 500+ is reachable by determined students**, roughly 500 hours of activity over an ATAR career. There is no level cap.
+
+**Level curve.**
+- The XP needed to go from level L to L + 1 is **101 + 2L**.
+- So the total XP needed to reach level L is **(L − 1)(L + 101)**.
+- The hours below assume about **600 XP per hour** of typical practice (tunable).
+
+**Level tiers** use the same ladder as ranks and achievements, with Unranked called **Basic** here. The tier designs match the rank and achievement visuals (§12.1).
+
+| Tier | Levels | Total XP to reach | ≈ Hours |
+|---|---|---|---|
+| Basic | 1–9 | 0 | 0 |
+| Bronze | 10–24 | 999 | 2 |
+| Silver | 25–49 | 3,024 | 5 |
+| Gold | 50–99 | 7,399 | 12 |
+| Platinum | 100–149 | 19,899 | 33 |
+| Diamond | 150–199 | 37,399 | 62 |
+| Ruby | 200–299 | 59,899 | 100 |
+| Tanzanite | 300–399 | 119,899 | 200 |
+| Vibranium | 400–499 | 199,899 | 333 |
+| Solarium | 500–749 | 299,899 | 500 |
+| Antimatter | 750+ | 637,399 | 1,062 |
+
+**XP sources** (starting values, tunable):
+
+| Activity | XP |
+|---|---|
+| Resolve a practice, quiz or challenge question | Correct: Tier 1 → 10, Tier 2 → 16, Tier 3 → 24, Tier 4 → 36, Tier 5 → 60. Wrong or given up: 4 (effort) |
+| Free-response marked | 24 × tier × rubric score |
+| Read a tutorial (first time per skill) | 40 |
+| Finish a section quiz / unit quiz | +50 / +100 bonus |
+| Finish a Section Challenge | +200 bonus |
+| Solve the daily problem | 30 + 10 × tier |
+| Score a monthly Tier 6 milestone | 100 per milestone |
+| Rank up in a skill or response skill | Bronze 40, Silver 80, Gold 160, Platinum 280, Diamond 500 |
+| Earn an achievement | 4 × its points |
+| Play a Frontline game | 80, plus 40 for first place |
+| Play a 1v1 minigame (Divide, Draft, Exam Board) | 50, plus 30 for a win |
+| Play a Race game | 20, plus 10 for a win |
+| Post a solution in a discussion | 20 (max 3 a day) |
+| A report confirmed by auto-reverification | 50 |
+| First visit of the day | 20 |
+
+**Rules.**
+- **XP per minute is roughly the same across tiers.** A Tier 4 question takes longer than a Tier 1 but pays more, so there is no XP reason to farm easy questions. Hard work is never punished.
+- **Repeats pay once:** a question answered again within 30 days earns no XP.
+- **Daily caps on quick or social sources:** discussion posts as above, and Race XP for at most 10 games a day.
+- XP never decreases.
+
+**Display.**
+- The level and tier badge show next to the student's name in the header, on profiles, in lobbies and on leaderboards.
+- A level-up shows a small toast. Reaching a new tier opens a **full-screen celebration** that stays until it's dismissed.
+- **High tiers look like rewards.** Basic to Diamond use calm gems in the rank colors. The tiers above escalate:
+  - **Ruby:** faceted, with a passing shine.
+  - **Tanzanite:** shimmering facets and a twinkling star.
+  - **Vibranium:** a moving metallic sheen and a pulsing glow.
+  - **Solarium:** a radiant sun with turning rays.
+  - **Antimatter:** a black core inside a swirling iridescent ring, with orbiting motes and a deep-space celebration.
+
+  From Ruby up, the level number and progress bar also take on the tier's material. All motion respects reduced-motion settings. A preview of every tier is at `/dev/tiers`.
+- XP has its own **leaderboard** (§12.2): all time, this month and this week.
+
+**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards. Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
 
 ---
 
@@ -688,34 +884,288 @@ A public profile shows:
 
 ---
 
-## 14. UI / UX
+## 14. Competitive play (Phase 3)
 
-### 14.1 Visual identity
+Competitive play has one main mode, **Frontline** (2–6 players, territory and capture the flag), and four secondary 1v1 minigames: **Divide**, **Draft**, **Exam Board** and **Race**.
+
+### 14.1 Principles
+- **Depth over speed.** Every mode except Race has:
+  - a fixed number of questions per player, not a fixed time;
+  - a time limit per round or a time bank, never a reward for answering first;
+  - simultaneous rounds wherever possible.
+
+  Race is the deliberate exception: a short fluency drill at Tiers 1–2 only (§14.5).
+- **Difficulty is a choice, never a dominant one.** Each mode balances tiers through risk, exposure, durability, time cost or position, so no tier is automatically best.
+- **Answers count as practice.**
+  - Every competitive answer updates the skill's θ, gates and response skills like normal practice.
+  - Competitive questions allow **one attempt**: correct counts as a first-try solve, wrong as outcome 0.
+  - The worked solution is shown when the game ends, not mid-game.
+- **Every player has an Elo rating for every game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race. These ratings are separate from skill θ and never touch mastery ranks.
+- **Question pool.**
+  - Competitive modes draw from **the same question pool as normal practice**. There is no separate competitive bank, so every question written serves both.
+  - Auto-marked questions only. Free-response is too slow to mark live.
+  - The lobby sets the syllabus scope (section, unit or course) and, for Frontline, the map.
+  - Questions are drawn from that scope at the tier each action needs, preferring ones no player in the game has seen.
+  - Questions answered in a game count as seen for practice selection too (§5.7), and questions hidden after a confirmed report are excluded (§11.5).
+  - Competitive play needs deep pools, which is why it comes after Specialist Units 1–4 have full content.
+- **Live and correspondence play.**
+  - Frontline, Divide, Draft and Exam Board can be played **live** (round timers) or by **correspondence** (one round per day).
+  - Race is live only.
+- **Lobbies:** private games joined by invite link or code. No public matchmaking for now.
+
+### 14.2 Frontline: maps and setup
+A territory and capture-the-flag strategy game for 2–6 players, inspired by territorial.io and openfront.io. Players command troops on a fixed hex map to take territory, raid enemy headquarters and carry flags home.
+
+**Maps.** There are exactly three, each hand-designed, fixed and balanced, so map knowledge is part of the skill.
+
+| Map | Players | Hexes | Spawns | Relics | Rounds | Length |
+|---|---|---|---|---|---|---|
+| Small | 2–3 | ~25 | 4 | 1 | 6 | ~12 min |
+| Medium | 3–4 | ~45 | 6 | 3 | 8 | ~16 min |
+| Large | 5–6 | ~75 | 9 | 5 | 10 | ~20 min |
+
+**Terrain is difficulty.** Every hex has a fixed tier, like elevation. Any question asked in a hex is at that hex's tier. The skill comes from the lobby's syllabus scope.
+
+| Terrain | Tier | Troops per round | Defense bonus |
+|---|---|---|---|
+| Lowland | 1 | +1 | none |
+| Hills | 2 | +2 | +15% |
+| Highland | 3 | +3 | +30% |
+| Peak | 4 | +5 | +50% |
+| HQ | n/a | +3 | +50% |
+
+**Spawns.**
+- Each map has more spawns than its maximum player count.
+- Spawns differ in character but have roughly equal total value. Example archetypes:
+  - **Coast** (mostly lowland): fast and cheap early expansion, low income, many approaches.
+  - **Valley** (hills, central): best access to relics, contested from several sides.
+  - **Ridge** (highland/peak): rich and defensible, but slow to expand, with a single exit pass.
+- Spawns nobody picks become neutral territory.
+
+**Spawn draft.**
+- Players pick spawns in order of **lowest Frontline Elo first**. Picks are visible, with about 20 seconds per pick.
+- The choice draws on the player's comfort tiers, map knowledge, and the visible ranks of their opponents. Counter-picking adds replayability.
+
+**Map data and balance.**
+- Maps are data files: each hex's coordinates and terrain, plus spawns, relics, HQ positions and the edge ring for each round. They live in `content/frontline/maps/`, carry a version number (e.g. `medium@1.2`), and are edited with a small map editor.
+- Before release, bot simulations at a range of skill levels play each spawn thousands of times and flag outlier win rates.
+- After release, win rate by spawn and rating band is tracked, and maps are retuned by publishing a new version.
+
+**Optional loadout** (lobby setting, off by default):
+- Each player picks 4 skills before the game.
+- Their Claim, Fortify and Rally questions come from their own loadout.
+- Assault questions come from the defender's loadout.
+
+**Optional handicap:** Rally payouts scaled to each player's own rating, so every tier has equal expected value (§14.1).
+
+### 14.3 Frontline: rounds and actions
+**Rounds.**
+- Rounds are simultaneous and **2 minutes** long (tunable; Tier 4-heavy play may need 2.5).
+- During a round each player acts whenever they like. All orders resolve together at the end of the round.
+- Each player answers **exactly one question per round**. Finishing early gives planning time only.
+
+**Each round, a player chooses one action**, which determines their question:
+
+| Action | Question tier | Effect |
+|---|---|---|
+| **Claim** | Target hex's tier | Take an adjacent neutral hex, moving at least 1 troop in. |
+| **Assault** | Target hex's tier; on a locked hex, the lock's own question | Attack an adjacent enemy hex. Correct: attack ×1.5. Wrong: ×0.75. A lock is broken only by a correct answer. |
+| **Fortify** | Own hex's tier | Place a lock on the hex, or replace an existing one (below). |
+| **Rally** | Player's choice, Tier 1–4 | Gain emergency troops: Tier 1 → 2, Tier 2 → 3, Tier 3 → 5, Tier 4 → 7. |
+
+**Moves need no question.**
+- Each player gets **3 moves per round, plus 1 for every 5 hexes owned**.
+- A move shifts troops between adjacent owned hexes, or sets up an attack from an owned hex.
+
+**Locks.**
+- To lock a hex at Tier t, the defender must solve a Tier t question themselves. **That exact question becomes the lock.**
+- An attacker must answer **the same question** correctly to break the lock. A lock is literally "solve what I solved".
+  - If the question is a parameterized template, the attacker gets the same variant.
+- If the attacker fails, the attack bounces: the attacker loses half the attacking troops and the defender loses none.
+- **Failed attempts wear a lock down.** An attacker who has failed a lock has seen its question, so a siege gets easier over time. No answer or solution is revealed mid-game (§14.1), so the attacker still has to work it out. The defender can **re-fortify** to replace the question with a fresh one at the hex's tier, which costs their round's action.
+- A lock lasts until it is broken or replaced. A broken lock is gone, and the captured hex starts unlocked.
+
+**Combat** (all values tunable).
+- Attack strength = troops × assault multiplier × (1 + streak bonus) (§14.4).
+- Defense strength = troops × (1 + terrain defense bonus).
+- **If attack beats defense:**
+  - the hex is captured;
+  - surviving attackers = attacking troops × (1 − defense ÷ attack), rounded up;
+  - plunder = half the defender's troops in that hex, added to the attacker.
+- **If attack doesn't beat defense:**
+  - the attacker loses half the attacking troops;
+  - the defender loses troops × attack ÷ (2 × defense), rounded down.
+
+**Resolution order each round:**
+1. Moves.
+2. Assaults, strongest first, so several attacks on one hex resolve in turn.
+3. Claims. If two players claim the same hex, the higher tier solved wins; at equal tiers the claim fails for both.
+4. Income from territory.
+5. Relic points.
+
+### 14.4 Frontline: snowballing, flags and scoring
+**Snowballing is intended and available to everyone.** These engines compound:
+- **Territory:** more hexes produce more troops, which take more hexes.
+- **Command:** extra moves for larger empires.
+- **Plunder:** capturing hexes takes troops.
+- **Flag spoils:** capturing a flag gives an immediate troop burst, half the sacked HQ's garrison.
+- **Hot streak:** consecutive correct answers boost Assault strength and Rally troops. The bonus **doubles with each correct answer** and caps at a 5-answer streak. A wrong answer resets it.
+
+  | Streak | 1 | 2 | 3 | 4 | 5+ |
+  |---|---|---|---|---|---|
+  | Bonus | +2% | +4% | +8% | +15% | +30% |
+
+The streak rewards accuracy, not speed. Spawn archetypes peak at different times (Coast early, Valley mid-game, Ridge late), so the lead changes hands as different engines kick in.
+
+**Bounty on the leader.**
+- The current leader is marked with a visible crown.
+- Each successful assault on a leader's hex gives **+2 points and double plunder**.
+- Capturing the leader's flag scores **+8** instead of +5.
+
+The leader feeds everyone else's snowball, which keeps the game swingy and gives trailing players a target.
+
+**Flags.**
+- Each HQ holds a flag.
+- **Capturing an HQ:**
+  - the HQ is **sacked**: it loses half its garrison and can't be re-flagged for 2 rounds;
+  - a visible **flag carrier** spawns with the attacking survivors, moving 1 hex per round;
+  - carrying it to the capturer's own HQ **banks** it.
+- Intercepting a carrier (capturing its hex) returns the flag to its owner.
+- Players are **never eliminated**. A sacked HQ keeps producing income and can be retaken.
+
+**Late game.**
+- **Relics** pay +2 points per round to whoever holds them.
+- At 75% of the rounds, the map's outer edge ring **collapses**. Those hexes become impassable, and troops on them are lost unless moved inward that round.
+- **Exact scores are hidden** until the final quarter of rounds; only the leader's crown is visible before then.
+
+**Scoring** (at game end):
+
+| Source | Points |
+|---|---|
+| Flag held or being carried | +5 each (+8 for the leader's flag) |
+| Flag banked at your HQ | +10 each (+13 for the leader's flag) |
+| Relic | +2 per round held |
+| Territory | +1 per 3 hexes |
+| Leader bounty | +2 per successful assault on the leader |
+
+Final placement updates every player's Frontline Elo (§14.7). Ties in placement are broken by banked flags, then territory.
+
+### 14.5 1v1 minigames
+Each minigame has its own Elo (§14.7), updated after every game. Except for Race, each uses a time bank per player (chess clock). Points are each question's tier unless stated otherwise.
+
+**Divide** (fair division, about 12–16 min).
+- **Each round** (2 rounds):
+  1. **Reveal:** 6 problems from Tiers 1–4, with full stems visible.
+  2. **Divide:** the **Divider** (alternating each round) splits them into two piles of any size.
+  3. **Choose:** the **Chooser** takes one pile, and the Divider gets the other.
+  4. **Solve:** both solve their piles at the same time.
+- **Steal:** a player may spend clock time attempting a problem their opponent failed, for half points.
+- **Strategy:**
+  - make piles you value equally but your opponent values unequally (their ranks are visible);
+  - plant problems you can solve where a failure lets you steal;
+  - weigh pile size against your time bank.
+
+**Draft** (pick and assign, about 12–15 min).
+- **Setup:** 8 problems laid face-up, with skill, tier and full stem visible.
+- **Draft:** players alternately take one, assigning it **to their own set or to their opponent's**, until each set has 4.
+- **Solve:** both solve their sets at the same time.
+- **Scoring:** points are scaled to the solver's rating (correct scores (1 − p) × 10, where p is the solver's probability of success; wrong scores 0), so dumping a hard problem on a strong opponent can hand them points.
+- **Strategy:** every pick is a trade-off between keeping a question you're sure of and sending one your opponent is weak at.
+
+**Exam Board** (paper construction, about 12–15 min).
+- **Pool:** 14 problems with visible stems and ratings, spanning a unit's sections.
+- **Build:** each player secretly builds a 4-question paper for the other, under these constraints:
+  - total rating no more than 4 × 1500;
+  - at least one question per section in scope;
+  - at least one Tier 1–2 question.
+- **Appeal:** on receiving the paper, the sitter may swap **one** question for any unused pool question of equal or lower rating.
+- **Sit:** both sit their papers at the same time.
+- **Strategy:**
+  - set questions with the biggest gap between their rating and *this* opponent's ability in that skill;
+  - anticipate the appeal, for example with a decoy;
+  - read what the opponent left in the pool.
+
+**Race** (fluency minigame, 3 min, live only).
+- **Questions:** both players get the **same stream of Tier 1–2 questions** from the lobby's scope, in the same order.
+- **Scoring:**
+  - correct +1;
+  - +1 bonus for every 5 correct in a row;
+  - wrong −1 plus a 3-second lockout, which discourages guessing.
+- **Display:** a tug-of-war bar shows the margin.
+- **Winning:** most points at 3:00 wins. Ties go to sudden death.
+- **Solo mode:** with no opponent online, a player can race their own best run (a "ghost").
+- **Ratings and records:** head-to-head games update Race Elo; solo ghost runs don't. Race also keeps personal bests.
+- **Why speed is allowed here:** Race is the one place where speed matters, deliberately limited to retrieval-level questions, as a warm-up and fluency drill.
+
+### 14.6 Architecture for competitive play
+- **Server-checked.** In games, answers are checked and recorded by Netlify Functions, which also resolve every round, so the game state can't be edited by a client.
+  - Because competitive questions share the practice pool, their answer keys are in the public content bundle. A determined player could look one up mid-game.
+  - This is accepted for a small group, like the client-side trust risk (§18). If it becomes a problem, the fix is to move all answer keys server-side.
+- **Functions:**
+  - **create/join game**;
+  - **submit answer:** checked on the server, recording the outcome;
+  - **resolve round:** run when every player has submitted, or by a scheduled function when the round timer expires.
+- **Firestore:**
+  - `games/{gameId}`: mode, map version, scope, players, round and state;
+  - `games/{gameId}/orders/{uid_round}`: each player's orders, written by that player and validated by the resolver;
+  - only functions write game state.
+- **Live updates:** clients follow game documents with real-time listeners.
+- **Netlify credits:** functions use a small amount of compute, well within the free plan's credits (§16.5). No extra production deploys are needed.
+- **Balance tooling:** an offline script runs bot simulations of Frontline maps (§14.2).
+
+### 14.7 Elo ratings
+Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft, Exam Board and Race. Every completed game is rated, live or correspondence.
+
+**Parameters** (tunable):
+- Everyone starts at **1200**.
+- The step size **K is 40 for a player's first 15 games** in that mode, when the rating is **provisional** and shown with a "?". After that, K is **24**.
+- Ratings never go below 100.
+
+**1v1 modes** (Divide, Draft, Exam Board, Race) use standard Elo:
+- expected score E = 1 / (1 + 10^((R_opponent − R_self) / 400));
+- the new rating is R + K × (S − E), where S is 1 for a win, 0.5 for a draw and 0 for a loss.
+
+**Frontline** (2–6 players) uses **pairwise Elo by placement**.
+- Every pair of players is treated as a virtual match: the higher-placed player wins, and equal placement is a draw.
+- Each player's change is (K ÷ (N − 1)) × Σ over opponents of (S − E), where N is the number of players. This keeps a 6-player game's swing comparable to a 1v1.
+
+**Display and storage:**
+- Elo shows next to names in lobbies, on profiles (current and peak, per mode) and on per-mode leaderboards (§12.2).
+- Ratings live in `users/{uid}/ratings/{mode}` (rating, games played, peak, provisional) and are written only by Netlify Functions, never by clients (§14.6).
+- Elo is shared across all courses for now. If course scope turns out to matter, ratings could be split per course later (§18).
+
+---
+
+## 15. UI / UX
+
+### 15.1 Visual identity
 - **Spelling:** all product copy, content (tutorials, questions, solutions, skill names) and code use standard **American** spelling (practice, color, center, factored, modeling). Mathematical notation still follows WACE conventions (§3.2).
 - **Copy is minimal:** labels over sentences, no explanatory filler on screens; show a number or a status rather than describe it.
+- **Non-learning information is data, not sentences.** Design rule, applied everywhere (screens, tutorials, questions, emails): metadata such as dot points, prerequisites, counts, dates, statuses and modes is shown as a bare label, list or chip, never wrapped in a sentence. Write "1.2.2, 1.2.3", not "Dot points 1.2.2 and 1.2.3."; "Local mode · saved in this browser", not "Local mode: progress is saved in this browser."; "No questions yet" with no full stop. Full sentences are reserved for learning content: explanations, worked solutions and feedback.
 - **Clean and academic:** light theme, minimal, plenty of white space. In the spirit of Khan Academy or Brilliant, but the design is original.
 - Rank colors are the main accent: Unranked gray, Bronze, Silver, Gold, Platinum, Diamond.
 - Typography is tuned for math: KaTeX output, and math fields at matching sizes.
 
-### 14.2 Home = the tech tree
+### 15.2 Home = the tech tree
 - After login, the student lands **directly on the course tech tree**. A course switcher sits at the top.
 - **Vertical tech tree** (strategy-game style). The draft preview is at https://claude.ai/artifact/VhcVGyVCy3CTTMBeRBUmth.
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
   - **Branching layout:** each unit is a layered graph (dagre-style, with crossing minimization). Sections are compound clusters drawn as soft regions, **not** linear columns, so skills branch the way their prerequisites do.
-  - **Nodes are circles** filled with the rank color (Unranked is a hollow ring), with a short label under each. Keep on-map text minimal.
-  - **Edges** are suggested prerequisites. Links from earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Cross-course prerequisites appear in the skill panel.
+  - **Nodes** are filled with the rank color (Unranked is hollow), with a short label under each. Keep on-map text minimal. The **shape shows skill size** (§3.3): small circle (Small), circle (Medium), small diamond (Large), large diamond (Cornerstone). The legend above the tree explains both colors and shapes.
+  - **Progress ring:** each node's ring fills toward the next rank's color, **linearly in the 0–100 score** from the current rank's floor to the next rank's floor (Diamond: toward θ 2000, score 99.3), so the ring always agrees with the number in the node.
+  - **Edges** are suggested prerequisites, drawn as smooth curves routed between nodes (never through a node or label). Only prerequisites **within a section** are drawn all the time, and only they shape the layout, so each section is a compact tree. Links to other sections (drawn sideways, since sections sit side by side) and to earlier units appear when a skill is hovered or selected, and hovering traces the full chain up and down. Each section is laid out on its own, choosing the arrangement with the fewest crossings. Cross-course prerequisites appear in the skill panel.
   - **Selecting a skill** opens a compact panel: name, rank, score, θ, summary, suggested first, leads to.
   - Section and unit rolled-up ranks show on the region and unit labels.
-- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Platinum gate 2/3") and question counts.
+- **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Silver 2/3") and question counts.
 - The daily problem and monthly problem appear as persistent cards or a side panel on the tree screen.
 
-### 14.3 Skill page
+### 15.3 Skill page
 - Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
 - **Learn** opens the skill's tutorial (§3.2): a clean reading view with glossary hovers and links to prerequisite tutorials. It is offered prominently on a student's first visit to a skill, but never required.
 - **Start practicing** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
 - Entry points to the section quiz, unit quiz and Section Challenge.
 
-### 14.4 Problem screen
+### 15.4 Problem screen
 - **Header:** tier, rating, calculator flag, skill(s).
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Submit**, **Give up**.
@@ -723,38 +1173,39 @@ A public profile shows:
 - A small **Tutorial** link opens the skill's tutorial in a side panel (bottom sheet on phones) without leaving the question.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
-### 14.5 Other screens
+### 15.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
 
-### 14.6 Platform and accessibility
+### 15.6 Platform and accessibility
 - Responsive web app, desktop-first but usable on phones and tablets. Stylus input is supported on tablets.
 - Keyboard-navigable; MathLive's accessible math (speech output) enabled; color is never the only rank signal (labels and icons too).
 
 ---
 
-## 15. Architecture
+## 16. Architecture
 
-### 15.1 Stack
+### 16.1 Stack
 | Layer | Choice |
 |---|---|
 | Frontend | **SvelteKit** (TypeScript), static adapter |
 | Native (later) | **Capacitor** wrapping the same build |
 | Math | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
 | Handwriting | MyScript iink (free tier) |
-| Auth | Firebase Auth (Google + email) |
+| Auth | Firebase Auth (Google + email; anonymous for testing deploy previews, kept off public leaderboards) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
-| Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars) |
+| Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
 | Offline tooling | Node/TS scripts + Python (SymPy) for verification |
 
-### 15.2 Client-side logic
+### 16.2 Client-side logic
 Answer checking, θ updates, rank, gate and roll-up computation, question selection and achievement evaluation all run **on the client**. Results are then synced to Firestore. Firestore security rules ensure a user can only write their own documents.
 
-### 15.3 Firestore data model (sketch)
+### 16.3 Firestore data model (sketch)
 ```
-users/{uid}                                              profile, settings, course enrollments
+users/{uid}                                              profile, settings, course enrollments, total XP (§12.4)
+users/{uid}/ratings/{mode}                               Elo per game mode, written by functions only (§14.7)
 users/{uid}/courses/{course}                             rolled-up ranks (for the hidden buffer)
 users/{uid}/courses/{course}/skillStates/{skillId}       θ, rank, gateCounts[1..6], seen ids, counts
 users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
@@ -765,7 +1216,7 @@ users/{uid}/stats                        achievement counters (streaks, per-tier
 users/{uid}/challengeProgress/{sectId}   Section Challenge progress
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 daily/{yyyy-mm-dd}                       problem id; submissions/{uid}
-monthly/{yyyy-mm}                        problem id; submissions/{uid} (best milestones)
+monthly/{yyyy-mm}/problems/{course-year} problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
 discussions/{problemKey}/posts/{postId}  body, author, ts; comments/{commentId}
 hiddenQuestions/{questionId}             reason, ts
 reports/{reportId}                       question id, note, verdict
@@ -773,7 +1224,7 @@ reports/{reportId}                       question id, note, verdict
 
 Leaderboards query `publicProfiles` directly, which is fine at small-group scale.
 
-### 15.4 Repository layout (proposed)
+### 16.4 Repository layout (proposed)
 ```
 apps/web/              SvelteKit app
 packages/engine/       rating, selection, ranks, roll-up, achievements (pure TS, unit-tested)
@@ -788,28 +1239,29 @@ scripts/               ingest-syllabus, generate, verify (SymPy), build-content
 netlify/functions/     mark, report
 ```
 
-### 15.5 Free-tier budget notes
+### 16.5 Free-tier budget notes
 - Firestore Spark: 50k reads / 20k writes per day. That's comfortable for a small group, because content is served from the CDN, not Firestore.
-- Netlify Functions free tier is ample for marking and reports.
+- Netlify free plan: 300 credits a month. Each production deploy costs 15, so merging to `main` is the release step and doc-only changes skip the build (`netlify.toml`). Functions (marking, reports, Phase 3 game rounds) use a small amount of compute credit.
 - Gemini free tier: rate-limited, so the client retry queue absorbs bursts.
 - MyScript: shared monthly quota, with a keyboard fallback when it runs out.
 
 ---
 
-## 16. Phasing
+## 17. Phasing
 
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (15–30 per skill); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; leaderboards; discussions. **Owner tests before continuing.** |
-| 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; first monthly Tier 6 problems |
-| 3: Methods, Applications | New curricula + content; cross-course prerequisites become live links |
-| 4: Chemistry, Physics | Science-specific answer types (see §17) + content |
-| 5: Native apps | Capacitor iOS/Android builds |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
+| 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
+| 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
+| 4: Methods | New curriculum + content; cross-course prerequisites become live links |
+| 5: Chemistry, Physics | Science-specific answer types (see §18) + content |
+| 6: Native apps | Capacitor iOS/Android builds |
 
 ---
 
-## 17. Open questions, risks and decisions
+## 18. Open questions, risks and decisions
 
 **Resolved**
 - *Drop a tier:* non-destructive selection shift (§5.3, §5.7). Rank loss only happens through the hidden per-rank buffer (§5.4).
@@ -822,7 +1274,16 @@ netlify/functions/     mark, report
 1. **Free-tier fragility:** Gemini and MyScript free tiers can change or vanish. Mitigations are the BYO key and keyboard fallback.
 2. **Same-model appeals:** these can still be swayed by a persuasive wrong argument despite the strict prompt. Monitor appeal outcomes.
 3. **Syllabus changes:** the Methods review may resurface. The versioning infrastructure (§3.1) is built for it.
-4. **Client-side trust:** ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up.
+4. **Client-side trust:** practice ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up. Competitive games are checked and resolved on the server, but their questions share the public practice pool, so answer keys can still be looked up (§14.6).
+
+**To tune in Phase 3 playtesting**
+- Frontline: round length, troop yields, multipliers, combat losses, streak cap, leader bounty and edge-collapse timing (§14.3, §14.4).
+- Frontline map balance: spawn values, checked by bot simulation, then live win rates (§14.2).
+- Minigame lengths, Race lockout and bonus values (§14.5).
+- Elo K-factors and provisional period (§14.7); whether Elo should be split per course.
+
+**To tune in Phase 1**
+- XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **Owner to specify later**
-- **Science answer types** (before Phase 4): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
+- **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.

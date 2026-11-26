@@ -29,6 +29,9 @@ export class CourseProgressStore {
     private readonly uid: string,
   ) {}
 
+  /** Resolves once progress has loaded (or failed to). */
+  ready: Promise<void> = Promise.resolve();
+
   async load() {
     try {
       this.progress = await this.backend.loadProgress(this.uid, this.course);
@@ -42,7 +45,7 @@ export class CourseProgressStore {
   /** Update local state immediately, then persist. */
   async save(
     changes: { skills: Record<string, StoredSkillState>; responseSkills: Record<string, StoredSkillState>; rollupRanks: Record<string, RankLevel> },
-    attempt: AttemptRecord,
+    attempt: AttemptRecord | null,
   ) {
     this.progress = {
       skills: { ...this.progress.skills, ...changes.skills },
@@ -76,7 +79,7 @@ export function courseProgress(course: string): CourseProgressStore | null {
   if (!stores.has(key)) {
     const store = new CourseProgressStore(course, session.backend, session.user.uid);
     stores.set(key, store);
-    void store.load();
+    store.ready = store.load();
   }
   return stores.get(key)!;
 }

@@ -1,7 +1,7 @@
 rules_version = '2';
-// Each student can read and write only their own data (docs/SPEC.md §15.2).
+// Each student can read and write only their own data (docs/SPEC.md §16.2).
 // Ratings are computed client-side, so a determined student could edit their own numbers;
-// that's accepted for a small group (SPEC §17).
+// that's accepted for a small group (SPEC §18).
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{uid}/{document=**} {

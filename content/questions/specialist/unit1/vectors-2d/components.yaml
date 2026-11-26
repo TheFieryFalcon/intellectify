@@ -1,0 +1,572 @@
+# Component form: notation, i and j, unit vectors, operations in components (1.3.5–1.3.9).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.vectors-2d.components.column-to-ij
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1010
+  responseSkills: {reading: 1010, calculation: 1000}
+  variants:
+    - { x: 4, y: -7 }
+    - { x: -2, y: 5 }
+  stem: |
+    Write $\begin{pmatrix} {{x}} \\ {{y}} \end{pmatrix}$ in the form $a\mathbf{i} + b\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{x}}', '{{y}}'] }
+  solution: |
+    The top number is the $\mathbf{i}$-component and the bottom number is the $\mathbf{j}$-component: ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$.
+  verify: |
+    def answers(x, y):
+        return {"a": [x, y]}
+
+- id: spec.vectors-2d.components.magnitude
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1040
+  responseSkills: { calculation: 1040 }
+  variants:
+    - { x: 5, y: -12, v: 13 }
+    - { x: -8, y: 6, v: 10 }
+    - { x: 7, y: 24, v: 25 }
+  stem: |
+    Find $|{{x}}\mathbf{i} + ({{y}})\mathbf{j}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $\sqrt{({{x}})^2 + ({{y}})^2} = {{v}}$.
+  verify: |
+    def answers(x, y, v):
+        return {"a": sqrt(x**2 + y**2)}
+
+- id: spec.vectors-2d.components.combine
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1090
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { a1: 3, a2: -2, b1: -1, b2: 5, r1: 7, r2: -9 }
+    - { a1: 4, a2: 1, b1: 2, b2: -3, r1: 6, r2: 5 }
+  stem: |
+    Given $\mathbf{a} = \begin{pmatrix} {{a1}} \\ {{a2}} \end{pmatrix}$ and
+    $\mathbf{b} = \begin{pmatrix} {{b1}} \\ {{b2}} \end{pmatrix}$, find $2\mathbf{a} - \mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{r1}}', '{{r2}}'] }
+  solution: |
+    $2\mathbf{a} - \mathbf{b} = \begin{pmatrix} 2({{a1}}) - ({{b1}}) \\ 2({{a2}}) - ({{b2}}) \end{pmatrix}
+    = \begin{pmatrix} {{r1}} \\ {{r2}} \end{pmatrix}$.
+  verify: |
+    def answers(a1, a2, b1, b2, r1, r2):
+        return {"a": [2*a1 - b1, 2*a2 - b2]}
+
+- id: spec.vectors-2d.components.between-points
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1110
+  responseSkills: { calculation: 1100, reading: 1100 }
+  variants:
+    - { ax: -3, ay: 4, bx: 2, by: -8 }
+    - { ax: 6, ay: -1, bx: -2, by: 5 }
+  stem: |
+    $A$ is the point $({{ax}}, {{ay}})$ and $B$ is $({{bx}}, {{by}})$. Find $\overrightarrow{AB}$ and $|\overrightarrow{AB}|$.
+  parts:
+    - id: a
+      prompt: $\overrightarrow{AB}$
+      answer: { type: vector, key: ['{{bx}}-({{ax}})', '{{by}}-({{ay}})'] }
+    - id: b
+      prompt: $|\overrightarrow{AB}|$
+      answer: { type: numeric, key: '\sqrt{({{bx}}-({{ax}}))^2+({{by}}-({{ay}}))^2}' }
+  solution: |
+    End minus start: $\overrightarrow{AB} = ({{bx}} - ({{ax}}))\mathbf{i} + ({{by}} - ({{ay}}))\mathbf{j}$. Its magnitude follows from Pythagoras.
+  verify: |
+    def answers(ax, ay, bx, by):
+        return {"a": [bx - ax, by - ay], "b": sqrt((bx - ax)**2 + (by - ay)**2)}
+
+- id: spec.vectors-2d.components.unit-vector
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1180
+  responseSkills: { calculation: 1170 }
+  variants:
+    - { x: 3, y: -4, m: 5 }
+    - { x: -5, y: 12, m: 13 }
+    - { x: 8, y: 15, m: 17 }
+  stem: |
+    Find the unit vector in the direction of ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['\frac{ {{x}} }{ {{m}} }', '\frac{ {{y}} }{ {{m}} }'] }
+  solution: |
+    The magnitude is $\sqrt{({{x}})^2 + ({{y}})^2} = {{m}}$. Divide each component by it: $\tfrac{1}{ {{m}} }\left({{x}}\mathbf{i} + ({{y}})\mathbf{j}\right)$.
+  verify: |
+    def answers(x, y, m):
+        n = sqrt(x**2 + y**2)
+        return {"a": [x / n, y / n]}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.vectors-2d.components.given-magnitude
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1270
+  responseSkills: { calculation: 1260, reading: 1250 }
+  variants:
+    - { L: 15, x: -4, y: 3, r1: -12, r2: 9 }
+    - { L: 26, x: 5, y: 12, r1: 10, r2: 24 }
+  stem: |
+    Find the vector of magnitude {{L}} in the direction of ${{x}}\mathbf{i} + {{y}}\mathbf{j}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{r1}}', '{{r2}}'] }
+  solution: |
+    $|{{x}}\mathbf{i} + {{y}}\mathbf{j}| = \sqrt{({{x}})^2 + {{y}}^2}$. Multiply the unit vector by {{L}}: ${{r1}}\mathbf{i} + {{r2}}\mathbf{j}$.
+  verify: |
+    def answers(L, x, y, r1, r2):
+        n = sqrt(x**2 + y**2)
+        return {"a": [L*x/n, L*y/n]}
+
+- id: spec.vectors-2d.components.parallel-unknown
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1290
+  responseSkills: { calculation: 1270, reading: 1280 }
+  variants:
+    - { p: 2, q: -3, n: 6, m: -4 }
+    - { p: 5, q: 2, n: -4, m: -10 }
+  stem: |
+    Find $m$ so that $\begin{pmatrix} m \\ {{n}} \end{pmatrix}$ is parallel to $\begin{pmatrix} {{p}} \\ {{q}} \end{pmatrix}$.
+  parts:
+    - id: a
+      prompt: $m =$
+      answer: { type: numeric, key: '{{m}}' }
+  solution: |
+    Parallel means $\begin{pmatrix} m \\ {{n}} \end{pmatrix} = k\begin{pmatrix} {{p}} \\ {{q}} \end{pmatrix}$. The second components give $k = \tfrac{ {{n}} }{ {{q}} }$, so $m = {{p}}k = {{m}}$.
+  verify: |
+    def answers(p, q, n, m):
+        k = Rational(n, q)
+        return {"a": p * k}
+
+- id: spec.vectors-2d.components.from-polar
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1310
+  responseSkills: { calculation: 1300 }
+  variants:
+    - { r: 8, t: 30, k1: '4\sqrt{3}', k2: '4' }
+    - { r: 6, t: 135, k1: '-3\sqrt{2}', k2: '3\sqrt{2}' }
+    - { r: 10, t: 240, k1: '-5', k2: '-5\sqrt{3}' }
+  stem: |
+    A vector has magnitude {{r}} and makes an angle of ${{t}}^\circ$ with the positive $x$-direction (measured anticlockwise). Write it in the form $a\mathbf{i} + b\mathbf{j}$, with exact values.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{k1}}', '{{k2}}'], form: [exact] }
+  solution: |
+    $r\cos\theta\,\mathbf{i} + r\sin\theta\,\mathbf{j} = {{r}}\cos {{t}}^\circ\,\mathbf{i} + {{r}}\sin {{t}}^\circ\,\mathbf{j} = {{k1}}\,\mathbf{i} + ({{k2}})\mathbf{j}$.
+  verify: |
+    def answers(r, t, k1, k2):
+        a = rad(t)
+        return {"a": [r*cos(a), r*sin(a)]}
+
+- id: spec.vectors-2d.components.direction-angle
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1340
+  responseSkills: { calculation: 1320, reading: 1330 }
+  variants:
+    - { x: '-3', y: '3', xs: '-3', ys: '3', t: 135 }
+    - { x: '2', y: '-2\sqrt{3}', xs: '2', ys: '-2*sqrt(3)', t: 300 }
+    - { x: '-1', y: '-\sqrt{3}', xs: '-1', ys: '-sqrt(3)', t: 240 }
+  stem: |
+    Find the angle, between $0^\circ$ and $360^\circ$, that ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$ makes with the positive $x$-direction, measured anticlockwise.
+  parts:
+    - id: a
+      prompt: Angle (°)
+      answer: { type: numeric, key: '{{t}}' }
+  solution: |
+    Sketch the vector to find its quadrant, then use $\tan\theta = \dfrac{y}{x}$ with the reference angle from exact values. The angle is ${{t}}^\circ$.
+  verify: |
+    def answers(x, y, xs, ys, t):
+        return {"a": deg(atan2(sympify(ys), sympify(xs))) % 360}
+
+- id: spec.vectors-2d.components.solve-scalars
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1350
+  responseSkills: { calculation: 1340, reading: 1320 }
+  variants:
+    - { c1: 7, c2: 2 }
+    - { c1: 4, c2: 5 }
+  stem: |
+    Find the numbers $p$ and $q$ such that $p\begin{pmatrix} 2 \\ 1 \end{pmatrix} + q\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \begin{pmatrix} {{c1}} \\ {{c2}} \end{pmatrix}$.
+  parts:
+    - id: p
+      prompt: $p =$
+      answer: { type: numeric, key: '\frac{ {{c1}}+{{c2}} }{3}' }
+    - id: q
+      prompt: $q =$
+      answer: { type: numeric, key: '\frac{ {{c1}}-2\cdot{{c2}} }{3}' }
+  solution: |
+    Match components: $2p + q = {{c1}}$ and $p - q = {{c2}}$. Adding gives $3p = {{c1}} + {{c2}}$; then $q = p - {{c2}}$.
+  verify: |
+    def answers(c1, c2):
+        p, q = symbols("p q")
+        s = solve([2*p + q - c1, p - q - c2], [p, q])
+        return {"p": s[p], "q": s[q]}
+
+- id: spec.vectors-2d.components.fourth-corner
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1370
+  responseSkills: { reading: 1360, calculation: 1300 }
+  variants:
+    - { ax: 1, ay: 2, bx: 4, by: 3, cx: 6, cy: 7 }
+    - { ax: -2, ay: 0, bx: 3, by: -1, cx: 5, cy: 4 }
+  stem: |
+    $ABCD$ is a parallelogram with $A({{ax}}, {{ay}})$, $B({{bx}}, {{by}})$ and $C({{cx}}, {{cy}})$. Find the coordinates of $D$, as a position vector.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{ax}}+{{cx}}-({{bx}})', '{{ay}}+{{cy}}-({{by}})'] }
+  solution: |
+    In parallelogram $ABCD$, $\overrightarrow{AD} = \overrightarrow{BC}$. So $\overrightarrow{OD} = \overrightarrow{OA} + \overrightarrow{BC} = \overrightarrow{OA} + \overrightarrow{OC} - \overrightarrow{OB}$.
+  verify: |
+    def answers(ax, ay, bx, by, cx, cy):
+        return {"a": [ax + cx - bx, ay + cy - by]}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.vectors-2d.components.sum-and-difference
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1410
+  responseSkills: { calculation: 1390, reading: 1400 }
+  stem: |
+    $\mathbf{a} + \mathbf{b} = 5\mathbf{i} + \mathbf{j}$ and $\mathbf{a} - \mathbf{b} = \mathbf{i} + 7\mathbf{j}$. Find $\mathbf{a}$ and $\mathbf{b}$.
+  parts:
+    - id: a
+      prompt: $\mathbf{a}$
+      answer: { type: vector, key: ['3', '4'] }
+    - id: b
+      prompt: $\mathbf{b}$
+      answer: { type: vector, key: ['2', '-3'] }
+  solution: |
+    Add the equations: $2\mathbf{a} = 6\mathbf{i} + 8\mathbf{j}$, so $\mathbf{a} = 3\mathbf{i} + 4\mathbf{j}$. Then $\mathbf{b} = (5\mathbf{i} + \mathbf{j}) - \mathbf{a} = 2\mathbf{i} - 3\mathbf{j}$.
+  verify: |
+    def answers():
+        s, d = Matrix([5, 1]), Matrix([1, 7])
+        a = (s + d) / 2
+        return {"a": list(a), "b": list(s - a)}
+
+- id: spec.vectors-2d.components.magnitude-unknown
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1420
+  responseSkills: { calculation: 1410 }
+  stem: |
+    Find all values of $k$ for which $|k\mathbf{i} + (k + 1)\mathbf{j}| = 5$.
+  parts:
+    - id: a
+      answer: { type: set, key: ['3', '-4'] }
+  solution: |
+    $k^2 + (k + 1)^2 = 25$, so $2k^2 + 2k - 24 = 0$, i.e. $k^2 + k - 12 = (k + 4)(k - 3) = 0$. So $k = 3$ or $k = -4$.
+  verify: |
+    def answers():
+        k = symbols("k")
+        return {"a": solve(k**2 + (k + 1)**2 - 25, k)}
+
+- id: spec.vectors-2d.components.collinear
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1440
+  responseSkills: { reading: 1430, calculation: 1400 }
+  variants:
+    - { cy: 11, k: 7 }
+    - { cy: -4, k: -3 }
+  stem: |
+    The points $A(1, 2)$, $B(3, 5)$ and $C(k, {{cy}})$ lie on one straight line. Find $k$.
+  parts:
+    - id: a
+      prompt: $k =$
+      answer: { type: numeric, key: '{{k}}' }
+  solution: |
+    On one line means $\overrightarrow{AC} = t\,\overrightarrow{AB}$. $\overrightarrow{AB} = 2\mathbf{i} + 3\mathbf{j}$ and $\overrightarrow{AC} = (k - 1)\mathbf{i} + ({{cy}} - 2)\mathbf{j}$. The $\mathbf{j}$-components give $t = \tfrac{ {{cy}} - 2 }{3}$, so $k = 1 + 2t = {{k}}$.
+  verify: |
+    def answers(cy, k):
+        t = Rational(cy - 2, 3)
+        return {"a": 1 + 2*t}
+
+- id: spec.vectors-2d.components.divide-segment
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1450
+  responseSkills: { calculation: 1430, reading: 1420 }
+  variants:
+    - { ax: -1, ay: 4, bx: 5, by: 1, p: 2, q: 1 }
+    - { ax: 2, ay: -3, bx: 10, by: 9, p: 1, q: 3 }
+  stem: |
+    $A$ is $({{ax}}, {{ay}})$ and $B$ is $({{bx}}, {{by}})$. $P$ lies on $AB$ with $AP : PB = {{p}} : {{q}}$. Find the position vector of $P$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['{{ax}}+\frac{ {{p}} }{ {{p}}+{{q}} }({{bx}}-({{ax}}))', '{{ay}}+\frac{ {{p}} }{ {{p}}+{{q}} }({{by}}-({{ay}}))'] }
+  solution: |
+    $P$ is $\tfrac{ {{p}} }{ {{p}} + {{q}} }$ of the way from $A$ to $B$: $\overrightarrow{OP} = \overrightarrow{OA} + \tfrac{ {{p}} }{ {{p}} + {{q}} }\overrightarrow{AB}$.
+  verify: |
+    def answers(ax, ay, bx, by, p, q):
+        f = Rational(p, p + q)
+        return {"a": [ax + f*(bx - ax), ay + f*(by - ay)]}
+
+- id: spec.vectors-2d.components.distance-along
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1470
+  responseSkills: { calculation: 1450, synthesis: 1430 }
+  stem: |
+    $A$ is $(-2, 1)$ and $B$ is $(4, 9)$. Find the position vectors of:
+  parts:
+    - id: a
+      prompt: the point $P$ on segment $AB$ that is 4 units from $A$
+      answer: { type: vector, key: ['0.4', '4.2'] }
+    - id: b
+      prompt: the point $Q$ on line $AB$, beyond $B$, that is 15 units from $A$
+      answer: { type: vector, key: ['7', '13'] }
+  solution: |
+    $\overrightarrow{AB} = 6\mathbf{i} + 8\mathbf{j}$, with magnitude 10, so the unit vector from $A$ towards $B$ is $0.6\mathbf{i} + 0.8\mathbf{j}$.
+    $\overrightarrow{OP} = (-2\mathbf{i} + \mathbf{j}) + 4(0.6\mathbf{i} + 0.8\mathbf{j}) = 0.4\mathbf{i} + 4.2\mathbf{j}$, and $\overrightarrow{OQ} = (-2\mathbf{i} + \mathbf{j}) + 15(0.6\mathbf{i} + 0.8\mathbf{j}) = 7\mathbf{i} + 13\mathbf{j}$.
+  verify: |
+    def answers():
+        A, B = Matrix([-2, 1]), Matrix([4, 9])
+        u = (B - A) / (B - A).norm()
+        return {"a": list(A + 4*u), "b": list(A + 15*u)}
+
+- id: spec.vectors-2d.components.parallelogram-midpoint
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1510
+  responseSkills: { calculation: 1480, reading: 1480 }
+  stem: |
+    $OABC$ is a parallelogram, where $O$ is the origin, $A$ is $(4, 1)$ and $C$ is $(1, 3)$. $M$ is the midpoint of $AB$. Find the exact value of $|\overrightarrow{CM}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\frac{5\sqrt{2}}{2}', form: [exact] }
+  solution: |
+    $\overrightarrow{OB} = \overrightarrow{OA} + \overrightarrow{OC} = 5\mathbf{i} + 4\mathbf{j}$, so $\overrightarrow{OM} = \tfrac{1}{2}(9\mathbf{i} + 5\mathbf{j})$.
+    $\overrightarrow{CM} = \tfrac{9}{2}\mathbf{i} + \tfrac{5}{2}\mathbf{j} - (\mathbf{i} + 3\mathbf{j}) = \tfrac{7}{2}\mathbf{i} - \tfrac{1}{2}\mathbf{j}$, so $|\overrightarrow{CM}| = \sqrt{\tfrac{49 + 1}{4}} = \tfrac{5\sqrt{2}}{2}$.
+  verify: |
+    def answers():
+        A, C = Matrix([4, 1]), Matrix([1, 3])
+        M = (A + (A + C)) / 2
+        return {"a": (M - C).norm()}
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.vectors-2d.components.magnitude-quadratic
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1580
+  responseSkills: {calculation: 1570, reasoning: 1560, synthesis: 1520}
+  stem: |
+    Find the exact values of $k$ for which $|k(2\mathbf{i} - \mathbf{j}) - (\mathbf{i} + 3\mathbf{j})| = 5$.
+  parts:
+    - id: a
+      answer: { type: set, key: ['\frac{-1+2\sqrt{19}}{5}', '\frac{-1-2\sqrt{19}}{5}'], form: [exact] }
+  solution: |
+    The vector is $(2k - 1)\mathbf{i} + (-k - 3)\mathbf{j}$. Setting its squared magnitude to 25:
+    $(2k - 1)^2 + (k + 3)^2 = 25$, so $5k^2 + 2k - 15 = 0$, and $k = \dfrac{-2 \pm \sqrt{304}}{10} = \dfrac{-1 \pm 2\sqrt{19}}{5}$.
+  verify: |
+    def answers():
+        k = symbols("k")
+        return {"a": solve((2*k - 1)**2 + (k + 3)**2 - 25, k)}
+
+- id: spec.vectors-2d.components.equal-length-sum
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1590
+  responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1580}
+  stem: |
+    $\mathbf{a} = 2\mathbf{i} - \mathbf{j}$. The vector $\mathbf{b}$ has the same magnitude as $\mathbf{a}$, and $\mathbf{a} + \mathbf{b}$ is parallel to $\mathbf{i}$. If $\mathbf{b}$ has a negative $\mathbf{i}$-component, find $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['-2', '1'] }
+  solution: |
+    Let $\mathbf{b} = x\mathbf{i} + y\mathbf{j}$. Parallel to $\mathbf{i}$ means no $\mathbf{j}$-component: $-1 + y = 0$, so $y = 1$.
+    Equal magnitudes: $x^2 + 1 = 5$, so $x = \pm 2$. Taking the negative value, $\mathbf{b} = -2\mathbf{i} + \mathbf{j}$.
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        sols = solve([-1 + y, x**2 + y**2 - 5], [x, y], dict=True)
+        s = [t for t in sols if t[x] < 0][0]
+        return {"a": [s[x], s[y]]}
+
+- id: spec.vectors-2d.components.three-parallelograms
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1620
+  responseSkills: {reading: 1610, calculation: 1570, reasoning: 1600, synthesis: 1580}
+  stem: |
+    $A(1, 1)$, $B(4, 2)$ and $C(3, 5)$ are three corners of a parallelogram. Find the position vector of the fourth corner $D$ if the parallelogram is:
+  parts:
+    - id: a
+      prompt: $ABCD$ (corners in that order)
+      answer: { type: vector, key: ['0', '4'] }
+    - id: b
+      prompt: $ABDC$
+      answer: { type: vector, key: ['6', '6'] }
+    - id: c
+      prompt: $ADBC$
+      answer: { type: vector, key: ['2', '-2'] }
+  solution: |
+    Going round the corners in order, opposite sides are equal vectors.
+    - $ABCD$: $\overrightarrow{AD} = \overrightarrow{BC}$, so $D = A + C - B = (0, 4)$.
+    - $ABDC$: $\overrightarrow{BD} = \overrightarrow{AC}$, so $D = B + C - A = (6, 6)$.
+    - $ADBC$: $\overrightarrow{AD} = \overrightarrow{CB}$, so $D = A + B - C = (2, -2)$.
+  verify: |
+    def answers():
+        A, B, C = Matrix([1, 1]), Matrix([4, 2]), Matrix([3, 5])
+        return {"a": list(A + C - B), "b": list(B + C - A), "c": list(A + B - C)}
+
+- id: spec.vectors-2d.components.greatest-least
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1650
+  responseSkills: {reading: 1580, calculation: 1600, reasoning: 1630, synthesis: 1650}
+  variants:
+    - { p: 5, q: 3 }
+    - { p: 4, q: 2 }
+  stem: |
+    $|\mathbf{u}| = {{p}}$ and $|\mathbf{v}| = {{q}}$, but their directions are unknown. Find the greatest and least possible values of $|2\mathbf{u} - 3\mathbf{v}|$.
+  parts:
+    - id: a
+      prompt: Greatest
+      answer: { type: numeric, key: '2\cdot{{p}}+3\cdot{{q}}' }
+    - id: b
+      prompt: Least
+      answer: { type: numeric, key: '|2\cdot{{p}}-3\cdot{{q}}|' }
+  solution: |
+    $|2\mathbf{u}| = 2\times{{p}}$ and $|3\mathbf{v}| = 3\times{{q}}$. Head to tail, $2\mathbf{u}$ and $-3\mathbf{v}$ form two sides of a triangle, so the third side is at most their sum and at least their difference.
+    The greatest value occurs when $\mathbf{u}$ and $\mathbf{v}$ point in opposite directions (so $2\mathbf{u}$ and $-3\mathbf{v}$ line up), and the least when they point the same way.
+  verify: |
+    def answers(p, q):
+        return {"a": 2*p + 3*q, "b": abs(2*p - 3*q)}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.vectors-2d.components.closest-point
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1700
+  responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1700}
+  stem: |
+    For each real number $t$, the point $P$ has position vector $(2 + t)\mathbf{i} + (1 - 2t)\mathbf{j}$. Find the value of $t$ for which $P$ is closest to the point $(7, 6)$, and the exact closest distance.
+  parts:
+    - id: a
+      prompt: $t =$
+      answer: { type: numeric, key: -1 }
+    - id: b
+      prompt: Closest distance
+      answer: { type: numeric, key: '3\sqrt{5}', form: [exact] }
+  solution: |
+    The vector from $(7, 6)$ to $P$ is $(t - 5)\mathbf{i} + (-5 - 2t)\mathbf{j}$, with squared length
+    $(t - 5)^2 + (2t + 5)^2 = 5t^2 + 10t + 50 = 5(t + 1)^2 + 45$.
+    This is smallest when $t = -1$, giving a distance of $\sqrt{45} = 3\sqrt{5}$.
+  verify: |
+    def answers():
+        t = symbols("t", real=True)
+        d2 = (2 + t - 7)**2 + (1 - 2*t - 6)**2
+        t0 = solve(diff(d2, t), t)[0]
+        return {"a": t0, "b": sqrt(d2.subs(t, t0))}
+
+- id: spec.vectors-2d.components.square-corners
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1720
+  responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1720}
+  stem: |
+    $ABCD$ is a square. $A$ is $(1, 2)$ and the opposite corner $C$ is $(7, 6)$. $B$ lies above the line $AC$. Find the position vectors of $B$ and $D$.
+  parts:
+    - id: b
+      prompt: $B$
+      answer: { type: vector, key: ['2', '7'] }
+    - id: d
+      prompt: $D$
+      answer: { type: vector, key: ['6', '1'] }
+  solution: |
+    The diagonals of a square bisect each other at right angles and have equal length. The center is $M(4, 4)$, and $\overrightarrow{MC} = 3\mathbf{i} + 2\mathbf{j}$.
+    $\overrightarrow{MB}$ has the same length as $\overrightarrow{MC}$ and is at right angles to it. Turning $3\mathbf{i} + 2\mathbf{j}$ through $90^\circ$ gives $\pm(-2\mathbf{i} + 3\mathbf{j})$ (swap the components and change one sign; check with gradients: $\tfrac{2}{3} \times -\tfrac{3}{2} = -1$).
+    $B$ is above $AC$, so $\overrightarrow{OB} = (4\mathbf{i} + 4\mathbf{j}) + (-2\mathbf{i} + 3\mathbf{j}) = 2\mathbf{i} + 7\mathbf{j}$, and $\overrightarrow{OD} = (4\mathbf{i} + 4\mathbf{j}) - (-2\mathbf{i} + 3\mathbf{j}) = 6\mathbf{i} + \mathbf{j}$.
+  verify: |
+    def answers():
+        A, C = Matrix([1, 2]), Matrix([7, 6])
+        M = (A + C) / 2
+        h = C - M
+        perp = Matrix([-h[1], h[0]])
+        B1, B2 = M + perp, M - perp
+        above = lambda P: (P[1] - A[1]) * (C[0] - A[0]) - (P[0] - A[0]) * (C[1] - A[1]) > 0
+        B, D = (B1, B2) if above(B1) else (B2, B1)
+        assert (B - A).norm() == (C - B).norm() and (B - A).dot(C - B) == 0
+        return {"b": list(B), "d": list(D)}
+
+- id: spec.vectors-2d.components.rhombus-corners
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1760
+  responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
+  stem: |
+    $ABCD$ is a rhombus (all four sides are equal) with side length $5\sqrt{2}$. $A$ is $(1, 1)$ and the opposite corner $C$ is $(9, 7)$. $B$ lies above the line $AC$. Find the position vectors of $B$ and $D$.
+  parts:
+    - id: b
+      prompt: $B$
+      answer: { type: vector, key: ['2', '8'] }
+    - id: d
+      prompt: $D$
+      answer: { type: vector, key: ['8', '0'] }
+  solution: |
+    The diagonals of a rhombus bisect each other at right angles. The center is $M(5, 4)$, and $\overrightarrow{MC} = 4\mathbf{i} + 3\mathbf{j}$ has length 5.
+    In right-angled triangle $MBC$, $|MB|^2 = (5\sqrt{2})^2 - 5^2 = 25$, so $|MB| = 5$.
+    A vector at right angles to $4\mathbf{i} + 3\mathbf{j}$ is $-3\mathbf{i} + 4\mathbf{j}$, which also has length 5. $B$ is above $AC$, so $\overrightarrow{OB} = (5\mathbf{i} + 4\mathbf{j}) + (-3\mathbf{i} + 4\mathbf{j}) = 2\mathbf{i} + 8\mathbf{j}$, and $\overrightarrow{OD} = 8\mathbf{i} + 0\mathbf{j}$.
+  verify: |
+    def answers():
+        A, C = Matrix([1, 1]), Matrix([9, 7])
+        M = (A + C) / 2
+        h = C - M
+        half = sqrt(50 - h.dot(h))
+        perp = Matrix([-h[1], h[0]]) / h.norm() * half
+        B1, B2 = M + perp, M - perp
+        above = lambda P: (P[1] - A[1]) * (C[0] - A[0]) - (P[0] - A[0]) * (C[1] - A[1]) > 0
+        B, D = (B1, B2) if above(B1) else (B2, B1)
+        assert (B - A).norm() == 5*sqrt(2) and (C - B).norm() == 5*sqrt(2)
+        return {"b": list(B), "d": list(D)}
+
+- id: spec.vectors-2d.components.unit-makes-parallel
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1710
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
+  stem: |
+    $\mathbf{u}$ is a unit vector, and $3\mathbf{i} + 4\mathbf{j} + 5\mathbf{u}$ is a non-zero vector parallel to $\mathbf{i}$. Find $\mathbf{u}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['0.6', '-0.8'] }
+  solution: |
+    Let $\mathbf{u} = x\mathbf{i} + y\mathbf{j}$ with $x^2 + y^2 = 1$. Parallel to $\mathbf{i}$ means the $\mathbf{j}$-component is 0: $4 + 5y = 0$, so $y = -0.8$ and $x = \pm 0.6$.
+    $x = -0.6$ gives $3 - 3 = 0$, the zero vector, which isn't allowed. So $\mathbf{u} = 0.6\mathbf{i} - 0.8\mathbf{j}$ (giving $6\mathbf{i}$).
+  verify: |
+    def answers():
+        x, y = symbols("x y", real=True)
+        sols = solve([4 + 5*y, x**2 + y**2 - 1], [x, y], dict=True)
+        s = [t for t in sols if 3 + 5*t[x] != 0][0]
+        return {"a": [s[x], s[y]]}
+
+- id: spec.vectors-2d.components.equilateral-corner
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1740
+  responseSkills: {calculation: 1690, reasoning: 1720, synthesis: 1730}
+  stem: |
+    $A$ is $(2, 1)$ and $B$ is $(5, 5)$. Triangle $ABC$ is equilateral, and $C$ lies above the line $AB$. Find the exact position vector of $C$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['\frac{7}{2}-2\sqrt{3}', '3+\frac{3\sqrt{3}}{2}'], form: [exact] }
+  solution: |
+    $\overrightarrow{AB} = 3\mathbf{i} + 4\mathbf{j}$ has length 5, and the midpoint of $AB$ is $M\left(\tfrac{7}{2}, 3\right)$. In an equilateral triangle of side 5, $C$ is at distance $\tfrac{5\sqrt{3}}{2}$ from $M$, at right angles to $AB$.
+    The unit vector at right angles to $3\mathbf{i} + 4\mathbf{j}$ pointing above the line is $\tfrac{1}{5}(-4\mathbf{i} + 3\mathbf{j})$. So
+    $\overrightarrow{OC} = \left(\tfrac{7}{2}\mathbf{i} + 3\mathbf{j}\right) + \tfrac{\sqrt{3}}{2}(-4\mathbf{i} + 3\mathbf{j}) = \left(\tfrac{7}{2} - 2\sqrt{3}\right)\mathbf{i} + \left(3 + \tfrac{3\sqrt{3}}{2}\right)\mathbf{j}$.
+  verify: |
+    def answers():
+        A, B = Matrix([2, 1]), Matrix([5, 5])
+        M, d = (A + B) / 2, B - A
+        n = Matrix([-d[1], d[0]]) / d.norm()
+        C = M + sqrt(3) / 2 * d.norm() * n
+        assert simplify((C - A).norm() - 5) == 0 and simplify((C - B).norm() - 5) == 0
+        assert (C[1] - A[1]) * d[0] - (C[0] - A[0]) * d[1] > 0
+        return {"a": [simplify(C[0]), simplify(C[1])]}
+
+- id: spec.vectors-2d.components.angle-bisector
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1760
+  responseSkills: {calculation: 1690, reasoning: 1740, synthesis: 1760}
+  stem: |
+    Find the vector of magnitude $\sqrt{65}$ that bisects the angle between $3\mathbf{i} + 4\mathbf{j}$ and $5\mathbf{i} - 12\mathbf{j}$ (it points between them, making equal angles with both).
+  parts:
+    - id: a
+      answer: { type: vector, key: ['8', '-1'] }
+  solution: |
+    Two unit vectors form a rhombus, and a rhombus's diagonal bisects its angle. So add the unit vectors: $\tfrac{1}{5}(3\mathbf{i} + 4\mathbf{j}) + \tfrac{1}{13}(5\mathbf{i} - 12\mathbf{j}) = \tfrac{1}{65}(64\mathbf{i} - 8\mathbf{j}) = \tfrac{8}{65}(8\mathbf{i} - \mathbf{j})$.
+    $8\mathbf{i} - \mathbf{j}$ points the same way and already has magnitude $\sqrt{65}$.
+  verify: |
+    def answers():
+        u, v = Matrix([3, 4]), Matrix([5, -12])
+        w = u / u.norm() + v / v.norm()
+        r = w / w.norm() * sqrt(65)
+        assert simplify(r.dot(u) / u.norm() - r.dot(v) / v.norm()) == 0
+        return {"a": [simplify(r[0]), simplify(r[1])]}

@@ -1,0 +1,293 @@
+# Logic and the language of proof (1.1.1, 1.1.3, 1.1.4).
+
+- id: spec.geometry.logic.hypothesis
+  skills: {primary: spec.geometry.logic}
+  rating: 1030
+  responseSkills: {reading: 1030}
+  stem: |
+    In the statement "If it rains, then the ground gets wet", what is the hypothesis?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: It rains}
+    - {id: b, text: The ground gets wet}
+    - {id: c, text: It doesn't rain}
+    - {id: d, text: The ground doesn't get wet}
+    answer: {type: mcq, key: a}
+  solution: |
+    In "if $P$, then $Q$", the hypothesis is $P$, the part after "if": *it rains*.
+- id: spec.geometry.logic.converse
+  skills: {primary: spec.geometry.logic}
+  rating: 1060
+  responseSkills: {reading: 1060}
+  stem: |
+    Which statement is the converse of "If $n$ is divisible by 6, then $n$ is even"?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'If $n$ is even, then $n$ is divisible by 6.'}
+    - {id: b, text: 'If $n$ is not divisible by 6, then $n$ is not even.'}
+    - {id: c, text: 'If $n$ is not even, then $n$ is not divisible by 6.'}
+    - {id: d, text: $n$ is divisible by 6 if and only if $n$ is even.}
+    answer: {type: mcq, key: a}
+  solution: |
+    The converse swaps hypothesis and conclusion: "If $n$ is even, then $n$ is divisible by 6." (It is false: try $n = 4$.)
+- id: spec.geometry.logic.contrapositive
+  skills: {primary: spec.geometry.logic}
+  rating: 1090
+  responseSkills: {reading: 1090}
+  stem: |
+    Which statement is the contrapositive of "If a triangle is equilateral, then it is isosceles"?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'If a triangle is isosceles, then it is equilateral.'}
+    - {id: b, text: 'If a triangle is not equilateral, then it is not isosceles.'}
+    - {id: c, text: 'If a triangle is not isosceles, then it is not equilateral.'}
+    - {id: d, text: A triangle is equilateral if and only if it is isosceles.}
+    answer: {type: mcq, key: c}
+  solution: |
+    The contrapositive negates both parts and swaps them: "If a triangle is not isosceles, then it is not equilateral." Like the original, it is true.
+- id: spec.geometry.logic.quantifier-truth
+  skills: {primary: spec.geometry.logic}
+  rating: 1150
+  responseSkills: {reading: 1140}
+  stem: |
+    Which statement is true?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: '$\exists x \in \mathbb{R},\ x^2 < 0$'}
+    - {id: b, text: '$\forall x \in \mathbb{R},\ x^2 > 0$'}
+    - {id: c, text: '$\forall x \in \mathbb{R},\ x^2 + 1 > 0$'}
+    - {id: d, text: '$\exists n \in \mathbb{Z},\ n^2 = 2$'}
+    answer: {type: mcq, key: c}
+  solution: |
+    (a) no real square is negative. (b) fails at $x = 0$. (c) $x^2 \ge 0$, so $x^2 + 1 \ge 1 > 0$: true. (d) $\sqrt{2}$ isn't an integer.
+- id: spec.geometry.logic.for-all-truth
+  skills: {primary: spec.geometry.logic}
+  rating: 1280
+  responseSkills: {reading: 1270, calculation: 1200, reasoning: 1270}
+  stem: |
+    Which statement about real numbers is true?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'For all $x$, $x^2 \ge x$.'}
+    - {id: b, text: 'For all $x$, if $x > 1$ then $x^2 > x$.'}
+    - {id: c, text: There is no $x$ with $x^2 = x$.}
+    - {id: d, text: 'For all $x$, $\sqrt{x^2} = x$.'}
+    answer: {type: mcq, key: b}
+  solution: |
+    (a) fails at $x = \tfrac{1}{2}$. (b) if $x > 1$, multiplying both sides by the positive number $x$ gives $x^2 > x$: true. (c) $x = 0$ and $x = 1$ work. (d) fails at $x = -2$, since $\sqrt{4} = 2$.
+- id: spec.geometry.logic.same-truth-value
+  skills: {primary: spec.geometry.logic}
+  rating: 1320
+  responseSkills: {reading: 1310, reasoning: 1310}
+  stem: |
+    Which statement always has the same truth value as $P \Rightarrow Q$?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: $Q \Rightarrow P$}
+    - {id: b, text: '$\text{not } P \Rightarrow \text{not } Q$'}
+    - {id: c, text: '$\text{not } Q \Rightarrow \text{not } P$'}
+    - {id: d, text: $P \Leftrightarrow Q$}
+    answer: {type: mcq, key: c}
+  solution: |
+    The contrapositive, not $Q \Rightarrow$ not $P$, is always true exactly when $P \Rightarrow Q$ is. The converse (a) and inverse (b) match each other, not the original.
+- id: spec.geometry.logic.negate-all
+  skills: {primary: spec.geometry.logic}
+  rating: 1370
+  responseSkills: {reading: 1360, reasoning: 1360}
+  stem: |
+    Which statement is the negation of "All of the students passed the test"?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: None of the students passed the test.}
+    - {id: b, text: At least one student did not pass the test.}
+    - {id: c, text: All of the students failed the test.}
+    - {id: d, text: At least one student passed the test.}
+    answer: {type: mcq, key: b}
+  solution: |
+    Negating "for all" gives "there exists ... not": at least one student did not pass. "None passed" is much stronger than the negation.
+- id: spec.geometry.logic.negate-nested
+  skills: {primary: spec.geometry.logic}
+  rating: 1420
+  responseSkills: {reading: 1410, reasoning: 1410}
+  stem: |
+    Which statement is the negation of "For every real number $x$, there is an integer $n$ with $n > x$"?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'For every real number $x$, there is no integer $n$ with $n > x$.'}
+    - {id: b, text: There is a real number $x$ such that every integer $n$ satisfies $n \le x$.}
+    - {id: c, text: There is a real number $x$ and an integer $n$ with $n \le x$.}
+    - {id: d, text: 'For every integer $n$, there is a real number $x$ with $n \le x$.'}
+    answer: {type: mcq, key: b}
+  solution: |
+    Negate one quantifier at a time: "for every $x$" becomes "there is an $x$", "there is an $n$" becomes "every $n$", and $n > x$ becomes $n \le x$.
+- id: spec.geometry.logic.true-equivalence
+  skills: {primary: spec.geometry.logic}
+  rating: 1440
+  responseSkills: {reading: 1420, calculation: 1350, reasoning: 1430}
+  stem: |
+    Which equivalence is true? ($x$ is real; $n$, $a$ and $b$ are integers.)
+  parts:
+  - id: a
+    options:
+    - {id: a, text: $x^2 = 4 \Leftrightarrow x = 2$}
+    - {id: b, text: '$n \text{ is even} \Leftrightarrow n^2 \text{ is even}$'}
+    - {id: c, text: $x > 1 \Leftrightarrow x^2 > 1$}
+    - {id: d, text: $ab = 0 \Leftrightarrow a = 0$}
+    answer: {type: mcq, key: b}
+  solution: |
+    (a) fails for $x = -2$. (c) fails for $x = -2$. (d) fails for $a = 1, b = 0$. (b) is true: an even $n = 2k$ gives $n^2 = 4k^2$, even; an odd $n = 2k + 1$ gives $n^2 = 2(2k^2 + 2k) + 1$, odd.
+- id: spec.geometry.logic.converse-counterexample
+  skills: {primary: spec.geometry.logic}
+  rating: 1460
+  responseSkills: {reading: 1440, calculation: 1380, reasoning: 1450}
+  stem: |
+    Consider the true statement "If $x > 3$, then $x^2 > 9$" (for real $x$).
+  parts:
+  - id: a
+    prompt: Is its converse true?
+    options:
+    - {id: a, text: 'True'}
+    - {id: b, text: 'False'}
+    answer: {type: mcq, key: b}
+  - id: b
+    prompt: Which value is a counterexample to the converse?
+    options:
+    - {id: a, text: $x = 4$}
+    - {id: b, text: $x = -4$}
+    - {id: c, text: $x = 3$}
+    - {id: d, text: $x = -3$}
+    answer: {type: mcq, key: b}
+  solution: |
+    The converse is "If $x^2 > 9$, then $x > 3$." A counterexample needs $x^2 > 9$ but $x \le 3$: $x = -4$ gives $16 > 9$ with $-4 \le 3$. ($x = -3$ fails the hypothesis, since $9 \not> 9$.)
+- id: spec.geometry.logic.four-forms-count
+  skills: {primary: spec.geometry.logic}
+  rating: 1480
+  responseSkills: {reading: 1480, calculation: 1430, reasoning: 1470, synthesis: 1420}
+  stem: |
+    Consider "If a quadrilateral has four equal sides, then it is a square." How many of the statement, its converse, its inverse and its contrapositive are true?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '2'}
+  solution: |
+    The statement is false: a rhombus that isn't a square has four equal sides. So its contrapositive is false too.
+    The converse, "if it is a square, then it has four equal sides", is true, and so is the inverse, which always matches the converse. That's 2 true statements.
+  verify: |
+    def answers():
+        # Every quadrilateral type: (four equal sides, four right angles). Square = both.
+        shapes = [(s, r) for s in (True, False) for r in (True, False)]  # square, rhombus, rectangle, other
+        P = lambda sh: sh[0]
+        Q = lambda sh: sh[0] and sh[1]
+        forms = [lambda sh: (not P(sh)) or Q(sh), lambda sh: (not Q(sh)) or P(sh),
+                 lambda sh: P(sh) or (not Q(sh)), lambda sh: Q(sh) or (not P(sh))]
+        return {"a": sum(all(f(sh) for sh in shapes) for f in forms)}
+- id: spec.geometry.logic.divisible-converse
+  skills: {primary: spec.geometry.logic}
+  rating: 1500
+  responseSkills: {reasoning: 1480, proof: 1480, clarity: 1450, precision: 1440}
+  stem: |
+    Explain why "If a whole number is divisible by 9, then it is divisible by 3" is true, but its converse is false.
+  parts:
+  - id: a
+    rubric:
+      criteria:
+      - {id: statement, description: 'Shows the statement: 9k = 3(3k), so a multiple of 9 is a multiple of 3', points: 2, dimension: reasoning}
+      - {id: converse, description: 'States the converse correctly: if divisible by 3, then divisible by 9', points: 1, dimension: precision}
+      - {id: counter, description: 'Gives a counterexample, such as 3, 6 or 12, and checks it', points: 1, dimension: proof}
+      - {id: clear, description: Clearly expressed, points: 1, dimension: clarity}
+  solution: |
+    If $n = 9k$ for a whole number $k$, then $n = 3(3k)$, which is divisible by 3. So the statement is true.
+    The converse is "If a whole number is divisible by 3, then it is divisible by 9." It is false: 6 is divisible by 3 but not by 9.
+- id: spec.geometry.logic.symbols
+  skills: {primary: spec.geometry.logic}
+  rating: 1600
+  responseSkills: {reading: 1550, reasoning: 1590, precision: 1600}
+  stem: |
+    A student solves $x^2 = 9$. Which line of working uses the symbols correctly?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: $x^2 = 9 \Rightarrow x = 3$}
+    - {id: b, text: $x^2 = 9 = x = \pm 3$}
+    - {id: c, text: '$x^2 = 9 \Leftrightarrow x = 3 \text{ or } x = -3$'}
+    - {id: d, text: $x^2 = 9 \Leftrightarrow x = 3$}
+    answer: {type: mcq, key: c}
+  solution: |
+    (a) is true but loses $x = -3$. (b) misuses $=$ between statements. (d) is false, since $x = -3$ satisfies the left side. (c) is a correct equivalence: both directions hold.
+- id: spec.geometry.logic.equivalent-form
+  skills: {primary: spec.geometry.logic}
+  rating: 1720
+  responseSkills: {reading: 1720, reasoning: 1710, synthesis: 1680}
+  stem: |
+    Which statement is logically equivalent to "If not ($P$ and $Q$), then $R$"?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'If not $R$, then $P$ and $Q$.'}
+    - {id: b, text: 'If not $P$ or not $Q$, then not $R$.'}
+    - {id: c, text: 'If $R$, then not ($P$ and $Q$).'}
+    - {id: d, text: 'If not $R$, then not $P$ and not $Q$.'}
+    answer: {type: mcq, key: a}
+  solution: |
+    The contrapositive negates and swaps: "If not $R$, then not (not ($P$ and $Q$))", and a double negation cancels, giving "If not $R$, then $P$ and $Q$".
+    (b) negates only one side and doesn't swap; (c) is the converse; (d) negates "$P$ and $Q$" wrongly.
+- id: spec.geometry.logic.quadratic-for-all
+  skills: {primary: spec.geometry.logic}
+  rating: 1720
+  responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1700}
+  stem: |
+    For which integers $k$ is the statement "$\forall x \in \mathbb{R},\ x^2 + kx + 4 > 0$" true?
+  parts:
+  - id: a
+    answer:
+      type: set
+      key: ['-3', '-2', '-1', '0', '1', '2', '3']
+  solution: |
+    The parabola $y = x^2 + kx + 4$ opens upward, so it is positive for all $x$ exactly when it never touches the $x$-axis: its discriminant is negative.
+    $k^2 - 16 < 0$ gives $-4 < k < 4$. At $k = \pm 4$, it touches zero, e.g. $x^2 + 4x + 4 = (x + 2)^2 = 0$ at $x = -2$, so those fail. The integers are $-3, -2, \dots, 3$.
+  verify: |
+    def answers():
+        xs = [i / 100 for i in range(-2000, 2001)]
+        good = [k for k in range(-10, 11) if all(x**2 + k*x + 4 > 0 for x in xs + [-k / 2])]
+        return {"a": good}
+- id: spec.geometry.logic.consecutive-product
+  skills: {primary: spec.geometry.logic}
+  rating: 1710
+  responseSkills: {reasoning: 1700, clarity: 1600, precision: 1650}
+  stem: |
+    Let $S$ be the statement "$\forall n \in \mathbb{Z},\ n^2 + n$ is even".
+  parts:
+  - id: a
+    prompt: Write the negation of $S$ using a quantifier, decide which of $S$ and its negation is true, and prove it.
+    rubric:
+      criteria:
+      - {id: neg, description: 'Writes the negation correctly: ∃n ∈ ℤ such that n² + n is odd (or not even)', points: 2, dimension: precision}
+      - {id: factor, description: 'Writes n² + n = n(n + 1), a product of consecutive integers', points: 1, dimension: reasoning}
+      - {id: even, description: 'Explains that one of n, n + 1 is even, so the product is even', points: 1, dimension: reasoning}
+      - {id: decide, description: Concludes S is true and its negation is false, points: 1, dimension: clarity}
+  solution: |
+    The negation is "$\exists n \in \mathbb{Z}$ such that $n^2 + n$ is odd".
+    $S$ is true: $n^2 + n = n(n + 1)$ is a product of two consecutive integers, and one of any two consecutive integers is even, so the product is even. So the negation is false.
+- id: spec.geometry.logic.negate-bertrand
+  skills: {primary: spec.geometry.logic}
+  rating: 1740
+  responseSkills: {reading: 1700, reasoning: 1730, precision: 1740}
+  stem: |
+    Bertrand's postulate says: "For every integer $n > 1$, there is a prime $p$ with $n < p < 2n$." Which is its negation?
+  parts:
+  - id: a
+    options:
+    - {id: a, text: 'For every integer $n > 1$, there is no prime $p$ with $n < p < 2n$.'}
+    - {id: b, text: There is an integer $n > 1$ such that every prime $p$ has $p \le n$ or $p \ge 2n$.}
+    - {id: c, text: There is an integer $n \le 1$ such that every prime $p$ has $p \le n$ or $p \ge 2n$.}
+    - {id: d, text: There is an integer $n > 1$ and a prime $p$ with $p \le n$ or $p \ge 2n$.}
+    answer: {type: mcq, key: b}
+  solution: |
+    Swap "for every $n > 1$" to "there is an $n > 1$" (the condition $n > 1$ stays), swap "there is a prime" to "every prime", and negate $n < p < 2n$ to "$p \le n$ or $p \ge 2n$". (a) is too strong, (c) changes the condition on $n$, and (d) keeps "there is" for $p$.

@@ -32,36 +32,42 @@ units:
           - id: spec.geometry.logic
             name: Logic and the language of proof
             summary: Implication, converse, inverse, contrapositive, negation and equivalence; the symbols ⇒ and ⇔; quantifiers ∀ and ∃.
+            size: small
             dotPoints: ["1.1.1", "1.1.3", "1.1.4"]
             prereqs: []
 
           - id: spec.geometry.proof-methods
             name: Contradiction and counterexamples
             summary: Proof by contradiction; using examples to illustrate and counterexamples to disprove.
+            size: cornerstone
             dotPoints: ["1.1.2", "1.1.5"]
             prereqs: [spec.geometry.logic]
 
           - id: spec.geometry.circle-angles
             name: Angles in circles
             summary: Prove and use the angle-in-a-semicircle, center-vs-circumference, same-arc and cyclic-quadrilateral theorems.
+            size: large
             dotPoints: ["1.1.6", "1.1.7", "1.1.8", "1.1.9"]
             prereqs: [spec.geometry.logic]
 
           - id: spec.geometry.chords-tangents
             name: Chords and the alternate segment
             summary: Equal chords and equal angles at the center (and conversely); the alternate segment theorem.
+            size: medium
             dotPoints: ["1.1.10", "1.1.11"]
             prereqs: [spec.geometry.circle-angles]
 
           - id: spec.geometry.chord-secant-lengths
             name: Intersecting chords, secants and tangents
             summary: Products of chord segments; the tangent–secant relation TM² = AM × BM.
+            size: medium
             dotPoints: ["1.1.12", "1.1.13"]
             prereqs: [spec.geometry.circle-angles]
 
           - id: spec.geometry.circle-problems
             name: Converses and circle geometry problems
             summary: Suitable converses of the circle results; finding unknown angles and lengths and proving further results by combining them.
+            size: cornerstone
             dotPoints: ["1.1.14", "1.1.15"]
             prereqs: [spec.geometry.chords-tangents, spec.geometry.chord-secant-lengths, spec.geometry.proof-methods]
 
@@ -75,18 +81,21 @@ units:
           - id: spec.combinatorics.counting-principles
             name: Counting principles
             summary: Multiplication and addition principles; factorial notation and nPr.
+            size: small
             dotPoints: ["1.2.2", "1.2.3"]
             prereqs: []
 
           - id: spec.combinatorics.permutations
             name: Permutations with restrictions
             summary: Ordered arrangements, including restrictions and repeated objects.
+            size: cornerstone
             dotPoints: ["1.2.1", "1.2.4"]
             prereqs: [spec.combinatorics.counting-principles]
 
           - id: spec.combinatorics.combinations
             name: Combinations
             summary: Unordered selections and the notation nCr.
+            size: cornerstone
             dotPoints: ["1.2.7", "1.2.8"]
             prereqs: [spec.combinatorics.counting-principles]
             external:
@@ -95,6 +104,7 @@ units:
           - id: spec.combinatorics.pascal
             name: Pascal's triangle identities
             summary: Derive and use simple identities associated with Pascal's triangle.
+            size: small
             dotPoints: ["1.2.9"]
             prereqs: [spec.combinatorics.combinations]
             external:
@@ -103,6 +113,7 @@ units:
           - id: spec.combinatorics.inclusion-exclusion
             name: Inclusion–exclusion
             summary: Counting the union of two and three sets.
+            size: medium
             dotPoints: ["1.2.5"]
             prereqs: [spec.combinatorics.counting-principles]
             external:
@@ -111,6 +122,7 @@ units:
           - id: spec.combinatorics.pigeonhole
             name: The pigeonhole principle
             summary: Solve problems and prove results with the pigeonhole principle.
+            size: medium
             dotPoints: ["1.2.6"]
             prereqs: [spec.combinatorics.counting-principles, spec.geometry.proof-methods]
 
@@ -124,6 +136,7 @@ units:
           - id: spec.vectors-2d.geometric
             name: Vectors as directed line segments
             summary: Displacement and velocity as vectors; magnitude and direction; scalar multiples; triangle and parallelogram rules.
+            size: small
             dotPoints: ["1.3.1", "1.3.2", "1.3.3", "1.3.4"]
             prereqs: []
             external:
@@ -132,24 +145,28 @@ units:
           - id: spec.vectors-2d.components
             name: Component form
             summary: Ordered-pair and column notation; unit vectors i and j; addition, subtraction and scalar multiplication in components.
+            size: small
             dotPoints: ["1.3.5", "1.3.6", "1.3.7", "1.3.8", "1.3.9"]
             prereqs: [spec.vectors-2d.geometric]
 
           - id: spec.vectors-2d.scalar-product
             name: The scalar product
             summary: Define and apply the dot product in component form; test for parallel and perpendicular vectors.
+            size: cornerstone
             dotPoints: ["1.3.10", "1.3.11", "1.3.12"]
             prereqs: [spec.vectors-2d.components]
 
           - id: spec.vectors-2d.projection
             name: Projections
             summary: Scalar and vector projections of one vector onto another.
+            size: medium
             dotPoints: ["1.3.13"]
             prereqs: [spec.vectors-2d.scalar-product]
 
           - id: spec.vectors-2d.applications
             name: Displacement, force and velocity
             summary: Applied problems, including resultant forces, relative velocity, and navigation with wind or current.
+            size: cornerstone
             dotPoints: ["1.3.14"]
             prereqs: [spec.vectors-2d.components, spec.vectors-2d.scalar-product]
             external:
@@ -158,6 +175,7 @@ units:
           - id: spec.vectors-2d.proofs
             name: Geometric proofs with vectors
             summary: Rhombus diagonals, the midpoint parallelogram and the parallelogram law, proved with vectors.
+            size: medium
             dotPoints: ["1.3.15", "1.3.16", "1.3.17"]
             prereqs: [spec.vectors-2d.scalar-product, spec.geometry.proof-methods]
 
@@ -173,6 +191,7 @@ units:
           - id: spec.trigonometry.equations-graphs
             name: Trig equations and transformed graphs
             summary: All solutions of f(a(x − b)) = c and graphs of y = f(a(x − b)) + c for sin, cos and tan.
+            size: medium
             dotPoints: ["2.1.1", "2.1.2"]
             prereqs: []
             external:
@@ -181,6 +200,7 @@ units:
           - id: spec.trigonometry.compound-angles
             name: Compound and double angles
             summary: Prove and apply the angle sum, difference and double-angle identities.
+            size: large
             dotPoints: ["2.1.3"]
             prereqs: []
             external:
@@ -189,24 +209,28 @@ units:
           - id: spec.trigonometry.reciprocal
             name: Reciprocal trig functions
             summary: sec, cosec and cot; their graphs and simple transformations.
+            size: medium
             dotPoints: ["2.1.4"]
             prereqs: [spec.trigonometry.equations-graphs]
 
           - id: spec.trigonometry.identities
             name: Trigonometric identities
             summary: Pythagorean identities, products as sums and differences, and other identities such as cos 3x = 4cos³x − 3cos x.
+            size: large
             dotPoints: ["2.1.5", "2.1.6", "2.1.8"]
             prereqs: [spec.trigonometry.compound-angles, spec.trigonometry.reciprocal]
 
           - id: spec.trigonometry.harmonic-form
             name: Harmonic form
             summary: Convert a cos x + b sin x to R cos(x ± α) or R sin(x ± α); sketch and solve with it.
+            size: medium
             dotPoints: ["2.1.7"]
             prereqs: [spec.trigonometry.compound-angles, spec.trigonometry.equations-graphs]
 
           - id: spec.trigonometry.periodic-models
             name: Modeling periodic motion
             summary: Model periodic phenomena with sine and cosine; interpret period and amplitude.
+            size: small
             dotPoints: ["2.1.9"]
             prereqs: [spec.trigonometry.equations-graphs]
             external:
@@ -222,24 +246,28 @@ units:
           - id: spec.matrices.arithmetic
             name: Matrix arithmetic
             summary: Notation; addition, subtraction, scalar and matrix multiplication; identity and inverse.
+            size: small
             dotPoints: ["2.2.1", "2.2.2"]
             prereqs: []
 
           - id: spec.matrices.determinant-inverse
             name: 2×2 determinants, inverses and matrix equations
             summary: Determinant and inverse of 2×2 matrices; solve AX = B.
+            size: large
             dotPoints: ["2.2.3"]
             prereqs: [spec.matrices.arithmetic]
 
           - id: spec.matrices.linear-systems
             name: Linear systems in two variables
             summary: Write a 2-variable linear system in matrix form and solve it with matrix algebra.
+            size: medium
             dotPoints: ["2.2.11"]
             prereqs: [spec.matrices.determinant-inverse]
 
           - id: spec.matrices.transformations
             name: Transformations of the plane
             summary: Translations as column vectors; dilations, rotations about the origin and reflections in lines through the origin as 2×2 matrices, applied to points and shapes.
+            size: large
             dotPoints: ["2.2.4", "2.2.5", "2.2.6"]
             prereqs: [spec.matrices.arithmetic, spec.trigonometry.compound-angles]
             external:
@@ -248,12 +276,14 @@ units:
           - id: spec.matrices.composition
             name: Composing and inverting transformations
             summary: Composition as matrix products; inverse transformations as matrix inverses.
+            size: medium
             dotPoints: ["2.2.7", "2.2.8"]
             prereqs: [spec.matrices.transformations, spec.matrices.determinant-inverse]
 
           - id: spec.matrices.geometry
             name: Determinants, area and geometric results
             summary: The determinant as an area scale factor; establish geometric results by matrix multiplication (e.g. two reflections make a rotation).
+            size: medium
             dotPoints: ["2.2.9", "2.2.10"]
             prereqs: [spec.matrices.composition]
 
@@ -267,12 +297,14 @@ units:
           - id: spec.real-complex.number-proofs
             name: Proofs about numbers
             summary: Prove simple results involving integers, parity, divisibility and rationals.
+            size: medium
             dotPoints: ["2.3.1"]
             prereqs: [spec.geometry.proof-methods]
 
           - id: spec.real-complex.rational-irrational
             name: Rational and irrational numbers
             summary: Terminating and recurring decimals to fractions and back; irrationality by contradiction (e.g. √2).
+            size: small
             dotPoints: ["2.3.2", "2.3.3"]
             prereqs: [spec.real-complex.number-proofs]
             external:
@@ -281,6 +313,7 @@ units:
           - id: spec.real-complex.induction
             name: Proof by induction
             summary: The structure of inductive proof; sum and divisibility results.
+            size: cornerstone
             dotPoints: ["2.3.4", "2.3.5", "2.3.6"]
             prereqs: [spec.real-complex.number-proofs]
             external:
@@ -289,18 +322,21 @@ units:
           - id: spec.real-complex.complex-arithmetic
             name: Complex numbers in Cartesian form
             summary: i as a root of x² = −1; a + bi; conjugates; addition, subtraction, multiplication and division.
+            size: cornerstone
             dotPoints: ["2.3.7", "2.3.8", "2.3.9", "2.3.10"]
             prereqs: []
 
           - id: spec.real-complex.complex-plane
             name: The complex plane
             summary: Complex numbers as points; addition as vector addition; conjugates as reflections.
+            size: large
             dotPoints: ["2.3.11", "2.3.12", "2.3.13"]
             prereqs: [spec.real-complex.complex-arithmetic, spec.vectors-2d.geometric]
 
           - id: spec.real-complex.quadratic-roots
             name: Complex roots of quadratics
             summary: The nature of roots of real quadratics; complex conjugate roots; linear factors over ℂ.
+            size: medium
             dotPoints: ["2.3.14", "2.3.15", "2.3.16"]
             prereqs: [spec.real-complex.complex-arithmetic]
             external:

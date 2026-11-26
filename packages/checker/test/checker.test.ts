@@ -129,6 +129,12 @@ describe("vectors and matrices", () => {
   it("checks 3D vectors", () => {
     expect(ok({ type: "vector", key: ["1", "0", "-2"] }, "\\mathbf{i}-2\\mathbf{k}")).toBe(true);
   });
+  it("reads decorated vector names as plain variables", () => {
+    const e: AnswerSpec = { type: "expression", key: "\\frac{1}{2}(a+b)", vars: { a: {}, b: {} } };
+    for (const s of ["\\frac{1}{2}(\\mathbf{a}+\\mathbf{b})", "\\frac{1}{2}\\tilde{a}+\\frac{1}{2}\\vec{b}", "\\frac{\\underset{\\sim}{a}+\\boldsymbol{b}}{2}"]) expect(ok(e, s)).toBe(true);
+    expect(ok(e, "\\mathbf{a}+\\mathbf{b}")).toBe(false);
+    expect(ok(v, "2\\tilde{i}-3\\hat{j}")).toBe(true);
+  });
   it("compares matrices entrywise", () => {
     const m: AnswerSpec = { type: "matrix", key: [["0", "-1"], ["1", "0"]] };
     expect(ok(m, "\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}")).toBe(true);

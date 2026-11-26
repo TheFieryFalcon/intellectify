@@ -5,14 +5,15 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProgress, type Backend, type StoredSkillState, type User } from "./types";
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Profile, type StoredSkillState, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -34,6 +35,7 @@ const AUTH_MESSAGES: Record<string, string> = {
   "auth/network-request-failed": "Couldn't reach the server. Check your connection.",
   "auth/popup-blocked": "Your browser blocked the Google sign-in window. Allow pop-ups and try again.",
   "auth/operation-not-allowed": "This sign-in method isn't enabled for the project yet.",
+  "auth/admin-restricted-operation": "This sign-in method isn't enabled for the project yet.",
   "auth/unauthorized-domain": "This site isn't on the project's list of authorized domains.",
 };
 
@@ -47,12 +49,15 @@ function friendly(err: unknown): never | void {
 }
 
 /**
- * Firestore layout (docs/SPEC.md §15.3):
+ * Firestore layout (docs/SPEC.md §16.3):
  *   users/{uid}                                  profile
  *   users/{uid}/courses/{course}                 rollupRanks
  *   users/{uid}/courses/{course}/skillStates/{skillId}
  *   users/{uid}/courses/{course}/responseSkillStates/{id}
  *   users/{uid}/courses/{course}/attempts/{attemptId}
+ *   users/{uid}/courses/{course}/challenges/{sectionId}   Section Challenge progress
+ *   users/{uid}/courses/{course}/meta/achievements         achievement stats and earned dates
+ *   users/{uid}/markingJobs/{jobId}                         free-response answers and their LLM marks
  */
 export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const app = initializeApp(config);
@@ -61,7 +66,13 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const courseDoc = (uid: string, course: string) => doc(db, "users", uid, "courses", course);
 
   const listeners = new Set<(u: User | null) => void>();
-  const toUser = (u: FirebaseUser): User => ({ uid: u.uid, displayName: u.displayName || u.email?.split("@")[0] || "Student", email: u.email, local: false });
+  const toUser = (u: FirebaseUser): User => ({
+    uid: u.uid,
+    displayName: u.displayName || u.email?.split("@")[0] || (u.isAnonymous ? `Anonymous ${u.uid.slice(0, 4)}` : "Student"),
+    email: u.email,
+    local: false,
+    anonymous: u.isAnonymous,
+  });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
   onAuthStateChanged(auth, (u) => {
@@ -98,10 +109,55 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       await sendPasswordResetEmail(auth, email.trim()).catch(friendly);
     },
     async signInAsGuest() {
-      throw new Error("Sign in with Google or email.");
+      // Anonymous accounts work on any domain, so deploy previews can be tested without adding them to Firebase.
+      await signInAnonymously(auth).catch(friendly);
     },
     async signOut() {
       await signOut(auth);
+    },
+    async loadProfile(uid) {
+      const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
+      return { ...emptyProfile(), ...(d as Partial<Profile>) };
+    },
+    async setPlacement(uid, placement) {
+      await setDoc(doc(db, "users", uid), { placement }, { merge: true });
+    },
+    async grantXp(u, grant) {
+      const batch = writeBatch(db);
+      const own: Record<string, unknown> = { xp: increment(grant.amount) };
+      if (grant.questionId) own.questionXpAt = { [grant.questionId]: Date.now() };
+      if (grant.visitDay) own.lastVisitDay = grant.visitDay;
+      batch.set(doc(db, "users", u.uid), own, { merge: true });
+      // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
+      await batch.commit();
+    },
+    async loadAchievements(uid, course) {
+      const d = await getDoc(doc(courseDoc(uid, course), "meta", "achievements"));
+      return d.exists() ? (d.data() as AchievementRecord) : null;
+    },
+    async saveAchievements(uid, course, record) {
+      await setDoc(doc(courseDoc(uid, course), "meta", "achievements"), record);
+    },
+    async loadMarkingJobs(uid) {
+      const snap = await getDocs(query(collection(db, "users", uid, "markingJobs"), orderBy("createdAt", "desc"), limit(100)));
+      return snap.docs.map((d) => d.data() as MarkingJob);
+    },
+    async saveMarkingJob(uid, job) {
+      // Firestore rejects undefined values; a JSON round trip drops them.
+      await setDoc(doc(db, "users", uid, "markingJobs", job.id), JSON.parse(JSON.stringify(job)));
+    },
+    async idToken() {
+      return auth.currentUser ? auth.currentUser.getIdToken() : null;
+    },
+    async loadChallenge(uid, course, section) {
+      const d = await getDoc(doc(courseDoc(uid, course), "challenges", section));
+      return d.exists() ? (d.data() as ChallengeState) : null;
+    },
+    async saveChallenge(uid, course, section, state) {
+      const ref = doc(courseDoc(uid, course), "challenges", section);
+      if (state) await setDoc(ref, state);
+      else await deleteDoc(ref);
     },
     async loadProgress(uid, course) {
       const progress = emptyProgress();

@@ -1,4 +1,5 @@
-import type { RankLevel, SkillState } from "@intellectify/engine";
+import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
+import type { MarkResult } from "@intellectify/content/marking";
 
 export interface User {
   uid: string;
@@ -6,6 +7,8 @@ export interface User {
   email: string | null;
   /** True for the local-only guest used when Firebase isn't configured. */
   local: boolean;
+  /** Signed in anonymously (Firebase), e.g. to test deploy previews. Kept off public leaderboards. */
+  anonymous?: boolean;
 }
 
 /** A skill's stored state: the engine's state plus selection history. */
@@ -39,7 +42,85 @@ export interface CourseProgress {
 
 export const emptyProgress = (): CourseProgress => ({ skills: {}, responseSkills: {}, rollupRanks: {} });
 
+/** Account-wide profile data (SPEC §12.4). */
+export interface Profile {
+  /** Total XP, never decreasing. */
+  xp: number;
+  /** When each question last earned XP (key: question ID), for the 30-day repeat rule. */
+  questionXpAt: Record<string, number>;
+  /** Perth date (YYYY-MM-DD) of the last first-visit bonus. */
+  lastVisitDay: string | null;
+  /** Onboarding placement (SPEC §5.3): the maths mark given, where it's from, and the starting tier per course. */
+  placement: Placement | null;
+}
+
+export interface Placement {
+  mark: number;
+  source: MarkSource;
+  /** Starting tier per course id, e.g. { specialist: 4, methods: 5 }. */
+  tiers: Record<string, Tier>;
+  at: number;
+}
+
+export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null, placement: null });
+
+export interface XpGrant {
+  amount: number;
+  /** Question that earned it, recorded for the repeat rule. */
+  questionId?: string;
+  /** Set when this grant is the first-visit bonus for that day. */
+  visitDay?: string;
+}
+
 /** Everything the app needs from a backend. Firebase and local storage both implement it. */
+/** Saved Section Challenge progress (SPEC §8.4: untimed, resumable). */
+export interface ChallengeState {
+  questions: { id: string; variant: number | null }[];
+  /** One entry per finished question, in order. */
+  results: { id: string; outcome: number; firstTry: boolean }[];
+  startedAt: number;
+  finishedAt: number | null;
+}
+
+/** Achievement stats (opaque here; see lib/achievements.ts) and earned achievements with their dates. */
+export interface AchievementRecord {
+  stats: unknown;
+  earned: Record<string, number>;
+}
+
+/**
+ * A free-response answer waiting for, or holding, its LLM mark (SPEC §10.2). Saved before the first
+ * marking attempt, so it survives closing the app; the open app retries with backoff.
+ */
+export interface MarkingJob {
+  id: string;
+  course: string;
+  skill: string;
+  questionId: string;
+  questionVersion: number;
+  variant: number | null;
+  answers: Record<string, string>;
+  createdAt: number;
+  /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */
+  status: "pending" | "marked" | "failed";
+  attempts: number;
+  nextTryAt: number;
+  lastError: string | null;
+  result: MarkResult | null;
+  /** The result has been applied to θ, ranks, XP and achievements. */
+  applied: boolean;
+  /** One appeal per marked answer (SPEC §10.3). */
+  appeal: {
+    argument: string;
+    status: "pending" | "marked" | "failed";
+    attempts: number;
+    nextTryAt: number;
+    lastError: string | null;
+    result: MarkResult | null;
+    applied: boolean;
+  } | null;
+}
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -52,6 +133,12 @@ export interface Backend {
   signInAsGuest(): Promise<void>;
   signOut(): Promise<void>;
 
+  loadProfile(uid: string): Promise<Profile>;
+  /** Save the onboarding placement. */
+  setPlacement(uid: string, placement: Placement): Promise<void>;
+  /** Add XP to the profile and the public leaderboard mirror. */
+  grantXp(user: User, grant: XpGrant): Promise<void>;
+
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */
   saveResult(
@@ -60,4 +147,18 @@ export interface Backend {
     changes: { skills: Record<string, StoredSkillState>; responseSkills: Record<string, StoredSkillState>; rollupRanks: Record<string, RankLevel> },
     attempt: AttemptRecord | null,
   ): Promise<void>;
+
+  /** Achievement stats and earned achievements for one course (SPEC §12.1). */
+  loadAchievements(uid: string, course: string): Promise<AchievementRecord | null>;
+  saveAchievements(uid: string, course: string, record: AchievementRecord): Promise<void>;
+
+  /** Section Challenge progress; `null` clears it (to start again). */
+  loadChallenge(uid: string, course: string, section: string): Promise<ChallengeState | null>;
+  saveChallenge(uid: string, course: string, section: string, state: ChallengeState | null): Promise<void>;
+
+  /** Recent marking jobs, newest first. */
+  loadMarkingJobs(uid: string): Promise<MarkingJob[]>;
+  saveMarkingJob(uid: string, job: MarkingJob): Promise<void>;
+  /** A fresh ID token for calls to /api/mark; null in local mode. */
+  idToken(): Promise<string | null>;
 }

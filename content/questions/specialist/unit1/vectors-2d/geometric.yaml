@@ -1,0 +1,501 @@
+# Vectors as directed line segments: magnitude, direction, scalar multiples, triangle and parallelogram rules (1.3.1–1.3.4).
+
+# ─────────────── Tier 1 ───────────────
+- id: spec.vectors-2d.geometric.which-vector
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1020
+  responseSkills: { reading: 1020 }
+  stem: |
+    Which of these is a vector quantity?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'A speed of 60 km/h' }
+        - { id: b, text: 'A mass of 3 kg' }
+        - { id: c, text: 'A displacement of 5 km due north' }
+        - { id: d, text: 'A distance of 12 m' }
+      answer: { type: mcq, key: c }
+  solution: |
+    A vector needs a size and a direction. Only "5 km due north" gives a direction.
+
+- id: spec.vectors-2d.geometric.scalar-multiple-magnitude
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1050
+  responseSkills: { calculation: 1050 }
+  variants:
+    - { m: 4, k: -3, v: 12 }
+    - { m: 6, k: -2, v: 12 }
+    - { m: 5, k: 4, v: 20 }
+  stem: |
+    $|\mathbf{a}| = {{m}}$. Find $|{{k}}\mathbf{a}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $|k\mathbf{a}| = |k|\,|\mathbf{a}| = |{{k}}| \times {{m}}$. The sign of $k$ only changes the direction.
+  verify: |
+    def answers(m, k, v):
+        return {"a": abs(k) * m}
+
+- id: spec.vectors-2d.geometric.negative-multiple
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1070
+  responseSkills: { reading: 1070 }
+  stem: |
+    How does $-2\mathbf{a}$ compare with $\mathbf{a}$?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Same direction, twice as long' }
+        - { id: b, text: 'Opposite direction, twice as long' }
+        - { id: c, text: 'Opposite direction, half as long' }
+        - { id: d, text: 'Same direction, half as long' }
+      answer: { type: mcq, key: b }
+  solution: |
+    $|-2| = 2$, so it is twice as long. The negative sign reverses the direction.
+
+- id: spec.vectors-2d.geometric.chain
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1090
+  responseSkills: { reading: 1090 }
+  stem: |
+    Simplify $\overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CD}$.
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\overrightarrow{DA}$' }
+        - { id: b, text: '$\overrightarrow{AC}$' }
+        - { id: c, text: '$\overrightarrow{AD}$' }
+        - { id: d, text: '$\mathbf{0}$' }
+      answer: { type: mcq, key: c }
+  solution: |
+    Head to tail: $A \to B \to C \to D$ has the same effect as going straight from $A$ to $D$, so the sum is $\overrightarrow{AD}$.
+
+- id: spec.vectors-2d.geometric.perpendicular-walk
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1120
+  responseSkills: { calculation: 1100, reading: 1120 }
+  variants:
+    - { e: 6, n: 8, v: 10 }
+    - { e: 5, n: 12, v: 13 }
+    - { e: 9, n: 12, v: 15 }
+  stem: |
+    A cyclist rides {{e}} km due east, then {{n}} km due north. How far is the cyclist from the starting point?
+  parts:
+    - id: a
+      prompt: Distance (km)
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The two legs meet at a right angle, so the distance is $\sqrt{ {{e}}^2 + {{n}}^2 } = {{v}}$ km.
+  verify: |
+    def answers(e, n, v):
+        return {"a": sqrt(e**2 + n**2)}
+
+- id: spec.vectors-2d.geometric.parallelogram-diagonal
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1150
+  responseSkills: {reading: 1150, calculation: 1100}
+  stem: |
+    $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Find $\overrightarrow{OB}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: 'a+c', vars: { a: {}, c: {} } }
+  solution: |
+    Opposite sides are equal vectors, so $\overrightarrow{AB} = \overrightarrow{OC} = \mathbf{c}$. Then $\overrightarrow{OB} = \overrightarrow{OA} + \overrightarrow{AB} = \mathbf{a} + \mathbf{c}$.
+  verify: |
+    def answers():
+        a, c = symbols("a c")
+        return {"a": a + c}
+
+- id: spec.vectors-2d.geometric.parallelogram-other-diagonal
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1200
+  responseSkills: {reading: 1200, calculation: 1150}
+  stem: |
+    $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Find $\overrightarrow{AC}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: 'c-a', vars: { a: {}, c: {} } }
+  solution: |
+    Go from $A$ back to $O$, then to $C$: $\overrightarrow{AC} = -\mathbf{a} + \mathbf{c} = \mathbf{c} - \mathbf{a}$.
+  verify: |
+    def answers():
+        a, c = symbols("a c")
+        return {"a": c - a}
+
+# ─────────────── Tier 2 ───────────────
+- id: spec.vectors-2d.geometric.midpoint-path
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1270
+  responseSkills: {reading: 1270, calculation: 1220, reasoning: 1250}
+  stem: |
+    $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. $N$ is the midpoint of $BC$. Find $\overrightarrow{ON}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: 'c+\frac{1}{2}a', vars: { a: {}, c: {} } }
+  solution: |
+    $\overrightarrow{CB} = \overrightarrow{OA} = \mathbf{a}$, so $\overrightarrow{CN} = \tfrac{1}{2}\mathbf{a}$. Then $\overrightarrow{ON} = \overrightarrow{OC} + \overrightarrow{CN} = \mathbf{c} + \tfrac{1}{2}\mathbf{a}$.
+  verify: |
+    def answers():
+        a, c = symbols("a c")
+        return {"a": c + a / 2}
+
+- id: spec.vectors-2d.geometric.bearing-resultant
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1300
+  responseSkills: {reading: 1300, calculation: 1280, reasoning: 1280}
+  requiresCalculator: true
+  variants:
+    - { s: 5, e: 12, d: 13, b: 112.6 }
+    - { s: 8, e: 15, d: 17, b: 118.1 }
+  stem: |
+    A ship sails {{s}} km due south, then {{e}} km due east. Find the ship's distance from its starting point, and the true bearing of its final position from the start, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Distance (km)
+      answer: { type: numeric, key: '{{d}}' }
+    - id: b
+      prompt: Bearing (°T)
+      answer: { type: numeric, key: '{{b}}' }
+  solution: |
+    Distance: $\sqrt{ {{s}}^2 + {{e}}^2 } = {{d}}$ km. The final position is east of due south by angle $\theta$, where $\tan\theta = \tfrac{ {{e}} }{ {{s}} }$. The bearing is $180^\circ - \theta \approx {{b}}^\circ\text{T}$.
+  verify: |
+    def answers(s, e, d, b):
+        theta = deg(atan(Rational(e, s)))
+        return {"a": sqrt(s**2 + e**2), "b": round(float(180 - theta), 1)}
+
+- id: spec.vectors-2d.geometric.divide-side
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1350
+  responseSkills: {reading: 1340, calculation: 1300, reasoning: 1330}
+  variants:
+    - { p: 1, q: 2 }
+    - { p: 3, q: 1 }
+    - { p: 2, q: 3 }
+  stem: |
+    In triangle $OAB$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ lies on $AB$ with $AP : PB = {{p}} : {{q}}$. Find $\overrightarrow{OP}$ in terms of $\mathbf{a}$ and $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{ {{q}} }{ {{p}}+{{q}} }a+\frac{ {{p}} }{ {{p}}+{{q}} }b', vars: { a: {}, b: {} } }
+  solution: |
+    $\overrightarrow{AB} = \mathbf{b} - \mathbf{a}$, and $P$ is $\tfrac{ {{p}} }{ {{p}} + {{q}} }$ of the way from $A$ to $B$. So
+    $\overrightarrow{OP} = \mathbf{a} + \tfrac{ {{p}} }{ {{p}} + {{q}} }(\mathbf{b} - \mathbf{a}) = \tfrac{ {{q}} }{ {{p}} + {{q}} }\mathbf{a} + \tfrac{ {{p}} }{ {{p}} + {{q}} }\mathbf{b}$.
+  verify: |
+    def answers(p, q):
+        a, b = symbols("a b")
+        return {"a": a + Rational(p, p + q) * (b - a)}
+
+- id: spec.vectors-2d.geometric.sum-60
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1380
+  responseSkills: {reading: 1360, calculation: 1370, reasoning: 1360}
+  variants:
+    - { p: 3, q: 5, v: 7 }
+    - { p: 7, q: 8, v: 13 }
+    - { p: 5, q: 16, v: 19 }
+  stem: |
+    $|\mathbf{a}| = {{p}}$, $|\mathbf{b}| = {{q}}$, and the angle between $\mathbf{a}$ and $\mathbf{b}$ is $60^\circ$. Find $|\mathbf{a} + \mathbf{b}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Placed head to tail, the angle inside the triangle is $180^\circ - 60^\circ = 120^\circ$. By the cosine rule,
+    $|\mathbf{a} + \mathbf{b}|^2 = {{p}}^2 + {{q}}^2 - 2({{p}})({{q}})\cos 120^\circ = {{p}}^2 + {{q}}^2 + {{p}}\times{{q}}$, so the answer is ${{v}}$.
+  verify: |
+    def answers(p, q, v):
+        return {"a": sqrt(p**2 + q**2 - 2*p*q*cos(2*pi/3))}
+
+# ─────────────── Tier 3 ───────────────
+- id: spec.vectors-2d.geometric.difference-120
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1430
+  responseSkills: {reading: 1430, calculation: 1400, reasoning: 1410}
+  variants:
+    - { p: 3, q: 5, v: 7 }
+    - { p: 7, q: 8, v: 13 }
+  stem: |
+    $|\mathbf{a}| = {{p}}$, $|\mathbf{b}| = {{q}}$, and the angle between $\mathbf{a}$ and $\mathbf{b}$ is $120^\circ$. Find $|\mathbf{a} - \mathbf{b}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Draw $\mathbf{a}$ and $\mathbf{b}$ from the same point. $\mathbf{a} - \mathbf{b}$ joins the head of $\mathbf{b}$ to the head of $\mathbf{a}$, so it is the third side of a triangle with the $120^\circ$ angle between sides ${{p}}$ and ${{q}}$:
+    $|\mathbf{a} - \mathbf{b}|^2 = {{p}}^2 + {{q}}^2 - 2({{p}})({{q}})\cos 120^\circ = {{p}}^2 + {{q}}^2 + {{p}}\times{{q}}$, so the answer is ${{v}}$.
+  verify: |
+    def answers(p, q, v):
+        return {"a": sqrt(p**2 + q**2 - 2*p*q*cos(2*pi/3))}
+
+- id: spec.vectors-2d.geometric.hexagon
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1470
+  responseSkills: {reading: 1470, calculation: 1420, reasoning: 1450, synthesis: 1450}
+  stem: |
+    $ABCDEF$ is a regular hexagon: all six sides are equal and all six angles are $120^\circ$. $\overrightarrow{AB} = \mathbf{a}$ and $\overrightarrow{BC} = \mathbf{b}$. Find, in terms of $\mathbf{a}$ and $\mathbf{b}$:
+  parts:
+    - id: a
+      prompt: $\overrightarrow{AD}$
+      answer: { type: expression, key: '2b', vars: { a: {}, b: {} } }
+    - id: b
+      prompt: $\overrightarrow{CD}$
+      answer: { type: expression, key: 'b-a', vars: { a: {}, b: {} } }
+  solution: |
+    A regular hexagon splits into six equilateral triangles meeting at its center, so the long diagonal $AD$ is twice a side and is parallel to $BC$: $\overrightarrow{AD} = 2\mathbf{b}$.
+    Then $\overrightarrow{CD} = \overrightarrow{CB} + \overrightarrow{BA} + \overrightarrow{AD} = -\mathbf{b} - \mathbf{a} + 2\mathbf{b} = \mathbf{b} - \mathbf{a}$.
+  verify: |
+    def answers():
+        a, b = symbols("a b")
+        # Hexagon vertices on a unit circle, A at angle 180°, going anticlockwise.
+        P = [Matrix([cos(pi + k*pi/3), sin(pi + k*pi/3)]) for k in range(6)]
+        A, B, C, D = P[0], P[1], P[2], P[3]
+        va, vb = B - A, C - B
+        x, y = symbols("x y")
+        def coeffs(v):
+            s = solve(list(x*va + y*vb - v), [x, y])
+            return simplify(s[x])*a + simplify(s[y])*b
+        return {"a": coeffs(D - A), "b": coeffs(D - C)}
+
+- id: spec.vectors-2d.geometric.two-forces
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1490
+  responseSkills: {reading: 1450, calculation: 1470, reasoning: 1470}
+  requiresCalculator: true
+  stem: |
+    Two forces of 10 N and 6 N act on a particle. The angle between them is $60^\circ$. Find the magnitude of the resultant force, and the angle it makes with the 10 N force, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Magnitude (N)
+      answer: { type: numeric, key: 14 }
+    - id: b
+      prompt: Angle (°)
+      answer: { type: numeric, key: 21.8 }
+  solution: |
+    Head to tail, the angle inside the triangle is $120^\circ$: $R^2 = 10^2 + 6^2 - 2(10)(6)\cos 120^\circ = 196$, so $R = 14$ N.
+    Sine rule: $\dfrac{\sin\theta}{6} = \dfrac{\sin 120^\circ}{14}$, so $\theta \approx 21.8^\circ$.
+  verify: |
+    def answers():
+        R = sqrt(10**2 + 6**2 - 2*10*6*cos(2*pi/3))
+        theta = deg(asin(6*sin(2*pi/3)/R))
+        return {"a": R, "b": round(float(theta), 1)}
+
+- id: spec.vectors-2d.geometric.midpoint-theorem
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1520
+  responseSkills: {reasoning: 1500, proof: 1500, clarity: 1450}
+  stem: |
+    In triangle $OAB$, $M$ is the midpoint of $OA$ and $N$ is the midpoint of $OB$. Use vectors to prove that $MN$ is parallel to $AB$ and half its length.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Defines vectors, e.g. OA = a and OB = b, and writes OM = ½a and ON = ½b", points: 1, dimension: proof }
+          - { id: mn, description: "MN = ON − OM = ½(b − a)", points: 1, dimension: reasoning }
+          - { id: ab, description: "AB = b − a, so MN = ½AB", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes: a positive multiple means parallel, and the factor ½ means half the length", points: 1, dimension: clarity }
+  solution: |
+    Let $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. Then $\overrightarrow{OM} = \tfrac{1}{2}\mathbf{a}$ and $\overrightarrow{ON} = \tfrac{1}{2}\mathbf{b}$, so
+    $\overrightarrow{MN} = \tfrac{1}{2}\mathbf{b} - \tfrac{1}{2}\mathbf{a} = \tfrac{1}{2}(\mathbf{b} - \mathbf{a}) = \tfrac{1}{2}\overrightarrow{AB}$.
+    $\overrightarrow{MN}$ is a scalar multiple of $\overrightarrow{AB}$, so $MN$ is parallel to $AB$, and $|\overrightarrow{MN}| = \tfrac{1}{2}|\overrightarrow{AB}|$.
+
+# ─────────────── Tier 4 ───────────────
+- id: spec.vectors-2d.geometric.equal-magnitudes
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1570
+  responseSkills: {reading: 1500, calculation: 1520, reasoning: 1550, synthesis: 1570}
+  stem: |
+    Non-zero vectors $\mathbf{a}$ and $\mathbf{b}$ satisfy $|\mathbf{a}| = |\mathbf{b}| = |\mathbf{a} + \mathbf{b}|$. Find the angle between $\mathbf{a}$ and $\mathbf{b}$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 120 }
+  solution: |
+    Head to tail, $\mathbf{a}$, $\mathbf{b}$ and $\mathbf{a} + \mathbf{b}$ form a triangle with three equal sides, so every angle inside it is $60^\circ$. The angle between $\mathbf{a}$ and $\mathbf{b}$ (drawn from the same point) is $180^\circ - 60^\circ = 120^\circ$.
+  verify: |
+    def answers():
+        # |a + b|^2 = 2 + 2cos(t) = 1 with |a| = |b| = 1
+        t = symbols("t")
+        sol = [s for s in solve(2 + 2*cos(t) - 1, t) if 0 <= s <= pi]
+        return {"a": deg(sol[0])}
+
+- id: spec.vectors-2d.geometric.sum-and-difference
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1610
+  responseSkills: {calculation: 1580, reasoning: 1590, synthesis: 1600}
+  variants:
+    - { p: 4, q: 6, r: 8, v: '2\sqrt{10}' }
+    - { p: 5, q: 7, r: 10, v: '4\sqrt{3}' }
+  stem: |
+    $|\mathbf{a}| = {{p}}$, $|\mathbf{b}| = {{q}}$ and $|\mathbf{a} + \mathbf{b}| = {{r}}$. Find the exact value of $|\mathbf{a} - \mathbf{b}|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}', form: [exact] }
+  solution: |
+    Let $\theta$ be the angle between $\mathbf{a}$ and $\mathbf{b}$. The cosine rule on the head-to-tail triangle gives $|\mathbf{a} + \mathbf{b}|^2 = {{p}}^2 + {{q}}^2 + 2({{p}})({{q}})\cos\theta$. On the triangle formed by $\mathbf{a}$, $\mathbf{b}$ and $\mathbf{a} - \mathbf{b}$, $|\mathbf{a} - \mathbf{b}|^2 = {{p}}^2 + {{q}}^2 - 2({{p}})({{q}})\cos\theta$.
+    Adding: $|\mathbf{a} + \mathbf{b}|^2 + |\mathbf{a} - \mathbf{b}|^2 = 2({{p}}^2 + {{q}}^2)$, so $|\mathbf{a} - \mathbf{b}| = \sqrt{2({{p}}^2 + {{q}}^2) - {{r}}^2} = {{v}}$.
+  verify: |
+    def answers(p, q, r, v):
+        c = Rational(r**2 - p**2 - q**2, 2*p*q)
+        return {"a": sqrt(p**2 + q**2 - 2*p*q*c)}
+
+- id: spec.vectors-2d.geometric.equilibrium-angle
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1660
+  responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1650}
+  requiresCalculator: true
+  stem: |
+    Three forces of 5 N, 7 N and 8 N act on a particle, which stays at rest (the forces add to zero). Find the angle between the 5 N and 7 N forces, correct to one decimal place.
+  parts:
+    - id: a
+      prompt: Angle (°)
+      answer: { type: numeric, key: 98.2 }
+  solution: |
+    The forces add to zero, so placed head to tail they close up into a triangle with sides 5, 7 and 8. The angle inside the triangle between the 5 and 7 sides is $C$, opposite the 8 side: $\cos C = \dfrac{25 + 49 - 64}{2(5)(7)} = \dfrac{1}{7}$, so $C \approx 81.8^\circ$.
+    Drawn from the same point, the angle between the forces is $180^\circ - C \approx 98.2^\circ$.
+  verify: |
+    def answers():
+        C = acos(Rational(25 + 49 - 64, 70))
+        return {"a": round(float(180 - deg(C)), 1)}
+
+# ─────────────── Tier 5 ───────────────
+- id: spec.vectors-2d.geometric.trapezium-diagonals
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1710
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
+  variants:
+    - { k: 2 }
+    - { k: 3 }
+  stem: |
+    In quadrilateral $OABC$, $\overrightarrow{OA} = \mathbf{a}$, $\overrightarrow{OC} = \mathbf{c}$ and $\overrightarrow{CB} = {{k}}\mathbf{a}$, where $\mathbf{a}$ and $\mathbf{c}$ are not parallel. The diagonals $OB$ and $AC$ meet at $X$. Find $\overrightarrow{OX}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{ {{k}} }{ {{k}}+1 }a+\frac{1}{ {{k}}+1 }c', vars: { a: {}, c: {} } }
+  solution: |
+    $\overrightarrow{OB} = \mathbf{c} + {{k}}\mathbf{a}$. Since $X$ is on $OB$, $\overrightarrow{OX} = \lambda({{k}}\mathbf{a} + \mathbf{c})$ for some number $\lambda$.
+    Since $X$ is on $AC$, $\overrightarrow{OX} = \mathbf{a} + \mu(\mathbf{c} - \mathbf{a}) = (1 - \mu)\mathbf{a} + \mu\mathbf{c}$ for some number $\mu$.
+    $\mathbf{a}$ and $\mathbf{c}$ aren't parallel, so the two expressions agree only if the amounts of $\mathbf{a}$ match and the amounts of $\mathbf{c}$ match: ${{k}}\lambda = 1 - \mu$ and $\lambda = \mu$. So $\lambda = \tfrac{1}{ {{k}} + 1 }$, and $\overrightarrow{OX} = \tfrac{ {{k}} }{ {{k}} + 1 }\mathbf{a} + \tfrac{1}{ {{k}} + 1 }\mathbf{c}$.
+  verify: |
+    def answers(k):
+        a, c, lam, mu = symbols("a c lam mu")
+        s = solve([k*lam - (1 - mu), lam - mu], [lam, mu])
+        return {"a": s[lam] * (k*a + c)}
+
+- id: spec.vectors-2d.geometric.cevians
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1740
+  responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1730}
+  stem: |
+    In triangle $OAB$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ is on $OA$ with $OP = \tfrac{2}{3}OA$, and $Q$ is on $OB$ with $OQ = \tfrac{3}{4}OB$. The lines $AQ$ and $BP$ meet at $X$. Find $\overrightarrow{OX}$ in terms of $\mathbf{a}$ and $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{1}{3}a+\frac{1}{2}b', vars: { a: {}, b: {} } }
+  solution: |
+    On $AQ$: $\overrightarrow{OX} = \mathbf{a} + s\left(\tfrac{3}{4}\mathbf{b} - \mathbf{a}\right) = (1 - s)\mathbf{a} + \tfrac{3}{4}s\,\mathbf{b}$.
+    On $BP$: $\overrightarrow{OX} = \mathbf{b} + t\left(\tfrac{2}{3}\mathbf{a} - \mathbf{b}\right) = \tfrac{2}{3}t\,\mathbf{a} + (1 - t)\mathbf{b}$.
+    $\mathbf{a}$ and $\mathbf{b}$ aren't parallel, so match the amounts of each: $1 - s = \tfrac{2}{3}t$ and $\tfrac{3}{4}s = 1 - t$. Substituting $t = 1 - \tfrac{3}{4}s$ gives $1 - s = \tfrac{2}{3} - \tfrac{1}{2}s$, so $s = \tfrac{2}{3}$.
+    Then $\overrightarrow{OX} = \tfrac{1}{3}\mathbf{a} + \tfrac{1}{2}\mathbf{b}$.
+  verify: |
+    def answers():
+        a, b, s, t = symbols("a b s t")
+        sol = solve([(1 - s) - Rational(2, 3)*t, Rational(3, 4)*s - (1 - t)], [s, t])
+        return {"a": (1 - sol[s])*a + Rational(3, 4)*sol[s]*b}
+
+- id: spec.vectors-2d.geometric.medians-meet
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1760
+  responseSkills: {reasoning: 1760, proof: 1760, clarity: 1650, synthesis: 1720}
+  stem: |
+    In triangle $OAB$, join each corner to the midpoint of the opposite side, giving three lines. Use vectors to prove that the three lines pass through one point, which is $\tfrac{2}{3}$ of the way along each line from its corner.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Sets OA = a, OB = b, and writes the three midpoints: ½a, ½b and ½(a + b)", points: 1, dimension: reasoning }
+          - { id: point, description: "Finds the point ⅔ of the way along one line, e.g. from O to the midpoint of AB: ⅓(a + b)", points: 2, dimension: reasoning }
+          - { id: others, description: "Shows the points ⅔ of the way along the other two lines are also ⅓(a + b), e.g. a + ⅔(½b − a) = ⅓a + ⅓b", points: 2, dimension: proof }
+          - { id: conclude, description: "Concludes that all three lines pass through the same point", points: 1, dimension: clarity }
+  solution: |
+    Let $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$, with $O$ as the origin. The midpoints of $AB$, $OB$ and $OA$ have position vectors $\tfrac{1}{2}(\mathbf{a} + \mathbf{b})$, $\tfrac{1}{2}\mathbf{b}$ and $\tfrac{1}{2}\mathbf{a}$.
+    - From $O$: $\tfrac{2}{3} \cdot \tfrac{1}{2}(\mathbf{a} + \mathbf{b}) = \tfrac{1}{3}(\mathbf{a} + \mathbf{b})$.
+    - From $A$: $\mathbf{a} + \tfrac{2}{3}\left(\tfrac{1}{2}\mathbf{b} - \mathbf{a}\right) = \tfrac{1}{3}\mathbf{a} + \tfrac{1}{3}\mathbf{b}$.
+    - From $B$: $\mathbf{b} + \tfrac{2}{3}\left(\tfrac{1}{2}\mathbf{a} - \mathbf{b}\right) = \tfrac{1}{3}\mathbf{a} + \tfrac{1}{3}\mathbf{b}$.
+
+    All three points are the same point, $\tfrac{1}{3}(\mathbf{a} + \mathbf{b})$. So the three lines pass through it, and it is $\tfrac{2}{3}$ of the way along each.
+
+- id: spec.vectors-2d.geometric.point-on-diagonal
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1330
+  responseSkills: {reading: 1320, calculation: 1280, reasoning: 1310}
+  variants:
+    - { p: 1, q: 3 }
+    - { p: 2, q: 1 }
+  stem: |
+    $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. $P$ lies on the diagonal $OB$ with $OP : PB = {{p}} : {{q}}$. Find $\overrightarrow{AP}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '\frac{ {{p}} }{ {{p}}+{{q}} }(a+c)-a', vars: { a: {}, c: {} } }
+  solution: |
+    $\overrightarrow{OB} = \mathbf{a} + \mathbf{c}$, so $\overrightarrow{OP} = \tfrac{ {{p}} }{ {{p}} + {{q}} }(\mathbf{a} + \mathbf{c})$. Then $\overrightarrow{AP} = \overrightarrow{OP} - \overrightarrow{OA} = \tfrac{ {{p}} }{ {{p}} + {{q}} }(\mathbf{a} + \mathbf{c}) - \mathbf{a}$.
+  verify: |
+    def answers(p, q):
+        a, c = symbols("a c")
+        return {"a": Rational(p, p + q) * (a + c) - a}
+
+- id: spec.vectors-2d.geometric.hexagon-midpoints
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1700
+  responseSkills: {reading: 1650, calculation: 1650, reasoning: 1680, synthesis: 1690}
+  stem: |
+    $ABCDEF$ is a regular hexagon (all sides equal, all angles $120^\circ$). $\overrightarrow{AB} = \mathbf{a}$ and $\overrightarrow{BC} = \mathbf{b}$. $M$ is the midpoint of $CD$ and $N$ is the midpoint of $EF$. Find $\overrightarrow{MN}$ in terms of $\mathbf{a}$ and $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '-\frac{3}{2}a', vars: { a: {}, b: {} } }
+  solution: |
+    In a regular hexagon, opposite sides are equal and parallel, and the long diagonal $AD$ is twice $BC$. So $\overrightarrow{CD} = \mathbf{b} - \mathbf{a}$, $\overrightarrow{DE} = -\mathbf{a}$ and $\overrightarrow{EF} = -\mathbf{b}$.
+    Taking $A$ as the origin: $C = \mathbf{a} + \mathbf{b}$, $D = 2\mathbf{b}$, $E = 2\mathbf{b} - \mathbf{a}$ and $F = \mathbf{b} - \mathbf{a}$.
+    $M = \tfrac{1}{2}(\mathbf{a} + 3\mathbf{b})$ and $N = \tfrac{1}{2}(3\mathbf{b} - 2\mathbf{a})$, so $\overrightarrow{MN} = -\tfrac{3}{2}\mathbf{a}$.
+  verify: |
+    def answers():
+        a, b, x, y = symbols("a b x y")
+        P = [Matrix([cos(pi + k*pi/3), sin(pi + k*pi/3)]) for k in range(6)]
+        A, B, C, D, E, F = P
+        va, vb = B - A, C - B
+        M, N = (C + D) / 2, (E + F) / 2
+        s = solve(list(x*va + y*vb - (N - M)), [x, y])
+        return {"a": simplify(s[x])*a + simplify(s[y])*b}
+
+- id: spec.vectors-2d.geometric.line-meets-side
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1740
+  responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
+  stem: |
+    In triangle $OAB$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ is on $OA$ with $OP : PA = 1 : 2$, and $Q$ is the midpoint of $AB$. The line through $P$ and $Q$ meets the line $OB$ at $R$. Find $\overrightarrow{OR}$ in terms of $\mathbf{b}$.
+  parts:
+    - id: a
+      answer: { type: expression, key: '-b', vars: { a: {}, b: {} } }
+  solution: |
+    $\overrightarrow{OP} = \tfrac{1}{3}\mathbf{a}$ and $\overrightarrow{OQ} = \tfrac{1}{2}(\mathbf{a} + \mathbf{b})$. Points on line $PQ$ have position vectors
+    $\tfrac{1}{3}\mathbf{a} + t\left(\tfrac{1}{2}\mathbf{a} + \tfrac{1}{2}\mathbf{b} - \tfrac{1}{3}\mathbf{a}\right) = \left(\tfrac{1}{3} + \tfrac{t}{6}\right)\mathbf{a} + \tfrac{t}{2}\mathbf{b}$.
+    On line $OB$ there is no $\mathbf{a}$ part, and $\mathbf{a}$, $\mathbf{b}$ aren't parallel, so $\tfrac{1}{3} + \tfrac{t}{6} = 0$, giving $t = -2$. Then $\overrightarrow{OR} = -\mathbf{b}$: $R$ is as far from $O$ as $B$ is, on the opposite side.
+  verify: |
+    def answers():
+        a, b, t = symbols("a b t")
+        P, Q = Rational(1, 3)*a, (a + b) / 2
+        X = expand(P + t*(Q - P))
+        t0 = solve(X.coeff(a), t)[0]
+        return {"a": X.subs(t, t0)}
+
+- id: spec.vectors-2d.geometric.quadrilateral-identity
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1720
+  responseSkills: {reasoning: 1710, proof: 1710, clarity: 1600, synthesis: 1680}
+  stem: |
+    $ABCD$ is any quadrilateral. $P$ is the midpoint of $AC$ and $Q$ is the midpoint of $BD$. Prove that $\overrightarrow{AB} + \overrightarrow{AD} + \overrightarrow{CB} + \overrightarrow{CD} = 4\overrightarrow{PQ}$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Uses position vectors a, b, c, d (or an equivalent setup)", points: 1, dimension: reasoning }
+          - { id: lhs, description: "Left side = (b − a) + (d − a) + (b − c) + (d − c) = 2(b + d) − 2(a + c)", points: 2, dimension: reasoning }
+          - { id: rhs, description: "PQ = ½(b + d) − ½(a + c), so 4PQ = 2(b + d) − 2(a + c)", points: 2, dimension: proof }
+          - { id: clear, description: "Concludes clearly", points: 1, dimension: clarity }
+  solution: |
+    With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$, the left side is $(\mathbf{b} - \mathbf{a}) + (\mathbf{d} - \mathbf{a}) + (\mathbf{b} - \mathbf{c}) + (\mathbf{d} - \mathbf{c}) = 2(\mathbf{b} + \mathbf{d}) - 2(\mathbf{a} + \mathbf{c})$.
+    $\overrightarrow{PQ} = \tfrac{1}{2}(\mathbf{b} + \mathbf{d}) - \tfrac{1}{2}(\mathbf{a} + \mathbf{c})$, so $4\overrightarrow{PQ}$ is the same expression.

@@ -13,4 +13,4 @@ export const firebaseConfig = {
 };
 
 /** Web app "intellectify" (1:493745497308:web:56c470f3eb64275c2b8019). False only if both values are blanked. */
-export const firebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.appId);
+export const firebaseConfigured = env.VITE_LOCAL_MODE !== "1" && Boolean(firebaseConfig.apiKey && firebaseConfig.appId);

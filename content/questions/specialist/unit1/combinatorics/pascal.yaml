@@ -1,0 +1,262 @@
+# Pascal's triangle identities (1.2.9).
+
+- id: spec.combinatorics.pascal.write-row
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1080
+  responseSkills: { calculation: 1080 }
+  stem: |
+    Write down row 5 of Pascal's triangle (row 0 is the single 1 at the top) as a list from left to right.
+  parts:
+    - id: a
+      answer: { type: list, key: ['1', '5', '10', '10', '5', '1'] }
+  solution: |
+    Row 5 is $\binom{5}{0}, \dots, \binom{5}{5}$: 1, 5, 10, 10, 5, 1.
+  verify: |
+    def answers():
+        return {"a": [binomial(5, k) for k in range(6)]}
+
+- id: spec.combinatorics.pascal.row-sum
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1120
+  responseSkills: { calculation: 1100 }
+  variants:
+    - { n: 6, v: 64 }
+    - { n: 9, v: 512 }
+  stem: |
+    Find the sum of all the numbers in row {{n}} of Pascal's triangle.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Row $n$ sums to $2^n$, so the answer is $2^{ {{n}} } = {{v}}$.
+  verify: |
+    def answers(n, v):
+        return {"a": sum(binomial(n, k) for k in range(n + 1))}
+
+- id: spec.combinatorics.pascal.pascal-rule
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1310
+  responseSkills: { reading: 1300 }
+  stem: |
+    Which single combination equals $\dbinom{n}{r} + \dbinom{n}{r+1}$?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\binom{n+1}{r+1}$' }
+        - { id: b, text: '$\binom{n}{r+2}$' }
+        - { id: c, text: '$\binom{n+1}{r}$' }
+        - { id: d, text: '$\binom{2n}{2r+1}$' }
+      answer: { type: mcq, key: a }
+  solution: |
+    Pascal's rule: choosing $r + 1$ from $n + 1$ objects, a particular object is either chosen ($\binom{n}{r}$) or not ($\binom{n}{r+1}$). So the sum is $\binom{n+1}{r+1}$.
+
+- id: spec.combinatorics.pascal.combine
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1340
+  responseSkills: { calculation: 1320, reading: 1330 }
+  variants:
+    - { n: 9, r: 4, s: 5, v: 252 }
+    - { n: 11, r: 6, s: 7, v: 792 }
+  stem: |
+    Write $\dbinom{ {{n}} }{ {{r}} } + \dbinom{ {{n}} }{ {{s}} }$ as a single combination and evaluate it.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    By Pascal's rule, this is $\dbinom{ {{n}}+1 }{ {{s}} } = {{v}}$.
+  verify: |
+    def answers(n, r, s, v):
+        return {"a": binomial(n, r) + binomial(n, s)}
+
+- id: spec.combinatorics.pascal.symmetry
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1300
+  responseSkills: {reading: 1300, calculation: 1250}
+  variants:
+    - { n: 10, r: 3, s: 7 }
+    - { n: 15, r: 4, s: 11 }
+  stem: |
+    Find the value of $r \ne {{r}}$ for which $\dbinom{ {{n}} }{r} = \dbinom{ {{n}} }{ {{r}} }$.
+  parts:
+    - id: a
+      prompt: $r =$
+      answer: { type: numeric, key: '{{s}}' }
+  solution: |
+    By symmetry, $\binom{n}{r} = \binom{n}{n-r}$, so $r = {{n}} - {{r}} = {{s}}$.
+  verify: |
+    def answers(n, r, s):
+        return {"a": [k for k in range(n + 1) if k != r and binomial(n, k) == binomial(n, r)][0]}
+
+- id: spec.combinatorics.pascal.solve-symmetry
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1400
+  responseSkills: {reading: 1400, calculation: 1350, reasoning: 1380}
+  variants:
+    - { a: 4, b: 6, n: 10 }
+    - { a: 5, b: 9, n: 14 }
+  stem: |
+    Find $n$ if $\dbinom{n}{ {{a}} } = \dbinom{n}{ {{b}} }$.
+  parts:
+    - id: a
+      prompt: $n =$
+      answer: { type: numeric, key: '{{n}}' }
+  solution: |
+    Since ${{a}} \ne {{b}}$, symmetry requires ${{a}} + {{b}} = n$, so $n = {{n}}$.
+  verify: |
+    def answers(a, b, n):
+        return {"a": [m for m in range(max(a, b), 60) if binomial(m, a) == binomial(m, b)][0]}
+
+- id: spec.combinatorics.pascal.difference
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1450
+  responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1430}
+  stem: |
+    Find $n$ if $\dbinom{n+1}{3} - \dbinom{n}{3} = 21$.
+  parts:
+    - id: a
+      prompt: $n =$
+      answer: { type: numeric, key: 7 }
+  solution: |
+    By Pascal's rule, $\binom{n+1}{3} = \binom{n}{2} + \binom{n}{3}$, so the difference is $\binom{n}{2} = 21$. Then $\frac{n(n-1)}{2} = 21$ gives $n = 7$.
+  verify: |
+    def answers():
+        return {"a": [n for n in range(3, 50) if binomial(n + 1, 3) - binomial(n, 3) == 21][0]}
+
+- id: spec.combinatorics.pascal.doubling-proof
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1480
+  responseSkills: {reasoning: 1480, proof: 1480, clarity: 1450, precision: 1440}
+  stem: |
+    Use Pascal's rule to explain why the sum of row $n + 1$ of Pascal's triangle is double the sum of row $n$. Hence show that row $n$ sums to $2^n$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: rule, description: "Each entry of row n+1 (other than the 1s at the ends) is the sum of the two entries above it", points: 1, dimension: reasoning }
+          - { id: twice, description: "So every entry of row n is used exactly twice, once for each entry below it", points: 2, dimension: reasoning }
+          - { id: ends, description: "Correctly handles the 1s at the ends", points: 1, dimension: precision }
+          - { id: hence, description: "Concludes from row 0 summing to 1 and doubling each time that row n sums to 2^n", points: 1, dimension: proof }
+  solution: |
+    Each inner entry of row $n + 1$ is the sum of the two entries above it, and each end 1 comes from the single 1 above it. Adding all of row $n + 1$ therefore uses every entry of row $n$ exactly twice: once for the entry below-left and once for below-right. So each row sums to double the row above. Row 0 sums to 1, so row $n$ sums to $2^n$.
+
+- id: spec.combinatorics.pascal.hockey-stick-value
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1520
+  responseSkills: {calculation: 1450, reasoning: 1500, synthesis: 1500}
+  stem: |
+    Evaluate $\dbinom{3}{3} + \dbinom{4}{3} + \dbinom{5}{3} + \dots + \dbinom{9}{3}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 210 }
+  solution: |
+    Replace $\binom{3}{3}$ with $\binom{4}{4}$, then apply Pascal's rule repeatedly: $\binom{4}{4} + \binom{4}{3} = \binom{5}{4}$, then $+ \binom{5}{3} = \binom{6}{4}$, and so on, finishing at $\binom{10}{4} = 210$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(k, 3) for k in range(3, 10))}
+
+- id: spec.combinatorics.pascal.hockey-stick-proof
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1620
+  responseSkills: {reasoning: 1620, proof: 1620, clarity: 1580}
+  stem: |
+    Prove that for whole numbers $n \ge r \ge 0$:
+    $$\binom{r}{r} + \binom{r+1}{r} + \dots + \binom{n}{r} = \binom{n+1}{r+1}.$$
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: start, description: "Rewrites the first term as C(r+1, r+1)", points: 1, dimension: reasoning }
+          - { id: chain, description: "Applies Pascal's rule repeatedly, each step absorbing the next term", points: 2, dimension: reasoning }
+          - { id: end, description: "Reaches C(n+1, r+1) after the last term", points: 1, dimension: proof }
+          - { id: clear, description: "Clear, complete and precise (e.g. uses '…' correctly or states the general step)", points: 1, dimension: clarity }
+  solution: |
+    Since $\binom{r}{r} = 1 = \binom{r+1}{r+1}$, the sum starts with $\binom{r+1}{r+1} + \binom{r+1}{r} = \binom{r+2}{r+1}$ by Pascal's rule. Adding the next term gives $\binom{r+2}{r+1} + \binom{r+2}{r} = \binom{r+3}{r+1}$, and so on. In general, once the terms up to $\binom{k}{r}$ have been added, the total is $\binom{k+1}{r+1}$. After the last term $\binom{n}{r}$, the total is $\binom{n+1}{r+1}$.
+
+    (Counting argument: $\binom{n+1}{r+1}$ counts the $(r+1)$-element subsets of $\{1, \dots, n+1\}$. Sorting them by their largest element $k + 1$ leaves $\binom{k}{r}$ choices for the rest, for $k = r, \dots, n$.)
+
+- id: spec.combinatorics.pascal.vandermonde-value
+  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  rating: 1590
+  responseSkills: {calculation: 1500, reasoning: 1570, synthesis: 1580}
+  stem: |
+    Evaluate $\displaystyle\sum_{k=0}^{4} \binom{5}{k}\binom{6}{4-k}$ without working out each term, and explain your reasoning.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 330 }
+  solution: |
+    Count teams of 4 chosen from 5 girls and 6 boys. Sorting them by the number of girls $k$ gives $\binom{5}{k}\binom{6}{4-k}$ teams for each $k$. So the sum is the total number of teams: $\binom{11}{4} = 330$.
+  verify: |
+    def answers():
+        return {"a": sum(binomial(5, k) * binomial(6, 4 - k) for k in range(5))}
+
+- id: spec.combinatorics.pascal.alternating-proof
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1610
+  responseSkills: {reasoning: 1610, proof: 1610, precision: 1570, synthesis: 1580}
+  stem: |
+    Prove that for every $n \ge 1$:
+    $$\binom{n}{0} - \binom{n}{1} + \binom{n}{2} - \dots + (-1)^n\binom{n}{n} = 0.$$
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: idea, description: "Gives a valid idea: pairing subsets (even vs odd size) or splitting with Pascal's rule", points: 2, dimension: reasoning }
+          - { id: detail, description: "Shows the pairing is one-to-one between even-sized and odd-sized subsets (e.g. toggle a fixed element), or that the terms cancel in a telescoping sum", points: 2, dimension: proof }
+          - { id: n1, description: "Uses n ≥ 1 where needed (there must be an element to toggle)", points: 1, dimension: precision }
+  solution: |
+    The sum is (number of even-sized subsets) minus (number of odd-sized subsets) of an $n$-element set. Fix one element, $x$ (this needs $n \ge 1$). Adding $x$ to a subset that doesn't contain it, or removing it from one that does, changes the size by 1 and pairs every subset with exactly one other. So the even-sized and odd-sized subsets pair up exactly, and the sum is 0.
+
+- id: spec.combinatorics.pascal.weighted-sum
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1780
+  responseSkills: {calculation: 1730, reasoning: 1760, proof: 1700, synthesis: 1780}
+  stem: |
+    Consider $S_n = 1\binom{n}{1} + 2\binom{n}{2} + 3\binom{n}{3} + \dots + n\binom{n}{n}$.
+  parts:
+    - id: a
+      prompt: Evaluate $S_6$.
+      marks: 1
+      answer: { type: numeric, key: 192 }
+    - id: b
+      prompt: Find a formula for $S_n$ in terms of $n$.
+      marks: 2
+      answer: { type: expression, key: 'n \cdot 2^{n-1}', vars: { n: { domain: [1, 8] } } }
+  solution: |
+    $k\binom{n}{k}$ counts ways to choose a team of $k$ from $n$ people and then a captain from the team. Counting the other way round: choose the captain first ($n$ ways), then any subset of the other $n - 1$ people to complete the team ($2^{n-1}$ ways). So $S_n = n \cdot 2^{n-1}$, and $S_6 = 6 \times 32 = 192$.
+  verify: |
+    def answers():
+        n = symbols("n")
+        return {"a": sum(k * binomial(6, k) for k in range(7)), "b": n * 2**(n - 1)}
+
+- id: spec.combinatorics.pascal.middle-even
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1740
+  responseSkills: {reasoning: 1740, proof: 1740, clarity: 1680, precision: 1700}
+  stem: |
+    Prove that $\dbinom{2n}{n}$ is even for every whole number $n \ge 1$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: idea, description: "Uses symmetry/pairing: each n-subset of 2n objects pairs with its complement, which is also an n-subset", points: 2, dimension: reasoning }
+          - { id: distinct, description: "Shows a subset is never its own complement (sizes n and n, disjoint, n ≥ 1)", points: 2, dimension: precision }
+          - { id: conclude, description: "Concludes the count is twice the number of pairs, hence even (or equivalently via C(2n,n) = 2·C(2n−1,n−1))", points: 1, dimension: proof }
+  solution: |
+    Pair each $n$-element subset of $\{1, \dots, 2n\}$ with its complement, which also has $n$ elements. A subset can't be its own complement (they're disjoint and non-empty when $n \ge 1$), so the subsets split into pairs. The total, $\binom{2n}{n}$, is therefore even.
+
+    (Alternatively, split by whether element 1 is chosen: $\binom{2n}{n} = \binom{2n-1}{n-1} + \binom{2n-1}{n}$, and the two terms are equal by symmetry.)
+
+- id: spec.combinatorics.pascal.odd-entries
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1760
+  responseSkills: {reading: 1650, calculation: 1710, reasoning: 1740, synthesis: 1760}
+  stem: |
+    Shade every **odd** number in rows 0 to 7 of Pascal's triangle. How many numbers are shaded?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 27 }
+  solution: |
+    Shading the odd entries reveals a self-similar pattern. Rows 0–1 contain 3 odd entries. Rows 0–3 contain three copies of that block, $3^2 = 9$. Rows 0–7 contain three copies of the rows 0–3 block, $3^3 = 27$. (The middle region is all even, because each entry there is the sum of two equally odd or equally even entries above it.)
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(8) for k in range(n + 1) if binomial(n, k) % 2)}

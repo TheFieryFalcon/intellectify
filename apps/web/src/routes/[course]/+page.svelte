@@ -30,12 +30,13 @@
   }
 </script>
 
-<div class="wrap">
+<div class="wrap wide">
   <div class="head">
     <div>
       <h1>{data.course.name}</h1>
       {#if rollups}<p class="muted course-rank"><RankDot rank={rollups.course.rank} /> Course rank: {RANK_LABEL[rollups.course.rank]}</p>{/if}
     </div>
+    <a class="ach" href="/{data.course.id}/achievements">Achievements</a>
     <div class="toggles" role="group" aria-label="View">
       <button aria-pressed={view === "tree"} onclick={() => setView("tree")}>Tree</button>
       <button aria-pressed={view === "table"} onclick={() => setView("table")}>Table</button>
@@ -43,6 +44,8 @@
   </div>
   <div class="key">
     {#each RANKS as _, i (i)}<span><RankDot rank={i as RankLevel} label /></span>{/each}
+    <span class="sep" aria-hidden="true"></span>
+    {#each ["small", "medium", "large", "cornerstone"] as size (size)}<span class="size"><span class="shape {size}" aria-hidden="true"></span>{size}</span>{/each}
   </div>
 
   {#if store?.error}<p class="error" role="alert">{store.error}</p>{/if}
@@ -62,6 +65,15 @@
   .toggles { display: flex; gap: 16px; }
   .toggles button { border: 0; background: none; color: var(--muted); padding: 2px 0; cursor: pointer; border-bottom: 1.5px solid transparent; }
   .toggles button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-  .key { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .ach { margin-left: auto; margin-right: 12px; font-size: 13px; color: var(--muted); text-decoration: none; align-self: flex-end; padding-bottom: 6px; }
+  .ach:hover { color: var(--accent); }
+  .key { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .sep { width: 1px; height: 14px; background: var(--line); }
+  .size { display: inline-flex; align-items: center; gap: 6px; text-transform: capitalize; }
+  .shape { display: inline-block; flex: none; border: 1.5px solid var(--edge); background: var(--surface); }
+  .shape.small { width: 8px; height: 8px; border-radius: 50%; }
+  .shape.medium { width: 11px; height: 11px; border-radius: 50%; }
+  .shape.large { width: 8px; height: 8px; border-radius: 1.5px; transform: rotate(45deg); margin: 0 1px; }
+  .shape.cornerstone { width: 11px; height: 11px; border-radius: 2px; transform: rotate(45deg); margin: 0 2px; }
   .error { color: var(--bad); }
 </style>

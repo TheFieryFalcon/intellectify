@@ -1,4 +1,4 @@
-/* Clean, academic (docs/SPEC.md §14.1). Every color is a token; dark mode redefines tokens only. */
+/* Clean, academic (docs/SPEC.md §15.1). Every color is a token; dark mode redefines tokens only. */
 :root {
   --bg: #fafbfc;
   --surface: #ffffff;
@@ -19,6 +19,10 @@
   --gold: #d1a520;     --gold-hi: #f8de7e;
   --platinum: #5ea4ac; --platinum-hi: #d2eef0;
   --diamond: #3d8ee0;  --diamond-hi: #c4e2ff;
+  /* Level tiers (SPEC §12.4): Basic, then the rank colors, then the achievement-only tiers. */
+  --lvl-basic: #9aa3b0; --lvl-bronze: var(--bronze); --lvl-silver: var(--silver); --lvl-gold: var(--gold);
+  --lvl-platinum: var(--platinum); --lvl-diamond: var(--diamond); --lvl-ruby: #b3204f; --lvl-tanzanite: #4f4fc2;
+  --lvl-vibranium: #6d6896; --lvl-solarium: #e09a12; --lvl-antimatter: #1f1238;
   --font-display: "STIX Two Text", Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme: light;
@@ -28,6 +32,7 @@
     --bg: #12161d; --surface: #1a1f28; --ink: #e5e9f0; --muted: #8b94a4; --line: #262d38; --edge: #3a4352;
     --region: #171c24; --accent: #86a5ff; --accent-soft: #1f2a44; --on-accent: #0f1420; --good: #5cc28a; --bad: #ef7d73; --track: #2b3340;
     --unranked: #12161d;
+    --lvl-ruby: #e2557f; --lvl-tanzanite: #8d8cff; --lvl-vibranium: #a49fd0; --lvl-solarium: #f4b73a; --lvl-antimatter: #cbb8ff;
     --bronze: #c98a55; --silver: #a9b2bf; --gold: #ddb53b; --platinum: #74bcc4; --diamond: #64a9f0;
     color-scheme: dark;
   }
@@ -47,5 +52,21 @@ button { font: inherit; }
 .muted { color: var(--muted); }
 .wrap { max-width: 1320px; margin: 0 auto; padding: 24px 16px 56px; }
 .narrow { max-width: 760px; }
+.wide { max-width: 1680px; }
 input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); width: 100%; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* Diagrams (SPEC §9.4): rendered SVG from content; colors come from tokens, so dark mode just works. */
+.diagram-wrap { margin: 14px 0; }
+.diagram { display: block; max-width: 100%; height: auto; overflow: visible; }
+.diagram line, .diagram path, .diagram circle, .diagram polygon { vector-effect: non-scaling-stroke; }
+.diagram .ds { stroke-width: 1.6; fill: none; }
+.diagram .dv { stroke-width: 2; }
+.diagram .dd { stroke-dasharray: 5 4; }
+.diagram .dn { fill: none; }
+.diagram .df { fill: color-mix(in srgb, var(--accent) 8%, transparent); }
+.diagram .dg { stroke: var(--line); stroke-width: 1; }
+.diagram .dp { fill: var(--ink); }
+.diagram .da { stroke: var(--muted); stroke-width: 1.3; fill: none; }
+.diagram .dl { width: 100%; height: 100%; display: flex; font-size: 14px; color: var(--ink); line-height: 1; white-space: nowrap; }
+.diagram-error { color: var(--bad); font-size: 12px; white-space: pre-wrap; }

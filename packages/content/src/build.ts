@@ -2,8 +2,11 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
-import { tierOf } from "@intellectify/engine";
+import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
 import { fillTemplate } from "./template.js";
+import { diagramErrors } from "./diagram-check.js";
+import { loadAchievements, type AchievementT } from "./achievements.js";
+import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
@@ -11,6 +14,7 @@ export interface BundleSkill {
   id: string;
   name: string;
   summary: string;
+  size: SkillSize;
   dotPoints: string[];
   reviewDotPoints: string[];
   prereqs: string[];
@@ -18,6 +22,7 @@ export interface BundleSkill {
   /** Weight in roll-ups: number of dot points (including review dot points it covers). */
   weight: number;
   questionCount: number;
+  hasTutorial: boolean;
 }
 export interface BundleSection {
   id: string;
@@ -34,7 +39,8 @@ export interface CourseBundle {
   responseSkills: { id: string; name: string }[];
 }
 export interface BuildResult {
-  bundles: { course: CourseBundle; questions: Record<string, QuestionT[]> }[];
+  bundles: { course: CourseBundle; questions: Record<string, QuestionT[]>; tutorials: Tutorial[] }[];
+  achievements: AchievementT[];
   errors: string[];
   warnings: string[];
 }
@@ -128,6 +134,11 @@ export function buildContent(contentDir: string): BuildResult {
     const cycle = findCycle(prereqsOf);
     if (cycle) errors.push(`prerequisite cycle: ${cycle.join(" → ")}`);
 
+    // Tutorials (SPEC §3.2).
+    const skillDotPoints = new Map<string, string[]>();
+    for (const v of versions) for (const u of v.units) for (const s of u.sections) for (const k of s.skills) skillDotPoints.set(k.id, [...k.dotPoints, ...(reviewFor.get(k.id) ?? [])]);
+    const tutorials = loadTutorials(contentDir, courseId, skillDotPoints, errors, warnings);
+
     // Questions.
     const questions: Record<string, QuestionT[]> = {};
     const qDir = join(contentDir, "questions", courseId);
@@ -153,12 +164,27 @@ export function buildContent(contentDir: string): BuildResult {
         qIds.add(q.id);
         for (const s of [q.skills.primary, ...q.skills.secondary]) if (!skillUnit.has(s)) errors.push(`${where}: unknown skill ${s}`);
         for (const r of Object.keys(q.responseSkills)) if (!rsIds.has(r)) errors.push(`${where}: unknown response skill ${r}`);
+        // Response-skill tagging rules (SPEC §5.6).
+        if (!Object.keys(q.responseSkills).length) errors.push(`${where}: no response skills`);
+        for (const c of q.parts.flatMap((p) => p.rubric?.criteria ?? [])) {
+          if (!rsIds.has(c.dimension)) errors.push(`${where}: rubric criterion ${c.id} has unknown dimension ${c.dimension}`);
+          else if (!(c.dimension in q.responseSkills)) errors.push(`${where}: rubric dimension ${c.dimension} isn't in responseSkills`);
+        }
+        if (q.skills.secondary.length && !("synthesis" in q.responseSkills)) errors.push(`${where}: cross-skill questions exercise synthesis`);
+        if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
+          errors.push(`${where}: a computed answer exercises calculation`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
-        for (const p of q.parts) {
-          if (p.answer && p.options && (p.answer.type === "mcq" || p.answer.type === "multi-select")) {
-            const ids = new Set(p.options.map((o) => o.id));
-            const keys = Array.isArray(p.answer.key) ? p.answer.key : [p.answer.key];
-            for (const k of keys) if (!ids.has(k)) errors.push(`${where} part ${p.id}: answer ${k} isn't one of the options`);
+        // MCQ keys and diagrams may be templated ({{key}}), so check them once per filled variant.
+        for (const params of q.variants ?? [{}]) {
+          const filled = q.variants ? fillTemplate(q, params) : q;
+          const texts = [filled.stem, filled.solution, ...filled.parts.flatMap((p) => [p.prompt ?? "", ...(p.options ?? []).map((o) => o.text)])];
+          for (const t of texts) for (const e of diagramErrors(t)) errors.push(`${where}${q.variants ? ` variant ${JSON.stringify(params)}` : ""}: ${e}`);
+          for (const p of filled.parts) {
+            if (p.answer && p.options && (p.answer.type === "mcq" || p.answer.type === "multi-select")) {
+              const ids = new Set(p.options.map((o) => o.id));
+              const keys = Array.isArray(p.answer.key) ? p.answer.key : [p.answer.key];
+              for (const k of keys) if (!ids.has(k)) errors.push(`${where} part ${p.id}: answer ${k} isn't one of the options`);
+            }
           }
         }
         // Self-check: every answer key must be accepted by its own checker, for every variant.
@@ -201,24 +227,32 @@ export function buildContent(contentDir: string): BuildResult {
             hours: s.hours,
             skills: s.skills.map((k) => {
               const review = reviewFor.get(k.id) ?? [];
+              // Size targets (SPEC §3.3), checked once a skill has any questions.
+              const qs = questions[k.id] ?? [];
+              const rules = SKILL_SIZE[k.size];
+              const tier5 = qs.filter((q) => tierOf(q.rating) === 5).length;
+              if (qs.length && qs.length < rules.minQuestions) warnings.push(`${k.id} (${k.size}): ${qs.length} questions; needs at least ${rules.minQuestions}`);
+              if (qs.length && tier5 < rules.minTier5) warnings.push(`${k.id} (${k.size}): ${tier5} Tier 5 questions; needs at least ${rules.minTier5}`);
               return {
                 id: k.id,
                 name: k.name,
                 summary: k.summary,
+                size: k.size,
                 dotPoints: k.dotPoints,
                 reviewDotPoints: review,
                 prereqs: k.prereqs,
                 external: k.external,
                 weight: k.dotPoints.length + review.length,
                 questionCount: questions[k.id]?.length ?? 0,
+                hasTutorial: tutorials.has(k.id),
               };
             }),
           })),
         })),
     };
-    bundles.push({ course, questions });
+    bundles.push({ course, questions, tutorials: [...tutorials.values()] });
   }
-  return { bundles, errors, warnings };
+  return { bundles, achievements: loadAchievements(contentDir, errors), errors, warnings };
 }
 
 /** LaTeX that should satisfy a spec: its own key, rendered as a student would type it. */
