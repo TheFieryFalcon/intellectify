@@ -6,6 +6,23 @@
   responseSkills: { reasoning: 1320, proof: 1320, clarity: 1280 }
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$, with $AX = CX$. Prove that $XB = XD$, and hence that $AB = CD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.323, -1.5], B: [1.881, 0.68], C: [1.323, -1.5], D: [-1.881, 0.68], X: [0, -0.6], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, ticks: 1 }
+      - { type: segment, from: X, to: B }
+      - { type: segment, from: C, to: X, ticks: 1 }
+      - { type: segment, from: X, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
     - id: a
       rubric:
@@ -23,6 +40,22 @@
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
     From a point $M$ outside a circle, two tangents touch the circle at $S$ and $T$, and a secant cuts it at $A$ and $B$. Use the tangent–secant theorem to prove that $MS = MT$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], A: [1.965, 0.373], B: [-1.609, 1.187], S: [1.111, 1.663], T: [1.111, -1.663], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: S }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: S, label: 'S', pos: n }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: A, label: 'A', pos: ne }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
     - id: a
       rubric:
@@ -39,6 +72,21 @@
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
     From a point $M$ outside a circle, one line cuts the circle at $A$ and $B$, and another at $C$ and $D$. Prove that $MA \times MB = MC \times MD$.
+
+    ```diagram
+    view: [-2.45, 4.25, -2.45, 2.45]
+    width: 230
+    points: { M: [3.8, 0], A: [1.735, -0.996], B: [-0.302, -1.977], C: [1.735, 0.996], D: [-0.302, 1.977], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: B }
+      - { type: segment, from: M, to: D }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: nw }
+      - { type: point, at: C, label: 'C', pos: s }
+      - { type: point, at: D, label: 'D', pos: sw }
+    ```
   parts:
     - id: a
       rubric:
@@ -58,6 +106,22 @@
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
     $AB$ is a diameter of a circle, and the chord $CD$ is perpendicular to $AB$, meeting it at $X$. Prove that $CX^2 = AX \times XB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], X: [0.7, 0], C: [0.7, 1.874], D: [0.7, -1.874], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: X, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+      - { type: point, at: X, label: 'X', pos: sw }
+    ```
   parts:
     - id: a
       rubric:
@@ -75,6 +139,21 @@
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550 }
   stem: |
     $X$ is a point inside a circle with center $O$ and radius $r$, with $OX = d$. Prove that every chord $AB$ through $X$ has $AX \times XB = r^2 - d^2$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0.883, -1.794], B: [1.214, 1.59], X: [1, -0.6], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: O, to: X, label: 'd', dashed: true }
+      - { type: segment, from: O, to: A, label: 'r', dashed: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: X, label: 'X', pos: se }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+    ```
   parts:
     - id: a
       rubric:
@@ -92,6 +171,21 @@
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
     $M$ is a point outside a circle with center $O$ and radius $r$, with $OM = d$. Prove that every secant from $M$, cutting the circle at $A$ and $B$, has $MA \times MB = d^2 - r^2$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], A: [1.908, 0.598], B: [-1.108, 1.665], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: B }
+      - { type: segment, from: O, to: M, label: 'd', dashed: true, side: right }
+      - { type: segment, from: O, to: B, label: 'r', dashed: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
     - id: a
       rubric:
@@ -109,6 +203,22 @@
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
   stem: |
     From $M$, a tangent touches a circle with center $O$ and radius $r$ at $T$, and the line from $M$ through $O$ meets the circle at $A$ (nearer $M$) and $B$. Without using the tangent–secant theorem, prove that $MT^2 = MA \times MB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [2, 0], B: [-2, 0], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: B, to: M }
+      - { type: segment, from: O, to: T }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: se }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
     - id: a
       rubric:
@@ -126,6 +236,21 @@
   responseSkills: { reasoning: 1540, proof: 1540, clarity: 1500 }
   stem: |
     From $M$, a tangent of length $t$ touches a circle, and the line from $M$ through the center meets the circle first at $A$, with $MA = a$. Prove that the radius is $r = \dfrac{t^2 - a^2}{2a}$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [2, 0], B: [-2, 0], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T, label: 't', side: right }
+      - { type: segment, from: B, to: M }
+      - { type: segment, from: A, to: M, label: 'a', side: right }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: sw }
+    ```
   parts:
     - id: a
       rubric:
@@ -143,6 +268,20 @@
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
     From $M$, a tangent touches a circle at $T$, and a secant cuts it at $A$ and $B$ with $A$ between $M$ and $B$. Prove that $MA < MT < MB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.965, 0.373], B: [-1.609, 1.187], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
     - id: a
       rubric:
@@ -160,6 +299,23 @@
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
     Two different chords of a circle bisect each other. Prove that both are diameters.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [1.732, 1], B: [-1.732, -1], C: [-1.732, 1], D: [1.732, -1], X: [0, 0], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, ticks: 1 }
+      - { type: segment, from: X, to: B, ticks: 1 }
+      - { type: segment, from: C, to: X, ticks: 2 }
+      - { type: segment, from: X, to: D, ticks: 2 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: n }
+    ```
   parts:
     - id: a
       rubric:
@@ -197,6 +353,23 @@
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
     Triangle $ABC$ has a right angle at $C$, and $D$ is the foot of the perpendicular from $C$ to $AB$. Use a circle to prove that $CD^2 = AD \times DB$.
+
+    ```diagram
+    view: [-2.45, 4.45, -2.45, 2.45]
+    width: 260
+    points: { A: [0, 0], B: [4, 0], C: [1, 1.732], D: [1, 0] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: C, from: A, to: B, right: true }
+      - { type: angle, at: D, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+    ```
   parts:
     - id: a
       rubric:
@@ -214,6 +387,21 @@
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
     Two equal chords $AB$ and $CD$ of a circle meet at $X$. Prove that the two pieces of $AB$ are equal, in some order, to the two pieces of $CD$: either $AX = CX$ and $XB = XD$, or $AX = XD$ and $XB = CX$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [1.836, 0.793], B: [-1.454, 1.373], C: [-0.462, 1.946], D: [-1.605, -1.193], X: [-0.718, 1.243], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
     - id: a
       rubric:
@@ -234,6 +422,22 @@
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
   stem: |
     A chord $AB$ of a circle has length 10, and another chord $CD$ passes through the midpoint $X$ of $AB$. Prove that $CX \times XD = 25$, and deduce that the shorter of $CX$ and $XD$ is at most 5.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1.532, -1.286], X: [-0.173, -0.985], C: [-0.63, -1.898], D: [1.141, 1.643], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, ticks: 1 }
+      - { type: segment, from: X, to: B, ticks: 1 }
+      - { type: segment, from: C, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: se }
+    ```
   parts:
     - id: a
       rubric:
@@ -251,6 +455,25 @@
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750, synthesis: 1780 }
   stem: |
     Two circles meet at $P$ and $Q$. $M$ is a point on line $PQ$ outside both circles. A line through $M$ cuts the first circle at $A$ and $B$, and another line through $M$ cuts the second circle at $C$ and $D$ (the two lines are different). Prove that $A$, $B$, $C$, $D$ lie on one circle.
+
+    ```diagram
+    view: [-2.5, 2.8, -2, 3]
+    width: 270
+    points: { P1: [-0.9, 0], P2: [1, 0], P: [-0.108, 1.154], Q: [-0.108, -1.154], M: [-0.108, 2.6], A: [-0.771, 1.394], B: [-2.008, -0.855], C: [0.299, 1.438], D: [1.349, -1.562] }
+    draw:
+      - { type: circle, center: P1, radius: 1.4 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: M, to: Q, dashed: true }
+      - { type: segment, from: M, to: B }
+      - { type: segment, from: M, to: D }
+      - { type: point, at: M, label: 'M', pos: n }
+      - { type: point, at: P, label: 'P', pos: e }
+      - { type: point, at: Q, label: 'Q', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: w }
+      - { type: point, at: C, label: 'C', pos: e }
+      - { type: point, at: D, label: 'D', pos: e }
+    ```
   parts:
     - id: a
       rubric:

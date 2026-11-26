@@ -118,6 +118,20 @@
   responseSkills: {reading: 1150}
   stem: |
     From $M$, a tangent touches a circle at $T$, and a secant cuts it at $A$ (nearer $M$) and $B$. Which equation is true?
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.954, -0.425], B: [-1.504, -1.318], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
   - id: a
     options:
@@ -137,6 +151,21 @@
   - {ma: 4, ab: 21, v: 10}
   stem: |
     From $M$, a secant cuts a circle at $A$ and $B$ with $MA = {{ma}}$ and $AB = {{ab}}$, and a tangent touches the circle at $T$. Find $MT$.
+
+    ```diagram
+    view: [-2.45, 3.65, -2.45, 2.45]
+    width: 230
+    points: { M: [3.20156, 0], T: [1.249, 1.562], A: [1.981, -0.272], B: [-1.679, -1.087], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: A, label: '{{ma}}', side: right }
+      - { type: segment, from: A, to: B, label: '{{ab}}', side: right }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $MT$
@@ -156,6 +185,23 @@
   responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
   stem: |
     Chords $AB$ and $CD$ meet at $X$, with $AX = x$, $XB = x + 5$, $CX = 6$ and $XD = 4$. Find $x$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.553, -1.922], B: [1.476, 1.35], C: [-1.975, -0.316], D: [1.317, -1.505], X: [0, -1.02956], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, label: 'x' }
+      - { type: segment, from: X, to: B, label: 'x + 5' }
+      - { type: segment, from: C, to: X, label: '6', side: right }
+      - { type: segment, from: X, to: D, label: '4', side: right }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     prompt: $x =$
@@ -175,6 +221,23 @@
   - {a: 3, b: 12, v: 12}
   stem: |
     $AB$ is a diameter of a circle, and chord $CD$ is perpendicular to $AB$, meeting it at $X$. $AX = {{a}}$ and $XB = {{b}}$. Find $CD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], X: [-1.2, 0], C: [-1.2, 1.6], D: [-1.2, -1.6], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, label: '{{a}}', side: right }
+      - { type: segment, from: X, to: B, label: '{{b}}', side: right }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: X, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+      - { type: point, at: X, label: 'X', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $CD$
@@ -193,6 +256,21 @@
   responseSkills: {reading: 1350, calculation: 1350, reasoning: 1360}
   stem: |
     From $M$, a tangent $MT = 12$ touches a circle, and a secant cuts the circle at $A$ and $B$ with $MA = 8$. Find the length of the chord $AB$.
+
+    ```diagram
+    view: [-2.45, 4.57, -2.45, 2.45]
+    width: 260
+    points: { M: [4.11825, 0], T: [0.971, 1.748], A: [1.845, -0.771], B: [-0.996, -1.735], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T, label: '12' }
+      - { type: segment, from: M, to: A, label: '8', side: right }
+      - { type: segment, from: A, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $AB$
@@ -214,6 +292,22 @@
   responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1420}
   stem: |
     A point $X$ is 6 cm from the center of a circle of radius 10 cm. A chord $AB$ passes through $X$ with $AX = 4$ cm. Find $XB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [1.028, -1.715], B: [-1.029, 1.715], X: [0.617, -1.029], R: [-1.732, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: X, label: '4', side: right }
+      - { type: segment, from: O, to: X, label: '6', dashed: true }
+      - { type: segment, from: O, to: R, label: '10', dashed: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: X, label: 'X', pos: s }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+    ```
   parts:
   - id: a
     prompt: $XB$ (cm)
@@ -232,6 +326,22 @@
   responseSkills: {reading: 1420, calculation: 1440, reasoning: 1440}
   stem: |
     Chord $AB$ has length 8, and chord $CD$ crosses it at $X$ with $CX = 3$ and $XD = 5$. Find all possible values of $AX$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.2, -1.6], B: [1.999, 0.051], C: [1.2, -1.6], D: [-1.999, 0.051], X: [0, -0.981071], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, label: '8', side: left }
+      - { type: segment, from: C, to: X, label: '3', side: left }
+      - { type: segment, from: X, to: D, label: '5', side: left }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     answer:
@@ -249,6 +359,21 @@
   responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. Prove that $AX \times XB = CX \times XD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, 1], B: [1.532, -1.286], C: [-1.286, -1.532], D: [1, 1.732], X: [-0.243, -0.043], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: n }
+    ```
   parts:
   - id: a
     rubric:
@@ -265,6 +390,23 @@
   responseSkills: {reading: 1470, calculation: 1480, reasoning: 1490}
   stem: |
     From $M$, one secant cuts a circle at $A$ and $B$ with $MA = x$ and $AB = 7$. Another cuts it at $C$ and $D$ with $MC = 5$ and $CD = 7$. Find $x$.
+
+    ```diagram
+    view: [-2.45, 4.47, -2.45, 2.45]
+    width: 280
+    points: { M: [4.01871, 0], A: [1.877, -0.69], B: [-1.121, -1.656], C: [1.877, 0.69], D: [-1.121, 1.656], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: A, label: 'x', side: left }
+      - { type: segment, from: A, to: B, label: '7', side: right }
+      - { type: segment, from: M, to: C, label: '5', side: right }
+      - { type: segment, from: C, to: D, label: '7' }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: nw }
+      - { type: point, at: C, label: 'C', pos: s }
+      - { type: point, at: D, label: 'D', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $x =$
@@ -281,6 +423,21 @@
   responseSkills: {calculation: 1530, reasoning: 1540, synthesis: 1520}
   stem: |
     A point $M$ is 13 units from the center of a circle of radius 5. A secant from $M$ passes through the center, cutting the circle at $A$ and $B$.
+
+    ```diagram
+    view: [-2.45, 5.65, -2.45, 2.45]
+    width: 300
+    points: { M: [5.2, 0], A: [2, 0], B: [-2, 0], R: [-1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: B, to: M }
+      - { type: segment, from: O, to: R, label: '5', dashed: true }
+      - { type: segment, from: O, to: M, label: '13', side: right }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: A, label: 'A', pos: ne }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
   - id: a
     prompt: Find $MA$.
@@ -305,6 +462,20 @@
   responseSkills: {reasoning: 1590, proof: 1590, clarity: 1500}
   stem: |
     From an outside point $M$, a tangent touches a circle at $T$ and a secant cuts it at $A$ and $B$ ($A$ nearer $M$). Prove that $MT^2 = MA \times MB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.954, -0.425], B: [-1.504, -1.318], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: nw }
+    ```
   parts:
   - id: a
     rubric:
@@ -321,6 +492,22 @@
   responseSkills: {calculation: 1590, reasoning: 1600, synthesis: 1580}
   stem: |
     From $M$, a tangent of length 8 touches a circle, and a secant through the center cuts the circle at $A$ and $B$ with $MA = 4$. Find the radius.
+
+    ```diagram
+    view: [-2.45, 3.78, -2.45, 2.45]
+    width: 260
+    points: { M: [3.33333, 0], T: [1.2, 1.6], A: [2, 0], B: [-2, 0], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T, label: '8', side: right }
+      - { type: segment, from: B, to: M }
+      - { type: segment, from: A, to: M, label: '4', side: right }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
   - id: a
     prompt: Radius
@@ -339,6 +526,29 @@
   responseSkills: {calculation: 1580, reasoning: 1630, synthesis: 1630}
   stem: |
     A bridge has an arch in the shape of an arc of a circle. The arch spans 12 m (the straight distance between its feet) and rises 2 m at its middle. Find the radius of the circle.
+
+    ```diagram
+    view: [-1.7, 1.7, 1.35, 2.25]
+    width: 280
+    points: { R0: [1.2, 1.6], R1: [1.048, 1.703], R2: [0.887, 1.792], R3: [0.719, 1.866], R4: [0.545, 1.924], R5: [0.366, 1.966], R6: [0.184, 1.992], R7: [0, 2], R8: [-0.184, 1.992], R9: [-0.366, 1.966], R10: [-0.545, 1.924], R11: [-0.719, 1.866], R12: [-0.887, 1.792], R13: [-1.048, 1.703], R14: [-1.2, 1.6], F: [-1.2, 1.6], G: [1.2, 1.6], K: [0, 1.6], H: [0, 2] }
+    draw:
+      - { type: segment, from: R0, to: R1 }
+      - { type: segment, from: R1, to: R2 }
+      - { type: segment, from: R2, to: R3 }
+      - { type: segment, from: R3, to: R4 }
+      - { type: segment, from: R4, to: R5 }
+      - { type: segment, from: R5, to: R6 }
+      - { type: segment, from: R6, to: R7 }
+      - { type: segment, from: R7, to: R8 }
+      - { type: segment, from: R8, to: R9 }
+      - { type: segment, from: R9, to: R10 }
+      - { type: segment, from: R10, to: R11 }
+      - { type: segment, from: R11, to: R12 }
+      - { type: segment, from: R12, to: R13 }
+      - { type: segment, from: R13, to: R14 }
+      - { type: segment, from: F, to: G, label: '12', side: right }
+      - { type: segment, from: K, to: H, label: '2', side: right }
+    ```
   parts:
   - id: a
     prompt: Radius (m)
@@ -357,6 +567,24 @@
   responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1670}
   stem: |
     Chords $AB$ and $CD$ meet at right angles at $X$. $AX = 2$, $XB = 6$ and $CX = 3$. Find $XD$ and the exact radius of the circle.
+
+    ```diagram
+    view: [-2.45, 3.45, -2.45, 2.45]
+    width: 260
+    points: { A: [-1, 0], B: [3, 0], C: [0, 1.5], D: [0, -2], X: [0, 0], Q: [1, -0.25] }
+    draw:
+      - { type: circle, center: Q, radius: 2.016 }
+      - { type: segment, from: A, to: X, label: '2', side: right }
+      - { type: segment, from: X, to: B, label: '6', side: right }
+      - { type: segment, from: C, to: X, label: '3', side: right }
+      - { type: segment, from: X, to: D }
+      - { type: angle, at: X, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+      - { type: point, at: X, label: 'X', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $XD$
@@ -386,6 +614,22 @@
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   stem: |
     $ABCD$ is a square with side 4. A circle passes through $A$ and $B$ and touches the opposite side $CD$. Find its radius.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 220
+    points: { A: [0, 0], B: [2, 0], C: [2, 2], D: [0, 2], Q: [1, 0.75] }
+    draw:
+      - { type: circle, center: Q, radius: 1.25 }
+      - { type: segment, from: A, to: B, label: '4', side: right }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
+    ```
   parts:
   - id: a
     prompt: Radius
@@ -404,6 +648,21 @@
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1720}
   stem: |
     Two circles meet at $P$ and $Q$. A line touches the first circle at $A$ and the second at $B$. Prove that the line $PQ$, extended, cuts $AB$ in half.
+
+    ```diagram
+    view: [-2.6, 3, -2, 2.4]
+    width: 280
+    points: { P1: [-1, 0], P2: [1.1, 0], A: [-1.186, 1.287], B: [0.871, 1.584], P: [-0.157, 0.99], Q: [-0.157, -0.99], K: [-0.157, 1.436] }
+    draw:
+      - { type: circle, center: P1, radius: 1.3 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: Q, to: K, dashed: true }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: P, label: 'P', pos: ne }
+      - { type: point, at: Q, label: 'Q', pos: se }
+    ```
   parts:
   - id: a
     rubric:
@@ -421,6 +680,20 @@
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Lines $AB$ and $CD$ meet at $X$, with $X$ between $A$ and $B$ and between $C$ and $D$, and $AX \times XB = CX \times XD$. Prove that $A$, $B$, $C$ and $D$ lie on a circle.
+
+    ```diagram
+    view: [-2.2, 2.2, -1.6, 2.6]
+    width: 220
+    points: { A: [-1.6, 0.5], B: [1.45, -0.453], C: [-0.451, -1.003], D: [0.95, 2.111], X: [0, 0] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: se }
+    ```
   parts:
   - id: a
     rubric:
@@ -439,6 +712,26 @@
   responseSkills: {reasoning: 1790, proof: 1790, clarity: 1680, synthesis: 1780}
   stem: |
     From an outside point $M$, tangents touch a circle at $S$ and $T$, and a secant cuts it at $A$ and $B$. Prove that $SA \times TB = SB \times TA$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], A: [1.994, -0.157], B: [-1.926, -0.54], S: [1.111, 1.663], T: [1.111, -1.663], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: S }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: segment, from: S, to: A }
+      - { type: segment, from: S, to: B }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: S, label: 'S', pos: n }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: A, label: 'A', pos: ne }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
   - id: a
     rubric:
