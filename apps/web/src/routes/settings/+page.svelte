@@ -3,13 +3,26 @@
    * Your own marking key (SPEC §10.4): instant marking with no queue. The key stays in this browser and
    * goes only to the provider, never to Intellectify's servers.
    */
-  import { loadByok, PROVIDER_LABEL, saveByok, type ByokProvider } from "$lib/byok";
+  import { maxEffort } from "@intellectify/content/marking";
+  import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, type ByokProvider } from "$lib/byok";
 
   const saved = loadByok();
   let provider = $state<ByokProvider>(saved?.provider ?? "gemini");
   let key = $state("");
   let current = $state(saved);
   let show = $state(false);
+
+  /** Marking effort (SPEC §10.4): 1–2 free, 1–10 with an own key. */
+  const marker = $derived(current?.provider ?? "free");
+  const top = $derived(maxEffort(marker));
+  let effort = $state(loadEffort(saved?.provider ?? "free"));
+  $effect(() => {
+    effort = loadEffort(marker);
+  });
+  const setEffort = (v: number) => {
+    effort = v;
+    saveEffort(marker, v);
+  };
 
   const masked = (k: string) => (k.length > 8 ? `${k.slice(0, 4)}…${k.slice(-4)}` : "••••");
   function save(e: SubmitEvent) {
@@ -60,6 +73,32 @@
       </div>
     </form>
   </section>
+
+  <section class="card">
+    <h2>Marking effort</h2>
+    <div class="effort">
+      <input
+        id="effort"
+        type="range"
+        min="1"
+        max={top}
+        step="1"
+        value={effort}
+        aria-label="Marking effort"
+        aria-valuetext="{effort} of {top}"
+        oninput={(e) => setEffort(Number(e.currentTarget.value))}
+      />
+      <output for="effort">{effort}</output>
+    </div>
+    <dl class="facts">
+      <dt>Range</dt>
+      <dd>1–{top}</dd>
+      {#if !current}
+        <dt>Own key</dt>
+        <dd>1–10</dd>
+      {/if}
+    </dl>
+  </section>
 </div>
 
 <style>
@@ -80,4 +119,8 @@
   .keyrow { display: flex; gap: 8px; }
   .keyrow input { flex: 1; min-width: 0; font: inherit; font-family: ui-monospace, monospace; font-size: 13px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
   .actions { display: flex; gap: 8px; }
+  .wrap > .card + .card { margin-top: 16px; }
+  .effort { display: flex; align-items: center; gap: 14px; }
+  .effort input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  .effort output { min-width: 2ch; text-align: right; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
 </style>

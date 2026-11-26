@@ -1,13 +1,14 @@
 /**
  * Free-response marking queue (SPEC §10.2). Answers are saved as jobs first, then marked one at a
- * time: by /api/mark (the free, shared Gemini key) or directly by the student's own key (SPEC §10.4).
+ * time: by /api/mark (the free, shared Groq key) or directly by the student's own key (SPEC §10.4).
  * Busy or offline: the job waits and retries with backoff, and resumes on the next visit. A result is
  * applied to θ, ranks, XP and achievements when it lands, using θ as it is then.
  */
 import {
   GEMINI_ENDPOINT,
-  MARKING_MODELS,
   MARK_SCHEMA,
+  consensus,
+  effortLevel,
   markingMessages,
   markWithModels,
   MarkingError,
@@ -17,7 +18,7 @@ import {
 } from "@intellectify/content/marking";
 import { fillTemplate } from "@intellectify/content/template";
 import type { Backend, MarkingJob, User } from "./backend";
-import { loadByok, type Byok } from "./byok";
+import { loadByok, loadEffort, type Byok } from "./byok";
 import { loadCourse, loadQuestions, type QuestionT } from "./content";
 import { achievementsFor } from "./achievements.svelte";
 import { profileFor } from "./profile.svelte";
@@ -55,26 +56,36 @@ class RetryLater extends Error {
 }
 class GiveUp extends Error {}
 
-/** Mark with the student's own key, straight from the browser. */
+/** Mark with the student's own key, straight from the browser, at their chosen effort (SPEC §10.4). */
 async function markWithOwnKey(byok: Byok, question: QuestionT, answers: Record<string, string>, appeal?: Appeal): Promise<MarkResult> {
+  const level = effortLevel(byok.provider, loadEffort(byok.provider));
   if (byok.provider === "anthropic") {
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
     const client = new Anthropic({ apiKey: byok.key, dangerouslyAllowBrowser: true, maxRetries: 1 });
     const [system, user] = markingMessages(question, answers, appeal);
-    try {
-      const res = await client.beta.messages.create({
-        model: "claude-opus-5-5",
-        max_tokens: 16000,
-        betas: ["server-side-fallback-2026-07-01"],
-        fallbacks: "default",
-        output_config: { effort: "medium", format: { type: "json_schema", schema: MARK_SCHEMA as unknown as Record<string, unknown> } },
-        system: system!.content,
-        messages: [{ role: "user", content: user!.content }],
-      });
+    const model = level.models[0]!;
+    // One run: a refusal is final, a cut-off reply is retried later.
+    const run = async () => {
+      const res = await client.beta.messages
+        .stream({
+          model,
+          max_tokens: 64000,
+          // Haiku has no server-side fallback for refusals.
+          ...(model.includes("haiku") ? {} : { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const }),
+          output_config: { effort: level.effort, format: { type: "json_schema", schema: MARK_SCHEMA as unknown as Record<string, unknown> } },
+          system: system!.content,
+          messages: [{ role: "user", content: user!.content }],
+        })
+        .finalMessage();
       if (res.stop_reason === "refusal") throw new GiveUp("Claude declined to mark this answer.");
       if (res.stop_reason === "max_tokens") throw new RetryLater("Claude's reply was cut off.");
-      const text = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("");
-      return scoreMarking(question, text, res.model);
+      return { reply: JSON.parse(res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("")) as unknown, model: res.model };
+    };
+    try {
+      const settled = await Promise.allSettled(Array.from({ length: level.runs }, run));
+      const ok = settled.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
+      if (!ok.length) throw (settled[0] as PromiseRejectedResult).reason;
+      return scoreMarking(question, consensus(ok.map((o) => o.reply)), ok[0]!.model);
     } catch (e) {
       if (e instanceof GiveUp || e instanceof RetryLater) throw e;
       if (e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError) throw new GiveUp("Your Claude key was refused. Check it in Settings.");
@@ -91,8 +102,12 @@ async function markWithOwnKey(byok: Byok, question: QuestionT, answers: Record<s
       appeal,
       endpoint: openai ? "https://api.openai.com/v1/chat/completions" : GEMINI_ENDPOINT,
       key: byok.key,
-      models: openai ? ["gpt-5-mini"] : MARKING_MODELS,
-      reasoningEffort: "low",
+      models: level.models,
+      reasoningEffort: level.effort as "low" | "medium" | "high",
+      samples: level.runs,
+      // No 60 s function limit in the browser: room for slower models and more runs.
+      timeout: 90_000,
+      budget: 180_000,
     });
   } catch (e) {
     const err = e instanceof MarkingError ? e : new MarkingError((e as Error).message, 503);
@@ -109,7 +124,7 @@ async function markOnServer(backend: Backend, job: MarkingJob, appeal?: Appeal):
     res = await fetch("/api/mark", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, answers: job.answers, appeal, photo: job.photo ?? false }),
+      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, answers: job.answers, appeal, effort: loadEffort("free") }),
     });
   } catch {
     throw new RetryLater("Offline");
@@ -158,7 +173,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; answers: Record<string, string>; photo?: boolean }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const job: MarkingJob = {
@@ -169,7 +184,6 @@ export class MarkingQueue {
       questionVersion: input.question.version,
       variant: input.variant,
       answers: input.answers,
-      ...(input.photo ? { photo: true } : {}),
       createdAt: now,
       status: "pending",
       attempts: 0,

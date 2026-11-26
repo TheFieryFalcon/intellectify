@@ -207,6 +207,65 @@ export const TRANSCRIBE_MODELS = ["gemini-3.8-flash", "gemini-3.5-flash", "gemin
 /** Groq's OpenAI-compatible endpoint and its fast reasoning model (text only: photos stay with Gemini). */
 export const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 export const GROQ_MODELS = ["openai/gpt-oss-120b"];
+
+/**
+ * Marking effort (SPEC §10.4): a level picks the model(s), reasoning effort and number of runs
+ * (combined by consensus()). The free shared marker offers 1–2; a student's own key 1–10.
+ */
+export type MarkProvider = "free" | "gemini" | "openai" | "anthropic";
+export interface EffortLevel {
+  /** Tried in order until one answers. */
+  models: string[];
+  effort: "low" | "medium" | "high" | "xhigh" | "max";
+  runs: number;
+}
+const lv = (models: string[], effort: EffortLevel["effort"], runs: number): EffortLevel => ({ models, effort, runs });
+const FLASH = ["gemini-3.8-flash", "gemini-3.5-flash"];
+export const EFFORT_LEVELS: Record<MarkProvider, EffortLevel[]> = {
+  free: [lv(GROQ_MODELS, "medium", 1), lv(GROQ_MODELS, "medium", 3)],
+  anthropic: [
+    lv(["claude-haiku-5-5"], "low", 1),
+    lv(["claude-sonnet-5-5"], "medium", 1),
+    lv(["claude-opus-5-5"], "medium", 1),
+    lv(["claude-opus-5-5"], "medium", 2),
+    lv(["claude-opus-5-5"], "medium", 3),
+    lv(["claude-opus-5-5"], "high", 1),
+    lv(["claude-opus-5-5"], "high", 2),
+    lv(["claude-opus-5-5"], "high", 3),
+    lv(["claude-fable-5-2"], "high", 1),
+    lv(["claude-fable-5-2"], "high", 3),
+  ],
+  gemini: [
+    lv(["gemini-3.8-flash"], "low", 1),
+    lv(["gemini-3.8-flash"], "medium", 1),
+    lv(FLASH, "low", 3),
+    lv(FLASH, "low", 4),
+    lv(FLASH, "low", 5),
+    lv(FLASH, "high", 3),
+    lv(FLASH, "high", 4),
+    lv(FLASH, "high", 5),
+    lv(["gemini-pro-latest", ...FLASH], "high", 3),
+    lv(["gemini-pro-latest", ...FLASH], "high", 5),
+  ],
+  openai: [
+    lv(["gpt-5-nano"], "low", 1),
+    lv(["gpt-5-mini"], "low", 1),
+    lv(["gpt-5-mini"], "low", 3),
+    lv(["gpt-5-mini"], "low", 4),
+    lv(["gpt-5-mini"], "low", 5),
+    lv(["gpt-5"], "medium", 1),
+    lv(["gpt-5"], "medium", 2),
+    lv(["gpt-5"], "medium", 3),
+    lv(["gpt-5"], "high", 3),
+    lv(["gpt-5"], "high", 5),
+  ],
+};
+/** Starting level: the most the free marker offers; 3 with an own key. */
+export const DEFAULT_EFFORT: Record<MarkProvider, number> = { free: 2, gemini: 3, openai: 3, anthropic: 3 };
+export const maxEffort = (p: MarkProvider) => EFFORT_LEVELS[p].length;
+export const clampEffort = (p: MarkProvider, level: unknown) =>
+  Number.isInteger(level) ? Math.min(maxEffort(p), Math.max(1, level as number)) : DEFAULT_EFFORT[p];
+export const effortLevel = (p: MarkProvider, level: unknown): EffortLevel => EFFORT_LEVELS[p][clampEffort(p, level) - 1]!;
 /** @deprecated use MARKING_MODELS or TRANSCRIBE_MODELS */
 export const GEMINI_MODELS = MARKING_MODELS;
 

@@ -65,9 +65,9 @@
     round++;
   }
 
-  async function submitWritten(answers: Record<string, string>, photo: boolean) {
+  async function submitWritten(answers: Record<string, string>) {
     if (!marking || !served) return;
-    const j = await marking.submit({ course: data.course.id, skill: skillId, question: served.question, variant: served.variant, answers, photo });
+    const j = await marking.submit({ course: data.course.id, skill: skillId, question: served.question, variant: served.variant, answers });
     jobId = j.id;
   }
 

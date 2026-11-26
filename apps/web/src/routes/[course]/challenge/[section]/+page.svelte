@@ -80,10 +80,10 @@
     await save(ch);
   }
 
-  async function submitWritten(answers: Record<string, string>, photo: boolean) {
+  async function submitWritten(answers: Record<string, string>) {
     if (!marking || !current || !ch) return;
     const q = current.question;
-    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, answers, photo });
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, answers });
     ch = { ...ch, results: [...ch.results, { id: q.id, outcome: null, firstTry: false, jobId: job.id }] };
     resolved = true;
     await save(ch);
