@@ -55,7 +55,7 @@
 
 <div class="scroll">
   <div class="map" class:focus={!!chain} style="width:{layout.width}px;height:{layout.height}px">
-    <svg width={layout.width} height={layout.height} aria-hidden="true">
+    <svg class="edges" width={layout.width} height={layout.height} aria-hidden="true">
       {#each layout.regions as r (r.id)}
         <rect class="region" x={r.x} y={r.y} width={r.w} height={r.h} rx="18" />
         <text class="region-label" x={r.x + 14} y={r.y + 20}>
@@ -121,16 +121,16 @@
 <style>
   .scroll { overflow-x: auto; padding-bottom: 8px; }
   .map { position: relative; margin: 0 auto; }
-  svg { position: absolute; inset: 0; overflow: visible; }
+  svg.edges { position: absolute; inset: 0; overflow: visible; }
   .region { fill: var(--region); }
   .region-label { fill: var(--muted); font-size: 11.5px; font-weight: 500; }
   .year { fill: var(--muted); font-family: var(--font-display); font-size: 16px; }
   .unit { fill: var(--muted); font-size: 12px; font-weight: 600; }
-  path { fill: none; stroke: var(--edge); stroke-width: 1.3; stroke-linecap: round; transition: opacity 0.15s, stroke 0.15s; }
-  path.hidden { opacity: 0; }
-  path.lit { stroke: var(--accent); stroke-width: 1.6; opacity: 1; }
-  .map.focus path:not(.lit) { opacity: 0.12; }
-  .map.focus path.hidden:not(.lit) { opacity: 0; }
+  .edges path { fill: none; stroke: var(--edge); stroke-width: 1.3; stroke-linecap: round; transition: opacity 0.15s, stroke 0.15s; }
+  .edges path.hidden { opacity: 0; }
+  .edges path.lit { stroke: var(--accent); stroke-width: 1.6; opacity: 1; }
+  .map.focus .edges path:not(.lit) { opacity: 0.12; }
+  .map.focus .edges path.hidden:not(.lit) { opacity: 0; }
 
   .node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; text-decoration: none; color: var(--ink); transition: opacity 0.15s; }
   .map.focus .node:not(.lit) { opacity: 0.3; }
