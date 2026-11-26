@@ -6,6 +6,24 @@
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
     Points $A$, $B$, $C$, $D$ satisfy $\angle ACB = \angle ADB = 90^\circ$. Prove that they lie on one circle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 240
+    points: { A: [-2, 0], B: [2, 0], C: [1, 1.732], D: [-1.147, -1.638] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: B, to: D }
+      - { type: angle, at: C, from: A, to: B, right: true }
+      - { type: angle, at: D, from: A, to: B, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+    ```
   parts:
     - id: a
       rubric:
@@ -23,6 +41,19 @@
   responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
   stem: |
     Prove that the perpendicular bisectors of the three sides of a triangle meet at one point, and that this point is the center of a circle through the three corners.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.8, -0.8], B: [2, -0.8], C: [0.4, 1.8] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
   parts:
     - id: a
       rubric:
@@ -41,6 +72,22 @@
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
     $ABCD$ is a kite with $AB = AD$, $CB = CD$ and $\angle ABC = 90^\circ$. Prove that $ABCD$ is cyclic and that $AC$ is a diameter of its circle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [-0.684, -1.879], C: [2, 0], D: [-0.684, 1.879] }
+    draw:
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: A, to: D, ticks: 1 }
+      - { type: segment, from: C, to: B, ticks: 2 }
+      - { type: segment, from: C, to: D, ticks: 2 }
+      - { type: angle, at: B, from: A, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: e }
+      - { type: point, at: D, label: 'D', pos: n }
+    ```
   parts:
     - id: a
       rubric:
@@ -58,6 +105,23 @@
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
     $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and it is not a parallelogram. You may use that its base angles are equal: $\angle DAB = \angle CBA$. Prove that $ABCD$ is cyclic.
+
+    ```diagram
+    view: [-2.45, 4.45, -2.45, 2.45]
+    width: 260
+    points: { A: [0, 0], B: [4, 0], C: [3.316, 1.879], D: [0.684, 1.879] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C, ticks: 1 }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A, ticks: 1 }
+      - { type: angle, at: A, from: B, to: D, radius: 20 }
+      - { type: angle, at: B, from: C, to: A, radius: 20 }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
+    ```
   parts:
     - id: a
       rubric:
@@ -75,6 +139,23 @@
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
     In triangle $ABC$, a circle through $B$ and $C$ meets $AB$ again at $D$ and $AC$ again at $E$ (between the corners). Prove that $\angle ADE = \angle ACB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 3.45]
+    width: 250
+    points: { A: [0, 3], B: [-2, 0], C: [2, 0], Q: [0, -0.5], D: [-1.231, 1.154], E: [1.231, 1.154] }
+    draw:
+      - { type: circle, center: Q, radius: 2.062 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: D, to: E }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: w }
+      - { type: point, at: C, label: 'C', pos: e }
+      - { type: point, at: D, label: 'D', pos: w }
+      - { type: point, at: E, label: 'E', pos: e }
+    ```
   parts:
     - id: a
       rubric:
@@ -92,6 +173,24 @@
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510, synthesis: 1540 }
   stem: |
     $A$, $B$, $C$, $D$ are points with $C$ and $D$ on the same side of line $AB$, and $\angle ACB = \angle ADB$. Prove that $\angle CAD = \angle CBD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 240
+    points: { A: [-1.8, -0.8], B: [1.8, -0.8], C: [0.684, 1.879], D: [-1.286, 1.532] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: D, to: B }
+      - { type: angle, at: C, from: A, to: B, radius: 22 }
+      - { type: angle, at: D, from: A, to: B, radius: 22 }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: n }
+    ```
   parts:
     - id: a
       rubric:
@@ -109,6 +208,24 @@
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530, synthesis: 1560 }
   stem: |
     $ABCD$ is a cyclic quadrilateral, and the tangent at $A$ is parallel to the diagonal $BD$. Prove that $AB = AD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.732, -1], C: [-0, -2], D: [1.732, -1], U: [-1.8, 2], V: [1.8, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: B, to: D }
+      - { type: segment, from: U, to: V }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -126,6 +243,22 @@
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530, synthesis: 1560 }
   stem: |
     $A$, $B$, $C$, $D$ lie on a circle in that order, and $AB = CD$. Prove that $AD \parallel BC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1, 1.732], B: [-1.879, -0.684], C: [1, -1.732], D: [1.879, 0.684], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
     - id: a
       rubric:
@@ -143,6 +276,23 @@
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550, synthesis: 1580 }
   stem: |
     $ABCD$ is a cyclic quadrilateral, and lines $AB$ and $DC$ meet at $E$, with $B$ between $E$ and $A$, and $C$ between $E$ and $D$. Prove that triangles $EBC$ and $EDA$ are similar.
+
+    ```diagram
+    view: [-2.45, 4.25, -2.45, 2.45]
+    width: 230
+    points: { E: [3.8, 0], A: [-1.28, -1.536], B: [1.917, -0.569], C: [1.934, 0.509], D: [-1.408, 1.421], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: E, to: A }
+      - { type: segment, from: E, to: D }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: point, at: E, label: 'E', pos: e }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: nw }
+    ```
   parts:
     - id: a
       rubric:
@@ -160,6 +310,23 @@
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550, synthesis: 1580 }
   stem: |
     In triangle $ABC$, $D$ is a point on $BC$ with $\angle BAD = \angle ACB$. Prove that $BA^2 = BD \times BC$.
+
+    ```diagram
+    view: [-2.45, 4.45, -2.45, 2.45]
+    width: 260
+    points: { A: [1, 2], B: [0, 0], C: [4, 0], D: [1.25, 0] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: A, to: D }
+      - { type: angle, at: A, from: B, to: D, radius: 26 }
+      - { type: angle, at: C, from: A, to: B, radius: 30 }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: sw }
+      - { type: point, at: C, label: 'C', pos: se }
+      - { type: point, at: D, label: 'D', pos: s }
+    ```
   parts:
     - id: a
       rubric:
@@ -179,6 +346,26 @@
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
     In acute triangle $ABC$, $E$ is the foot of the perpendicular from $B$ to $AC$, and $F$ the foot of the perpendicular from $C$ to $AB$. Prove that $\angle AEF = \angle ABC$.
+
+    ```diagram
+    view: [-2.45, 2.85, -2.45, 2.85]
+    width: 250
+    points: { A: [0.6, 2.4], B: [-1.6, -0.6], C: [2.4, -0.6], E: [1.341, 1.165], F: [-0.201, 1.308] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: B, to: E }
+      - { type: segment, from: C, to: F }
+      - { type: segment, from: E, to: F }
+      - { type: angle, at: E, from: C, to: B, right: true }
+      - { type: angle, at: F, from: A, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: sw }
+      - { type: point, at: C, label: 'C', pos: se }
+      - { type: point, at: E, label: 'E', pos: ne }
+      - { type: point, at: F, label: 'F', pos: nw }
+    ```
   parts:
     - id: a
       rubric:
@@ -196,6 +383,37 @@
   responseSkills: { reasoning: 1690, proof: 1690, clarity: 1650 }
   stem: |
     The bisectors of the four angles of a convex quadrilateral $ABCD$ meet in pairs to form a quadrilateral $PQRS$, where $P$ is where the bisectors from $A$ and $B$ meet, $Q$ from $B$ and $C$, $R$ from $C$ and $D$, and $S$ from $D$ and $A$. Assuming $PQRS$ is a genuine quadrilateral, prove that it is cyclic.
+
+    ```diagram
+    view: [-3.25, 3.35, -2.45, 2.45]
+    width: 280
+    points: { A: [-2.8, -1], B: [2.6, -1.3], C: [2.9, 1.1], D: [-2.4, 1], P: [0.33, 1.422], Q: [1.585, -0.083], R: [-0.173, -1.664], S: [-1.542, -0.026] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: A, to: P, dashed: true }
+      - { type: segment, from: A, to: S, dashed: true }
+      - { type: segment, from: B, to: P, dashed: true }
+      - { type: segment, from: B, to: Q, dashed: true }
+      - { type: segment, from: C, to: Q, dashed: true }
+      - { type: segment, from: C, to: R, dashed: true }
+      - { type: segment, from: D, to: R, dashed: true }
+      - { type: segment, from: D, to: S, dashed: true }
+      - { type: segment, from: P, to: Q }
+      - { type: segment, from: Q, to: R }
+      - { type: segment, from: R, to: S }
+      - { type: segment, from: S, to: P }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: Q, label: 'Q', pos: e }
+      - { type: point, at: R, label: 'R', pos: n }
+      - { type: point, at: S, label: 'S', pos: w }
+    ```
   parts:
     - id: a
       rubric:
@@ -216,6 +434,24 @@
   responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730, synthesis: 1760 }
   stem: |
     Two circles meet at $A$ and $B$. $P$ is a point on the first circle, outside the second. Lines $PA$ and $PB$, extended beyond $A$ and $B$, meet the second circle again at $C$ and $D$. Prove that $CD$ is parallel to the tangent to the first circle at $P$.
+
+    ```diagram
+    view: [-2.8, 4.6, -2.6, 2.6]
+    width: 300
+    points: { P1: [-1, 0], P2: [1.8, 0], A: [-0.279, 1.2], B: [-0.279, -1.2], P: [-2.4, 0], C: [1.842, 2.4], D: [1.842, -2.4], U: [-2.4, -1], V: [-2.4, 1] }
+    draw:
+      - { type: circle, center: P1, radius: 1.4 }
+      - { type: circle, center: P2, radius: 2.4 }
+      - { type: segment, from: P, to: C }
+      - { type: segment, from: P, to: D }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: U, to: V }
+      - { type: point, at: P, label: 'P', pos: w }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: se }
+    ```
   parts:
     - id: a
       rubric:
@@ -238,6 +474,26 @@
   responseSkills: { reasoning: 1810, proof: 1810, clarity: 1770 }
   stem: |
     $ABC$ is an acute triangle with altitudes $BE$ and $CF$ meeting at $H$. $H'$ is the reflection of $H$ in the line $BC$. Prove that $H'$ lies on the circle through $A$, $B$ and $C$.
+
+    ```diagram
+    view: [-2.45, 2.65, -2.45, 2.75]
+    width: 250
+    points: { A: [0.5, 2.3], B: [-1.7, -0.7], C: [2.2, -0.7], E: [1.252, 0.973], F: [-0.336, 1.16], H: [0.5, 0.547], K: [0.5, -1.947] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: B, to: E }
+      - { type: segment, from: C, to: F }
+      - { type: segment, from: H, to: K, dashed: true }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: sw }
+      - { type: point, at: C, label: 'C', pos: se }
+      - { type: point, at: E, label: 'E', pos: ne }
+      - { type: point, at: F, label: 'F', pos: nw }
+      - { type: point, at: H, label: 'H', pos: e }
+      - { type: point, at: K, label: 'H''', pos: s }
+    ```
   parts:
     - id: a
       rubric:
@@ -260,6 +516,25 @@
   responseSkills: { reasoning: 1830, proof: 1830, clarity: 1790, synthesis: 1820 }
   stem: |
     Two circles meet at $P$ and $Q$. A line through $P$ meets the first circle again at $A$ and the second circle again at $B$, with $P$ between $A$ and $B$. The tangents at $A$ (to the first circle) and at $B$ (to the second) meet at $T$. Prove that $A$, $T$, $B$, $Q$ lie on one circle.
+
+    ```diagram
+    view: [-2.45, 2.97, -2.45, 2.45]
+    width: 290
+    points: { P1: [-0.9, 0], P2: [1, 0], P: [-0.108, 1.154], Q: [-0.108, -1.154], A: [-1.056, 1.391], B: [2.521, 0.497], T: [2.113, 1.746] }
+    draw:
+      - { type: circle, center: P1, radius: 1.4 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: Q, to: A, dashed: true }
+      - { type: segment, from: Q, to: B, dashed: true }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: Q, label: 'Q', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+    ```
   parts:
     - id: a
       rubric:

@@ -97,6 +97,23 @@
   responseSkills: { calculation: 1100 }
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. $AX = 4$, $XB = 9$ and $CX = 6$. Find $XD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.612, -1.904], B: [1.376, 1.451], C: [1.8, -0.872], D: [-1.8, -0.872], X: [0, -0.87178], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, label: '4' }
+      - { type: segment, from: X, to: B, label: '9' }
+      - { type: segment, from: C, to: X, label: '6', side: right }
+      - { type: segment, from: X, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
     - id: a
       answer: { type: numeric, key: 6 }
@@ -162,6 +179,20 @@
   responseSkills: { reasoning: 1330, proof: 1320, clarity: 1280 }
   stem: |
     $AB$ is a diameter of a circle, and $C$ is another point on the circle. Prove that $\angle CAB + \angle CBA = 90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [0.845, 1.813], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
   parts:
     - id: a
       rubric:
@@ -215,6 +246,21 @@
   responseSkills: { reading: 1390, calculation: 1390 }
   stem: |
     From a point $M$ outside a circle, a tangent touches the circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. $MA = 3$ and $AB = 9$. Find $MT$.
+
+    ```diagram
+    view: [-2.45, 3.14, -2.45, 2.45]
+    width: 230
+    points: { M: [2.69072, 0], T: [1.487, 1.338], A: [1.938, -0.494], B: [-0.32, -1.974], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: A, label: '3', side: right }
+      - { type: segment, from: A, to: B, label: '9', side: right }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
     - id: a
       answer: { type: numeric, key: 6 }
@@ -410,6 +456,22 @@
   responseSkills: { reasoning: 1630, proof: 1620, clarity: 1580 }
   stem: |
     Tangents from $P$ touch a circle at $A$ and $B$. $C$ is a point on the major arc $AB$. Prove that $\angle APB = 180^\circ - 2\angle ACB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -4.45, 2.45]
+    width: 230
+    points: { P: [0, -4], A: [-1.732, -1], B: [1.732, -1], C: [-0.684, 1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
   parts:
     - id: a
       rubric:

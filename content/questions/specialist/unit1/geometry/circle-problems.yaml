@@ -30,6 +30,22 @@
   - {ab: 14}
   stem: |
     $A$ and $B$ are {{ab}} cm apart, and $M$ is the midpoint of $AB$. A point $P$ has $\angle APB = 90^\circ$. How far is $P$ from $M$?
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 250
+    points: { A: [-2, 0], B: [2, 0], M: [0, 0], P: [0.845, 1.813] }
+    draw:
+      - { type: segment, from: A, to: B, label: '{{ab}}', side: right }
+      - { type: segment, from: A, to: P }
+      - { type: segment, from: B, to: P }
+      - { type: segment, from: M, to: P, dashed: true }
+      - { type: angle, at: P, from: A, to: B, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: M, label: 'M', pos: nw }
+      - { type: point, at: P, label: 'P', pos: n }
+    ```
   parts:
   - id: a
     prompt: $PM$ (cm)
@@ -50,6 +66,24 @@
   responseSkills: {reading: 1140}
   stem: |
     $A$, $B$, $C$ and $D$ are four points with $C$ and $D$ on the same side of line $AB$, and $\angle ACB = \angle ADB = 35^\circ$. What can you conclude?
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 250
+    points: { A: [-1.8, -0.8], B: [1.8, -0.8], C: [0.684, 1.879], D: [-1.286, 1.532] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: D, to: B }
+      - { type: angle, at: C, from: A, to: B, label: '35^\circ', radius: 26 }
+      - { type: angle, at: D, from: A, to: B, label: '35^\circ', radius: 26 }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: n }
+    ```
   parts:
   - id: a
     options:
@@ -69,6 +103,25 @@
   - {e: 112}
   stem: |
     A quadrilateral $ABCD$ has an exterior angle at $C$ (between $DC$ and $BC$ extended) of ${{e}}^\circ$, and $\angle DAB = {{e}}^\circ$. Is $ABCD$ cyclic?
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.65]
+    width: 250
+    points: { A: [-1.8, -1], B: [1.4, -1.4], C: [1.6, 1], D: [-1, 1.6], E: [1.7, 2.2] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: C, to: E }
+      - { type: angle, at: C, from: E, to: D, label: '{{e}}^\circ', radius: 20 }
+      - { type: angle, at: A, from: B, to: D, label: '{{e}}^\circ', radius: 22 }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: e }
+      - { type: point, at: D, label: 'D', pos: n }
+      - { type: point, at: E, label: 'E', pos: ne }
+    ```
   parts:
   - id: a
     options:
@@ -127,6 +180,26 @@
   - {t: 54}
   stem: |
     $ABCD$ is a cyclic quadrilateral. The tangent at $A$ makes an angle of {{t}}° with $AB$, on the side away from $D$. Find $\angle ADB$ and $\angle ACB$.
+
+    ```diagram
+    view: [-2.45, 3.05, -2.45, 2.45]
+    width: 230
+    points: { A: [-0, -2], B: [1.286, 1.532], C: [-1, 1.732], D: [-1.97, -0.347], U: [-1.6, -2], V: [2.6, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: D, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: U, to: V }
+      - { type: angle, at: A, from: V, to: B, label: '{{t}}^\circ', radius: 24 }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: w }
+    ```
   parts:
   - id: a
     prompt: $\angle ADB$ (°)
@@ -150,6 +223,25 @@
   responseSkills: {reading: 1330, calculation: 1340, reasoning: 1340}
   stem: |
     $ABCD$ is cyclic with $\angle DAB = (x + 20)^\circ$, $\angle ABC = (3x - 40)^\circ$ and $\angle BCD = (2x + 10)^\circ$. Find $\angle CDA$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 300
+    points: { A: [-1.879, -0.684], B: [0.347, -1.97], C: [1.879, -0.684], D: [1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: angle, at: A, from: B, to: D, label: '(x + 20)^\circ', radius: 12 }
+      - { type: angle, at: B, from: C, to: A, label: '(3x - 40)^\circ', radius: 14 }
+      - { type: angle, at: C, from: D, to: B, label: '(2x + 10)^\circ', radius: 12 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     prompt: $\angle CDA$ (°)
@@ -167,6 +259,25 @@
   responseSkills: {reading: 1360, calculation: 1370, reasoning: 1370}
   stem: |
     In quadrilateral $ABCD$, $\angle DAB = 3x^\circ$, $\angle ABC = 100^\circ$ and $\angle BCD = (2x + 30)^\circ$. If $ABCD$ is cyclic, find $x$ and $\angle ADC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 260
+    points: { A: [-1.879, -0.684], B: [0.347, -1.97], C: [2, 0], D: [-0.347, 1.97], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: angle, at: A, from: B, to: D, label: '3x^\circ', radius: 22 }
+      - { type: angle, at: B, from: C, to: A, label: '100^\circ', radius: 20 }
+      - { type: angle, at: C, from: D, to: B, label: '(2x + 30)^\circ', radius: 24 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     prompt: $x =$
@@ -186,6 +297,22 @@
   responseSkills: {reasoning: 1430, proof: 1430, clarity: 1370}
   stem: |
     Prove that a parallelogram whose corners lie on a circle is a rectangle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, 1], B: [1.732, 1], C: [1.732, -1], D: [-1.732, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -242,6 +369,25 @@
   responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle in that order, and chords $AC$ and $BD$ meet at $X$. $\angle ABD = 32^\circ$ and $\angle AXD = 110^\circ$. Find $\angle BDC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.532, 1.286], B: [-1.97, -0.347], C: [1.941, -0.484], D: [0.484, 1.941], X: [-0.683, 0.853], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: D, to: C }
+      - { type: angle, at: B, from: A, to: D, label: '32^\circ', radius: 28 }
+      - { type: angle, at: X, from: A, to: D, label: '110^\circ', radius: 14 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     prompt: $\angle BDC$ (°)
@@ -261,6 +407,22 @@
   responseSkills: {reading: 1440, calculation: 1440, reasoning: 1450}
   stem: |
     $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = 70^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
+
+    ```diagram
+    view: [-2.45, 4.45, -2.45, 2.45]
+    width: 260
+    points: { A: [0, 0], B: [4, 0], C: [3.316, 1.879], D: [0.684, 1.879] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C, ticks: 1 }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A, ticks: 1 }
+      - { type: angle, at: A, from: B, to: D, label: '70^\circ', radius: 22 }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
+    ```
   parts:
   - id: a
     prompt: $\angle BCD$ (°)
@@ -287,6 +449,25 @@
   responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   stem: |
     A point $M$ is 10 cm from the center $O$ of a circle of radius 6 cm. Tangents from $M$ touch the circle at $S$ and $T$. Find the area of quadrilateral $OSMT$.
+
+    ```diagram
+    view: [-2.45, 3.78, -2.45, 2.45]
+    width: 230
+    points: { M: [3.33333, 0], S: [1.2, 1.6], T: [1.2, -1.6], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: S }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: O, to: S, label: '6' }
+      - { type: segment, from: O, to: T }
+      - { type: segment, from: O, to: M, label: '10', dashed: true, side: right }
+      - { type: angle, at: S, from: O, to: M, right: true }
+      - { type: angle, at: T, from: M, to: O, right: true }
+      - { type: point, at: O, label: 'O', pos: w }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: S, label: 'S', pos: n }
+      - { type: point, at: T, label: 'T', pos: s }
+    ```
   parts:
   - id: a
     prompt: Area (cm²)
@@ -306,6 +487,23 @@
   responseSkills: {reasoning: 1510, proof: 1510, clarity: 1430, synthesis: 1480}
   stem: |
     Prove by contradiction: if a quadrilateral $ABCD$ has $\angle B + \angle D = 180^\circ$, then it is cyclic.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 240
+    points: { A: [-1.8, -0.9], B: [1.5, -1.5], C: [1.9, 0.9], D: [-0.7, 1.9] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: angle, at: B, from: C, to: A, radius: 18 }
+      - { type: angle, at: D, from: A, to: C, radius: 18 }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: e }
+      - { type: point, at: D, label: 'D', pos: n }
+    ```
   parts:
   - id: a
     rubric:
@@ -324,6 +522,22 @@
   responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400, synthesis: 1440}
   stem: |
     $\angle APB = 90^\circ$ and $M$ is the midpoint of $AB$. Prove that $MP = MA = MB$, so $P$ lies on the circle with diameter $AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 250
+    points: { A: [-2, 0], B: [2, 0], M: [0, 0], P: [-0.845, 1.813] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: P }
+      - { type: segment, from: B, to: P }
+      - { type: segment, from: M, to: P, dashed: true }
+      - { type: angle, at: P, from: A, to: B, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: M, label: 'M', pos: s }
+      - { type: point, at: P, label: 'P', pos: n }
+    ```
   parts:
   - id: a
     rubric:
@@ -340,6 +554,25 @@
   responseSkills: {calculation: 1540, reasoning: 1570, synthesis: 1570}
   stem: |
     $AB$ is a diameter of a circle, and $C$ and $D$ are on the circle on the same side of $AB$. $\angle DAB = 50^\circ$ and $\angle CBA = 60^\circ$. Find $\angle DCA$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [1, 1.732], D: [-0.347, 1.97], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: D, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: angle, at: A, from: B, to: D, label: '50^\circ', radius: 30 }
+      - { type: angle, at: B, from: C, to: A, label: '60^\circ', radius: 24 }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: n }
+    ```
   parts:
   - id: a
     prompt: $\angle DCA$ (°)
@@ -359,6 +592,25 @@
   responseSkills: {proof: 1590, synthesis: 1570, clarity: 1500}
   stem: |
     In triangle $ABC$, $E$ is on $AC$ with $BE \perp AC$, and $F$ is on $AB$ with $CF \perp AB$. Prove that $B$, $C$, $E$ and $F$ lie on a circle.
+
+    ```diagram
+    view: [-2.45, 2.85, -2.45, 2.85]
+    width: 250
+    points: { A: [0.6, 2.4], B: [-1.6, -0.6], C: [2.4, -0.6], E: [1.341, 1.165], F: [-0.201, 1.308] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: B, to: E }
+      - { type: segment, from: C, to: F }
+      - { type: angle, at: E, from: C, to: B, right: true }
+      - { type: angle, at: F, from: A, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: sw }
+      - { type: point, at: C, label: 'C', pos: se }
+      - { type: point, at: E, label: 'E', pos: ne }
+      - { type: point, at: F, label: 'F', pos: nw }
+    ```
   parts:
   - id: a
     rubric:
@@ -374,6 +626,20 @@
   responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1640}
   stem: |
     A triangle has sides 10, 10 and 12. Find the radius of the circle through its three corners.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.5, 0], C: [1.5, 0], Q: [0, 0.4375] }
+    draw:
+      - { type: circle, center: Q, radius: 1.5625 }
+      - { type: segment, from: B, to: A, label: '10' }
+      - { type: segment, from: A, to: C, label: '10' }
+      - { type: segment, from: B, to: C, label: '12', side: right }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: w }
+      - { type: point, at: C, label: 'C', pos: e }
+    ```
   parts:
   - id: a
     prompt: Radius
@@ -392,6 +658,22 @@
   responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520}
   stem: |
     Chords $AB$ and $CD$ of a circle are parallel, with $A$ and $C$ on the same side. Prove that $AC = BD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, 1], B: [1.732, 1], C: [-1.638, -1.147], D: [1.638, -1.147], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -408,6 +690,24 @@
   responseSkills: {reasoning: 1570, proof: 1570, clarity: 1490, synthesis: 1530}
   stem: |
     Triangle $ABC$ has a right angle at $C$, and $M$ is the midpoint of $AB$. Prove that $MC = \tfrac{1}{2}AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 250
+    points: { A: [-2, 0], B: [2, 0], C: [-1.147, 1.638], M: [0, 0] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: M, to: C }
+      - { type: segment, from: A, to: M, ticks: 1 }
+      - { type: segment, from: M, to: B, ticks: 1 }
+      - { type: angle, at: C, from: A, to: B, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: M, label: 'M', pos: s }
+    ```
   parts:
   - id: a
     rubric:
@@ -424,6 +724,28 @@
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   stem: |
     $ABCD$ is a cyclic quadrilateral whose diagonals meet at right angles at $X$. $AX = 3$, $XC = 8$ and $BX = 4$. Find $XD$ and the exact radius of the circle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.85, 2.45]
+    width: 240
+    points: { A: [0, 0.9], C: [0, -2.4], B: [-1.2, 0], D: [1.8, 0], X: [0, 0], Q: [0.3, -0.75] }
+    draw:
+      - { type: circle, center: Q, radius: 1.677 }
+      - { type: segment, from: A, to: X, label: '3', side: right }
+      - { type: segment, from: X, to: C, label: '8', side: right }
+      - { type: segment, from: B, to: X, label: '4', side: right }
+      - { type: segment, from: X, to: D }
+      - { type: angle, at: X, from: D, to: A, right: true }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: w }
+      - { type: point, at: C, label: 'C', pos: s }
+      - { type: point, at: D, label: 'D', pos: e }
+      - { type: point, at: X, label: 'X', pos: se }
+    ```
   parts:
   - id: a
     prompt: $XD$
@@ -452,6 +774,26 @@
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1680}
   stem: |
     In triangle $ABC$, the bisector of angle $A$ meets the circle through $A$, $B$ and $C$ again at $D$. Prove that $DB = DC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.347, 1.97], B: [-1.732, -1], C: [1.732, -1], D: [-0, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: D, to: B }
+      - { type: segment, from: D, to: C }
+      - { type: angle, at: A, from: B, to: D, radius: 30 }
+      - { type: angle, at: A, from: D, to: C, radius: 34 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -468,6 +810,22 @@
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Two circles meet at $P$ and $Q$. A line through $P$ meets the first circle again at $A$ and the second circle again at $B$, with $P$ between $A$ and $B$. Prove that $\angle AQB$ is the same for every such line.
+
+    ```diagram
+    view: [-2.5, 2.8, -2, 2]
+    width: 280
+    points: { P1: [-0.9, 0], P2: [1, 0], P: [-0.108, 1.154], Q: [-0.108, -1.154], A: [-0.799, 1.396], B: [2.586, 0.211] }
+    draw:
+      - { type: circle, center: P1, radius: 1.4 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: Q, to: A }
+      - { type: segment, from: Q, to: B }
+      - { type: point, at: P, label: 'P', pos: n }
+      - { type: point, at: Q, label: 'Q', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+    ```
   parts:
   - id: a
     rubric:
@@ -484,6 +842,26 @@
   responseSkills: {calculation: 1700, reasoning: 1750, synthesis: 1760}
   stem: |
     $ABCD$ is a cyclic quadrilateral. Lines $AB$ and $DC$ meet at $E$ (beyond $B$ and $C$), and lines $AD$ and $BC$ meet at $F$ (beyond $D$ and $C$). $\angle AED = 30^\circ$ and $\angle AFB = 40^\circ$. Find $\angle DAB$.
+
+    ```diagram
+    view: [-2.45, 5.45, -2.45, 4.07]
+    width: 300
+    points: { A: [-1.879, -0.684], B: [1.732, -1], C: [1.732, 1], D: [0.347, 1.97], E: [4.995, -1.286], F: [1.732, 3.621], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: E }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: A, to: F }
+      - { type: segment, from: B, to: F }
+      - { type: angle, at: E, from: A, to: D, label: '30^\circ', radius: 34 }
+      - { type: angle, at: F, from: A, to: B, label: '40^\circ', radius: 30 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E', pos: e }
+      - { type: point, at: F, label: 'F', pos: n }
+    ```
   parts:
   - id: a
     prompt: $\angle DAB$ (°)
@@ -504,6 +882,24 @@
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1700}
   stem: |
     $ABCD$ is a square with side 2 and center $O$. Find the radius of the circle through $A$, $B$ and $O$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 200
+    points: { A: [0, 0], B: [2, 0], C: [2, 2], D: [0, 2], O: [1, 1] }
+    draw:
+      - { type: segment, from: A, to: B, label: '2', side: right }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: O, to: A, dashed: true }
+      - { type: segment, from: O, to: B, dashed: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
+    ```
   parts:
   - id: a
     prompt: Radius
