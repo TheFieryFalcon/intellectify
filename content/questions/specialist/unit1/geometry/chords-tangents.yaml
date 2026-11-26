@@ -5,15 +5,18 @@
   rating: 1050
   responseSkills: {calculation: 1040, reading: 1040}
   variants:
-  - {x: 52}
-  - {x: 37}
+    - { x: 25, _M: '0.933, -2' }
+    - { x: 33, _M: '1.299, -2' }
+    - { x: 40, _M: '1.678, -2' }
+    - { x: 47, _M: '2.145, -2' }
+    - { x: 55, _M: '2.856, -2' }
   stem: |
     A tangent touches a circle with center $O$ at $T$. $M$ is a point on the tangent, and $\angle TOM = {{x}}^\circ$. Find $\angle TMO$.
 
     ```diagram
     view: [-2.5, 3.1, -2.6, 2.5]
     width: 230
-    points: { T: [-0, -2], M: [2.6, -2], O: [0, 0] }
+    points: { T: [-0, -2], M: [{{_M}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: O, to: T }
@@ -38,13 +41,17 @@
         M = (2 * math.tan(math.radians(x)), -2)
         assert abs(angle_at(T, O, M) - x) < 1e-9
         return {"a": approx(angle_at(T, M, O))}
+
 - id: spec.geometry.chords-tangents.equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1080
   responseSkills: {reading: 1080, calculation: 1030}
   variants:
-  - {d: 7}
-  - {d: 11}
+    - { d: 6 }
+    - { d: 7 }
+    - { d: 9 }
+    - { d: 11 }
+    - { d: 13 }
   stem: |
     Two tangents are drawn from a point $M$ to a circle, touching it at $S$ and $T$. $MS = {{d}}$ cm. Find $MT$.
 
@@ -73,20 +80,24 @@
         S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
         assert abs(dist(M, S) - d) < 1e-9
         return {"a": approx(dist(M, T))}
+
 - id: spec.geometry.chords-tangents.alternate-segment
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1120
   responseSkills: {reading: 1110, calculation: 1080}
   variants:
-  - {t: 52}
-  - {t: 68}
+    - { t: 32, _B: '1.798, -0.877' }
+    - { t: 42, _B: '1.989, -0.209' }
+    - { t: 52, _B: '1.941, 0.484' }
+    - { t: 62, _B: '1.658, 1.118' }
+    - { t: 72, _B: '1.176, 1.618' }
   stem: |
     A tangent touches a circle at $T$. Chord $TB$ makes an angle of ${{t}}^\circ$ with the tangent, and $A$ is on the circle in the alternate segment. Find $\angle TAB$.
 
     ```diagram
     view: [-2.9, 2.9, -2.5, 2.5]
     width: 230
-    points: { T: [-0, -2], A: [-1.732, 1], B: [1.941, 0.484], X: [-2.8, -2], Y: [2.8, -2], O: [0, 0] }
+    points: { T: [-0, -2], A: [-1.732, 1], B: [{{_B}}], X: [-2.8, -2], Y: [2.8, -2], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: X, to: Y }
@@ -111,20 +122,24 @@
         B, A = on_circle(270 + 2*t, 2), on_circle(160, 2)
         assert abs(angle_at(Y, T, B) - t) < 1e-9
         return {"a": approx(angle_at(T, A, B))}
+
 - id: spec.geometry.chords-tangents.equal-chords
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1160
   responseSkills: {reading: 1150, calculation: 1110}
   variants:
-  - {c: 74}
-  - {c: 118}
+    - { c: 64, _A: '-1.879, -0.684', _B: '-0.209, -1.989', _C: '1.97, 0.347', _D: '0.551, 1.923' }
+    - { c: 82, _A: '-1.879, -0.684', _B: '0.416, -1.956', _C: '1.97, 0.347', _D: '-0.07, 1.999' }
+    - { c: 100, _A: '-1.879, -0.684', _B: '1, -1.732', _C: '1.97, 0.347', _D: '-0.684, 1.879' }
+    - { c: 118, _A: '-1.879, -0.684', _B: '1.486, -1.338', _C: '1.97, 0.347', _D: '-1.231, 1.576' }
+    - { c: 136, _A: '-1.879, -0.684', _B: '1.827, -0.813', _C: '1.97, 0.347', _D: '-1.658, 1.118' }
   stem: |
     In a circle with center $O$, chords $AB$ and $CD$ have equal length, and $\angle AOB = {{c}}^\circ$. Find $\angle COD$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.879, -0.684], B: [0.14, -1.995], C: [1.97, 0.347], D: [0.209, 1.989], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B, ticks: 1 }
@@ -153,20 +168,24 @@
         # Find D on the circle with CD = AB by search, not by assuming equal angles.
         D = min((on_circle(200 + k / 100) for k in range(1, 18000)), key=lambda Q: abs(dist(C, Q) - dist(A, B)))
         return {"a": round(angle_at(C, (0, 0), D))}
+
 - id: spec.geometry.chords-tangents.two-tangents-center
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1280
   responseSkills: {reading: 1260, calculation: 1260, reasoning: 1270}
   variants:
-  - {m: 40}
-  - {m: 64}
+    - { m: 44, _view: '-2.55, 2.55, -5.84, 2.5', _M: '0, -5.339', _S: '1.854, -0.749', _T: '-1.854, -0.749' }
+    - { m: 56, _view: '-2.55, 2.55, -4.76, 2.5', _M: '0, -4.26', _S: '1.766, -0.939', _T: '-1.766, -0.939' }
+    - { m: 70, _view: '-2.55, 2.55, -3.99, 2.5', _M: '0, -3.487', _S: '1.638, -1.147', _T: '-1.638, -1.147' }
+    - { m: 84, _view: '-2.55, 2.55, -3.49, 2.5', _M: '0, -2.989', _S: '1.486, -1.338', _T: '-1.486, -1.338' }
+    - { m: 96, _view: '-2.55, 2.55, -3.19, 2.5', _M: '0, -2.691', _S: '1.338, -1.486', _T: '-1.338, -1.486' }
   stem: |
     Tangents from $M$ touch a circle with center $O$ at $S$ and $T$, and $\angle SMT = {{m}}^\circ$. Find $\angle SOT$.
 
     ```diagram
-    view: [-2.45, 2.45, -4.05, 2.45]
+    view: [{{_view}}]
     width: 230
-    points: { M: [0, -3.6], S: [1.663, -1.111], T: [-1.663, -1.111], O: [0, 0] }
+    points: { M: [{{_M}}], S: [{{_S}}], T: [{{_T}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: M, to: S }
@@ -193,20 +212,24 @@
         S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
         assert abs(angle_at(S, M, T) - m) < 1e-9
         return {"a": approx(angle_at(S, (0, 0), T))}
+
 - id: spec.geometry.chords-tangents.tangent-triangle
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1310
   responseSkills: {reading: 1290, calculation: 1290, reasoning: 1300}
   variants:
-  - {m: 50}
-  - {m: 76}
+    - { m: 44, _view: '-2.55, 5.89, -2.5, 2.5', _M: '5.339, 0', _S: '0.749, 1.854', _T: '0.749, -1.854' }
+    - { m: 56, _view: '-2.55, 4.81, -2.5, 2.5', _M: '4.26, 0', _S: '0.939, 1.766', _T: '0.939, -1.766' }
+    - { m: 70, _view: '-2.55, 4.04, -2.5, 2.5', _M: '3.487, 0', _S: '1.147, 1.638', _T: '1.147, -1.638' }
+    - { m: 84, _view: '-2.55, 3.54, -2.5, 2.5', _M: '2.989, 0', _S: '1.338, 1.486', _T: '1.338, -1.486' }
+    - { m: 96, _view: '-2.55, 3.24, -2.5, 2.5', _M: '2.691, 0', _S: '1.486, 1.338', _T: '1.486, -1.338' }
   stem: |
     Tangents from $M$ touch a circle at $S$ and $T$, and $\angle SMT = {{m}}^\circ$. Find $\angle MST$.
 
     ```diagram
-    view: [-2.45, 5.18, -2.45, 2.45]
+    view: [{{_view}}]
     width: 230
-    points: { M: [4.732, 0], S: [0.845, 1.813], T: [0.845, -1.813], O: [0, 0] }
+    points: { M: [{{_M}}], S: [{{_S}}], T: [{{_T}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: M, to: S }
@@ -229,25 +252,32 @@
         M = (0, -2 / math.sin(math.radians(m / 2)))
         S, T = tangent_point_toward((0, 0), 2, M, 1), tangent_point_toward((0, 0), 2, M, -1)
         return {"a": approx(angle_at(M, S, T))}
+
 - id: spec.geometry.chords-tangents.tangent-both-sides
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1350
   responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
+  variants:
+    - { p: 44, q: 56, a: 80, _A: '-1.999, -0.07', _B: '1.854, 0.749' }
+    - { p: 48, q: 50, a: 82, _A: '-1.989, 0.209', _B: '1.97, 0.347' }
+    - { p: 48, q: 66, a: 66, _A: '-1.989, 0.209', _B: '1.486, 1.338' }
+    - { p: 56, q: 52, a: 72, _A: '-1.854, 0.749', _B: '1.941, 0.484' }
+    - { p: 70, q: 62, a: 48, _A: '-1.286, 1.532', _B: '1.658, 1.118' }
   stem: |
-    A tangent $XY$ touches a circle at $T$. Chords $TA$ and $TB$ make angles $\angle XTA = 60^\circ$ and $\angle YTB = 50^\circ$ with the tangent. Find $\angle ATB$, $\angle TAB$ and $\angle TBA$.
+    A tangent $XY$ touches a circle at $T$. Chords $TA$ and $TB$ make angles $\angle XTA = {{p}}^\circ$ and $\angle YTB = {{q}}^\circ$ with the tangent. Find $\angle ATB$, $\angle TAB$ and $\angle TBA$.
 
     ```diagram
     view: [-2.9, 2.9, -2.5, 2.5]
     width: 230
-    points: { T: [-0, -2], A: [-1.732, 1], B: [1.97, 0.347], X: [-2.8, -2], Y: [2.8, -2], O: [0, 0] }
+    points: { T: [-0, -2], A: [{{_A}}], B: [{{_B}}], X: [-2.8, -2], Y: [2.8, -2], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: X, to: Y }
       - { type: segment, from: T, to: A }
       - { type: segment, from: T, to: B }
       - { type: segment, from: A, to: B }
-      - { type: angle, at: T, from: A, to: X, label: '60^\circ', radius: 22 }
-      - { type: angle, at: T, from: Y, to: B, label: '50^\circ', radius: 22 }
+      - { type: angle, at: T, from: A, to: X, label: '{{p}}^\circ', radius: 22 }
+      - { type: angle, at: T, from: Y, to: B, label: '{{q}}^\circ', radius: 22 }
       - { type: point, at: T, label: 'T' }
       - { type: point, at: A, label: 'A' }
       - { type: point, at: B, label: 'B' }
@@ -257,36 +287,39 @@
   parts:
   - id: a
     prompt: $\angle ATB$ (°)
-    answer: {type: numeric, key: '70'}
+    answer: {type: numeric, key: '{{a}}'}
   - id: b
     prompt: $\angle TAB$ (°)
-    answer: {type: numeric, key: '50'}
+    answer: {type: numeric, key: '{{q}}'}
   - id: c
     prompt: $\angle TBA$ (°)
-    answer: {type: numeric, key: '60'}
+    answer: {type: numeric, key: '{{p}}'}
   solution: |
-    Angles on the straight line $XY$: $\angle ATB = 180^\circ - 60^\circ - 50^\circ = 70^\circ$. By the alternate segment theorem, $\angle TAB = \angle YTB = 50^\circ$ and $\angle TBA = \angle XTA = 60^\circ$.
+    Angles on the straight line $XY$: $\angle ATB = 180^\circ - {{p}}^\circ - {{q}}^\circ = {{a}}^\circ$. By the alternate segment theorem, $\angle TAB = \angle YTB = {{q}}^\circ$ and $\angle TBA = \angle XTA = {{p}}^\circ$.
   verify: |
-    def answers():
+    def answers(p, q, a):
         T, X, Y = (0, -2), (-3, -2), (3, -2)
-        A, B = on_circle(270 - 120, 2), on_circle(270 + 100, 2)
-        assert abs(angle_at(X, T, A) - 60) < 1e-9 and abs(angle_at(Y, T, B) - 50) < 1e-9
+        A, B = on_circle(270 - 2*p, 2), on_circle(270 + 2*q, 2)
+        assert abs(angle_at(X, T, A) - p) < 1e-9 and abs(angle_at(Y, T, B) - q) < 1e-9
         return {"a": approx(angle_at(A, T, B)), "b": approx(angle_at(T, A, B)), "c": approx(angle_at(T, B, A))}
+
 - id: spec.geometry.chords-tangents.tangent-length
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1380
   responseSkills: {reading: 1350, calculation: 1370, reasoning: 1370}
   variants:
-  - {d: 13, r: 5, v: 12}
-  - {d: 10, r: 6, v: 8}
-  - {d: 25, r: 7, v: 24}
+    - { d: 13, r: 5, v: 12, _view: '-2.55, 5.75, -2.5, 2.5', _M: '5.2, 0', _T: '0.769, 1.846' }
+    - { d: 10, r: 6, v: 8, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0', _T: '1.2, 1.6' }
+    - { d: 17, r: 8, v: 15, _view: '-2.55, 4.8, -2.5, 2.5', _M: '4.25, 0', _T: '0.941, 1.765' }
+    - { d: 25, r: 7, v: 24, _view: '-2.55, 7.69, -2.5, 2.5', _M: '7.143, 0', _T: '0.56, 1.92' }
+    - { d: 15, r: 9, v: 12, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0', _T: '1.2, 1.6' }
   stem: |
     A point $M$ is {{d}} cm from the center of a circle of radius {{r}} cm. Find the length of a tangent from $M$ to the circle.
 
     ```diagram
-    view: [-2.45, 5.65, -2.45, 2.45]
+    view: [{{_view}}]
     width: 280
-    points: { M: [5.2, 0], T: [0.769, 1.846], O: [0, 0] }
+    points: { M: [{{_M}}], T: [{{_T}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: O, to: M, label: '{{d}}' }
@@ -308,20 +341,24 @@
         M = (d, 0)
         T = tangent_point_toward((0, 0), r, M, 1)
         return {"a": approx(dist(M, T))}
+
 - id: spec.geometry.chords-tangents.tangent-chord-center
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1420
   responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1390}
   variants:
-  - {t: 64}
-  - {t: 41}
+    - { t: 32, _A: '1.798, -0.877' }
+    - { t: 42, _A: '1.989, -0.209' }
+    - { t: 52, _A: '1.941, 0.484' }
+    - { t: 60, _A: '1.732, 1' }
+    - { t: 70, _A: '1.286, 1.532' }
   stem: |
     A tangent touches a circle with center $O$ at $T$. Chord $TA$ makes an angle of ${{t}}^\circ$ with the tangent.
 
     ```diagram
     view: [-2.9, 2.9, -2.5, 2.5]
     width: 230
-    points: { T: [-0, -2], A: [1.576, 1.231], Y: [2.8, -2], X: [-2.8, -2], O: [0, 0] }
+    points: { T: [-0, -2], A: [{{_A}}], Y: [2.8, -2], X: [-2.8, -2], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: X, to: Y }
@@ -349,20 +386,24 @@
         A = on_circle(270 + 2*t, 2)
         assert abs(angle_at(Y, T, A) - t) < 1e-9
         return {"a": approx(angle_at(O, T, A)), "b": approx(angle_at(T, O, A))}
+
 - id: spec.geometry.chords-tangents.equal-chords-two-step
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1450
   responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   variants:
-  - {y: 25}
-  - {y: 33}
+    - { y: 20, _A: '-1.879, -0.684', _B: '1.879, -0.684', _C: '1.879, 0.684', _D: '-1.879, 0.684' }
+    - { y: 25, _A: '-1.879, -0.684', _B: '1.732, -1', _C: '1.879, 0.684', _D: '-1.732, 1' }
+    - { y: 30, _A: '-1.879, -0.684', _B: '1.532, -1.286', _C: '1.879, 0.684', _D: '-1.532, 1.286' }
+    - { y: 35, _A: '-1.879, -0.684', _B: '1.286, -1.532', _C: '1.879, 0.684', _D: '-1.286, 1.532' }
+    - { y: 40, _A: '-1.879, -0.684', _B: '1, -1.732', _C: '1.879, 0.684', _D: '-1, 1.732' }
   stem: |
     In a circle with center $O$, chords $AB$ and $CD$ are equal, and $\angle OAB = {{y}}^\circ$. Find $\angle COD$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.879, -0.684], B: [1.732, -1], C: [1.879, 0.684], D: [-1.732, 1], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B, ticks: 1 }
@@ -392,20 +433,24 @@
         C = on_circle(200)
         D = min((on_circle(200 + k / 100) for k in range(1, 18000)), key=lambda Q: abs(dist(C, Q) - dist(A, B)))
         return {"a": round(angle_at(C, (0, 0), D))}
+
 - id: spec.geometry.chords-tangents.diameter-tangent
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1480
   responseSkills: {calculation: 1430, reasoning: 1470, synthesis: 1460}
   variants:
-  - {x: 35}
-  - {x: 28}
+    - { x: 20, _view: '-2.45, 2.85, -2.45, 2.45', _C: '1.532, 1.286', _D: '2, 1.456', _V: '2, 1.956' }
+    - { x: 25, _view: '-2.45, 2.85, -2.45, 2.77', _C: '1.286, 1.532', _D: '2, 1.865', _V: '2, 2.365' }
+    - { x: 30, _view: '-2.45, 2.85, -2.45, 3.21', _C: '1, 1.732', _D: '2, 2.309', _V: '2, 2.809' }
+    - { x: 35, _view: '-2.45, 2.85, -2.45, 3.7', _C: '0.684, 1.879', _D: '2, 2.801', _V: '2, 3.301' }
+    - { x: 40, _view: '-2.45, 2.85, -2.45, 4.26', _C: '0.347, 1.97', _D: '2, 3.356', _V: '2, 3.856' }
   stem: |
     $AB$ is a diameter of a circle. The tangent at $B$ meets $AC$ extended at $D$, where $C$ is on the circle and $\angle CAB = {{x}}^\circ$. Find $\angle CBD$.
 
     ```diagram
-    view: [-2.45, 2.45, -2.45, 3.75]
+    view: [{{_view}}]
     width: 230
-    points: { A: [-2, 0], B: [2, 0], C: [0.684, 1.879], D: [2, 2.8], U: [2, -1.2], V: [2, 3.3], O: [0, 0] }
+    points: { A: [-2, 0], B: [2, 0], C: [{{_C}}], D: [{{_D}}], U: [2, -1.2], V: [{{_V}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B }
@@ -431,6 +476,7 @@
         D = line_meet(A, C, B, (2, 5))
         assert abs(angle_at(C, A, B) - x) < 1e-9
         return {"a": approx(angle_at(C, B, D))}
+
 - id: spec.geometry.chords-tangents.prove-equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1500
@@ -465,18 +511,24 @@
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1600
   responseSkills: {calculation: 1550, reasoning: 1590, synthesis: 1590}
+  variants:
+    - { ab: 7, bc: 8, ca: 9, p: 24, h: 12, v: 4, _A: '0, 0', _B: '3.111, 0', _C: '2.095, 3.407', _I: '1.778, 0.994', _r: '0.994', _view: '-0.6, 3.71, -0.5, 3.91' }
+    - { ab: 5, bc: 6, ca: 7, p: 18, h: 9, v: 3, _A: '0, 0', _B: '2.857, 0', _C: '2.171, 3.359', _I: '1.714, 0.933', _r: '0.933', _view: '-0.6, 3.46, -0.5, 3.86' }
+    - { ab: 6, bc: 7, ca: 9, p: 22, h: 11, v: 4, _A: '0, 0', _B: '2.667, 0', _C: '2.519, 3.108', _I: '1.778, 0.848', _r: '0.848', _view: '-0.6, 3.27, -0.5, 3.61' }
+    - { ab: 8, bc: 9, ca: 11, p: 28, h: 14, v: 5, _A: '0, 0', _B: '2.909, 0', _C: '2.364, 3.227', _I: '1.818, 0.922', _r: '0.922', _view: '-0.6, 3.51, -0.5, 3.73' }
+    - { ab: 9, bc: 10, ca: 13, p: 32, h: 16, v: 6, _A: '0, 0', _B: '2.769, 0', _C: '2.564, 3.070', _I: '1.846, 0.863', _r: '0.863', _view: '-0.6, 3.37, -0.5, 3.57' }
   stem: |
-    A circle touches all three sides of triangle $ABC$, where $AB = 7$, $BC = 8$ and $CA = 9$. Find the distance from $A$ to the point where the circle touches $AB$.
+    A circle touches all three sides of triangle $ABC$, where $AB = {{ab}}$, $BC = {{bc}}$ and $CA = {{ca}}$. Find the distance from $A$ to the point where the circle touches $AB$.
 
     ```diagram
-    view: [-2.45, 3.95, -2.45, 4.28]
+    view: [{{_view}}]
     width: 250
-    points: { A: [0, 0], B: [3.5, 0], C: [2.357, 3.833], I: [2, 1.118] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], I: [{{_I}}] }
     draw:
-      - { type: circle, center: I, radius: 1.118 }
-      - { type: segment, from: A, to: B, label: '7', side: right }
-      - { type: segment, from: B, to: C, label: '8', side: right }
-      - { type: segment, from: C, to: A, label: '9', side: right }
+      - { type: circle, center: I, radius: {{_r}} }
+      - { type: segment, from: A, to: B, label: '{{ab}}', side: right }
+      - { type: segment, from: B, to: C, label: '{{bc}}', side: right }
+      - { type: segment, from: C, to: A, label: '{{ca}}', side: right }
       - { type: point, at: A, label: 'A' }
       - { type: point, at: B, label: 'B' }
       - { type: point, at: C, label: 'C' }
@@ -484,20 +536,19 @@
   parts:
   - id: a
     prompt: Distance
-    answer: {type: numeric, key: '4'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    Let the tangent lengths from $A$, $B$ and $C$ be $a$, $b$ and $c$ (tangents from one point are equal). Then $a + b = 7$, $b + c = 8$ and $c + a = 9$. Adding: $2(a + b + c) = 24$, so $a + b + c = 12$ and $a = 12 - 8 = 4$.
+    Let the tangent lengths from $A$, $B$ and $C$ be $a$, $b$ and $c$ (tangents from one point are equal). Then $a + b = {{ab}}$, $b + c = {{bc}}$ and $c + a = {{ca}}$. Adding: $2(a + b + c) = {{p}}$, so $a + b + c = {{h}}$ and $a = {{h}} - {{bc}} = {{v}}$.
   verify: |
-    def answers():
+    def answers(ab, bc, ca, p, h, v):
         import math
-        A, B = (0.0, 0.0), (7.0, 0.0)
-        # C with CA = 9 and CB = 8.
-        x = (81 - 64 + 49) / 14
-        C = (x, math.sqrt(81 - x*x))
+        A, B = (0.0, 0.0), (float(ab), 0.0)
+        x = (ca**2 - bc**2 + ab**2) / (2 * ab)
+        C = (x, math.sqrt(ca**2 - x*x))
         a, b, c = dist(B, C), dist(C, A), dist(A, B)
         I = ((a*A[0] + b*B[0] + c*C[0]) / (a + b + c), (a*A[1] + b*B[1] + c*C[1]) / (a + b + c))
-        foot = (I[0], 0.0)  # AB lies on the x-axis
-        return {"a": approx(dist(A, foot))}
+        return {"a": approx(dist(A, (I[0], 0.0)))}
+
 - id: spec.geometry.chords-tangents.prove-alternate-segment
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1620
@@ -536,20 +587,26 @@
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1700
   responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1690}
+  variants:
+    - { r: 3, d: 5, m: 4, n: '2.4', v: '4.8', _M: '3.333, 0', _S: '1.200, 1.600', _T: '1.200, -1.600', _view: '-2.45, 3.78, -2.45, 2.45' }
+    - { r: 6, d: 10, m: 8, n: '4.8', v: '9.6', _M: '3.333, 0', _S: '1.200, 1.600', _T: '1.200, -1.600', _view: '-2.45, 3.78, -2.45, 2.45' }
+    - { r: 8, d: 10, m: 6, n: '4.8', v: '9.6', _M: '2.500, 0', _S: '1.600, 1.200', _T: '1.600, -1.200', _view: '-2.45, 2.95, -2.45, 2.45' }
+    - { r: 9, d: 15, m: 12, n: '7.2', v: '14.4', _M: '3.333, 0', _S: '1.200, 1.600', _T: '1.200, -1.600', _view: '-2.45, 3.78, -2.45, 2.45' }
+    - { r: 5, d: 13, m: 12, n: '\frac{60}{13}', v: '\frac{120}{13}', _M: '5.200, 0', _S: '0.769, 1.846', _T: '0.769, -1.846', _view: '-2.45, 5.65, -2.45, 2.45' }
   stem: |
-    A circle has center $O$ and radius 3. A point $M$ is 5 units from $O$, and the tangents from $M$ touch the circle at $S$ and $T$. Find the length $ST$.
+    A circle has center $O$ and radius {{r}}. A point $M$ is {{d}} units from $O$, and the tangents from $M$ touch the circle at $S$ and $T$. Find the length $ST$.
 
     ```diagram
-    view: [-2.45, 3.78, -2.45, 2.45]
+    view: [{{_view}}]
     width: 230
-    points: { M: [3.333, 0], S: [1.2, 1.6], T: [1.2, -1.6], O: [0, 0] }
+    points: { M: [{{_M}}], S: [{{_S}}], T: [{{_T}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: M, to: S }
       - { type: segment, from: M, to: T }
       - { type: segment, from: S, to: T }
-      - { type: segment, from: O, to: S, label: '3' }
-      - { type: segment, from: O, to: M, label: '5', side: right }
+      - { type: segment, from: O, to: S, label: '{{r}}' }
+      - { type: segment, from: O, to: M, label: '{{d}}', side: right }
       - { type: point, at: O, label: 'O', pos: w }
       - { type: point, at: M, label: 'M', pos: e }
       - { type: point, at: S, label: 'S', pos: n }
@@ -558,71 +615,83 @@
   parts:
   - id: a
     prompt: $ST$
-    answer: {type: numeric, key: '4.8'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    $MS = \sqrt{5^2 - 3^2} = 4$. $OM$ cuts $ST$ at right angles at its midpoint $N$ (by symmetry, as triangles $OSM$ and $OTM$ are congruent). In right-angled triangle $OSM$, the height to the hypotenuse is $SN = \dfrac{OS \times MS}{OM} = \dfrac{3 \times 4}{5} = 2.4$ (two expressions for the area). So $ST = 4.8$.
+    $MS = \sqrt{ {{d}}^2 - {{r}}^2 } = {{m}}$. $OM$ cuts $ST$ at right angles at its midpoint $N$ (by symmetry, as triangles $OSM$ and $OTM$ are congruent). In right-angled triangle $OSM$, the height to the hypotenuse is $SN = \dfrac{OS \times MS}{OM} = \dfrac{ {{r}} \times {{m}} }{ {{d}} } = {{n}}$ (two expressions for the area). So $ST = {{v}}$.
   verify: |
-    def answers():
-        M = (5, 0)
-        S, T = tangent_point_toward((0, 0), 3, M, 1), tangent_point_toward((0, 0), 3, M, -1)
-        return {"a": approx(dist(S, T))}
+    def answers(r, d, m, n, v):
+        M = (d, 0)
+        S, T = tangent_point_toward((0, 0), r, M, 1), tangent_point_toward((0, 0), r, M, -1)
+        return {"a": nsimplify(round(dist(S, T), 9))}
+
 - id: spec.geometry.chords-tangents.common-tangent
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1730
   responseSkills: {calculation: 1670, reasoning: 1720, synthesis: 1720}
+  variants:
+    - { a: 4, b: 9, s: 13, d: 5, v: 12, _P2: '2.600, 0', _A: '-0.308, 0.738', _B: '1.908, 1.662', _r1: '0.800', _view: '-1.20, 4.80, -2.2, 2.2' }
+    - { a: 9, b: 16, s: 25, d: 7, v: 24, _P2: '2.812, 0', _A: '-0.284, 0.972', _B: '2.308, 1.728', _r1: '1.012', _view: '-1.41, 5.01, -2.2, 2.2' }
+    - { a: 16, b: 25, s: 41, d: 9, v: 40, _P2: '2.952, 0', _A: '-0.253, 1.124', _B: '2.557, 1.756', _r1: '1.152', _view: '-1.55, 5.15, -2.2, 2.2' }
+    - { a: 4, b: 16, s: 20, d: 12, v: 16, _P2: '2.250, 0', _A: '-0.270, 0.360', _B: '1.170, 1.440', _r1: '0.450', _view: '-0.85, 4.45, -2.2, 2.2' }
+    - { a: 9, b: 25, s: 34, d: 16, v: 30, _P2: '2.448, 0', _A: '-0.305, 0.572', _B: '1.601, 1.588', _r1: '0.648', _view: '-1.05, 4.65, -2.2, 2.2' }
   stem: |
-    Two circles of radius 4 and 9 touch each other on the outside. A straight line touches both circles, at $A$ and $B$, without passing between them. Find $AB$.
+    Two circles of radius {{a}} and {{b}} touch each other on the outside. A straight line touches both circles, at $A$ and $B$, without passing between them. Find $AB$.
 
     ```diagram
-    view: [-1.2, 4.8, -2.2, 2.2]
+    view: [{{_view}}]
     width: 280
-    points: { P1: [0, 0], P2: [2.6, 0], A: [-0.308, 0.738], B: [1.908, 1.662] }
+    points: { P1: [0, 0], P2: [{{_P2}}], A: [{{_A}}], B: [{{_B}}] }
     draw:
-      - { type: circle, center: P1, radius: 0.8 }
+      - { type: circle, center: P1, radius: {{_r1}} }
       - { type: circle, center: P2, radius: 1.8 }
       - { type: segment, from: A, to: B }
-      - { type: segment, from: P1, to: A, dashed: true, label: '4' }
-      - { type: segment, from: P2, to: B, dashed: true, label: '9' }
+      - { type: segment, from: P1, to: A, dashed: true, label: '{{a}}' }
+      - { type: segment, from: P2, to: B, dashed: true, label: '{{b}}' }
       - { type: point, at: A, label: 'A', pos: n }
       - { type: point, at: B, label: 'B', pos: n }
     ```
   parts:
   - id: a
     prompt: $AB$
-    answer: {type: numeric, key: '12'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    The centers $P$ and $Q$ are $4 + 9 = 13$ apart. $PA$ and $QB$ are both perpendicular to $AB$, so $PABQ$ is a trapezium with right angles at $A$ and $B$. Draw the line from $P$ parallel to $AB$, meeting $QB$ at $R$: $QR = 9 - 4 = 5$ and $PR = AB$. By Pythagoras, $AB = \sqrt{13^2 - 5^2} = 12$.
+    The centers $P$ and $Q$ are ${{a}} + {{b}} = {{s}}$ apart. $PA$ and $QB$ are both perpendicular to $AB$, so $PABQ$ is a trapezium with right angles at $A$ and $B$. Draw the line from $P$ parallel to $AB$, meeting $QB$ at $R$: $QR = {{b}} - {{a}} = {{d}}$ and $PR = AB$. By Pythagoras, $AB = \sqrt{ {{s}}^2 - {{d}}^2 } = {{v}}$.
   verify: |
-    def answers():
+    def answers(a, b, s, d, v):
         import math
-        P, Q = (0.0, 0.0), (13.0, 0.0)
-        # A line n·x = c (|n| = 1) with distance 4 from P and 9 from Q, both on the same side.
-        c = 4.0
-        cosphi = (c - 9) / 13
+        P, Q = (0.0, 0.0), (float(a + b), 0.0)
+        cosphi = (a - b) / (a + b)
         n = (cosphi, math.sqrt(1 - cosphi**2))
-        A = (c * n[0], c * n[1])
-        B = (Q[0] + 9 * n[0], Q[1] + 9 * n[1])
-        assert abs(dist(P, A) - 4) < 1e-9 and abs(dist(Q, B) - 9) < 1e-9
+        A = (a * n[0], a * n[1])
+        B = (Q[0] + b * n[0], Q[1] + b * n[1])
+        assert abs(dist(P, A) - a) < 1e-9 and abs(dist(Q, B) - b) < 1e-9
         return {"a": approx(dist(A, B))}
+
 - id: spec.geometry.chords-tangents.tangent-secant-angles
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1700
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
+  variants:
+    - { f: 24, b: 38, e: 118, v: 62, _view: '-2.45, 5.8, -2.45, 2.45', _A: '0, 2', _B: '-1.658, -1.118', _C: '1.941, 0.484', _P: '5.346, 2' }
+    - { f: 28, b: 44, e: 108, v: 72, _view: '-2.45, 6.08, -2.45, 2.45', _A: '0, 2', _B: '-1.176, -1.618', _C: '1.999, 0.07', _P: '5.629, 2' }
+    - { f: 30, b: 42, e: 108, v: 72, _view: '-2.45, 5.54, -2.45, 2.45', _A: '0, 2', _B: '-1.176, -1.618', _C: '1.989, 0.209', _P: '5.091, 2' }
+    - { f: 32, b: 46, e: 102, v: 78, _view: '-2.45, 5.76, -2.45, 2.45', _A: '0, 2', _B: '-0.813, -1.827', _C: '1.999, -0.07', _P: '5.311, 2' }
+    - { f: 34, b: 44, e: 102, v: 78, _view: '-2.45, 5.31, -2.45, 2.45', _A: '0, 2', _B: '-0.813, -1.827', _C: '1.999, 0.07', _P: '4.86, 2' }
   stem: |
-    The tangent at $A$ to a circle meets the line $BC$, extended beyond $C$, at $P$, where $B$ and $C$ are on the circle. $\angle APB = 30^\circ$ and $\angle ABC = 40^\circ$. Find $\angle ACB$.
+    The tangent at $A$ to a circle meets the line $BC$, extended beyond $C$, at $P$, where $B$ and $C$ are on the circle. $\angle APB = {{f}}^\circ$ and $\angle ABC = {{b}}^\circ$. Find $\angle ACB$.
 
     ```diagram
-    view: [-2.45, 5.28, -2.45, 2.45]
+    view: [{{_view}}]
     width: 300
-    points: { A: [0, 2], B: [-1.286, -1.532], C: [1.97, 0.347], P: [4.834, 2], U: [-1.2, 2], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], P: [{{_P}}], U: [-1.2, 2], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: U, to: P }
       - { type: segment, from: B, to: P }
       - { type: segment, from: A, to: B }
       - { type: segment, from: A, to: C }
-      - { type: angle, at: P, from: U, to: B, label: '30^\circ', radius: 34 }
-      - { type: angle, at: B, from: A, to: C, label: '40^\circ', radius: 26 }
+      - { type: angle, at: P, from: U, to: B, label: '{{f}}^\circ', radius: 34 }
+      - { type: angle, at: B, from: A, to: C, label: '{{b}}^\circ', radius: 26 }
       - { type: point, at: A, label: 'A', pos: n }
       - { type: point, at: B, label: 'B', pos: sw }
       - { type: point, at: C, label: 'C', pos: se }
@@ -631,21 +700,20 @@
   parts:
   - id: a
     prompt: $\angle ACB$ (°)
-    answer: {type: numeric, key: '70'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    By the alternate segment theorem, $\angle PAC = \angle ABC = 40^\circ$. In triangle $APC$, $\angle ACP = 180^\circ - 30^\circ - 40^\circ = 110^\circ$. So $\angle ACB = 180^\circ - 110^\circ = 70^\circ$ (angles on a straight line).
+    By the alternate segment theorem, $\angle PAC = \angle ABC = {{b}}^\circ$. In triangle $APC$, $\angle ACP = 180^\circ - {{f}}^\circ - {{b}}^\circ = {{e}}^\circ$. So $\angle ACB = 180^\circ - {{e}}^\circ = {{v}}^\circ$ (angles on a straight line).
   verify: |
-    def answers():
+    def answers(f, b, e, v):
         import math
-        # Build triangle ABC with angles B = 40, C = 70 (so A = 70) on a circle, then find P and check angle APB.
-        B = on_circle(270 - 70, 2)   # arc AC (not containing B) = 2*40 = 80; arc AB = 2*70 = 140; arc BC = 140
-        C = on_circle(270 + 70, 2)
-        A = on_circle(270 + 70 + 80, 2)
-        assert abs(angle_at(A, B, C) - 40) < 1e-6 and abs(angle_at(A, C, B) - 70) < 1e-6
-        tdir = (-A[1], A[0])   # tangent at A is perpendicular to OA
-        P = line_meet(A, (A[0] + tdir[0], A[1] + tdir[1]), B, C)
-        assert abs(angle_at(A, P, B) - 30) < 1e-6
+        g = 180 - f - b  # placeholder, replaced below
+        A, C = on_circle(90, 2), on_circle(90 - 2*b, 2)
+        B = on_circle(90 + 2*(f + b), 2)
+        tdir = (-A[1], A[0])
+        Pt = line_meet(A, (A[0] + tdir[0], A[1] + tdir[1]), B, C)
+        assert abs(angle_at(A, Pt, B) - f) < 1e-6 and abs(angle_at(A, B, C) - b) < 1e-6
         return {"a": approx(angle_at(A, C, B), 4)}
+
 - id: spec.geometry.chords-tangents.touching-circles-bisect
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1810
