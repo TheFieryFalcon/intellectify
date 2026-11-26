@@ -292,7 +292,9 @@ In a rubric, a deductive step ("so ∠XAC = ∠XDB") is a Reasoning criterion, a
 
 ### 5.7 Question selection
 - Target success probability **P\* ≈ 0.65**, the Alcumus-like "edge of ability" (tunable). The ideal rating is `d* = θ − S·ln(P*/(1−P*))`.
-- Choose from the skill's pool by closeness to `d*`. **Down-weight questions already seen**, and never repeat a question seen in the last N sessions unless the pool is exhausted. Template questions may repeat with fresh parameters.
+- Choose from the skill's pool by closeness to `d*`, with a soft weighting so sessions vary.
+- **No repeats near the student's level (implemented):** while any unseen question lies within **±150** of `d*` (`noRepeatBand`), only unseen questions in that band are served. Once the band is used up, repeats are allowed, avoiding the last 20 questions; a repeat near `d*` is preferred over a new question far from it. A repeat comes with a freshly picked variant and words (§9.3, §9.6), so it rarely reads the same.
+- "Seen" means answered (the last 200 per skill are stored), plus written answers still waiting in the marking queue.
 - **Drop a tier** (§5.3) shifts `d*` down into the band one tier below θ's current band.
 - Hidden questions (reported, §11.5) are excluded.
 
@@ -513,7 +515,7 @@ answer:
 
 ### 9.3 Parameterized questions
 - **Runtime templates:** parameter ranges plus constraints. The client instantiates random values and computes the key and checker in JS. Used for simple arithmetic-type items, mostly Tiers 1–2.
-- **Pre-generated variants:** the offline script produces concrete variants (e.g. 20 per template), each SymPy-verified, and ships them. Used wherever parameter choice can break "nice" answers.
+- **Pre-generated variants (the default):** an authoring script takes parameter ranges and constraints and writes concrete variants into the question file (about 8–12 per numeric question), each SymPy-verified, and the build renders every variant's figure. A variant may carry its own figure coordinates, so a figure always matches its numbers. Chosen over random values per serve: every served instance is checked before it ships, figures stay accurate, and serving, marking and storage only ever handle a variant number. Revisit if logs show students meeting repeats often.
 - **Mandatory rule for trigonometric simultaneous-equation problems** (collisions, interception, flight direction with wind, relative velocity): always pre-generate, and verify that
   - (a) answers are **small whole numbers**, or the intended exact values;
   - (b) the problem is **solvable on a low-power CAS calculator**, meaning an old, slow, unreliable CAS with `solve` and graphing. In practice:
@@ -530,6 +532,15 @@ answer:
 - Diagram specs reference question parameters, so diagrams update with parameterized variants. They are LLM-authorable and validated at build time.
 - **Format (implemented):** a fenced ` ```diagram ` block of YAML inside any Markdown (tutorials, stems, solutions, prompts, options). It has a `view` in math coordinates (`[xmin, xmax, ymin, ymax]`, y up), optional `width`, `grid`, `axes`, named `points`, a screen-reader `alt`, and a `draw` list. Element types so far: `point`, `segment` (dashed, equal-length ticks), `vector` (arrowhead), `angle` (arc or right-angle mark), `circle` (radius or through a point), `polygon`, `text` and `north` (bearing arrow). Labels are LaTeX. Colors are theme tokens (`ink`, `accent`, `muted`, `good`, `bad`), so diagrams work in dark mode. Function curves, Argand diagrams, slope fields and 3D views come later.
 - The build parses and renders every diagram, for every question variant, and fails on unknown points, bad numbers or unfilled placeholders.
+
+### 9.6 Word variety (implemented)
+Word problems change their story each time, not just their numbers, so they don't read the same twice.
+- `content/words.yaml` holds named word lists: people's names, aircraft, vessels, river crossers, road vehicles, and matched unit sets (km with km/h, nautical miles with knots, miles with mph). Entries are words, or records with fields (a crosser's `name` and `verb`; a unit set's `distance` and `speed`).
+- A question names a list per slot: `words: { who: person, craft: aircraft, u: units }`, and its text uses `{{who}}`, `{{craft}}`, `{{craft.a}}` ("a"/"an" added), `{{craft.A}}` (capitalized, for a sentence start) and `{{u.speed}}` (a field).
+- **Truly random per serve:** each serve picks an entry for every slot at random, independently of the numeric variant; two slots on the same list never get the same entry. The picks (entry indices) are stored with the serve (attempt, marking job, Challenge state), so a question reads the same when it's marked, resumed or reviewed. The marking server checks picks against the deployed lists before filling the question.
+- **Words never change an answer.** The build fails if a slot appears in an answer key or verify code, and if a list is unknown; numbers stay in the variant. A unit swap only relabels: answers are given in the question's own units.
+- People are referred to by name only, never by pronoun, so any name fits any sentence.
+- Lists grow with content: add a list when a new kind of story needs one (foods, sports, clubs, subjects for combinatorics).
 
 ---
 
@@ -1296,7 +1307,7 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7). **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |
