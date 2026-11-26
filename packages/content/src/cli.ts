@@ -21,11 +21,14 @@ if (errors.length) {
 }
 
 rmSync(outDir, { recursive: true, force: true });
-for (const { course, questions, tutorials } of bundles) {
+for (const { course, questions, sectionReviews, unitReviews, tutorials } of bundles) {
   const dir = join(outDir, course.id);
   mkdirSync(join(dir, "questions"), { recursive: true });
   writeFileSync(join(dir, "course.json"), JSON.stringify(course));
   for (const [skillId, qs] of Object.entries(questions)) writeFileSync(join(dir, "questions", `${skillId}.json`), JSON.stringify(qs));
+  mkdirSync(join(dir, "reviews"), { recursive: true });
+  for (const [id, r] of Object.entries(sectionReviews)) writeFileSync(join(dir, "reviews", `section-${id}.json`), JSON.stringify(r));
+  for (const [n, r] of Object.entries(unitReviews)) writeFileSync(join(dir, "reviews", `unit-${n}.json`), JSON.stringify(r));
   mkdirSync(join(dir, "tutorials"), { recursive: true });
   for (const t of tutorials) writeFileSync(join(dir, "tutorials", `${t.skill}.json`), JSON.stringify({ skill: t.skill, terms: t.terms, markdown: t.markdown }));
   const glossary = tutorials.flatMap((t) => t.terms.map((x) => ({ ...x, skill: t.skill }))).sort((a, b) => a.term.localeCompare(b.term));

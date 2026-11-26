@@ -76,8 +76,8 @@ export interface XpGrant {
 /** Saved Section Challenge progress (SPEC §8.4: untimed, resumable). */
 export interface ChallengeState {
   questions: { id: string; variant: number | null }[];
-  /** One entry per finished question, in order. */
-  results: { id: string; outcome: number; firstTry: boolean }[];
+  /** One entry per finished question, in order. A written answer has a null outcome until its mark lands. */
+  results: { id: string; outcome: number | null; firstTry: boolean; jobId?: string }[];
   startedAt: number;
   finishedAt: number | null;
 }

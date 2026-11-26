@@ -359,6 +359,18 @@ Graphical answers such as "sketch y = 1/f(x)" or "shade the locus" are handled t
 ### 8.1 Skill practice (core loop)
 An endless adaptive stream for one skill (§5.7).
 
+### 8.1a Review pools
+- Section quizzes, unit quizzes and Section Challenges draw from **their own authored pools**, never from practice. A question's `pool` field (`section-quiz`, `unit-quiz` or `challenge`; default `practice`) decides where it is served. The build writes `reviews/section-<id>.json` (`sectionQuiz`, `challenge`) and `reviews/unit-<n>.json` (`unitQuiz`).
+- **Pool sizes** (the build warns below these):
+
+  | Pool | Size |
+  |---|---|
+  | Quiz pools | at least 2× the quiz's mix in every tier |
+  | Challenge pools | at least the Challenge length, with a third of that cross-skill |
+
+- Challenge problems must be Tier 4–5 (a build error otherwise).
+- Pools include **written** (rubric-marked) questions. These are marked in the background (§10.2). The quiz summary and the Challenge average fill in as marks arrive, and quiz and Challenge achievements wait until every answer is marked.
+
 ### 8.2 Section quiz
 - **8 questions**, fixed mix: 2×T1, 2×T2, 3×T3, 1×T4, drawn across the section's skills.
 - Every question updates θ for its skill. An end summary shows score per skill and rank changes.

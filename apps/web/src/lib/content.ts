@@ -1,4 +1,5 @@
 import type { BundleSkill, CourseBundle, QuestionT } from "@intellectify/content";
+import type { SectionReviews, UnitReviews } from "@intellectify/content/reviews";
 
 export type { BundleSkill, CourseBundle, QuestionT };
 
@@ -30,6 +31,14 @@ export function loadQuestions(fetchFn: Fetch, course: string, skillId: string): 
     );
   }
   return questionCache.get(key)!;
+}
+
+/** Review pools (SPEC §8): a section's quiz and Challenge pools, and a unit's quiz pool. Missing = empty. */
+export function loadSectionReviews(fetchFn: Fetch, course: string, section: string): Promise<SectionReviews<QuestionT>> {
+  return fetchFn(`/content/${course}/reviews/section-${section}.json`).then((r) => (r.ok ? r.json() : { sectionQuiz: [], challenge: [] }));
+}
+export function loadUnitReviews(fetchFn: Fetch, course: string, unit: number): Promise<UnitReviews<QuestionT>> {
+  return fetchFn(`/content/${course}/reviews/unit-${unit}.json`).then((r) => (r.ok ? r.json() : { unitQuiz: [] }));
 }
 
 export interface TutorialT {

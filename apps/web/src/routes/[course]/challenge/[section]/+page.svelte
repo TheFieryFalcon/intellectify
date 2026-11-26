@@ -1,15 +1,19 @@
 <script lang="ts">
   /** Section Challenge: Tier 4–5 problems across a section, untimed and resumable (SPEC §8.4). */
   import { page } from "$app/state";
-  import { XP } from "@intellectify/engine";
+  import { freeResponseOutcome, XP } from "@intellectify/engine";
+  import { isRubricMarked } from "@intellectify/content/marking";
+  import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
+  import MarkView from "$lib/components/MarkView.svelte";
+  import { markingFor } from "$lib/marking.svelte";
   import { fillTemplate } from "@intellectify/content/template";
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { loadQuestions, type QuestionT } from "$lib/content";
+  import { loadSectionReviews, type QuestionT } from "$lib/content";
   import type { PartResult, Served } from "$lib/practice";
   import { recordResult } from "$lib/record";
-  import { buildChallenge, challengeLength, serve, type ChallengeState } from "$lib/review";
+  import { buildChallenge, bySkill, challengeLength, serve, type ChallengeState } from "$lib/review";
   import { profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
@@ -20,6 +24,7 @@
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
   const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
+  const marking = $derived(markingFor(session.backend, session.user));
 
   let pool = $state<Map<string, QuestionT> | null>(null);
   let pools: Map<string, QuestionT[]> = new Map();
@@ -36,9 +41,10 @@
     const user = session.user, backend = session.backend;
     if (!store?.loaded || !section || !user || !backend || loadedFor === sectionId) return;
     loadedFor = sectionId;
-    Promise.all(section.skills.map((k) => loadQuestions(fetch, data.course.id, k.id).then((qs) => [k.id, qs] as [string, QuestionT[]]))).then(async (pairs) => {
-      pools = new Map(pairs);
-      pool = new Map(pairs.flatMap(([, qs]) => qs.map((q) => [q.id, q] as [string, QuestionT])));
+    // The Challenge draws only from its own authored pool (SPEC §8.4), never from practice.
+    loadSectionReviews(fetch, data.course.id, sectionId).then(async (r) => {
+      pools = bySkill(r.challenge);
+      pool = new Map(r.challenge.map((q) => [q.id, q] as [string, QuestionT]));
       ch = await backend.loadChallenge(user.uid, data.course.id, sectionId);
     });
   });
@@ -72,6 +78,40 @@
     await save(ch);
   }
 
+  async function submitWritten(answers: Record<string, string>) {
+    if (!marking || !current || !ch) return;
+    const q = current.question;
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, answers });
+    ch = { ...ch, results: [...ch.results, { id: q.id, outcome: null, firstTry: false, jobId: job.id }] };
+    resolved = true;
+    await save(ch);
+  }
+
+  /** Written answers take their outcome from the marking queue as marks arrive. */
+  const settled = $derived(
+    (ch?.results ?? []).map((r) => {
+      if (!r.jobId) return r;
+      const job = marking?.job(r.jobId);
+      const res = job?.appeal?.result ?? job?.result;
+      return { ...r, outcome: job?.status === "failed" ? 0 : res ? freeResponseOutcome(res.score) : r.outcome, firstTry: res ? res.score >= 0.6 : r.firstTry };
+    }),
+  );
+  const pending = $derived(settled.filter((r) => r.outcome === null).length);
+
+  // Challenge achievements wait until every written answer is marked; marks are saved into the challenge.
+  let reported = false;
+  $effect(() => {
+    if (!ch?.finishedAt || pending > 0 || reported || !store) return;
+    reported = true;
+    const changed = settled.some((r, i) => r.outcome !== ch!.results[i]?.outcome);
+    if (changed) {
+      ch = { ...ch, results: settled };
+      void save(ch);
+    }
+    const avg = settled.reduce((t, r) => t + (r.outcome ?? 0), 0) / Math.max(1, settled.length);
+    void achievements?.challenge({ section: sectionId, average: avg, allFirstTry: settled.every((r) => r.firstTry) }, store, profile);
+  });
+
   async function next() {
     if (!ch) return;
     resolved = false;
@@ -80,10 +120,6 @@
       ch = { ...ch, finishedAt: Date.now() };
       await save(ch);
       if (profile) await profile.grant(XP.sectionChallenge);
-      if (store) {
-        const avg = ch.results.reduce((t, r) => t + r.outcome, 0) / ch.results.length;
-        await achievements?.challenge({ section: sectionId, average: avg, allFirstTry: ch.results.every((r) => r.firstTry) }, store, profile);
-      }
       finishing = false;
     }
   }
@@ -93,7 +129,7 @@
     ch = null;
   }
 
-  const average = $derived(ch && ch.results.length ? ch.results.reduce((t, r) => t + r.outcome, 0) / ch.results.length : 0);
+  const average = $derived(settled.length ? settled.reduce((t, r) => t + (r.outcome ?? 0), 0) / settled.length : 0);
   const shown = $derived(ch ? ch.results.length - (resolved ? 1 : 0) : 0);
 </script>
 
@@ -120,8 +156,8 @@
     <section class="card">
       <h1>Section Challenge · {section.name}</h1>
       <div class="stats">
-        <div><span class="k">Average outcome</span><span class="v">{Math.round(average * 100)}%</span></div>
-        <div><span class="k">First try</span><span class="v">{ch.results.filter((r) => r.firstTry).length} / {ch.results.length}</span></div>
+        <div><span class="k">Average outcome</span><span class="v">{pending ? "…" : `${Math.round(average * 100)}%`}</span></div>
+        <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || `${settled.filter((r) => r.firstTry).length} / ${settled.length}`}</span></div>
         <div><span class="k">Bonus XP</span><span class="v xp">+{XP.sectionChallenge}</span></div>
       </div>
       <div class="actions">
@@ -136,11 +172,21 @@
     </div>
     <div class="bar"><span style="width:{(100 * ch.results.length) / ch.questions.length}%"></span></div>
     {#key shown}
-      <QuestionCard question={current.question} onresolve={resolve} />
+      {#if isRubricMarked(current.question)}
+        <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
+      {:else}
+        <QuestionCard question={current.question} onresolve={resolve} />
+      {/if}
     {/key}
     {#if resolved}
+      {@const last = ch.results.at(-1)}
+      {@const job = last?.jobId && marking ? marking.job(last.jobId) : null}
       <section class="card after">
-        <p class="verdict" class:good={lastOutcome > 0.6} class:bad={lastOutcome <= 0.6}>{lastOutcome > 0.6 ? "Correct" : "Not this time"}</p>
+        {#if job && marking}
+          <MarkView {job} queue={marking} />
+        {:else}
+          <p class="verdict" class:good={lastOutcome > 0.6} class:bad={lastOutcome <= 0.6}>{lastOutcome > 0.6 ? "Correct" : "Not this time"}</p>
+        {/if}
         <h2>Solution</h2>
         <Markdown text={current.question.solution} />
         <div class="actions"><button class="btn primary" disabled={finishing} onclick={next}>{ch.results.length < ch.questions.length ? "Next problem" : "Finish"}</button></div>

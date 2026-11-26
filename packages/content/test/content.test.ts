@@ -87,6 +87,18 @@ describe("validation catches bad content", () => {
     expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{ calculation: 1250, guessing: 1200 }"))).errors.join("\n")).toMatch(/unknown response skill guessing/);
   });
 
+  it("routes review-pool questions out of practice, and keeps Challenges at Tier 4–5", () => {
+    const key = "['\\frac{12}{5}', '\\frac{16}{5}']";
+    const pooled = (pool: string) => projectionQuestion(key).replace("  rating: 1300\n", `  rating: 1300\n  pool: ${pool}\n`);
+    const r = buildWith((d) => fixture(d, pooled("section-quiz")));
+    expect(r.errors).toEqual([]);
+    const b = r.bundles[0]!;
+    expect((b.questions["spec.vectors-2d.projection"] ?? []).some((q) => q.id === "fixture.vector-projection")).toBe(false);
+    expect(b.sectionReviews["vectors-2d"]!.sectionQuiz.map((q) => q.id)).toContain("fixture.vector-projection");
+    expect(buildWith((d) => fixture(d, pooled("unit-quiz"))).bundles[0]!.unitReviews[1]!.unitQuiz.map((q) => q.id)).toContain("fixture.vector-projection");
+    expect(buildWith((d) => fixture(d, pooled("challenge"))).errors.join("\n")).toMatch(/Section Challenge problems are Tier 4–5/);
+  });
+
   it("a review mapping to a missing skill", () => {
     const r = buildWith((d) => replaceIn(y12(d), "skill: spec.real-complex.complex-arithmetic", "skill: spec.real-complex.missing"));
     expect(r.errors.join("\n")).toMatch(/unknown skill spec\.real-complex\.missing/);

@@ -7,6 +7,7 @@ import { fillTemplate } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
+import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, type SectionReviews, type UnitReviews } from "./reviews.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
@@ -39,7 +40,15 @@ export interface CourseBundle {
   responseSkills: { id: string; name: string }[];
 }
 export interface BuildResult {
-  bundles: { course: CourseBundle; questions: Record<string, QuestionT[]>; tutorials: Tutorial[] }[];
+  bundles: {
+    course: CourseBundle;
+    /** Practice pools, by primary skill. */
+    questions: Record<string, QuestionT[]>;
+    /** Review pools (SPEC §8): by section ID, and by unit number. */
+    sectionReviews: Record<string, SectionReviews<QuestionT>>;
+    unitReviews: Record<number, UnitReviews<QuestionT>>;
+    tutorials: Tutorial[];
+  }[];
   achievements: AchievementT[];
   errors: string[];
   warnings: string[];
@@ -95,6 +104,7 @@ export function buildContent(contentDir: string): BuildResult {
 
     // Index skills and check structure.
     const skillUnit = new Map<string, number>();
+    const skillSection = new Map<string, string>();
     const prereqsOf = new Map<string, string[]>();
     const reviewFor = new Map<string, string[]>();
     for (const v of versions) {
@@ -105,6 +115,7 @@ export function buildContent(contentDir: string): BuildResult {
             if (skillUnit.has(k.id)) errors.push(`duplicate skill ID ${k.id}`);
             if (!k.id.startsWith(`${manifest.skillIdPrefix}.${s.id}.`)) errors.push(`${k.id}: ID should start with ${manifest.skillIdPrefix}.${s.id}.`);
             skillUnit.set(k.id, u.number);
+            skillSection.set(k.id, s.id);
             prereqsOf.set(k.id, k.prereqs);
             covered.push(...k.dotPoints);
           }
@@ -141,6 +152,8 @@ export function buildContent(contentDir: string): BuildResult {
 
     // Questions.
     const questions: Record<string, QuestionT[]> = {};
+    const sectionReviews: Record<string, SectionReviews<QuestionT>> = {};
+    const unitReviews: Record<number, UnitReviews<QuestionT>> = {};
     const qDir = join(contentDir, "questions", courseId);
     const qIds = new Set<string>();
     let files: string[] = [];
@@ -203,7 +216,15 @@ export function buildContent(contentDir: string): BuildResult {
           const leftover = JSON.stringify(filled).match(/\{\{\s*\w+\s*\}\}/);
           if (leftover) errors.push(`${where}: unfilled placeholder ${leftover[0]}`);
         }
-        (questions[q.skills.primary] ??= []).push(q);
+        if (q.pool === "practice") (questions[q.skills.primary] ??= []).push(q);
+        else if (skillUnit.has(q.skills.primary)) {
+          if (q.pool === "challenge" && (q.rating < CHALLENGE_RATING[0] || q.rating >= CHALLENGE_RATING[1])) errors.push(`${where}: Section Challenge problems are Tier 4–5`);
+          if (q.pool === "unit-quiz") (unitReviews[skillUnit.get(q.skills.primary)!] ??= { unitQuiz: [] }).unitQuiz.push(q);
+          else {
+            const r = (sectionReviews[skillSection.get(q.skills.primary)!] ??= { sectionQuiz: [], challenge: [] });
+            (q.pool === "challenge" ? r.challenge : r.sectionQuiz).push(q);
+          }
+        }
       }
     }
 
@@ -250,7 +271,26 @@ export function buildContent(contentDir: string): BuildResult {
           })),
         })),
     };
-    bundles.push({ course, questions, tutorials: [...tutorials.values()] });
+    // Review pools (SPEC §8): enough for varied retakes, checked once a pool has any questions.
+    const tierCount = (qs: QuestionT[]) => qs.reduce<Record<number, number>>((m, q) => ((m[tierOf(q.rating)] = (m[tierOf(q.rating)] ?? 0) + 1), m), {});
+    const checkQuiz = (name: string, qs: QuestionT[], mix: Partial<Record<number, number>>) => {
+      if (!qs.length) return;
+      const have = tierCount(qs);
+      for (const [t, n] of Object.entries(mix)) if ((have[Number(t)] ?? 0) < n! * QUIZ_POOL_FACTOR) warnings.push(`${name}: ${have[Number(t)] ?? 0} Tier ${t} questions; needs ${n! * QUIZ_POOL_FACTOR}`);
+    };
+    for (const u of course.units) {
+      checkQuiz(`unit ${u.number} quiz pool`, unitReviews[u.number]?.unitQuiz ?? [], QUIZ_MIX.unit);
+      for (const s of u.sections) {
+        const r = sectionReviews[s.id];
+        if (!r) continue;
+        checkQuiz(`${s.id} section quiz pool`, r.sectionQuiz, QUIZ_MIX.section);
+        const len = challengeLength(s.skills.reduce((t, k) => t + k.dotPoints.length, 0));
+        if (r.challenge.length && r.challenge.length < len) warnings.push(`${s.id} challenge pool: ${r.challenge.length} problems; needs ${len}`);
+        const cross = r.challenge.filter((q) => q.skills.secondary.length).length;
+        if (r.challenge.length && cross * 3 < len) warnings.push(`${s.id} challenge pool: ${cross} cross-skill problems; needs ${Math.ceil(len / 3)}`);
+      }
+    }
+    bundles.push({ course, questions, sectionReviews, unitReviews, tutorials: [...tutorials.values()] });
   }
   return { bundles, achievements: loadAchievements(contentDir, errors), errors, warnings };
 }

@@ -109,6 +109,8 @@ export const Question = z.object({
   /** Difficulty per response skill, for auto-marked questions (SPEC §5.6). */
   responseSkills: z.record(z.number().int().min(1000).max(2400)).default({}),
   requiresCalculator: z.boolean().default(false),
+  /** Which pool serves it (SPEC §8): practice, or a review pool that practice never serves. */
+  pool: z.enum(["practice", "section-quiz", "unit-quiz", "challenge"]).default("practice"),
   stem: z.string().min(1),
   parts: z.array(Part).min(1),
   solution: z.string().min(1),

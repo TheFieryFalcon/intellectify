@@ -11,6 +11,7 @@ const q = (over: Partial<QuestionT> = {}): QuestionT => ({
   rating: 1500,
   responseSkills: { calculation: 1450 },
   requiresCalculator: false,
+  pool: "practice",
   stem: "Find it.",
   parts: [
     { id: "a", marks: 2, answer: { type: "numeric", key: 1 } },

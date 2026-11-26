@@ -4,17 +4,18 @@
  */
 import { tierOf, type Tier } from "@intellectify/engine";
 import { fillTemplate } from "@intellectify/content/template";
+import { CHALLENGE_RATING, challengeLength, QUIZ_MIX } from "@intellectify/content/reviews";
 import type { QuestionT } from "./content";
-import { isAutoMarked, type Served } from "./practice";
+import type { Served } from "./practice";
 
-/** Questions per tier (SPEC §8.2, §8.3). Config-driven. */
-export const QUIZ_MIX: Record<"section" | "unit", Partial<Record<Tier, number>>> = {
-  section: { 1: 2, 2: 2, 3: 3, 4: 1 },
-  unit: { 1: 2, 2: 4, 3: 6, 4: 3 },
+export { challengeLength, QUIZ_MIX };
+
+/** Group a review pool by primary skill, for round-robin picking. */
+export const bySkill = (qs: QuestionT[]): Map<string, QuestionT[]> => {
+  const m = new Map<string, QuestionT[]>();
+  for (const q of qs) m.set(q.skills.primary, [...(m.get(q.skills.primary) ?? []), q]);
+  return m;
 };
-
-/** Section Challenge length scales with section size: its dot points, clamped to 10–25 (SPEC §8.4). */
-export const challengeLength = (dotPointCount: number) => Math.max(10, Math.min(25, dotPointCount));
 
 type Rand = () => number;
 const shuffle = <T>(xs: T[], rand: Rand): T[] => {
@@ -35,11 +36,12 @@ export function serve(q: QuestionT, rand: Rand = Math.random): Served {
 
 /**
  * Build a quiz: for each tier in the mix, take questions round-robin across skills (so every skill
- * is represented), falling back to the nearest tier when a tier runs short. Auto-marked questions only.
+ * is represented), falling back to the nearest tier when a tier runs short. Written questions included:
+ * they're marked in the background (SPEC §10.2).
  */
 export function buildQuiz(pools: Map<string, QuestionT[]>, mix: Partial<Record<Tier, number>>, rand: Rand = Math.random): Served[] {
   const used = new Set<string>();
-  const byTier = (skill: string, t: number) => shuffle((pools.get(skill) ?? []).filter((q) => isAutoMarked(q) && tierOf(q.rating) === t && !used.has(q.id)), rand);
+  const byTier = (skill: string, t: number) => shuffle((pools.get(skill) ?? []).filter((q) => tierOf(q.rating) === t && !used.has(q.id)), rand);
   const skills = [...pools.keys()];
   const picked: QuestionT[] = [];
   let turn = 0;
@@ -64,7 +66,7 @@ export function buildQuiz(pools: Map<string, QuestionT[]>, mix: Partial<Record<T
 
 /** Pick Section Challenge problems: Tier 4–5, cross-skill problems first, spread across skills. */
 export function buildChallenge(pools: Map<string, QuestionT[]>, length: number, rand: Rand = Math.random): QuestionT[] {
-  const hard = [...pools.values()].flat().filter((q) => isAutoMarked(q) && q.rating >= 1550 && q.rating < 2000);
+  const hard = [...pools.values()].flat().filter((q) => q.rating >= CHALLENGE_RATING[0] && q.rating < CHALLENGE_RATING[1]);
   const cross = shuffle(hard.filter((q) => q.skills.secondary.length > 0), rand);
   const bySkill = new Map<string, QuestionT[]>();
   for (const q of shuffle(hard.filter((q) => q.skills.secondary.length === 0), rand)) bySkill.set(q.skills.primary, [...(bySkill.get(q.skills.primary) ?? []), q]);
