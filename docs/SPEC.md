@@ -419,6 +419,12 @@ An endless adaptive stream for one skill (§5.7).
 - It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
 - A **daily streak** (consecutive days solved) feeds a leaderboard. A daily problem is solved with any credit on an auto-marked question, or at the 60% pass mark on a written one (when its mark arrives). One attempt per day per year group; afterwards the page shows the question and solution. The streak lives on the profile and is mirrored to the public profile (`dailyStreak`, `dailyBest`).
 
+### 8.5a Revision
+Reached from the **Revision** tile above the map (outside the skill tree). Questions come from every pool (practice, quizzes, Challenges) through the question index (§15.3a). Normal attempt rules; answers update θ, XP and achievements like practice, and written answers are marked as usual. A session runs until the student stops, showing questions done and the average score; **Skip** moves on without recording anything.
+- **Exam revision.** **Easy**: Tiers 2 and 3. **Hard**: Tiers 3 and 4. A fair coin picks the tier of each question (the other tier if one runs dry), so the mix is half and half. Scope: the whole course, a unit, a section or a skill; type: any, auto-marked or written. Questions that need a later unit are left out.
+- **Custom revision.** Any set of tiers (none = any), type, and tags (response skills; a question matches if it has any picked tag), over the whole course, a unit, a section or a skill, optionally including questions that need later units. The setup page shows how many questions match.
+- Within a session no question repeats until the mix runs out, and questions the student has never answered come first.
+
 ### 8.6 Monthly problems (Tier 6)
 - **Two problems per course each month**, both open for the whole month:
   - a **Year 11** problem;
@@ -1324,7 +1330,7 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b). **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a). **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |
