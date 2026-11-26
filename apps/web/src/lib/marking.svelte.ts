@@ -6,7 +6,7 @@
  */
 import {
   GEMINI_ENDPOINT,
-  GEMINI_MODELS,
+  MARKING_MODELS,
   MARK_SCHEMA,
   markingMessages,
   markWithModels,
@@ -91,7 +91,7 @@ async function markWithOwnKey(byok: Byok, question: QuestionT, answers: Record<s
       appeal,
       endpoint: openai ? "https://api.openai.com/v1/chat/completions" : GEMINI_ENDPOINT,
       key: byok.key,
-      models: openai ? ["gpt-5-mini"] : GEMINI_MODELS,
+      models: openai ? ["gpt-5-mini"] : MARKING_MODELS,
       reasoningEffort: "low",
     });
   } catch (e) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { markingMessages, markWithModels, MarkingError, scoreMarking } from "../src/marking";
+import { consensus, markingMessages, markWithModels, MarkingError, scoreMarking } from "../src/marking";
 import type { QuestionT } from "../src/schema";
 
 const q = {
@@ -26,6 +26,13 @@ describe("scoreMarking", () => {
     expect(r.dimensions).toEqual({ proof: 3.5 / 6, clarity: 0 });
     expect(r.parts).toEqual({ a: 2 / 3, b: 1.5 / 4 });
   });
+  it("gives a part judged complete and correct full marks, whatever the criteria said", () => {
+    const r = scoreMarking(q, { criteria: [{ id: "a.x", awarded: 0, feedback: "Different method" }], feedback: "", complete: [{ part: "a", correct: true }, { part: "b", correct: false }] }, "m");
+    expect(r.criteria.filter((c) => c.id.startsWith("a.")).map((c) => c.awarded)).toEqual([2, 1]);
+    expect(r.criteria.find((c) => c.id === "b.z")!.awarded).toBe(0);
+    expect(r.parts).toEqual({ a: 1, b: 0 });
+    expect(r.complete).toEqual(["a"]);
+  });
   it("scores missing criteria as 0 and ignores invented ones", () => {
     const r = scoreMarking(q, { criteria: [{ id: "a.bonus", awarded: 100, feedback: "" }], feedback: "" }, "m");
     expect(r.score).toBe(0);
@@ -39,6 +46,17 @@ describe("scoreMarking", () => {
   it("accepts a JSON string and rejects a reply without criteria", () => {
     expect(scoreMarking(q, '{"criteria":[{"id":"b.z","awarded":4,"feedback":""}],"feedback":""}', "m").score).toBeCloseTo(0.25);
     expect(() => scoreMarking(q, { feedback: "" }, "m")).toThrow();
+  });
+});
+
+describe("consensus", () => {
+  it("takes the median award per criterion and a majority on completeness", () => {
+    const run = (x: number, z: number, done: boolean, fb: string) => ({ criteria: [{ id: "a.x", awarded: x, feedback: fb }, { id: "b.z", awarded: z, feedback: fb }], feedback: fb, complete: [{ part: "b", correct: done }] });
+    const c = consensus([run(2, 4, true, "high"), run(0, 1, false, "low"), run(1, 3, true, "mid")]) as { criteria: { awarded: number }[]; feedback: string };
+    expect(c.criteria.map((x) => x.awarded)).toEqual([1, 3]);
+    expect(c.feedback).toBe("mid");
+    const r = scoreMarking(q, c, "m");
+    expect(r.complete).toEqual(["b"]);
   });
 });
 
@@ -66,16 +84,23 @@ describe("markWithModels", () => {
       calls.push(model);
       return model === "m1" ? reply(503) : reply(200, { criteria: [{ id: "b.z", awarded: 4, feedback: "" }], feedback: "" });
     }) as unknown as typeof globalThis.fetch;
-    const r = await markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1", "m2"], fetch });
+    const r = await markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1", "m2"], fetch, samples: 1 });
     expect(calls).toEqual(["m1", "m2"]);
     expect(r.model).toBe("m2");
   });
+  it("marks three times by default and combines the runs", async () => {
+    let n = 0;
+    const fetch = (async () => (n++, reply(200, { criteria: [{ id: "b.z", awarded: n === 2 ? 0 : 4, feedback: "" }], feedback: "", complete: [] }))) as unknown as typeof globalThis.fetch;
+    const r = await markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1"], fetch });
+    expect(n).toBe(3);
+    expect(r.criteria.find((c) => c.id === "b.z")!.awarded).toBe(4);
+  });
   it("reports 429 when every model is over quota, and stops at once on a bad key", async () => {
     const over = (async () => reply(429)) as unknown as typeof fetch;
-    await expect(markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1", "m2"], fetch: over })).rejects.toMatchObject({ status: 429 });
+    await expect(markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1", "m2"], fetch: over, samples: 1 })).rejects.toMatchObject({ status: 429 });
     let n = 0;
     const bad = (async () => (n++, reply(401))) as unknown as typeof fetch;
-    await expect(markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1", "m2"], fetch: bad })).rejects.toBeInstanceOf(MarkingError);
+    await expect(markWithModels({ question: q, answers: {}, endpoint: "x", key: "k", models: ["m1", "m2"], fetch: bad, samples: 1 })).rejects.toBeInstanceOf(MarkingError);
     expect(n).toBe(1);
   });
 });

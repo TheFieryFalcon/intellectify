@@ -3,7 +3,9 @@
  * model transcribe it into text with maths, for the student to check before submitting. Photos are
  * never stored; only the checked text is marked.
  */
-import { GEMINI_ENDPOINT, GEMINI_MODELS, MAX_IMAGE_DATA_URL, transcribeMessages, transcribeWithModels } from "@intellectify/content/marking";
+import { GEMINI_ENDPOINT, TRANSCRIBE_MODELS, MAX_IMAGE_DATA_URL, MAX_IMAGES, transcribeMessages, transcribeWithModels } from "@intellectify/content/marking";
+
+export { MAX_IMAGES };
 import type { Backend } from "./backend";
 import { loadByok } from "./byok";
 
@@ -29,14 +31,13 @@ export async function shrinkPhoto(file: File): Promise<string> {
   throw new Error("That photo is too large. Try a closer, simpler shot.");
 }
 
-/** Transcribe a shrunk photo: with the student's own key if they have one, else with /api/transcribe. */
-export async function transcribePhoto(backend: Backend, image: string): Promise<string> {
+/** Transcribe shrunk photos (pages of one answer, in order): with the student's own key if they have one, else with /api/transcribe. */
+export async function transcribePhotos(backend: Backend, images: string[]): Promise<string> {
   const own = loadByok();
   if (own?.provider === "anthropic") {
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
     const client = new Anthropic({ apiKey: own.key, dangerouslyAllowBrowser: true, maxRetries: 1 });
-    const [system] = transcribeMessages(image);
-    const data = image.slice(image.indexOf(",") + 1);
+    const [system] = transcribeMessages(images);
     const res = await client.beta.messages.create({
       model: "claude-opus-5-5",
       max_tokens: 4000,
@@ -44,20 +45,28 @@ export async function transcribePhoto(backend: Backend, image: string): Promise<
       fallbacks: "default",
       output_config: { effort: "low" },
       system: system!.content as string,
-      messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: "image/jpeg", data } }, { type: "text", text: "Transcribe this working." }] }],
+      messages: [
+        {
+          role: "user",
+          content: [
+            ...images.map((img) => ({ type: "image" as const, source: { type: "base64" as const, media_type: "image/jpeg" as const, data: img.slice(img.indexOf(",") + 1) } })),
+            { type: "text" as const, text: images.length > 1 ? `Transcribe this working: ${images.length} pages, in order.` : "Transcribe this working." },
+          ],
+        },
+      ],
     });
     if (res.stop_reason === "refusal") throw new Error("Claude declined to read this photo.");
     return res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("").trim();
   }
   if (own) {
     const openai = own.provider === "openai";
-    return transcribeWithModels({ image, endpoint: openai ? "https://api.openai.com/v1/chat/completions" : GEMINI_ENDPOINT, key: own.key, models: openai ? ["gpt-5-mini"] : GEMINI_MODELS });
+    return transcribeWithModels({ images, endpoint: openai ? "https://api.openai.com/v1/chat/completions" : GEMINI_ENDPOINT, key: own.key, models: openai ? ["gpt-5-mini"] : TRANSCRIBE_MODELS });
   }
   const token = await backend.idToken();
   const res = await fetch("/api/transcribe", {
     method: "POST",
     headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-    body: JSON.stringify({ image }),
+    body: JSON.stringify({ images }),
   });
   const body = (await res.json().catch(() => ({}))) as { text?: string; error?: string };
   if (!res.ok || !body.text) throw new Error(body.error ?? "Couldn't read the photo. Try again, or type your answer.");

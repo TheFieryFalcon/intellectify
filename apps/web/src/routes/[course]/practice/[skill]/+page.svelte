@@ -12,6 +12,7 @@
   import { getStartTier, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { recordResult } from "$lib/record";
+  import { serve } from "$lib/review";
   import { profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
@@ -43,7 +44,15 @@
     pool = null;
     loadQuestions(fetch, data.course.id, skillId).then((qs) => {
       pool = qs;
-      next();
+      // A link to one question (?q=<id>) serves it first; practice then carries on as usual.
+      const wanted = page.url.searchParams.get("q");
+      const q = wanted ? qs.find((x) => x.id === wanted) : undefined;
+      if (q) {
+        served = serve(q);
+        summary = null;
+        jobId = null;
+        round++;
+      } else next();
     });
   });
 

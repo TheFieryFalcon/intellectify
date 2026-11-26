@@ -555,7 +555,9 @@ answer:
 - **Nudge to BYO key:** the pending state explains that the free queue may be slow, and offers a one-tap "Add your own key for instant marking".
 - **As built:**
   - The function loads the question, rubric and model solution from the deploy's own content files (never from the request), and needs a Firebase ID token.
-  - Models, best first: Gemini 3.8 Flash, then 3.5 Flash (both at low reasoning effort), then 3.5 Flash-Lite, within a 50 s budget. If every model is over quota, the reply is 429.
+  - Marking models: Gemini 3.8 Flash, then 3.5 Flash (low reasoning effort), within a 50 s budget. Flash-Lite is **not** used for marking: in testing it gave the same proof 100% one time and 20% the next. When both models are busy, the reply is 429 or 503, and the answer waits in the queue and retries. A late mark beats a wrong one.
+  - **Consensus:** every answer is marked three times in parallel. Each criterion takes the median award, completeness needs a majority, and the feedback comes from the run closest to the median total. If some runs fail, the rest still count.
+  - **Any valid method:** criteria are matched to the equivalent step of the student's own method, and a different method never loses marks. The marker also judges, per part, whether the answer completely and correctly proves what was asked. A part judged so gets **full marks**, set in code. Rough working and abandoned attempts on photographed pages aren't penalized unless the argument depends on them.
   - Points come from the rubric, not the model: awards are clamped to each criterion's maximum and rounded to halves, and missing criteria score 0.
   - Content skills get `freeResponseOutcome(s)`. Each rubric dimension updates its response skill using that dimension's own score.
   - Jobs live in `users/{uid}/markingJobs`. The open app marks one at a time and retries with backoff (15 s, doubling, up to 30 min; Retry-After wins if longer).
@@ -581,7 +583,8 @@ answer:
 
 ### 10.5 Photo answers
 - Written answers can be **photographed**: the Photo button takes a picture with the camera or uploads one.
-- The photo is shrunk on the device (longest side 1600 px, JPEG) and sent to **`/api/transcribe`**, or straight to the student's own provider (§10.4). This is a vision model told only to transcribe the handwriting into text with LaTeX maths, marking unreadable parts [illegible].
+- **Several photos** (up to 6 pages of one answer) can be taken one by one with the camera or uploaded together. They show as numbered thumbnails and are read together, in order, as one answer. The reader ignores crossed-out work and straightens rotated pages. Transcription may fall back to Flash-Lite.
+- Each photo is shrunk on the device (longest side 1600 px, JPEG) and sent to **`/api/transcribe`**, or straight to the student's own provider (§10.4). This is a vision model told only to transcribe the handwriting into text with LaTeX maths, marking unreadable parts [illegible].
 - The transcription is added to the answer box, labelled "From photo · check it", for the student to correct before submitting. Marking and appeals then use that text as usual.
 - **Photos are never stored.** `/api/transcribe` uses the same sign-in check as `/api/mark`, accepts one JPEG, PNG or WebP of about 3 MB at most, and reports 429 when over quota.
 

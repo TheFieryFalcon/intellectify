@@ -9,7 +9,7 @@
   import Markdown from "./Markdown.svelte";
   import PaperFirst from "./PaperFirst.svelte";
   import PaperTip from "./PaperTip.svelte";
-  import { shrinkPhoto, transcribePhoto } from "$lib/photo";
+  import { MAX_IMAGES, shrinkPhoto, transcribePhotos } from "$lib/photo";
   import { session } from "$lib/session.svelte";
 
   let { question, onsubmit, submitted = false }: { question: QuestionT; onsubmit: (answers: Record<string, string>) => void | Promise<void>; submitted?: boolean } = $props();
@@ -19,22 +19,41 @@
   const points = $derived(parts.reduce((a, p) => a + p.rubric!.criteria.reduce((b, c) => b + c.points, 0), 0));
   let answers = $state<Record<string, string>>({});
   let preview = $state(false);
-  /** Photo answers (SPEC §10.5): per part, reading in progress, an error, or text that came from a photo. */
+  /**
+   * Photo answers (SPEC §10.5), per part: a tray of pages (camera shots or uploads, in order), read
+   * together into text for the student to check. Photos stay on the device until read, then are dropped.
+   */
+  let photos = $state<Record<string, string[]>>({});
   let reading = $state<Record<string, boolean>>({});
   let photoError = $state<Record<string, string>>({});
   let fromPhoto = $state<Record<string, boolean>>({});
 
-  async function usePhoto(partId: string, e: Event & { currentTarget: HTMLInputElement }) {
-    const file = e.currentTarget.files?.[0];
+  async function addPhotos(partId: string, e: Event & { currentTarget: HTMLInputElement }) {
+    const files = [...(e.currentTarget.files ?? [])];
     e.currentTarget.value = "";
-    if (!file || !session.backend) return;
+    photoError[partId] = "";
+    const room = MAX_IMAGES - (photos[partId]?.length ?? 0);
+    if (files.length > room) photoError[partId] = `Up to ${MAX_IMAGES} photos per answer`;
+    try {
+      const shrunk = await Promise.all(files.slice(0, Math.max(0, room)).map(shrinkPhoto));
+      photos[partId] = [...(photos[partId] ?? []), ...shrunk];
+    } catch (err) {
+      photoError[partId] = (err as Error).message;
+    }
+  }
+  const removePhoto = (partId: string, i: number) => (photos[partId] = (photos[partId] ?? []).filter((_, j) => j !== i));
+
+  async function readPhotos(partId: string) {
+    const pages = photos[partId] ?? [];
+    if (!pages.length || !session.backend) return;
     reading[partId] = true;
     photoError[partId] = "";
     try {
-      const text = await transcribePhoto(session.backend, await shrinkPhoto(file));
+      const text = await transcribePhotos(session.backend, pages);
       const before = (answers[partId] ?? "").trim();
       answers[partId] = before ? `${before}\n\n${text}` : text;
       fromPhoto[partId] = true;
+      photos[partId] = [];
       preview = false;
     } catch (err) {
       photoError[partId] = (err as Error).message;
@@ -42,6 +61,7 @@
       reading[partId] = false;
     }
   }
+
   let sending = $state(false);
   const ready = $derived(parts.every((p) => (answers[p.id] ?? "").trim().length > 0));
 
@@ -86,11 +106,30 @@
               aria-label="Answer{parts.length > 1 ? ` to part ${p.id}` : ''}"
               disabled={sending}
             ></textarea>
+            {#if photos[p.id]?.length}
+              <div class="tray">
+                {#each photos[p.id] as img, i (img)}
+                  <figure class="page">
+                    <img src={img} alt="Page {i + 1}" />
+                    <button type="button" class="remove" aria-label="Remove page {i + 1}" disabled={reading[p.id]} onclick={() => removePhoto(p.id, i)}>×</button>
+                    <figcaption>{i + 1}</figcaption>
+                  </figure>
+                {/each}
+                <button type="button" class="btn primary read" disabled={reading[p.id] || sending} onclick={() => readPhotos(p.id)}>
+                  {reading[p.id] ? "Reading" : `Read ${photos[p.id]!.length} photo${photos[p.id]!.length === 1 ? "" : "s"}`}
+                </button>
+              </div>
+            {/if}
             <div class="under">
-              <label class="photo btn quiet" class:busy={reading[p.id]}>
-                <input type="file" accept="image/*" capture="environment" disabled={reading[p.id] || sending} onchange={(e) => usePhoto(p.id, e)} />
+              <label class="photo btn quiet">
+                <input type="file" accept="image/*" capture="environment" disabled={reading[p.id] || sending} onchange={(e) => addPhotos(p.id, e)} />
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5.5 H4.6 L5.8 3.8 H10.2 L11.4 5.5 H14 V12.6 H2 Z" /><circle cx="8" cy="8.9" r="2.3" /></svg>
-                {reading[p.id] ? "Reading photo" : "Photo"}
+                Take photo
+              </label>
+              <label class="photo btn quiet">
+                <input type="file" accept="image/*" multiple disabled={reading[p.id] || sending} onchange={(e) => addPhotos(p.id, e)} />
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11 V3 M4.8 6.2 L8 3 L11.2 6.2 M2.5 10.5 V13 H13.5 V10.5" /></svg>
+                Upload
               </label>
               {#if fromPhoto[p.id] && !reading[p.id]}<span class="from-photo">From photo · check it</span>{/if}
               {#if photoError[p.id]}<span class="photo-error" role="status">{photoError[p.id]}</span>{/if}
@@ -127,7 +166,12 @@
   .photo { position: relative; padding: 4px 8px; font-size: 13px; gap: 5px; }
   .photo input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .photo svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linejoin: round; }
-  .photo.busy { opacity: 0.6; }
+  .tray { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .page { position: relative; margin: 0; width: 64px; height: 84px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--bg); }
+  .page img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .page figcaption { position: absolute; left: 4px; bottom: 3px; font-size: 10px; font-weight: 600; color: #fff; background: rgba(15, 22, 35, 0.6); border-radius: 3px; padding: 0 4px; }
+  .page .remove { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border: 0; border-radius: 50%; background: rgba(15, 22, 35, 0.6); color: #fff; font-size: 12px; line-height: 18px; cursor: pointer; padding: 0; }
+  .read { padding: 6px 12px; font-size: 13px; }
   .photo:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
   .from-photo { font-size: 12px; color: var(--accent); font-weight: 500; }
   .photo-error { font-size: 12px; color: var(--bad); }

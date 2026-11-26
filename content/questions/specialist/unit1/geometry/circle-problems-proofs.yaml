@@ -306,10 +306,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'construct', description: "Drops perpendiculars OM to AB and ON to CD, which bisect the chords: AM = MB = a, CN = ND = c", points: 1, dimension: proof }
-          - { id: 'rectangle', description: "OMXN is a rectangle, so MX = ON = n and NX = OM = m", points: 1, dimension: reasoning }
-          - { id: 'pieces', description: "AX = a − n and XB = a + n (or the reverse), so AX² + XB² = 2a² + 2n²; likewise CX² + DX² = 2c² + 2m²", points: 1, dimension: reasoning }
-          - { id: 'pythag', description: "Pythagoras in triangles OMB and ONC: a² + m² = r² and c² + n² = r², so the sum is 2r² + 2r² = 4r²", points: 1, dimension: reasoning }
+          - { id: 'setup', description: "Sets up a valid strategy linking the four lengths to the radius, e.g. perpendiculars from O to the chords, or pairing the lengths into chords such as AC and BD (or AD and BC) with Pythagoras at X", points: 1, dimension: proof }
+          - { id: 'relate', description: "Correctly relates the pieces to r, e.g. AX² + XB² = 2a² + 2n² with half-chord a and distance n, or a chord length in terms of r and the angle it subtends at the center", points: 2, dimension: reasoning }
+          - { id: 'combine', description: "Combines the results correctly to reach 4r², with each step justified (theorems named)", points: 1, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = MB = a$ and $CN = ND = c$, where $AB = 2a$ and $CD = 2c$. Let $OM = m$ and $ON = n$.

@@ -5,7 +5,7 @@
  */
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { fillTemplate } from "../../packages/content/src/template";
-import { GEMINI_ENDPOINT, GEMINI_MODELS, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
+import { GEMINI_ENDPOINT, MARKING_MODELS, TRANSCRIBE_MODELS, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
 import type { QuestionT } from "../../packages/content/src/schema";
 
 export interface MarkRequest {
@@ -22,7 +22,9 @@ export interface Deps {
   key: string | undefined;
   /** Firebase project whose ID tokens are accepted; null skips the check (local testing only). */
   firebaseProject: string | null;
+  /** Models for marking, and for reading photos. */
   models: string[];
+  transcribeModels?: string[];
   fetch: typeof fetch;
   verify?: (token: string) => Promise<string>;
 }
@@ -126,6 +128,7 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
 export const depsFromEnv = (get: (k: string) => string | undefined): Deps => ({
   key: get("GEMINI_API_KEY"),
   firebaseProject: get("MARK_SKIP_AUTH") === "1" ? null : (get("FIREBASE_PROJECT_ID") ?? "intellectify-4357c"),
-  models: get("MARK_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? GEMINI_MODELS,
+  models: get("MARK_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? MARKING_MODELS,
+  transcribeModels: get("TRANSCRIBE_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? TRANSCRIBE_MODELS,
   fetch,
 });

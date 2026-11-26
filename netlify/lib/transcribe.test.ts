@@ -29,6 +29,14 @@ describe("/api/transcribe", () => {
     }
     expect(d.calls).toHaveLength(0);
   });
+  it("reads several photos as pages of one answer, in order", async () => {
+    const d = deps(ok("page one\npage two"));
+    const two = "data:image/jpeg;base64,/9j/2wBD";
+    expect((await handleTranscribe(post({ images: [png, two] }), d)).status).toBe(200);
+    const parts = (d.calls[0] as { messages: { content: unknown }[] }).messages[1]!.content as { type: string; image_url?: { url: string } }[];
+    expect(parts.filter((p) => p.type === "image_url").map((p) => p.image_url!.url)).toEqual([png, two]);
+    expect((await handleTranscribe(post({ images: Array(7).fill(png) }), d)).status).toBe(400);
+  });
   it("passes quota errors on as 429", async () => {
     expect((await handleTranscribe(post({ image: png }), deps(() => new Response("q", { status: 429 })))).status).toBe(429);
   });
