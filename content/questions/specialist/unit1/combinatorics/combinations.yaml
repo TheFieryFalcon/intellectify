@@ -128,13 +128,14 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1470
   responseSkills: {reading: 1470, calculation: 1430, reasoning: 1450}
+  words: { p1: person, p2: person, sport: sport }
   stem: |
-    A team of 4 is chosen from 10 people, but two of them, Sam and Kai, refuse to be on the team together. How many teams are possible?
+    A {{sport}} team of 4 is chosen from 10 people, but two of them, {{p1}} and {{p2}}, refuse to be on the team together. How many teams are possible?
   parts:
     - id: a
       answer: { type: numeric, key: 182 }
   solution: |
-    All teams $\dbinom{10}{4} = 210$, minus teams with both Sam and Kai, which need 2 more from the other 8: $\dbinom{8}{2} = 28$. Answer $182$.
+    All teams $\dbinom{10}{4} = 210$, minus teams with both {{p1}} and {{p2}}, which need 2 more from the other 8: $\dbinom{8}{2} = 28$. Answer $182$.
   verify: |
     from itertools import combinations as combos
     def answers():
@@ -144,11 +145,12 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1440
   responseSkills: {reading: 1440, calculation: 1390, reasoning: 1420, synthesis: 1420}
+  words: { who: person }
   variants:
     - { r: 5, u: 3, v: 56 }
     - { r: 6, u: 4, v: 210 }
   stem: |
-    On a grid of streets, you walk from one corner to the opposite corner using only steps **right** or **up**. The trip needs {{r}} steps right and {{u}} steps up. How many different routes are there?
+    {{who}} walks through a grid of streets from one corner to the opposite corner, using only steps **right** or **up**. The trip needs {{r}} steps right and {{u}} steps up. How many different routes are there?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
@@ -339,11 +341,12 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1120
   responseSkills: { calculation: 1100, reading: 1120 }
+  words: { who: person }
   variants:
     - { n: 12, v: 66 }
     - { n: 20, v: 190 }
   stem: |
-    At a meeting of {{n}} people, every person shakes hands once with every other person. How many handshakes are there?
+    At {{who}}'s party, {{n}} people are there, and every person shakes hands once with every other person. How many handshakes are there?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
@@ -390,13 +393,14 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1480
   responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
+  words: { p1: person, p2: person, p3: person }
   stem: |
-    9 different books are given to 3 students, Ana, Ben and Cy, so that each student gets 3 books. In how many ways can this be done?
+    9 different books are given to 3 students, {{p1}}, {{p2}} and {{p3}}, so that each student gets 3 books. In how many ways can this be done?
   parts:
     - id: a
       answer: { type: numeric, key: 1680 }
   solution: |
-    Ana's 3 books: $\dbinom{9}{3} = 84$. Ben's 3 from the remaining 6: $\dbinom{6}{3} = 20$. Cy gets the last 3. Total: $84 \times 20 = 1680$.
+    {{p1}}'s 3 books: $\dbinom{9}{3} = 84$. {{p2}}'s 3 from the remaining 6: $\dbinom{6}{3} = 20$. {{p3}} gets the last 3. Total: $84 \times 20 = 1680$.
   verify: |
     def answers():
         return {"a": binomial(9, 3) * binomial(6, 3) * binomial(3, 3)}
@@ -543,8 +547,9 @@
   skills: {primary: spec.combinatorics.combinations}
   rating: 1410
   responseSkills: {calculation: 1390, reasoning: 1390, synthesis: 1390}
+  words: { p1: person, p2: person, club: club }
   stem: |
-    A team of 4 is chosen from 12 people. Two of them, Kai and Lee, insist on being chosen together or not at all. How many teams are possible?
+    A team of 4 is chosen from the 12 members of the {{club}}. Two of them, {{p1}} and {{p2}}, insist on being chosen together or not at all. How many teams are possible?
   parts:
   - id: a
     answer: {type: numeric, key: '255'}

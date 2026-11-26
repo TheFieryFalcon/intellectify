@@ -64,17 +64,18 @@
   skills: { primary: spec.combinatorics.permutations }
   rating: 1330
   responseSkills: { calculation: 1300, reading: 1330 }
+  words: { p1: person, p2: person }
   variants:
     - { n: 6, v: 240 }
     - { n: 7, v: 1440 }
     - { n: 8, v: 10080 }
   stem: |
-    {{n}} people stand in a row. In how many ways can this be done if two particular people must stand next to each other?
+    {{n}} friends, including {{p1}} and {{p2}}, stand in a row for a photo. In how many ways can they stand if {{p1}} and {{p2}} must be next to each other?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
   solution: |
-    Glue the pair into one block: $({{n}}-1)!$ arrangements of the blocks, times 2 for the order inside the pair. That's {{v}}.
+    Glue {{p1}} and {{p2}} into one block: $({{n}}-1)!$ arrangements of the blocks, times 2 for the order inside the pair. That's {{v}}.
   verify: |
     from itertools import permutations
     def answers(n, v):
@@ -406,16 +407,17 @@
   skills: { primary: spec.combinatorics.permutations }
   rating: 1070
   responseSkills: { calculation: 1060, reading: 1070 }
+  words: { who: person }
   variants:
     - { n: 5, v: 24 }
     - { n: 7, v: 720 }
   stem: |
-    {{n}} people line up for a photo. In how many ways can they line up if one particular person must stand at the left end?
+    {{n}} people, including {{who}}, line up for a photo. In how many ways can they line up if {{who}} must stand at the left end?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
   solution: |
-    That person's place is fixed, and the other ${{n}} - 1$ people fill the rest in $({{n}} - 1)! = {{v}}$ ways.
+    {{who}}'s place is fixed, and the other ${{n}} - 1$ people fill the rest in $({{n}} - 1)! = {{v}}$ ways.
   verify: |
     def answers(n, v):
         return {"a": factorial(n - 1)}
@@ -575,16 +577,17 @@
   skills: {primary: spec.combinatorics.permutations}
   rating: 1300
   responseSkills: {calculation: 1280, reading: 1290}
+  words: { p1: person, p2: person }
   variants:
   - {n: 5, v: 12}
   - {n: 6, v: 48}
   stem: |
-    {{n}} people stand in a row. In how many ways can they stand if two particular people, Ana and Ben, are at the two ends?
+    {{n}} people, including {{p1}} and {{p2}}, stand in a row. In how many ways can they stand if {{p1}} and {{p2}} must be at the two ends?
   parts:
   - id: a
     answer: {type: numeric, key: '{{v}}'}
   solution: |
-    Ana and Ben take the ends in 2 orders, and the other ${{n}} - 2$ people fill the middle in $({{n}} - 2)!$ ways: $2 \times ({{n}} - 2)! = {{v}}$.
+    {{p1}} and {{p2}} take the ends in 2 orders, and the other ${{n}} - 2$ people fill the middle in $({{n}} - 2)!$ ways: $2 \times ({{n}} - 2)! = {{v}}$.
   verify: |
     from itertools import permutations
     def answers(n, v):
@@ -653,13 +656,14 @@
   skills: {primary: spec.combinatorics.permutations}
   rating: 1440
   responseSkills: {reading: 1420, calculation: 1420, reasoning: 1420}
+  words: { p1: person, p2: person }
   stem: |
-    8 people sit around a round table, where only positions relative to each other matter. In how many ways can they sit if two particular people must **not** sit next to each other?
+    8 people, including {{p1}} and {{p2}}, sit around a round table, where only positions relative to each other matter. In how many ways can they sit if {{p1}} and {{p2}} must **not** sit next to each other?
   parts:
   - id: a
     answer: {type: numeric, key: '3600'}
   solution: |
-    All seatings: $7! = 5040$. With the pair taped together: 7 units around a table, $6! = 720$, times 2 orders: $1440$. So $5040 - 1440 = 3600$.
+    All seatings: $7! = 5040$. With {{p1}} and {{p2}} taped together: 7 units around a table, $6! = 720$, times 2 orders: $1440$. So $5040 - 1440 = 3600$.
   verify: |
     from itertools import permutations
     def answers():

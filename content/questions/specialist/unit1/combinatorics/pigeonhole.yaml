@@ -4,11 +4,12 @@
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1100
   responseSkills: {reading: 1100, calculation: 1050}
+  words: { who: person }
   variants:
     - { c: 3, colors: 'black, white and grey', v: 4 }
     - { c: 5, colors: 'red, blue, green, white and black', v: 6 }
   stem: |
-    A drawer contains plenty of socks in {{c}} colors ({{colors}}). Without looking, how many socks must you take to be **sure** of getting two of the same color?
+    {{who}}'s drawer contains plenty of socks in {{c}} colors ({{colors}}). Without looking, how many socks must you take to be **sure** of getting two of the same color?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }

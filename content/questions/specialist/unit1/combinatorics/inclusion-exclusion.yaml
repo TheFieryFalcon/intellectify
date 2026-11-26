@@ -22,16 +22,17 @@
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1280
   responseSkills: { reading: 1280, calculation: 1250 }
+  words: { sp1: sport, sp2: sport }
   variants:
     - { n: 30, s: 18, t: 12, b: 5, v: 5 }
     - { n: 40, s: 22, t: 19, b: 7, v: 6 }
   stem: |
-    In a class of {{n}}, {{s}} students play soccer, {{t}} play netball and {{b}} play both. How many play neither?
+    In a class of {{n}}, {{s}} students play {{sp1}}, {{t}} play {{sp2}} and {{b}} play both. How many play neither?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
   solution: |
-    Soccer or netball: ${{s}} + {{t}} - {{b}}$. Neither: {{n}} minus that, which is {{v}}.
+    {{sp1.Cap}} or {{sp2}}: ${{s}} + {{t}} - {{b}}$. Neither: {{n}} minus that, which is {{v}}.
   verify: |
     def answers(n, s, t, b, v):
         return {"a": n - (s + t - b)}

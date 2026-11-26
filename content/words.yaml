@@ -42,6 +42,71 @@ person:
   - Grace
   - Mateo
   - Ruby
+  - Amrut
+  - Sergipe
+  - Maya
+  - Jarrah
+  - Kirra
+  - Talara
+  - Aroha
+  - Tane
+  - Manaia
+  - Sione
+  - Mele
+  - Wei
+  - Jun
+  - Xin
+  - Haruto
+  - Sakura
+  - Ji-woo
+  - Min-jun
+  - Linh
+  - Minh
+  - Bao
+  - Putri
+  - Arif
+  - Ananya
+  - Rohan
+  - Deepa
+  - Vikram
+  - Hamza
+  - Ayesha
+  - Omar
+  - Layla
+  - Yusuf
+  - Noor
+  - Darius
+  - Shirin
+  - Emre
+  - Elif
+  - Kwame
+  - Amina
+  - Chidi
+  - Thandiwe
+  - Tendai
+  - Abebe
+  - Diego
+  - Camila
+  - Valentina
+  - Santiago
+  - Freya
+  - Luca
+  - Anja
+  - Mateusz
+  - Ingrid
+  - Niamh
+  - Nikos
+  - Eleni
+  - Giulia
+  - Dmitri
+  - Anastasia
+  - Noa
+  - Eli
+  - Malia
+  - Kofi
+  - Leilani
+  - Rafael
+  - Siddharth
 
 # Flies with an airspeed and a heading, and can be blown by wind.
 aircraft:
@@ -86,3 +151,78 @@ units:
   - { name: km, distance: km, speed: km/h }
   - { name: nautical miles, distance: nautical miles, speed: knots }
   - { name: miles, distance: miles, speed: mph }
+
+# School clubs and groups (singular; "the {{club}}").
+club:
+  - chess club
+  - debate team
+  - robotics club
+  - choir
+  - drama club
+  - maths club
+  - book club
+  - student council
+  - coding club
+  - photography club
+
+# Team sports.
+sport:
+  - soccer
+  - basketball
+  - netball
+  - hockey
+  - volleyball
+  - water polo
+  - football
+  - cricket
+
+# School subjects.
+subject:
+  - Maths
+  - Physics
+  - Chemistry
+  - Biology
+  - History
+  - Geography
+  - Art
+  - Music
+  - English
+  - Economics
+
+# Places that sell food and drink.
+shop:
+  - café
+  - bakery
+  - food truck
+  - juice bar
+  - sandwich shop
+  - canteen
+
+# Colors, for socks, marbles, shirts.
+color:
+  - red
+  - blue
+  - green
+  - yellow
+  - black
+  - white
+  - orange
+  - purple
+
+# Things to pick blind from a bag (with plurals).
+snack:
+  - { name: apple, plural: apples }
+  - { name: orange, plural: oranges }
+  - { name: pear, plural: pears }
+  - { name: banana, plural: bananas }
+  - { name: mandarin, plural: mandarins }
+  - { name: muesli bar, plural: muesli bars }
+  - { name: cookie, plural: cookies }
+
+# Places with rows of seats.
+venue:
+  - cinema
+  - theatre
+  - concert hall
+  - lecture theatre
+  - stadium

@@ -65,12 +65,13 @@
   skills: { primary: spec.combinatorics.counting-principles }
   rating: 1300
   responseSkills: { calculation: 1250, reading: 1300 }
+  words: { club: club }
   variants:
     - { n: 12, v: 1320 }
     - { n: 15, v: 2730 }
     - { n: 20, v: 6840 }
   stem: |
-    A club has {{n}} members. In how many ways can a president, a secretary and a treasurer be chosen if no member can hold more than one position?
+    The {{club}} has {{n}} members. In how many ways can a president, a secretary and a treasurer be chosen if no member can hold more than one position?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
@@ -99,8 +100,9 @@
   skills: { primary: spec.combinatorics.counting-principles }
   rating: 1280
   responseSkills: { reading: 1300, calculation: 1250 }
+  words: { who: person, shop: shop }
   stem: |
-    A café offers 5 sandwiches and 4 salads. A meal is either one sandwich or one salad, together with one of 3 drinks. How many different meals are possible?
+    {{who}}'s local {{shop}} offers 5 sandwiches and 4 salads. A meal there is either one sandwich or one salad, together with one of 3 drinks. How many different meals are possible?
   parts:
     - id: a
       answer: { type: numeric, key: 27 }
