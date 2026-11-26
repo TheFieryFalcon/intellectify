@@ -1,7 +1,9 @@
 /**
  * Global level and XP (docs/SPEC.md §12.4).
- * Total XP to reach level L is (L − 1)(L + 50); going from L to L + 1 costs 50 + 2L.
+ * Total XP to reach level L is (L − 1)(L + 101); going from L to L + 1 costs 101 + 2L.
+ * At about 600 XP per hour, level 500 (Solarium) takes about 500 hours.
  */
+const CURVE = 101;
 
 export const LEVEL_TIERS = [
   { key: "basic", name: "Basic", minLevel: 1 },
@@ -21,14 +23,15 @@ export type LevelTier = (typeof LEVEL_TIERS)[number];
 /** Total XP needed to reach `level`. */
 export function xpForLevel(level: number): number {
   if (level <= 1) return 0;
-  return (level - 1) * (level + 50);
+  return (level - 1) * (level + CURVE);
 }
 
 /** Level reached with `xp` total XP (no cap). */
 export function levelForXp(xp: number): number {
   if (xp <= 0) return 1;
-  // Solve (L − 1)(L + 50) = xp, i.e. L² + 49L − (50 + xp) = 0, then correct for rounding.
-  let level = Math.floor((-49 + Math.sqrt(49 * 49 + 4 * (50 + xp))) / 2);
+  // Solve (L − 1)(L + c) = xp, i.e. L² + (c − 1)L − (c + xp) = 0, then correct for rounding.
+  const b = CURVE - 1;
+  let level = Math.floor((-b + Math.sqrt(b * b + 4 * (CURVE + xp))) / 2);
   while (xpForLevel(level + 1) <= xp) level++;
   while (level > 1 && xpForLevel(level) > xp) level--;
   return Math.max(1, level);
@@ -45,7 +48,7 @@ export interface LevelProgress {
   tier: LevelTier;
   /** XP earned since the start of the current level. */
   into: number;
-  /** XP the current level needs in total (50 + 2L). */
+  /** XP the current level needs in total (101 + 2L). */
   needed: number;
 }
 
@@ -56,36 +59,37 @@ export function levelProgress(xp: number): LevelProgress {
 
 /* ───────────────────────── XP sources (SPEC §12.4, starting values) ───────────────────────── */
 
-const CORRECT_XP: Record<number, number> = { 1: 5, 2: 8, 3: 12, 4: 18, 5: 30 };
-const RANK_UP_XP: Record<number, number> = { 1: 20, 2: 40, 3: 80, 4: 140, 5: 250 };
+const CORRECT_XP: Record<number, number> = { 1: 10, 2: 16, 3: 24, 4: 36, 5: 60 };
+const RANK_UP_XP: Record<number, number> = { 1: 40, 2: 80, 3: 160, 4: 280, 5: 500 };
+const EFFORT_XP = 4;
 
 export const XP = {
   /** A resolved auto-marked question. `outcome` > 0 counts as correct, scaled by credit. */
   question(tier: number, outcome: number): number {
-    if (outcome <= 0) return 2;
-    return Math.max(2, Math.round((CORRECT_XP[Math.min(tier, 5)] ?? 30) * outcome));
+    if (outcome <= 0) return EFFORT_XP;
+    return Math.max(EFFORT_XP, Math.round((CORRECT_XP[Math.min(tier, 5)] ?? 60) * outcome));
   },
   /** A marked free-response answer with rubric score s ∈ [0, 1]. */
   freeResponse(tier: number, s: number): number {
-    return Math.round(12 * tier * s);
+    return Math.round(24 * tier * s);
   },
-  tutorialFirstRead: 20,
-  sectionQuiz: 25,
-  unitQuiz: 50,
-  sectionChallenge: 100,
+  tutorialFirstRead: 40,
+  sectionQuiz: 50,
+  unitQuiz: 100,
+  sectionChallenge: 200,
   daily(tier: number): number {
-    return 15 + 5 * tier;
+    return 30 + 10 * tier;
   },
-  monthlyMilestone: 50,
+  monthlyMilestone: 100,
   rankUp(rank: number): number {
     return RANK_UP_XP[rank] ?? 0;
   },
   achievement(points: number): number {
-    return 2 * points;
+    return 4 * points;
   },
-  discussionPost: 10,
-  confirmedReport: 25,
-  firstVisitOfDay: 10,
+  discussionPost: 20,
+  confirmedReport: 50,
+  firstVisitOfDay: 20,
 } as const;
 
 /** A question answered again within this window earns no XP. */
