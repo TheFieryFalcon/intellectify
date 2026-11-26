@@ -19,6 +19,22 @@ $|A|$ means the number of elements in set $A$. The **union** $A \cup B$ is every
 
 $$|A \cup B| = |A| + |B| - |A \cap B|.$$
 
+```diagram
+view: [-3.4, 3.4, -2.2, 2.2]
+width: 290
+alt: "Two overlapping sets A and B; the overlap is counted in both"
+points: {  }
+draw:
+  - { type: polygon, points: [[-3.2, -2], [3.2, -2], [3.2, 2], [-3.2, 2]] }
+  - { type: circle, center: [-0.8, 0], radius: 1.5 }
+  - { type: circle, center: [0.8, 0], radius: 1.5 }
+  - { type: text, at: [-2.1, 1.45], text: 'A', pos: c }
+  - { type: text, at: [2.1, 1.45], text: 'B', pos: c }
+  - { type: text, at: [-1.45, 0], text: '\text{in } A', pos: c }
+  - { type: text, at: [0, 0], text: 'A \cap B', pos: c }
+  - { type: text, at: [1.45, 0], text: '\text{in } B', pos: c }
+```
+
 **Three sets.** Add the three sets, subtract the three pairwise overlaps, then add back the overlap of all three:
 
 $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|.$$
@@ -46,6 +62,24 @@ So every element in the union is counted exactly once. This is the **inclusionâ€
 ### Example 1
 In a group of 50 people, 28 own a dog, 20 own a cat and 9 own both. How many own neither?
 
+```diagram
+view: [-3.4, 3.4, -2.2, 2.2]
+width: 290
+alt: "Dogs only 19, both 9, cats only 11, of 50 people; neither is unknown"
+points: {  }
+draw:
+  - { type: polygon, points: [[-3.2, -2], [3.2, -2], [3.2, 2], [-3.2, 2]] }
+  - { type: circle, center: [-0.8, 0], radius: 1.5 }
+  - { type: circle, center: [0.8, 0], radius: 1.5 }
+  - { type: text, at: [-2.1, 1.45], text: 'D', pos: c }
+  - { type: text, at: [2.1, 1.45], text: 'C', pos: c }
+  - { type: text, at: [-1.45, 0], text: '19', pos: c }
+  - { type: text, at: [0, 0], text: '9', pos: c }
+  - { type: text, at: [1.45, 0], text: '11', pos: c }
+  - { type: text, at: [2.6, -1.6], text: '?', pos: c }
+  - { type: text, at: [-2.6, -1.6], text: '\text{of } 50', pos: c }
+```
+
 1. Let $D$ be the dog owners and $C$ the cat owners.
 2. $|D \cup C| = 28 + 20 - 9 = 39$ people own at least one.
 3. The rest own neither: $50 - 39 = 11$.
@@ -60,6 +94,25 @@ How many integers from 1 to 600 are divisible by 4, 5 or 6?
 
 ### Example 3
 In a survey of 50 people, 20 like tea, 25 like coffee and 15 like juice. 8 like tea and coffee, 5 like tea and juice, 6 like coffee and juice, and 3 like all three. How many like only coffee?
+
+```diagram
+view: [-3.6, 3.6, -3.1, 2.7]
+width: 300
+alt: "Three-set Venn diagram: 3 in all three, 5 in tea and coffee only, 3 in coffee and juice only; only coffee unknown"
+points: {  }
+draw:
+  - { type: polygon, points: [[-3.4, -2.9], [3.4, -2.9], [3.4, 2.5], [-3.4, 2.5]] }
+  - { type: circle, center: [-0.9, 0.5], radius: 1.6 }
+  - { type: circle, center: [0.9, 0.5], radius: 1.6 }
+  - { type: circle, center: [0, -1], radius: 1.6 }
+  - { type: text, at: [-2.55, 1.95], text: 'T\ (20)', pos: c }
+  - { type: text, at: [2.5, 1.95], text: 'C\ (25)', pos: c }
+  - { type: text, at: [-1.75, -2.55], text: 'J\ (15)', pos: c }
+  - { type: text, at: [0, 0], text: '3', pos: c }
+  - { type: text, at: [0, 1.05], text: '5', pos: c }
+  - { type: text, at: [0.85, -0.6], text: '3', pos: c }
+  - { type: text, at: [1.4, 0.95], text: '?', pos: c }
+```
 
 1. Fill the Venn diagram from the middle: 3 are in all three regions.
 2. Coffee and tea but not juice: $8 - 3 = 5$. Coffee and juice but not tea: $6 - 3 = 3$.

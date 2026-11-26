@@ -34,6 +34,20 @@ terms:
 | Inverse | not $P \Rightarrow$ not $Q$ | If a shape isn't a square, then it isn't a rectangle. (False) |
 | Contrapositive | not $Q \Rightarrow$ not $P$ | If a shape isn't a rectangle, then it isn't a square. (True) |
 
+```diagram
+view: [-3, 3, -2.3, 2.3]
+width: 260
+alt: "Squares sit inside rectangles: every square is a rectangle, but not every rectangle is a square"
+points: {  }
+draw:
+  - { type: polygon, points: [[-2.9, -2.2], [2.9, -2.2], [2.9, 2.2], [-2.9, 2.2]], color: muted }
+  - { type: circle, center: [0, -0.1], radius: 1.9 }
+  - { type: circle, center: [-0.55, -0.55], radius: 0.9, color: accent }
+  - { type: text, at: [0.3, 1.2], text: '\text{rectangles}', pos: c }
+  - { type: text, at: [-0.55, -0.55], text: '\text{squares}', pos: c }
+  - { type: text, at: [-2.3, 1.85], text: '\text{shapes}', pos: c }
+```
+
 - **The contrapositive always matches the original.** If $P \Rightarrow Q$ is true and $Q$ fails, then $P$ can't hold (otherwise $Q$ would). So proving the contrapositive proves the original, which is often easier.
 - **The converse is a different claim.** A true implication can have a false converse, as above. The inverse matches the converse, since it is the converse's contrapositive.
 
@@ -72,6 +86,34 @@ Write the negation of "Every prime number is odd". Which of the two statements i
 
 ### Example 3
 Is "$x^2 > 4 \Leftrightarrow x > 2$" true for real numbers $x$? If not, correct it.
+
+```diagram
+view: [-6.4, 4.8, -0.7, 2]
+width: 340
+alt: "x squared greater than 4 holds for x < -2 and x > 2; x > 2 is only the right-hand part, so -3 is a counterexample"
+points: {  }
+draw:
+  - { type: segment, from: [-4.5, 1.4], to: [4.5, 1.4], color: muted }
+  - { type: text, at: [-4.7, 1.4], text: 'x^2 > 4', pos: w }
+  - { type: segment, from: [-2, 1.28], to: [-2, 1.52], color: muted }
+  - { type: text, at: [-2, 1.05], text: '-2', pos: c }
+  - { type: segment, from: [0, 1.28], to: [0, 1.52], color: muted }
+  - { type: text, at: [0, 1.05], text: '0', pos: c }
+  - { type: segment, from: [2, 1.28], to: [2, 1.52], color: muted }
+  - { type: text, at: [2, 1.05], text: '2', pos: c }
+  - { type: segment, from: [-4.5, 0], to: [4.5, 0], color: muted }
+  - { type: text, at: [-4.7, 0], text: 'x > 2', pos: w }
+  - { type: segment, from: [-2, -0.12], to: [-2, 0.12], color: muted }
+  - { type: text, at: [-2, -0.35], text: '-2', pos: c }
+  - { type: segment, from: [0, -0.12], to: [0, 0.12], color: muted }
+  - { type: text, at: [0, -0.35], text: '0', pos: c }
+  - { type: segment, from: [2, -0.12], to: [2, 0.12], color: muted }
+  - { type: text, at: [2, -0.35], text: '2', pos: c }
+  - { type: vector, from: [-2, 1.4], to: [-4.4, 1.4], color: accent }
+  - { type: vector, from: [2, 1.4], to: [4.4, 1.4], color: accent }
+  - { type: vector, from: [2, 0], to: [4.4, 0], color: accent }
+  - { type: point, at: [-3, 1.4], label: '-3', pos: n }
+```
 
 1. Check "$\Leftarrow$": if $x > 2$, then $x^2 > 4$. True.
 2. Check "$\Rightarrow$": if $x^2 > 4$, is $x > 2$? No: $x = -3$ gives $x^2 = 9 > 4$ but $x < 2$.

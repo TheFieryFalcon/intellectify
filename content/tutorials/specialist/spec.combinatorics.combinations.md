@@ -43,6 +43,22 @@ A team of 5 is formed from 6 juniors and 8 seniors. How many teams have exactly 
 ### Example 2
 For the same players, how many teams of 5 contain at least one junior?
 
+```diagram
+view: [-0.2, 6.2, -0.6, 3.2]
+width: 320
+alt: "All 2002 teams: the all-senior ones (56) and the rest, which have at least one junior"
+points: {  }
+draw:
+  - { type: polygon, points: [[0, 0], [6, 0], [6, 3], [0, 3]] }
+  - { type: polygon, points: [[4.6, 0], [6, 0], [6, 3], [4.6, 3]], color: accent, fill: true }
+  - { type: text, at: [2.3, 1.75], text: '\text{at least one junior}', pos: c }
+  - { type: text, at: [2.3, 1.15], text: '?', pos: c }
+  - { type: text, at: [5.3, 1.75], text: '\text{all}', pos: c }
+  - { type: text, at: [5.3, 1.35], text: '\text{seniors}', pos: c }
+  - { type: text, at: [5.3, 0.8], text: '56', pos: c }
+  - { type: text, at: [3, 3.05], text: '\tbinom{14}{5} = 2002', pos: n }
+```
+
 1. The complement of "at least one junior" is "no juniors", i.e. all seniors.
 2. All teams of 5 from 14 players: $\binom{14}{5} = 2002$.
 3. All-senior teams: $\binom{8}{5} = 56$.
@@ -50,6 +66,25 @@ For the same players, how many teams of 5 contain at least one junior?
 
 ### Example 3
 In how many ways can 6 identical apples be shared among 3 children, if some children may get none?
+
+```diagram
+view: [-0.6, 6.2, -1.4, 0.9]
+width: 300
+alt: "6 apples and 2 dividers: 2, 1 and 3 apples"
+points: {  }
+draw:
+  - { type: point, at: [0, 0], label: ' ', pos: c }
+  - { type: point, at: [0.8, 0], label: ' ', pos: c }
+  - { type: segment, from: [1.6, -0.5], to: [1.6, 0.5], color: accent }
+  - { type: point, at: [2.4, 0], label: ' ', pos: c }
+  - { type: segment, from: [3.2, -0.5], to: [3.2, 0.5], color: accent }
+  - { type: point, at: [4, 0], label: ' ', pos: c }
+  - { type: point, at: [4.8, 0], label: ' ', pos: c }
+  - { type: point, at: [5.6, 0], label: ' ', pos: c }
+  - { type: text, at: [0.4, -1], text: '\text{2 apples}', pos: c }
+  - { type: text, at: [2.4, -1], text: '\text{1 apple}', pos: c }
+  - { type: text, at: [4.8, -1], text: '\text{3 apples}', pos: c }
+```
 
 1. Write 6 dots (apples) and 2 dividers in a row, 8 symbols in all. For example, ••|•|••• means the children get 2, 1 and 3 apples.
 2. Each sharing matches exactly one row, decided by where the 2 dividers sit among the 8 places.

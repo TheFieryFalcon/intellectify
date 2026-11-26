@@ -125,6 +125,24 @@ draw:
 
 A useful consequence: an **exterior angle** of a cyclic quadrilateral (made by extending one side) equals the **interior opposite angle**.
 
+```diagram
+view: [-2.45, 4.12, -2.45, 2.45]
+width: 230
+alt: "Side DC extended to E: the exterior angle BCE equals the interior opposite angle DAB"
+points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-0.684, 1.879], E: [3.673, -0.152], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: polygon, points: [A, B, C, D] }
+  - { type: segment, from: C, to: E, dashed: true }
+  - { type: angle, at: A, from: B, to: D, label: '\theta', radius: 20 }
+  - { type: angle, at: C, from: E, to: B, label: '\theta', radius: 20 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: D, label: 'D' }
+  - { type: point, at: E, label: 'E' }
+```
+
 ## Method
 
 1. Mark the center and every radius you can draw. Each pair of radii gives an isosceles triangle.
@@ -137,17 +155,76 @@ A useful consequence: an **exterior angle** of a cyclic quadrilateral (made by e
 ### Example 1
 $A$, $B$ and $C$ are on a circle with center $O$, and $\angle ACB = 35^\circ$, with $C$ on the major arc. Find $\angle AOB$ and $\angle OAB$.
 
+```diagram
+view: [-2.45, 2.45, -2.45, 2.45]
+width: 230
+alt: "C on the major arc, angle ACB 35 degrees; radii OA and OB"
+points: { A: [-1.147, -1.638], B: [1.147, -1.638], C: [0, 2], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: C, to: A }
+  - { type: segment, from: C, to: B }
+  - { type: segment, from: A, to: B }
+  - { type: segment, from: O, to: A, color: muted }
+  - { type: segment, from: O, to: B, color: muted }
+  - { type: angle, at: C, from: A, to: B, label: '35^\circ', radius: 36 }
+  - { type: angle, at: O, from: A, to: B, label: '?', radius: 16 }
+  - { type: angle, at: A, from: O, to: B, label: '?', radius: 16 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: O, label: 'O', pos: n }
+```
+
 1. Angle at the center is twice the angle at the circumference: $\angle AOB = 2 \times 35^\circ = 70^\circ$.
 2. $OA = OB$ (radii), so triangle $OAB$ is isosceles with equal base angles: $\angle OAB = \tfrac{1}{2}(180^\circ - 70^\circ) = 55^\circ$.
 
 ### Example 2
 $ABCD$ is a cyclic quadrilateral with $\angle DAB = 3x$ and $\angle BCD = 2x + 30^\circ$. Find $x$.
 
+```diagram
+view: [-2.45, 2.45, -2.45, 2.45]
+width: 230
+alt: "Cyclic quadrilateral ABCD with angle A = 3x and angle C = 2x + 30 degrees"
+points: { A: [-1.286, -1.532], B: [1.732, -1], C: [1, 1.732], D: [-1.732, 1], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: polygon, points: [A, B, C, D] }
+  - { type: angle, at: A, from: B, to: D, label: '3x', radius: 20 }
+  - { type: angle, at: C, from: D, to: B, label: '2x + 30^\circ', radius: 20 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: D, label: 'D' }
+```
+
 1. Opposite angles of a cyclic quadrilateral add to $180^\circ$: $3x + 2x + 30^\circ = 180^\circ$.
 2. So $5x = 150^\circ$ and $x = 30^\circ$. (The angles are $90^\circ$ and $90^\circ$.)
 
 ### Example 3
-$AB$ is a diameter of a circle, and $C$ is on the circle with $\angle CAB = 28^\circ$. $D$ is on the circle on the same side of $AB$ as $C$. Find $\angle ADC$.
+$AB$ is a diameter of a circle, and $C$ is on the circle with $\angle CAB = 28^\circ$. $D$ is on the minor arc $BC$. Find $\angle ADC$.
+
+```diagram
+view: [-2.45, 2.45, -2.45, 2.45]
+width: 330
+alt: "AB a diameter, C and D on the circle with D on the minor arc BC"
+points: { A: [-2, 0], B: [2, 0], C: [1.118, 1.658], D: [1.766, 0.939], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: A, to: B }
+  - { type: segment, from: A, to: C }
+  - { type: segment, from: C, to: B }
+  - { type: segment, from: A, to: D, color: accent }
+  - { type: segment, from: D, to: C, color: accent }
+  - { type: angle, at: A, from: C, to: B, label: '28^\circ', radius: 58 }
+  - { type: angle, at: C, from: A, to: B, right: true }
+  - { type: angle, at: D, from: A, to: C, label: '?', radius: 13 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: D, label: 'D', pos: e }
+  - { type: point, at: O, label: 'O', pos: s }
+```
 
 1. Angle in a semicircle: $\angle ACB = 90^\circ$, so $\angle ABC = 180^\circ - 90^\circ - 28^\circ = 62^\circ$.
 2. $\angle ADC$ and $\angle ABC$ are on the same arc $AC$, so they are equal: $\angle ADC = 62^\circ$.

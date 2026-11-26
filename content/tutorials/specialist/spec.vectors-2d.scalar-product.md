@@ -58,6 +58,19 @@ Swapping the components of $a\mathbf{i} + b\mathbf{j}$ and changing one sign giv
 ### Example 1
 Find the angle between $\mathbf{a} = \mathbf{i} + 2\mathbf{j}$ and $\mathbf{b} = 3\mathbf{i} - \mathbf{j}$, to one decimal place.
 
+```diagram
+view: [-0.6, 3.6, -1.6, 2.6]
+width: 200
+axes: true
+grid: true
+alt: "a = i + 2j and b = 3i - j with the angle theta between them"
+points: { O: [0, 0], a: [1, 2], b: [3, -1] }
+draw:
+  - { type: vector, from: O, to: a, label: '\mathbf{a}' }
+  - { type: vector, from: O, to: b, label: '\mathbf{b}', side: right }
+  - { type: angle, at: O, from: b, to: a, label: '\theta', radius: 22 }
+```
+
 1. $\mathbf{a}\cdot\mathbf{b} = (1)(3) + (2)(-1) = 1$.
 2. $|\mathbf{a}| = \sqrt{1 + 4} = \sqrt{5}$ and $|\mathbf{b}| = \sqrt{9 + 1} = \sqrt{10}$.
 3. $\cos\theta = \dfrac{1}{\sqrt{5}\sqrt{10}} = \dfrac{1}{\sqrt{50}}$, so $\theta \approx 81.9^\circ$.
@@ -65,12 +78,37 @@ Find the angle between $\mathbf{a} = \mathbf{i} + 2\mathbf{j}$ and $\mathbf{b} =
 ### Example 2
 Find $k$ so that $k\mathbf{i} + 3\mathbf{j}$ and $2\mathbf{i} + (k - 5)\mathbf{j}$ are perpendicular.
 
+```diagram
+view: [-0.6, 3.6, -2.6, 3.6]
+width: 200
+axes: true
+grid: true
+alt: "With k = 3, the vectors 3i + 3j and 2i - 2j are perpendicular"
+points: { O: [0, 0], u: [3, 3], v: [2, -2] }
+draw:
+  - { type: vector, from: O, to: u, label: '3\mathbf{i} + 3\mathbf{j}' }
+  - { type: vector, from: O, to: v, label: '2\mathbf{i} - 2\mathbf{j}', side: right }
+  - { type: angle, at: O, from: v, to: u, right: true }
+```
+
 1. Perpendicular means the dot product is 0: $2k + 3(k - 5) = 0$.
 2. Simplify: $5k - 15 = 0$, so $k = 3$.
 3. Check: the vectors are $3\mathbf{i} + 3\mathbf{j}$ and $2\mathbf{i} - 2\mathbf{j}$, with dot product $6 - 6 = 0$. ✓
 
 ### Example 3
 $|\mathbf{a}| = 3$, $|\mathbf{b}| = 4$ and $\mathbf{a}\cdot\mathbf{b} = 2$. Find $|\mathbf{a} - \mathbf{b}|$.
+
+```diagram
+view: [-0.6, 4.6, -0.6, 3.4]
+width: 220
+alt: "a and b from one point, angle 80.4 degrees between them; a - b joins the tip of b to the tip of a"
+points: { O: [0, 0], a: [0.5, 2.958], b: [4, 0] }
+draw:
+  - { type: vector, from: O, to: a, label: '\mathbf{a}' }
+  - { type: vector, from: O, to: b, label: '\mathbf{b}', side: right }
+  - { type: vector, from: b, to: a, label: '\mathbf{a} - \mathbf{b}', side: right, color: good }
+  - { type: angle, at: O, from: b, to: a, label: '\theta', radius: 18 }
+```
 
 1. Write the squared length as a dot product: $|\mathbf{a} - \mathbf{b}|^2 = (\mathbf{a} - \mathbf{b})\cdot(\mathbf{a} - \mathbf{b})$.
 2. Expand: $\mathbf{a}\cdot\mathbf{a} - 2\,\mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{b} = 9 - 4 + 16 = 21$.

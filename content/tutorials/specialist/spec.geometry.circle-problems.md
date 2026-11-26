@@ -60,6 +60,24 @@ draw:
 ### Example 1
 $ABCD$ is a quadrilateral with $\angle DAB = 2x + 10^\circ$, $\angle ABC = 3x + 5^\circ$, $\angle BCD = 4x - 10^\circ$ and $\angle CDA = 85^\circ$. Find $x$, and show that $ABCD$ is cyclic.
 
+```diagram
+view: [-2.45, 2.45, -2.45, 2.45]
+width: 230
+alt: "Quadrilateral ABCD with its four angles given in terms of x"
+points: { A: [-1.879, -0.684], B: [0.684, -1.879], C: [1.97, 0.347], D: [0.684, 1.879], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2, dashed: true }
+  - { type: polygon, points: [A, B, C, D] }
+  - { type: angle, at: A, from: B, to: D, label: '2x + 10^\circ', radius: 20 }
+  - { type: angle, at: B, from: C, to: A, label: '3x + 5^\circ', radius: 20 }
+  - { type: angle, at: C, from: D, to: B, label: '4x - 10^\circ', radius: 20 }
+  - { type: angle, at: D, from: A, to: C, label: '85^\circ', radius: 20 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: D, label: 'D' }
+```
+
 1. The angles of a quadrilateral add to $360^\circ$: $9x + 5^\circ + 85^\circ = 360^\circ$, so $9x = 270^\circ$ and $x = 30^\circ$.
 2. Then $\angle DAB = 70^\circ$ and $\angle BCD = 110^\circ$, which add to $180^\circ$.
 3. One pair of opposite angles adds to $180^\circ$, so by the converse of the cyclic quadrilateral theorem, $ABCD$ is cyclic. (The other pair, $95^\circ + 85^\circ$, also adds to $180^\circ$, as it must.)
@@ -67,12 +85,54 @@ $ABCD$ is a quadrilateral with $\angle DAB = 2x + 10^\circ$, $\angle ABC = 3x + 
 ### Example 2
 Points $A$, $B$, $C$, $D$ lie on a circle, and the chords $AC$ and $BD$ meet at $X$. $\angle BAC = 40^\circ$ and $\angle AXB = 105^\circ$. Find $\angle ACD$.
 
+```diagram
+view: [-2.45, 2.45, -2.45, 2.45]
+width: 230
+alt: "Chords AC and BD meet at X; angle BAC is 40 degrees and angle AXB is 105 degrees"
+points: { A: [-1.879, -0.684], B: [1.532, -1.286], C: [1.532, 1.286], D: [-1.286, 1.532], X: [-0.098, 0.344], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: A, to: C }
+  - { type: segment, from: B, to: D }
+  - { type: segment, from: A, to: B, color: muted }
+  - { type: segment, from: C, to: D, color: muted }
+  - { type: angle, at: A, from: B, to: C, label: '40^\circ', radius: 30 }
+  - { type: angle, at: X, from: A, to: B, label: '105^\circ', radius: 14 }
+  - { type: angle, at: C, from: A, to: D, label: '?', radius: 24 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: D, label: 'D' }
+  - { type: point, at: X, label: 'X', pos: n }
+```
+
 1. Angles on the same arc $BC$: $\angle BDC = \angle BAC = 40^\circ$.
 2. $\angle DXC = \angle AXB = 105^\circ$ (vertically opposite).
 3. In triangle $DXC$: $\angle XCD = 180^\circ - 105^\circ - 40^\circ = 35^\circ$. So $\angle ACD = 35^\circ$.
 
 ### Example 3
 $AB$ is a diameter of a circle. $P$ is a point outside the circle with $\angle APB = 90^\circ$. Is that possible?
+
+```diagram
+view: [-2.45, 2.45, -2.45, 3.26]
+width: 250
+alt: "Diameter AB. C on the circle makes a right angle; P outside makes 63 degrees"
+points: { A: [-2, 0], B: [2, 0], C: [1, 1.732], P: [-1.31, 2.81], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: A, to: B }
+  - { type: segment, from: A, to: C, color: muted }
+  - { type: segment, from: C, to: B, color: muted }
+  - { type: segment, from: A, to: P, color: accent }
+  - { type: segment, from: P, to: B, color: accent }
+  - { type: angle, at: C, from: A, to: B, right: true }
+  - { type: angle, at: P, from: A, to: B, label: '63^\circ', radius: 18 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: P, label: 'P' }
+  - { type: point, at: O, label: 'O', pos: s }
+```
 
 1. By the converse of the angle in a semicircle, $\angle APB = 90^\circ$ means $P$ is *on* the circle with diameter $AB$.
 2. So no point outside (or inside) the circle makes a right angle at $P$: it is impossible.

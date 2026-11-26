@@ -85,12 +85,44 @@ draw:
 ### Example 1
 In parallelogram $OABC$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. $M$ is the midpoint of $AB$. Find $\overrightarrow{CM}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
 
+```diagram
+view: [-0.6, 6.2, -0.7, 3.1]
+width: 300
+alt: "Parallelogram OABC with M the midpoint of AB, and the vector CM"
+points: { O: [0, 0], A: [4, 0], B: [5.5, 2.5], C: [1.5, 2.5], M: [4.75, 1.25] }
+draw:
+  - { type: segment, from: A, to: B, color: muted }
+  - { type: segment, from: C, to: B, color: muted }
+  - { type: vector, from: O, to: A, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: C, label: '\mathbf{c}' }
+  - { type: vector, from: C, to: M, label: '\overrightarrow{CM}', side: right, color: good }
+  - { type: point, at: O, label: 'O', pos: sw }
+  - { type: point, at: A, label: 'A', pos: se }
+  - { type: point, at: B, label: 'B', pos: ne }
+  - { type: point, at: C, label: 'C', pos: nw }
+  - { type: point, at: M, label: 'M', pos: e }
+```
+
 1. Opposite sides of a parallelogram are equal and parallel, so $\overrightarrow{AB} = \overrightarrow{OC} = \mathbf{c}$. Then $\overrightarrow{AM} = \tfrac{1}{2}\mathbf{c}$.
 2. Travel $C \to O \to A \to M$. From $C$ to $O$ goes against $\mathbf{c}$, so it is $-\mathbf{c}$.
 3. $\overrightarrow{CM} = -\mathbf{c} + \mathbf{a} + \tfrac{1}{2}\mathbf{c} = \mathbf{a} - \tfrac{1}{2}\mathbf{c}$.
 
 ### Example 2
 A hiker walks 3 km east, then 4 km north. Find the hiker's resultant displacement.
+
+```diagram
+view: [-1.2, 4.2, -0.6, 4.6]
+width: 200
+alt: "3 km east then 4 km north; the resultant is 5 km at angle theta east of north"
+points: { O: [0, 0], E: [3, 0], R: [3, 4], N: [0, 3] }
+draw:
+  - { type: vector, from: O, to: E, label: '3', side: right }
+  - { type: vector, from: E, to: R, label: '4', side: right }
+  - { type: vector, from: O, to: R, label: '5', color: good }
+  - { type: angle, at: O, from: N, to: R, label: '\theta', radius: 26 }
+  - { type: north, at: O, length: 1.4 }
+  - { type: angle, at: E, from: O, to: R, right: true }
+```
 
 1. Head to tail, the two legs form a right-angled triangle.
 2. Distance: $\sqrt{3^2 + 4^2} = 5$ km.

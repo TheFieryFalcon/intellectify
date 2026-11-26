@@ -50,6 +50,22 @@ The perpendicular part is the light ray. Its length is the shortest distance fro
 ### Example 1
 Find the scalar and vector projections of $\mathbf{a} = 4\mathbf{i} + 2\mathbf{j}$ onto $\mathbf{b} = 3\mathbf{i} + 4\mathbf{j}$.
 
+```diagram
+view: [-0.5, 5, -0.5, 4.6]
+width: 260
+axes: true
+grid: true
+alt: "Vector projection of a = 4i + 2j onto b = 3i + 4j"
+points: { O: [0, 0], a: [4, 2], b: [3, 4], p: [2.4, 3.2] }
+draw:
+  - { type: vector, from: O, to: b, label: '\mathbf{b}', color: muted }
+  - { type: vector, from: O, to: a, label: '\mathbf{a}', side: right }
+  - { type: segment, from: a, to: p, color: muted, dashed: true }
+  - { type: vector, from: O, to: p, color: good }
+  - { type: angle, at: p, from: O, to: a, right: true }
+  - { type: text, at: p, text: '\text{projection}', pos: nw }
+```
+
 1. $\mathbf{a}\cdot\mathbf{b} = 12 + 8 = 20$, and $|\mathbf{b}| = 5$, so $|\mathbf{b}|^2 = 25$.
 2. Scalar projection: $\tfrac{20}{5} = 4$.
 3. Vector projection: $\tfrac{20}{25}(3\mathbf{i} + 4\mathbf{j}) = \tfrac{12}{5}\mathbf{i} + \tfrac{16}{5}\mathbf{j}$.
@@ -58,6 +74,20 @@ Find the scalar and vector projections of $\mathbf{a} = 4\mathbf{i} + 2\mathbf{j
 ### Example 2
 For the same vectors, write $\mathbf{a}$ as the sum of a vector parallel to $\mathbf{b}$ and a vector perpendicular to $\mathbf{b}$.
 
+```diagram
+view: [-0.5, 5, -0.5, 4.6]
+width: 260
+axes: true
+grid: true
+alt: "a split into a part parallel to b and a part perpendicular to b"
+points: { O: [0, 0], a: [4, 2], p: [2.4, 3.2] }
+draw:
+  - { type: vector, from: O, to: a, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: p, label: '\parallel', color: good }
+  - { type: vector, from: p, to: a, label: '\perp', color: bad }
+  - { type: angle, at: p, from: O, to: a, right: true }
+```
+
 1. The parallel part is the vector projection, $\tfrac{12}{5}\mathbf{i} + \tfrac{16}{5}\mathbf{j}$.
 2. The perpendicular part is what's left: $(4\mathbf{i} + 2\mathbf{j}) - (\tfrac{12}{5}\mathbf{i} + \tfrac{16}{5}\mathbf{j}) = \tfrac{8}{5}\mathbf{i} - \tfrac{6}{5}\mathbf{j}$.
 3. Check: $(\tfrac{8}{5})(3) + (-\tfrac{6}{5})(4) = \tfrac{24}{5} - \tfrac{24}{5} = 0$. ✓
@@ -65,6 +95,22 @@ For the same vectors, write $\mathbf{a}$ as the sum of a vector parallel to $\ma
 
 ### Example 3
 Find the shortest distance from the point $P(7, 1)$ to the line through the origin in the direction of $\mathbf{b} = \mathbf{i} + \mathbf{j}$.
+
+```diagram
+view: [-0.6, 8, -0.6, 6]
+width: 260
+axes: true
+grid: true
+alt: "Shortest distance from P(7, 1) to the line through O in direction i + j"
+points: { O: [0, 0], L: [5.8, 5.8], P: [7, 1], F: [4, 4] }
+draw:
+  - { type: segment, from: O, to: L, color: muted }
+  - { type: vector, from: O, to: P, label: '\mathbf{p}', side: right }
+  - { type: segment, from: F, to: P, label: '3\sqrt{2}', color: good, dashed: true }
+  - { type: angle, at: F, from: O, to: P, right: true }
+  - { type: point, at: P, label: 'P', pos: e }
+  - { type: text, at: L, text: '\mathbf{i} + \mathbf{j}', pos: ne }
+```
 
 1. $P$ has position vector $\mathbf{p} = 7\mathbf{i} + \mathbf{j}$. The shortest distance is the length of the part of $\mathbf{p}$ perpendicular to $\mathbf{b}$.
 2. $\mathbf{p}\cdot\mathbf{b} = 8$ and $|\mathbf{b}|^2 = 2$, so the vector projection is $4(\mathbf{i} + \mathbf{j}) = 4\mathbf{i} + 4\mathbf{j}$.

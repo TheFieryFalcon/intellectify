@@ -95,11 +95,52 @@ draw:
 ### Example 1
 A tangent touches a circle at $T$. Chord $TB$ makes an angle of $52^\circ$ with the tangent. $A$ is a point on the circle in the alternate segment. Find $\angle TAB$.
 
+```diagram
+view: [-3.25, 3.25, -2.45, 2.45]
+width: 230
+alt: "Tangent at T; chord TB at 52 degrees to it; A on the circle in the alternate segment"
+points: { T: [-0, -2], B: [1.941, 0.484], A: [-1.732, 1], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: L, to: R, color: muted }
+  - { type: segment, from: T, to: B }
+  - { type: segment, from: A, to: T }
+  - { type: segment, from: A, to: B }
+  - { type: angle, at: T, from: R, to: B, label: '52^\circ', radius: 24 }
+  - { type: angle, at: A, from: T, to: B, label: '?', radius: 22 }
+  - { type: point, at: T, label: 'T', pos: s }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+```
+
 1. Alternate segment theorem: the tangent–chord angle equals the angle in the alternate segment.
 2. So $\angle TAB = 52^\circ$.
 
 ### Example 2
 Tangents from $M$ touch a circle with center $O$ at $S$ and $T$, and $\angle SMT = 50^\circ$. Find $\angle SOT$ and $\angle MST$.
+
+```diagram
+view: [-2.45, 5.18, -2.45, 2.45]
+width: 300
+alt: "Tangents from M touch the circle at S and T; angle SMT is 50 degrees"
+points: { M: [4.732, 0], S: [0.845, 1.813], T: [0.845, -1.813], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: M, to: S }
+  - { type: segment, from: M, to: T }
+  - { type: segment, from: S, to: T, color: muted }
+  - { type: segment, from: O, to: S, color: muted }
+  - { type: segment, from: O, to: T, color: muted }
+  - { type: angle, at: S, from: O, to: M, right: true }
+  - { type: angle, at: T, from: M, to: O, right: true }
+  - { type: angle, at: M, from: T, to: S, label: '50^\circ', radius: 26 }
+  - { type: angle, at: O, from: T, to: S, label: '?', radius: 16 }
+  - { type: angle, at: S, from: M, to: T, label: '?', radius: 16 }
+  - { type: point, at: M, label: 'M', pos: e }
+  - { type: point, at: S, label: 'S', pos: n }
+  - { type: point, at: T, label: 'T', pos: s }
+  - { type: point, at: O, label: 'O', pos: w }
+```
 
 1. Tangents are perpendicular to radii: $\angle OSM = \angle OTM = 90^\circ$.
 2. The angles of quadrilateral $OSMT$ add to $360^\circ$: $\angle SOT = 360^\circ - 90^\circ - 90^\circ - 50^\circ = 130^\circ$.
@@ -107,6 +148,28 @@ Tangents from $M$ touch a circle with center $O$ at $S$ and $T$, and $\angle SMT
 
 ### Example 3
 In a circle with center $O$, chords $AB$ and $CD$ are equal, and $\angle AOB = 72^\circ$. Find $\angle OCD$.
+
+```diagram
+view: [-2.45, 2.45, -2.45, 2.45]
+width: 230
+alt: "Equal chords AB and CD; angle AOB is 72 degrees"
+points: { A: [-1.879, -0.684], B: [0.07, -1.999], C: [1.879, 0.684], D: [-0.07, 1.999], O: [0, 0] }
+draw:
+  - { type: circle, center: O, radius: 2 }
+  - { type: segment, from: A, to: B, ticks: 1 }
+  - { type: segment, from: C, to: D, ticks: 1 }
+  - { type: segment, from: O, to: A, color: muted }
+  - { type: segment, from: O, to: B, color: muted }
+  - { type: segment, from: O, to: C, color: muted }
+  - { type: segment, from: O, to: D, color: muted }
+  - { type: angle, at: O, from: A, to: B, label: '72^\circ', radius: 18 }
+  - { type: angle, at: C, from: O, to: D, label: '?', radius: 18 }
+  - { type: point, at: A, label: 'A' }
+  - { type: point, at: B, label: 'B' }
+  - { type: point, at: C, label: 'C' }
+  - { type: point, at: D, label: 'D' }
+  - { type: point, at: O, label: 'O', pos: sw }
+```
 
 1. Equal chords subtend equal angles at the center: $\angle COD = 72^\circ$.
 2. $OC = OD$ (radii): $\angle OCD = \tfrac{1}{2}(180^\circ - 72^\circ) = 54^\circ$.

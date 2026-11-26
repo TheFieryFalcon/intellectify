@@ -80,12 +80,35 @@ draw:
 ### Example 2
 Find the vector of magnitude 10 in the direction of $\mathbf{a} = 5\mathbf{i} - 12\mathbf{j}$.
 
+```diagram
+view: [-2, 7, -13, 1.5]
+width: 200
+axes: true
+alt: "a = 5i - 12j, and the vector of length 10 in the same direction"
+points: { O: [0, 0], a: [5, -12], u: [3.846, -9.231] }
+draw:
+  - { type: vector, from: O, to: a, label: '\mathbf{a}', side: right, color: muted }
+  - { type: vector, from: O, to: u, label: '10\hat{\mathbf{a}}', side: left }
+```
+
 1. $|\mathbf{a}| = \sqrt{25 + 144} = 13$.
 2. The unit vector is $\hat{\mathbf{a}} = \tfrac{1}{13}(5\mathbf{i} - 12\mathbf{j})$.
 3. Multiply by 10: $\tfrac{10}{13}(5\mathbf{i} - 12\mathbf{j}) = \tfrac{50}{13}\mathbf{i} - \tfrac{120}{13}\mathbf{j}$.
 
 ### Example 3
 Find $m$ so that $\begin{pmatrix} 4 \\ m \end{pmatrix}$ is parallel to $\begin{pmatrix} 6 \\ -9 \end{pmatrix}$.
+
+```diagram
+view: [-1, 9, -10, 1.5]
+width: 230
+axes: true
+grid: true
+alt: "Two parallel vectors: (6, -9) and (4, m) with m = -6"
+points: { O: [0, 0], P: [6, -9], Q0: [2.5, 0], Q: [6.5, -6] }
+draw:
+  - { type: vector, from: O, to: P, label: '6\mathbf{i} - 9\mathbf{j}', side: right, color: muted }
+  - { type: vector, from: Q0, to: Q, label: '4\mathbf{i} + m\mathbf{j}', side: left }
+```
 
 1. Parallel means $\begin{pmatrix} 4 \\ m \end{pmatrix} = k\begin{pmatrix} 6 \\ -9 \end{pmatrix}$ for some number $k$.
 2. The $x$-components give $4 = 6k$, so $k = \tfrac{2}{3}$.

@@ -55,6 +55,22 @@ Disprove: "For every whole number $n$, $n^2 + n + 41$ is prime."
 ### Example 2
 Prove by contradiction that there is no largest odd number.
 
+```diagram
+view: [-1, 7, -1.15, 0.9]
+width: 320
+alt: "Odd numbers N - 4, N - 2, N, N + 2 on a number line: N + 2 is a larger odd number"
+points: {  }
+draw:
+  - { type: segment, from: [-0.5, 0], to: [6.5, 0], color: muted }
+  - { type: point, at: [0, 0], label: 'N - 4', pos: s }
+  - { type: point, at: [2, 0], label: 'N - 2', pos: s }
+  - { type: point, at: [4, 0], label: 'N', pos: s }
+  - { type: point, at: [6, 0], label: 'N + 2', pos: s }
+  - { type: vector, from: [4, 0.15], to: [6, 0.15], color: accent }
+  - { type: text, at: [5, 0.45], text: '+2', pos: c }
+  - { type: text, at: [4, -0.85], text: '\text{(largest?)}', pos: c }
+```
+
 1. Suppose, for contradiction, that there is a largest odd number, $N$.
 2. Then $N + 2$ is also odd, because adding 2 keeps a number odd.
 3. But $N + 2 > N$, so $N$ isn't the largest odd number. This contradicts our assumption.

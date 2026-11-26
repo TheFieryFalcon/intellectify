@@ -59,6 +59,19 @@ draw:
 ### Example 1
 Forces $\mathbf{F}_1 = 3\mathbf{i} + 5\mathbf{j}$ N and $\mathbf{F}_2 = -7\mathbf{i} + 2\mathbf{j}$ N act on a particle. Find the third force $\mathbf{F}_3$ that keeps the particle in equilibrium.
 
+```diagram
+view: [-8, 5, -8, 6]
+width: 260
+axes: true
+grid: true
+alt: "F1 = 3i + 5j and F2 = -7i + 2j from the origin; F3 = 4i - 7j balances them"
+points: { O: [0, 0], F1: [3, 5], F2: [-7, 2], F3: [4, -7] }
+draw:
+  - { type: vector, from: O, to: F1, label: '\mathbf{F}_1', side: right }
+  - { type: vector, from: O, to: F2, label: '\mathbf{F}_2' }
+  - { type: vector, from: O, to: F3, label: '\mathbf{F}_3', side: right, color: good }
+```
+
 1. Equilibrium means $\mathbf{F}_1 + \mathbf{F}_2 + \mathbf{F}_3 = \mathbf{0}$.
 2. $\mathbf{F}_1 + \mathbf{F}_2 = -4\mathbf{i} + 7\mathbf{j}$.
 3. So $\mathbf{F}_3 = -(-4\mathbf{i} + 7\mathbf{j}) = 4\mathbf{i} - 7\mathbf{j}$ N.
@@ -84,6 +97,23 @@ draw:
 
 ### Example 3
 At noon, ship $A$ is at $3\mathbf{i} + 4\mathbf{j}$ km with velocity $2\mathbf{i} + \mathbf{j}$ km/h, and ship $B$ is at $9\mathbf{i} + 2\mathbf{j}$ km with velocity $-\mathbf{i} + 2\mathbf{j}$ km/h. Will they collide?
+
+```diagram
+view: [0, 10, 0, 8]
+width: 280
+axes: true
+grid: true
+alt: "Paths of ships A and B, meeting at 7i + 6j when t = 2"
+points: { A0: [3, 4], A1: [5, 5], A2: [7, 6], B0: [9, 2], B1: [8, 4] }
+draw:
+  - { type: segment, from: A0, to: A2, color: accent }
+  - { type: segment, from: B0, to: A2, color: good }
+  - { type: point, at: A0, label: 'A', pos: w }
+  - { type: point, at: A1, label: 't = 1', pos: n }
+  - { type: point, at: B0, label: 'B', pos: e }
+  - { type: point, at: B1, label: 't = 1', pos: e }
+  - { type: point, at: A2, label: 't = 2', pos: n }
+```
 
 1. After $t$ hours: $\mathbf{r}_A = (3 + 2t)\mathbf{i} + (4 + t)\mathbf{j}$ and $\mathbf{r}_B = (9 - t)\mathbf{i} + (2 + 2t)\mathbf{j}$.
 2. The $\mathbf{i}$-components are equal when $3 + 2t = 9 - t$, so $t = 2$.

@@ -20,6 +20,44 @@ terms:
 | 4 | 1 4 6 4 1 |
 | 5 | 1 5 10 10 5 1 |
 
+```diagram
+view: [-3.6, 3.6, -5.2, 0.4]
+width: 300
+alt: "Pascal's triangle, rows 0 to 6; 10 + 10 in row 5 make 20 in row 6"
+points: {  }
+draw:
+  - { type: text, at: [0, 0], text: '1', pos: c }
+  - { type: text, at: [-0.5, -0.8], text: '1', pos: c }
+  - { type: text, at: [0.5, -0.8], text: '1', pos: c }
+  - { type: text, at: [-1, -1.6], text: '1', pos: c }
+  - { type: text, at: [0, -1.6], text: '2', pos: c }
+  - { type: text, at: [1, -1.6], text: '1', pos: c }
+  - { type: text, at: [-1.5, -2.4], text: '1', pos: c }
+  - { type: text, at: [-0.5, -2.4], text: '3', pos: c }
+  - { type: text, at: [0.5, -2.4], text: '3', pos: c }
+  - { type: text, at: [1.5, -2.4], text: '1', pos: c }
+  - { type: text, at: [-2, -3.2], text: '1', pos: c }
+  - { type: text, at: [-1, -3.2], text: '4', pos: c }
+  - { type: text, at: [0, -3.2], text: '6', pos: c }
+  - { type: text, at: [1, -3.2], text: '4', pos: c }
+  - { type: text, at: [2, -3.2], text: '1', pos: c }
+  - { type: text, at: [-2.5, -4], text: '1', pos: c }
+  - { type: text, at: [-1.5, -4], text: '5', pos: c }
+  - { type: text, at: [-0.5, -4], text: '10', pos: c }
+  - { type: text, at: [0.5, -4], text: '10', pos: c }
+  - { type: text, at: [1.5, -4], text: '5', pos: c }
+  - { type: text, at: [2.5, -4], text: '1', pos: c }
+  - { type: text, at: [-3, -4.8], text: '1', pos: c }
+  - { type: text, at: [-2, -4.8], text: '6', pos: c }
+  - { type: text, at: [-1, -4.8], text: '15', pos: c }
+  - { type: text, at: [0, -4.8], text: '20', pos: c }
+  - { type: text, at: [1, -4.8], text: '15', pos: c }
+  - { type: text, at: [2, -4.8], text: '6', pos: c }
+  - { type: text, at: [3, -4.8], text: '1', pos: c }
+  - { type: vector, from: [-0.4, -4.2], to: [-0.12, -4.58], color: accent }
+  - { type: vector, from: [0.4, -4.2], to: [0.12, -4.58], color: accent }
+```
+
 Each row starts and ends with 1, and every other entry is the sum of the two entries above it. The patterns in the triangle are **identities**: equations true for every allowed $n$ and $r$.
 
 **Symmetry:** $\binom{n}{r} = \binom{n}{n-r}$. Each row reads the same forwards and backwards. Reason: taking a group of $r$ objects out of $n$ leaves a group of $n - r$ behind. Matching each group taken with the group left behind pairs them up exactly, so there are equally many of each.
@@ -44,6 +82,19 @@ A **counting argument** proves an identity by showing that both sides count the 
 
 ### Example 1
 Write $\binom{7}{2} + \binom{7}{3}$ as a single combination and evaluate it.
+
+```diagram
+view: [-2.2, 2.2, -1.5, 0.6]
+width: 240
+alt: "Neighbors 21 and 35 in row 7 add to 56, below them in row 8"
+points: {  }
+draw:
+  - { type: text, at: [-1, 0], text: '\tbinom{7}{2} = 21', pos: c }
+  - { type: text, at: [1, 0], text: '\tbinom{7}{3} = 35', pos: c }
+  - { type: text, at: [0, -1.2], text: '\tbinom{8}{3} = 56', pos: c }
+  - { type: vector, from: [-0.75, -0.3], to: [-0.2, -0.85], color: accent }
+  - { type: vector, from: [0.75, -0.3], to: [0.2, -0.85], color: accent }
+```
 
 1. These are neighbors in row 7 ($r = 2$ and $r + 1 = 3$).
 2. By Pascal's rule, the sum is the entry below them in row 8, at position 3: $\binom{8}{3}$.

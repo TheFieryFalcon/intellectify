@@ -65,6 +65,24 @@ draw:
 ### Example 2
 Prove that joining the midpoints of the sides of any **quadrilateral** $ABCD$, in order, gives a parallelogram.
 
+```diagram
+view: [-0.7, 6.8, -1.1, 4.3]
+width: 280
+alt: "Quadrilateral ABCD; the midpoints P, Q, R, S of its sides form a parallelogram"
+points: { A: [0, 0], B: [5, -0.5], C: [6, 3], D: [1.2, 3.6], P: [2.5, -0.25], Q: [5.5, 1.25], R: [3.6, 3.3], S: [0.6, 1.8] }
+draw:
+  - { type: polygon, points: [A, B, C, D] }
+  - { type: polygon, points: [P, Q, R, S], color: accent }
+  - { type: point, at: A, label: 'A', pos: sw }
+  - { type: point, at: B, label: 'B', pos: se }
+  - { type: point, at: C, label: 'C', pos: ne }
+  - { type: point, at: D, label: 'D', pos: nw }
+  - { type: point, at: P, label: 'P', pos: s }
+  - { type: point, at: Q, label: 'Q', pos: e }
+  - { type: point, at: R, label: 'R', pos: n }
+  - { type: point, at: S, label: 'S', pos: w }
+```
+
 1. Let the corners have position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$. Let $P, Q, R, S$ be the midpoints of $AB, BC, CD, DA$.
 2. Then $\mathbf{p} = \tfrac{1}{2}(\mathbf{a} + \mathbf{b})$, $\mathbf{q} = \tfrac{1}{2}(\mathbf{b} + \mathbf{c})$, $\mathbf{r} = \tfrac{1}{2}(\mathbf{c} + \mathbf{d})$ and $\mathbf{s} = \tfrac{1}{2}(\mathbf{d} + \mathbf{a})$.
 3. $\overrightarrow{PQ} = \mathbf{q} - \mathbf{p} = \tfrac{1}{2}(\mathbf{c} - \mathbf{a})$, and $\overrightarrow{SR} = \mathbf{r} - \mathbf{s} = \tfrac{1}{2}(\mathbf{c} - \mathbf{a})$.
@@ -72,6 +90,26 @@ Prove that joining the midpoints of the sides of any **quadrilateral** $ABCD$, i
 
 ### Example 3
 Prove that in any parallelogram, the sum of the squares of the two diagonals equals the sum of the squares of the four sides.
+
+```diagram
+view: [-0.6, 6, -0.6, 3]
+width: 290
+alt: "Parallelogram OABC with diagonals a + c and a - c"
+points: { O: [0, 0], A: [4, 0], B: [5.3, 2.4], C: [1.3, 2.4], L1: [4.134, 1.872], L2: [3.46, 0.48] }
+draw:
+  - { type: vector, from: O, to: A, label: '\mathbf{a}', side: right }
+  - { type: vector, from: O, to: C, label: '\mathbf{c}' }
+  - { type: segment, from: A, to: B, color: muted }
+  - { type: segment, from: C, to: B, color: muted }
+  - { type: vector, from: O, to: B, color: good }
+  - { type: vector, from: C, to: A, color: bad }
+  - { type: text, at: L1, text: '\mathbf{a} + \mathbf{c}', pos: se }
+  - { type: text, at: L2, text: '\mathbf{a} - \mathbf{c}', pos: ne }
+  - { type: point, at: O, label: 'O', pos: sw }
+  - { type: point, at: A, label: 'A', pos: se }
+  - { type: point, at: B, label: 'B', pos: ne }
+  - { type: point, at: C, label: 'C', pos: nw }
+```
 
 1. Use parallelogram $OABC$ with sides $\mathbf{a}$ and $\mathbf{c}$. The four sides have lengths $|\mathbf{a}|, |\mathbf{c}|, |\mathbf{a}|, |\mathbf{c}|$, so the sum of their squares is $2|\mathbf{a}|^2 + 2|\mathbf{c}|^2$.
 2. The diagonals are $\mathbf{a} + \mathbf{c}$ and $\mathbf{a} - \mathbf{c}$. Expanding:
