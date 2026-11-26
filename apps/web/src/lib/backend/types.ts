@@ -1,4 +1,4 @@
-import type { RankLevel, SkillState } from "@intellectify/engine";
+import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
 
 export interface User {
   uid: string;
@@ -49,14 +49,15 @@ export interface Profile {
   questionXpAt: Record<string, number>;
   /** Perth date (YYYY-MM-DD) of the last first-visit bonus. */
   lastVisitDay: string | null;
-  /** Onboarding placement (SPEC §5.3): the maths mark given, its year, and the starting tier it sets. */
+  /** Onboarding placement (SPEC §5.3): the maths mark given, where it's from, and the starting tier per course. */
   placement: Placement | null;
 }
 
 export interface Placement {
   mark: number;
-  year: 10 | 11 | 12;
-  tier: 1 | 2 | 3 | 4;
+  source: MarkSource;
+  /** Starting tier per course id, e.g. { specialist: 4, methods: 5 }. */
+  tiers: Record<string, Tier>;
   at: number;
 }
 

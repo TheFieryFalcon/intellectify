@@ -21,13 +21,13 @@ const RECENT = 20;
 
 export const toStored = (s: ReturnType<typeof newSkillState>, seen: string[] = []): StoredSkillState => ({ ...s, seen, updatedAt: Date.now() });
 
-/** The student's starting tier from onboarding (SPEC §5.3); Tier 3 until they've given a mark. */
-let startTier: Tier = CONFIG.defaultStartTier;
-export const setStartTier = (t: Tier) => (startTier = t);
-export const getStartTier = () => startTier;
+/** The student's starting tier per course from onboarding (SPEC §5.3); Tier 3 until they've given a mark. */
+let startTiers: Record<string, Tier> = {};
+export const setStartTiers = (tiers: Record<string, Tier>) => (startTiers = { ...tiers });
+export const getStartTier = (course: string): Tier => startTiers[course] ?? CONFIG.defaultStartTier;
 
 /** A skill's state, or a fresh one placed at the student's starting tier if it hasn't been opened. */
-export function stateOrNew(progress: CourseProgress, skillId: string, tier: Tier = startTier): StoredSkillState {
+export function stateOrNew(progress: CourseProgress, skillId: string, tier: Tier = CONFIG.defaultStartTier): StoredSkillState {
   return progress.skills[skillId] ?? toStored(newSkillState(tier));
 }
 
@@ -69,18 +69,24 @@ export interface ResultSummary {
 }
 
 /** Apply a resolved question to every skill it touches (SPEC §5.1, §5.6). Pure: returns the new states. */
-export function scoreQuestion(progress: CourseProgress, question: QuestionT, parts: PartResult[], sizeOf: (skillId: string) => SkillSize = () => "medium"): ResultSummary {
+export function scoreQuestion(
+  progress: CourseProgress,
+  question: QuestionT,
+  parts: PartResult[],
+  sizeOf: (skillId: string) => SkillSize = () => "medium",
+  startTier: Tier = CONFIG.defaultStartTier,
+): ResultSummary {
   const tier = tierOf(question.rating);
   const outcome = multiPartOutcome(parts.map((p) => ({ marks: p.marks, outcome: autoMarkedOutcome(tier, p.solvedOn) })));
 
   const skills: Record<string, StoredSkillState> = {};
   const primaryId = question.skills.primary;
-  const before = stateOrNew(progress, primaryId);
+  const before = stateOrNew(progress, primaryId, startTier);
   const primary = applyOutcome(before, question.rating, outcome, 1, sizeOf(primaryId));
   skills[primaryId] = toStored(primary.state, [...before.seen, question.id].slice(-SEEN_LIMIT));
 
   for (const id of question.skills.secondary) {
-    const s = stateOrNew(progress, id);
+    const s = stateOrNew(progress, id, startTier);
     skills[id] = toStored(applyOutcome(s, question.rating, outcome, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
   }
 

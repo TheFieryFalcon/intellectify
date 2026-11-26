@@ -220,16 +220,18 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 - **Δθ** is shown after every answer, e.g. "+14 → 1523".
 
 ### 5.3 Placement
-- **Onboarding** asks once for the student's **most recent maths mark** (0–100%) and the **year it is from** (Year 10, 11 or 12). That sets the starting tier for every skill:
+- **Onboarding** asks once for the student's **most recent maths mark** (0–100%) and **where it is from**: Year 10, Year 11 Methods, Year 11 Specialist, Year 12 Methods or Year 12 Specialist. That sets a starting tier **per course**.
+- Methods questions sit **a tier below** Specialist ones, so **Methods always starts one tier above Specialist** (capped at Tier 5).
 
-  | Mark | Starting tier |
-  |---|---|
-  | under 40% | Tier 1 |
-  | 40–59% | Tier 2 |
-  | 60–74% | Tier 3 |
-  | 75–100% | Tier 4 |
+  | Mark | Specialist or Year 10 mark → Specialist | Methods mark → Methods |
+  |---|---|---|
+  | under 40% | Tier 1 | Tier 1 |
+  | 40–59% | Tier 2 | Tier 2 |
+  | 60–74% | Tier 3 | Tier 3 |
+  | 75–89% | Tier 4 | Tier 4 |
+  | 90–100% | Tier 4 | Tier 5 |
 
-  A **Year 10** mark starts **one tier lower** (never below Tier 1). Tier 5 is never a starting tier.
+  The other course follows from the one-tier shift (e.g. a 95% Methods mark: Methods Tier 5, Specialist Tier 4). A **Year 10** mark starts **one tier lower** (never below Tier 1).
 - On first opening a skill, θ is set to the **floor of the starting tier's band** (e.g. Tier 4 → 1550) and then updates at normal speed. There is no per-skill tier chooser.
 - At any time the student can **drop a tier**. This is a **non-destructive selection shift**: θ, rank and gates are untouched, and question selection (§5.7) targets the tier below the one θ currently sits in. The student can switch it off at any time. θ keeps updating normally, and easier questions naturally give smaller gains.
 - Placement sets θ only. **Gate counts start at zero**, so placement alone never grants a rank.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   applyOutcome,
-  placementTier,
+  placementTiers,
   autoMarkedOutcome,
   correctAtOrAbove,
   eligibleRank,
@@ -215,8 +215,16 @@ describe("skill sizes (SPEC §3.3)", () => {
 
 describe("placement by maths mark (SPEC §5.3)", () => {
   it("maps marks to tiers, one lower for a Year 10 mark", () => {
-    expect([30, 40, 59, 60, 74, 75, 100].map((m) => placementTier(m, 11))).toEqual([1, 2, 2, 3, 3, 4, 4]);
-    expect([30, 50, 65, 90].map((m) => placementTier(m, 10))).toEqual([1, 1, 2, 3]);
-    expect(placementTier(80, 12)).toBe(4);
+    const spec = (src: Parameters<typeof placementTiers>[1]) => (m: number) => placementTiers(m, src).specialist;
+    const meth = (src: Parameters<typeof placementTiers>[1]) => (m: number) => placementTiers(m, src).methods;
+    // Specialist mark: bands, then Methods one higher.
+    expect([30, 40, 59, 60, 74, 75, 100].map(spec("y11-specialist"))).toEqual([1, 2, 2, 3, 3, 4, 4]);
+    expect([30, 40, 60, 75, 100].map(meth("y12-specialist"))).toEqual([2, 3, 4, 5, 5]);
+    // Methods mark: 90+ is Methods Tier 5, Specialist one lower.
+    expect([30, 40, 60, 75, 89, 90, 100].map(meth("y11-methods"))).toEqual([1, 2, 3, 4, 4, 5, 5]);
+    expect([30, 40, 60, 75, 89, 90, 100].map(spec("y12-methods"))).toEqual([1, 1, 2, 3, 3, 4, 4]);
+    // Year 10: one tier lower.
+    expect([30, 50, 65, 90].map(spec("y10"))).toEqual([1, 1, 2, 3]);
+    expect([30, 50, 65, 90].map(meth("y10"))).toEqual([2, 2, 3, 4]);
   });
 });

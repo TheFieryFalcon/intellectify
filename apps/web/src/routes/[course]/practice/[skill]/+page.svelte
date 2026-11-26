@@ -5,7 +5,7 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
   import { indexSkills, loadQuestions, type QuestionT } from "$lib/content";
-  import { serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
+  import { getStartTier, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { recordResult } from "$lib/record";
   import { profileFor } from "$lib/profile.svelte";
@@ -43,7 +43,7 @@
     if (!store || !pool) return;
     summary = null;
     xpGained = 0;
-    served = serveQuestion(pool, stateOrNew(store.progress, skillId));
+    served = serveQuestion(pool, stateOrNew(store.progress, skillId, getStartTier(data.course.id)));
     round++;
   }
 

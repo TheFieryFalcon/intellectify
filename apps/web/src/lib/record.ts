@@ -5,7 +5,7 @@
 import { tierOf, XP, type RankLevel } from "@intellectify/engine";
 import type { CourseBundle } from "./content";
 import { indexSkills } from "./content";
-import { computeRollups, scoreQuestion, type PartResult, type ResultSummary, type Served } from "./practice";
+import { computeRollups, getStartTier, scoreQuestion, type PartResult, type ResultSummary, type Served } from "./practice";
 import type { ProfileStore } from "./profile.svelte";
 import type { CourseProgressStore } from "./session.svelte";
 import type { AchievementsStore } from "./achievements.svelte";
@@ -23,7 +23,7 @@ export async function recordResult(opts: {
   const question = served.question;
   const index = indexSkills(course);
   const before = store.progress.skills[question.skills.primary];
-  const result = scoreQuestion(store.progress, question, parts, (id) => index.get(id)?.skill.size ?? "medium");
+  const result = scoreQuestion(store.progress, question, parts, (id) => index.get(id)?.skill.size ?? "medium", getStartTier(course.id));
   const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
   const rollups = computeRollups(course, after);
 

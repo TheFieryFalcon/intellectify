@@ -32,7 +32,7 @@
 
   async function start() {
     if (!entry || !store) return;
-    if (!skillState) await store.saveSkill(entry.skill.id, toStored(newSkillState(getStartTier())));
+    if (!skillState) await store.saveSkill(entry.skill.id, toStored(newSkillState(getStartTier(data.course.id))));
     goto(`/${data.course.id}/practice/${entry.skill.id}`);
   }
   async function toggleDrop() {

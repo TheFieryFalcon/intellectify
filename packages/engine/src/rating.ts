@@ -39,14 +39,29 @@ export function placementTheta(tier: Tier = CONFIG.defaultStartTier): number {
   return TIER_FLOOR[tier];
 }
 
-/** Year level a placement mark comes from. */
-export type MarkYear = 10 | 11 | 12;
+/** Where a placement mark comes from. */
+export type MarkSource = "y10" | "y11-methods" | "y11-specialist" | "y12-methods" | "y12-specialist";
+
+/** Starting tier per course. Methods questions sit a tier below Specialist ones, so Methods starts a tier higher. */
+export interface PlacementTiers {
+  specialist: Tier;
+  methods: Tier;
+}
+
+const clampTier = (t: number) => Math.max(1, Math.min(5, t)) as Tier;
 
 /**
- * Starting tier from the student's current maths mark (SPEC §5.3): under 40% → Tier 1, 40–60% → Tier 2,
- * 60–75% → Tier 3, 75–100% → Tier 4. A Year 10 mark is one tier lower (never below Tier 1).
+ * Starting tiers from the student's current maths mark (SPEC §5.3).
+ * Specialist or Year 10 mark: under 40% → Tier 1, 40–59% → Tier 2, 60–74% → Tier 3, 75–100% → Tier 4,
+ *   then Methods one tier higher. A Year 10 mark is one tier lower (never below Tier 1).
+ * Methods mark: the same bands plus 90–100% → Tier 5 for Methods, then Specialist one tier lower.
  */
-export function placementTier(markPercent: number, year: MarkYear): Tier {
-  const t = markPercent >= 75 ? 4 : markPercent >= 60 ? 3 : markPercent >= 40 ? 2 : 1;
-  return Math.max(1, year === 10 ? t - 1 : t) as Tier;
+export function placementTiers(markPercent: number, source: MarkSource): PlacementTiers {
+  const band = markPercent >= 75 ? 4 : markPercent >= 60 ? 3 : markPercent >= 40 ? 2 : 1;
+  if (source.endsWith("methods")) {
+    const methods = clampTier(markPercent >= 90 ? 5 : band);
+    return { methods, specialist: clampTier(methods - 1) };
+  }
+  const specialist = clampTier(source === "y10" ? band - 1 : band);
+  return { specialist, methods: clampTier(specialist + 1) };
 }

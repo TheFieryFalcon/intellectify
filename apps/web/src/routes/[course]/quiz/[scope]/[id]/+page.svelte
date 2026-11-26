@@ -6,7 +6,7 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
   import { loadQuestions, type QuestionT } from "$lib/content";
-  import { stateOrNew, type PartResult, type Served } from "$lib/practice";
+  import { getStartTier, stateOrNew, type PartResult, type Served } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
   import { recordResult } from "$lib/record";
   import { buildQuiz, QUIZ_MIX } from "$lib/review";
@@ -46,7 +46,7 @@
     Promise.all(skills.map((k) => loadQuestions(fetch, data.course.id, k.id).then((qs) => [k.id, qs] as [string, QuestionT[]]))).then((pairs) => {
       quiz = buildQuiz(new Map(pairs), QUIZ_MIX[scope]);
       // A skill opened for the first time starts from its default placement.
-      before = Object.fromEntries(skills.map((k) => [k.id, stateOrNew(store!.progress, k.id)]));
+      before = Object.fromEntries(skills.map((k) => [k.id, stateOrNew(store!.progress, k.id, getStartTier(data.course.id))]));
     });
   });
 
