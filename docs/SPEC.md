@@ -183,6 +183,7 @@ Every skill has a **size**, set in the curriculum file. Bigger skills are founda
 - Size is a judgment call, led by **how often exams test the skill**, then its difficulty. Specialist's Cornerstones: proof methods, permutations, combinations, the scalar product, displacement/force/velocity, converses and circle problems, complex arithmetic and induction.
 - **First-order foundations that exams rarely test on their own** (counting principles, vectors as directed line segments, component form, logic, matrix arithmetic, 3D vector algebra, …) are **Small**, even though everything builds on them. Their questions stay; only the rank requirements drop.
 - The content build warns when a skill with questions is below its size's minimums.
+- **Geometry is mostly written proofs.** In every Geometry skill (logic, proof methods and the circle theorems), at least 55% of practice questions are written (rubric-marked, §10). The auto-marked questions stay for quick checks. Written questions name their rubric dimensions as response skills (§5.6): Proof for structure, Reasoning for deductive steps, Clarity and Precision for the write-up.
 
 ## 4. Difficulty: tiers and question ratings
 
