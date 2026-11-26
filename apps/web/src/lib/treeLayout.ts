@@ -26,8 +26,10 @@ export function labelLines(text: string): number {
 }
 export const nodeHeight = (size: keyof typeof SHAPE_H, name: string) => SHAPE_H[size] + LABEL_GAP + labelLines(name) * LABEL_LINE + 4;
 const SECTION_LABEL = 30;
-/** Row at the foot of each section for its quiz and Challenge, and one below each unit for its quiz. */
-const REVIEW_ROW = 78;
+/** Row at the foot of each section for its quiz and Challenge (with clear space above it), and one below each unit for its quiz. */
+const REVIEW_ROW = 110;
+/** From a region's bottom edge up to its review icons' centers. */
+const REVIEW_FROM_BOTTOM = 45;
 const UNIT_QUIZ_ROW = 86;
 /** Review icon size (must match .review in TechTree.svelte). */
 export const REVIEW_SIZE = 38;
@@ -131,7 +133,7 @@ export function layoutTree(course: CourseBundle): TreeLayout {
       // Every region in a unit gets the same height, so their bottoms line up too.
       regions.push({ id: s.id, name: s.name, x: ox, y, w: sw, h });
       // The section's quiz and Challenge sit side by side at the foot of its region.
-      const ry = y + h - REVIEW_ROW / 2 - 6;
+      const ry = y + h - REVIEW_FROM_BOTTOM;
       reviews.push({ kind: "section-quiz", id: s.id, cx: ox + sw / 2 - 44, cy: ry }, { kind: "challenge", id: s.id, cx: ox + sw / 2 + 44, cy: ry });
       for (const k of s.skills) {
         const n = g.node(k.id);
