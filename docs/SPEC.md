@@ -1229,6 +1229,9 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
 
+### 15.4a Wording: points, not marks
+The app says **points** (and **score**) wherever a student sees how an answer was scored: "Written · 5 points", "Score 80%", "Appeal this score". Our rubrics and milestones are not the WACE marking scheme, so the app never calls them marks. The LLM marker writes "points" in its feedback too. ("Marking" for the process, and a student's school "maths mark" in onboarding, keep their usual meaning.)
+
 ### 15.5a Paper first
 - Questions at **Tier 3 and above**, and **every written question**, show a **"Paper first"** label: they are meant to be worked out on paper, then answered on the site.
 - The first time a student meets one, a one-time tip says so (and, for written questions, that the answer can be photographed). "Got it" dismisses it for good in that browser.

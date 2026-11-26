@@ -47,7 +47,7 @@
     <button class="btn quiet" onclick={() => queue.retryNow(job.id)}>Try again</button>
   {:else if final}
     <div class="score">
-      <span class="k">Mark</span>
+      <span class="k">Score</span>
       <span class="v">{pct(final.score)}</span>
       {#if job.appeal?.status === "marked" && job.result}<span class="muted small">Appeal: {pct(job.result.score)} → {pct(final.score)}</span>{/if}
     </div>
@@ -73,7 +73,7 @@
     {:else if !job.appeal && !sent}
       {#if appealing}
         <form class="appeal" onsubmit={sendAppeal}>
-          <label for="arg-{job.id}" class="small muted">Which mark is wrong, and why? Point to your original working. Final: up or down.</label>
+          <label for="arg-{job.id}" class="small muted">Which point is wrong, and why? Point to your original working. Final: up or down.</label>
           <textarea id="arg-{job.id}" bind:value={argument} rows="4" maxlength={MAX_ARGUMENT}></textarea>
           <div class="actions">
             <button class="btn primary" disabled={!argument.trim()}>Appeal</button>
@@ -81,7 +81,7 @@
           </div>
         </form>
       {:else}
-        <button class="btn quiet appeal-btn" onclick={() => (appealing = true)}>Appeal this mark</button>
+        <button class="btn quiet appeal-btn" onclick={() => (appealing = true)}>Appeal this score</button>
       {/if}
     {/if}
   {/if}

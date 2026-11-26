@@ -78,7 +78,7 @@
   <div class="meta">
     <span class="tier">Tier {tier}</span>
     <span class="muted">Rating {question.rating}</span>
-    <span class="muted">Written · {points} mark{points === 1 ? "" : "s"}</span>
+    <span class="muted">Written · {points} point{points === 1 ? "" : "s"}</span>
     {#if question.requiresCalculator}<span class="muted">Calculator</span>{/if}
     <PaperFirst />
     <span class="muted right">1 submission</span>
