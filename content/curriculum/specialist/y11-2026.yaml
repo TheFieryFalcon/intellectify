@@ -32,7 +32,7 @@ units:
           - id: spec.geometry.logic
             name: Logic and the language of proof
             summary: Implication, converse, inverse, contrapositive, negation and equivalence; the symbols ⇒ and ⇔; quantifiers ∀ and ∃.
-            size: medium
+            size: small
             dotPoints: ["1.1.1", "1.1.3", "1.1.4"]
             prereqs: []
 
@@ -67,7 +67,7 @@ units:
           - id: spec.geometry.circle-problems
             name: Converses and circle geometry problems
             summary: Suitable converses of the circle results; finding unknown angles and lengths and proving further results by combining them.
-            size: large
+            size: cornerstone
             dotPoints: ["1.1.14", "1.1.15"]
             prereqs: [spec.geometry.chords-tangents, spec.geometry.chord-secant-lengths, spec.geometry.proof-methods]
 
@@ -81,21 +81,21 @@ units:
           - id: spec.combinatorics.counting-principles
             name: Counting principles
             summary: Multiplication and addition principles; factorial notation and nPr.
-            size: large
+            size: small
             dotPoints: ["1.2.2", "1.2.3"]
             prereqs: []
 
           - id: spec.combinatorics.permutations
             name: Permutations with restrictions
             summary: Ordered arrangements, including restrictions and repeated objects.
-            size: large
+            size: cornerstone
             dotPoints: ["1.2.1", "1.2.4"]
             prereqs: [spec.combinatorics.counting-principles]
 
           - id: spec.combinatorics.combinations
             name: Combinations
             summary: Unordered selections and the notation nCr.
-            size: large
+            size: cornerstone
             dotPoints: ["1.2.7", "1.2.8"]
             prereqs: [spec.combinatorics.counting-principles]
             external:
@@ -136,7 +136,7 @@ units:
           - id: spec.vectors-2d.geometric
             name: Vectors as directed line segments
             summary: Displacement and velocity as vectors; magnitude and direction; scalar multiples; triangle and parallelogram rules.
-            size: large
+            size: small
             dotPoints: ["1.3.1", "1.3.2", "1.3.3", "1.3.4"]
             prereqs: []
             external:
@@ -145,7 +145,7 @@ units:
           - id: spec.vectors-2d.components
             name: Component form
             summary: Ordered-pair and column notation; unit vectors i and j; addition, subtraction and scalar multiplication in components.
-            size: large
+            size: small
             dotPoints: ["1.3.5", "1.3.6", "1.3.7", "1.3.8", "1.3.9"]
             prereqs: [spec.vectors-2d.geometric]
 
@@ -166,7 +166,7 @@ units:
           - id: spec.vectors-2d.applications
             name: Displacement, force and velocity
             summary: Applied problems, including resultant forces, relative velocity, and navigation with wind or current.
-            size: large
+            size: cornerstone
             dotPoints: ["1.3.14"]
             prereqs: [spec.vectors-2d.components, spec.vectors-2d.scalar-product]
             external:
@@ -191,7 +191,7 @@ units:
           - id: spec.trigonometry.equations-graphs
             name: Trig equations and transformed graphs
             summary: All solutions of f(a(x − b)) = c and graphs of y = f(a(x − b)) + c for sin, cos and tan.
-            size: large
+            size: medium
             dotPoints: ["2.1.1", "2.1.2"]
             prereqs: []
             external:
@@ -246,7 +246,7 @@ units:
           - id: spec.matrices.arithmetic
             name: Matrix arithmetic
             summary: Notation; addition, subtraction, scalar and matrix multiplication; identity and inverse.
-            size: large
+            size: small
             dotPoints: ["2.2.1", "2.2.2"]
             prereqs: []
 
@@ -313,7 +313,7 @@ units:
           - id: spec.real-complex.induction
             name: Proof by induction
             summary: The structure of inductive proof; sum and divisibility results.
-            size: large
+            size: cornerstone
             dotPoints: ["2.3.4", "2.3.5", "2.3.6"]
             prereqs: [spec.real-complex.number-proofs]
             external:

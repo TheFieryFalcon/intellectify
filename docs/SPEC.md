@@ -180,7 +180,8 @@ Every skill has a **size**, set in the curriculum file. Bigger skills are founda
 
 - There is **no maximum**: a skill that deserves more questions gets them.
 - "θ speed" scales K in the rating update (§5.1), so θ moves more slowly in bigger skills and each rank takes more questions to earn.
-- Size is a judgment call based on how many skills depend on it (directly or not), its exam weight, and its difficulty. Specialist's Cornerstones: proof methods, the scalar product, and complex arithmetic.
+- Size is a judgment call, led by **how often exams test the skill**, then its difficulty. Specialist's Cornerstones: proof methods, permutations, combinations, the scalar product, displacement/force/velocity, converses and circle problems, complex arithmetic and induction.
+- **First-order foundations that exams rarely test on their own** (counting principles, vectors as directed line segments, component form, logic, matrix arithmetic, 3D vector algebra, …) are **Small**, even though everything builds on them. Their questions stay; only the rank requirements drop.
 - The content build warns when a skill with questions is below its size's minimums.
 
 ## 4. Difficulty: tiers and question ratings

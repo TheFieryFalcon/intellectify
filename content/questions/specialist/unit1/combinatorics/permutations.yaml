@@ -555,3 +555,262 @@
     from itertools import permutations
     def answers():
         return {"a": sum(1 for p in permutations(range(7)) if sum(p[i] == i for i in range(7)) == 1)}
+
+- id: spec.combinatorics.permutations.three-from-pencil
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1270
+  responseSkills: {calculation: 1260}
+  stem: |
+    How many 3-letter arrangements can be made from the letters of **PENCIL** (no letter used twice)?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '120'}
+  solution: |
+    Choose and order 3 of 6 different letters: $^{6}P_{3} = 6 \times 5 \times 4 = 120$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": len(set(permutations("PENCIL", 3)))}
+- id: spec.combinatorics.permutations.ends-fixed-pair
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1300
+  responseSkills: {calculation: 1280, reading: 1290}
+  variants:
+  - {n: 5, v: 12}
+  - {n: 6, v: 48}
+  stem: |
+    {{n}} people stand in a row. In how many ways can they stand if two particular people, Ana and Ben, are at the two ends?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '{{v}}'}
+  solution: |
+    Ana and Ben take the ends in 2 orders, and the other ${{n}} - 2$ people fill the middle in $({{n}} - 2)!$ ways: $2 \times ({{n}} - 2)! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": sum(1 for p in permutations(range(n)) if {p[0], p[-1]} == {0, 1})}
+- id: spec.combinatorics.permutations.vowels-even-places
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1340
+  responseSkills: {calculation: 1320, reading: 1330}
+  stem: |
+    How many arrangements of the letters of **SPECIAL** have the vowels in the 2nd, 4th and 6th places?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '144'}
+  solution: |
+    The vowels E, I, A fill the three even places in $3! = 6$ ways, and the four consonants fill the other places in $4! = 24$ ways: $144$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations("SPECIAL") if all(p[i] in "EIA" for i in (1, 3, 5)))}
+- id: spec.combinatorics.permutations.greater-than-5000
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1370
+  responseSkills: {calculation: 1350, reading: 1350}
+  stem: |
+    How many 4-digit numbers greater than 5000 can be made from the digits 1 to 7, with no digit repeated?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '360'}
+  solution: |
+    The first digit must be 5, 6 or 7: 3 options. The other three places take 3 of the remaining 6 digits in order: $6 \times 5 \times 4 = 120$. Total $3 \times 120 = 360$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations("1234567", 4) if int("".join(p)) > 5000)}
+- id: spec.combinatorics.permutations.assess
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1400
+  responseSkills: {calculation: 1390}
+  stem: |
+    How many different arrangements of the letters of **ASSESS** are there?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '30'}
+  solution: |
+    6 letters with S repeated 4 times: $\dfrac{6!}{4!} = 30$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": len(list(multiset_permutations(list("ASSESS"))))}
+- id: spec.combinatorics.permutations.three-separated
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1420
+  responseSkills: {calculation: 1400, synthesis: 1390}
+  stem: |
+    7 different people stand in a row. In how many ways can they stand if three particular people must have no two of them next to each other?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '1440'}
+  solution: |
+    Arrange the other 4 people: $4! = 24$ ways. That leaves 5 gaps (between them and at the ends). Place the 3 particular people in 3 different gaps, in order: $^{5}P_{3} = 60$. Total $24 \times 60 = 1440$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(7)) if all(abs(p.index(a) - p.index(b)) > 1 for a, b in ((0, 1), (0, 2), (1, 2))))}
+- id: spec.combinatorics.permutations.round-table-apart
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1440
+  responseSkills: {calculation: 1420, reading: 1420}
+  stem: |
+    8 people sit around a round table, where only positions relative to each other matter. In how many ways can they sit if two particular people must **not** sit next to each other?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '3600'}
+  solution: |
+    All seatings: $7! = 5040$. With the pair taped together: 7 units around a table, $6! = 720$, times 2 orders: $1440$. So $5040 - 1440 = 3600$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        n = 0
+        for p in permutations(range(1, 8)):   # person 0 fixed in seat 0
+            seats = (0,) + p
+            gap = abs(seats.index(1) - seats.index(2))
+            n += gap not in (1, 7)
+        return {"a": n}
+- id: spec.combinatorics.permutations.odd-distinct
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1460
+  responseSkills: {calculation: 1440, reading: 1440}
+  stem: |
+    How many odd 4-digit numbers have four different digits?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '2240'}
+  solution: |
+    Fill the restricted places first. Last digit odd: 5 options. First digit not 0 and not the last digit: 8 options. Then 8 and 7 for the middle places. Total $5 \times 8 \times 8 \times 7 = 2240$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(1000, 10000) if n % 2 and len(set(str(n))) == 4)}
+- id: spec.combinatorics.permutations.statistics
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1490
+  responseSkills: {calculation: 1480}
+  stem: |
+    How many different arrangements of the letters of **STATISTICS** are there?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '50400'}
+  solution: |
+    10 letters: S three times, T three times, I twice, and A and C once each. $\dfrac{10!}{3!\,3!\,2!} = 50\,400$.
+  verify: |
+    def answers():
+        from collections import Counter
+        c = Counter("STATISTICS")
+        d = 1
+        for v in c.values(): d *= factorial(v)
+        return {"a": factorial(10) / d}
+- id: spec.combinatorics.permutations.banana-n-apart
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1520
+  responseSkills: {calculation: 1500, synthesis: 1480}
+  stem: |
+    How many arrangements of **BANANA** have the two N's apart?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '40'}
+  solution: |
+    All arrangements: $\dfrac{6!}{3!\,2!} = 60$. With the N's taped together: 5 items with A three times, $\dfrac{5!}{3!} = 20$. So $60 - 20 = 40$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": sum(1 for p in multiset_permutations(list("BANANA")) if "NN" not in "".join(p))}
+- id: spec.combinatorics.permutations.alternate-round
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1560
+  responseSkills: {calculation: 1540, synthesis: 1530}
+  stem: |
+    4 boys and 4 girls, all different, sit around a round table (rotations count as the same). In how many ways can they sit if boys and girls alternate?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '144'}
+  solution: |
+    Seat the boys first: around a circle, $3! = 6$ ways. That fixes 4 gaps between them, and the girls fill them in $4! = 24$ ways. Total $144$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        n = 0
+        for p in permutations(range(1, 8)):  # people 0-3 boys, 4-7 girls; person 0 fixed in seat 0
+            seats = (0,) + p
+            n += all((seats[i] < 4) != (seats[(i + 1) % 8] < 4) for i in range(8))
+        return {"a": n}
+- id: spec.combinatorics.permutations.five-from-parallel
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1620
+  responseSkills: {calculation: 1600, synthesis: 1590}
+  stem: |
+    How many 5-letter arrangements can be made using letters of **PARALLEL** (each letter used no more often than it appears in the word)?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '820'}
+  solution: |
+    PARALLEL has L three times, A twice, and P, R, E once each. Split by how many L's ($l$) and A's ($a$) are used; the other $5 - l - a$ letters come from P, R, E, and each choice is arranged in $\dfrac{5!}{l!\,a!}$ ways.
+    - $l = 3, a = 2$: $10$
+    - $l = 3, a = 1$ (1 of P, R, E): $3 \times 20 = 60$
+    - $l = 3, a = 0$ (2 of P, R, E): $3 \times 20 = 60$
+    - $l = 2, a = 2$ (1 other): $3 \times 30 = 90$
+    - $l = 2, a = 1$ (2 others): $3 \times 60 = 180$
+    - $l = 2, a = 0$ (all 3 others): $60$
+    - $l = 1, a = 2$ (2 others): $3 \times 60 = 180$
+    - $l = 1, a = 1$ (all 3 others): $120$
+    - $l = 0, a = 2$ (all 3 others): $60$
+
+    Total: $820$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": len(list(multiset_permutations(list("PARALLEL"), 5)))}
+- id: spec.combinatorics.permutations.order-of-three
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1650
+  responseSkills: {calculation: 1620, synthesis: 1630}
+  stem: |
+    The numbers 1 to 6 are arranged in a row. In how many arrangements do 1, 2 and 3 appear in that order (not necessarily next to each other)?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '120'}
+  solution: |
+    Among all $6! = 720$ arrangements, the three numbers 1, 2, 3 appear in each of their $3! = 6$ possible orders equally often. So $\tfrac{720}{6} = 120$ have them in increasing order.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(1, 7)) if p.index(1) < p.index(2) < p.index(3))}
+- id: spec.combinatorics.permutations.couples-apart
+  skills:
+    primary: spec.combinatorics.permutations
+    secondary: [spec.combinatorics.inclusion-exclusion]
+  rating: 1680
+  responseSkills: {synthesis: 1670, calculation: 1630}
+  stem: |
+    3 couples sit in a row of 6 seats. In how many ways can they sit so that no couple sits together?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '240'}
+  solution: |
+    Use inclusion–exclusion on the sets "couple $k$ together". All seatings: $720$. One couple taped: $2 \times 5! = 240$ each, $3 \times 240 = 720$. Two couples: $2^2 \times 4! = 96$ each, $3 \times 96 = 288$. All three: $2^3 \times 3! = 48$.
+    So seatings with some couple together: $720 - 288 + 48 = 480$, and with none together: $720 - 480 = 240$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(6)) if all(p[i] // 2 != p[i + 1] // 2 for i in range(5)))}
+- id: spec.combinatorics.permutations.no-equal-neighbors-1123
+  skills: {primary: spec.combinatorics.permutations}
+  rating: 1720
+  responseSkills: {synthesis: 1710, calculation: 1670}
+  stem: |
+    How many arrangements of the seven digits 1, 1, 2, 2, 3, 3, 4 have no two equal digits next to each other?
+  parts:
+  - id: a
+    answer: {type: numeric, key: '246'}
+  solution: |
+    All arrangements: $\dfrac{7!}{2!\,2!\,2!} = 630$. Let $A_k$ be those with the two $k$'s together.
+    - One pair taped: $\dfrac{6!}{2!\,2!} = 180$, three choices: $540$.
+    - Two pairs taped: $\dfrac{5!}{2!} = 60$, three choices: $180$.
+    - All three taped: $4! = 24$.
+
+    With some equal pair together: $540 - 180 + 24 = 384$. So $630 - 384 = 246$ have no equal neighbors.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": sum(1 for p in multiset_permutations([1, 1, 2, 2, 3, 3, 4]) if all(p[i] != p[i + 1] for i in range(6)))}
