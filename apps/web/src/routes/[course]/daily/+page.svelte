@@ -68,7 +68,7 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !served || !profile) return;
-    const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements });
+    const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "daily" });
     summary = r.summary;
     await profile.recordDaily(key, day, r.summary.outcome > 0);
   }

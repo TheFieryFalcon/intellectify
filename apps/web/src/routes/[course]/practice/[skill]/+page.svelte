@@ -16,6 +16,8 @@
   import { profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
+  import PastAnswer from "$lib/components/PastAnswer.svelte";
+  import { listHistory, type HistoryEntry } from "$lib/history";
 
   let { data } = $props();
   const skillId = $derived(page.params.skill);
@@ -36,6 +38,15 @@
   let round = $state(0);
   const question = $derived(served?.question ?? null);
 
+  /** Back (SPEC §15.4b): earlier answers in this skill, from local history, newest first. 0 = the current question. */
+  let past = $state<HistoryEntry[]>([]);
+  let back = $state(0);
+  const snapshot = () => {
+    past = listHistory(data.course.id).filter((e) => e.skill === skillId).slice(0, 50);
+    back = 0;
+  };
+  const ago = (t: number) => new Date(t).toLocaleString(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+
   // Load the pool when the skill changes, once progress is available.
   let loadedFor = "";
   $effect(() => {
@@ -49,6 +60,7 @@
       const q = wanted ? qs.find((x) => x.id === wanted) : undefined;
       if (q) {
         served = serve(q);
+        snapshot();
         summary = null;
         jobId = null;
         round++;
@@ -64,6 +76,7 @@
     // Written answers still waiting to be marked count as seen (SPEC §5.4): don't serve them again meanwhile.
     const waiting = new Set((marking?.jobs ?? []).filter((j) => j.status === "pending").map((j) => j.questionId));
     served = serveQuestion(pool, stateOrNew(store.progress, skillId, getStartTier(data.course.id)), waiting);
+    snapshot();
     round++;
   }
 
@@ -94,6 +107,19 @@
   {:else if !question}
     <p class="muted">No questions yet</p>
   {:else}
+    <div class="history-nav">
+      <button class="btn quiet" disabled={back >= past.length} onclick={() => back++}>← Back</button>
+      {#if back > 0}
+        <span class="muted small">{ago(past[back - 1]!.at)} · {back} of {past.length}</span>
+        <button class="btn quiet" onclick={() => back--}>Forward →</button>
+        <button class="btn quiet" onclick={() => (back = 0)}>Current question</button>
+      {/if}
+      <a class="history-link muted small" href="/{data.course.id}/history?skill={skillId}">History</a>
+    </div>
+    {#if back > 0}
+      {#key past[back - 1]!.id}<section class="result past"><PastAnswer entry={past[back - 1]!} /></section>{/key}
+    {/if}
+    <div hidden={back > 0}>
     {#key round}
       {#if isRubricMarked(question)}
         <WrittenAnswerCard {question} onsubmit={submitWritten} submitted={jobId !== null} />
@@ -135,10 +161,16 @@
         <div class="actions"><button class="btn primary" onclick={next}>Next question</button></div>
       </section>
     {/if}
+    </div>
   {/if}
 </div>
 
 <style>
+  .history-nav { display: flex; align-items: center; gap: 8px; margin: -4px 0 10px; flex-wrap: wrap; }
+  .history-nav .btn { padding: 4px 10px; font-size: 13px; }
+  .history-link { margin-left: auto; }
+  .small { font-size: 12px; }
+  .result.past { margin-top: 0; }
   .crumbs { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
   .crumbs a { color: var(--muted); text-decoration: none; }
   .crumbs a:hover { color: var(--accent); }

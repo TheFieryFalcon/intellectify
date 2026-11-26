@@ -1,4 +1,5 @@
 <script lang="ts">
+  const MODE = "challenge" as const;
   /** Section Challenge: Tier 4–5 problems across a section, untimed and resumable (SPEC §8.4). */
   import { page } from "$app/state";
   import { freeResponseOutcome, XP } from "@intellectify/engine";
@@ -72,7 +73,7 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !current || !ch) return;
-    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements });
+    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements, mode: MODE });
     lastOutcome = r.summary.outcome;
     ch = { ...ch, results: [...ch.results, { id: current.question.id, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }] };
     resolved = true;
@@ -82,7 +83,7 @@
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !current || !ch) return;
     const q = current.question;
-    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, answers });
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, mode: MODE, answers });
     ch = { ...ch, results: [...ch.results, { id: q.id, outcome: null, firstTry: false, jobId: job.id }] };
     resolved = true;
     await save(ch);

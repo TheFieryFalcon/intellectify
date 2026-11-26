@@ -17,6 +17,7 @@ import {
   type Appeal,
   type MarkResult,
 } from "@intellectify/content/marking";
+import { addHistory, type HistoryMode } from "./history";
 import { fillServed, type WordPicks } from "@intellectify/content/template";
 import type { Backend, MarkingJob, User } from "./backend";
 import { loadByok, loadEffort, type Byok } from "./byok";
@@ -172,7 +173,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; answers: Record<string, string> }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; mode?: HistoryMode; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const job: MarkingJob = {
@@ -195,6 +196,19 @@ export class MarkingQueue {
       appeal: null,
     };
     await this.put(job);
+    addHistory({
+      course: input.course,
+      skill: input.skill,
+      questionId: input.question.id,
+      variant: input.variant,
+      words: input.words ?? null,
+      mode: input.mode ?? (input.daily ? "daily" : "practice"),
+      answers: input.question.parts.map((p) => input.answers[p.id] ?? ""),
+      solvedOn: null,
+      outcome: null,
+      jobId: job.id,
+      at: now,
+    });
     this.schedule(0);
     return job;
   }

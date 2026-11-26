@@ -1,4 +1,5 @@
 <script lang="ts">
+  const MODE = "quiz" as const;
   /** Section quiz (8) and unit quiz (15): a fixed tier mix across the skills (SPEC §8.2, §8.3). */
   import { page } from "$app/state";
   import { freeResponseOutcome, XP, type RankLevel } from "@intellectify/engine";
@@ -72,7 +73,7 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !current) return;
-    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements });
+    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements, mode: MODE });
     results = [...results, { skill: current.question.skills.primary, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }];
     xp += r.xp;
     resolved = true;
@@ -81,7 +82,7 @@
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !current) return;
     const q = current.question;
-    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, answers });
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, mode: MODE, answers });
     results = [...results, { skill: q.skills.primary, outcome: null, firstTry: false, jobId: job.id }];
     resolved = true;
   }

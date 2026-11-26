@@ -3,6 +3,7 @@
   import { currentStreak, dailyTier } from "$lib/daily";
   import { perthDay, profileFor } from "$lib/profile.svelte";
   import { session } from "$lib/session.svelte";
+  import { listHistory } from "$lib/history";
 
   let { course }: { course: string } = $props();
   const profile = $derived(profileFor(session.backend, session.user));
@@ -10,9 +11,13 @@
   const streak = $derived(currentStreak(profile?.profile.daily, day));
   const solvedToday = $derived(Object.entries(profile?.profile.daily?.done ?? {}).some(([k, v]) => k.startsWith(`${day}:${course}:`) && v === "solved"));
 
+  let answers = $state(0);
+  $effect(() => void (answers = listHistory(course).length));
+
   const tiles = $derived([
     { href: `/${course}/daily`, title: "Daily", meta: [`Tier ${dailyTier(day)}`, `Streak ${streak}`, ...(solvedToday ? ["Solved"] : [])] },
     { href: `/${course}/questions`, title: "Questions", meta: ["Every question", "Solutions"] },
+    { href: `/${course}/history`, title: "History", meta: [`${answers} answer${answers === 1 ? "" : "s"}`] },
   ]);
 </script>
 

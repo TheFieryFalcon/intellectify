@@ -11,6 +11,7 @@ import type { QuestionT } from "./content";
 import type { ProfileStore } from "./profile.svelte";
 import type { CourseProgressStore } from "./session.svelte";
 import type { AchievementsStore } from "./achievements.svelte";
+import { addHistory, type HistoryMode } from "./history";
 
 export async function recordResult(opts: {
   course: CourseBundle;
@@ -20,6 +21,7 @@ export async function recordResult(opts: {
   parts: PartResult[];
   answers: string[];
   achievements?: AchievementsStore | null;
+  mode?: HistoryMode;
 }): Promise<{ summary: ResultSummary; xp: number }> {
   const { course, store, profile, served, parts } = opts;
   const question = served.question;
@@ -28,6 +30,17 @@ export async function recordResult(opts: {
   const result = scoreQuestion(store.progress, question, parts, (id) => index.get(id)?.skill.size ?? "medium", getStartTier(course.id));
   const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
   const rollups = computeRollups(course, after);
+  addHistory({
+    course: course.id,
+    skill: question.skills.primary,
+    questionId: question.id,
+    variant: served.variant,
+    words: served.words,
+    mode: opts.mode ?? "practice",
+    answers: question.parts.map((_, i) => opts.answers[i] ?? ""),
+    solvedOn: parts.map((p) => p.solvedOn),
+    outcome: result.outcome,
+  });
 
   // Rank-up XP for every rank newly reached, in content skills and response skills.
   let rankXp = 0;
