@@ -32,6 +32,9 @@ let startTiers: Record<string, Tier> = {};
 export const setStartTiers = (tiers: Record<string, Tier>) => (startTiers = { ...tiers });
 export const getStartTier = (course: string): Tier => startTiers[course] ?? CONFIG.defaultStartTier;
 
+/** Questions the student has answered in this course (from each skill's seen list). */
+export const answeredIds = (progress: CourseProgress): Set<string> => new Set(Object.values(progress.skills).flatMap((s) => s.seen));
+
 /** A skill's state, or a fresh one placed at the student's starting tier if it hasn't been opened. */
 export function stateOrNew(progress: CourseProgress, skillId: string, tier: Tier = CONFIG.defaultStartTier): StoredSkillState {
   return progress.skills[skillId] ?? toStored(newSkillState(tier));

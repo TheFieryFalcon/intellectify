@@ -12,6 +12,7 @@
 
   const tiles = $derived([
     { href: `/${course}/daily`, title: "Daily", meta: [`Tier ${dailyTier(day)}`, `Streak ${streak}`, ...(solvedToday ? ["Solved"] : [])] },
+    { href: `/${course}/questions`, title: "Questions", meta: ["Every question", "Solutions"] },
   ]);
 </script>
 

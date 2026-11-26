@@ -115,6 +115,8 @@ export const Question = z.object({
   pool: z.enum(["practice", "section-quiz", "unit-quiz", "challenge"]).default("practice"),
   /** Section Challenges only: sections of later units (same year) this problem draws on. Students may skip it (SPEC §8.4). */
   requires: z.array(z.string()).default([]),
+  /** Short name for question lists; defaults to the id's last segment, humanized. */
+  title: z.string().min(1).optional(),
   stem: z.string().min(1),
   parts: z.array(Part).min(1),
   solution: z.string().min(1),

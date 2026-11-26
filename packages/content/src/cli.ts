@@ -7,6 +7,7 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildContent } from "./build.js";
+import { buildQuestionIndex } from "./question-index.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const contentDir = join(root, "content");
@@ -33,6 +34,7 @@ for (const { course, questions, sectionReviews, unitReviews, tutorials } of bund
   for (const t of tutorials) writeFileSync(join(dir, "tutorials", `${t.skill}.json`), JSON.stringify({ skill: t.skill, terms: t.terms, markdown: t.markdown }));
   const glossary = tutorials.flatMap((t) => t.terms.map((x) => ({ ...x, skill: t.skill }))).sort((a, b) => a.term.localeCompare(b.term));
   writeFileSync(join(dir, "glossary.json"), JSON.stringify(glossary));
+  writeFileSync(join(dir, "question-index.json"), JSON.stringify(buildQuestionIndex(course, questions, sectionReviews, unitReviews)));
   const skills = course.units.flatMap((u) => u.sections.flatMap((s) => s.skills));
   const qCount = Object.values(questions).reduce((a, q) => a + q.length, 0);
   console.log(`${course.id}: ${skills.length} skills, ${qCount} questions, ${tutorials.length} tutorials → ${dir}`);

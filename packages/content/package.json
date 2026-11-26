@@ -9,7 +9,8 @@
     "./schema": "./src/schema.ts",
     "./diagram": "./src/diagram.ts",
     "./marking": "./src/marking.ts",
-    "./reviews": "./src/reviews.ts"
+    "./reviews": "./src/reviews.ts",
+    "./question-index": "./src/question-index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
