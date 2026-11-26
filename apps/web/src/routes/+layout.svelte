@@ -8,12 +8,21 @@
   import TierCelebration from "$lib/components/TierCelebration.svelte";
   import TierGem from "$lib/components/TierGem.svelte";
   import { profileFor } from "$lib/profile.svelte";
+  import { markingFor, markingToasts } from "$lib/marking.svelte";
   import { session, startSession } from "$lib/session.svelte";
 
   let { children } = $props();
   startSession();
 
   const profile = $derived(profileFor(session.backend, session.user));
+  // Free-response marking runs in the background wherever the student is (SPEC §10.2).
+  const marking = $derived(markingFor(session.backend, session.user));
+
+  $effect(() => {
+    if (!markingToasts.length) return;
+    const t = setTimeout(() => markingToasts.shift(), 6000);
+    return () => clearTimeout(t);
+  });
 
   // Achievement toasts: one at a time, a few seconds each (SPEC §12.1).
   $effect(() => {
@@ -46,8 +55,10 @@
     {#if session.user}
       <nav>
         <a href="/specialist">Specialist</a>
+        {#if marking?.waiting}<a class="marking" href="/specialist/marked" title="Written answers waiting for a mark">Marking {marking.waiting}</a>{/if}
         <span class="who muted">{session.user.displayName}</span>
         {#if profile?.loaded}<LevelBadge progress={profile.progress} bar />{/if}
+        <a class="settings" href="/settings">Settings</a>
         <button class="btn quiet" onclick={() => session.backend?.signOut()}>Sign out</button>
       </nav>
     {/if}
@@ -62,6 +73,13 @@
   <div class="toast achievement" role="status">
     <TierGem tier={a.tier} size={14} />
     <span><span class="muted">Achievement</span> {a.name} <span class="pts">+{a.points}</span></span>
+  </div>
+{/if}
+
+{#if markingToasts.length}
+  {@const m = markingToasts[0]!}
+  <div class="toast marked" role="status">
+    <a href="/{m.course}/marked/{m.jobId}"><span class="muted">{m.appeal ? "Appeal re-marked" : "Marked"}</span> {Math.round(m.score * 100)}%</a>
   </div>
 {/if}
 
@@ -89,9 +107,13 @@
   nav { display: flex; align-items: center; gap: 14px; }
   nav a { color: var(--ink); text-decoration: none; font-weight: 500; }
   .who { font-size: 13px; }
+  nav a.settings { font-size: 13px; color: var(--muted); font-weight: 400; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
   .toast.achievement { bottom: calc(env(safe-area-inset-bottom, 0px) + 76px); }
+  .toast.marked { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
+  .toast.marked a { color: var(--ink); text-decoration: none; }
+  nav a.marking { font-size: 13px; color: var(--accent); }
   .toast .pts { color: var(--accent); font-variant-numeric: tabular-nums; }
   .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 22, 35, 0.18); font-weight: 500; animation: rise 0.25s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }

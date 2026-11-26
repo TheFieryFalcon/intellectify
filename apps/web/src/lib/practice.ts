@@ -2,9 +2,11 @@ import {
   applyOutcome,
   autoMarkedOutcome,
   CONFIG,
+  freeResponseOutcome,
   multiPartOutcome,
   newSkillState,
   pickQuestion,
+  reviseOutcome,
   rollUp,
   tierOf,
   type RankLevel,
@@ -15,6 +17,7 @@ import {
 import { fillTemplate } from "@intellectify/content/template";
 import type { CourseProgress, StoredSkillState } from "./backend";
 import type { CourseBundle, QuestionT } from "./content";
+import type { MarkResult } from "@intellectify/content/marking";
 
 const SEEN_LIMIT = 200;
 const RECENT = 20;
@@ -31,7 +34,7 @@ export function stateOrNew(progress: CourseProgress, skillId: string, tier: Tier
   return progress.skills[skillId] ?? toStored(newSkillState(tier));
 }
 
-/** Free-response parts need LLM marking (Phase 1), so Phase 0 practice only serves auto-marked questions. */
+/** Every part has an answer key (no LLM marking needed). Quizzes and challenges serve only these. */
 export const isAutoMarked = (q: QuestionT) => q.parts.every((p) => p.answer);
 
 export interface Served {
@@ -40,8 +43,8 @@ export interface Served {
 }
 
 /** Choose the next question for a skill and fill in a random variant. */
-export function serveQuestion(pool: QuestionT[], state: StoredSkillState, hidden: ReadonlySet<string> = new Set()): Served | null {
-  const candidates = pool.filter(isAutoMarked);
+export function serveQuestion(pool: QuestionT[], state: StoredSkillState, hidden: ReadonlySet<string> = new Set(), opts: { freeResponse?: boolean } = {}): Served | null {
+  const candidates = opts.freeResponse === false ? pool.filter(isAutoMarked) : pool;
   const picked = pickQuestion(candidates, state.theta, {
     dropTier: state.dropTier,
     recentlySeen: new Set(state.seen.slice(-RECENT)),
@@ -78,7 +81,33 @@ export function scoreQuestion(
 ): ResultSummary {
   const tier = tierOf(question.rating);
   const outcome = multiPartOutcome(parts.map((p) => ({ marks: p.marks, outcome: autoMarkedOutcome(tier, p.solvedOn) })));
+  // Auto-marked: every listed response skill gets the question's outcome.
+  const rs = Object.fromEntries(Object.keys(question.responseSkills).map((id) => [id, outcome]));
+  return applyOutcomes(progress, question, outcome, rs, sizeOf, startTier);
+}
 
+/**
+ * Apply an LLM-marked answer (SPEC §6.3, §5.6): content skills get freeResponseOutcome(s), and each
+ * rubric dimension updates its response skill with that dimension's own score.
+ */
+export function scoreMarked(
+  progress: CourseProgress,
+  question: QuestionT,
+  result: MarkResult,
+  sizeOf: (skillId: string) => SkillSize = () => "medium",
+  startTier: Tier = CONFIG.defaultStartTier,
+): ResultSummary {
+  return applyOutcomes(progress, question, freeResponseOutcome(Math.min(1, Math.max(0, result.score))), result.dimensions, sizeOf, startTier);
+}
+
+function applyOutcomes(
+  progress: CourseProgress,
+  question: QuestionT,
+  outcome: number,
+  responseOutcomes: Record<string, number>,
+  sizeOf: (skillId: string) => SkillSize,
+  startTier: Tier,
+): ResultSummary {
   const skills: Record<string, StoredSkillState> = {};
   const primaryId = question.skills.primary;
   const before = stateOrNew(progress, primaryId, startTier);
@@ -91,15 +120,49 @@ export function scoreQuestion(
   }
 
   const responseSkills: Record<string, StoredSkillState> = {};
-  for (const [id, difficulty] of Object.entries(question.responseSkills)) {
+  for (const [id, o] of Object.entries(responseOutcomes)) {
     const s = progress.responseSkills[id] ?? toStored(newSkillState());
-    responseSkills[id] = toStored(applyOutcome(s, difficulty, outcome).state);
+    responseSkills[id] = toStored(applyOutcome(s, question.responseSkills[id] ?? question.rating, Math.min(1, Math.max(0, o))).state);
   }
 
   return {
     outcome,
-    tier,
+    tier: tierOf(question.rating),
     primary: { id: primaryId, before, after: skills[primaryId]!, deltaTheta: primary.deltaTheta, rankBefore: primary.rankBefore, rankAfter: primary.rankAfter },
+    changes: { skills, responseSkills },
+  };
+}
+
+/** Correct an applied mark after an appeal re-mark (SPEC §10.3): every touched skill moves by the difference. */
+export function reviseMarked(
+  progress: CourseProgress,
+  question: QuestionT,
+  before: MarkResult,
+  after: MarkResult,
+  sizeOf: (skillId: string) => SkillSize = () => "medium",
+  startTier: Tier = CONFIG.defaultStartTier,
+): ResultSummary {
+  const o1 = freeResponseOutcome(before.score);
+  const o2 = freeResponseOutcome(after.score);
+  const skills: Record<string, StoredSkillState> = {};
+  const primaryId = question.skills.primary;
+  const prev = stateOrNew(progress, primaryId, startTier);
+  const primary = reviseOutcome(prev, question.rating, o1, o2, 1, sizeOf(primaryId));
+  skills[primaryId] = toStored(primary.state, prev.seen);
+  for (const id of question.skills.secondary) {
+    const s = stateOrNew(progress, id, startTier);
+    skills[id] = toStored(reviseOutcome(s, question.rating, o1, o2, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
+  }
+  const responseSkills: Record<string, StoredSkillState> = {};
+  for (const id of new Set([...Object.keys(before.dimensions), ...Object.keys(after.dimensions)])) {
+    const s = progress.responseSkills[id];
+    if (!s) continue;
+    responseSkills[id] = toStored(reviseOutcome(s, question.responseSkills[id] ?? question.rating, before.dimensions[id] ?? 0, after.dimensions[id] ?? 0).state);
+  }
+  return {
+    outcome: o2,
+    tier: tierOf(question.rating),
+    primary: { id: primaryId, before: prev, after: skills[primaryId]!, deltaTheta: primary.deltaTheta, rankBefore: primary.rankBefore, rankAfter: primary.rankAfter },
     changes: { skills, responseSkills },
   };
 }

@@ -12,8 +12,8 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type Profile, type StoredSkillState, type User } from "./types";
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Profile, type StoredSkillState, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -57,6 +57,7 @@ function friendly(err: unknown): never | void {
  *   users/{uid}/courses/{course}/attempts/{attemptId}
  *   users/{uid}/courses/{course}/challenges/{sectionId}   Section Challenge progress
  *   users/{uid}/courses/{course}/meta/achievements         achievement stats and earned dates
+ *   users/{uid}/markingJobs/{jobId}                         free-response answers and their LLM marks
  */
 export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const app = initializeApp(config);
@@ -137,6 +138,17 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     },
     async saveAchievements(uid, course, record) {
       await setDoc(doc(courseDoc(uid, course), "meta", "achievements"), record);
+    },
+    async loadMarkingJobs(uid) {
+      const snap = await getDocs(query(collection(db, "users", uid, "markingJobs"), orderBy("createdAt", "desc"), limit(100)));
+      return snap.docs.map((d) => d.data() as MarkingJob);
+    },
+    async saveMarkingJob(uid, job) {
+      // Firestore rejects undefined values; a JSON round trip drops them.
+      await setDoc(doc(db, "users", uid, "markingJobs", job.id), JSON.parse(JSON.stringify(job)));
+    },
+    async idToken() {
+      return auth.currentUser ? auth.currentUser.getIdToken() : null;
     },
     async loadChallenge(uid, course, section) {
       const d = await getDoc(doc(courseDoc(uid, course), "challenges", section));

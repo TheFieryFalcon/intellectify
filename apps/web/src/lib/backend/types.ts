@@ -1,4 +1,5 @@
 import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
+import type { MarkResult } from "@intellectify/content/marking";
 
 export interface User {
   uid: string;
@@ -87,6 +88,39 @@ export interface AchievementRecord {
   earned: Record<string, number>;
 }
 
+/**
+ * A free-response answer waiting for, or holding, its LLM mark (SPEC §10.2). Saved before the first
+ * marking attempt, so it survives closing the app; the open app retries with backoff.
+ */
+export interface MarkingJob {
+  id: string;
+  course: string;
+  skill: string;
+  questionId: string;
+  questionVersion: number;
+  variant: number | null;
+  answers: Record<string, string>;
+  createdAt: number;
+  /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */
+  status: "pending" | "marked" | "failed";
+  attempts: number;
+  nextTryAt: number;
+  lastError: string | null;
+  result: MarkResult | null;
+  /** The result has been applied to θ, ranks, XP and achievements. */
+  applied: boolean;
+  /** One appeal per marked answer (SPEC §10.3). */
+  appeal: {
+    argument: string;
+    status: "pending" | "marked" | "failed";
+    attempts: number;
+    nextTryAt: number;
+    lastError: string | null;
+    result: MarkResult | null;
+    applied: boolean;
+  } | null;
+}
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -121,4 +155,10 @@ export interface Backend {
   /** Section Challenge progress; `null` clears it (to start again). */
   loadChallenge(uid: string, course: string, section: string): Promise<ChallengeState | null>;
   saveChallenge(uid: string, course: string, section: string, state: ChallengeState | null): Promise<void>;
+
+  /** Recent marking jobs, newest first. */
+  loadMarkingJobs(uid: string): Promise<MarkingJob[]>;
+  saveMarkingJob(uid: string, job: MarkingJob): Promise<void>;
+  /** A fresh ID token for calls to /api/mark; null in local mode. */
+  idToken(): Promise<string | null>;
 }

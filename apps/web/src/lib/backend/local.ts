@@ -1,4 +1,4 @@
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type Profile, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Profile, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -9,6 +9,7 @@ const progressKey = (uid: string, course: string) => `intellectify:progress:${ui
 const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${uid}:${course}`;
 const profileKey = (uid: string) => `intellectify:profile:${uid}`;
 const achievementsKey = (uid: string, course: string) => `intellectify:achievements:${uid}:${course}`;
+const markingKey = (uid: string) => `intellectify:marking:${uid}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
 
 const read = <T>(key: string, fallback: T): T => {
@@ -98,6 +99,17 @@ export function createLocalBackend(): Backend {
     },
     async saveAchievements(uid, course, record) {
       write(achievementsKey(uid, course), record);
+    },
+    async loadMarkingJobs(uid) {
+      return read<MarkingJob[]>(markingKey(uid), []).sort((a, b) => b.createdAt - a.createdAt);
+    },
+    async saveMarkingJob(uid, job) {
+      const jobs = read<MarkingJob[]>(markingKey(uid), []).filter((j) => j.id !== job.id);
+      // Keep the newest 200.
+      write(markingKey(uid), [job, ...jobs].sort((a, b) => b.createdAt - a.createdAt).slice(0, 200));
+    },
+    async idToken() {
+      return null;
     },
     async loadChallenge(uid, course, section) {
       return read<ChallengeState | null>(challengeKey(uid, course, section), null);

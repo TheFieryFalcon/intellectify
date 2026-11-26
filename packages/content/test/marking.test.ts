@@ -30,6 +30,11 @@ describe("scoreMarking", () => {
     expect(r.score).toBe(0);
     expect(r.criteria.map((c) => c.id)).toEqual(["a.x", "a.y", "b.z"]);
   });
+  it("repairs LaTeX that JSON escapes swallowed", () => {
+    // "\theta" written unescaped in JSON parses to a tab followed by "heta".
+    const r = scoreMarking(q, { criteria: [{ id: "a.x", awarded: 1, feedback: "Use $\theta$ and $2 \times 3$" }], feedback: "Fine" }, "m");
+    expect(r.criteria[0]!.feedback).toBe("Use $\\theta$ and $2 \\times 3$");
+  });
   it("accepts a JSON string and rejects a reply without criteria", () => {
     expect(scoreMarking(q, '{"criteria":[{"id":"b.z","awarded":4,"feedback":""}],"feedback":""}', "m").score).toBeCloseTo(0.25);
     expect(() => scoreMarking(q, { feedback: "" }, "m")).toThrow();

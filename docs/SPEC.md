@@ -525,6 +525,15 @@ answer:
   - The open app retries with exponential backoff. If the app is closed, it resumes on the next visit.
   - When a result lands, a toast appears and θ, gates and achievements update at that moment, using θ at application time.
 - **Nudge to BYO key:** the pending state explains that the free queue may be slow, and offers a one-tap "Add your own key for instant marking".
+- **As built:**
+  - The function loads the question, rubric and model solution from the deploy's own content files (never from the request), and needs a Firebase ID token.
+  - Models, best first: Gemini 3.8 Flash, then 3.5 Flash (both at low reasoning effort), then 3.5 Flash-Lite, within a 50 s budget. If every model is over quota, the reply is 429.
+  - Points come from the rubric, not the model: awards are clamped to each criterion's maximum and rounded to halves, and missing criteria score 0.
+  - Content skills get `freeResponseOutcome(s)`. Each rubric dimension updates its response skill using that dimension's own score.
+  - Jobs live in `users/{uid}/markingJobs`. The open app marks one at a time and retries with backoff (15 s, doubling, up to 30 min; Retry-After wins if longer).
+  - Every written answer is listed at `/{course}/marked`.
+  - An appeal moves θ by K·w·(new − old), which is exact because the expected score is unchanged, and corrects the gate count. XP isn't clawed back.
+  - The key is the Netlify environment variable `GEMINI_API_KEY`, scoped to Functions.
 
 ### 10.3 Appeals
 - One appeal per marked submission. The student writes an argument.
@@ -536,6 +545,7 @@ answer:
 - Providers: **Gemini, Claude, OpenAI**.
 - The key is stored **only on the device** (localStorage) and never sent to the owner's servers.
 - Calls go **directly from the browser** to the provider (e.g. Anthropic's direct-browser-access header).
+- As built: Claude uses `claude-opus-5-5` at medium effort, with structured output and the default server-side refusal fallback. Gemini uses the same model chain as the free tier. OpenAI uses `gpt-5-mini`. The key is set at `/settings`.
 - BYO keys also enable:
   - instant marking, with no queue;
   - unlimited monthly-problem submissions;

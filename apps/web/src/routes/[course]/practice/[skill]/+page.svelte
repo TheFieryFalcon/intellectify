@@ -3,6 +3,10 @@
   import type { RankLevel } from "@intellectify/engine";
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
+  import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
+  import MarkView from "$lib/components/MarkView.svelte";
+  import { isRubricMarked } from "@intellectify/content/marking";
+  import { markingFor } from "$lib/marking.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
   import { indexSkills, loadQuestions, type QuestionT } from "$lib/content";
   import { getStartTier, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
@@ -18,6 +22,10 @@
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
   const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
+  const marking = $derived(markingFor(session.backend, session.user));
+  /** The marking job for the current written answer, once submitted. */
+  let jobId = $state<string | null>(null);
+  const job = $derived(jobId && marking ? marking.job(jobId) : null);
 
   let pool = $state<QuestionT[] | null>(null);
   let served = $state<Served | null>(null);
@@ -43,8 +51,15 @@
     if (!store || !pool) return;
     summary = null;
     xpGained = 0;
+    jobId = null;
     served = serveQuestion(pool, stateOrNew(store.progress, skillId, getStartTier(data.course.id)));
     round++;
+  }
+
+  async function submitWritten(answers: Record<string, string>) {
+    if (!marking || !served) return;
+    const j = await marking.submit({ course: data.course.id, skill: skillId, question: served.question, variant: served.variant, answers });
+    jobId = j.id;
   }
 
   async function resolve(parts: PartResult[], answers: string[]) {
@@ -69,8 +84,24 @@
     <p class="muted">No questions yet</p>
   {:else}
     {#key round}
-      <QuestionCard {question} onresolve={resolve} />
+      {#if isRubricMarked(question)}
+        <WrittenAnswerCard {question} onsubmit={submitWritten} submitted={jobId !== null} />
+      {:else}
+        <QuestionCard {question} onresolve={resolve} />
+      {/if}
     {/key}
+
+    {#if job && marking}
+      <section class="result">
+        <MarkView {job} queue={marking} />
+        <h2>Solution</h2>
+        <Markdown text={question.solution} />
+        <div class="actions">
+          <button class="btn primary" onclick={next}>Next question</button>
+          <a class="btn quiet" href="/{data.course.id}/marked/{job.id}">Open</a>
+        </div>
+      </section>
+    {/if}
 
     {#if summary}
       {@const p = summary.primary}

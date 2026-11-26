@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   applyOutcome,
   placementTiers,
+  reviseOutcome,
   autoMarkedOutcome,
   correctAtOrAbove,
   eligibleRank,
@@ -226,5 +227,23 @@ describe("placement by maths mark (SPEC §5.3)", () => {
     // Year 10: one tier lower.
     expect([30, 50, 65, 90].map(spec("y10"))).toEqual([1, 1, 2, 3]);
     expect([30, 50, 65, 90].map(meth("y10"))).toEqual([2, 2, 3, 4]);
+  });
+});
+
+describe("reviseOutcome (appeals)", () => {
+  it("lands where applying the new outcome first would have", () => {
+    const start = newSkillState(3);
+    const a = applyOutcome(start, 1450, 0, 1, "large").state;
+    const b = applyOutcome(start, 1450, 0.8, 1, "large").state;
+    const revised = reviseOutcome(a, 1450, 0, 0.8, 1, "large").state;
+    expect(revised.theta).toBeCloseTo(b.theta, 9);
+    expect(revised.gates).toEqual(b.gates);
+    expect(revised.resolved).toBe(a.resolved);
+  });
+  it("takes the gate back when a mark goes down", () => {
+    const a = applyOutcome(newSkillState(3), 1450, 0.9).state;
+    const down = reviseOutcome(a, 1450, 0.9, 0).state;
+    expect(down.gates).toEqual(newSkillState(3).gates);
+    expect(down.theta).toBeLessThan(a.theta);
   });
 });
