@@ -392,6 +392,7 @@ An endless adaptive stream for one skill (§5.7).
   | Black | 1950–1999 | diamond |
 
   Each Challenge ends on **exactly one black problem**. The build enforces the length, the rising order and the single black finale, and warns if a grade is missing or fewer than a third of the problems are cross-skill.
+- **Later-unit content.** A problem may draw on a later unit of the **same year**, declared by `requires` (section IDs, e.g. `requires: [matrices]`). The problem shows "Uses Unit 2 · Matrices" and can be **skipped**: a skipped problem changes no θ and is left out of the average, though it rules out a first-try sweep. The build rejects `requires` outside Section Challenges, on a section that isn't in a later unit, and **any Year 11 Challenge problem that requires Year 12 content**.
 - **Untimed**, and progress is saved across sessions. "Try again" restarts the same sequence; the best average is kept.
 - **Soft gate:** always available. If any skill in the section is below Gold, a "Recommended at Gold" warning appears before starting.
 - Each problem has one **primary skill** (full update) and secondary skills (0.5× update).

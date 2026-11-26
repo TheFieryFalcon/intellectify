@@ -4,7 +4,7 @@ import type { QuestionT } from "./content";
 import { buildQuiz, challengeLength, QUIZ_MIX, slopeOf } from "./review";
 
 const mk = (id: string, skill: string, rating: number, secondary: string[] = []): QuestionT => ({
-  id, version: 1, status: "draft", skills: { primary: skill, secondary }, rating, responseSkills: {}, requiresCalculator: false, pool: "practice",
+  id, version: 1, status: "draft", skills: { primary: skill, secondary }, rating, responseSkills: {}, requiresCalculator: false, pool: "practice", requires: [],
   stem: "S", parts: [{ id: "a", marks: 1, answer: { type: "numeric", key: 1 } }], solution: "S",
 });
 // Three skills, each with plenty of questions at every tier.

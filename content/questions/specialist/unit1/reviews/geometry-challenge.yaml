@@ -133,6 +133,7 @@
 
 - id: spec.geometry.ch.determinant-one-coprime
   pool: challenge
+  requires: [matrices]
   skills: { primary: spec.geometry.proof-methods }
   rating: 1740
   responseSkills: { reasoning: 1730, proof: 1730, clarity: 1680 }

@@ -12,6 +12,7 @@ const q = (over: Partial<QuestionT> = {}): QuestionT => ({
   responseSkills: { calculation: 1450 },
   requiresCalculator: false,
   pool: "practice",
+  requires: [],
   stem: "Find it.",
   parts: [
     { id: "a", marks: 2, answer: { type: "numeric", key: 1 } },

@@ -89,6 +89,19 @@
     await save(ch);
   }
 
+  /** Later-unit sections a problem draws on (SPEC §8.4), with their unit, for the notice. */
+  const sectionsById = $derived(new Map(data.course.units.flatMap((u) => u.sections.map((s) => [s.id, { name: s.name, unit: u.number }] as const))));
+  const laterContent = (q: QuestionT) => q.requires.map((id) => sectionsById.get(id)).filter((x) => !!x);
+
+  /** Skip a problem that needs a later unit: no θ change, and left out of the average. */
+  async function skip() {
+    if (!ch || !current) return;
+    ch = { ...ch, results: [...ch.results, { id: current.question.id, outcome: null, firstTry: false, skipped: true }] };
+    resolved = false;
+    await save(ch);
+    await next();
+  }
+
   /** Written answers take their outcome from the marking queue as marks arrive. */
   const settled = $derived(
     (ch?.results ?? []).map((r) => {
@@ -98,7 +111,9 @@
       return { ...r, outcome: job?.status === "failed" ? 0 : res ? freeResponseOutcome(res.score) : r.outcome, firstTry: res ? res.score >= 0.6 : r.firstTry };
     }),
   );
-  const pending = $derived(settled.filter((r) => r.outcome === null).length);
+  const pending = $derived(settled.filter((r) => r.outcome === null && !r.skipped).length);
+  /** Problems actually attempted (skipped ones don't count). */
+  const attempted = $derived(settled.filter((r) => !r.skipped));
 
   // Challenge achievements wait until every written answer is marked; marks are saved into the challenge.
   let reported = false;
@@ -110,7 +125,8 @@
       ch = { ...ch, results: settled };
       void save(ch);
     }
-    const avg = settled.reduce((t, r) => t + (r.outcome ?? 0), 0) / Math.max(1, settled.length);
+    const avg = attempted.reduce((t, r) => t + (r.outcome ?? 0), 0) / Math.max(1, attempted.length);
+    // A sweep needs every problem done first time, so skipping one rules it out.
     void achievements?.challenge({ section: sectionId, average: avg, allFirstTry: settled.every((r) => r.firstTry) }, store, profile);
   });
 
@@ -131,7 +147,8 @@
     ch = null;
   }
 
-  const average = $derived(settled.length ? settled.reduce((t, r) => t + (r.outcome ?? 0), 0) / settled.length : 0);
+  const average = $derived(attempted.length ? attempted.reduce((t, r) => t + (r.outcome ?? 0), 0) / attempted.length : 0);
+  const skipped = $derived(settled.length - attempted.length);
   const shown = $derived(ch ? ch.results.length - (resolved ? 1 : 0) : 0);
 </script>
 
@@ -145,7 +162,7 @@
   {:else if ch === null}
     <section class="card">
       <h1>Section Challenge · {section.name}</h1>
-      <p class="muted">{sequence.length} problems · untimed · progress saved</p>
+      <p class="muted">{sequence.length} problems · untimed · progress saved{#if sequence.some((q) => q.requires.length)}{" · "}{sequence.filter((q) => q.requires.length).length} use a later unit (skippable){/if}</p>
       <p class="ramp">
         {#each SLOPES as g, i (g)}{#if i}<span class="arrow">→</span>{/if}<SlopeMark slope={g} label />
           <span class="muted count">{sequence.filter((q) => slopeOf(q.rating) === g).length}</span>{/each}
@@ -163,7 +180,8 @@
       <h1>Section Challenge · {section.name}</h1>
       <div class="stats">
         <div><span class="k">Average outcome</span><span class="v">{pending ? "…" : `${Math.round(average * 100)}%`}</span></div>
-        <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || `${settled.filter((r) => r.firstTry).length} / ${settled.length}`}</span></div>
+        <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || `${attempted.filter((r) => r.firstTry).length} / ${attempted.length}`}</span></div>
+        {#if skipped}<div><span class="k">Skipped</span><span class="v">{skipped}</span></div>{/if}
         <div><span class="k">Bonus XP</span><span class="v xp">+{XP.sectionChallenge}</span></div>
       </div>
       <div class="actions">
@@ -177,6 +195,12 @@
       <span class="num"><SlopeMark slope={slopeOf(current.question.rating)} label /> · {shown + 1} / {ch.questions.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * ch.results.length) / ch.questions.length}%"></span></div>
+    {#if !resolved && laterContent(current.question).length}
+      <div class="later" role="note">
+        <span>Uses {laterContent(current.question).map((s) => `Unit ${s.unit} · ${s.name}`).join(", ")}</span>
+        <button class="btn quiet" onclick={skip}>Skip</button>
+      </div>
+    {/if}
     {#key shown}
       {#if isRubricMarked(current.question)}
         <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
@@ -206,6 +230,7 @@
 <style>
   .ramp { display: flex; align-items: center; gap: 8px; margin: 4px 0 14px; }
   .ramp .arrow { color: var(--muted); }
+  .later { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; padding: 8px 8px 8px 14px; border-radius: 10px; background: var(--region); font-size: 13px; color: var(--muted); }
   .ramp .count { font-size: 12px; margin-left: -4px; }
   .crumbs { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
   .crumbs a { color: var(--muted); text-decoration: none; }

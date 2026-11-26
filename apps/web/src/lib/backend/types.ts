@@ -77,7 +77,7 @@ export interface XpGrant {
 export interface ChallengeState {
   questions: { id: string; variant: number | null }[];
   /** One entry per finished question, in order. A written answer has a null outcome until its mark lands. */
-  results: { id: string; outcome: number | null; firstTry: boolean; jobId?: string }[];
+  results: { id: string; outcome: number | null; firstTry: boolean; jobId?: string; skipped?: boolean }[];
   startedAt: number;
   finishedAt: number | null;
 }

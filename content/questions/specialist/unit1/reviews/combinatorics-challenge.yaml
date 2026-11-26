@@ -2,6 +2,7 @@
 
 - id: spec.combinatorics.ch.zero-determinant
   pool: challenge
+  requires: [matrices]
   skills: { primary: spec.combinatorics.counting-principles }
   rating: 1580
   responseSkills: { reading: 1570, calculation: 1550, reasoning: 1570 }
@@ -66,6 +67,7 @@
 
 - id: spec.combinatorics.ch.permutation-matrices
   pool: challenge
+  requires: [matrices]
   skills: { primary: spec.combinatorics.permutations }
   rating: 1720
   responseSkills: { reading: 1710, calculation: 1690, reasoning: 1710 }

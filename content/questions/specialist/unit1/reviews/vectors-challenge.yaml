@@ -2,6 +2,7 @@
 
 - id: spec.vectors-2d.ch.matrix-times-vector
   pool: challenge
+  requires: [matrices]
   skills: { primary: spec.vectors-2d.components }
   rating: 1570
   responseSkills: { reading: 1560, calculation: 1540 }
@@ -123,6 +124,7 @@
 
 - id: spec.vectors-2d.ch.rotation-matrix-proof
   pool: challenge
+  requires: [matrices]
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1760, clarity: 1720, synthesis: 1750 }
@@ -222,6 +224,7 @@
 
 - id: spec.vectors-2d.ch.triangle-area-determinant
   pool: challenge
+  requires: [matrices]
   skills: { primary: spec.vectors-2d.components, secondary: [spec.vectors-2d.geometric] }
   rating: 1890
   responseSkills: { reading: 1880, calculation: 1870, reasoning: 1880, synthesis: 1870 }

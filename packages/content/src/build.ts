@@ -105,11 +105,14 @@ export function buildContent(contentDir: string): BuildResult {
     // Index skills and check structure.
     const skillUnit = new Map<string, number>();
     const skillSection = new Map<string, string>();
+    /** Section ID → its unit and year, for `requires` checks. */
+    const sectionPlace = new Map<string, { unit: number; year: number }>();
     const prereqsOf = new Map<string, string[]>();
     const reviewFor = new Map<string, string[]>();
     for (const v of versions) {
       for (const u of v.units) {
         for (const s of u.sections) {
+          sectionPlace.set(s.id, { unit: u.number, year: v.year });
           const covered: string[] = [];
           for (const k of s.skills) {
             if (skillUnit.has(k.id)) errors.push(`duplicate skill ID ${k.id}`);
@@ -215,6 +218,15 @@ export function buildContent(contentDir: string): BuildResult {
           }
           const leftover = JSON.stringify(filled).match(/\{\{\s*\w+\s*\}\}/);
           if (leftover) errors.push(`${where}: unfilled placeholder ${leftover[0]}`);
+        }
+        // Later-unit content (SPEC §8.4): Challenges only, a later unit, and never across from Year 11 to Year 12.
+        for (const id of q.requires) {
+          const at = sectionPlace.get(id);
+          const home = skillUnit.has(q.skills.primary) ? sectionPlace.get(skillSection.get(q.skills.primary)!) : undefined;
+          if (q.pool !== "challenge") errors.push(`${where}: only Section Challenge problems may require later content`);
+          else if (!at) errors.push(`${where}: requires unknown section ${id}`);
+          else if (home && at.unit <= home.unit) errors.push(`${where}: ${id} isn't in a later unit, so it isn't "later content"`);
+          else if (home && at.year !== home.year) errors.push(`${where}: a Year ${home.year} Challenge can't require Year ${at.year} content (${id})`);
         }
         if (q.pool === "practice") (questions[q.skills.primary] ??= []).push(q);
         else if (skillUnit.has(q.skills.primary)) {

@@ -111,6 +111,8 @@ export const Question = z.object({
   requiresCalculator: z.boolean().default(false),
   /** Which pool serves it (SPEC §8): practice, or a review pool that practice never serves. */
   pool: z.enum(["practice", "section-quiz", "unit-quiz", "challenge"]).default("practice"),
+  /** Section Challenges only: sections of later units (same year) this problem draws on. Students may skip it (SPEC §8.4). */
+  requires: z.array(z.string()).default([]),
   stem: z.string().min(1),
   parts: z.array(Part).min(1),
   solution: z.string().min(1),
