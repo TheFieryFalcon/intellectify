@@ -1,6 +1,8 @@
 import type { WordPicks } from "@intellectify/content/template";
 import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
 import type { MarkResult } from "@intellectify/content/marking";
+import type { ActivityStats } from "../activity";
+export type { ActivityStats };
 
 export interface User {
   uid: string;
@@ -55,6 +57,40 @@ export interface Profile {
   placement: Placement | null;
   /** Daily problems (SPEC §8.5): streak and recent days. */
   daily: DailyRecord | null;
+  /** Problems done and XP by period, for leaderboards (SPEC §12.2). */
+  stats: ActivityStats | null;
+}
+
+/** A skill's rank and θ (null until resolved), as shown to other students. */
+export interface PublicSkill {
+  r: RankLevel;
+  t: number | null;
+}
+
+/** One course on a public profile: what the read-only tech tree and the course board need. */
+export interface PublicCourse {
+  rank: RankLevel;
+  theta: number | null;
+  skills: Record<string, PublicSkill>;
+  responseSkills: Record<string, PublicSkill>;
+  /** The hidden-buffer roll-up ranks ("section:<id>", "unit:<n>", "course"). */
+  rollupRanks: Record<string, RankLevel>;
+}
+
+/**
+ * The public mirror of a student (publicProfiles/{uid}): everything leaderboards and profile pages show,
+ * in one document, so a board costs one read per student (SPEC §12.2–12.3, §16.3).
+ */
+export interface PublicProfile {
+  uid: string;
+  displayName: string;
+  xp: number;
+  stats: ActivityStats | null;
+  daily: { streak: number; best: number; last: string | null } | null;
+  /** Earned achievement ids and their points, per course. */
+  achievements: Record<string, { ids: string[]; points: number }>;
+  courses: Record<string, PublicCourse>;
+  updatedAt: number;
 }
 
 export interface DailyRecord {
@@ -74,7 +110,7 @@ export interface Placement {
   at: number;
 }
 
-export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null, placement: null, daily: null });
+export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null, placement: null, daily: null, stats: null });
 
 export interface XpGrant {
   amount: number;
@@ -152,10 +188,17 @@ export interface Backend {
   loadProfile(uid: string): Promise<Profile>;
   /** Save the onboarding placement. */
   setPlacement(uid: string, placement: Placement): Promise<void>;
-  /** Add XP to the profile and the public leaderboard mirror. */
+  /** Add XP to the profile. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
-  /** Save the daily-problem record (and the public streak for leaderboards). */
+  /** Save the daily-problem record. */
   saveDaily(user: User, daily: DailyRecord): Promise<void>;
+  /**
+   * Save the activity counters and the public mirror together (one batch). Called at most every few
+   * seconds, not per answer. Anonymous accounts keep their counters but stay off the public mirror.
+   */
+  savePublic(user: User, stats: ActivityStats | null, pub: PublicProfile): Promise<void>;
+  /** Every public profile, for leaderboards and profile pages. */
+  listPublic(): Promise<PublicProfile[]>;
 
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */

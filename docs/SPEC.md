@@ -852,6 +852,11 @@ Group-wide boards:
 - **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
 - Race personal bests (§14.5).
 
+**Implementation (Phase 1).** Each student has one `publicProfiles/{uid}` document holding everything the boards and profile pages show: display name, XP, activity counters (problems total, today and this week; XP this week and this month, by Perth day, Monday-start week and month), daily streak (current, best, last solved), earned achievement ids and points per course, and per course the course rank and θ, started skills' and response skills' rank and θ, and the roll-up ranks.
+- **Writes:** changes collect in the browser and are saved together 15 seconds after the last one (and when the page is hidden), in one batch with the private counters on `users/{uid}`. A run of answers costs one write, not one per answer. Each course is also refreshed once per tab session when its map opens, so older progress appears. Anonymous test accounts stay off the mirror.
+- **Reads:** the boards and every profile page share one read of the collection, cached for five minutes per tab (memory and sessionStorage); **Refresh** re-reads. Boards are sorted in the browser; ties share a position; a student with nothing on a board isn't listed. The top 100 show, plus the student's own row if lower.
+- Boards now: XP and level (all time, this month, this week), course rank (rank, then score), achievement points, problems done (total, this week, today), daily streak (alive while the last solve was today or yesterday). Monthly, Elo and Race boards arrive with those features.
+
 ### 12.3 Profile page
 A public profile shows:
 - display name, global level and tier badge (§12.4);
@@ -860,6 +865,8 @@ A public profile shows:
 - achievements, earned and secret;
 - Elo per game mode, current and peak (§14.7);
 - leaderboard positions.
+
+Phase 1: `/profile/<uid>` (the name in the header links to your own) shows name, level, tier and XP; problems, daily streak and achievement points; position on every board; per course the course rank, response-skill ranks and the tech tree read-only (under **Tech tree**); and earned achievements, secret ones marked. Elo arrives in Phase 3.
 
 ### 12.4 Global level
 One account-wide **level**, earned with **XP** from almost everything a student does. It scales slowly: an hour gets a new student a few levels, while **level 500+ is reachable by determined students**, roughly 500 hours of activity over an ATAR career. There is no level cap.
@@ -924,7 +931,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
   From Ruby up, the level number and progress bar also take on the tier's material. All motion respects reduced-motion settings. A preview of every tier is at `/dev/tiers`.
 - XP has its own **leaderboard** (§12.2): all time, this month and this week.
 
-**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards. Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
+**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards (§12.2: batched, not per answer). Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
 
 ---
 
@@ -1300,7 +1307,7 @@ hiddenQuestions/{questionId}             reason, ts
 reports/{reportId}                       question id, note, verdict
 ```
 
-Leaderboards query `publicProfiles` directly, which is fine at small-group scale.
+Leaderboards read `publicProfiles` once per tab every five minutes and sort in the browser, which is fine at small-group scale.
 
 ### 16.4 Repository layout (proposed)
 ```
@@ -1330,7 +1337,7 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a). **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3). **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |

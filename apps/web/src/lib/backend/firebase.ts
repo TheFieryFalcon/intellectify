@@ -13,7 +13,7 @@ import {
   type User as FirebaseUser,
 } from "firebase/auth";
 import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Profile, type StoredSkillState, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Profile, type PublicProfile, type StoredSkillState, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -128,15 +128,25 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       if (grant.questionId) own.questionXpAt = { [grant.questionId]: Date.now() };
       if (grant.visitDay) own.lastVisitDay = grant.visitDay;
       batch.set(doc(db, "users", u.uid), own, { merge: true });
-      // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
-      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
       await batch.commit();
     },
     async saveDaily(u, daily) {
+      await setDoc(doc(db, "users", u.uid), { daily }, { merge: true });
+    },
+    async savePublic(u, stats, pub) {
       const batch = writeBatch(db);
-      batch.set(doc(db, "users", u.uid), { daily }, { merge: true });
-      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, dailyStreak: daily.streak, dailyBest: daily.best, dailyLast: daily.lastSolved, updatedAt: serverTimestamp() }, { merge: true });
+      batch.set(doc(db, "users", u.uid), { stats }, { merge: true });
+      // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
+      // Courses merge key by key, so a course not touched this session keeps its last mirror.
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), JSON.parse(JSON.stringify(pub)), { merge: true });
       await batch.commit();
+    },
+    async listPublic() {
+      const snap = await getDocs(query(collection(db, "publicProfiles"), limit(1000)));
+      return snap.docs
+        .map((d) => ({ ...(d.data() as Partial<PublicProfile>), uid: d.id }))
+        .filter((p) => typeof p.xp === "number")
+        .map((p) => ({ displayName: "Student", stats: null, daily: null, achievements: {}, courses: {}, updatedAt: 0, ...p }) as PublicProfile);
     },
     async loadAchievements(uid, course) {
       const d = await getDoc(doc(courseDoc(uid, course), "meta", "achievements"));

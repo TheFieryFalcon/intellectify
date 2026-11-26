@@ -54,6 +54,8 @@ export class AchievementsStore {
       this.earned = { ...this.earned, ...Object.fromEntries(newly.map((a) => [a.id, now])) };
       achievementToasts.push(...newly);
       if (profile) await profile.grant(newly.reduce((t, a) => t + XP.achievement(a.points), 0));
+      const ids = Object.keys(this.earned);
+      profile?.publishAchievements(this.course.id, ids, this.defs.filter((a) => ids.includes(a.id)).reduce((t, a) => t + a.points, 0));
     }
     await this.backend.saveAchievements(this.user.uid, this.course.id, { stats: this.snap(), earned: $state.snapshot(this.earned) }).catch(() => {});
     return newly;

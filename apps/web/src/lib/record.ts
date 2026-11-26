@@ -66,6 +66,8 @@ export async function recordResult(opts: {
       at: Date.now(),
     },
   );
+  profile?.countProblem();
+  profile?.publishCourse(course, store.progress);
   await opts.achievements?.question(
     {
       skill: question.skills.primary,
@@ -138,6 +140,8 @@ export async function recordMarked(opts: {
       at: Date.now(),
     },
   );
+  profile?.countProblem();
+  profile?.publishCourse(course, store.progress);
   await opts.achievements?.question(
     {
       skill: question.skills.primary,
@@ -176,6 +180,7 @@ export async function recordAppeal(opts: {
   const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
   const rankXp = rankUpXp(store, result);
   await store.save({ ...result.changes, rollupRanks: computeRollups(course, after).ranks }, null);
+  opts.profile?.publishCourse(course, store.progress);
   if (profile && rankXp) await profile.grant(rankXp);
   return { summary: result, xp: rankXp };
 }

@@ -11,7 +11,8 @@
     progress,
     rollups,
     challengeBest = {},
-  }: { course: CourseBundle; progress: CourseProgress; rollups: Rollups; challengeBest?: Record<string, number> } = $props();
+    readonly = false,
+  }: { course: CourseBundle; progress: CourseProgress; rollups: Rollups; challengeBest?: Record<string, number>; readonly?: boolean } = $props();
 
   const sectionName = (id: string) => course.units.flatMap((u) => u.sections).find((s) => s.id === id)?.name ?? id;
   const reviewHref = (r: LaidOutReview) =>
@@ -74,7 +75,7 @@
       {/each}
     </svg>
 
-    {#each layout.reviews as r (r.kind + r.id)}
+    {#each readonly ? [] : layout.reviews as r (r.kind + r.id)}
       {@const best = r.kind === "challenge" ? challengeBest[r.id] : undefined}
       <a
         class="review {r.kind}"
@@ -101,7 +102,8 @@
       <a
         class="node {rankKey(st.rank)} size-{s.size}"
         class:lit={chain?.all.has(s.id)}
-        href="/{course.id}/skill/{s.id}"
+        href={readonly ? undefined : `/${course.id}/skill/${s.id}`}
+        tabindex={readonly ? 0 : undefined}
         style="left:{n.x}px;top:{n.y}px;width:{NODE_W}px;{rankVars(st.rank, st.theta)}"
         aria-label="{s.name}, {s.size}, {RANK_LABEL[st.rank]}{st.theta === null ? '' : `, score ${score(st.theta)}`}"
         onmouseenter={() => (focused = s.id)}

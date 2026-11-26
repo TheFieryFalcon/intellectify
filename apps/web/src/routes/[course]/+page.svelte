@@ -8,6 +8,7 @@
   import { RANK_LABEL } from "$lib/ranks";
   import { courseProgress, session } from "$lib/session.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
+  import { profileFor } from "$lib/profile.svelte";
 
   let { data } = $props();
   const store = $derived(courseProgress(data.course.id));
@@ -15,6 +16,23 @@
   // Best Section Challenge result per section, for the map.
   const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
   $effect(() => void achievements?.load());
+  // Refresh this course on the public mirror once per tab session (SPEC §12.2), so progress made before
+  // leaderboards existed, or on another device, shows without waiting for the next answer.
+  const profile = $derived(profileFor(session.backend, session.user));
+  $effect(() => {
+    if (!store?.loaded || !profile?.loaded || !achievements?.loaded) return;
+    const flag = `intellectify:published:${data.course.id}`;
+    try {
+      if (sessionStorage.getItem(flag)) return;
+      sessionStorage.setItem(flag, "1");
+    } catch {
+      return;
+    }
+    if (!Object.keys(store.progress.skills).length && !Object.keys(achievements.earned).length) return;
+    profile.publishCourse(data.course, store.progress);
+    const ids = Object.keys(achievements.earned);
+    profile.publishAchievements(data.course.id, ids, achievements.defs.filter((a) => ids.includes(a.id)).reduce((t, a) => t + a.points, 0));
+  });
   const challengeBest = $derived(Object.fromEntries(Object.entries(achievements?.stats.challenges ?? {}).map(([k, v]) => [k, v.best])));
 
   const VIEW_KEY = "intellectify:view";

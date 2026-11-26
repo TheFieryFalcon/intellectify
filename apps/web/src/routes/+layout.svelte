@@ -56,7 +56,8 @@
       <nav>
         <a href="/specialist">Specialist</a>
         {#if marking?.waiting}<a class="marking" href="/specialist/marked" title="Written answers waiting for a mark">Marking {marking.waiting}</a>{/if}
-        <span class="who muted">{session.user.displayName}</span>
+        <a href="/leaderboards">Leaderboards</a>
+        <a class="who muted" href="/profile/{session.user.uid}">{session.user.displayName}</a>
         {#if profile?.loaded}<LevelBadge progress={profile.progress} bar />{/if}
         <a class="settings" href="/settings">Settings</a>
         <button class="btn quiet" onclick={() => session.backend?.signOut()}>Sign out</button>
@@ -106,7 +107,7 @@
   .brand { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--ink); text-decoration: none; }
   nav { display: flex; align-items: center; gap: 14px; }
   nav a { color: var(--ink); text-decoration: none; font-weight: 500; }
-  .who { font-size: 13px; }
+  nav a.who { font-size: 13px; color: var(--muted); font-weight: 400; }
   nav a.settings { font-size: 13px; color: var(--muted); font-weight: 400; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }

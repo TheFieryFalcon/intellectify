@@ -1,4 +1,4 @@
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Profile, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Profile, type PublicProfile, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -10,6 +10,8 @@ const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${ui
 const profileKey = (uid: string) => `intellectify:profile:${uid}`;
 const achievementsKey = (uid: string, course: string) => `intellectify:achievements:${uid}:${course}`;
 const markingKey = (uid: string) => `intellectify:marking:${uid}`;
+const PUBLIC_PREFIX = "intellectify:public:";
+const publicKey = (uid: string) => `${PUBLIC_PREFIX}${uid}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
 
 const read = <T>(key: string, fallback: T): T => {
@@ -81,6 +83,24 @@ export function createLocalBackend(): Backend {
     },
     async saveDaily(u, daily) {
       write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), daily });
+    },
+    async savePublic(u, stats, pub) {
+      write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), stats });
+      const prev = read<Partial<PublicProfile>>(publicKey(u.uid), {});
+      write(publicKey(u.uid), { ...prev, ...pub, courses: { ...prev.courses, ...pub.courses }, achievements: { ...prev.achievements, ...pub.achievements } });
+    },
+    async listPublic() {
+      // Only this browser's guest, plus any other entries stored under the same prefix (handy for testing boards).
+      const out: PublicProfile[] = [];
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k?.startsWith(PUBLIC_PREFIX)) out.push(read<PublicProfile>(k, null as unknown as PublicProfile));
+        }
+      } catch {
+        /* storage blocked */
+      }
+      return out.filter(Boolean);
     },
     async loadProgress(uid, course) {
       return { ...emptyProgress(), ...read<Partial<CourseProgress>>(progressKey(uid, course), {}) };
