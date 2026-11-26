@@ -1,0 +1,427 @@
+# Section quiz pool: Geometry (1.1). Never served in practice (SPEC §8.1a).
+
+- id: spec.geometry.sq.rain-contrapositive
+  pool: section-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1050
+  responseSkills: { reading: 1040 }
+  stem: |
+    Which statement is the contrapositive of "If it rains, then the ground is wet"?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'If the ground is wet, then it rains.' }
+        - { id: b, text: 'If it does not rain, then the ground is not wet.' }
+        - { id: c, text: 'If the ground is not wet, then it does not rain.' }
+        - { id: d, text: 'If it rains, then the ground is not wet.' }
+      answer: { type: mcq, key: c }
+  solution: |
+    The contrapositive of $P \Rightarrow Q$ is "not $Q \Rightarrow$ not $P$": swap the two parts and negate both. (a) is the converse and (b) the inverse.
+  verify: |
+    def answers():
+        return {"a": "c"}
+
+- id: spec.geometry.sq.center-from-38
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1080
+  responseSkills: { reading: 1060, calculation: 1040 }
+  stem: |
+    $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle ACB = 38^\circ$. Find $\angle AOB$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    alt: "Angle ACB of 38 degrees at the circumference; angle AOB at the center"
+    points: { A: [-1.532, -1.286], B: [0.877, -1.798], C: [0, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: O, to: A, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: angle, at: C, from: A, to: B, label: '38^\circ', radius: 30 }
+      - { type: angle, at: O, from: A, to: B, label: '?', radius: 16 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: O, label: 'O', pos: n }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 76 }
+  solution: |
+    The angle at the center is twice the angle at the circumference on the same arc: $\angle AOB = 2 \times 38^\circ = 76^\circ$.
+  verify: |
+    def answers():
+        O = (0, 0)
+        A, B = on_circle(220, 2), on_circle(296, 2)
+        return {"a": approx(angle_at(A, O, B), 4)}
+
+- id: spec.geometry.sq.tangent-12
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1150
+  responseSkills: { calculation: 1120 }
+  stem: |
+    A tangent from $M$ touches a circle with center $O$ at $T$. The radius is 5 and $OM = 13$. Find $MT$.
+
+    ```diagram
+    view: [-2.45, 5.65, -2.45, 2.45]
+    width: 280
+    alt: "Radius OT = 5 meets the tangent MT at a right angle; OM = 13"
+    points: { M: [5.2, 0], T: [0.769, 1.846], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: O, to: T, label: '5', color: muted }
+      - { type: segment, from: O, to: M, label: '13', side: right }
+      - { type: segment, from: M, to: T, label: '?' }
+      - { type: angle, at: T, from: O, to: M, right: true }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: O, label: 'O', pos: w }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 12 }
+  solution: |
+    A tangent is perpendicular to the radius at the point of contact, so triangle $OTM$ has a right angle at $T$: $MT = \sqrt{13^2 - 5^2} = 12$.
+  verify: |
+    def answers():
+        return {"a": sympy.sqrt(13**2 - 5**2)}
+
+- id: spec.geometry.sq.chords-4-9-6
+  pool: section-quiz
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1120
+  responseSkills: { calculation: 1100 }
+  stem: |
+    Chords $AB$ and $CD$ of a circle meet at $X$. $AX = 4$, $XB = 9$ and $CX = 6$. Find $XD$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 6 }
+  solution: |
+    Intersecting chords: $AX \times XB = CX \times XD$, so $4 \times 9 = 6 \times XD$ and $XD = 6$.
+  verify: |
+    def answers():
+        return {"a": sympy.Rational(4 * 9, 6)}
+
+- id: spec.geometry.sq.converse-of-four
+  pool: section-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1300
+  responseSkills: { reading: 1290, reasoning: 1280, calculation: 1250 }
+  stem: |
+    Consider the statement "If a whole number is a multiple of 4, then it is even." Its converse is false. What is the smallest positive counterexample to the converse?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2 }
+  solution: |
+    The converse is "If a whole number is even, then it is a multiple of 4." A counterexample is even but not a multiple of 4. The smallest positive one is 2.
+  verify: |
+    def answers():
+        return {"a": next(n for n in range(1, 100) if n % 2 == 0 and n % 4 != 0)}
+
+- id: spec.geometry.sq.cyclic-2x-3x
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1290
+  responseSkills: { reading: 1270, calculation: 1270 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral with $\angle ABC = 2x + 10^\circ$ and $\angle ADC = 3x - 5^\circ$. Find $x$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    alt: "Cyclic quadrilateral ABCD; angle B is 2x + 10 degrees and angle D is 3x - 5 degrees"
+    points: { A: [-1.732, 1], B: [-0.684, -1.879], C: [1.97, -0.347], D: [0.684, 1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: polygon, points: [A, B, C, D] }
+      - { type: angle, at: B, from: C, to: A, label: '2x + 10^\circ', radius: 20 }
+      - { type: angle, at: D, from: A, to: C, label: '3x - 5^\circ', radius: 20 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 35 }
+  solution: |
+    Opposite angles of a cyclic quadrilateral add to $180^\circ$: $2x + 10 + 3x - 5 = 180$, so $5x = 175$ and $x = 35$.
+  verify: |
+    def answers():
+        x = sympy.symbols("x")
+        return {"a": sympy.solve(sympy.Eq(2 * x + 10 + 3 * x - 5, 180), x)[0]}
+
+- id: spec.geometry.sq.diameter-complement
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1340
+  responseSkills: { reasoning: 1330, proof: 1320, clarity: 1280 }
+  stem: |
+    $AB$ is a diameter of a circle, and $C$ is another point on the circle. Prove that $\angle CAB + \angle CBA = 90^\circ$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: semicircle, description: "∠ACB = 90°, with the reason (angle in a semicircle)", points: 2, dimension: reasoning }
+          - { id: sum, description: "Angle sum of triangle ABC: ∠CAB + ∠CBA = 180° − 90°", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes ∠CAB + ∠CBA = 90°", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB$ is a diameter, so $\angle ACB = 90^\circ$ (angle in a semicircle). The angles of triangle $ABC$ add to $180^\circ$, so $\angle CAB + \angle CBA = 180^\circ - 90^\circ = 90^\circ$.
+
+- id: spec.geometry.sq.tangent-chord-center
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1380
+  responseSkills: { reading: 1360, reasoning: 1370, calculation: 1340 }
+  stem: |
+    A tangent touches a circle with center $O$ at $T$. Chord $TB$ makes an angle of $71^\circ$ with the tangent. Find $\angle TOB$, in degrees.
+
+    ```diagram
+    view: [-3.25, 3.25, -2.45, 2.45]
+    width: 230
+    alt: "Tangent at T; chord TB at 71 degrees to it; angle TOB at the center"
+    points: { T: [-0, -2], B: [1.231, 1.576], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: L, to: R, color: muted }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: O, to: T, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: angle, at: T, from: R, to: B, label: '71^\circ', radius: 24 }
+      - { type: angle, at: O, from: T, to: B, label: '?', radius: 16 }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: O, label: 'O', pos: w }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 142 }
+  solution: |
+    By the alternate segment theorem, any angle at the circumference standing on arc $TB$ (in the alternate segment) is $71^\circ$. The angle at the center on the same arc is twice that: $\angle TOB = 142^\circ$.
+  verify: |
+    def answers():
+        T, B = on_circle(270, 2), on_circle(412, 2)
+        return {"a": approx(angle_at(T, (0, 0), B), 4)}
+
+- id: spec.geometry.sq.tangent-secant-3-9
+  pool: section-quiz
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1410
+  responseSkills: { reading: 1390, calculation: 1390 }
+  stem: |
+    From a point $M$ outside a circle, a tangent touches the circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. $MA = 3$ and $AB = 9$. Find $MT$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 6 }
+  solution: |
+    Measure from $M$: $MB = 3 + 9 = 12$. Then $MT^2 = MA \times MB = 36$, so $MT = 6$.
+  verify: |
+    def answers():
+        return {"a": sympy.sqrt(3 * (3 + 9))}
+
+- id: spec.geometry.sq.exterior-and-opposite
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-problems }
+  rating: 1440
+  responseSkills: { reading: 1420, reasoning: 1430, calculation: 1400 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral. Side $DC$ is extended to $E$. $\angle BCE = 72^\circ$ and $\angle ABC = 95^\circ$.
+
+    ```diagram
+    view: [-2.45, 3.32, -2.45, 2.45]
+    width: 230
+    alt: "Cyclic quadrilateral ABCD with DC extended to E; angle BCE is 72 degrees and angle ABC is 95 degrees"
+    points: { A: [-1.879, -0.684], B: [0.551, -1.923], C: [1.97, 0.347], D: [0.684, 1.879], E: [2.87, -0.725], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: polygon, points: [A, B, C, D] }
+      - { type: segment, from: C, to: E, dashed: true }
+      - { type: angle, at: C, from: E, to: B, label: '72^\circ', radius: 20 }
+      - { type: angle, at: B, from: C, to: A, label: '95^\circ', radius: 20 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
+  parts:
+    - id: a
+      prompt: Find $\angle BAD$, in degrees.
+      answer: { type: numeric, key: 72 }
+    - id: b
+      prompt: Find $\angle ADC$, in degrees.
+      answer: { type: numeric, key: 85 }
+  solution: |
+    (a) An exterior angle of a cyclic quadrilateral equals the interior opposite angle: $\angle BAD = \angle BCE = 72^\circ$.
+
+    (b) Opposite angles add to $180^\circ$: $\angle ADC = 180^\circ - 95^\circ = 85^\circ$.
+  verify: |
+    def answers():
+        A, B, C, D = (on_circle(t, 2) for t in (200, 286, 10, 70))
+        return {"a": approx(angle_at(D, A, B), 4), "b": approx(angle_at(C, D, A), 4)}
+
+- id: spec.geometry.sq.tangents-minor-arc
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1500
+  responseSkills: { reading: 1480, reasoning: 1490, calculation: 1460 }
+  stem: |
+    Tangents from $P$ touch a circle at $A$ and $B$, and $\angle APB = 48^\circ$. $C$ is a point on the minor arc $AB$. Find $\angle ACB$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -5.37, 2.45]
+    width: 230
+    alt: "Tangents PA and PB with angle APB of 48 degrees; C on the minor arc AB"
+    points: { P: [0, -4.91719], A: [1.827, -0.813], B: [-1.827, -0.813], C: [-0, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: A, to: B, color: muted }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: angle, at: P, from: B, to: A, label: '48^\circ', radius: 26 }
+      - { type: angle, at: C, from: A, to: B, label: '?', radius: 16 }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 114 }
+  solution: |
+    $PA = PB$ (tangents from one point), so $\angle PAB = \tfrac{1}{2}(180^\circ - 48^\circ) = 66^\circ$.
+
+    By the alternate segment theorem, $66^\circ$ is the angle subtended by $AB$ in the segment on the far side, i.e. at a point of the major arc. $C$ is on the minor arc, so $ACB$ and that angle are opposite angles of a cyclic quadrilateral: $\angle ACB = 180^\circ - 66^\circ = 114^\circ$.
+  verify: |
+    def answers():
+        import math
+        P = (0, -2 / math.sin(math.radians(24)))
+        A = tangent_point_toward((0, 0), 2, P, 1)
+        B = tangent_point_toward((0, 0), 2, P, -1)
+        C = on_circle(270, 2)
+        return {"a": approx(angle_at(A, C, B), 4)}
+
+- id: spec.geometry.sq.base-angle-22
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1430
+  responseSkills: { reading: 1410, reasoning: 1420, calculation: 1400 }
+  stem: |
+    $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle OAB = 22^\circ$. Find $\angle ACB$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    alt: "Angle OAB of 22 degrees; angle ACB at the circumference"
+    points: { A: [-1.879, -0.684], B: [1.827, -0.813], C: [0, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: O, to: A, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: angle, at: A, from: B, to: O, label: '22^\circ', radius: 26 }
+      - { type: angle, at: C, from: A, to: B, label: '?', radius: 26 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: O, label: 'O', pos: n }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 68 }
+  solution: |
+    $OA = OB$ (radii), so $\angle OBA = 22^\circ$ and $\angle AOB = 180^\circ - 44^\circ = 136^\circ$. The angle at the circumference is half the angle at the center: $\angle ACB = 68^\circ$.
+  verify: |
+    def answers():
+        A, B, C = on_circle(200, 2), on_circle(336, 2), on_circle(90, 2)
+        return {"a": approx(angle_at(A, C, B), 4)}
+
+- id: spec.geometry.sq.negate-for-every-y
+  pool: section-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1450
+  responseSkills: { reading: 1440, reasoning: 1430, precision: 1420 }
+  stem: |
+    Which statement is the negation of "For every real number $x$, there is a real number $y$ with $y > x^2$"?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'For every real number $x$, there is a real number $y$ with $y \le x^2$.' }
+        - { id: b, text: 'There is a real number $x$ such that every real number $y$ has $y \le x^2$.' }
+        - { id: c, text: 'There is a real number $x$ and a real number $y$ with $y \le x^2$.' }
+        - { id: d, text: 'For every real number $x$ and every real number $y$, $y < x^2$.' }
+      answer: { type: mcq, key: b }
+  solution: |
+    Negating swaps each quantifier and negates what follows: "for every $x$" becomes "there is an $x$", "there is a $y$ with $y > x^2$" becomes "every $y$ has $y \le x^2$". That is (b).
+  verify: |
+    def answers():
+        return {"a": "b"}
+
+- id: spec.geometry.sq.prime-2p-plus-1
+  pool: section-quiz
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1410
+  responseSkills: { reading: 1400, reasoning: 1400, calculation: 1370 }
+  stem: |
+    Disprove the claim "for every prime $p$, $2p + 1$ is prime" by finding the smallest prime $p$ for which $2p + 1$ is not prime.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 7 }
+  solution: |
+    Try the primes in order: $p = 2$ gives 5, $p = 3$ gives 7, $p = 5$ gives 11, all prime. $p = 7$ gives $15 = 3 \times 5$, which isn't. One counterexample disproves a "for all" claim, so the smallest is $p = 7$.
+  verify: |
+    def answers():
+        return {"a": next(p for p in sympy.primerange(2, 100) if not sympy.isprime(2 * p + 1))}
+
+- id: spec.geometry.sq.odd-square-minus-one
+  pool: section-quiz
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1600
+  responseSkills: { reasoning: 1590, proof: 1590, clarity: 1540 }
+  stem: |
+    Prove that if $n$ is odd, then $n^2 - 1$ is a multiple of 8.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: odd, description: "Writes n = 2k + 1 for an integer k", points: 1, dimension: proof }
+          - { id: factor, description: "Shows n² − 1 = 4k² + 4k = 4k(k + 1)", points: 1, dimension: reasoning }
+          - { id: even, description: "Explains that k(k + 1) is even: one of two consecutive integers is even", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So n² − 1 = 4 × (an even number), a multiple of 8", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $n = 2k + 1$, where $k$ is an integer. Then $n^2 - 1 = 4k^2 + 4k = 4k(k + 1)$.
+
+    $k$ and $k + 1$ are consecutive integers, so one of them is even, and $k(k + 1) = 2m$ for some integer $m$. Then $n^2 - 1 = 8m$, a multiple of 8.
+
+- id: spec.geometry.sq.tangents-major-arc-proof
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1640
+  responseSkills: { reasoning: 1630, proof: 1620, clarity: 1580 }
+  stem: |
+    Tangents from $P$ touch a circle at $A$ and $B$. $C$ is a point on the major arc $AB$. Prove that $\angle APB = 180^\circ - 2\angle ACB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: equal, description: "PA = PB (tangents from one point), so ∠PAB = ∠PBA", points: 1, dimension: reasoning }
+          - { id: alt, description: "Alternate segment theorem: ∠PAB = ∠ACB (and ∠PBA = ∠ACB)", points: 2, dimension: reasoning }
+          - { id: sum, description: "Angle sum of triangle PAB: ∠APB = 180° − 2∠ACB", points: 1, dimension: reasoning }
+          - { id: conclude, description: "States the result with every step justified", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $PA = PB$ (tangents from one point), so triangle $PAB$ is isosceles and $\angle PAB = \angle PBA$.
+
+    The angle between tangent $PA$ and chord $AB$ equals the angle in the alternate segment: $\angle PAB = \angle ACB$. So $\angle PBA = \angle ACB$ too.
+
+    The angles of triangle $PAB$ add to $180^\circ$: $\angle APB = 180^\circ - 2\angle ACB$.

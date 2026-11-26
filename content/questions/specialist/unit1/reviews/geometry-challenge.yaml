@@ -1,0 +1,324 @@
+# Section Challenge pool: Geometry (1.1). Tier 4–5, mostly written proofs (SPEC §8.4).
+
+- id: spec.geometry.ch.perpendicular-bisects-chord
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1570
+  responseSkills: { reasoning: 1560, proof: 1560, clarity: 1500 }
+  stem: |
+    $AB$ is a chord of a circle with center $O$, and $M$ is the point on $AB$ with $OM \perp AB$. Prove that $M$ is the midpoint of $AB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: radii, description: "OA = OB (radii)", points: 1, dimension: reasoning }
+          - { id: right, description: "∠OMA = ∠OMB = 90° and OM is common", points: 1, dimension: reasoning }
+          - { id: congruent, description: "Triangles OMA and OMB are congruent (RHS)", points: 1, dimension: proof }
+          - { id: conclude, description: "So AM = BM: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
+
+- id: spec.geometry.ch.equal-chords-equidistant
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1660
+  responseSkills: { reasoning: 1650, proof: 1640, clarity: 1600 }
+  stem: |
+    $AB$ and $CD$ are chords of equal length in a circle with center $O$ and radius $r$. Prove that $AB$ and $CD$ are the same distance from $O$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: feet, description: "Drops perpendiculars OM to AB and ON to CD; these bisect the chords, so AM = ½AB = ½CD = CN", points: 2, dimension: reasoning }
+          - { id: pythag, description: "Pythagoras in the right triangles: OM² = r² − AM² and ON² = r² − CN²", points: 1, dimension: reasoning }
+          - { id: conclude, description: "So OM = ON: the chords are equally far from O", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = \tfrac{1}{2}AB = \tfrac{1}{2}CD = CN$.
+
+    In the right triangles $OMA$ and $ONC$, $OA = OC = r$, so $OM^2 = r^2 - AM^2 = r^2 - CN^2 = ON^2$. Hence $OM = ON$.
+
+- id: spec.geometry.ch.exterior-angle-proof
+  pool: challenge
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1580
+  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1510 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral, and side $DC$ is extended beyond $C$ to $E$. Prove that $\angle BCE = \angle BAD$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: line, description: "∠BCE = 180° − ∠BCD (angles on a straight line)", points: 1, dimension: reasoning }
+          - { id: cyclic, description: "∠BAD = 180° − ∠BCD (opposite angles of a cyclic quadrilateral)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So ∠BCE = ∠BAD", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $D$, $C$, $E$ lie on a line, so $\angle BCE = 180^\circ - \angle BCD$. Opposite angles of a cyclic quadrilateral add to $180^\circ$, so $\angle BAD = 180^\circ - \angle BCD$. Hence $\angle BCE = \angle BAD$.
+
+- id: spec.geometry.ch.alternate-segment-proof
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-angles] }
+  rating: 1760
+  responseSkills: { reasoning: 1750, proof: 1740, clarity: 1690, synthesis: 1720 }
+  stem: |
+    A tangent touches a circle at $T$, and $S$ is a point on the tangent. $TB$ is a chord, and $\angle STB$ is acute. $A$ is a point on the circle on the other side of $TB$ from $S$. Prove that $\angle STB = \angle TAB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: diameter, description: "Draws the diameter TD and states ∠STD = 90° (tangent ⟂ radius)", points: 1, dimension: proof }
+          - { id: semicircle, description: "∠TBD = 90° (angle in a semicircle)", points: 1, dimension: reasoning }
+          - { id: equal, description: "So ∠STB = 90° − ∠BTD = ∠TDB (angle sum of triangle TBD)", points: 2, dimension: reasoning }
+          - { id: arc, description: "∠TDB = ∠TAB (angles on the same arc TB)", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw the diameter $TD$. The tangent is perpendicular to the radius, so $\angle STD = 90^\circ$ and $\angle STB = 90^\circ - \angle BTD$.
+
+    $\angle TBD = 90^\circ$ (angle in a semicircle), so in triangle $TBD$, $\angle TDB = 90^\circ - \angle BTD$. Hence $\angle STB = \angle TDB$.
+
+    $D$ and $A$ are on the same side of $TB$, so $\angle TDB$ and $\angle TAB$ stand on the same arc $TB$ and are equal. So $\angle STB = \angle TAB$.
+
+- id: spec.geometry.ch.intersecting-chords-proof
+  pool: challenge
+  skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-angles] }
+  rating: 1680
+  responseSkills: { reasoning: 1670, proof: 1660, clarity: 1610, synthesis: 1650 }
+  stem: |
+    Chords $AB$ and $CD$ of a circle meet at $X$ inside the circle. Prove that $AX \times XB = CX \times XD$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: join, description: "Joins AC and BD to make triangles AXC and DXB", points: 1, dimension: proof }
+          - { id: angles, description: "∠CAB = ∠CDB (same arc CB) and ∠AXC = ∠DXB (vertically opposite)", points: 2, dimension: reasoning }
+          - { id: similar, description: "So the triangles are similar, giving AX/DX = CX/BX", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Rearranges to AX × XB = CX × XD", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Join $AC$ and $BD$. $\angle CAB = \angle CDB$ (angles on the same arc $CB$), and $\angle AXC = \angle DXB$ (vertically opposite). So triangles $AXC$ and $DXB$ are similar, and corresponding sides are in proportion: $\dfrac{AX}{DX} = \dfrac{CX}{BX}$. Hence $AX \times XB = CX \times XD$.
+
+- id: spec.geometry.ch.tangent-secant-proof
+  pool: challenge
+  skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
+  rating: 1720
+  responseSkills: { reasoning: 1710, proof: 1700, clarity: 1650, synthesis: 1690 }
+  stem: |
+    From a point $M$ outside a circle, a tangent touches the circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. Prove that $MT^2 = MA \times MB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: triangles, description: "Considers triangles MTA and MBT, which share the angle at M", points: 1, dimension: proof }
+          - { id: alt, description: "∠MTA = ∠MBT by the alternate segment theorem", points: 2, dimension: reasoning }
+          - { id: similar, description: "So the triangles are similar: MT/MB = MA/MT", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Rearranges to MT² = MA × MB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Triangles $MTA$ and $MBT$ share the angle at $M$. The angle between tangent $MT$ and chord $TA$ equals the angle in the alternate segment: $\angle MTA = \angle MBT$. So the triangles are similar, and $\dfrac{MT}{MB} = \dfrac{MA}{MT}$, i.e. $MT^2 = MA \times MB$.
+
+- id: spec.geometry.ch.log2-3-irrational
+  pool: challenge
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1680
+  responseSkills: { reasoning: 1670, proof: 1670, clarity: 1620 }
+  stem: |
+    Prove that $\log_2 3$ is irrational.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: assume, description: "Assumes, for contradiction, that log₂3 = p/q with p, q positive integers (it is positive)", points: 1, dimension: proof }
+          - { id: power, description: "Rewrites as 2^(p/q) = 3, so 2^p = 3^q", points: 2, dimension: reasoning }
+          - { id: parity, description: "2^p is even (p ≥ 1) and 3^q is odd: contradiction", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Suppose, for contradiction, that $\log_2 3 = \dfrac{p}{q}$ for integers $p$ and $q$. Since $3 > 1$, $\log_2 3 > 0$, so we can take $p, q$ positive.
+
+    Then $2^{p/q} = 3$, and raising both sides to the power $q$ gives $2^p = 3^q$. The left side is even (as $p \ge 1$) and the right side is odd, which is impossible. So $\log_2 3$ is irrational.
+
+- id: spec.geometry.ch.difference-of-squares-10
+  pool: challenge
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1700
+  responseSkills: { reasoning: 1690, proof: 1690, clarity: 1640 }
+  stem: |
+    Prove that there are no integers $x$ and $y$ with $x^2 - y^2 = 10$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: assume, description: "Assumes such integers exist, and factors (x − y)(x + y) = 10", points: 1, dimension: proof }
+          - { id: parity, description: "x + y and x − y differ by 2y, so they are both even or both odd", points: 1, dimension: reasoning }
+          - { id: cases, description: "Both odd: the product is odd. Both even: the product is a multiple of 4", points: 1, dimension: reasoning }
+          - { id: contra, description: "10 is even but not a multiple of 4: contradiction in both cases", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Suppose integers $x$, $y$ satisfy $x^2 - y^2 = 10$, i.e. $(x - y)(x + y) = 10$.
+
+    $(x + y) - (x - y) = 2y$ is even, so $x + y$ and $x - y$ are both even or both odd. If both are odd, their product is odd. If both are even, their product is a multiple of 4. But 10 is even and not a multiple of 4, so neither case is possible. Hence there are no such integers.
+
+- id: spec.geometry.ch.touching-circles-parallel
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  rating: 1780
+  responseSkills: { reasoning: 1770, proof: 1760, clarity: 1700, synthesis: 1750 }
+  stem: |
+    Two circles touch externally at $T$. A straight line through $T$ meets the first circle again at $A$ and the second circle again at $B$. Prove that the tangent to the first circle at $A$ is parallel to the tangent to the second circle at $B$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: common, description: "Draws the common tangent at T (it touches both circles there)", points: 1, dimension: proof }
+          - { id: first, description: "In the first circle, the tangents at A and at T make equal angles with chord AT (alternate segment, or equal tangents from where they meet)", points: 1, dimension: reasoning }
+          - { id: second, description: "In the second circle, the tangents at B and at T make equal angles with chord BT", points: 1, dimension: reasoning }
+          - { id: parallel, description: "The two angles at T are vertically opposite, so the tangents at A and B make equal alternate angles with line AB: they are parallel", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw the common tangent at $T$. In the first circle, the tangent at $A$ and the common tangent both make with chord $AT$ an angle equal to the angle in the alternate segment, so they make equal angles with line $AB$. The same holds in the second circle for the tangent at $B$ and the common tangent, with chord $BT$.
+
+    At $T$, the two angles the common tangent makes with line $AB$ (one on each side of $T$) are vertically opposite, so equal. Hence the tangents at $A$ and $B$ make equal alternate angles with the line $AB$, and so they are parallel.
+
+- id: spec.geometry.ch.tangent-meets-diameter
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  rating: 1620
+  responseSkills: { reasoning: 1610, proof: 1600, clarity: 1560, synthesis: 1590 }
+  stem: |
+    $AB$ is a diameter of a circle with center $O$, and $C$ is a point on the circle. The tangent at $C$ meets line $AB$, extended beyond $B$, at $T$. Prove that $\angle ATC = 90^\circ - 2\angle CAB$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: center, description: "∠COB = 2∠CAB (angle at the center is twice the angle at the circumference)", points: 2, dimension: reasoning }
+          - { id: tangent, description: "∠OCT = 90° (tangent ⟂ radius)", points: 1, dimension: reasoning }
+          - { id: sum, description: "Angle sum of triangle OCT: ∠CTO = 90° − 2∠CAB, and ∠CTO = ∠ATC", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $\angle CAB = x$. The angle at the center on arc $CB$ is twice the angle at the circumference: $\angle COB = 2x$.
+
+    The tangent at $C$ is perpendicular to the radius, so $\angle OCT = 90^\circ$. In triangle $OCT$, $\angle CTO = 180^\circ - 90^\circ - 2x = 90^\circ - 2x$. Since $T$ lies on line $AB$, $\angle ATC = \angle CTO = 90^\circ - 2\angle CAB$.
+
+- id: spec.geometry.ch.square-above-x
+  pool: challenge
+  skills: { primary: spec.geometry.logic, secondary: [spec.geometry.proof-methods] }
+  rating: 1570
+  responseSkills: { reasoning: 1560, proof: 1550, clarity: 1500, synthesis: 1550 }
+  stem: |
+    Prove or disprove: "For every real number $x$, if $x^2 > x$, then $x > 1$."
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: verdict, description: "States that the claim is false", points: 1, dimension: proof }
+          - { id: example, description: "Gives a counterexample, e.g. x = −1, and checks it: x² = 1 > −1 = x but x < 1", points: 2, dimension: reasoning }
+          - { id: why, description: "Explains that one counterexample disproves a 'for every' claim", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The claim is false. Take $x = -1$: then $x^2 = 1 > -1 = x$, so the hypothesis holds, but $x = -1$ is not greater than 1. One counterexample is enough to disprove a "for every" claim.
+
+- id: spec.geometry.ch.tangent-two-chords
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  rating: 1580
+  responseSkills: { reading: 1560, reasoning: 1570, calculation: 1540, synthesis: 1560 }
+  stem: |
+    A tangent touches a circle at $T$. Points $A$ and $B$ are on the circle, on opposite sides of the line through $T$ and the center. Chord $TB$ makes an angle of $58^\circ$ with the tangent, and $\angle ATB = 54^\circ$. Find $\angle TBA$, in degrees.
+
+    ```diagram
+    view: [-3.25, 3.25, -2.45, 2.45]
+    width: 230
+    alt: "Tangent at T; chord TB at 58 degrees to it; angle ATB of 54 degrees; angle TBA unknown"
+    points: { T: [-0, -2], A: [-1.389, 1.439], B: [1.798, 0.877], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: L, to: R, color: muted }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: A, to: B }
+      - { type: angle, at: T, from: R, to: B, label: '58^\circ', radius: 26 }
+      - { type: angle, at: T, from: B, to: A, label: '54^\circ', radius: 22 }
+      - { type: angle, at: B, from: A, to: T, label: '?', radius: 20 }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: 68 }
+  solution: |
+    The tangent is a straight line, so the angle between chord $TA$ and the tangent on $A$'s side is $180^\circ - 54^\circ - 58^\circ = 68^\circ$. By the alternate segment theorem, that equals the angle chord $TA$ subtends at $B$: $\angle TBA = 68^\circ$.
+  verify: |
+    def answers():
+        T, A, B = on_circle(270, 2), on_circle(134, 2), on_circle(26, 2)
+        return {"a": approx(angle_at(T, B, A), 4)}
+
+- id: spec.geometry.ch.tangent-x-plus-2
+  pool: challenge
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1590
+  responseSkills: { reading: 1570, calculation: 1570, reasoning: 1580 }
+  stem: |
+    From $M$, a tangent touches a circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. $MA = x$, $AB = 6$ and $MT = x + 2$. Find $MT$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 4 }
+  solution: |
+    $MT^2 = MA \times MB$: $(x + 2)^2 = x(x + 6)$, so $x^2 + 4x + 4 = x^2 + 6x$, giving $x = 2$. Then $MT = 4$.
+  verify: |
+    def answers():
+        x = sympy.symbols("x", positive=True)
+        s = sympy.solve(sympy.Eq((x + 2) ** 2, x * (x + 6)), x)[0]
+        return {"a": s + 2}
+
+- id: spec.geometry.ch.inscribed-quadrilateral
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1610
+  responseSkills: { reading: 1600, reasoning: 1600, calculation: 1580 }
+  stem: |
+    A circle lies inside quadrilateral $ABCD$ and touches all four sides. $AB = 8$, $BC = 11$ and $CD = 9$. Find $DA$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 6 }
+  solution: |
+    Each corner is the meeting point of two tangents to the circle, and tangents from one point are equal. Call these lengths $a, b, c, d$ at $A, B, C, D$. Then $AB = a + b$, $BC = b + c$, $CD = c + d$, $DA = d + a$, so $AB + CD = a + b + c + d = BC + DA$.
+
+    $DA = 8 + 9 - 11 = 6$.
+  verify: |
+    def answers():
+        return {"a": 8 + 9 - 11}
+
+- id: spec.geometry.ch.chord-distances
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1560
+  responseSkills: { reading: 1550, calculation: 1540, reasoning: 1550 }
+  stem: |
+    In a circle, a chord of length 16 is 6 units from the center. Another chord of the same circle is 8 units from the center. Find its length.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 12 }
+  solution: |
+    The perpendicular from the center bisects a chord, so the first chord gives a right triangle with legs 8 and 6: the radius is $\sqrt{8^2 + 6^2} = 10$. For the second chord, half its length is $\sqrt{10^2 - 8^2} = 6$, so it has length 12.
+  verify: |
+    def answers():
+        r = sympy.sqrt(8**2 + 6**2)
+        return {"a": 2 * sympy.sqrt(r**2 - 8**2)}
+
+- id: spec.geometry.ch.n2-n-11
+  pool: challenge
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1560
+  responseSkills: { reading: 1550, calculation: 1540, reasoning: 1550 }
+  stem: |
+    Find the smallest positive integer $n$ for which $n^2 + n + 11$ is not prime.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 10 }
+  solution: |
+    Checking $n = 1, 2, \dots, 9$ gives $13, 17, 23, 31, 41, 53, 67, 83, 101$, all prime. At $n = 10$, $100 + 10 + 11 = 121 = 11^2$. (At $n = 10$ every term is a multiple of 11 except none; more simply $n^2 + n + 11 = n(n + 1) + 11$, and $n = 10$ makes $n(n + 1) = 110 = 10 \times 11$.)
+  verify: |
+    def answers():
+        return {"a": next(n for n in range(1, 100) if not sympy.isprime(n * n + n + 11))}
