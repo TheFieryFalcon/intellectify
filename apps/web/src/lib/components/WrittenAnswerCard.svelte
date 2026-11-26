@@ -95,7 +95,7 @@
           {#if p.prompt}<Markdown text={p.prompt} />{/if}
           {#if preview || submitted}
             <div class="preview" aria-live="polite">
-              {#if (answers[p.id] ?? "").trim()}<Markdown text={answers[p.id]!} />{:else}<p class="muted">—</p>{/if}
+              {#if (answers[p.id] ?? "").trim()}<Markdown text={answers[p.id]!} glossary={false} />{:else}<p class="muted">—</p>{/if}
             </div>
           {:else}
             <textarea

@@ -146,7 +146,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 **Every technical term is explained**
 - Each technical term or symbol is defined at first use: **bold** term, then a one-line plain-English definition, plus notation if any (e.g. **permutation**: an ordered arrangement; ${}^nP_r$).
 - Terms defined in other skills' tutorials link there instead of being redefined.
-- All defined terms feed a course **glossary**. Wherever a glossary term appears in a tutorial, question or solution, hovering or tapping it shows the definition.
+- All defined terms feed a course **glossary**. Wherever a glossary term appears in a tutorial, question or solution, hovering or tapping it shows the definition. **Implemented:** the first mention of each term (or its plural) in any rendered text is underlined with a dotted line; hover, tap or keyboard focus shows the term and its definition. A student's own written answer gets no hovers.
 - Use WA/WACE notation and conventions (cis θ, $\binom{n}{r}$ and ${}^nC_r$, column vectors, i/j/k), matching how exams and markers write.
 
 **Structure** (fixed headings, so tutorials feel consistent):

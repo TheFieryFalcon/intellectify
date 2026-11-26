@@ -7,7 +7,28 @@ import { marked } from "marked";
  * Math is rendered first and swapped back in after Markdown, so Markdown never mangles it.
  * Content comes from our own reviewed question files, so the HTML is trusted.
  */
-export function renderMarkdown(src: string, opts: { inline?: boolean } = {}): string {
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const reEsc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Glossary hovers (SPEC §3.2): the first mention of each term (or its plural) becomes a <dfn> with its
+ * definition, shown on hover, tap or focus. Runs on the text with math and figures already set aside.
+ */
+export function linkGlossary(text: string, terms: { term: string; definition: string }[]): string {
+  if (!terms.length) return text;
+  const byKey = new Map(terms.map((t) => [t.term.toLowerCase(), t]));
+  const sorted = [...byKey.keys()].sort((a, b) => b.length - a.length);
+  const re = new RegExp(`(?<![\\w@-])(${sorted.map(reEsc).join("|")})(s|es)?(?![\\w@-])`, "gi");
+  const used = new Set<string>();
+  return text.replace(re, (whole: string, word: string) => {
+    const t = byKey.get(word.toLowerCase());
+    if (!t || used.has(t.term)) return whole;
+    used.add(t.term);
+    return `<dfn class="gloss" tabindex="0">${whole}<span class="gloss-def" role="tooltip"><strong>${esc(t.term)}</strong> ${esc(t.definition)}</span></dfn>`;
+  });
+}
+
+export function renderMarkdown(src: string, opts: { inline?: boolean; glossary?: { term: string; definition: string }[] } = {}): string {
   // Diagrams first (SPEC §9.4): their YAML must not be touched by the math or Markdown passes.
   const figures: string[] = [];
   const tex = (t: string) => katex.renderToString(t, { throwOnError: false, strict: "ignore" });
@@ -25,7 +46,8 @@ export function renderMarkdown(src: string, opts: { inline?: boolean } = {}): st
     .replace(/\$\$([\s\S]+?)\$\$/g, (_, t: string) => keep(t, true))
     .replace(/(?<!\\)\$([^$]+?)\$/g, (_, t: string) => keep(t, false))
     .replace(/\\\$/g, "$");
-  const html = opts.inline ? (marked.parseInline(protectedSrc, { async: false }) as string) : (marked.parse(protectedSrc, { async: false }) as string);
+  const linked = opts.glossary?.length ? linkGlossary(protectedSrc, opts.glossary) : protectedSrc;
+  const html = opts.inline ? (marked.parseInline(linked, { async: false }) as string) : (marked.parse(linked, { async: false }) as string);
   return html
     .replace(/@@MATH(\d+)@@/g, (_, i: string) => math[Number(i)]!)
     .replace(/(?:<p>)?@@FIG(\d+)@@(?:<\/p>)?/g, (_, i: string) => figures[Number(i)]!);
