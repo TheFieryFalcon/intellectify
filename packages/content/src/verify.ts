@@ -19,7 +19,14 @@ if (buildErrors.length) {
   process.exit(1);
 }
 const byId = new Map<string, QuestionT>();
-for (const b of bundles) for (const qs of Object.values(b.questions)) for (const q of qs) byId.set(q.id, q);
+for (const b of bundles) {
+  const pools = [
+    ...Object.values(b.questions),
+    ...Object.values(b.sectionReviews).flatMap((r) => [r.sectionQuiz, r.challenge]),
+    ...Object.values(b.unitReviews).map((r) => r.unitQuiz),
+  ];
+  for (const qs of pools) for (const q of qs) byId.set(q.id, q);
+}
 
 const run = spawnSync("python3", [join(root, "scripts/verify_questions.py"), join(root, "content/questions")], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
 if (run.error) {

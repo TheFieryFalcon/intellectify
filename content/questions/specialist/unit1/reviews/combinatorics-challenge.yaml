@@ -1,0 +1,246 @@
+# Section Challenge pool: Combinatorics (1.2). Tier 4–5 synthesis problems (SPEC §8.4).
+
+- id: spec.combinatorics.ch.mississippi-s-apart
+  pool: challenge
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
+  rating: 1640
+  responseSkills: { calculation: 1610, reasoning: 1630, synthesis: 1620 }
+  stem: |
+    How many arrangements of the letters of MISSISSIPPI have no two S's next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 7350 }
+  solution: |
+    Arrange the other 7 letters first: M, I, I, I, I, P, P, with I four times and P twice: $\dfrac{7!}{4!\,2!} = 105$.
+
+    That row has 8 gaps (6 between letters and 2 at the ends). The 4 identical S's go in 4 different gaps: $\binom{8}{4} = 70$.
+
+    $105 \times 70 = 7350$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": sum(1 for p in multiset_permutations(list("MISSISSIPPI")) if "SS" not in "".join(p))}
+
+- id: spec.combinatorics.ch.balanced-committee
+  pool: challenge
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.counting-principles] }
+  rating: 1580
+  responseSkills: { reading: 1560, calculation: 1560, reasoning: 1570, synthesis: 1560 }
+  stem: |
+    A committee of 5 is chosen from 6 men and 5 women. It must include at least 2 women and at least 1 man. How many committees are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 380 }
+  solution: |
+    All committees: $\binom{11}{5} = 462$. Remove those breaking a rule:
+    - no women: $\binom{6}{5} = 6$;
+    - exactly 1 woman: $5 \times \binom{6}{4} = 75$;
+    - no men: $\binom{5}{5} = 1$.
+
+    These cases don't overlap, so $462 - 6 - 75 - 1 = 380$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        people = ["m"] * 6 + ["w"] * 5
+        return {"a": sum(1 for c in combinations(range(11), 5) if sum(people[i] == "w" for i in c) >= 2 and sum(people[i] == "m" for i in c) >= 1)}
+
+- id: spec.combinatorics.ch.hockey-stick-3
+  pool: challenge
+  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  rating: 1600
+  responseSkills: { reasoning: 1590, calculation: 1570, synthesis: 1580 }
+  stem: |
+    Find $\binom{3}{3} + \binom{4}{3} + \binom{5}{3} + \cdots + \binom{12}{3}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 715 }
+  solution: |
+    Replace $\binom{3}{3}$ by $\binom{4}{4}$ (both are 1), then apply Pascal's rule repeatedly: $\binom{4}{4} + \binom{4}{3} = \binom{5}{4}$, then $\binom{5}{4} + \binom{5}{3} = \binom{6}{4}$, and so on, up to $\binom{12}{4} + \binom{12}{3} = \binom{13}{4} = 715$.
+  verify: |
+    def answers():
+        return {"a": sum(sympy.binomial(n, 3) for n in range(3, 13))}
+
+- id: spec.combinatorics.ch.ends-avoided
+  pool: challenge
+  skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  rating: 1570
+  responseSkills: { reading: 1550, calculation: 1550, reasoning: 1560, synthesis: 1550 }
+  stem: |
+    The numbers $1, 2, 3, 4, 5, 6$ are arranged in a row. In how many arrangements is 1 not first and 6 not last?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 504 }
+  solution: |
+    Let $F$ be the arrangements with 1 first, and $L$ those with 6 last. $|F| = |L| = 5! = 120$ and $|F \cap L| = 4! = 24$.
+
+    $|F \cup L| = 120 + 120 - 24 = 216$, so the wanted count is $720 - 216 = 504$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(1, 7)) if p[0] != 1 and p[-1] != 6)}
+
+- id: spec.combinatorics.ch.square-last-digits
+  pool: challenge
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1720
+  responseSkills: { reasoning: 1710, proof: 1700, clarity: 1650 }
+  stem: |
+    Prove that among any 7 integers, there are two whose squares differ by a multiple of 10.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: digits, description: "Shows a square can only end in 0, 1, 4, 5, 6 or 9 (checks the last digits 0–9)", points: 2, dimension: reasoning }
+          - { id: pigeon, description: "Uses these 6 last digits as boxes: 7 squares in 6 boxes, so two share a last digit", points: 1, dimension: proof }
+          - { id: differ, description: "Two squares with the same last digit differ by a multiple of 10", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The last digit of $n^2$ depends only on the last digit of $n$. Squaring $0, 1, \dots, 9$ gives last digits $0, 1, 4, 9, 6, 5, 6, 9, 4, 1$, so a square ends in one of only 6 digits: 0, 1, 4, 5, 6, 9.
+
+    Take these 6 last digits as boxes. The squares of the 7 integers are 7 objects in 6 boxes, so two squares end in the same digit. Their difference ends in 0, so it is a multiple of 10.
+
+- id: spec.combinatorics.ch.couples-round
+  pool: challenge
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.counting-principles] }
+  rating: 1600
+  responseSkills: { reading: 1580, calculation: 1580, reasoning: 1590, synthesis: 1580 }
+  stem: |
+    Four couples sit at a round table with 8 seats. In how many ways can they sit if each couple sits together? (Seatings that differ only by everyone moving the same number of seats around count as the same.)
+  parts:
+    - id: a
+      answer: { type: numeric, key: 96 }
+  solution: |
+    Treat each couple as a block: 4 blocks around a table, $(4 - 1)! = 6$ ways. Each couple can sit in 2 orders: $2^4 = 16$. Total $6 \times 16 = 96$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        seen = set()
+        for p in permutations(range(8)):
+            if all(abs(p.index(2 * c) - p.index(2 * c + 1)) in (1, 7) for c in range(4)):
+                k = p.index(0)
+                seen.add(p[k:] + p[:k])
+        return {"a": len(seen)}
+
+- id: spec.combinatorics.ch.collinear-triangles
+  pool: challenge
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1560
+  responseSkills: { reading: 1540, calculation: 1540, reasoning: 1550 }
+  stem: |
+    Twelve points are marked in a plane. Exactly 5 of them lie on one straight line, and no other three of the points lie on a line. How many triangles have their corners at three of the points?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 210 }
+  solution: |
+    Any 3 points make a triangle unless they lie on a line. The only such triples are 3 of the 5 collinear points: $\binom{5}{3} = 10$. So $\binom{12}{3} - 10 = 220 - 10 = 210$.
+  verify: |
+    def answers():
+        return {"a": sympy.binomial(12, 3) - sympy.binomial(5, 3)}
+
+- id: spec.combinatorics.ch.split-pairs-identity
+  pool: challenge
+  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  rating: 1760
+  responseSkills: { reasoning: 1740, proof: 1740, clarity: 1680, synthesis: 1720 }
+  stem: |
+    Use a counting argument to prove that $\binom{2n}{2} = 2\binom{n}{2} + n^2$ for every whole number $n \ge 2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Describes one collection counted both ways, e.g. pairs of people from n girls and n boys; the left side counts all pairs", points: 1, dimension: proof }
+          - { id: same, description: "Pairs with both people from the same group: 2·C(n, 2)", points: 1, dimension: reasoning }
+          - { id: mixed, description: "Pairs with one from each group: n × n = n²", points: 1, dimension: reasoning }
+          - { id: conclude, description: "These cases cover every pair once, so the two counts are equal", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Count the pairs that can be chosen from $n$ girls and $n$ boys. All $2n$ people together give $\binom{2n}{2}$ pairs.
+
+    Count them again by type. Two girls: $\binom{n}{2}$. Two boys: $\binom{n}{2}$. One of each: $n$ choices of girl and $n$ of boy, so $n^2$. Every pair is exactly one of these types, so there are $2\binom{n}{2} + n^2$ pairs.
+
+    Both expressions count the same pairs, so $\binom{2n}{2} = 2\binom{n}{2} + n^2$.
+
+- id: spec.combinatorics.ch.six-or-ten-not-fifteen
+  pool: challenge
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1700
+  responseSkills: { reading: 1680, calculation: 1680, reasoning: 1690 }
+  stem: |
+    How many integers from 1 to 2000 are divisible by 6 or by 10, but not by 15?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 401 }
+  solution: |
+    Divisible by 6: $333$. By 10: $200$. By both, i.e. by 30: $66$. So $333 + 200 - 66 = 467$ are divisible by 6 or 10.
+
+    Of these, the ones also divisible by 15 are divisible by $\text{lcm}(6, 15) = 30$ or $\text{lcm}(10, 15) = 30$: the 66 multiples of 30. So $467 - 66 = 401$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(1, 2001) if (n % 6 == 0 or n % 10 == 0) and n % 15 != 0)}
+
+- id: spec.combinatorics.ch.evens-in-order
+  pool: challenge
+  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
+  rating: 1580
+  responseSkills: { reading: 1560, calculation: 1560, reasoning: 1570, synthesis: 1560 }
+  stem: |
+    The digits $1, 2, 3, 4, 5, 6$ are each used once to make a 6-digit number. In how many of these numbers do the even digits appear in increasing order from left to right?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 120 }
+  solution: |
+    Choose the 3 places for the even digits: $\binom{6}{3} = 20$. They must go in as 2, 4, 6, in only 1 order. The odd digits fill the other places in $3! = 6$ ways. $20 \times 6 = 120$.
+
+    (Equivalently, the $3!$ orders of the even digits are equally common, so $\dfrac{6!}{3!} = 120$.)
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations([1, 2, 3, 4, 5, 6]) if [d for d in p if d % 2 == 0] == [2, 4, 6])}
+
+- id: spec.combinatorics.ch.divisors-7200
+  pool: challenge
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1660
+  responseSkills: { calculation: 1640, reasoning: 1650 }
+  stem: |
+    $7200 = 2^5 \times 3^2 \times 5^2$.
+  parts:
+    - id: a
+      prompt: How many positive divisors does 7200 have?
+      answer: { type: numeric, key: 54 }
+    - id: b
+      prompt: How many of these divisors are perfect squares?
+      answer: { type: numeric, key: 12 }
+  solution: |
+    (a) A divisor is $2^a 3^b 5^c$ with $0 \le a \le 5$, $0 \le b \le 2$, $0 \le c \le 2$: $6 \times 3 \times 3 = 54$.
+
+    (b) A square divisor needs every exponent even: $a \in \{0, 2, 4\}$, $b \in \{0, 2\}$, $c \in \{0, 2\}$: $3 \times 2 \times 2 = 12$.
+  verify: |
+    def answers():
+        ds = sympy.divisors(7200)
+        return {"a": len(ds), "b": sum(1 for d in ds if sympy.sqrt(d).is_integer)}
+
+- id: spec.combinatorics.ch.leaders-identity
+  pool: challenge
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.pascal] }
+  rating: 1800
+  responseSkills: { reasoning: 1780, proof: 1780, clarity: 1720, synthesis: 1760 }
+  stem: |
+    Use a counting argument to prove that $\binom{n}{r}\binom{r}{k} = \binom{n}{k}\binom{n-k}{r-k}$ for whole numbers $0 \le k \le r \le n$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: setup, description: "Describes one collection counted both ways, e.g. a committee of r chosen from n people, with k leaders from the committee", points: 1, dimension: proof }
+          - { id: left, description: "Left side: choose the committee (C(n, r)), then its k leaders from it (C(r, k))", points: 1, dimension: reasoning }
+          - { id: right, description: "Right side: choose the k leaders first (C(n, k)), then the other r − k members from the remaining n − k people (C(n − k, r − k))", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Both count the same committees-with-leaders, so the two sides are equal", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Count the ways to choose, from $n$ people, a committee of $r$ with $k$ of its members as leaders.
+
+    First way: choose the committee, $\binom{n}{r}$ ways, then its $k$ leaders from those $r$ members, $\binom{r}{k}$ ways. Total $\binom{n}{r}\binom{r}{k}$.
+
+    Second way: choose the $k$ leaders from all $n$ people, $\binom{n}{k}$ ways, then the other $r - k$ committee members from the $n - k$ people left, $\binom{n-k}{r-k}$ ways. Total $\binom{n}{k}\binom{n-k}{r-k}$.
+
+    Both count the same choices, so the two expressions are equal.
