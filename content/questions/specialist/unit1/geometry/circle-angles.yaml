@@ -118,7 +118,7 @@
 - id: spec.geometry.circle-angles.same-arc
   skills: {primary: spec.geometry.circle-angles}
   rating: 1130
-  responseSkills: {reading: 1120}
+  responseSkills: {reading: 1120, calculation: 1080}
   variants:
   - {x: 41}
   - {x: 57}
@@ -196,7 +196,7 @@
 - id: spec.geometry.circle-angles.isosceles-radii
   skills: {primary: spec.geometry.circle-angles}
   rating: 1270
-  responseSkills: {calculation: 1250, reading: 1260}
+  responseSkills: {reading: 1260, calculation: 1250, reasoning: 1260}
   variants:
   - {c: 100}
   - {c: 64}
@@ -231,7 +231,7 @@
 - id: spec.geometry.circle-angles.cyclic-algebra
   skills: {primary: spec.geometry.circle-angles}
   rating: 1300
-  responseSkills: {calculation: 1290, reading: 1270}
+  responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
   stem: |
     $ABCD$ is a cyclic quadrilateral with $\angle DAB = (2x + 10)^\circ$ and $\angle BCD = (3x - 20)^\circ$. Find $x$.
 
@@ -262,7 +262,7 @@
 - id: spec.geometry.circle-angles.exterior-angle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1330
-  responseSkills: {reading: 1320, calculation: 1280}
+  responseSkills: {reading: 1320, calculation: 1280, reasoning: 1320}
   variants:
   - {e: 105}
   - {e: 72}
@@ -286,7 +286,7 @@
 - id: spec.geometry.circle-angles.diameter-opposite-side
   skills: {primary: spec.geometry.circle-angles}
   rating: 1350
-  responseSkills: {calculation: 1330, reading: 1340}
+  responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
   variants:
   - {x: 25}
   - {x: 34}
@@ -325,7 +325,7 @@
 - id: spec.geometry.circle-angles.minor-arc-angle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1380
-  responseSkills: {calculation: 1360, reading: 1370}
+  responseSkills: {reading: 1370, calculation: 1360, reasoning: 1370}
   variants:
   - {c: 110}
   - {c: 140}
@@ -364,7 +364,7 @@
 - id: spec.geometry.circle-angles.which-theorem
   skills: {primary: spec.geometry.circle-angles}
   rating: 1340
-  responseSkills: {reading: 1330}
+  responseSkills: {reading: 1330, reasoning: 1330}
   stem: |
     $PQ$ is a diameter of a circle and $R$ is another point on the circle. Which result shows that $\angle PRQ = 90^\circ$?
   parts:
@@ -380,7 +380,7 @@
 - id: spec.geometry.circle-angles.base-angle-to-circumference
   skills: {primary: spec.geometry.circle-angles}
   rating: 1420
-  responseSkills: {calculation: 1400, synthesis: 1390}
+  responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1390}
   variants:
   - {y: 25}
   - {y: 38}
@@ -420,7 +420,7 @@
 - id: spec.geometry.circle-angles.diagonal-angles
   skills: {primary: spec.geometry.circle-angles}
   rating: 1450
-  responseSkills: {calculation: 1430, reading: 1440}
+  responseSkills: {reading: 1440, calculation: 1430, reasoning: 1440}
   stem: |
     $ABCD$ is a cyclic quadrilateral with diagonal $BD$. $\angle ABD = 30^\circ$ and $\angle DBC = 40^\circ$.
 
@@ -461,15 +461,15 @@
 - id: spec.geometry.circle-angles.semicircle-proof
   skills: {primary: spec.geometry.circle-angles}
   rating: 1470
-  responseSkills: {proof: 1460, clarity: 1400}
+  responseSkills: {reasoning: 1460, proof: 1460, clarity: 1400}
   stem: |
     $AB$ is a diameter of a circle with center $O$, and $C$ is another point on the circle. Without using the angle-at-the-center theorem, prove that $\angle ACB = 90^\circ$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: radii, description: Draws OC and notes OA = OB = OC (radii), points: 1, dimension: proof}
-      - {id: iso, description: 'Two isosceles triangles: ∠OAC = ∠OCA = a and ∠OBC = ∠OCB = b', points: 2, dimension: proof}
+      - {id: radii, description: Draws OC and notes OA = OB = OC (radii), points: 1, dimension: reasoning}
+      - {id: iso, description: 'Two isosceles triangles: ∠OAC = ∠OCA = a and ∠OBC = ∠OCB = b', points: 2, dimension: reasoning}
       - {id: sum, description: 'Angle sum of triangle ABC: 2a + 2b = 180°, so a + b = 90°', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -478,7 +478,7 @@
 - id: spec.geometry.circle-angles.center-algebra
   skills: {primary: spec.geometry.circle-angles}
   rating: 1490
-  responseSkills: {calculation: 1470, reading: 1460}
+  responseSkills: {reading: 1460, calculation: 1470, reasoning: 1480}
   stem: |
     $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle AOB = (3x + 10)^\circ$ and $\angle ACB = (x + 20)^\circ$. Find $x$.
   parts:
@@ -494,7 +494,7 @@
 - id: spec.geometry.circle-angles.triangle-center
   skills: {primary: spec.geometry.circle-angles}
   rating: 1500
-  responseSkills: {calculation: 1480, synthesis: 1460}
+  responseSkills: {calculation: 1480, reasoning: 1490, synthesis: 1460}
   stem: |
     Triangle $ABC$ is drawn inside a circle with center $O$, with all three corners on the circle. $\angle BAC = 50^\circ$ and $\angle ABC = 70^\circ$.
 
@@ -536,15 +536,15 @@
 - id: spec.geometry.circle-angles.cyclic-proof
   skills: {primary: spec.geometry.circle-angles}
   rating: 1530
-  responseSkills: {proof: 1520, clarity: 1450}
+  responseSkills: {reasoning: 1520, proof: 1520, clarity: 1450}
   stem: |
     Use the angle-at-the-center theorem to prove that the opposite angles of a cyclic quadrilateral add to $180^\circ$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: setup, description: Cyclic quadrilateral ABCD with center O; joins OB and OD, points: 1, dimension: proof}
-      - {id: double, description: ∠BOD (one side) = 2∠A and the reflex ∠BOD (other side) = 2∠C, points: 2, dimension: proof}
+      - {id: setup, description: Cyclic quadrilateral ABCD with center O; joins OB and OD, points: 1, dimension: reasoning}
+      - {id: double, description: ∠BOD (one side) = 2∠A and the reflex ∠BOD (other side) = 2∠C, points: 2, dimension: reasoning}
       - {id: sum, description: 'These make a full turn: 2∠A + 2∠C = 360°, so ∠A + ∠C = 180°', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -552,7 +552,7 @@
 - id: spec.geometry.circle-angles.obc-general
   skills: {primary: spec.geometry.circle-angles}
   rating: 1580
-  responseSkills: {synthesis: 1570, calculation: 1520}
+  responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1570}
   stem: |
     Triangle $ABC$ has all three corners on a circle with center $O$, and $\angle BAC = x^\circ$ is acute. Find $\angle OBC$ in terms of $x$.
   parts:
@@ -577,7 +577,7 @@
 - id: spec.geometry.circle-angles.equal-sides-angle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1620
-  responseSkills: {synthesis: 1600, calculation: 1560}
+  responseSkills: {calculation: 1560, reasoning: 1610, synthesis: 1600}
   stem: |
     $ABCD$ is a cyclic quadrilateral with $AB = BC$ and $\angle ABC = 110^\circ$. Find $\angle BDC$.
 
@@ -614,7 +614,7 @@
 - id: spec.geometry.circle-angles.bow-tie
   skills: {primary: spec.geometry.circle-angles}
   rating: 1650
-  responseSkills: {synthesis: 1630, calculation: 1580}
+  responseSkills: {calculation: 1580, reasoning: 1640, synthesis: 1630}
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle in that order. Chords $AC$ and $BD$ meet at $X$. $\angle ABD = 40^\circ$ and $\angle BDC = 25^\circ$. Find $\angle AXB$.
   parts:
@@ -632,7 +632,7 @@
 - id: spec.geometry.circle-angles.regular-pentagon
   skills: {primary: spec.geometry.circle-angles}
   rating: 1700
-  responseSkills: {synthesis: 1690, calculation: 1640}
+  responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
   stem: |
     $ABCDE$ is a regular pentagon (all sides and angles equal) with its corners on a circle. Find $\angle CAD$.
   parts:
@@ -648,7 +648,7 @@
 - id: spec.geometry.circle-angles.chord-from-angle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1710
-  responseSkills: {synthesis: 1700, calculation: 1650}
+  responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1700}
   variants:
   - {a: 30, v: '5'}
   - {a: 45, v: '5\sqrt{2}'}
@@ -671,7 +671,7 @@
 - id: spec.geometry.circle-angles.equal-chords-quad
   skills: {primary: spec.geometry.circle-angles}
   rating: 1720
-  responseSkills: {synthesis: 1710, calculation: 1650}
+  responseSkills: {calculation: 1650, reasoning: 1710, synthesis: 1710}
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle in that order, with $AB = BC = CD$ and $\angle ABC = 130^\circ$. Find $\angle BAD$.
   parts:
@@ -689,7 +689,7 @@
 - id: spec.geometry.circle-angles.dodecagon-diagonals
   skills: {primary: spec.geometry.circle-angles}
   rating: 1750
-  responseSkills: {synthesis: 1750, calculation: 1680}
+  responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1750}
   stem: |
     $A_1A_2 \dots A_{12}$ is a regular 12-sided polygon with its corners on a circle. The diagonals $A_1A_5$ and $A_2A_8$ meet at $X$. Find the acute angle between them, $\angle A_1XA_2$.
   parts:
@@ -707,14 +707,14 @@
 - id: spec.geometry.circle-angles.two-diameters-collinear
   skills: {primary: spec.geometry.circle-angles}
   rating: 1710
-  responseSkills: {proof: 1700, synthesis: 1690, clarity: 1600}
+  responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1690}
   stem: |
     Two circles meet at $A$ and $B$. $AC$ is a diameter of the first circle and $AD$ is a diameter of the second. Prove that $C$, $B$ and $D$ lie on one straight line.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: right1, description: '∠ABC = 90° (angle in a semicircle, first circle)', points: 2, dimension: proof}
+      - {id: right1, description: '∠ABC = 90° (angle in a semicircle, first circle)', points: 2, dimension: reasoning}
       - {id: right2, description: '∠ABD = 90° (angle in a semicircle, second circle)', points: 1, dimension: proof}
       - {id: line, description: 'Two right angles at B add to 180°, so CBD is a straight line', points: 2, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
@@ -723,15 +723,15 @@
 - id: spec.geometry.circle-angles.altitude-center
   skills: {primary: spec.geometry.circle-angles}
   rating: 1780
-  responseSkills: {proof: 1780, synthesis: 1760, clarity: 1660}
+  responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Triangle $ABC$ is acute, with all three corners on a circle with center $O$. $D$ is the point on $BC$ with $AD$ perpendicular to $BC$. Prove that $\angle BAD = \angle OAC$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: bad, description: 'From right triangle ABD: ∠BAD = 90° − ∠ABC', points: 1, dimension: proof}
-      - {id: center, description: ∠AOC = 2∠ABC (angle at the center), points: 2, dimension: proof}
+      - {id: bad, description: 'From right triangle ABD: ∠BAD = 90° − ∠ABC', points: 1, dimension: reasoning}
+      - {id: center, description: ∠AOC = 2∠ABC (angle at the center), points: 2, dimension: reasoning}
       - {id: iso, description: 'OA = OC, so ∠OAC = ½(180° − 2∠ABC) = 90° − ∠ABC', points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |

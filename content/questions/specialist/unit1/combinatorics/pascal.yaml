@@ -71,7 +71,7 @@
 - id: spec.combinatorics.pascal.symmetry
   skills: { primary: spec.combinatorics.pascal }
   rating: 1300
-  responseSkills: { reading: 1300 }
+  responseSkills: {reading: 1300, calculation: 1250}
   variants:
     - { n: 10, r: 3, s: 7 }
     - { n: 15, r: 4, s: 11 }
@@ -90,7 +90,7 @@
 - id: spec.combinatorics.pascal.solve-symmetry
   skills: { primary: spec.combinatorics.pascal }
   rating: 1400
-  responseSkills: { reading: 1400, calculation: 1350 }
+  responseSkills: {reading: 1400, calculation: 1350, reasoning: 1380}
   variants:
     - { a: 4, b: 6, n: 10 }
     - { a: 5, b: 9, n: 14 }
@@ -109,7 +109,7 @@
 - id: spec.combinatorics.pascal.difference
   skills: { primary: spec.combinatorics.pascal }
   rating: 1450
-  responseSkills: { calculation: 1420, synthesis: 1430 }
+  responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1430}
   stem: |
     Find $n$ if $\dbinom{n+1}{3} - \dbinom{n}{3} = 21$.
   parts:
@@ -125,15 +125,15 @@
 - id: spec.combinatorics.pascal.doubling-proof
   skills: { primary: spec.combinatorics.pascal }
   rating: 1480
-  responseSkills: { proof: 1480, clarity: 1450 }
+  responseSkills: {reasoning: 1480, proof: 1480, clarity: 1450, precision: 1440}
   stem: |
     Use Pascal's rule to explain why the sum of row $n + 1$ of Pascal's triangle is double the sum of row $n$. Hence show that row $n$ sums to $2^n$.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: rule, description: "Each entry of row n+1 (other than the 1s at the ends) is the sum of the two entries above it", points: 1, dimension: proof }
-          - { id: twice, description: "So every entry of row n is used exactly twice, once for each entry below it", points: 2, dimension: proof }
+          - { id: rule, description: "Each entry of row n+1 (other than the 1s at the ends) is the sum of the two entries above it", points: 1, dimension: reasoning }
+          - { id: twice, description: "So every entry of row n is used exactly twice, once for each entry below it", points: 2, dimension: reasoning }
           - { id: ends, description: "Correctly handles the 1s at the ends", points: 1, dimension: precision }
           - { id: hence, description: "Concludes from row 0 summing to 1 and doubling each time that row n sums to 2^n", points: 1, dimension: proof }
   solution: |
@@ -142,7 +142,7 @@
 - id: spec.combinatorics.pascal.hockey-stick-value
   skills: { primary: spec.combinatorics.pascal }
   rating: 1520
-  responseSkills: { synthesis: 1500, calculation: 1450 }
+  responseSkills: {calculation: 1450, reasoning: 1500, synthesis: 1500}
   stem: |
     Evaluate $\dbinom{3}{3} + \dbinom{4}{3} + \dbinom{5}{3} + \dots + \dbinom{9}{3}$.
   parts:
@@ -157,7 +157,7 @@
 - id: spec.combinatorics.pascal.hockey-stick-proof
   skills: { primary: spec.combinatorics.pascal }
   rating: 1620
-  responseSkills: { proof: 1620, clarity: 1580 }
+  responseSkills: {reasoning: 1620, proof: 1620, clarity: 1580}
   stem: |
     Prove that for whole numbers $n \ge r \ge 0$:
     $$\binom{r}{r} + \binom{r+1}{r} + \dots + \binom{n}{r} = \binom{n+1}{r+1}.$$
@@ -165,8 +165,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: start, description: "Rewrites the first term as C(r+1, r+1)", points: 1, dimension: proof }
-          - { id: chain, description: "Applies Pascal's rule repeatedly, each step absorbing the next term", points: 2, dimension: proof }
+          - { id: start, description: "Rewrites the first term as C(r+1, r+1)", points: 1, dimension: reasoning }
+          - { id: chain, description: "Applies Pascal's rule repeatedly, each step absorbing the next term", points: 2, dimension: reasoning }
           - { id: end, description: "Reaches C(n+1, r+1) after the last term", points: 1, dimension: proof }
           - { id: clear, description: "Clear, complete and precise (e.g. uses '…' correctly or states the general step)", points: 1, dimension: clarity }
   solution: |
@@ -177,7 +177,7 @@
 - id: spec.combinatorics.pascal.vandermonde-value
   skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
   rating: 1590
-  responseSkills: { synthesis: 1580, calculation: 1500 }
+  responseSkills: {calculation: 1500, reasoning: 1570, synthesis: 1580}
   stem: |
     Evaluate $\displaystyle\sum_{k=0}^{4} \binom{5}{k}\binom{6}{4-k}$ without working out each term, and explain your reasoning.
   parts:
@@ -192,7 +192,7 @@
 - id: spec.combinatorics.pascal.alternating-proof
   skills: { primary: spec.combinatorics.pascal }
   rating: 1610
-  responseSkills: { proof: 1610, synthesis: 1580 }
+  responseSkills: {reasoning: 1610, proof: 1610, precision: 1570, synthesis: 1580}
   stem: |
     Prove that for every $n \ge 1$:
     $$\binom{n}{0} - \binom{n}{1} + \binom{n}{2} - \dots + (-1)^n\binom{n}{n} = 0.$$
@@ -200,7 +200,7 @@
     - id: a
       rubric:
         criteria:
-          - { id: idea, description: "Gives a valid idea: pairing subsets (even vs odd size) or splitting with Pascal's rule", points: 2, dimension: proof }
+          - { id: idea, description: "Gives a valid idea: pairing subsets (even vs odd size) or splitting with Pascal's rule", points: 2, dimension: reasoning }
           - { id: detail, description: "Shows the pairing is one-to-one between even-sized and odd-sized subsets (e.g. toggle a fixed element), or that the terms cancel in a telescoping sum", points: 2, dimension: proof }
           - { id: n1, description: "Uses n ≥ 1 where needed (there must be an element to toggle)", points: 1, dimension: precision }
   solution: |
@@ -209,7 +209,7 @@
 - id: spec.combinatorics.pascal.weighted-sum
   skills: { primary: spec.combinatorics.pascal }
   rating: 1780
-  responseSkills: { synthesis: 1780, proof: 1700 }
+  responseSkills: {calculation: 1730, reasoning: 1760, proof: 1700, synthesis: 1780}
   stem: |
     Consider $S_n = 1\binom{n}{1} + 2\binom{n}{2} + 3\binom{n}{3} + \dots + n\binom{n}{n}$.
   parts:
@@ -231,14 +231,14 @@
 - id: spec.combinatorics.pascal.middle-even
   skills: { primary: spec.combinatorics.pascal }
   rating: 1740
-  responseSkills: { proof: 1740, clarity: 1680 }
+  responseSkills: {reasoning: 1740, proof: 1740, clarity: 1680, precision: 1700}
   stem: |
     Prove that $\dbinom{2n}{n}$ is even for every whole number $n \ge 1$.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: idea, description: "Uses symmetry/pairing: each n-subset of 2n objects pairs with its complement, which is also an n-subset", points: 2, dimension: proof }
+          - { id: idea, description: "Uses symmetry/pairing: each n-subset of 2n objects pairs with its complement, which is also an n-subset", points: 2, dimension: reasoning }
           - { id: distinct, description: "Shows a subset is never its own complement (sizes n and n, disjoint, n ≥ 1)", points: 2, dimension: precision }
           - { id: conclude, description: "Concludes the count is twice the number of pairs, hence even (or equivalently via C(2n,n) = 2·C(2n−1,n−1))", points: 1, dimension: proof }
   solution: |
@@ -249,7 +249,7 @@
 - id: spec.combinatorics.pascal.odd-entries
   skills: { primary: spec.combinatorics.pascal }
   rating: 1760
-  responseSkills: { synthesis: 1760, reading: 1650 }
+  responseSkills: {reading: 1650, calculation: 1710, reasoning: 1740, synthesis: 1760}
   stem: |
     Shade every **odd** number in rows 0 to 7 of Pascal's triangle. How many numbers are shaded?
   parts:

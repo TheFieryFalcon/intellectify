@@ -57,7 +57,7 @@
 - id: spec.combinatorics.inclusion-exclusion.three-languages
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1440
-  responseSkills: { reading: 1440, calculation: 1400 }
+  responseSkills: {reading: 1440, calculation: 1400, reasoning: 1420}
   stem: |
     Of 100 students, 45 study French, 40 German and 35 Japanese. 15 study French and German, 12 French and Japanese, 10 German and Japanese, and 5 study all three.
   parts:
@@ -88,7 +88,7 @@
 - id: spec.combinatorics.inclusion-exclusion.divisible-3-5-7
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1480
-  responseSkills: { calculation: 1450, reading: 1450 }
+  responseSkills: {reading: 1450, calculation: 1450, reasoning: 1460}
   variants:
     - { a: 3, b: 5, c: 7, n: 1000, v: 543 }
     - { a: 2, b: 5, c: 9, n: 900, v: 580 }
@@ -106,7 +106,7 @@
 - id: spec.combinatorics.inclusion-exclusion.coprime-to-30
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1470
-  responseSkills: { calculation: 1450, synthesis: 1450 }
+  responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1450}
   stem: |
     How many integers from 1 to 1000 are divisible by **none** of 2, 3 and 5?
   parts:
@@ -121,7 +121,7 @@
 - id: spec.combinatorics.inclusion-exclusion.find-triple
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1450
-  responseSkills: { calculation: 1420, reading: 1440 }
+  responseSkills: {reading: 1440, calculation: 1420, reasoning: 1430}
   stem: |
     Sets $A$, $B$ and $C$ have $|A| = 25$, $|B| = 30$, $|C| = 20$, $|A \cap B| = 10$, $|A \cap C| = 8$, $|B \cap C| = 6$ and $|A \cup B \cup C| = 55$. Find $|A \cap B \cap C|$.
   parts:
@@ -137,7 +137,7 @@
 - id: spec.combinatorics.inclusion-exclusion.squares-or-cubes
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1560
-  responseSkills: { synthesis: 1550, calculation: 1500 }
+  responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
   variants:
     - { n: 1000, v: 38 }
     - { n: 10000, v: 117 }
@@ -155,7 +155,7 @@
 - id: spec.combinatorics.inclusion-exclusion.not-in-place
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
   rating: 1600
-  responseSkills: { synthesis: 1600, calculation: 1520 }
+  responseSkills: {calculation: 1520, reasoning: 1580, synthesis: 1600}
   stem: |
     The numbers 1 to 6 are arranged in a row. In how many arrangements is 1 **not** first, 2 **not** second and 3 **not** third?
   parts:
@@ -171,7 +171,7 @@
 - id: spec.combinatorics.inclusion-exclusion.every-letter
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1620
-  responseSkills: { synthesis: 1620, calculation: 1550 }
+  responseSkills: {calculation: 1550, reasoning: 1600, synthesis: 1620}
   variants:
     - { n: 5, v: 150 }
     - { n: 6, v: 540 }
@@ -190,7 +190,7 @@
 - id: spec.combinatorics.inclusion-exclusion.three-set-proof
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1700
-  responseSkills: { proof: 1700, clarity: 1650 }
+  responseSkills: {reasoning: 1700, proof: 1700, clarity: 1650}
   stem: |
     Prove the inclusion–exclusion formula for three sets:
     $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|.$$
@@ -198,9 +198,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: approach, description: "Shows every element of the union is counted exactly once by the right-hand side (or derives it from the two-set formula)", points: 1, dimension: proof }
-          - { id: one, description: "An element in exactly one set: counted 1 time", points: 1, dimension: proof }
-          - { id: two, description: "An element in exactly two sets: counted 2 − 1 = 1 time", points: 1, dimension: proof }
+          - { id: approach, description: "Shows every element of the union is counted exactly once by the right-hand side (or derives it from the two-set formula)", points: 1, dimension: reasoning }
+          - { id: one, description: "An element in exactly one set: counted 1 time", points: 1, dimension: reasoning }
+          - { id: two, description: "An element in exactly two sets: counted 2 − 1 = 1 time", points: 1, dimension: reasoning }
           - { id: three, description: "An element in all three: counted 3 − 3 + 1 = 1 time", points: 1, dimension: proof }
           - { id: outside, description: "Elements in no set are counted 0 times; concludes clearly", points: 1, dimension: clarity }
   solution: |
@@ -216,7 +216,7 @@
 - id: spec.combinatorics.inclusion-exclusion.coprime-to-210
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1740
-  responseSkills: { synthesis: 1740, calculation: 1600 }
+  responseSkills: {calculation: 1600, reasoning: 1720, synthesis: 1740}
   stem: |
     How many integers from 1 to 210 have **no factor in common** with 210 other than 1?
   parts:
@@ -235,7 +235,7 @@
 - id: spec.combinatorics.inclusion-exclusion.letters-envelopes
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
   rating: 1770
-  responseSkills: { synthesis: 1770, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1750, synthesis: 1770}
   stem: |
     5 letters are put into 5 addressed envelopes, one each, at random. In how many ways can this be done so that **no** letter is in its correct envelope?
   parts:
@@ -306,7 +306,7 @@
 - id: spec.combinatorics.inclusion-exclusion.not-a-power
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   rating: 1720
-  responseSkills: { synthesis: 1710, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1700, synthesis: 1710}
   stem: |
     How many integers from 1 to 1000 are **not** a perfect square, a perfect cube or a perfect fifth power?
   parts:

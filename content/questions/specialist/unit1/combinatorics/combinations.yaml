@@ -94,7 +94,7 @@
 - id: spec.combinatorics.combinations.diagonals
   skills: { primary: spec.combinatorics.combinations }
   rating: 1420
-  responseSkills: { reading: 1420, calculation: 1380 }
+  responseSkills: {reading: 1420, calculation: 1380, reasoning: 1400}
   variants:
     - { n: 10, v: 35 }
     - { n: 12, v: 54 }
@@ -112,7 +112,7 @@
 - id: spec.combinatorics.combinations.at-least-two-girls
   skills: { primary: spec.combinatorics.combinations }
   rating: 1460
-  responseSkills: { calculation: 1430, reading: 1460 }
+  responseSkills: {reading: 1460, calculation: 1430, reasoning: 1440}
   stem: |
     A committee of 5 is chosen from 6 boys and 5 girls. How many committees contain at least 2 girls?
   parts:
@@ -127,7 +127,7 @@
 - id: spec.combinatorics.combinations.feuding-pair
   skills: { primary: spec.combinatorics.combinations }
   rating: 1470
-  responseSkills: { calculation: 1430, reading: 1470 }
+  responseSkills: {reading: 1470, calculation: 1430, reasoning: 1450}
   stem: |
     A team of 4 is chosen from 10 people, but two of them, Sam and Kai, refuse to be on the team together. How many teams are possible?
   parts:
@@ -143,7 +143,7 @@
 - id: spec.combinatorics.combinations.grid-paths
   skills: { primary: spec.combinatorics.combinations }
   rating: 1440
-  responseSkills: { reading: 1440, synthesis: 1420 }
+  responseSkills: {reading: 1440, calculation: 1390, reasoning: 1420, synthesis: 1420}
   variants:
     - { r: 5, u: 3, v: 56 }
     - { r: 6, u: 4, v: 210 }
@@ -161,7 +161,7 @@
 - id: spec.combinatorics.combinations.triangles-two-lines
   skills: { primary: spec.combinatorics.combinations }
   rating: 1500
-  responseSkills: { reading: 1500, synthesis: 1480 }
+  responseSkills: {reading: 1500, calculation: 1450, reasoning: 1480, synthesis: 1480}
   stem: |
     6 points are marked on one line and 4 points on a different, parallel line. How many triangles have all three corners at marked points?
   parts:
@@ -177,7 +177,7 @@
 - id: spec.combinatorics.combinations.whole-number-solutions
   skills: { primary: spec.combinatorics.combinations }
   rating: 1580
-  responseSkills: { synthesis: 1580, calculation: 1500 }
+  responseSkills: {calculation: 1500, reasoning: 1560, synthesis: 1580}
   stem: |
     Consider the equation $x + y + z = 10$.
   parts:
@@ -202,7 +202,7 @@
 - id: spec.combinatorics.combinations.more-women
   skills: { primary: spec.combinatorics.combinations }
   rating: 1560
-  responseSkills: { calculation: 1520, reading: 1550 }
+  responseSkills: {reading: 1550, calculation: 1520, reasoning: 1540}
   stem: |
     A committee of 6 is chosen from 7 men and 5 women. How many committees contain more women than men?
   parts:
@@ -222,7 +222,7 @@
 - id: spec.combinatorics.combinations.two-hearts
   skills: { primary: spec.combinatorics.combinations }
   rating: 1550
-  responseSkills: { calculation: 1520, reading: 1540 }
+  responseSkills: {reading: 1540, calculation: 1520, reasoning: 1530}
   stem: |
     A standard deck has 52 cards, 13 in each of 4 suits (hearts, diamonds, clubs, spades). How many 5-card hands contain exactly 2 hearts?
   parts:
@@ -237,7 +237,7 @@
 - id: spec.combinatorics.combinations.examination
   skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
   rating: 1650
-  responseSkills: { synthesis: 1640, calculation: 1600 }
+  responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
   stem: |
     How many different 4-letter arrangements can be made from the letters of the word **EXAMINATION**? (Each letter can be used no more times than it appears in the word.)
   parts:
@@ -259,7 +259,7 @@
 - id: spec.combinatorics.combinations.pairs-up
   skills: { primary: spec.combinatorics.combinations }
   rating: 1680
-  responseSkills: { synthesis: 1660, calculation: 1600 }
+  responseSkills: {calculation: 1600, reasoning: 1660, synthesis: 1660}
   variants:
     - { n: 8, k: 4, v: 105 }
     - { n: 6, k: 3, v: 15 }
@@ -283,7 +283,7 @@
 - id: spec.combinatorics.combinations.every-suit
   skills: { primary: spec.combinatorics.combinations }
   rating: 1720
-  responseSkills: { synthesis: 1720, calculation: 1620 }
+  responseSkills: {calculation: 1620, reasoning: 1700, synthesis: 1720}
   stem: |
     From a standard 52-card deck (13 cards in each of 4 suits), how many 5-card hands contain at least one card of every suit?
   parts:
@@ -298,7 +298,7 @@
 - id: spec.combinatorics.combinations.no-consecutive-subsets
   skills: { primary: spec.combinatorics.combinations }
   rating: 1800
-  responseSkills: { synthesis: 1800, proof: 1720 }
+  responseSkills: {calculation: 1750, reasoning: 1780, proof: 1720, synthesis: 1800}
   stem: |
     How many subsets of $\{1, 2, 3, \dots, 10\}$ (including the empty set) contain **no two consecutive numbers**?
   parts:
@@ -317,7 +317,7 @@
 - id: spec.combinatorics.combinations.capped-sharing
   skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.inclusion-exclusion] }
   rating: 1790
-  responseSkills: { synthesis: 1790, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1770, synthesis: 1790}
   stem: |
     10 identical sweets are shared among 4 children so that every child gets **at least 1** and **no child gets more than 4**. In how many ways can this be done?
   parts:
@@ -389,7 +389,7 @@
 - id: spec.combinatorics.combinations.books-to-students
   skills: { primary: spec.combinatorics.combinations }
   rating: 1480
-  responseSkills: { calculation: 1460, reading: 1460 }
+  responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
   stem: |
     9 different books are given to 3 students, Ana, Ben and Cy, so that each student gets 3 books. In how many ways can this be done?
   parts:
@@ -404,7 +404,7 @@
 - id: spec.combinatorics.combinations.chessboard-rectangles
   skills: { primary: spec.combinatorics.combinations }
   rating: 1700
-  responseSkills: { synthesis: 1700, calculation: 1620 }
+  responseSkills: {calculation: 1620, reasoning: 1680, synthesis: 1700}
   variants:
     - { n: 8, v: 1296 }
     - { n: 6, v: 441 }
@@ -422,7 +422,7 @@
 - id: spec.combinatorics.combinations.sum-divisible-by-3
   skills: { primary: spec.combinatorics.combinations }
   rating: 1760
-  responseSkills: { synthesis: 1760, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
   stem: |
     In how many ways can 3 different numbers be selected from $1, 2, \dots, 30$ so that their sum is divisible by 3?
   parts:
@@ -442,7 +442,7 @@
 - id: spec.combinatorics.combinations.paths-below-diagonal
   skills: { primary: spec.combinatorics.combinations }
   rating: 1850
-  responseSkills: { synthesis: 1850, proof: 1780 }
+  responseSkills: {calculation: 1800, reasoning: 1830, proof: 1780, synthesis: 1850}
   stem: |
     A path on a grid goes from $(0, 0)$ to $(6, 6)$ using steps of one unit right or one unit up. How many such paths never go above the line $y = x$ (they may touch it)?
   parts:
@@ -542,7 +542,7 @@
 - id: spec.combinatorics.combinations.both-or-neither
   skills: {primary: spec.combinatorics.combinations}
   rating: 1410
-  responseSkills: {calculation: 1390, synthesis: 1390}
+  responseSkills: {calculation: 1390, reasoning: 1390, synthesis: 1390}
   stem: |
     A team of 4 is chosen from 12 people. Two of them, Kai and Lee, insist on being chosen together or not at all. How many teams are possible?
   parts:
@@ -557,7 +557,7 @@
 - id: spec.combinatorics.combinations.split-groups
   skills: {primary: spec.combinatorics.combinations}
   rating: 1440
-  responseSkills: {calculation: 1420, reading: 1420}
+  responseSkills: {reading: 1420, calculation: 1420, reasoning: 1420}
   stem: |
     In how many ways can 12 people be split into a group of 7 and a group of 5?
   parts:
@@ -571,7 +571,7 @@
 - id: spec.combinatorics.combinations.three-evens
   skills: {primary: spec.combinatorics.combinations}
   rating: 1470
-  responseSkills: {calculation: 1450, synthesis: 1440}
+  responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1440}
   stem: |
     How many subsets of $\{1, 2, \dots, 10\}$ contain exactly 3 even numbers?
   parts:
@@ -589,7 +589,7 @@
 - id: spec.combinatorics.combinations.balls-nonempty
   skills: {primary: spec.combinatorics.combinations}
   rating: 1500
-  responseSkills: {calculation: 1480, synthesis: 1470}
+  responseSkills: {calculation: 1480, reasoning: 1480, synthesis: 1470}
   stem: |
     8 identical balls are placed in 3 different boxes so that no box is empty. In how many ways can this be done?
   parts:
@@ -603,7 +603,7 @@
 - id: spec.combinatorics.combinations.increasing-digits
   skills: {primary: spec.combinatorics.combinations}
   rating: 1560
-  responseSkills: {synthesis: 1550, calculation: 1500}
+  responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
   stem: |
     How many 4-digit numbers have digits that strictly increase from left to right (like 1359)?
   parts:
@@ -617,7 +617,7 @@
 - id: spec.combinatorics.combinations.all-four-suits
   skills: {primary: spec.combinatorics.combinations}
   rating: 1620
-  responseSkills: {synthesis: 1610, calculation: 1570}
+  responseSkills: {calculation: 1570, reasoning: 1600, synthesis: 1610}
   requiresCalculator: true
   stem: |
     A standard deck has 52 cards, 13 in each of 4 suits. How many 5-card hands contain at least one card of every suit?
@@ -635,7 +635,7 @@
 - id: spec.combinatorics.combinations.solutions-at-least-two
   skills: {primary: spec.combinatorics.combinations}
   rating: 1660
-  responseSkills: {synthesis: 1650, calculation: 1600}
+  responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1650}
   stem: |
     How many solutions does $a + b + c + d = 20$ have, where $a$, $b$, $c$ and $d$ are whole numbers that are each at least 2?
   parts:
@@ -649,7 +649,7 @@
 - id: spec.combinatorics.combinations.no-consecutive-three
   skills: {primary: spec.combinatorics.combinations}
   rating: 1690
-  responseSkills: {synthesis: 1680, calculation: 1630}
+  responseSkills: {calculation: 1630, reasoning: 1670, synthesis: 1680}
   stem: |
     In how many ways can 3 numbers be chosen from 1 to 20 so that no two of them are consecutive?
   parts:
@@ -664,7 +664,7 @@
 - id: spec.combinatorics.combinations.grid-triangles
   skills: {primary: spec.combinatorics.combinations}
   rating: 1730
-  responseSkills: {synthesis: 1730, calculation: 1660}
+  responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1730}
   stem: |
     16 points form a 4 by 4 square grid. How many triangles have all three corners at these points?
   parts:

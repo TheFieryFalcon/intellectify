@@ -103,7 +103,7 @@
 - id: spec.combinatorics.permutations.no-two-adjacent
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
   rating: 1420
-  responseSkills: { calculation: 1400, reading: 1420 }
+  responseSkills: {reading: 1420, calculation: 1400, reasoning: 1400, synthesis: 1400}
   variants:
     - { w: MISSISSIPPI, c: S, v: 7350 }
     - { w: GENERATED, c: E, v: 25200 }
@@ -124,7 +124,7 @@
 - id: spec.combinatorics.permutations.parallel
   skills: { primary: spec.combinatorics.permutations }
   rating: 1460
-  responseSkills: { calculation: 1450, reading: 1450 }
+  responseSkills: {reading: 1450, calculation: 1450, reasoning: 1440}
   stem: |
     Consider arrangements of all the letters of the word **PARALLEL**.
   parts:
@@ -149,7 +149,7 @@
 - id: spec.combinatorics.permutations.alternate
   skills: { primary: spec.combinatorics.permutations }
   rating: 1430
-  responseSkills: { calculation: 1400, reading: 1430 }
+  responseSkills: {reading: 1430, calculation: 1400, reasoning: 1410}
   stem: |
     4 boys and 3 girls, all different, stand in a row so that boys and girls alternate. In how many ways can this be done?
   parts:
@@ -166,7 +166,7 @@
 - id: spec.combinatorics.permutations.equation-consonants
   skills: { primary: spec.combinatorics.permutations }
   rating: 1460
-  responseSkills: { calculation: 1450, reading: 1460 }
+  responseSkills: {reading: 1460, calculation: 1450, reasoning: 1440}
   stem: |
     The word **EQUATION** has 8 different letters. How many of its arrangements:
   parts:
@@ -197,7 +197,7 @@
 - id: spec.combinatorics.permutations.round-table
   skills: { primary: spec.combinatorics.permutations }
   rating: 1500
-  responseSkills: { calculation: 1450, reading: 1500 }
+  responseSkills: {reading: 1500, calculation: 1450, reasoning: 1480}
   variants:
     - { n: 7, all: 720, apart: 480 }
     - { n: 8, all: 5040, apart: 3600 }
@@ -227,7 +227,7 @@
 - id: spec.combinatorics.permutations.greater-than
   skills: { primary: spec.combinatorics.permutations }
   rating: 1520
-  responseSkills: { calculation: 1480, reading: 1520 }
+  responseSkills: {reading: 1520, calculation: 1480, reasoning: 1500}
   stem: |
     Numbers are formed using the digits 1, 2, 3, 4 and 5, each used **at most once**. How many such numbers are greater than 4000?
   parts:
@@ -248,7 +248,7 @@
 - id: spec.combinatorics.permutations.before
   skills: { primary: spec.combinatorics.permutations }
   rating: 1570
-  responseSkills: { synthesis: 1560, reading: 1550 }
+  responseSkills: {reading: 1550, calculation: 1520, reasoning: 1550, synthesis: 1560}
   stem: |
     The six letters A, B, C, D, E, F are arranged in a row.
   parts:
@@ -274,7 +274,7 @@
 - id: spec.combinatorics.permutations.bookkeeper
   skills: { primary: spec.combinatorics.permutations }
   rating: 1600
-  responseSkills: { calculation: 1550, synthesis: 1580 }
+  responseSkills: {calculation: 1550, reasoning: 1580, synthesis: 1580}
   stem: |
     How many arrangements of the letters of **BOOKKEEPER** have the two O's **not** next to each other?
   parts:
@@ -295,7 +295,7 @@
 - id: spec.combinatorics.permutations.subject-blocks
   skills: { primary: spec.combinatorics.permutations }
   rating: 1580
-  responseSkills: { calculation: 1550, reading: 1560 }
+  responseSkills: {reading: 1560, calculation: 1550, reasoning: 1560}
   stem: |
     4 different Maths books, 3 different Physics books and 2 different Chemistry books are placed on a shelf so that books of the same subject are together. In how many ways can this be done?
   parts:
@@ -316,7 +316,7 @@
 - id: spec.combinatorics.permutations.dictionary-rank
   skills: { primary: spec.combinatorics.permutations }
   rating: 1640
-  responseSkills: { synthesis: 1620, reading: 1600 }
+  responseSkills: {reading: 1600, calculation: 1590, reasoning: 1620, synthesis: 1620}
   variants:
     - { w: LEMON, v: 26 }
     - { w: MATHS, v: 53 }
@@ -338,7 +338,7 @@
 - id: spec.combinatorics.permutations.record-arrangements
   skills: { primary: spec.combinatorics.permutations }
   rating: 1780
-  responseSkills: { synthesis: 1780, proof: 1720 }
+  responseSkills: {calculation: 1730, reasoning: 1760, proof: 1720, synthesis: 1780}
   stem: |
     The numbers $1, 2, \dots, n$ are arranged in a row so that every number after the first is either **larger than all** the numbers before it or **smaller than all** the numbers before it. For example, $3, 4, 2, 5, 1$ works for $n = 5$.
   parts:
@@ -363,7 +363,7 @@
 - id: spec.combinatorics.permutations.no-consecutive-neighbors
   skills: { primary: spec.combinatorics.permutations }
   rating: 1760
-  responseSkills: { synthesis: 1760, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1740, synthesis: 1760}
   stem: |
     In how many ways can the numbers 1, 2, 3, 4, 5 be arranged in a row so that no two numbers that differ by 1 are next to each other?
   parts:
@@ -384,7 +384,7 @@
 - id: spec.combinatorics.permutations.no-equal-neighbors
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
   rating: 1740
-  responseSkills: { synthesis: 1740, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
   stem: |
     How many 6-digit numbers use each of the digits 1, 1, 2, 2, 3, 3 exactly once and have no two equal digits next to each other?
   parts:
@@ -423,7 +423,7 @@
 - id: spec.combinatorics.permutations.vowel-ends
   skills: { primary: spec.combinatorics.permutations }
   rating: 1350
-  responseSkills: { calculation: 1330, reading: 1350 }
+  responseSkills: {reading: 1350, calculation: 1330, reasoning: 1330}
   stem: |
     How many arrangements of the letters of **NUMBER** begin and end with a vowel?
   parts:
@@ -439,7 +439,7 @@
 - id: spec.combinatorics.permutations.couples-in-a-row
   skills: { primary: spec.combinatorics.permutations }
   rating: 1450
-  responseSkills: { calculation: 1430, reading: 1440 }
+  responseSkills: {reading: 1440, calculation: 1430, reasoning: 1430}
   variants:
     - { c: 3, v: 48 }
     - { c: 4, v: 384 }
@@ -459,7 +459,7 @@
 - id: spec.combinatorics.permutations.vowels-together
   skills: { primary: spec.combinatorics.permutations }
   rating: 1480
-  responseSkills: { calculation: 1460, reading: 1460 }
+  responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
   stem: |
     How many arrangements of the letters of **TRIANGLE** have the three vowels (I, A and E) all together?
   parts:
@@ -478,7 +478,7 @@
 - id: spec.combinatorics.permutations.alternate-round-couple
   skills: { primary: spec.combinatorics.permutations }
   rating: 1720
-  responseSkills: { synthesis: 1710, calculation: 1660 }
+  responseSkills: {calculation: 1660, reasoning: 1700, synthesis: 1710}
   stem: |
     5 men and 5 women, all different, sit around a round table so that men and women alternate. One particular man and woman are a couple and must sit next to each other. Rotations of the whole table count as the same seating. How many seatings are possible?
   parts:
@@ -505,7 +505,7 @@
 - id: spec.combinatorics.permutations.mathematics-no-repeats
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
   rating: 1770
-  responseSkills: { synthesis: 1760, calculation: 1700 }
+  responseSkills: {calculation: 1700, reasoning: 1750, synthesis: 1760}
   stem: |
     How many arrangements of the letters of **MATHEMATICS** have no two identical letters next to each other?
   parts:
@@ -540,7 +540,7 @@
 - id: spec.combinatorics.permutations.exactly-one-fixed
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
   rating: 1820
-  responseSkills: { synthesis: 1820, calculation: 1720 }
+  responseSkills: {calculation: 1720, reasoning: 1800, synthesis: 1820}
   stem: |
     The numbers 1 to 7 are arranged in a row. In how many arrangements is **exactly one** number in its own position (the number $k$ in position $k$)?
   parts:
@@ -622,7 +622,7 @@
 - id: spec.combinatorics.permutations.assess
   skills: {primary: spec.combinatorics.permutations}
   rating: 1400
-  responseSkills: {calculation: 1390}
+  responseSkills: {calculation: 1390, reasoning: 1380}
   stem: |
     How many different arrangements of the letters of **ASSESS** are there?
   parts:
@@ -637,7 +637,7 @@
 - id: spec.combinatorics.permutations.three-separated
   skills: {primary: spec.combinatorics.permutations}
   rating: 1420
-  responseSkills: {calculation: 1400, synthesis: 1390}
+  responseSkills: {calculation: 1400, reasoning: 1400, synthesis: 1390}
   stem: |
     7 different people stand in a row. In how many ways can they stand if three particular people must have no two of them next to each other?
   parts:
@@ -652,7 +652,7 @@
 - id: spec.combinatorics.permutations.round-table-apart
   skills: {primary: spec.combinatorics.permutations}
   rating: 1440
-  responseSkills: {calculation: 1420, reading: 1420}
+  responseSkills: {reading: 1420, calculation: 1420, reasoning: 1420}
   stem: |
     8 people sit around a round table, where only positions relative to each other matter. In how many ways can they sit if two particular people must **not** sit next to each other?
   parts:
@@ -672,7 +672,7 @@
 - id: spec.combinatorics.permutations.odd-distinct
   skills: {primary: spec.combinatorics.permutations}
   rating: 1460
-  responseSkills: {calculation: 1440, reading: 1440}
+  responseSkills: {reading: 1440, calculation: 1440, reasoning: 1440}
   stem: |
     How many odd 4-digit numbers have four different digits?
   parts:
@@ -686,7 +686,7 @@
 - id: spec.combinatorics.permutations.statistics
   skills: {primary: spec.combinatorics.permutations}
   rating: 1490
-  responseSkills: {calculation: 1480}
+  responseSkills: {calculation: 1480, reasoning: 1470}
   stem: |
     How many different arrangements of the letters of **STATISTICS** are there?
   parts:
@@ -704,7 +704,7 @@
 - id: spec.combinatorics.permutations.banana-n-apart
   skills: {primary: spec.combinatorics.permutations}
   rating: 1520
-  responseSkills: {calculation: 1500, synthesis: 1480}
+  responseSkills: {calculation: 1500, reasoning: 1500, synthesis: 1480}
   stem: |
     How many arrangements of **BANANA** have the two N's apart?
   parts:
@@ -719,7 +719,7 @@
 - id: spec.combinatorics.permutations.alternate-round
   skills: {primary: spec.combinatorics.permutations}
   rating: 1560
-  responseSkills: {calculation: 1540, synthesis: 1530}
+  responseSkills: {calculation: 1540, reasoning: 1540, synthesis: 1530}
   stem: |
     4 boys and 4 girls, all different, sit around a round table (rotations count as the same). In how many ways can they sit if boys and girls alternate?
   parts:
@@ -738,7 +738,7 @@
 - id: spec.combinatorics.permutations.five-from-parallel
   skills: {primary: spec.combinatorics.permutations}
   rating: 1620
-  responseSkills: {calculation: 1600, synthesis: 1590}
+  responseSkills: {calculation: 1600, reasoning: 1600, synthesis: 1590}
   stem: |
     How many 5-letter arrangements can be made using letters of **PARALLEL** (each letter used no more often than it appears in the word)?
   parts:
@@ -764,7 +764,7 @@
 - id: spec.combinatorics.permutations.order-of-three
   skills: {primary: spec.combinatorics.permutations}
   rating: 1650
-  responseSkills: {calculation: 1620, synthesis: 1630}
+  responseSkills: {calculation: 1620, reasoning: 1630, synthesis: 1630}
   stem: |
     The numbers 1 to 6 are arranged in a row. In how many arrangements do 1, 2 and 3 appear in that order (not necessarily next to each other)?
   parts:
@@ -781,7 +781,7 @@
     primary: spec.combinatorics.permutations
     secondary: [spec.combinatorics.inclusion-exclusion]
   rating: 1680
-  responseSkills: {synthesis: 1670, calculation: 1630}
+  responseSkills: {calculation: 1630, reasoning: 1660, synthesis: 1670}
   stem: |
     3 couples sit in a row of 6 seats. In how many ways can they sit so that no couple sits together?
   parts:
@@ -797,7 +797,7 @@
 - id: spec.combinatorics.permutations.no-equal-neighbors-1123
   skills: {primary: spec.combinatorics.permutations}
   rating: 1720
-  responseSkills: {synthesis: 1710, calculation: 1670}
+  responseSkills: {calculation: 1670, reasoning: 1700, synthesis: 1710}
   stem: |
     How many arrangements of the seven digits 1, 1, 2, 2, 3, 3, 4 have no two equal digits next to each other?
   parts:

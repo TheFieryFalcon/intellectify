@@ -16,10 +16,11 @@ function buildWith(edit: (dir: string) => void) {
 const replaceIn = (path: string, from: string | RegExp, to: string) => writeFileSync(path, readFileSync(path, "utf8").replace(from, to));
 /** Add a fixture question file, so tests don't depend on real question content. */
 const fixture = (dir: string, yaml: string) => writeFileSync(join(dir, "questions/specialist/unit1/zz-fixture.yaml"), yaml);
-const projectionQuestion = (key: string, skill = "spec.vectors-2d.projection") => `
+const projectionQuestion = (key: string, skill = "spec.vectors-2d.projection", responseSkills = "{ calculation: 1250 }") => `
 - id: fixture.vector-projection
   skills: { primary: ${skill} }
   rating: 1300
+  responseSkills: ${responseSkills}
   stem: Find the vector projection of $4\\mathbf{i} + 2\\mathbf{j}$ onto $3\\mathbf{i} + 4\\mathbf{j}$.
   parts:
     - id: a
@@ -77,6 +78,13 @@ describe("validation catches bad content", () => {
   it("an unknown skill on a question", () => {
     const r = buildWith((d) => fixture(d, projectionQuestion("['\\frac{12}{5}', '\\frac{16}{5}']", "spec.geometry.nope")));
     expect(r.errors.join("\n")).toMatch(/unknown skill spec\.geometry\.nope/);
+  });
+
+  it("response skills that break the tagging rules", () => {
+    const key = "['\\frac{12}{5}', '\\frac{16}{5}']";
+    expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{}"))).errors.join("\n")).toMatch(/no response skills/);
+    expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{ reading: 1250 }"))).errors.join("\n")).toMatch(/computed answer exercises calculation/);
+    expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{ calculation: 1250, guessing: 1200 }"))).errors.join("\n")).toMatch(/unknown response skill guessing/);
   });
 
   it("a review mapping to a missing skill", () => {

@@ -78,7 +78,7 @@
 - id: spec.vectors-2d.applications.bearing-axis
   skills: { primary: spec.vectors-2d.applications }
   rating: 1120
-  responseSkills: { reading: 1120 }
+  responseSkills: {reading: 1120, calculation: 1070}
   variants:
     - { s: 10, b: '180', x: 0, y: -10 }
     - { s: 25, b: '270', x: -25, y: 0 }
@@ -330,7 +330,7 @@
 - id: spec.vectors-2d.applications.intercept-fixed-time
   skills: { primary: spec.vectors-2d.applications }
   rating: 1550
-  responseSkills: { synthesis: 1530, calculation: 1500 }
+  responseSkills: {calculation: 1500, reasoning: 1530, synthesis: 1530}
   stem: |
     At noon, a patrol boat is at the origin and a ship is at $6\mathbf{i} + 8\mathbf{j}$ km, moving with velocity $-2\mathbf{i}$ km/h. The patrol boat leaves at noon at constant velocity and meets the ship at 2 pm. Find the patrol boat's velocity and its speed.
   parts:
@@ -351,7 +351,7 @@
 - id: spec.vectors-2d.applications.plane-due-north
   skills: { primary: spec.vectors-2d.applications }
   rating: 1580
-  responseSkills: { synthesis: 1560, calculation: 1540 }
+  responseSkills: {calculation: 1540, reasoning: 1560, synthesis: 1560}
   requiresCalculator: true
   stem: |
     A town is 400 km due north of an airport. A plane with an airspeed of 250 km/h flies there, with a wind of 70 km/h blowing from the east (so the air moves due west). Find the bearing the plane must point on, correct to one decimal place, and the flight time in minutes.
@@ -373,7 +373,7 @@
 - id: spec.vectors-2d.applications.closest-approach
   skills: { primary: spec.vectors-2d.applications }
   rating: 1610
-  responseSkills: { synthesis: 1600, calculation: 1560 }
+  responseSkills: {calculation: 1560, reasoning: 1590, synthesis: 1600}
   stem: |
     At $t = 0$ hours, ship $A$ is at the origin and ship $B$ is at $10\mathbf{i}$ km. $A$ moves with velocity $3\mathbf{i} + 4\mathbf{j}$ km/h and $B$ with velocity $-\mathbf{i} + 2\mathbf{j}$ km/h. Find when the ships are closest, and the exact closest distance.
   parts:
@@ -398,7 +398,7 @@
 - id: spec.vectors-2d.applications.apparent-wind
   skills: { primary: spec.vectors-2d.applications }
   rating: 1640
-  responseSkills: { synthesis: 1630, reading: 1600 }
+  responseSkills: {reading: 1600, calculation: 1590, reasoning: 1620, synthesis: 1630}
   requiresCalculator: true
   stem: |
     A cyclist rides due north at 20 km/h. The wind blows from the east at 15 km/h. Find the speed of the wind as the cyclist feels it (the wind's velocity relative to the cyclist), and the true bearing it seems to come *from*, correct to one decimal place.
@@ -422,7 +422,7 @@
 - id: spec.vectors-2d.applications.intercept-speed
   skills: { primary: spec.vectors-2d.applications }
   rating: 1700
-  responseSkills: { synthesis: 1700, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1700}
   stem: |
     At noon, ship $B$ is 8 km due east of ship $A$ and sails due north at 3 km/h. Also at noon, $A$ sets off at 5 km/h in a fixed direction chosen so that it meets $B$. Find when they meet and $A$'s velocity.
   parts:
@@ -446,7 +446,7 @@
 - id: spec.vectors-2d.applications.swim-upstream
   skills: { primary: spec.vectors-2d.applications }
   rating: 1740
-  responseSkills: { synthesis: 1740, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
   requiresCalculator: true
   stem: |
     A river is 100 m wide with straight, parallel banks, and flows at 1 m/s. A swimmer swims at 2 m/s through the water and wants to land at the point on the far bank 50 m upstream of the point directly opposite. Find the angle between the swimmer's heading and the straight-across direction, correct to one decimal place, and the time taken, correct to one decimal place.
@@ -471,7 +471,7 @@
 - id: spec.vectors-2d.applications.plane-track
   skills: { primary: spec.vectors-2d.applications }
   rating: 1760
-  responseSkills: { synthesis: 1760, calculation: 1700 }
+  responseSkills: {calculation: 1700, reasoning: 1740, synthesis: 1760}
   requiresCalculator: true
   stem: |
     A plane flies from $P$ to $Q$, which is 960 km from $P$ on a bearing of $060^\circ\text{T}$. Its airspeed is 380 km/h, and a 100 km/h wind blows from the north (so the air moves due south). Find the bearing the plane must point on, correct to one decimal place, and the flight time.
@@ -499,7 +499,7 @@
 - id: spec.vectors-2d.applications.two-strings
   skills: { primary: spec.vectors-2d.applications }
   rating: 1700
-  responseSkills: { synthesis: 1690, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1690}
   requiresCalculator: true
   stem: |
     A mass hangs at rest from two strings. Its weight is 196 N, straight down. One string makes an angle of $30^\circ$ with the vertical and the other $60^\circ$ with the vertical, on opposite sides. Find the pull (tension) in each string, correct to one decimal place where needed.
@@ -523,7 +523,7 @@
 - id: spec.vectors-2d.applications.true-wind
   skills: { primary: spec.vectors-2d.applications }
   rating: 1760
-  responseSkills: { synthesis: 1760, reading: 1700 }
+  responseSkills: {reading: 1700, calculation: 1710, reasoning: 1740, synthesis: 1760}
   stem: |
     A cyclist rides due east at 12 km/h, and the wind seems to her to blow from due north. When she speeds up to 24 km/h due east, the wind seems to blow from the north-east. Find the true wind's exact speed, and the true bearing it blows *from*.
   parts:
@@ -552,7 +552,7 @@
 - id: spec.vectors-2d.applications.least-drift
   skills: { primary: spec.vectors-2d.applications }
   rating: 1790
-  responseSkills: { synthesis: 1790, calculation: 1700 }
+  responseSkills: {calculation: 1700, reasoning: 1770, synthesis: 1790}
   requiresCalculator: true
   stem: |
     A river is 400 m wide and flows at 5 m/s. A boat moves at 3 m/s through the water, so it can't cross without being carried downstream. Find the angle between the boat's heading and the straight-across direction (upstream) that makes the downstream drift as small as possible, and that smallest drift, each correct to one decimal place.
@@ -735,7 +735,7 @@
 - id: spec.vectors-2d.applications.rain-cyclist
   skills: {primary: spec.vectors-2d.applications}
   rating: 1560
-  responseSkills: {calculation: 1540, synthesis: 1530}
+  responseSkills: {calculation: 1540, reasoning: 1540, synthesis: 1530}
   requiresCalculator: true
   stem: |
     Rain falls straight down at 6 m/s. A cyclist rides due east at 8 m/s. Find the speed of the rain relative to the cyclist, and the angle it makes with the vertical, correct to one decimal place.
@@ -755,7 +755,7 @@
 - id: spec.vectors-2d.applications.collide-velocity
   skills: {primary: spec.vectors-2d.applications}
   rating: 1600
-  responseSkills: {synthesis: 1590, calculation: 1550}
+  responseSkills: {calculation: 1550, reasoning: 1580, synthesis: 1590}
   stem: |
     Particle $P$ starts at the origin with velocity $2\mathbf{i} + 3\mathbf{j}$ m/s. Particle $Q$ starts at $10\mathbf{i} - 5\mathbf{j}$ m at the same time. Find the constant velocity of $Q$ so that the particles collide after 5 seconds.
   parts:
@@ -772,7 +772,7 @@
 - id: spec.vectors-2d.applications.aircraft-airspeed
   skills: {primary: spec.vectors-2d.applications}
   rating: 1650
-  responseSkills: {synthesis: 1640, calculation: 1600}
+  responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
   requiresCalculator: true
   stem: |
     An aircraft must fly 300 km due east in 1.5 hours. A 40 km/h wind blows from the south (the air moves due north). Find the airspeed it needs and the bearing it must point on, each correct to one decimal place.
@@ -792,7 +792,7 @@
 - id: spec.vectors-2d.applications.river-two-ways
   skills: {primary: spec.vectors-2d.applications}
   rating: 1710
-  responseSkills: {synthesis: 1700, calculation: 1650}
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
   requiresCalculator: true
   stem: |
     A river is 120 m wide and flows at 3 m/s. A boat moves at 5 m/s through the water.

@@ -4,7 +4,7 @@
 - id: spec.vectors-2d.projection.onto-j
   skills: { primary: spec.vectors-2d.projection }
   rating: 1060
-  responseSkills: { reading: 1060 }
+  responseSkills: {reading: 1060, calculation: 1010}
   variants:
     - { x: 7, y: -2 }
     - { x: -4, y: 9 }
@@ -22,7 +22,7 @@
 - id: spec.vectors-2d.projection.onto-i
   skills: { primary: spec.vectors-2d.projection }
   rating: 1080
-  responseSkills: { reading: 1080 }
+  responseSkills: {reading: 1080, calculation: 1030}
   variants:
     - { x: 5, y: -3 }
     - { x: -6, y: 2 }
@@ -277,7 +277,7 @@
 - id: spec.vectors-2d.projection.two-projections
   skills: { primary: spec.vectors-2d.projection }
   rating: 1580
-  responseSkills: { synthesis: 1570, calculation: 1530 }
+  responseSkills: {calculation: 1530, reasoning: 1560, synthesis: 1570}
   requiresCalculator: true
   stem: |
     The scalar projection of $\mathbf{a}$ onto $\mathbf{b}$ is 3, and the scalar projection of $\mathbf{b}$ onto $\mathbf{a}$ is 6. Also, $|\mathbf{a}| = 4$.
@@ -300,7 +300,7 @@
 - id: spec.vectors-2d.projection.from-projection-and-length
   skills: { primary: spec.vectors-2d.projection }
   rating: 1600
-  responseSkills: { synthesis: 1590, calculation: 1540 }
+  responseSkills: {calculation: 1540, reasoning: 1580, synthesis: 1590}
   stem: |
     The vector projection of $\mathbf{a}$ onto $\mathbf{i} + \mathbf{j}$ is $3\mathbf{i} + 3\mathbf{j}$, and $|\mathbf{a}| = \sqrt{26}$. If the $\mathbf{i}$-component of $\mathbf{a}$ is larger than its $\mathbf{j}$-component, find $\mathbf{a}$.
   parts:
@@ -322,7 +322,7 @@
 - id: spec.vectors-2d.projection.triangle-area
   skills: { primary: spec.vectors-2d.projection }
   rating: 1620
-  responseSkills: { synthesis: 1610, calculation: 1560 }
+  responseSkills: {calculation: 1560, reasoning: 1600, synthesis: 1610}
   stem: |
     Use projections to find the area of the triangle with corners $O(0, 0)$, $A(4, 1)$ and $B(1, 3)$.
   parts:
@@ -343,7 +343,7 @@
 - id: spec.vectors-2d.projection.altitude
   skills: { primary: spec.vectors-2d.projection }
   rating: 1660
-  responseSkills: { synthesis: 1640, calculation: 1600 }
+  responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1640}
   stem: |
     Triangle $ABC$ has $A(0, 0)$, $B(5, 0)$ and $C(1, 4)$. $D$ is the point on $BC$ for which $AD$ is perpendicular to $BC$.
   parts:
@@ -368,7 +368,7 @@
 - id: spec.vectors-2d.projection.reflection
   skills: { primary: spec.vectors-2d.projection }
   rating: 1690
-  responseSkills: { synthesis: 1690, calculation: 1620 }
+  responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1690}
   stem: |
     A line passes through the origin in the direction $2\mathbf{i} + \mathbf{j}$. Find the position vector of the mirror image of $P(5, 1)$ in the line (the point the same distance from the line, directly opposite $P$ on the other side).
   parts:
@@ -389,7 +389,7 @@
 - id: spec.vectors-2d.projection.reverse-projection
   skills: { primary: spec.vectors-2d.projection }
   rating: 1710
-  responseSkills: { synthesis: 1710, reading: 1650 }
+  responseSkills: {reading: 1650, calculation: 1660, reasoning: 1690, synthesis: 1710}
   stem: |
     $|\mathbf{a}| = 2$ and $|\mathbf{b}| = 3$. The vector projection of $\mathbf{a}$ onto $\mathbf{b}$ is $\tfrac{1}{3}\mathbf{b}$. Find the vector projection of $\mathbf{b}$ onto $\mathbf{a}$, in terms of $\mathbf{a}$.
   parts:
@@ -407,7 +407,7 @@
 - id: spec.vectors-2d.projection.closest-to-origin
   skills: { primary: spec.vectors-2d.projection }
   rating: 1730
-  responseSkills: { synthesis: 1720, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1720}
   stem: |
     Find the position vector of the point on the line through $A(1, 2)$ and $B(7, 5)$ that is closest to the origin.
   parts:
@@ -428,7 +428,7 @@
 - id: spec.vectors-2d.projection.unit-vector-from-projection
   skills: { primary: spec.vectors-2d.projection }
   rating: 1750
-  responseSkills: { synthesis: 1750, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1730, synthesis: 1750}
   stem: |
     The scalar projection of $3\mathbf{i} + 4\mathbf{j}$ onto the unit vector $\mathbf{u}$ is 4. One possibility is $\mathbf{u} = \mathbf{j}$. Find the other.
   parts:
@@ -448,7 +448,7 @@
 - id: spec.vectors-2d.projection.onto-sum
   skills: { primary: spec.vectors-2d.projection }
   rating: 1720
-  responseSkills: { synthesis: 1720, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1720}
   stem: |
     Non-zero vectors $\mathbf{a}$ and $\mathbf{b}$ satisfy $|\mathbf{a}| = |\mathbf{b}| = |\mathbf{a} - \mathbf{b}|$. Find the vector projection of $\mathbf{a}$ onto $\mathbf{a} + \mathbf{b}$, in terms of $\mathbf{a}$ and $\mathbf{b}$.
   parts:

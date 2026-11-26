@@ -67,7 +67,7 @@
 - id: spec.geometry.logic.for-all-truth
   skills: {primary: spec.geometry.logic}
   rating: 1280
-  responseSkills: {reading: 1270, calculation: 1200}
+  responseSkills: {reading: 1270, calculation: 1200, reasoning: 1270}
   stem: |
     Which statement about real numbers is true?
   parts:
@@ -83,7 +83,7 @@
 - id: spec.geometry.logic.same-truth-value
   skills: {primary: spec.geometry.logic}
   rating: 1320
-  responseSkills: {reading: 1310}
+  responseSkills: {reading: 1310, reasoning: 1310}
   stem: |
     Which statement always has the same truth value as $P \Rightarrow Q$?
   parts:
@@ -99,7 +99,7 @@
 - id: spec.geometry.logic.negate-all
   skills: {primary: spec.geometry.logic}
   rating: 1370
-  responseSkills: {reading: 1360}
+  responseSkills: {reading: 1360, reasoning: 1360}
   stem: |
     Which statement is the negation of "All of the students passed the test"?
   parts:
@@ -115,7 +115,7 @@
 - id: spec.geometry.logic.negate-nested
   skills: {primary: spec.geometry.logic}
   rating: 1420
-  responseSkills: {reading: 1410}
+  responseSkills: {reading: 1410, reasoning: 1410}
   stem: |
     Which statement is the negation of "For every real number $x$, there is an integer $n$ with $n > x$"?
   parts:
@@ -131,7 +131,7 @@
 - id: spec.geometry.logic.true-equivalence
   skills: {primary: spec.geometry.logic}
   rating: 1440
-  responseSkills: {reading: 1420, calculation: 1350}
+  responseSkills: {reading: 1420, calculation: 1350, reasoning: 1430}
   stem: |
     Which equivalence is true? ($x$ is real; $n$, $a$ and $b$ are integers.)
   parts:
@@ -147,7 +147,7 @@
 - id: spec.geometry.logic.converse-counterexample
   skills: {primary: spec.geometry.logic}
   rating: 1460
-  responseSkills: {reading: 1440, calculation: 1380}
+  responseSkills: {reading: 1440, calculation: 1380, reasoning: 1450}
   stem: |
     Consider the true statement "If $x > 3$, then $x^2 > 9$" (for real $x$).
   parts:
@@ -170,7 +170,7 @@
 - id: spec.geometry.logic.four-forms-count
   skills: {primary: spec.geometry.logic}
   rating: 1480
-  responseSkills: {reading: 1480, synthesis: 1420}
+  responseSkills: {reading: 1480, calculation: 1430, reasoning: 1470, synthesis: 1420}
   stem: |
     Consider "If a quadrilateral has four equal sides, then it is a square." How many of the statement, its converse, its inverse and its contrapositive are true?
   parts:
@@ -191,14 +191,14 @@
 - id: spec.geometry.logic.divisible-converse
   skills: {primary: spec.geometry.logic}
   rating: 1500
-  responseSkills: {proof: 1480, clarity: 1450}
+  responseSkills: {reasoning: 1480, proof: 1480, clarity: 1450, precision: 1440}
   stem: |
     Explain why "If a whole number is divisible by 9, then it is divisible by 3" is true, but its converse is false.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: statement, description: 'Shows the statement: 9k = 3(3k), so a multiple of 9 is a multiple of 3', points: 2, dimension: proof}
+      - {id: statement, description: 'Shows the statement: 9k = 3(3k), so a multiple of 9 is a multiple of 3', points: 2, dimension: reasoning}
       - {id: converse, description: 'States the converse correctly: if divisible by 3, then divisible by 9', points: 1, dimension: precision}
       - {id: counter, description: 'Gives a counterexample, such as 3, 6 or 12, and checks it', points: 1, dimension: proof}
       - {id: clear, description: Clearly expressed, points: 1, dimension: clarity}
@@ -208,7 +208,7 @@
 - id: spec.geometry.logic.symbols
   skills: {primary: spec.geometry.logic}
   rating: 1600
-  responseSkills: {precision: 1600, reading: 1550}
+  responseSkills: {reading: 1550, reasoning: 1590, precision: 1600}
   stem: |
     A student solves $x^2 = 9$. Which line of working uses the symbols correctly?
   parts:
@@ -224,7 +224,7 @@
 - id: spec.geometry.logic.equivalent-form
   skills: {primary: spec.geometry.logic}
   rating: 1720
-  responseSkills: {reading: 1720, synthesis: 1680}
+  responseSkills: {reading: 1720, reasoning: 1710, synthesis: 1680}
   stem: |
     Which statement is logically equivalent to "If not ($P$ and $Q$), then $R$"?
   parts:
@@ -241,7 +241,7 @@
 - id: spec.geometry.logic.quadratic-for-all
   skills: {primary: spec.geometry.logic}
   rating: 1720
-  responseSkills: {calculation: 1680, synthesis: 1700}
+  responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1700}
   stem: |
     For which integers $k$ is the statement "$\forall x \in \mathbb{R},\ x^2 + kx + 4 > 0$" true?
   parts:
@@ -260,7 +260,7 @@
 - id: spec.geometry.logic.consecutive-product
   skills: {primary: spec.geometry.logic}
   rating: 1710
-  responseSkills: {proof: 1700, precision: 1650, clarity: 1600}
+  responseSkills: {reasoning: 1700, clarity: 1600, precision: 1650}
   stem: |
     Let $S$ be the statement "$\forall n \in \mathbb{Z},\ n^2 + n$ is even".
   parts:
@@ -269,8 +269,8 @@
     rubric:
       criteria:
       - {id: neg, description: 'Writes the negation correctly: ∃n ∈ ℤ such that n² + n is odd (or not even)', points: 2, dimension: precision}
-      - {id: factor, description: 'Writes n² + n = n(n + 1), a product of consecutive integers', points: 1, dimension: proof}
-      - {id: even, description: 'Explains that one of n, n + 1 is even, so the product is even', points: 1, dimension: proof}
+      - {id: factor, description: 'Writes n² + n = n(n + 1), a product of consecutive integers', points: 1, dimension: reasoning}
+      - {id: even, description: 'Explains that one of n, n + 1 is even, so the product is even', points: 1, dimension: reasoning}
       - {id: decide, description: Concludes S is true and its negation is false, points: 1, dimension: clarity}
   solution: |
     The negation is "$\exists n \in \mathbb{Z}$ such that $n^2 + n$ is odd".
@@ -278,7 +278,7 @@
 - id: spec.geometry.logic.negate-bertrand
   skills: {primary: spec.geometry.logic}
   rating: 1740
-  responseSkills: {precision: 1740, reading: 1700}
+  responseSkills: {reading: 1700, reasoning: 1730, precision: 1740}
   stem: |
     Bertrand's postulate says: "For every integer $n > 1$, there is a prime $p$ with $n < p < 2n$." Which is its negation?
   parts:

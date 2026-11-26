@@ -94,7 +94,7 @@
 - id: spec.vectors-2d.geometric.parallelogram-diagonal
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1150
-  responseSkills: { reading: 1150 }
+  responseSkills: {reading: 1150, calculation: 1100}
   stem: |
     $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Find $\overrightarrow{OB}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
   parts:
@@ -110,7 +110,7 @@
 - id: spec.vectors-2d.geometric.parallelogram-other-diagonal
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1200
-  responseSkills: { reading: 1200 }
+  responseSkills: {reading: 1200, calculation: 1150}
   stem: |
     $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Find $\overrightarrow{AC}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
   parts:
@@ -127,7 +127,7 @@
 - id: spec.vectors-2d.geometric.midpoint-path
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1270
-  responseSkills: { reading: 1270 }
+  responseSkills: {reading: 1270, calculation: 1220, reasoning: 1250}
   stem: |
     $OABC$ is a parallelogram, with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. $N$ is the midpoint of $BC$. Find $\overrightarrow{ON}$ in terms of $\mathbf{a}$ and $\mathbf{c}$.
   parts:
@@ -143,7 +143,7 @@
 - id: spec.vectors-2d.geometric.bearing-resultant
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1300
-  responseSkills: { calculation: 1280, reading: 1300 }
+  responseSkills: {reading: 1300, calculation: 1280, reasoning: 1280}
   requiresCalculator: true
   variants:
     - { s: 5, e: 12, d: 13, b: 112.6 }
@@ -167,7 +167,7 @@
 - id: spec.vectors-2d.geometric.divide-side
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1350
-  responseSkills: { reading: 1340, calculation: 1300 }
+  responseSkills: {reading: 1340, calculation: 1300, reasoning: 1330}
   variants:
     - { p: 1, q: 2 }
     - { p: 3, q: 1 }
@@ -188,7 +188,7 @@
 - id: spec.vectors-2d.geometric.sum-60
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1380
-  responseSkills: { calculation: 1370, reading: 1360 }
+  responseSkills: {reading: 1360, calculation: 1370, reasoning: 1360}
   variants:
     - { p: 3, q: 5, v: 7 }
     - { p: 7, q: 8, v: 13 }
@@ -209,7 +209,7 @@
 - id: spec.vectors-2d.geometric.difference-120
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1430
-  responseSkills: { calculation: 1400, reading: 1430 }
+  responseSkills: {reading: 1430, calculation: 1400, reasoning: 1410}
   variants:
     - { p: 3, q: 5, v: 7 }
     - { p: 7, q: 8, v: 13 }
@@ -228,7 +228,7 @@
 - id: spec.vectors-2d.geometric.hexagon
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1470
-  responseSkills: { reading: 1470, synthesis: 1450 }
+  responseSkills: {reading: 1470, calculation: 1420, reasoning: 1450, synthesis: 1450}
   stem: |
     $ABCDEF$ is a regular hexagon: all six sides are equal and all six angles are $120^\circ$. $\overrightarrow{AB} = \mathbf{a}$ and $\overrightarrow{BC} = \mathbf{b}$. Find, in terms of $\mathbf{a}$ and $\mathbf{b}$:
   parts:
@@ -257,7 +257,7 @@
 - id: spec.vectors-2d.geometric.two-forces
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1490
-  responseSkills: { calculation: 1470, reading: 1450 }
+  responseSkills: {reading: 1450, calculation: 1470, reasoning: 1470}
   requiresCalculator: true
   stem: |
     Two forces of 10 N and 6 N act on a particle. The angle between them is $60^\circ$. Find the magnitude of the resultant force, and the angle it makes with the 10 N force, correct to one decimal place.
@@ -280,7 +280,7 @@
 - id: spec.vectors-2d.geometric.midpoint-theorem
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1520
-  responseSkills: { proof: 1500, clarity: 1450 }
+  responseSkills: {reasoning: 1500, proof: 1500, clarity: 1450}
   stem: |
     In triangle $OAB$, $M$ is the midpoint of $OA$ and $N$ is the midpoint of $OB$. Use vectors to prove that $MN$ is parallel to $AB$ and half its length.
   parts:
@@ -288,8 +288,8 @@
       rubric:
         criteria:
           - { id: setup, description: "Defines vectors, e.g. OA = a and OB = b, and writes OM = ½a and ON = ½b", points: 1, dimension: proof }
-          - { id: mn, description: "MN = ON − OM = ½(b − a)", points: 1, dimension: proof }
-          - { id: ab, description: "AB = b − a, so MN = ½AB", points: 1, dimension: proof }
+          - { id: mn, description: "MN = ON − OM = ½(b − a)", points: 1, dimension: reasoning }
+          - { id: ab, description: "AB = b − a, so MN = ½AB", points: 1, dimension: reasoning }
           - { id: conclude, description: "Concludes: a positive multiple means parallel, and the factor ½ means half the length", points: 1, dimension: clarity }
   solution: |
     Let $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. Then $\overrightarrow{OM} = \tfrac{1}{2}\mathbf{a}$ and $\overrightarrow{ON} = \tfrac{1}{2}\mathbf{b}$, so
@@ -300,7 +300,7 @@
 - id: spec.vectors-2d.geometric.equal-magnitudes
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1570
-  responseSkills: { synthesis: 1570, reading: 1500 }
+  responseSkills: {reading: 1500, calculation: 1520, reasoning: 1550, synthesis: 1570}
   stem: |
     Non-zero vectors $\mathbf{a}$ and $\mathbf{b}$ satisfy $|\mathbf{a}| = |\mathbf{b}| = |\mathbf{a} + \mathbf{b}|$. Find the angle between $\mathbf{a}$ and $\mathbf{b}$, in degrees.
   parts:
@@ -318,7 +318,7 @@
 - id: spec.vectors-2d.geometric.sum-and-difference
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1610
-  responseSkills: { calculation: 1580, synthesis: 1600 }
+  responseSkills: {calculation: 1580, reasoning: 1590, synthesis: 1600}
   variants:
     - { p: 4, q: 6, r: 8, v: '2\sqrt{10}' }
     - { p: 5, q: 7, r: 10, v: '4\sqrt{3}' }
@@ -338,7 +338,7 @@
 - id: spec.vectors-2d.geometric.equilibrium-angle
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1660
-  responseSkills: { synthesis: 1650, calculation: 1600 }
+  responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1650}
   requiresCalculator: true
   stem: |
     Three forces of 5 N, 7 N and 8 N act on a particle, which stays at rest (the forces add to zero). Find the angle between the 5 N and 7 N forces, correct to one decimal place.
@@ -358,7 +358,7 @@
 - id: spec.vectors-2d.geometric.trapezium-diagonals
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1710
-  responseSkills: { synthesis: 1700, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
   variants:
     - { k: 2 }
     - { k: 3 }
@@ -380,7 +380,7 @@
 - id: spec.vectors-2d.geometric.cevians
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1740
-  responseSkills: { synthesis: 1730, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1730}
   stem: |
     In triangle $OAB$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ is on $OA$ with $OP = \tfrac{2}{3}OA$, and $Q$ is on $OB$ with $OQ = \tfrac{3}{4}OB$. The lines $AQ$ and $BP$ meet at $X$. Find $\overrightarrow{OX}$ in terms of $\mathbf{a}$ and $\mathbf{b}$.
   parts:
@@ -400,15 +400,15 @@
 - id: spec.vectors-2d.geometric.medians-meet
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1760
-  responseSkills: { proof: 1760, synthesis: 1720, clarity: 1650 }
+  responseSkills: {reasoning: 1760, proof: 1760, clarity: 1650, synthesis: 1720}
   stem: |
     In triangle $OAB$, join each corner to the midpoint of the opposite side, giving three lines. Use vectors to prove that the three lines pass through one point, which is $\tfrac{2}{3}$ of the way along each line from its corner.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Sets OA = a, OB = b, and writes the three midpoints: ½a, ½b and ½(a + b)", points: 1, dimension: proof }
-          - { id: point, description: "Finds the point ⅔ of the way along one line, e.g. from O to the midpoint of AB: ⅓(a + b)", points: 2, dimension: proof }
+          - { id: setup, description: "Sets OA = a, OB = b, and writes the three midpoints: ½a, ½b and ½(a + b)", points: 1, dimension: reasoning }
+          - { id: point, description: "Finds the point ⅔ of the way along one line, e.g. from O to the midpoint of AB: ⅓(a + b)", points: 2, dimension: reasoning }
           - { id: others, description: "Shows the points ⅔ of the way along the other two lines are also ⅓(a + b), e.g. a + ⅔(½b − a) = ⅓a + ⅓b", points: 2, dimension: proof }
           - { id: conclude, description: "Concludes that all three lines pass through the same point", points: 1, dimension: clarity }
   solution: |
@@ -422,7 +422,7 @@
 - id: spec.vectors-2d.geometric.point-on-diagonal
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1330
-  responseSkills: { reading: 1320, calculation: 1280 }
+  responseSkills: {reading: 1320, calculation: 1280, reasoning: 1310}
   variants:
     - { p: 1, q: 3 }
     - { p: 2, q: 1 }
@@ -441,7 +441,7 @@
 - id: spec.vectors-2d.geometric.hexagon-midpoints
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1700
-  responseSkills: { synthesis: 1690, reading: 1650 }
+  responseSkills: {reading: 1650, calculation: 1650, reasoning: 1680, synthesis: 1690}
   stem: |
     $ABCDEF$ is a regular hexagon (all sides equal, all angles $120^\circ$). $\overrightarrow{AB} = \mathbf{a}$ and $\overrightarrow{BC} = \mathbf{b}$. $M$ is the midpoint of $CD$ and $N$ is the midpoint of $EF$. Find $\overrightarrow{MN}$ in terms of $\mathbf{a}$ and $\mathbf{b}$.
   parts:
@@ -464,7 +464,7 @@
 - id: spec.vectors-2d.geometric.line-meets-side
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1740
-  responseSkills: { synthesis: 1740, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
   stem: |
     In triangle $OAB$, $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ is on $OA$ with $OP : PA = 1 : 2$, and $Q$ is the midpoint of $AB$. The line through $P$ and $Q$ meets the line $OB$ at $R$. Find $\overrightarrow{OR}$ in terms of $\mathbf{b}$.
   parts:
@@ -485,15 +485,15 @@
 - id: spec.vectors-2d.geometric.quadrilateral-identity
   skills: { primary: spec.vectors-2d.geometric }
   rating: 1720
-  responseSkills: { proof: 1710, synthesis: 1680, clarity: 1600 }
+  responseSkills: {reasoning: 1710, proof: 1710, clarity: 1600, synthesis: 1680}
   stem: |
     $ABCD$ is any quadrilateral. $P$ is the midpoint of $AC$ and $Q$ is the midpoint of $BD$. Prove that $\overrightarrow{AB} + \overrightarrow{AD} + \overrightarrow{CB} + \overrightarrow{CD} = 4\overrightarrow{PQ}$.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Uses position vectors a, b, c, d (or an equivalent setup)", points: 1, dimension: proof }
-          - { id: lhs, description: "Left side = (b − a) + (d − a) + (b − c) + (d − c) = 2(b + d) − 2(a + c)", points: 2, dimension: proof }
+          - { id: setup, description: "Uses position vectors a, b, c, d (or an equivalent setup)", points: 1, dimension: reasoning }
+          - { id: lhs, description: "Left side = (b − a) + (d − a) + (b − c) + (d − c) = 2(b + d) − 2(a + c)", points: 2, dimension: reasoning }
           - { id: rhs, description: "PQ = ½(b + d) − ½(a + c), so 4PQ = 2(b + d) − 2(a + c)", points: 2, dimension: proof }
           - { id: clear, description: "Concludes clearly", points: 1, dimension: clarity }
   solution: |

@@ -4,7 +4,7 @@
 - id: spec.vectors-2d.components.column-to-ij
   skills: { primary: spec.vectors-2d.components }
   rating: 1010
-  responseSkills: { reading: 1010 }
+  responseSkills: {reading: 1010, calculation: 1000}
   variants:
     - { x: 4, y: -7 }
     - { x: -2, y: 5 }
@@ -343,7 +343,7 @@
 - id: spec.vectors-2d.components.magnitude-quadratic
   skills: { primary: spec.vectors-2d.components }
   rating: 1580
-  responseSkills: { calculation: 1570, synthesis: 1520 }
+  responseSkills: {calculation: 1570, reasoning: 1560, synthesis: 1520}
   stem: |
     Find the exact values of $k$ for which $|k(2\mathbf{i} - \mathbf{j}) - (\mathbf{i} + 3\mathbf{j})| = 5$.
   parts:
@@ -360,7 +360,7 @@
 - id: spec.vectors-2d.components.equal-length-sum
   skills: { primary: spec.vectors-2d.components }
   rating: 1590
-  responseSkills: { synthesis: 1580, calculation: 1520 }
+  responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1580}
   stem: |
     $\mathbf{a} = 2\mathbf{i} - \mathbf{j}$. The vector $\mathbf{b}$ has the same magnitude as $\mathbf{a}$, and $\mathbf{a} + \mathbf{b}$ is parallel to $\mathbf{i}$. If $\mathbf{b}$ has a negative $\mathbf{i}$-component, find $\mathbf{b}$.
   parts:
@@ -379,7 +379,7 @@
 - id: spec.vectors-2d.components.three-parallelograms
   skills: { primary: spec.vectors-2d.components }
   rating: 1620
-  responseSkills: { reading: 1610, synthesis: 1580 }
+  responseSkills: {reading: 1610, calculation: 1570, reasoning: 1600, synthesis: 1580}
   stem: |
     $A(1, 1)$, $B(4, 2)$ and $C(3, 5)$ are three corners of a parallelogram. Find the position vector of the fourth corner $D$ if the parallelogram is:
   parts:
@@ -405,7 +405,7 @@
 - id: spec.vectors-2d.components.greatest-least
   skills: { primary: spec.vectors-2d.components }
   rating: 1650
-  responseSkills: { synthesis: 1650, reading: 1580 }
+  responseSkills: {reading: 1580, calculation: 1600, reasoning: 1630, synthesis: 1650}
   variants:
     - { p: 5, q: 3 }
     - { p: 4, q: 2 }
@@ -429,7 +429,7 @@
 - id: spec.vectors-2d.components.closest-point
   skills: { primary: spec.vectors-2d.components }
   rating: 1700
-  responseSkills: { synthesis: 1700, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1700}
   stem: |
     For each real number $t$, the point $P$ has position vector $(2 + t)\mathbf{i} + (1 - 2t)\mathbf{j}$. Find the value of $t$ for which $P$ is closest to the point $(7, 6)$, and the exact closest distance.
   parts:
@@ -453,7 +453,7 @@
 - id: spec.vectors-2d.components.square-corners
   skills: { primary: spec.vectors-2d.components }
   rating: 1720
-  responseSkills: { synthesis: 1720, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1720}
   stem: |
     $ABCD$ is a square. $A$ is $(1, 2)$ and the opposite corner $C$ is $(7, 6)$. $B$ lies above the line $AC$. Find the position vectors of $B$ and $D$.
   parts:
@@ -482,7 +482,7 @@
 - id: spec.vectors-2d.components.rhombus-corners
   skills: { primary: spec.vectors-2d.components }
   rating: 1760
-  responseSkills: { synthesis: 1760, calculation: 1680 }
+  responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
   stem: |
     $ABCD$ is a rhombus (all four sides are equal) with side length $5\sqrt{2}$. $A$ is $(1, 1)$ and the opposite corner $C$ is $(9, 7)$. $B$ lies above the line $AC$. Find the position vectors of $B$ and $D$.
   parts:
@@ -512,7 +512,7 @@
 - id: spec.vectors-2d.components.unit-makes-parallel
   skills: { primary: spec.vectors-2d.components }
   rating: 1710
-  responseSkills: { synthesis: 1700, calculation: 1650 }
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
   stem: |
     $\mathbf{u}$ is a unit vector, and $3\mathbf{i} + 4\mathbf{j} + 5\mathbf{u}$ is a non-zero vector parallel to $\mathbf{i}$. Find $\mathbf{u}$.
   parts:
@@ -531,7 +531,7 @@
 - id: spec.vectors-2d.components.equilateral-corner
   skills: { primary: spec.vectors-2d.components }
   rating: 1740
-  responseSkills: { synthesis: 1730, calculation: 1690 }
+  responseSkills: {calculation: 1690, reasoning: 1720, synthesis: 1730}
   stem: |
     $A$ is $(2, 1)$ and $B$ is $(5, 5)$. Triangle $ABC$ is equilateral, and $C$ lies above the line $AB$. Find the exact position vector of $C$.
   parts:
@@ -554,7 +554,7 @@
 - id: spec.vectors-2d.components.angle-bisector
   skills: { primary: spec.vectors-2d.components }
   rating: 1760
-  responseSkills: { synthesis: 1760, calculation: 1690 }
+  responseSkills: {calculation: 1690, reasoning: 1740, synthesis: 1760}
   stem: |
     Find the vector of magnitude $\sqrt{65}$ that bisects the angle between $3\mathbf{i} + 4\mathbf{j}$ and $5\mathbf{i} - 12\mathbf{j}$ (it points between them, making equal angles with both).
   parts:

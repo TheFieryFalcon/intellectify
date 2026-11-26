@@ -81,7 +81,7 @@
 - id: spec.geometry.proof-methods.quadratic-prime
   skills: {primary: spec.geometry.proof-methods}
   rating: 1260
-  responseSkills: {calculation: 1250, reading: 1240}
+  responseSkills: {reading: 1240, calculation: 1250, reasoning: 1250}
   stem: |
     Claim: "$n^2 - n + 11$ is prime for every whole number $n \ge 0$." What is the smallest $n$ that disproves it?
   parts:
@@ -95,7 +95,7 @@
 - id: spec.geometry.proof-methods.squares-equal
   skills: {primary: spec.geometry.proof-methods}
   rating: 1290
-  responseSkills: {reading: 1280}
+  responseSkills: {reading: 1280, reasoning: 1280}
   stem: |
     Which pair $(a, b)$ is a counterexample to "if $a^2 = b^2$, then $a = b$"?
   parts:
@@ -111,7 +111,7 @@
 - id: spec.geometry.proof-methods.powers-of-two
   skills: {primary: spec.geometry.proof-methods}
   rating: 1300
-  responseSkills: {calculation: 1290, reading: 1260}
+  responseSkills: {reading: 1260, calculation: 1290, reasoning: 1290}
   stem: |
     Claim: "$2^n > n^2$ for every whole number $n \ge 0$." What is the smallest counterexample?
   parts:
@@ -125,7 +125,7 @@
 - id: spec.geometry.proof-methods.two-squares
   skills: {primary: spec.geometry.proof-methods}
   rating: 1320
-  responseSkills: {calculation: 1300, reading: 1300}
+  responseSkills: {reading: 1300, calculation: 1300, reasoning: 1310}
   stem: |
     Claim: "Every positive whole number is a sum of at most two perfect squares" (squares of whole numbers, which may repeat, such as $2 = 1^2 + 1^2$). What is the smallest counterexample?
   parts:
@@ -140,7 +140,7 @@
 - id: spec.geometry.proof-methods.not-valid-method
   skills: {primary: spec.geometry.proof-methods}
   rating: 1340
-  responseSkills: {reading: 1330, proof: 1300}
+  responseSkills: {reading: 1330, reasoning: 1330, proof: 1300}
   stem: |
     Which of these is **not** a valid way to prove "if $P$, then $Q$"?
   parts:
@@ -156,7 +156,7 @@
 - id: spec.geometry.proof-methods.largest-multiple-of-7
   skills: {primary: spec.geometry.proof-methods}
   rating: 1370
-  responseSkills: {proof: 1360, clarity: 1300}
+  responseSkills: {reasoning: 1360, proof: 1360, clarity: 1300}
   stem: |
     Prove by contradiction that there is no largest multiple of 7.
   parts:
@@ -164,7 +164,7 @@
     rubric:
       criteria:
       - {id: assume, description: 'Assumes there is a largest multiple of 7, say N = 7k', points: 1, dimension: proof}
-      - {id: bigger, description: Shows N + 7 = 7(k + 1) is a larger multiple of 7, points: 2, dimension: proof}
+      - {id: bigger, description: Shows N + 7 = 7(k + 1) is a larger multiple of 7, points: 2, dimension: reasoning}
       - {id: contra, description: States the contradiction with N being the largest, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -172,7 +172,7 @@
 - id: spec.geometry.proof-methods.assume-what
   skills: {primary: spec.geometry.proof-methods}
   rating: 1380
-  responseSkills: {reading: 1370, precision: 1350}
+  responseSkills: {reading: 1370, reasoning: 1370, precision: 1350}
   stem: |
     To prove "if $n$ is odd, then $n^2$ is odd" by contradiction, what should you assume?
   parts:
@@ -188,7 +188,7 @@
 - id: spec.geometry.proof-methods.even-sum-impossible
   skills: {primary: spec.geometry.proof-methods}
   rating: 1410
-  responseSkills: {proof: 1400, clarity: 1350}
+  responseSkills: {reasoning: 1400, proof: 1400, clarity: 1350}
   stem: |
     Prove that there are no integers $x$ and $y$ with $4x + 6y = 1$.
   parts:
@@ -196,7 +196,7 @@
     rubric:
       criteria:
       - {id: assume, description: 'Assumes, for contradiction, that such integers exist', points: 1, dimension: proof}
-      - {id: even, description: Shows 4x + 6y = 2(2x + 3y) is even, points: 2, dimension: proof}
+      - {id: even, description: Shows 4x + 6y = 2(2x + 3y) is even, points: 2, dimension: reasoning}
       - {id: contra, description: '1 is odd, so this is a contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -204,7 +204,7 @@
 - id: spec.geometry.proof-methods.contrapositive-odd
   skills: {primary: spec.geometry.proof-methods}
   rating: 1420
-  responseSkills: {proof: 1410, clarity: 1360}
+  responseSkills: {reasoning: 1410, proof: 1410, clarity: 1360}
   stem: |
     Let $n$ be an integer. Prove that if $5n + 3$ is even, then $n$ is odd.
   parts:
@@ -212,7 +212,7 @@
     rubric:
       criteria:
       - {id: contra, description: 'Uses the contrapositive (if n is even, then 5n + 3 is odd) or contradiction', points: 1, dimension: proof}
-      - {id: sub, description: Writes n = 2k and 5n + 3 = 10k + 3 = 2(5k + 1) + 1, points: 2, dimension: proof}
+      - {id: sub, description: Writes n = 2k and 5n + 3 = 10k + 3 = 2(5k + 1) + 1, points: 2, dimension: reasoning}
       - {id: conclude, description: 'Concludes 5n + 3 is odd, which proves the original statement', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -220,7 +220,7 @@
 - id: spec.geometry.proof-methods.two-obtuse
   skills: {primary: spec.geometry.proof-methods}
   rating: 1440
-  responseSkills: {proof: 1430, clarity: 1370}
+  responseSkills: {reasoning: 1430, proof: 1430, clarity: 1370}
   stem: |
     An obtuse angle is bigger than $90^\circ$. Prove that a triangle cannot have two obtuse angles.
   parts:
@@ -228,7 +228,7 @@
     rubric:
       criteria:
       - {id: assume, description: Assumes a triangle has two obtuse angles, points: 1, dimension: proof}
-      - {id: sum, description: Two obtuse angles add to more than 180°, points: 2, dimension: proof}
+      - {id: sum, description: Two obtuse angles add to more than 180°, points: 2, dimension: reasoning}
       - {id: contra, description: 'Contradicts the angle sum of a triangle (180°, with the third angle positive)', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -236,7 +236,7 @@
 - id: spec.geometry.proof-methods.assume-negation
   skills: {primary: spec.geometry.proof-methods}
   rating: 1400
-  responseSkills: {reading: 1400, precision: 1380}
+  responseSkills: {reading: 1400, reasoning: 1390, precision: 1380}
   stem: |
     To prove "$\sqrt{x + 1} \ne \sqrt{x} + 1$ for every $x > 0$" by contradiction, what do you assume?
   parts:
@@ -252,7 +252,7 @@
 - id: spec.geometry.proof-methods.different-primes
   skills: {primary: spec.geometry.proof-methods}
   rating: 1460
-  responseSkills: {calculation: 1430, reading: 1440}
+  responseSkills: {reading: 1440, calculation: 1430, reasoning: 1450}
   stem: |
     Claim: "Every even number greater than 4 is the sum of two **different** primes." What is the smallest counterexample?
   parts:
@@ -267,7 +267,7 @@
 - id: spec.geometry.proof-methods.no-smallest-positive
   skills: {primary: spec.geometry.proof-methods}
   rating: 1450
-  responseSkills: {proof: 1440, clarity: 1380}
+  responseSkills: {reasoning: 1440, proof: 1440, clarity: 1380}
   stem: |
     Prove by contradiction that there is no smallest positive real number.
   parts:
@@ -275,7 +275,7 @@
     rubric:
       criteria:
       - {id: assume, description: Assumes a smallest positive real number r exists, points: 1, dimension: proof}
-      - {id: half, description: 'Considers r/2, which is positive and smaller than r', points: 2, dimension: proof}
+      - {id: half, description: 'Considers r/2, which is positive and smaller than r', points: 2, dimension: reasoning}
       - {id: contra, description: States the contradiction, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -283,7 +283,7 @@
 - id: spec.geometry.proof-methods.sum-at-least-20
   skills: {primary: spec.geometry.proof-methods}
   rating: 1430
-  responseSkills: {proof: 1420, clarity: 1360}
+  responseSkills: {reasoning: 1420, proof: 1420, clarity: 1360}
   stem: |
     Prove that if $a + b \ge 20$, then $a \ge 10$ or $b \ge 10$.
   parts:
@@ -291,7 +291,7 @@
     rubric:
       criteria:
       - {id: contra, description: 'Uses the contrapositive or contradiction: suppose a < 10 and b < 10', points: 2, dimension: proof}
-      - {id: add, description: Adds to get a + b < 20, points: 1, dimension: proof}
+      - {id: add, description: Adds to get a + b < 20, points: 1, dimension: reasoning}
       - {id: conclude, description: Concludes correctly, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -299,7 +299,7 @@
 - id: spec.geometry.proof-methods.factorial-vs-power
   skills: {primary: spec.geometry.proof-methods}
   rating: 1500
-  responseSkills: {calculation: 1480, synthesis: 1450}
+  responseSkills: {calculation: 1480, reasoning: 1490, synthesis: 1450}
   requiresCalculator: true
   stem: |
     Claim: "$n! < 10^n$ for every positive integer $n$." What is the smallest counterexample?
@@ -314,7 +314,7 @@
 - id: spec.geometry.proof-methods.square-multiple-of-3
   skills: {primary: spec.geometry.proof-methods}
   rating: 1480
-  responseSkills: {proof: 1470, clarity: 1400}
+  responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
   stem: |
     Prove that for any integer $n$, if $n^2$ is a multiple of 3, then $n$ is a multiple of 3.
   parts:
@@ -322,7 +322,7 @@
     rubric:
       criteria:
       - {id: contra, description: 'Uses the contrapositive: if n is not a multiple of 3, then n² is not', points: 1, dimension: proof}
-      - {id: cases, description: Writes n = 3k + 1 or n = 3k + 2 (or 3k − 1), points: 1, dimension: proof}
+      - {id: cases, description: Writes n = 3k + 1 or n = 3k + 2 (or 3k − 1), points: 1, dimension: reasoning}
       - {id: square, description: Squares each case to show remainder 1 on division by 3, points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -334,7 +334,7 @@
 - id: spec.geometry.proof-methods.three-squares
   skills: {primary: spec.geometry.proof-methods}
   rating: 1450
-  responseSkills: {calculation: 1430, reading: 1420}
+  responseSkills: {reading: 1420, calculation: 1430, reasoning: 1440}
   stem: |
     Claim: "Every positive whole number is a sum of at most three perfect squares" (squares of whole numbers, which may repeat). What is the smallest counterexample?
   parts:
@@ -350,14 +350,14 @@
 - id: spec.geometry.proof-methods.difference-of-squares-2
   skills: {primary: spec.geometry.proof-methods}
   rating: 1560
-  responseSkills: {proof: 1550, synthesis: 1520, clarity: 1450}
+  responseSkills: {reasoning: 1550, proof: 1550, clarity: 1450, synthesis: 1520}
   stem: |
     Prove that there are no positive integers $x$ and $y$ with $x^2 - y^2 = 2$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: factor, description: 'Factorizes: (x − y)(x + y) = 2', points: 1, dimension: proof}
+      - {id: factor, description: 'Factorizes: (x − y)(x + y) = 2', points: 1, dimension: reasoning}
       - {id: parity, description: Shows x − y and x + y have the same parity (they differ by 2y), points: 2, dimension: synthesis}
       - {id: contra, description: 'Same parity: both odd gives an odd product, both even gives a multiple of 4; neither is 2', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
@@ -366,7 +366,7 @@
 - id: spec.geometry.proof-methods.n-squared-plus-1-by-3
   skills: {primary: spec.geometry.proof-methods}
   rating: 1580
-  responseSkills: {proof: 1570, clarity: 1480}
+  responseSkills: {reasoning: 1570, proof: 1570, clarity: 1480}
   stem: |
     Prove that $n^2 + 1$ is never a multiple of 3, for any integer $n$.
   parts:
@@ -374,15 +374,15 @@
     rubric:
       criteria:
       - {id: cases, description: 'Splits into n = 3k, 3k + 1, 3k + 2 (or similar)', points: 1, dimension: proof}
-      - {id: remainders, description: Shows n² leaves remainder 0 or 1 on division by 3, points: 2, dimension: proof}
-      - {id: conclude, description: 'So n² + 1 leaves remainder 1 or 2, never 0', points: 1, dimension: proof}
+      - {id: remainders, description: Shows n² leaves remainder 0 or 1 on division by 3, points: 2, dimension: reasoning}
+      - {id: conclude, description: 'So n² + 1 leaves remainder 1 or 2, never 0', points: 1, dimension: reasoning}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Every integer is $3k$, $3k + 1$ or $3k + 2$. Their squares are $9k^2$, $3(3k^2 + 2k) + 1$ and $3(3k^2 + 4k + 1) + 1$, which leave remainder 0, 1 and 1. So $n^2 + 1$ leaves remainder 1 or 2 and is never a multiple of 3.
 - id: spec.geometry.proof-methods.mersenne
   skills: {primary: spec.geometry.proof-methods}
   rating: 1560
-  responseSkills: {calculation: 1540, reading: 1520}
+  responseSkills: {reading: 1520, calculation: 1540, reasoning: 1550}
   requiresCalculator: true
   stem: |
     Claim: "For every prime $p$, $2^p - 1$ is prime." What is the smallest prime $p$ that disproves it?
@@ -397,7 +397,7 @@
 - id: spec.geometry.proof-methods.divides-product
   skills: {primary: spec.geometry.proof-methods}
   rating: 1600
-  responseSkills: {reading: 1590, synthesis: 1550}
+  responseSkills: {reading: 1590, reasoning: 1590, synthesis: 1550}
   stem: |
     Which choice of positive integers is a counterexample to "if $a$ divides $bc$, then $a$ divides $b$ or $a$ divides $c$"?
   parts:
@@ -418,7 +418,7 @@
 - id: spec.geometry.proof-methods.odd-coefficients
   skills: {primary: spec.geometry.proof-methods}
   rating: 1650
-  responseSkills: {proof: 1640, synthesis: 1600, clarity: 1520}
+  responseSkills: {reasoning: 1640, proof: 1640, clarity: 1520, synthesis: 1600}
   stem: |
     $a$, $b$ and $c$ are odd integers. Prove that $ax^2 + bx + c = 0$ has no integer solution.
   parts:
@@ -426,8 +426,8 @@
     rubric:
       criteria:
       - {id: assume, description: Assumes an integer solution x exists, points: 1, dimension: proof}
-      - {id: even, description: 'If x is even, ax² and bx are even, so the left side is odd (c is odd)', points: 2, dimension: proof}
-      - {id: odd, description: 'If x is odd, ax², bx and c are all odd, so the sum of three odds is odd', points: 2, dimension: proof}
+      - {id: even, description: 'If x is even, ax² and bx are even, so the left side is odd (c is odd)', points: 2, dimension: reasoning}
+      - {id: odd, description: 'If x is odd, ax², bx and c are all odd, so the sum of three odds is odd', points: 2, dimension: reasoning}
       - {id: contra, description: 'An odd number can''t be 0: contradiction', points: 1, dimension: proof}
   solution: |
     Suppose an integer $x$ satisfies the equation.
@@ -438,7 +438,7 @@
 - id: spec.geometry.proof-methods.infinitely-many-primes
   skills: {primary: spec.geometry.proof-methods}
   rating: 1680
-  responseSkills: {proof: 1680, synthesis: 1640, clarity: 1560}
+  responseSkills: {reasoning: 1680, proof: 1680, clarity: 1560, synthesis: 1640}
   stem: |
     Prove by contradiction that there are infinitely many prime numbers.
   parts:
@@ -447,7 +447,7 @@
       criteria:
       - {id: assume, description: 'Assumes there are only finitely many primes p₁, p₂, …, pₖ', points: 1, dimension: proof}
       - {id: build, description: Considers N = p₁p₂⋯pₖ + 1, points: 2, dimension: synthesis}
-      - {id: remainder, description: No pᵢ divides N (each leaves remainder 1), points: 1, dimension: proof}
+      - {id: remainder, description: No pᵢ divides N (each leaves remainder 1), points: 1, dimension: reasoning}
       - {id: contra, description: 'But N > 1 has a prime factor, which must be one of the pᵢ: contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -455,7 +455,7 @@
 - id: spec.geometry.proof-methods.one-perpendicular
   skills: {primary: spec.geometry.proof-methods}
   rating: 1620
-  responseSkills: {proof: 1610, clarity: 1520}
+  responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520}
   stem: |
     $P$ is a point not on line $\ell$. Prove by contradiction that there is only one line through $P$ perpendicular to $\ell$.
   parts:
@@ -463,7 +463,7 @@
     rubric:
       criteria:
       - {id: assume, description: 'Assumes two different perpendiculars from P, meeting ℓ at A and B (A ≠ B)', points: 1, dimension: proof}
-      - {id: triangle, description: 'Triangle PAB then has two right angles, at A and B', points: 2, dimension: proof}
+      - {id: triangle, description: 'Triangle PAB then has two right angles, at A and B', points: 2, dimension: reasoning}
       - {id: contra, description: 'Angles would add to more than 180°: contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -471,7 +471,7 @@
 - id: spec.geometry.proof-methods.euler-polynomial
   skills: {primary: spec.geometry.proof-methods}
   rating: 1570
-  responseSkills: {calculation: 1550, synthesis: 1530}
+  responseSkills: {calculation: 1550, reasoning: 1560, synthesis: 1530}
   requiresCalculator: true
   stem: |
     Claim: "$n^2 - 79n + 1601$ is prime for every whole number $n \ge 0$." What is the smallest counterexample?
@@ -486,7 +486,7 @@
 - id: spec.geometry.proof-methods.fermat-numbers
   skills: {primary: spec.geometry.proof-methods}
   rating: 1700
-  responseSkills: {calculation: 1680, reading: 1660}
+  responseSkills: {reading: 1660, calculation: 1680, reasoning: 1690}
   requiresCalculator: true
   stem: |
     Claim: "$2^{2^n} + 1$ is prime for every whole number $n$." What is the smallest counterexample?
@@ -501,15 +501,15 @@
 - id: spec.geometry.proof-methods.sum-of-two-squares-4k3
   skills: {primary: spec.geometry.proof-methods}
   rating: 1710
-  responseSkills: {proof: 1700, synthesis: 1680, clarity: 1600}
+  responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1680}
   stem: |
     Prove that no whole number that leaves remainder 3 on division by 4 is a sum of two perfect squares.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: squares, description: 'Shows every square leaves remainder 0 or 1 on division by 4 (even 2k: 4k²; odd 2k+1: 4k² + 4k + 1)', points: 2, dimension: proof}
-      - {id: sums, description: 'So a sum of two squares leaves remainder 0, 1 or 2', points: 2, dimension: proof}
+      - {id: squares, description: 'Shows every square leaves remainder 0 or 1 on division by 4 (even 2k: 4k²; odd 2k+1: 4k² + 4k + 1)', points: 2, dimension: reasoning}
+      - {id: sums, description: 'So a sum of two squares leaves remainder 0, 1 or 2', points: 2, dimension: reasoning}
       - {id: conclude, description: 'Never 3, so such a number isn''t a sum of two squares', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -517,7 +517,7 @@
 - id: spec.geometry.proof-methods.pythagorean-even
   skills: {primary: spec.geometry.proof-methods}
   rating: 1740
-  responseSkills: {proof: 1740, synthesis: 1700, clarity: 1620}
+  responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1700}
   stem: |
     $a$, $b$ and $c$ are integers with $a^2 + b^2 = c^2$. Prove that at least one of $a$ and $b$ is even.
   parts:
@@ -525,8 +525,8 @@
     rubric:
       criteria:
       - {id: assume, description: 'Assumes, for contradiction, that a and b are both odd', points: 1, dimension: proof}
-      - {id: sum, description: Then a² + b² leaves remainder 2 on division by 4, points: 2, dimension: proof}
-      - {id: square, description: But c² leaves remainder 0 or 1 on division by 4, points: 2, dimension: proof}
+      - {id: sum, description: Then a² + b² leaves remainder 2 on division by 4, points: 2, dimension: reasoning}
+      - {id: square, description: But c² leaves remainder 0 or 1 on division by 4, points: 2, dimension: reasoning}
       - {id: contra, description: Contradiction stated clearly, points: 1, dimension: clarity}
   solution: |
     Suppose $a$ and $b$ are both odd. Odd squares leave remainder 1 on division by 4, so $a^2 + b^2$ leaves remainder 2. But any square, including $c^2$, leaves remainder 0 or 1. So $a^2 + b^2 \ne c^2$, a contradiction. Hence at least one of $a$, $b$ is even.
@@ -554,7 +554,7 @@
 - id: spec.geometry.proof-methods.no-a-squared-3b-squared
   skills: {primary: spec.geometry.proof-methods}
   rating: 1780
-  responseSkills: {proof: 1780, synthesis: 1750, clarity: 1660}
+  responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1750}
   stem: |
     Using the fact that if $n^2$ is a multiple of 3 then $n$ is a multiple of 3, prove that there are no positive integers $a$ and $b$ with $a^2 = 3b^2$.
   parts:
@@ -562,8 +562,8 @@
     rubric:
       criteria:
       - {id: smallest, description: Assumes a solution exists and takes the one with the smallest positive a (or uses lowest terms), points: 1, dimension: synthesis}
-      - {id: a3, description: 'a² = 3b² is a multiple of 3, so a = 3m', points: 1, dimension: proof}
-      - {id: b3, description: 'Then 9m² = 3b², so b² = 3m², and b is a multiple of 3', points: 2, dimension: proof}
+      - {id: a3, description: 'a² = 3b² is a multiple of 3, so a = 3m', points: 1, dimension: reasoning}
+      - {id: b3, description: 'Then 9m² = 3b², so b² = 3m², and b is a multiple of 3', points: 2, dimension: reasoning}
       - {id: descent, description: 'So (m, b/3) is a smaller solution (or a and b share a factor 3): contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -571,7 +571,7 @@
 - id: spec.geometry.proof-methods.integer-polynomial
   skills: {primary: spec.geometry.proof-methods}
   rating: 1790
-  responseSkills: {proof: 1790, synthesis: 1770, clarity: 1660}
+  responseSkills: {reasoning: 1790, proof: 1790, clarity: 1660, synthesis: 1770}
   stem: |
     A polynomial with integer coefficients has the form $p(x) = c_nx^n + \dots + c_1x + c_0$ where every $c_i$ is an integer. Prove that no such polynomial has $p(1) = 2$ and $p(3) = 5$.
   parts:
@@ -579,7 +579,7 @@
     rubric:
       criteria:
       - {id: diff, description: Writes p(3) − p(1) as a sum of terms cₖ(3ᵏ − 1ᵏ), points: 2, dimension: synthesis}
-      - {id: even, description: 'Shows each 3ᵏ − 1 is even (3ᵏ is odd), so p(3) − p(1) is even', points: 2, dimension: proof}
+      - {id: even, description: 'Shows each 3ᵏ − 1 is even (3ᵏ is odd), so p(3) − p(1) is even', points: 2, dimension: reasoning}
       - {id: contra, description: 'But 5 − 2 = 3 is odd: contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -587,7 +587,7 @@
 - id: spec.geometry.proof-methods.primes-4k-plus-3
   skills: {primary: spec.geometry.proof-methods}
   rating: 1830
-  responseSkills: {proof: 1830, synthesis: 1800, clarity: 1700}
+  responseSkills: {reasoning: 1830, proof: 1830, clarity: 1700, synthesis: 1800}
   stem: |
     Prove that there are infinitely many primes that leave remainder 3 on division by 4.
   parts:
@@ -596,7 +596,7 @@
       criteria:
       - {id: assume, description: 'Assumes there are finitely many such primes, p₁, …, pₖ', points: 1, dimension: proof}
       - {id: build, description: 'Considers N = 4p₁p₂⋯pₖ − 1, which leaves remainder 3 on division by 4', points: 2, dimension: synthesis}
-      - {id: factor, description: 'Shows N has a prime factor with remainder 3 (a product of primes with remainder 1 has remainder 1, and N is odd)', points: 2, dimension: proof}
+      - {id: factor, description: 'Shows N has a prime factor with remainder 3 (a product of primes with remainder 1 has remainder 1, and N is odd)', points: 2, dimension: reasoning}
       - {id: contra, description: 'That prime can''t be any pᵢ (each leaves remainder −1, i.e. doesn''t divide N): contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -622,7 +622,7 @@
 - id: spec.geometry.proof-methods.n2-n-1
   skills: {primary: spec.geometry.proof-methods}
   rating: 1310
-  responseSkills: {calculation: 1300, reading: 1280}
+  responseSkills: {reading: 1280, calculation: 1300, reasoning: 1300}
   stem: |
     Claim: "$n^2 + n + 1$ is prime for every positive integer $n$." What is the smallest counterexample?
   parts:
@@ -636,7 +636,7 @@
 - id: spec.geometry.proof-methods.cube-even
   skills: {primary: spec.geometry.proof-methods}
   rating: 1520
-  responseSkills: {proof: 1510, clarity: 1440}
+  responseSkills: {reasoning: 1510, proof: 1510, clarity: 1440}
   stem: |
     Prove that for any integer $n$, if $n^3$ is even, then $n$ is even.
   parts:
@@ -644,8 +644,8 @@
     rubric:
       criteria:
       - {id: contra, description: 'Uses the contrapositive (if n is odd, then n³ is odd) or contradiction', points: 1, dimension: proof}
-      - {id: expand, description: Writes n = 2k + 1 and expands n³ = 8k³ + 12k² + 6k + 1, points: 2, dimension: proof}
-      - {id: odd, description: 'Shows this equals 2(4k³ + 6k² + 3k) + 1, which is odd', points: 1, dimension: proof}
+      - {id: expand, description: Writes n = 2k + 1 and expands n³ = 8k³ + 12k² + 6k + 1, points: 2, dimension: reasoning}
+      - {id: odd, description: 'Shows this equals 2(4k³ + 6k² + 3k) + 1, which is odd', points: 1, dimension: reasoning}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Prove the contrapositive. If $n = 2k + 1$ is odd, then $n^3 = 8k^3 + 12k^2 + 6k + 1 = 2(4k^3 + 6k^2 + 3k) + 1$, which is odd. So if $n^3$ is even, $n$ must be even.

@@ -164,6 +164,15 @@ export function buildContent(contentDir: string): BuildResult {
         qIds.add(q.id);
         for (const s of [q.skills.primary, ...q.skills.secondary]) if (!skillUnit.has(s)) errors.push(`${where}: unknown skill ${s}`);
         for (const r of Object.keys(q.responseSkills)) if (!rsIds.has(r)) errors.push(`${where}: unknown response skill ${r}`);
+        // Response-skill tagging rules (SPEC §5.6).
+        if (!Object.keys(q.responseSkills).length) errors.push(`${where}: no response skills`);
+        for (const c of q.parts.flatMap((p) => p.rubric?.criteria ?? [])) {
+          if (!rsIds.has(c.dimension)) errors.push(`${where}: rubric criterion ${c.id} has unknown dimension ${c.dimension}`);
+          else if (!(c.dimension in q.responseSkills)) errors.push(`${where}: rubric dimension ${c.dimension} isn't in responseSkills`);
+        }
+        if (q.skills.secondary.length && !("synthesis" in q.responseSkills)) errors.push(`${where}: cross-skill questions exercise synthesis`);
+        if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
+          errors.push(`${where}: a computed answer exercises calculation`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
         // MCQ keys and diagrams may be templated ({{key}}), so check them once per filled variant.
         for (const params of q.variants ?? [{}]) {

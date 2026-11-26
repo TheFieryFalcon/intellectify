@@ -41,7 +41,7 @@
 - id: spec.geometry.chords-tangents.equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1080
-  responseSkills: {reading: 1080}
+  responseSkills: {reading: 1080, calculation: 1030}
   variants:
   - {d: 7}
   - {d: 11}
@@ -101,7 +101,7 @@
 - id: spec.geometry.chords-tangents.equal-chords
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1160
-  responseSkills: {reading: 1150}
+  responseSkills: {reading: 1150, calculation: 1110}
   variants:
   - {c: 74}
   - {c: 118}
@@ -123,7 +123,7 @@
 - id: spec.geometry.chords-tangents.two-tangents-center
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1280
-  responseSkills: {calculation: 1260, reading: 1260}
+  responseSkills: {reading: 1260, calculation: 1260, reasoning: 1270}
   variants:
   - {m: 40}
   - {m: 64}
@@ -163,7 +163,7 @@
 - id: spec.geometry.chords-tangents.tangent-triangle
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1310
-  responseSkills: {calculation: 1290, reading: 1290}
+  responseSkills: {reading: 1290, calculation: 1290, reasoning: 1300}
   variants:
   - {m: 50}
   - {m: 76}
@@ -184,7 +184,7 @@
 - id: spec.geometry.chords-tangents.tangent-both-sides
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1350
-  responseSkills: {calculation: 1330, reading: 1340}
+  responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
   stem: |
     A tangent $XY$ touches a circle at $T$. Chords $TA$ and $TB$ make angles $\angle XTA = 60^\circ$ and $\angle YTB = 50^\circ$ with the tangent. Find $\angle ATB$, $\angle TAB$ and $\angle TBA$.
 
@@ -227,7 +227,7 @@
 - id: spec.geometry.chords-tangents.tangent-length
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1380
-  responseSkills: {calculation: 1370, reading: 1350}
+  responseSkills: {reading: 1350, calculation: 1370, reasoning: 1370}
   variants:
   - {d: 13, r: 5, v: 12}
   - {d: 10, r: 6, v: 8}
@@ -248,7 +248,7 @@
 - id: spec.geometry.chords-tangents.tangent-chord-center
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1420
-  responseSkills: {calculation: 1400, synthesis: 1390}
+  responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1390}
   variants:
   - {t: 64}
   - {t: 41}
@@ -289,7 +289,7 @@
 - id: spec.geometry.chords-tangents.equal-chords-two-step
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1450
-  responseSkills: {calculation: 1430, synthesis: 1420}
+  responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   variants:
   - {y: 25}
   - {y: 33}
@@ -312,7 +312,7 @@
 - id: spec.geometry.chords-tangents.diameter-tangent
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1480
-  responseSkills: {synthesis: 1460, calculation: 1430}
+  responseSkills: {calculation: 1430, reasoning: 1470, synthesis: 1460}
   variants:
   - {x: 35}
   - {x: 28}
@@ -334,15 +334,15 @@
 - id: spec.geometry.chords-tangents.prove-equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1500
-  responseSkills: {proof: 1490, clarity: 1420}
+  responseSkills: {reasoning: 1490, proof: 1490, clarity: 1420}
   stem: |
     Tangents from an outside point $M$ touch a circle with center $O$ at $S$ and $T$. Prove that $MS = MT$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: right, description: ∠OSM = ∠OTM = 90° (tangent ⟂ radius), points: 1, dimension: proof}
-      - {id: sides, description: OS = OT (radii) and OM is common, points: 1, dimension: proof}
+      - {id: right, description: ∠OSM = ∠OTM = 90° (tangent ⟂ radius), points: 1, dimension: reasoning}
+      - {id: sides, description: OS = OT (radii) and OM is common, points: 1, dimension: reasoning}
       - {id: congruent, description: 'Triangles OSM and OTM are congruent (right angle, hypotenuse, side)', points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -350,7 +350,7 @@
 - id: spec.geometry.chords-tangents.incircle-tangents
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1600
-  responseSkills: {synthesis: 1590, calculation: 1550}
+  responseSkills: {calculation: 1550, reasoning: 1590, synthesis: 1590}
   stem: |
     A circle touches all three sides of triangle $ABC$, where $AB = 7$, $BC = 8$ and $CA = 9$. Find the distance from $A$ to the point where the circle touches $AB$.
   parts:
@@ -373,16 +373,16 @@
 - id: spec.geometry.chords-tangents.prove-alternate-segment
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1620
-  responseSkills: {proof: 1610, synthesis: 1580, clarity: 1520}
+  responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520, synthesis: 1580}
   stem: |
     A tangent touches a circle at $T$, and $TB$ is a chord. $A$ is a point on the circle in the alternate segment. Prove that the angle between the tangent and $TB$ equals $\angle TAB$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: diam, description: 'Draws the diameter TD and uses ∠(tangent, TD) = 90°', points: 1, dimension: proof}
-      - {id: semi, description: '∠TBD = 90° (angle in a semicircle), so ∠BTD = 90° − ∠TDB', points: 1, dimension: proof}
-      - {id: subtract, description: Tangent–chord angle = 90° − ∠BTD = ∠TDB, points: 1, dimension: proof}
+      - {id: diam, description: 'Draws the diameter TD and uses ∠(tangent, TD) = 90°', points: 1, dimension: reasoning}
+      - {id: semi, description: '∠TBD = 90° (angle in a semicircle), so ∠BTD = 90° − ∠TDB', points: 1, dimension: reasoning}
+      - {id: subtract, description: Tangent–chord angle = 90° − ∠BTD = ∠TDB, points: 1, dimension: reasoning}
       - {id: same, description: ∠TDB = ∠TAB (same arc TB), points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -390,7 +390,7 @@
 - id: spec.geometry.chords-tangents.chord-of-contact
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1700
-  responseSkills: {synthesis: 1690, calculation: 1650}
+  responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1690}
   stem: |
     A circle has center $O$ and radius 3. A point $M$ is 5 units from $O$, and the tangents from $M$ touch the circle at $S$ and $T$. Find the length $ST$.
   parts:
@@ -407,7 +407,7 @@
 - id: spec.geometry.chords-tangents.common-tangent
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1730
-  responseSkills: {synthesis: 1720, calculation: 1670}
+  responseSkills: {calculation: 1670, reasoning: 1720, synthesis: 1720}
   stem: |
     Two circles of radius 4 and 9 touch each other on the outside. A straight line touches both circles, at $A$ and $B$, without passing between them. Find $AB$.
   parts:
@@ -431,7 +431,7 @@
 - id: spec.geometry.chords-tangents.tangent-secant-angles
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1700
-  responseSkills: {synthesis: 1690, calculation: 1640}
+  responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
   stem: |
     The tangent at $A$ to a circle meets the line $BC$, extended beyond $C$, at $P$, where $B$ and $C$ are on the circle. $\angle APB = 30^\circ$ and $\angle ABC = 40^\circ$. Find $\angle ACB$.
   parts:
@@ -455,7 +455,7 @@
 - id: spec.geometry.chords-tangents.touching-circles-bisect
   skills: {primary: spec.geometry.chords-tangents}
   rating: 1810
-  responseSkills: {proof: 1810, synthesis: 1790, clarity: 1680}
+  responseSkills: {reasoning: 1810, proof: 1810, clarity: 1680, synthesis: 1790}
   stem: |
     Two circles touch on the inside at $T$ (the smaller circle is inside the larger, and they share a tangent at $T$). A chord $AB$ of the larger circle touches the smaller circle at $C$. Prove that $TC$ bisects $\angle ATB$.
   parts:
@@ -463,8 +463,8 @@
     rubric:
       criteria:
       - {id: tangent, description: 'Uses the common tangent at T, and names where TA and TB cross the small circle (P and Q)', points: 1, dimension: synthesis}
-      - {id: parallel, description: Alternate segment theorem in both circles shows PQ ∥ AB (or equivalent), points: 2, dimension: proof}
-      - {id: alt, description: 'Alternate segment theorem for tangent AB at C: ∠ACP = ∠CTP and ∠BCQ = ∠CTQ (or equivalent)', points: 2, dimension: proof}
+      - {id: parallel, description: Alternate segment theorem in both circles shows PQ ∥ AB (or equivalent), points: 2, dimension: reasoning}
+      - {id: alt, description: 'Alternate segment theorem for tangent AB at C: ∠ACP = ∠CTP and ∠BCQ = ∠CTQ (or equivalent)', points: 2, dimension: reasoning}
       - {id: conclude, description: Combines these to show ∠ATC = ∠CTB, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |

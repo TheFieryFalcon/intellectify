@@ -131,7 +131,7 @@
 - id: spec.geometry.chord-secant-lengths.secant-with-chord
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1270
-  responseSkills: {calculation: 1260, reading: 1270}
+  responseSkills: {reading: 1270, calculation: 1260, reasoning: 1260}
   variants:
   - {ma: 5, ab: 15, v: 10}
   - {ma: 4, ab: 21, v: 10}
@@ -153,7 +153,7 @@
 - id: spec.geometry.chord-secant-lengths.chords-algebra
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1300
-  responseSkills: {calculation: 1290, reading: 1270}
+  responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
   stem: |
     Chords $AB$ and $CD$ meet at $X$, with $AX = x$, $XB = x + 5$, $CX = 6$ and $XD = 4$. Find $x$.
   parts:
@@ -169,7 +169,7 @@
 - id: spec.geometry.chord-secant-lengths.perpendicular-to-diameter
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1330
-  responseSkills: {calculation: 1310, synthesis: 1300}
+  responseSkills: {calculation: 1310, reasoning: 1320, synthesis: 1300}
   variants:
   - {a: 2, b: 8, v: 8}
   - {a: 3, b: 12, v: 12}
@@ -190,7 +190,7 @@
 - id: spec.geometry.chord-secant-lengths.find-chord-from-tangent
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1370
-  responseSkills: {calculation: 1350, reading: 1350}
+  responseSkills: {reading: 1350, calculation: 1350, reasoning: 1360}
   stem: |
     From $M$, a tangent $MT = 12$ touches a circle, and a secant cuts the circle at $A$ and $B$ with $MA = 8$. Find the length of the chord $AB$.
   parts:
@@ -211,7 +211,7 @@
 - id: spec.geometry.chord-secant-lengths.point-inside
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1440
-  responseSkills: {calculation: 1420, synthesis: 1420}
+  responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1420}
   stem: |
     A point $X$ is 6 cm from the center of a circle of radius 10 cm. A chord $AB$ passes through $X$ with $AX = 4$ cm. Find $XB$.
   parts:
@@ -229,7 +229,7 @@
 - id: spec.geometry.chord-secant-lengths.chords-two-solutions
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1450
-  responseSkills: {calculation: 1440, reading: 1420}
+  responseSkills: {reading: 1420, calculation: 1440, reasoning: 1440}
   stem: |
     Chord $AB$ has length 8, and chord $CD$ crosses it at $X$ with $CX = 3$ and $XD = 5$. Find all possible values of $AX$.
   parts:
@@ -246,15 +246,15 @@
 - id: spec.geometry.chord-secant-lengths.prove-intersecting-chords
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1480
-  responseSkills: {proof: 1470, clarity: 1400}
+  responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. Prove that $AX \times XB = CX \times XD$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: join, description: Joins AC and BD (or AD and BC), points: 1, dimension: proof}
-      - {id: angles, description: ∠CAB = ∠CDB (same arc CB) and ∠AXC = ∠DXB (vertically opposite), points: 2, dimension: proof}
+      - {id: join, description: Joins AC and BD (or AD and BC), points: 1, dimension: reasoning}
+      - {id: angles, description: ∠CAB = ∠CDB (same arc CB) and ∠AXC = ∠DXB (vertically opposite), points: 2, dimension: reasoning}
       - {id: similar, description: 'Triangles AXC and DXB are similar, so AX/DX = CX/BX', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -262,7 +262,7 @@
 - id: spec.geometry.chord-secant-lengths.two-secants-algebra
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1500
-  responseSkills: {calculation: 1480, reading: 1470}
+  responseSkills: {reading: 1470, calculation: 1480, reasoning: 1490}
   stem: |
     From $M$, one secant cuts a circle at $A$ and $B$ with $MA = x$ and $AB = 7$. Another cuts it at $C$ and $D$ with $MC = 5$ and $CD = 7$. Find $x$.
   parts:
@@ -278,7 +278,7 @@
 - id: spec.geometry.chord-secant-lengths.through-center
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1550
-  responseSkills: {calculation: 1530, synthesis: 1520}
+  responseSkills: {calculation: 1530, reasoning: 1540, synthesis: 1520}
   stem: |
     A point $M$ is 13 units from the center of a circle of radius 5. A secant from $M$ passes through the center, cutting the circle at $A$ and $B$.
   parts:
@@ -302,15 +302,15 @@
 - id: spec.geometry.chord-secant-lengths.prove-tangent-secant
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1600
-  responseSkills: {proof: 1590, clarity: 1500}
+  responseSkills: {reasoning: 1590, proof: 1590, clarity: 1500}
   stem: |
     From an outside point $M$, a tangent touches a circle at $T$ and a secant cuts it at $A$ and $B$ ($A$ nearer $M$). Prove that $MT^2 = MA \times MB$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: join, description: Joins TA and TB, points: 1, dimension: proof}
-      - {id: angles, description: ∠MTA = ∠MBT (alternate segment) and the angle at M is common, points: 2, dimension: proof}
+      - {id: join, description: Joins TA and TB, points: 1, dimension: reasoning}
+      - {id: angles, description: ∠MTA = ∠MBT (alternate segment) and the angle at M is common, points: 2, dimension: reasoning}
       - {id: similar, description: 'Triangles MTA and MBT are similar, so MT/MB = MA/MT', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -318,7 +318,7 @@
 - id: spec.geometry.chord-secant-lengths.tangent-radius
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1610
-  responseSkills: {calculation: 1590, synthesis: 1580}
+  responseSkills: {calculation: 1590, reasoning: 1600, synthesis: 1580}
   stem: |
     From $M$, a tangent of length 8 touches a circle, and a secant through the center cuts the circle at $A$ and $B$ with $MA = 4$. Find the radius.
   parts:
@@ -336,7 +336,7 @@
 - id: spec.geometry.chord-secant-lengths.arch
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1640
-  responseSkills: {synthesis: 1630, calculation: 1580}
+  responseSkills: {calculation: 1580, reasoning: 1630, synthesis: 1630}
   stem: |
     A bridge has an arch in the shape of an arc of a circle. The arch spans 12 m (the straight distance between its feet) and rises 2 m at its middle. Find the radius of the circle.
   parts:
@@ -354,7 +354,7 @@
 - id: spec.geometry.chord-secant-lengths.perpendicular-chords-radius
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1680
-  responseSkills: {synthesis: 1670, calculation: 1620}
+  responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1670}
   stem: |
     Chords $AB$ and $CD$ meet at right angles at $X$. $AX = 2$, $XB = 6$ and $CX = 3$. Find $XD$ and the exact radius of the circle.
   parts:
@@ -383,7 +383,7 @@
 - id: spec.geometry.chord-secant-lengths.circle-through-square
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1720
-  responseSkills: {synthesis: 1720, calculation: 1660}
+  responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   stem: |
     $ABCD$ is a square with side 4. A circle passes through $A$ and $B$ and touches the opposite side $CD$. Find its radius.
   parts:
@@ -401,7 +401,7 @@
 - id: spec.geometry.chord-secant-lengths.radical-axis-bisects
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1740
-  responseSkills: {proof: 1740, synthesis: 1720, clarity: 1620}
+  responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1720}
   stem: |
     Two circles meet at $P$ and $Q$. A line touches the first circle at $A$ and the second at $B$. Prove that the line $PQ$, extended, cuts $AB$ in half.
   parts:
@@ -409,24 +409,24 @@
     rubric:
       criteria:
       - {id: meet, description: Lets PQ extended meet AB at N, points: 1, dimension: proof}
-      - {id: power1, description: 'Tangent–secant in the first circle: NA² = NP × NQ', points: 2, dimension: proof}
-      - {id: power2, description: 'Tangent–secant in the second circle: NB² = NP × NQ', points: 1, dimension: proof}
-      - {id: conclude, description: So NA = NB, points: 1, dimension: proof}
+      - {id: power1, description: 'Tangent–secant in the first circle: NA² = NP × NQ', points: 2, dimension: reasoning}
+      - {id: power2, description: 'Tangent–secant in the second circle: NB² = NP × NQ', points: 1, dimension: reasoning}
+      - {id: conclude, description: So NA = NB, points: 1, dimension: reasoning}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Let $PQ$ extended meet $AB$ at $N$. From $N$, line $NA$ is a tangent to the first circle and $NPQ$ is a secant, so $NA^2 = NP \times NQ$. Likewise $NB^2 = NP \times NQ$ for the second circle. So $NA^2 = NB^2$ and $NA = NB$: $N$ is the midpoint of $AB$.
 - id: spec.geometry.chord-secant-lengths.converse-concyclic
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1780
-  responseSkills: {proof: 1780, synthesis: 1760, clarity: 1660}
+  responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Lines $AB$ and $CD$ meet at $X$, with $X$ between $A$ and $B$ and between $C$ and $D$, and $AX \times XB = CX \times XD$. Prove that $A$, $B$, $C$ and $D$ lie on a circle.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: ratio, description: Rewrites as AX/CX = XD/XB, points: 1, dimension: proof}
-      - {id: similar, description: 'With ∠AXC = ∠DXB (vertically opposite), triangles AXC and DXB are similar (two sides in ratio, included angle)', points: 2, dimension: proof}
+      - {id: ratio, description: Rewrites as AX/CX = XD/XB, points: 1, dimension: reasoning}
+      - {id: similar, description: 'With ∠AXC = ∠DXB (vertically opposite), triangles AXC and DXB are similar (two sides in ratio, included angle)', points: 2, dimension: reasoning}
       - {id: angles, description: 'So ∠XAC = ∠XDB, i.e. ∠BAC = ∠BDC', points: 1, dimension: proof}
       - {id: converse, description: 'AB... segment BC subtends equal angles at A and D on the same side, so the points are concyclic (converse)', points: 1, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
@@ -436,15 +436,15 @@
 - id: spec.geometry.chord-secant-lengths.harmonic-quadrilateral
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1790
-  responseSkills: {proof: 1790, synthesis: 1780, clarity: 1680}
+  responseSkills: {reasoning: 1790, proof: 1790, clarity: 1680, synthesis: 1780}
   stem: |
     From an outside point $M$, tangents touch a circle at $S$ and $T$, and a secant cuts it at $A$ and $B$. Prove that $SA \times TB = SB \times TA$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: sim1, description: 'Triangles MSA and MBS are similar (alternate segment, common angle), so SA/SB = MS/MB', points: 2, dimension: proof}
-      - {id: sim2, description: Likewise triangles MTA and MBT give TA/TB = MT/MB, points: 1, dimension: proof}
+      - {id: sim1, description: 'Triangles MSA and MBS are similar (alternate segment, common angle), so SA/SB = MS/MB', points: 2, dimension: reasoning}
+      - {id: sim2, description: Likewise triangles MTA and MBT give TA/TB = MT/MB, points: 1, dimension: reasoning}
       - {id: equal, description: 'MS = MT (equal tangents), so SA/SB = TA/TB', points: 1, dimension: proof}
       - {id: conclude, description: Cross-multiplies to the result, points: 1, dimension: clarity}
   solution: |

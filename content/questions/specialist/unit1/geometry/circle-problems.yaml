@@ -81,7 +81,7 @@
 - id: spec.geometry.circle-problems.triangle-from-center-angles
   skills: {primary: spec.geometry.circle-problems}
   rating: 1300
-  responseSkills: {calculation: 1290, reading: 1280}
+  responseSkills: {reading: 1280, calculation: 1290, reasoning: 1290}
   stem: |
     Triangle $ABC$ has its corners on a circle with center $O$ inside the triangle. $\angle AOB = 140^\circ$ and $\angle BOC = 100^\circ$. Find the angles of the triangle.
 
@@ -121,7 +121,7 @@
 - id: spec.geometry.circle-problems.tangent-cyclic
   skills: {primary: spec.geometry.circle-problems}
   rating: 1320
-  responseSkills: {calculation: 1300, reading: 1310}
+  responseSkills: {reading: 1310, calculation: 1300, reasoning: 1310}
   variants:
   - {t: 70}
   - {t: 54}
@@ -147,7 +147,7 @@
 - id: spec.geometry.circle-problems.cyclic-four-angles
   skills: {primary: spec.geometry.circle-problems}
   rating: 1350
-  responseSkills: {calculation: 1340, reading: 1330}
+  responseSkills: {reading: 1330, calculation: 1340, reasoning: 1340}
   stem: |
     $ABCD$ is cyclic with $\angle DAB = (x + 20)^\circ$, $\angle ABC = (3x - 40)^\circ$ and $\angle BCD = (2x + 10)^\circ$. Find $\angle CDA$.
   parts:
@@ -164,7 +164,7 @@
 - id: spec.geometry.circle-problems.find-x-if-cyclic
   skills: {primary: spec.geometry.circle-problems}
   rating: 1380
-  responseSkills: {calculation: 1370, reading: 1360}
+  responseSkills: {reading: 1360, calculation: 1370, reasoning: 1370}
   stem: |
     In quadrilateral $ABCD$, $\angle DAB = 3x^\circ$, $\angle ABC = 100^\circ$ and $\angle BCD = (2x + 30)^\circ$. If $ABCD$ is cyclic, find $x$ and $\angle ADC$.
   parts:
@@ -183,15 +183,15 @@
 - id: spec.geometry.circle-problems.parallelogram-cyclic
   skills: {primary: spec.geometry.circle-problems}
   rating: 1440
-  responseSkills: {proof: 1430, clarity: 1370}
+  responseSkills: {reasoning: 1430, proof: 1430, clarity: 1370}
   stem: |
     Prove that a parallelogram whose corners lie on a circle is a rectangle.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: opp, description: Opposite angles of a parallelogram are equal, points: 1, dimension: proof}
-      - {id: cyc, description: Opposite angles of a cyclic quadrilateral add to 180°, points: 1, dimension: proof}
+      - {id: opp, description: Opposite angles of a parallelogram are equal, points: 1, dimension: reasoning}
+      - {id: cyc, description: Opposite angles of a cyclic quadrilateral add to 180°, points: 1, dimension: reasoning}
       - {id: right, description: 'So each is 90°, and all four angles are right angles', points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -199,7 +199,7 @@
 - id: spec.geometry.circle-problems.tangents-major-arc
   skills: {primary: spec.geometry.circle-problems}
   rating: 1420
-  responseSkills: {calculation: 1400, synthesis: 1400}
+  responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1400}
   variants:
   - {m: 50}
   - {m: 36}
@@ -239,7 +239,7 @@
 - id: spec.geometry.circle-problems.chords-cross-angle
   skills: {primary: spec.geometry.circle-problems}
   rating: 1450
-  responseSkills: {calculation: 1430, synthesis: 1420}
+  responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle in that order, and chords $AC$ and $BD$ meet at $X$. $\angle ABD = 32^\circ$ and $\angle AXD = 110^\circ$. Find $\angle BDC$.
   parts:
@@ -258,7 +258,7 @@
 - id: spec.geometry.circle-problems.isosceles-trapezium
   skills: {primary: spec.geometry.circle-problems}
   rating: 1460
-  responseSkills: {calculation: 1440, reading: 1440}
+  responseSkills: {reading: 1440, calculation: 1440, reasoning: 1450}
   stem: |
     $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = 70^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
   parts:
@@ -284,7 +284,7 @@
 - id: spec.geometry.circle-problems.kite-tangents-area
   skills: {primary: spec.geometry.circle-problems}
   rating: 1450
-  responseSkills: {calculation: 1430, synthesis: 1420}
+  responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   stem: |
     A point $M$ is 10 cm from the center $O$ of a circle of radius 6 cm. Tangents from $M$ touch the circle at $S$ and $T$. Find the area of quadrilateral $OSMT$.
   parts:
@@ -303,7 +303,7 @@
 - id: spec.geometry.circle-problems.prove-cyclic-converse
   skills: {primary: spec.geometry.circle-problems}
   rating: 1520
-  responseSkills: {proof: 1510, synthesis: 1480, clarity: 1430}
+  responseSkills: {reasoning: 1510, proof: 1510, clarity: 1430, synthesis: 1480}
   stem: |
     Prove by contradiction: if a quadrilateral $ABCD$ has $\angle B + \angle D = 180^\circ$, then it is cyclic.
   parts:
@@ -312,7 +312,7 @@
       criteria:
       - {id: circle, description: 'Draws the circle through A, B, C and supposes D is not on it', points: 1, dimension: proof}
       - {id: meet, description: Lets AD (or line through D) meet the circle at D′ ≠ D, points: 1, dimension: synthesis}
-      - {id: angles, description: ∠AD′C = 180° − ∠B = ∠ADC (cyclic quadrilateral ABCD′), points: 2, dimension: proof}
+      - {id: angles, description: ∠AD′C = 180° − ∠B = ∠ADC (cyclic quadrilateral ABCD′), points: 2, dimension: reasoning}
       - {id: contra, description: 'But an exterior angle of triangle DD′C can''t equal its interior opposite angle: contradiction', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -321,7 +321,7 @@
 - id: spec.geometry.circle-problems.prove-semicircle-converse
   skills: {primary: spec.geometry.circle-problems}
   rating: 1480
-  responseSkills: {proof: 1470, synthesis: 1440, clarity: 1400}
+  responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400, synthesis: 1440}
   stem: |
     $\angle APB = 90^\circ$ and $M$ is the midpoint of $AB$. Prove that $MP = MA = MB$, so $P$ lies on the circle with diameter $AB$.
   parts:
@@ -329,7 +329,7 @@
     rubric:
       criteria:
       - {id: rect, description: 'Completes rectangle APBQ (or uses a reflection), or uses vectors with P as origin', points: 1, dimension: synthesis}
-      - {id: diag, description: 'A rectangle''s diagonals are equal and bisect each other, so M is the midpoint of PQ too', points: 2, dimension: proof}
+      - {id: diag, description: 'A rectangle''s diagonals are equal and bisect each other, so M is the midpoint of PQ too', points: 2, dimension: reasoning}
       - {id: equal, description: So MP = ½PQ = ½AB = MA = MB, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -337,7 +337,7 @@
 - id: spec.geometry.circle-problems.diameter-two-points
   skills: {primary: spec.geometry.circle-problems}
   rating: 1580
-  responseSkills: {synthesis: 1570, calculation: 1540}
+  responseSkills: {calculation: 1540, reasoning: 1570, synthesis: 1570}
   stem: |
     $AB$ is a diameter of a circle, and $C$ and $D$ are on the circle on the same side of $AB$. $\angle DAB = 50^\circ$ and $\angle CBA = 60^\circ$. Find $\angle DCA$.
   parts:
@@ -371,7 +371,7 @@
 - id: spec.geometry.circle-problems.isosceles-circumradius
   skills: {primary: spec.geometry.circle-problems}
   rating: 1650
-  responseSkills: {synthesis: 1640, calculation: 1600}
+  responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1640}
   stem: |
     A triangle has sides 10, 10 and 12. Find the radius of the circle through its three corners.
   parts:
@@ -389,15 +389,15 @@
 - id: spec.geometry.circle-problems.parallel-chords
   skills: {primary: spec.geometry.circle-problems}
   rating: 1620
-  responseSkills: {proof: 1610, clarity: 1520}
+  responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520}
   stem: |
     Chords $AB$ and $CD$ of a circle are parallel, with $A$ and $C$ on the same side. Prove that $AC = BD$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: join, description: Joins BC (or AD), points: 1, dimension: proof}
-      - {id: alt, description: '∠ABC = ∠BCD (alternate angles, AB ∥ CD)', points: 1, dimension: proof}
+      - {id: join, description: Joins BC (or AD), points: 1, dimension: reasoning}
+      - {id: alt, description: '∠ABC = ∠BCD (alternate angles, AB ∥ CD)', points: 1, dimension: reasoning}
       - {id: arcs, description: 'Equal angles at the circumference stand on equal chords: AC = BD', points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -405,7 +405,7 @@
 - id: spec.geometry.circle-problems.hypotenuse-midpoint
   skills: {primary: spec.geometry.circle-problems}
   rating: 1580
-  responseSkills: {proof: 1570, clarity: 1490}
+  responseSkills: {reasoning: 1570, proof: 1570, clarity: 1490, synthesis: 1530}
   stem: |
     Triangle $ABC$ has a right angle at $C$, and $M$ is the midpoint of $AB$. Prove that $MC = \tfrac{1}{2}AB$.
   parts:
@@ -413,7 +413,7 @@
     rubric:
       criteria:
       - {id: semi, description: 'By the converse of the angle in a semicircle, C is on the circle with diameter AB', points: 2, dimension: synthesis}
-      - {id: radius, description: Its center is M and its radius is ½AB, points: 1, dimension: proof}
+      - {id: radius, description: Its center is M and its radius is ½AB, points: 1, dimension: reasoning}
       - {id: conclude, description: 'So MC is a radius: MC = ½AB', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -421,7 +421,7 @@
 - id: spec.geometry.circle-problems.perpendicular-diagonals-radius
   skills: {primary: spec.geometry.circle-problems}
   rating: 1720
-  responseSkills: {synthesis: 1720, calculation: 1660}
+  responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   stem: |
     $ABCD$ is a cyclic quadrilateral whose diagonals meet at right angles at $X$. $AX = 3$, $XC = 8$ and $BX = 4$. Find $XD$ and the exact radius of the circle.
   parts:
@@ -449,15 +449,15 @@
 - id: spec.geometry.circle-problems.bisector-equal-chords
   skills: {primary: spec.geometry.circle-problems}
   rating: 1700
-  responseSkills: {proof: 1700, synthesis: 1680, clarity: 1600}
+  responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1680}
   stem: |
     In triangle $ABC$, the bisector of angle $A$ meets the circle through $A$, $B$ and $C$ again at $D$. Prove that $DB = DC$.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: bisect, description: ∠BAD = ∠DAC (bisector), points: 1, dimension: proof}
-      - {id: chords, description: 'Equal angles at the circumference stand on equal chords (or: ∠DBC = ∠DAC and ∠DCB = ∠DAB, same arcs)', points: 2, dimension: proof}
+      - {id: bisect, description: ∠BAD = ∠DAC (bisector), points: 1, dimension: reasoning}
+      - {id: chords, description: 'Equal angles at the circumference stand on equal chords (or: ∠DBC = ∠DAC and ∠DCB = ∠DAB, same arcs)', points: 2, dimension: reasoning}
       - {id: conclude, description: 'So triangle DBC is isosceles, or the chords are equal: DB = DC', points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
@@ -465,14 +465,14 @@
 - id: spec.geometry.circle-problems.constant-angle
   skills: {primary: spec.geometry.circle-problems}
   rating: 1780
-  responseSkills: {proof: 1780, synthesis: 1760, clarity: 1660}
+  responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Two circles meet at $P$ and $Q$. A line through $P$ meets the first circle again at $A$ and the second circle again at $B$, with $P$ between $A$ and $B$. Prove that $\angle AQB$ is the same for every such line.
   parts:
   - id: a
     rubric:
       criteria:
-      - {id: first, description: '∠PAQ is constant: angle on the fixed arc PQ of the first circle', points: 2, dimension: proof}
+      - {id: first, description: '∠PAQ is constant: angle on the fixed arc PQ of the first circle', points: 2, dimension: reasoning}
       - {id: second, description: '∠PBQ is constant: angle on the fixed arc PQ of the second circle', points: 2, dimension: proof}
       - {id: sum, description: 'In triangle AQB, ∠AQB = 180° − ∠QAB − ∠QBA is therefore constant', points: 1, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
@@ -481,7 +481,7 @@
 - id: spec.geometry.circle-problems.extended-sides
   skills: {primary: spec.geometry.circle-problems}
   rating: 1760
-  responseSkills: {synthesis: 1760, calculation: 1700}
+  responseSkills: {calculation: 1700, reasoning: 1750, synthesis: 1760}
   stem: |
     $ABCD$ is a cyclic quadrilateral. Lines $AB$ and $DC$ meet at $E$ (beyond $B$ and $C$), and lines $AD$ and $BC$ meet at $F$ (beyond $D$ and $C$). $\angle AED = 30^\circ$ and $\angle AFB = 40^\circ$. Find $\angle DAB$.
   parts:
@@ -501,7 +501,7 @@
 - id: spec.geometry.circle-problems.square-center-circle
   skills: {primary: spec.geometry.circle-problems}
   rating: 1700
-  responseSkills: {synthesis: 1700, calculation: 1640}
+  responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1700}
   stem: |
     $ABCD$ is a square with side 2 and center $O$. Find the radius of the circle through $A$, $B$ and $O$.
   parts:

@@ -268,7 +268,22 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 ### 5.6 Response skills
 Alongside content skills, every student has **response skills**, each with its own θ and Bronze→Diamond rank (same rules as §5.4):
 
-`Calculation` · `Reading & interpretation` · `Proof` · `Clarity of expression` · `Precision of language` · `Synthesis` (list is configurable)
+`Calculation` · `Reasoning` · `Reading & interpretation` · `Proof` · `Clarity of expression` · `Precision of language` · `Synthesis` (list is configurable)
+
+**Tagging rules** (the content build enforces the first four):
+
+| Response skill | Tag when the question… |
+|---|---|
+| Every question | has at least one response skill |
+| Calculation | has a computed answer (anything but MCQ or multi-select) |
+| Synthesis | is cross-skill (has secondary skills), or combines several results at Tier 4–5 |
+| Rubric dimensions | each rubric criterion's dimension is also listed in `responseSkills` |
+| Reasoning | needs a chain of deductions: choosing which result applies and justifying each step (angle chasing with reasons, case analysis, complements, logical deduction) |
+| Proof | asks for a written proof; rubric criteria on proof *structure* (the setup, the assumption, the contradiction or contrapositive, a case split that covers every case, the conclusion) |
+| Reading | turns words, a diagram or notation into mathematics |
+| Clarity, Precision | grades how the answer is written (rubric only) |
+
+In a rubric, a deductive step ("so ∠XAC = ∠XDB") is a Reasoning criterion, and the structure of the proof is a Proof criterion. A "prove that" question always keeps at least one Proof criterion: the step that completes the argument.
 
 - **Auto-marked questions** carry a coarse difficulty per response skill they exercise, e.g. `{calculation: 1500, reading: 1300}`. A tier-level value is fine. The question's outcome updates each listed response skill against that difficulty.
 - **Free-response questions** use **rubric dimensions** that map to response skills. Each dimension is scored separately and updates its response skill using that dimension's score as the outcome.

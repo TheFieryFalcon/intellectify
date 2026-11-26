@@ -3,7 +3,7 @@
 - id: spec.combinatorics.pigeonhole.socks
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1100
-  responseSkills: { reading: 1100 }
+  responseSkills: {reading: 1100, calculation: 1050}
   variants:
     - { c: 3, colors: 'black, white and grey', v: 4 }
     - { c: 5, colors: 'red, blue, green, white and black', v: 6 }
@@ -21,7 +21,7 @@
 - id: spec.combinatorics.pigeonhole.months
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1320
-  responseSkills: { reading: 1320, calculation: 1280 }
+  responseSkills: {reading: 1320, calculation: 1280, reasoning: 1310}
   stem: |
     Consider people's birth months.
   parts:
@@ -44,7 +44,7 @@
 - id: spec.combinatorics.pigeonhole.sum-to-21
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1500
-  responseSkills: { reading: 1480, proof: 1480 }
+  responseSkills: {reading: 1480, calculation: 1450, reasoning: 1490, proof: 1480}
   stem: |
     What is the least number of integers that must be chosen from $\{1, 2, \dots, 20\}$ to guarantee that two of them add to 21?
   parts:
@@ -64,15 +64,15 @@
 - id: spec.combinatorics.pigeonhole.difference-by-4
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1430
-  responseSkills: { proof: 1430, clarity: 1400 }
+  responseSkills: {reasoning: 1430, proof: 1430, clarity: 1400}
   stem: |
     Prove that among any 5 integers, there are two whose difference is divisible by 4.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: boxes, description: "Uses the 4 possible remainders on division by 4 (0, 1, 2, 3) as boxes", points: 2, dimension: proof }
-          - { id: php, description: "5 integers in 4 boxes, so two share a remainder", points: 1, dimension: proof }
+          - { id: boxes, description: "Uses the 4 possible remainders on division by 4 (0, 1, 2, 3) as boxes", points: 2, dimension: reasoning }
+          - { id: php, description: "5 integers in 4 boxes, so two share a remainder", points: 1, dimension: reasoning }
           - { id: conclude, description: "Same remainder means their difference is a multiple of 4", points: 1, dimension: proof }
           - { id: clear, description: "Clearly expressed", points: 1, dimension: clarity }
   solution: |
@@ -81,7 +81,7 @@
 - id: spec.combinatorics.pigeonhole.points-in-square
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1520
-  responseSkills: { proof: 1500, synthesis: 1480 }
+  responseSkills: {reasoning: 1500, proof: 1500, clarity: 1460, synthesis: 1480}
   stem: |
     Five points are placed inside or on a square of side length 2. Prove that two of them are at most $\sqrt{2}$ apart.
   parts:
@@ -89,7 +89,7 @@
       rubric:
         criteria:
           - { id: split, description: "Divides the square into four 1 × 1 squares", points: 2, dimension: synthesis }
-          - { id: php, description: "Five points in four small squares: two share a small square", points: 1, dimension: proof }
+          - { id: php, description: "Five points in four small squares: two share a small square", points: 1, dimension: reasoning }
           - { id: diag, description: "The furthest apart two points in a 1 × 1 square can be is the diagonal, √2", points: 1, dimension: proof }
           - { id: clear, description: "Clear and complete", points: 1, dimension: clarity }
   solution: |
@@ -98,7 +98,7 @@
 - id: spec.combinatorics.pigeonhole.two-coprime
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1600
-  responseSkills: { proof: 1600, synthesis: 1580 }
+  responseSkills: {reasoning: 1600, proof: 1600, synthesis: 1580}
   stem: |
     Let $n \ge 1$. Prove that if $n + 1$ different numbers are chosen from $\{1, 2, \dots, 2n\}$, two of them have no common factor other than 1.
   parts:
@@ -106,7 +106,7 @@
       rubric:
         criteria:
           - { id: boxes, description: "Pairs consecutive numbers: {1,2}, {3,4}, …, {2n−1, 2n} — n boxes", points: 2, dimension: synthesis }
-          - { id: php, description: "n + 1 numbers in n boxes: two consecutive numbers are chosen", points: 1, dimension: proof }
+          - { id: php, description: "n + 1 numbers in n boxes: two consecutive numbers are chosen", points: 1, dimension: reasoning }
           - { id: coprime, description: "Explains why consecutive numbers share no factor > 1 (a common factor would divide their difference, 1)", points: 2, dimension: proof }
   solution: |
     Make $n$ boxes $\{1, 2\}, \{3, 4\}, \dots, \{2n-1, 2n\}$. Choosing $n + 1$ numbers puts two in one box, so two consecutive numbers $k$ and $k + 1$ are chosen. Any common factor of $k$ and $k + 1$ divides their difference, which is 1. So they have no common factor other than 1.
@@ -114,7 +114,7 @@
 - id: spec.combinatorics.pigeonhole.divides-in-20
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
   rating: 1640
-  responseSkills: { synthesis: 1640, proof: 1600 }
+  responseSkills: {calculation: 1590, reasoning: 1630, proof: 1600, synthesis: 1640}
   stem: |
     What is the least number of integers that must be chosen from $\{1, 2, \dots, 20\}$ to guarantee that one of them divides another?
   parts:
@@ -134,7 +134,7 @@
 - id: spec.combinatorics.pigeonhole.equilateral-triangle
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.geometry.circle-problems] }
   rating: 1660
-  responseSkills: { proof: 1650, synthesis: 1640 }
+  responseSkills: {reasoning: 1650, proof: 1650, clarity: 1610, synthesis: 1640}
   stem: |
     Ten points lie inside or on an equilateral triangle with sides of length 3. Prove that two of them are at most 1 unit apart.
   parts:
@@ -142,7 +142,7 @@
       rubric:
         criteria:
           - { id: split, description: "Divides the triangle into 9 equilateral triangles of side 1 (lines parallel to the sides at the thirds)", points: 2, dimension: synthesis }
-          - { id: php, description: "Ten points in nine small triangles: two share one", points: 1, dimension: proof }
+          - { id: php, description: "Ten points in nine small triangles: two share one", points: 1, dimension: reasoning }
           - { id: diameter, description: "Two points in an equilateral triangle of side 1 are at most 1 apart (the longest distance is a side)", points: 1, dimension: proof }
           - { id: clear, description: "Clear and complete", points: 1, dimension: clarity }
   solution: |
@@ -151,15 +151,15 @@
 - id: spec.combinatorics.pigeonhole.friends-strangers
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1690
-  responseSkills: { proof: 1690, clarity: 1640 }
+  responseSkills: {reasoning: 1690, proof: 1690, clarity: 1640}
   stem: |
     Any two people are either friends or strangers. Prove that in any group of 6 people there are 3 who are all friends with each other, or 3 who are all strangers to each other.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: pick, description: "Picks one person and sorts the other 5 into friends/strangers of that person", points: 1, dimension: proof }
-          - { id: php, description: "Pigeonhole: 5 people in 2 groups means one group has at least 3", points: 1, dimension: proof }
+          - { id: pick, description: "Picks one person and sorts the other 5 into friends/strangers of that person", points: 1, dimension: reasoning }
+          - { id: php, description: "Pigeonhole: 5 people in 2 groups means one group has at least 3", points: 1, dimension: reasoning }
           - { id: case, description: "Case analysis on those 3: if any two of them are friends (in the friends case) we get 3 friends; otherwise those 3 are mutual strangers", points: 2, dimension: proof }
           - { id: symmetric, description: "Handles the strangers case symmetrically", points: 1, dimension: clarity }
   solution: |
@@ -168,7 +168,7 @@
 - id: spec.combinatorics.pigeonhole.sum-or-difference-10
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1760
-  responseSkills: { proof: 1760, synthesis: 1750 }
+  responseSkills: {reasoning: 1760, proof: 1760, synthesis: 1750}
   stem: |
     Prove that among any 7 different integers there are two whose sum or difference is divisible by 10.
   parts:
@@ -176,7 +176,7 @@
       rubric:
         criteria:
           - { id: boxes, description: "Groups remainders mod 10 as {0}, {5}, {1,9}, {2,8}, {3,7}, {4,6}: 6 boxes", points: 2, dimension: synthesis }
-          - { id: php, description: "7 integers in 6 boxes: two share a box", points: 1, dimension: proof }
+          - { id: php, description: "7 integers in 6 boxes: two share a box", points: 1, dimension: reasoning }
           - { id: cases, description: "Same remainder gives a difference divisible by 10; remainders adding to 10 give a sum divisible by 10 (including the 0 and 5 boxes)", points: 2, dimension: proof }
   solution: |
     Sort the integers by remainder when divided by 10, using 6 boxes: $\{0\}, \{5\}, \{1, 9\}, \{2, 8\}, \{3, 7\}, \{4, 6\}$. Seven integers put two in the same box. If their remainders are equal, their difference is divisible by 10. If the remainders are a pair like 3 and 7, they add to 10, so the sum is divisible by 10.
@@ -184,23 +184,23 @@
 - id: spec.combinatorics.pigeonhole.three-sum-to-3
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1790
-  responseSkills: { proof: 1790, synthesis: 1760 }
+  responseSkills: {reasoning: 1790, proof: 1790, synthesis: 1760}
   stem: |
     Prove that among any 5 integers, some 3 of them have a sum divisible by 3.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: remainders, description: "Considers remainders on division by 3", points: 1, dimension: proof }
+          - { id: remainders, description: "Considers remainders on division by 3", points: 1, dimension: reasoning }
           - { id: all-three, description: "Case: all three remainders 0, 1, 2 appear — one of each sums to a multiple of 3", points: 2, dimension: proof }
-          - { id: two-classes, description: "Otherwise at most two remainders appear among 5 numbers, so one appears ≥ 3 times (pigeonhole) and those three sum to 3r", points: 2, dimension: proof }
+          - { id: two-classes, description: "Otherwise at most two remainders appear among 5 numbers, so one appears ≥ 3 times (pigeonhole) and those three sum to 3r", points: 2, dimension: reasoning }
   solution: |
     Look at the remainders when dividing by 3. If all three remainders 0, 1 and 2 appear, take one number with each; their sum has remainder $0 + 1 + 2 = 3$, so it is divisible by 3. Otherwise only two remainders appear among 5 numbers, so one appears at least 3 times. Three numbers with the same remainder $r$ have a sum with remainder $3r$, which is divisible by 3.
 
 - id: spec.combinatorics.pigeonhole.divisor-pair-100
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
   rating: 1770
-  responseSkills: { synthesis: 1770, proof: 1700 }
+  responseSkills: {calculation: 1720, reasoning: 1760, proof: 1700, synthesis: 1770}
   stem: |
     What is the least $n$ such that any $n$ integers chosen from $\{1, 2, \dots, 100\}$ must include two different integers where one divides the other?
   parts:
@@ -220,7 +220,7 @@
 - id: spec.combinatorics.pigeonhole.shared-birthday
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1060
-  responseSkills: { reading: 1060 }
+  responseSkills: {reading: 1060, calculation: 1010}
   stem: |
     Including 29 February, there are 366 possible birthdays. What is the least number of people needed to be sure that two of them share a birthday?
   parts:
@@ -251,7 +251,7 @@
 - id: spec.combinatorics.pigeonhole.same-suit
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1300
-  responseSkills: { reading: 1290, calculation: 1260 }
+  responseSkills: {reading: 1290, calculation: 1260, reasoning: 1290}
   variants:
     - { k: 3, v: 9 }
     - { k: 5, v: 17 }
@@ -269,7 +269,7 @@
 - id: spec.combinatorics.pigeonhole.same-remainder
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1340
-  responseSkills: { reading: 1330, synthesis: 1300 }
+  responseSkills: {reading: 1330, calculation: 1290, reasoning: 1330, synthesis: 1300}
   variants:
     - { m: 7 }
     - { m: 9 }
@@ -287,15 +287,15 @@
 - id: spec.combinatorics.pigeonhole.equal-subset-sums
   skills: { primary: spec.combinatorics.pigeonhole }
   rating: 1780
-  responseSkills: { proof: 1780, synthesis: 1760, clarity: 1650 }
+  responseSkills: {reasoning: 1780, proof: 1780, clarity: 1650, synthesis: 1760}
   stem: |
     Ten different two-digit numbers (from 10 to 99) are chosen. Prove that two **non-overlapping**, non-empty groups of these numbers have the same sum.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: count, description: "Counts the non-empty groups (subsets): 2¹⁰ − 1 = 1023", points: 1, dimension: proof }
-          - { id: range, description: "Bounds the sums: every group sums to at least 10 and at most 90 + 91 + … + 99 = 945, so at most 936 possible sums", points: 2, dimension: proof }
+          - { id: count, description: "Counts the non-empty groups (subsets): 2¹⁰ − 1 = 1023", points: 1, dimension: reasoning }
+          - { id: range, description: "Bounds the sums: every group sums to at least 10 and at most 90 + 91 + … + 99 = 945, so at most 936 possible sums", points: 2, dimension: reasoning }
           - { id: php, description: "More groups than possible sums, so two different groups have equal sums", points: 1, dimension: proof }
           - { id: disjoint, description: "Removes the numbers the two groups share; both stay non-empty and their sums stay equal", points: 2, dimension: synthesis }
   solution: |
