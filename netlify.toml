@@ -12,6 +12,11 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# The marking function reads question files from disk: fetching them over HTTP from its own
+# deploy fails where deploys need a login (deploy previews behind team SSO return 401).
+[functions]
+  included_files = ["apps/web/build/content/**"]
+
 # Single-page app: every route is served by index.html.
 [[redirects]]
   from = "/*"

@@ -44,6 +44,7 @@
     {#if !own && job.attempts > 0}<p class="small muted">Free marking is busy. <a href="/settings">Add your own key</a> for instant marking.</p>{/if}
   {:else if job.status === "failed"}
     <p class="bad">Not marked: {job.lastError}</p>
+    <button class="btn quiet" onclick={() => queue.retryNow(job.id)}>Try again</button>
   {:else if final}
     <div class="score">
       <span class="k">Mark</span>

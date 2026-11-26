@@ -82,6 +82,32 @@ describe("/api/mark", () => {
     for (const words of [{ who: 3 }, { who: 0.5 }, { them: 0 }, null, { who: 0, extra: 1 }]) expect((await handleMark(post({ ...req, words }), d)).status).toBe(400);
   });
 
+  it("reads question files from disk first, so a login wall on the deploy can't block marking", async () => {
+    const d = deps(ok(2));
+    const walled = {
+      ...d,
+      fetch: (async (url: string, init?: RequestInit) => (url.includes("/content/") ? new Response("login", { status: 401 }) : d.fetch(url, init))) as unknown as typeof globalThis.fetch,
+    };
+    expect((await handleMark(post(body), walled)).status).toBe(404);
+    const disk = { ...walled, readContent: async (path: string) => (path === "specialist/questions/s.k.json" ? [question, auto] : null) };
+    expect((await handleMark(post(body), disk)).status).toBe(200);
+  });
+
+  it("finds Quiz and Challenge questions in their review files", async () => {
+    const challengeQ = { ...question, id: "s.k.ch1", variants: undefined, stem: "Prove that 9 is odd.", solution: "9 = 2(4) + 1." };
+    const files: Record<string, unknown> = {
+      "specialist/questions/s.k.json": [question, auto],
+      "specialist/course.json": { units: [{ number: 1, sections: [{ id: "sec", skills: [{ id: "s.k" }] }] }] },
+      "specialist/reviews/section-sec.json": { sectionQuiz: [], challenge: [challengeQ] },
+      "specialist/reviews/unit-1.json": { unitQuiz: [] },
+    };
+    let prompt = "";
+    const d = { ...deps((b) => ((prompt = b.messages[1]!.content), ok(2)())), readContent: async (p: string) => files[p] ?? null };
+    expect((await handleMark(post({ ...body, questionId: "s.k.ch1", variant: null }), d)).status).toBe(200);
+    expect(prompt).toContain("Prove that 9 is odd.");
+    expect((await handleMark(post({ ...body, questionId: "s.k.nope", variant: null }), d)).status).toBe(404);
+  });
+
   it("passes quota errors on as 429 so the client queues the job", async () => {
     const res = await handleMark(post(body), deps(() => new Response("quota", { status: 429 })));
     expect(res.status).toBe(429);

@@ -205,11 +205,13 @@ export class MarkingQueue {
     this.schedule(0);
   }
 
-  /** Try now (the "Retry" button). */
+  /** Try now (the "Retry now" and "Try again" buttons). */
   retryNow(jobId: string) {
     const job = this.job(jobId);
     if (!job) return;
     if (job.status === "pending") void this.put({ ...job, nextTryAt: Date.now() });
+    // A failed answer (e.g. the server couldn't find the question) gets a fresh start.
+    else if (job.status === "failed") void this.put({ ...job, status: "pending", attempts: 0, nextTryAt: Date.now(), lastError: null });
     else if (job.appeal?.status === "pending") void this.put({ ...job, appeal: { ...job.appeal, nextTryAt: Date.now() } });
     this.schedule(0);
   }

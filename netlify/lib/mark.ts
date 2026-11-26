@@ -34,6 +34,24 @@ export interface Deps {
   transcribeModels?: string[];
   fetch: typeof fetch;
   verify?: (token: string) => Promise<string>;
+  /** Read a built content file (path under content/) from disk; null if it isn't bundled. */
+  readContent?: (path: string) => Promise<unknown | null>;
+}
+
+/**
+ * A built content file: from the files bundled with the function, else over HTTP from this deploy.
+ * Disk first, because deploys behind a login (e.g. previews with team SSO) refuse the function's own
+ * HTTP request with a 401.
+ */
+async function loadContent(deps: Deps, origin: string, path: string): Promise<unknown | null> {
+  const local = await deps.readContent?.(path).catch(() => null);
+  if (local != null) return local;
+  const res = await deps.fetch(`${origin}/content/${path}`);
+  if (!res.ok) {
+    console.error(`content ${path}: HTTP ${res.status}`);
+    return null;
+  }
+  return res.json();
 }
 
 const ID = /^[a-z0-9][a-z0-9.-]{0,120}$/;
@@ -82,6 +100,23 @@ function parse(body: unknown): MarkRequest | string {
   return b as MarkRequest;
 }
 
+/**
+ * Quiz and Challenge questions (SPEC §8) live in review files, not practice pools: find the skill's
+ * section and unit in the course file, then look in their review pools.
+ */
+async function reviewQuestion(deps: Deps, origin: string, r: MarkRequest): Promise<QuestionT | undefined> {
+  type Course = { units: { number: number; sections: { id: string; skills: { id: string }[] }[] }[] };
+  const course = (await loadContent(deps, origin, `${r.course}/course.json`)) as Course | null;
+  for (const unit of course?.units ?? []) {
+    const section = unit.sections.find((s) => s.skills.some((k) => k.id === r.skill));
+    if (!section) continue;
+    const sec = (await loadContent(deps, origin, `${r.course}/reviews/section-${section.id}.json`)) as { sectionQuiz?: QuestionT[]; challenge?: QuestionT[] } | null;
+    const uni = (await loadContent(deps, origin, `${r.course}/reviews/unit-${unit.number}.json`)) as { unitQuiz?: QuestionT[] } | null;
+    return [...(sec?.sectionQuiz ?? []), ...(sec?.challenge ?? []), ...(uni?.unitQuiz ?? [])].find((x) => x.id === r.questionId);
+  }
+  return undefined;
+}
+
 export async function handleMark(req: Request, deps: Deps): Promise<Response> {
   if (req.method !== "POST") return fail(405, "POST only", { Allow: "POST" });
   if (!deps.groqKey) return fail(503, "marking is not configured");
@@ -100,17 +135,16 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
 
   // The question comes from this deploy's content, so the rubric and solution can't be tampered with.
   const origin = new URL(req.url).origin;
-  const res = await deps.fetch(`${origin}/content/${r.course}/questions/${r.skill}.json`);
-  if (!res.ok) return fail(404, "unknown skill");
-  const pool = (await res.json()) as QuestionT[];
-  let q = pool.find((x) => x.id === r.questionId);
+  const pool = (await loadContent(deps, origin, `${r.course}/questions/${r.skill}.json`)) as QuestionT[] | null;
+  if (!pool) return fail(404, "unknown skill");
+  let q = pool.find((x) => x.id === r.questionId) ?? (await reviewQuestion(deps, origin, r));
   if (!q || !isRubricMarked(q)) return fail(404, "unknown free-response question");
   if (r.variant !== null && !q.variants?.[r.variant]) return fail(400, "unknown variant");
   let lists: WordLists = {};
   if (q.words) {
-    const w = await deps.fetch(`${origin}/content/words.json`);
-    if (!w.ok) return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
-    lists = (await w.json()) as WordLists;
+    const w = (await loadContent(deps, origin, "words.json")) as WordLists | null;
+    if (!w) return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
+    lists = w;
   }
   if (!validPicks(q.words, r.words ?? null, lists)) return fail(400, "bad words");
   q = fillServed(q, r.variant, r.words ?? null, lists);
@@ -150,4 +184,13 @@ export const depsFromEnv = (get: (k: string) => string | undefined): Deps => ({
   groqModels: get("GROQ_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean),
   transcribeModels: get("TRANSCRIBE_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? TRANSCRIBE_MODELS,
   fetch,
+  readContent: async (path) => {
+    const { readFile } = await import("node:fs/promises");
+    const { join } = await import("node:path");
+    try {
+      return JSON.parse(await readFile(join(process.cwd(), "apps/web/build/content", path), "utf8"));
+    } catch {
+      return null;
+    }
+  },
 });
