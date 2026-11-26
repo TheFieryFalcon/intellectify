@@ -14,15 +14,19 @@
 
   const profile = $derived(profileFor(session.backend, session.user));
   const reduced = typeof matchMedia !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let mark = $state<number | null>(null);
+  let text = $state("");
+  /** The typed mark, if it's a number from 0 to 100 (decimals allowed, rounded). */
+  const mark = $derived.by(() => {
+    const t = text.trim().replace(/%$/, "");
+    if (!/^\d{1,3}(\.\d*)?$/.test(t)) return null;
+    const v = Math.round(Number(t));
+    return v >= 0 && v <= 100 ? v : null;
+  });
   let source = $state<MarkSource | null>(null);
   let saving = $state(false);
-  const valid = $derived(mark !== null && Number.isFinite(mark) && mark >= 0 && mark <= 100 && source !== null);
+  const valid = $derived(mark !== null && source !== null);
+  const invalid = $derived(text.trim() !== "" && mark === null);
 
-  /** Typed marks are clamped to 0–100 and whole numbers. */
-  function setMark(v: number) {
-    mark = Number.isFinite(v) ? Math.max(0, Math.min(100, Math.round(v))) : null;
-  }
 
   async function save(e: SubmitEvent) {
     e.preventDefault();
@@ -40,34 +44,20 @@
 
     <div class="field">
       <label for="mark">Most recent maths mark</label>
-      <div class="mark">
+      <div class="mark" class:bad={invalid}>
         <!-- svelte-ignore a11y_autofocus -->
         <input
           id="mark"
-          type="number"
-          inputmode="numeric"
-          min="0"
-          max="100"
-          step="1"
+          type="text"
+          inputmode="decimal"
+          autocomplete="off"
+          maxlength="5"
           placeholder="—"
           autofocus
-          value={mark ?? ""}
-          oninput={(e) => setMark(e.currentTarget.valueAsNumber)}
+          bind:value={text}
         />
         <span class="pct">%</span>
       </div>
-      <input
-        class="slider"
-        class:unset={mark === null}
-        type="range"
-        min="0"
-        max="100"
-        step="1"
-        aria-label="Mark"
-        value={mark ?? 50}
-        style="--fill: {mark ?? 0}%"
-        oninput={(e) => setMark(e.currentTarget.valueAsNumber)}
-      />
     </div>
 
     <fieldset class="field">
@@ -115,6 +105,7 @@
 
   .mark { display: flex; align-items: baseline; gap: 4px; border-bottom: 2px solid var(--line); transition: border-color 0.15s; }
   .mark:focus-within { border-color: var(--accent); }
+  .mark.bad, .mark.bad:focus-within { border-color: var(--bad); }
   .mark input {
     flex: 1;
     min-width: 0;
@@ -125,22 +116,10 @@
     color: var(--ink);
     padding: 2px 0 6px;
     outline: none;
-    appearance: textfield;
-    -moz-appearance: textfield;
   }
-  .mark input::-webkit-inner-spin-button, .mark input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   .mark input::placeholder { color: var(--edge); }
   .pct { font-size: 22px; color: var(--muted); }
 
-  .slider { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; background: none; margin: 4px 0 0; cursor: pointer; }
-  .slider::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--fill), var(--track) var(--fill)); }
-  .slider::-moz-range-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--accent) var(--fill), var(--track) var(--fill)); }
-  .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -7px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); box-shadow: 0 1px 3px rgb(0 0 0 / 0.15); transition: transform 0.12s; }
-  .slider::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
-  .slider:active::-webkit-slider-thumb { transform: scale(1.12); }
-  .slider.unset::-webkit-slider-thumb { border-color: var(--edge); }
-  .slider.unset::-moz-range-thumb { border-color: var(--edge); }
-  .slider:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
 
   .sources { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .source {
@@ -173,7 +152,7 @@
   .spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) {
-    .source, .slider::-webkit-slider-thumb { transition: none; }
+    .source { transition: none; }
     .spin { animation-duration: 2s; }
   }
 </style>
