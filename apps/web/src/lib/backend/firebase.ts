@@ -12,8 +12,8 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Profile, type PublicProfile, type StoredSkillState, type User } from "./types";
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type StoredSkillState, type ThreadSummary, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -140,6 +140,34 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       // Courses merge key by key, so a course not touched this session keeps its last mirror.
       if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), JSON.parse(JSON.stringify(pub)), { merge: true });
       await batch.commit();
+    },
+    async listThreads() {
+      const snap = await getDocs(query(collection(db, "discussions"), orderBy("updatedAt", "desc"), limit(300)));
+      return snap.docs.map((d) => ({ ...(d.data() as Omit<ThreadSummary, "key">), key: d.id }));
+    },
+    async loadPosts(key) {
+      const snap = await getDocs(query(collection(db, "discussions", key, "posts"), orderBy("at", "asc"), limit(1000)));
+      return snap.docs.map((d) => ({ ...(d.data() as Omit<Post, "id">), id: d.id }));
+    },
+    async addPost(u, t, body, parent, name) {
+      const ref = doc(collection(db, "discussions", t.key, "posts"));
+      const post: Post = { id: ref.id, uid: u.uid, name, body, at: Date.now(), parent };
+      // One transaction: the post, and the thread's count and search text.
+      await runTransaction(db, async (tx) => {
+        const threadRef = doc(db, "discussions", t.key);
+        const prev = (await tx.get(threadRef)).data() as Partial<ThreadSummary> | undefined;
+        tx.set(threadRef, { day: t.day, course: t.course, year: t.year, questionId: t.questionId, posts: (prev?.posts ?? 0) + 1, updatedAt: post.at, text: `${prev?.text ?? ""}\n${body}`.slice(-200000) });
+        tx.set(ref, { uid: post.uid, name, body, at: post.at, parent });
+      });
+      return post;
+    },
+    async deletePost(key, post) {
+      await runTransaction(db, async (tx) => {
+        const threadRef = doc(db, "discussions", key);
+        const prev = (await tx.get(threadRef)).data() as ThreadSummary | undefined;
+        if (prev) tx.set(threadRef, { ...prev, posts: Math.max(0, prev.posts - 1), text: prev.text.replace(`\n${post.body}`, "") });
+        tx.delete(doc(db, "discussions", key, "posts", post.id));
+      });
     },
     async listPublic() {
       const snap = await getDocs(query(collection(db, "publicProfiles"), limit(1000)));

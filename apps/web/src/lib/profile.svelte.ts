@@ -3,6 +3,7 @@ import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type
 import { addProblem, addXp, roll } from "./activity";
 import type { CourseBundle } from "./content";
 import { publicCourse } from "./public";
+import { loadBannedWords, safeName } from "./moderation";
 import { nextStreak } from "./daily";
 import { setStartTiers } from "./practice";
 
@@ -64,9 +65,10 @@ export class ProfileStore {
     this.pendingAchievements = {};
     const d = this.profile.daily;
     try {
+      const banned = await loadBannedWords();
       await this.backend.savePublic(this.user, $state.snapshot(this.profile.stats), {
         uid: this.user.uid,
-        displayName: this.user.displayName,
+        displayName: safeName(this.user.displayName, banned),
         xp: this.profile.xp,
         stats: $state.snapshot(this.profile.stats),
         daily: d ? { streak: d.streak, best: d.best, last: d.lastSolved } : null,

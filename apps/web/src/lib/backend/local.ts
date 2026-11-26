@@ -1,4 +1,4 @@
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Profile, type PublicProfile, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Post, type Profile, type PublicProfile, type ThreadSummary, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -10,6 +10,8 @@ const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${ui
 const profileKey = (uid: string) => `intellectify:profile:${uid}`;
 const achievementsKey = (uid: string, course: string) => `intellectify:achievements:${uid}:${course}`;
 const markingKey = (uid: string) => `intellectify:marking:${uid}`;
+const THREADS_KEY = "intellectify:discuss:threads";
+const postsKey = (key: string) => `intellectify:discuss:posts:${key}`;
 const PUBLIC_PREFIX = "intellectify:public:";
 const publicKey = (uid: string) => `${PUBLIC_PREFIX}${uid}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
@@ -88,6 +90,28 @@ export function createLocalBackend(): Backend {
       write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), stats });
       const prev = read<Partial<PublicProfile>>(publicKey(u.uid), {});
       write(publicKey(u.uid), { ...prev, ...pub, courses: { ...prev.courses, ...pub.courses }, achievements: { ...prev.achievements, ...pub.achievements } });
+    },
+    async listThreads() {
+      return Object.values(read<Record<string, ThreadSummary>>(THREADS_KEY, {})).sort((a, b) => b.updatedAt - a.updatedAt);
+    },
+    async loadPosts(key) {
+      return read<Post[]>(postsKey(key), []);
+    },
+    async addPost(u, t, body, parent, name) {
+      const post: Post = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, uid: u.uid, name, body, at: Date.now(), parent };
+      write(postsKey(t.key), [...read<Post[]>(postsKey(t.key), []), post]);
+      const threads = read<Record<string, ThreadSummary>>(THREADS_KEY, {});
+      const prev = threads[t.key];
+      threads[t.key] = { ...t, posts: (prev?.posts ?? 0) + 1, updatedAt: post.at, text: `${prev?.text ?? ""}\n${body}` };
+      write(THREADS_KEY, threads);
+      return post;
+    },
+    async deletePost(key, post) {
+      write(postsKey(key), read<Post[]>(postsKey(key), []).filter((p) => p.id !== post.id));
+      const threads = read<Record<string, ThreadSummary>>(THREADS_KEY, {});
+      const prev = threads[key];
+      if (prev) threads[key] = { ...prev, posts: Math.max(0, prev.posts - 1), text: prev.text.replace(`\n${post.body}`, "") };
+      write(THREADS_KEY, threads);
     },
     async listPublic() {
       // Only this browser's guest, plus any other entries stored under the same prefix (handy for testing boards).

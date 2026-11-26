@@ -52,3 +52,37 @@ export function renderMarkdown(src: string, opts: { inline?: boolean; glossary?:
     .replace(/@@MATH(\d+)@@/g, (_, i: string) => math[Number(i)]!)
     .replace(/(?:<p>)?@@FIG(\d+)@@(?:<\/p>)?/g, (_, i: string) => figures[Number(i)]!);
 }
+
+/**
+ * A student's own writing (discussion posts, SPEC §13.1): Markdown and LaTeX, no diagrams or glossary,
+ * sanitized by `purify` (DOMPurify in the browser) before KaTeX output is swapped back in.
+ * Spoilers: `||label: hidden||` or `||hidden||` become blurred spans revealed on click, with the label
+ * (or "Spoiler") as a tooltip. Math and Markdown work inside them.
+ */
+export function renderUserMarkdown(src: string, purify: (html: string) => string): string {
+  const math: string[] = [];
+  const keep = (tex: string, displayMode: boolean) => {
+    math.push(katex.renderToString(tex.trim(), { displayMode, throwOnError: false, strict: "ignore", trust: false, maxExpand: 500, maxSize: 20 }));
+    return `@@MATH${math.length - 1}@@`;
+  };
+  const spoilers: { label: string; body: string }[] = [];
+  const withSpoilers = src.replace(/\|\|([\s\S]+?)\|\|/g, (_, inner: string) => {
+    const m = /^([^:$|\n]{1,60}):\s([\s\S]+)$/.exec(inner);
+    spoilers.push(m ? { label: m[1]!.trim(), body: m[2]! } : { label: "", body: inner });
+    return `@@SPOIL${spoilers.length - 1}@@`;
+  });
+  const protect = (t: string) =>
+    t
+      .replace(/\$\$([\s\S]+?)\$\$/g, (_, x: string) => keep(x, true))
+      .replace(/(?<!\\)\$([^$]+?)\$/g, (_, x: string) => keep(x, false))
+      .replace(/\\\$/g, "$")
+      // Raw HTML shows as typed (and "x < 3" stays text); the sanitizer is a second layer.
+      .replace(/</g, "&lt;");
+  const md = (t: string, inline: boolean) => purify((inline ? marked.parseInline(protect(t), { async: false }) : marked.parse(protect(t), { async: false })) as string);
+  const spoilerHtml = spoilers.map(
+    (sp) => `<span class="spoiler" tabindex="0" role="button" aria-label="${esc(sp.label ? `Spoiler: ${sp.label}` : "Spoiler")}" data-label="${esc(sp.label || "Spoiler")}"><span class="spoiler-body">${md(sp.body, true)}</span></span>`,
+  );
+  return md(withSpoilers, false)
+    .replace(/@@SPOIL(\d+)@@/g, (_, i: string) => spoilerHtml[Number(i)]!)
+    .replace(/@@MATH(\d+)@@/g, (_, i: string) => math[Number(i)]!);
+}

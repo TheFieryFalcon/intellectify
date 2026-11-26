@@ -944,9 +944,14 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 - **Spoiler tags:** `||label: hidden text||`, or `||hidden text||` without a label. Hidden text renders as a blurred block that is revealed on click. Hovering (or long-pressing on touch) shows a **tooltip with the author's label** describing what's hidden, e.g. "full solution to (b)" or "hint: consider parity". With no label, the tooltip says "Spoiler". LaTeX inside spoilers is supported.
 - **Anyone** can post and comment. Posts support Markdown and LaTeX.
 
+- **Phase 1 implementation.** `/<course>/discussions` lists threads (most recently active first) plus today's two daily problems (Year 11 and Year 12), and filters by date (a past date shows that day's problems even with no posts yet), year group and text (problem name and every post's text). A thread page shows the problem as served that day (rebuilt from the same seed as the daily page), its solution behind **Solution**, the posts with their comments (one level), and a composer with **Preview**. Authors can delete their own posts.
+- **Storage:** `discussions/{day}:{course}:{year}` holds the post count, last activity and every post's text (for search, capped at 200,000 characters); its `posts` subcollection holds each post and comment (`parent` names the post a comment is on). Posting is one transaction (the post plus the thread's count and text). The thread list and each thread's posts are read once and kept for two minutes; your own posts update the copies without a re-read.
+- **Safety:** posts are students' own writing, so raw HTML shows as typed, links are limited to safe protocols, and the HTML is sanitized (DOMPurify) before KaTeX output is added. KaTeX runs with `trust: false`.
+
 ### 13.2 Moderation
 - A **banned-words list** (slurs etc.) applies to posts, comments and display names, checked client-side and again in Firestore rules or a function.
 - No other moderation for now, given the small group.
+- **Phase 1 implementation.** The list is `content/banned-words.txt` (one per line; owner-edited). The content build copies it to `/content/banned-words.json` for the app, and `pnpm moderation` writes it into `firestore.rules` as a `clean()` function (whole words, case-insensitive, plus -s/-es/-ed/-ing); deploy the rules after changing it. The app also undoes common letter swaps (`3` for `e`, `@` for `a`) and spaced-out letters before checking. Posts and comments with a banned word are refused; a display name with one shows as "Student" on the public mirror and is refused at sign-up.
 
 ---
 
@@ -1302,7 +1307,8 @@ users/{uid}/challengeProgress/{sectId}   Section Challenge progress
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 daily/{yyyy-mm-dd}                       problem id; submissions/{uid}
 monthly/{yyyy-mm}/problems/{course-year} problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
-discussions/{problemKey}/posts/{postId}  body, author, ts; comments/{commentId}
+discussions/{day}:{course}:{year}        post count, last activity, posts' text (search)
+discussions/{key}/posts/{postId}         uid, name, body, at, parent (null, or the post a comment is on)
 hiddenQuestions/{questionId}             reason, ts
 reports/{reportId}                       question id, note, verdict
 ```
@@ -1337,7 +1343,7 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3). **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3); daily-problem discussions with spoilers and a banned-words list (§13). **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |

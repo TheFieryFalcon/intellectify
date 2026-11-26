@@ -18,6 +18,7 @@
     { href: `/${course}/daily`, title: "Daily", meta: [`Tier ${dailyTier(day)}`, `Streak ${streak}`, ...(solvedToday ? ["Solved"] : [])] },
     { href: `/${course}/revision`, title: "Revision", meta: ["Exam", "Custom"] },
     { href: `/${course}/questions`, title: "Questions", meta: ["Every question", "Solutions"] },
+    { href: `/${course}/discussions`, title: "Discussions", meta: ["Daily problems"] },
     { href: `/${course}/history`, title: "History", meta: [`${answers} answer${answers === 1 ? "" : "s"}`] },
   ]);
 </script>

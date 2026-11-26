@@ -1,0 +1,25 @@
+# Banned words (docs/SPEC.md §13.2): slurs and similar, one per line, lowercase.
+# Checked in discussion posts, comments and display names, in the app and in Firestore rules.
+# Matching is whole-word (plurals and -ed/-ing included), so "class" never trips "ass".
+# After editing, run `pnpm moderation` to update firestore.rules, then deploy the rules.
+# Starter list: extend it as needed.
+nigger
+nigga
+faggot
+fag
+retard
+retarded
+tranny
+spic
+chink
+gook
+kike
+wetback
+coon
+raghead
+towelhead
+paki
+dyke
+cunt
+whore
+slut

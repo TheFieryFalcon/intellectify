@@ -10,14 +10,15 @@
   import MarkView from "$lib/components/MarkView.svelte";
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
-  import { indexSkills, loadQuestions, loadWords, type QuestionT } from "$lib/content";
-  import { serveOne, type PartResult, type ResultSummary, type Served } from "$lib/practice";
+  import { indexSkills } from "$lib/content";
+  import { type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { recordResult } from "$lib/record";
   import { perthDay, profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
-  import { currentStreak, dailyTarget, dailyTier, pickDaily, seededRandom, yearGroupOf, type YearGroup } from "$lib/daily";
+  import { currentStreak, dailyTarget, dailyTier, yearGroupOf, type YearGroup } from "$lib/daily";
   import { dateOfDay } from "@intellectify/engine";
+  import { dailyProblem } from "$lib/dailyProblem";
 
   let { data } = $props();
   const store = $derived(courseProgress(data.course.id));
@@ -59,9 +60,8 @@
       loading = false;
       return;
     }
-    Promise.all([Promise.all(t.skills.map((s) => loadQuestions(fetch, data.course.id, s))), loadWords(fetch)]).then(([pools]) => {
-      const q = pickDaily(pools.flat() as QuestionT[], tier, seededRandom(k));
-      served = q ? serveOne(q, seededRandom(`${k}:serve`)) : null;
+    dailyProblem(fetch, data.course, day, year).then((d) => {
+      served = d.served;
       loading = false;
     });
   });

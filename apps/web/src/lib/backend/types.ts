@@ -173,6 +173,30 @@ export interface MarkingJob {
   } | null;
 }
 
+/** A discussion thread for one daily problem (SPEC §13.1): key "<day>:<course>:<year group>". */
+export interface ThreadSummary {
+  key: string;
+  day: string;
+  course: string;
+  year: number;
+  questionId: string;
+  posts: number;
+  updatedAt: number;
+  /** Every post's text, for search. */
+  text: string;
+}
+
+export interface Post {
+  id: string;
+  uid: string;
+  name: string;
+  /** Markdown and LaTeX, with ||spoilers||. */
+  body: string;
+  at: number;
+  /** The post this comments on; null for a top-level post. */
+  parent: string | null;
+}
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -199,6 +223,14 @@ export interface Backend {
   savePublic(user: User, stats: ActivityStats | null, pub: PublicProfile): Promise<void>;
   /** Every public profile, for leaderboards and profile pages. */
   listPublic(): Promise<PublicProfile[]>;
+
+  /** Discussion threads with posts, most recently active first (SPEC §13). */
+  listThreads(): Promise<ThreadSummary[]>;
+  loadPosts(key: string): Promise<Post[]>;
+  /** Add a post or comment, creating the thread on its first post. */
+  addPost(user: User, thread: Pick<ThreadSummary, "key" | "day" | "course" | "year" | "questionId">, body: string, parent: string | null, name: string): Promise<Post>;
+  /** Delete one of your own posts. */
+  deletePost(key: string, post: Post): Promise<void>;
 
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */

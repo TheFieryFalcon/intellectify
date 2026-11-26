@@ -3,7 +3,7 @@
  *   pnpm content            (from the repo root)
  * Output: apps/web/static/content/<course>/course.json and questions/<skillId>.json
  */
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildContent } from "./build.js";
@@ -41,5 +41,11 @@ for (const { course, questions, sectionReviews, unitReviews, tutorials } of bund
 }
 writeFileSync(join(outDir, "achievements.json"), JSON.stringify(achievements));
 writeFileSync(join(outDir, "words.json"), JSON.stringify(words));
+// Banned words (SPEC §13.2): the same list firestore.rules checks (see scripts/banned-rules.mjs).
+const bannedFile = join(contentDir, "banned-words.txt");
+const banned = existsSync(bannedFile)
+  ? readFileSync(bannedFile, "utf8").split("\n").map((l) => l.trim().toLowerCase()).filter((l) => l && !l.startsWith("#"))
+  : [];
+writeFileSync(join(outDir, "banned-words.json"), JSON.stringify(banned));
 console.log(`achievements: ${achievements.length} (${achievements.filter((a) => a.rule.kind !== "pending").length} earnable now)`);
 writeFileSync(join(outDir, "index.json"), JSON.stringify(bundles.map((b) => ({ id: b.course.id, name: b.course.name }))));
