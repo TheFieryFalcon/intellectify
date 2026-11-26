@@ -225,15 +225,15 @@ export const EFFORT_LEVELS: Record<MarkProvider, EffortLevel[]> = {
   free: [lv(GROQ_MODELS, "medium", 1), lv(GROQ_MODELS, "medium", 3)],
   anthropic: [
     lv(["claude-haiku-5-5"], "low", 1),
+    lv(["claude-sonnet-5-5"], "low", 1),
     lv(["claude-sonnet-5-5"], "medium", 1),
+    lv(["claude-sonnet-5-5"], "medium", 2),
+    lv(["claude-sonnet-5-5"], "medium", 3),
     lv(["claude-opus-5-5"], "medium", 1),
     lv(["claude-opus-5-5"], "medium", 2),
     lv(["claude-opus-5-5"], "medium", 3),
     lv(["claude-opus-5-5"], "high", 1),
-    lv(["claude-opus-5-5"], "high", 2),
     lv(["claude-opus-5-5"], "high", 3),
-    lv(["claude-fable-5-2"], "high", 1),
-    lv(["claude-fable-5-2"], "high", 3),
   ],
   gemini: [
     lv(["gemini-3.8-flash"], "low", 1),
