@@ -7,6 +7,7 @@
 import {
   GEMINI_ENDPOINT,
   MARK_SCHEMA,
+  allCriteria,
   consensus,
   effortLevel,
   markingMessages,
@@ -83,7 +84,7 @@ async function markWithOwnKey(byok: Byok, question: QuestionT, answers: Record<s
       const settled = await Promise.allSettled(Array.from({ length: level.runs }, run));
       const ok = settled.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
       if (!ok.length) throw (settled[0] as PromiseRejectedResult).reason;
-      return scoreMarking(question, consensus(ok.map((o) => o.reply)), ok[0]!.model);
+      return scoreMarking(question, consensus(ok.map((o) => o.reply), Object.fromEntries(allCriteria(question).map((c) => [c.id, c.points]))), ok[0]!.model);
     } catch (e) {
       if (e instanceof GiveUp || e instanceof RetryLater) throw e;
       if (e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError) throw new GiveUp("Your Claude key was refused. Check it in Settings.");

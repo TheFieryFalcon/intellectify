@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { consensus, markingMessages, markWithModels, MarkingError, scoreMarking } from "../src/marking";
+import { COMPLETE_FEEDBACK, COMPLETE_SUMMARY, consensus, markingMessages, markWithModels, MarkingError, scoreMarking } from "../src/marking";
 import type { QuestionT } from "../src/schema";
 
 const q = {
@@ -32,6 +32,28 @@ describe("scoreMarking", () => {
     expect(r.criteria.find((c) => c.id === "b.z")!.awarded).toBe(0);
     expect(r.parts).toEqual({ a: 1, b: 0 });
     expect(r.complete).toEqual(["a"]);
+  });
+  it("never shows a comment written for fewer marks next to full marks", () => {
+    const r = scoreMarking(q, { complete: [{ part: "a", correct: true }], criteria: [{ id: "a.x", awarded: 0, feedback: "You did not use a rectangle." }, { id: "a.y", awarded: 1, feedback: "You showed the radii are equal." }], feedback: "" }, "m");
+    expect(r.criteria.find((c) => c.id === "a.x")!.feedback).toBe(COMPLETE_FEEDBACK);
+    expect(r.criteria.find((c) => c.id === "a.y")!.feedback).toBe("You showed the radii are equal.");
+  });
+  it("replaces a summary written for a lower mark when every part is complete", () => {
+    const r = scoreMarking(q, { complete: [{ part: "a", correct: true }, { part: "b", correct: true }], criteria: [{ id: "a.x", awarded: 0, feedback: "" }], feedback: "To gain full marks, use a rectangle." }, "m");
+    expect(r.score).toBe(1);
+    expect(r.feedback).toBe(COMPLETE_SUMMARY);
+  });
+  it("prefers a consensus run whose marks match its own verdict", () => {
+    const run = (awarded: number, fb: string) => ({ complete: [{ part: "a", correct: true }], criteria: [{ id: "a.x", awarded, feedback: fb }], feedback: fb });
+    const c = consensus([run(0, "Use a rectangle."), run(2, "Nicely done."), run(0, "Use a rectangle.")], { "a.x": 2 }) as { feedback: string };
+    expect(c.feedback).toBe("Nicely done.");
+  });
+  it("takes the consensus comments from a run that agrees with the majority verdict", () => {
+    const pass = (fb: string) => ({ complete: [{ part: "a", correct: true }], criteria: [{ id: "a.x", awarded: 2, feedback: fb }], feedback: fb });
+    const fail = { complete: [{ part: "a", correct: false }], criteria: [{ id: "a.x", awarded: 1, feedback: "Wrong method." }], feedback: "Wrong method." };
+    const c = consensus([fail, pass("Good."), pass("Well done.")]) as { feedback: string; complete: { correct: boolean }[] };
+    expect(c.complete[0]!.correct).toBe(true);
+    expect(["Good.", "Well done."]).toContain(c.feedback);
   });
   it("scores missing criteria as 0 and ignores invented ones", () => {
     const r = scoreMarking(q, { criteria: [{ id: "a.bonus", awarded: 100, feedback: "" }], feedback: "" }, "m");
