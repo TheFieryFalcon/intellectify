@@ -89,6 +89,8 @@ Marking rules:
 
 Rough working: answers often come from photos of paper working. Pages may hold rough work, false starts or abandoned attempts that weren't crossed out. Mark the argument the student presents as their answer (usually the complete line of reasoning that reaches the conclusion). Don't penalize leftover scratch work unless the argument itself depends on it.
 
+Machine reading: a photographed answer was transcribed by a machine, which makes recognition errors (a wrong or doubled letter in an angle name, a dropped exponent or coefficient, a garbled symbol). Where the intended statement is clear from context (e.g. the figure's labels, the step before or after), read it as intended and don't deduct for a likely misreading. Only judge what the student must have written.
+
 Different methods (important):
 - The rubric's criteria and the model solution describe ONE way to answer. The student may use any mathematically valid method.
 - Award each criterion for the equivalent step in the student's own method: a step that achieves the same purpose (e.g. a different construction, a different theorem, algebra instead of geometry) meets the criterion.

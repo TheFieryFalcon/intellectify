@@ -100,6 +100,8 @@ export interface MarkingJob {
   questionVersion: number;
   variant: number | null;
   answers: Record<string, string>;
+  /** Read from photos of paper working (SPEC §10.5). */
+  photo?: boolean;
   createdAt: number;
   /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */
   status: "pending" | "marked" | "failed";

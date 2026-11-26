@@ -12,7 +12,7 @@
   import { MAX_IMAGES, shrinkPhoto, transcribePhotos } from "$lib/photo";
   import { session } from "$lib/session.svelte";
 
-  let { question, onsubmit, submitted = false }: { question: QuestionT; onsubmit: (answers: Record<string, string>) => void | Promise<void>; submitted?: boolean } = $props();
+  let { question, onsubmit, submitted = false }: { question: QuestionT; onsubmit: (answers: Record<string, string>, photo: boolean) => void | Promise<void>; submitted?: boolean } = $props();
 
   const parts = $derived(question.parts.filter((p) => p.rubric));
   const tier = $derived(tierOf(question.rating));
@@ -69,7 +69,7 @@
     e.preventDefault();
     if (!ready || sending || submitted) return;
     sending = true;
-    await onsubmit(Object.fromEntries(parts.map((p) => [p.id, answers[p.id]!.trim()])));
+    await onsubmit(Object.fromEntries(parts.map((p) => [p.id, answers[p.id]!.trim()])), parts.some((p) => fromPhoto[p.id]));
     sending = false;
   }
 </script>

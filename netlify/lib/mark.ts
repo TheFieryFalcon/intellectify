@@ -15,7 +15,12 @@ export interface MarkRequest {
   variant: number | null;
   answers: Record<string, string>;
   appeal?: Appeal;
+  /** The answer was read from photos of paper working (marked by Gemini first, below). */
+  photo?: boolean;
 }
+
+/** The pass mark for a written answer (SPEC §6.3). */
+const PASS = 0.6;
 
 export interface Deps {
   /** The Gemini API key; unset means marking is switched off. */
@@ -69,6 +74,7 @@ function parse(body: unknown): MarkRequest | string {
   if (b.variant !== null && !(Number.isInteger(b.variant) && (b.variant as number) >= 0)) return "bad variant";
   if (!b.answers || typeof b.answers !== "object") return "answers missing";
   for (const v of Object.values(b.answers)) if (typeof v !== "string" || v.length > MAX_ANSWER) return `answers must be text of at most ${MAX_ANSWER} characters`;
+  if (b.photo !== undefined && typeof b.photo !== "boolean") return "bad photo";
   if (b.appeal !== undefined) {
     const a = b.appeal as Partial<Appeal>;
     if (typeof a?.argument !== "string" || !a.argument.trim() || a.argument.length > MAX_ARGUMENT) return `appeal argument must be 1–${MAX_ARGUMENT} characters`;
@@ -106,48 +112,31 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
     q = fillTemplate(q, v);
   }
 
-  // Groq first when configured (fast, rarely busy), then Gemini, within the function's time limit.
-  if (deps.groqKey) {
+  // Two markers, tried in turn. Groq is fast and rarely busy, and right on typed answers. Gemini judges
+  // messy photographed working (slips, misread symbols, non-standard methods) far better, so it goes
+  // first for photo answers; either one stands in when the other is busy.
+  const groq = deps.groqKey ? { endpoint: GROQ_ENDPOINT, key: deps.groqKey, models: deps.groqModels ?? GROQ_MODELS, reasoningEffort: "medium" as const, samples: 1 } : null;
+  const gemini = deps.key ? { endpoint: GEMINI_ENDPOINT, key: deps.key, models: deps.models, reasoningEffort: "low" as const } : null;
+  const order = (r.photo ? [gemini, groq] : [groq, gemini]).filter((m) => m !== null);
+  // Netlify functions stop at 60 s: the first marker leaves room for the second.
+  const budgets = order.length > 1 ? [order[0] === gemini ? 36_000 : 20_000, order[0] === gemini ? 18_000 : 32_000] : [50_000];
+  let last: MarkingError = new MarkingError("no markers", 503);
+  for (const [i, m] of order.entries()) {
     try {
-      const result: MarkResult = await markWithModels({
-        question: q,
-        answers: r.answers,
-        appeal: r.appeal,
-        endpoint: GROQ_ENDPOINT,
-        key: deps.groqKey,
-        models: deps.groqModels ?? GROQ_MODELS,
-        reasoningEffort: "low",
-        fetch: deps.fetch,
-        timeout: 20_000,
-        budget: 20_000,
-      });
+      const result: MarkResult = await markWithModels({ question: q, answers: r.answers, appeal: r.appeal, ...m, fetch: deps.fetch, timeout: Math.min(22_000, budgets[i]!), budget: budgets[i]! });
+      // Groq standing in on a photo answer: its pass stands, but its fail is unreliable on messy
+      // working, so that answer waits (queued, with backoff) for Gemini instead.
+      if (r.photo && m === groq && gemini && result.score < PASS) throw new MarkingError("Groq fail on a photo answer: waiting for Gemini", 503);
       return json({ result, questionVersion: q.version });
     } catch (e) {
-      console.error("Groq marking failed, trying Gemini:", (e as Error).message);
-      if (!deps.key) return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
+      last = e instanceof MarkingError ? e : new MarkingError(String(e), 503);
+      console.error(`marking failed (${m.endpoint === GROQ_ENDPOINT ? "Groq" : "Gemini"}):`, last.message);
     }
   }
-  try {
-    const result: MarkResult = await markWithModels({
-      question: q,
-      answers: r.answers,
-      appeal: r.appeal,
-      endpoint: GEMINI_ENDPOINT,
-      key: deps.key!,
-      models: deps.models,
-      reasoningEffort: "low",
-      fetch: deps.fetch,
-      budget: deps.groqKey ? 32_000 : 50_000,
-    });
-    return json({ result, questionVersion: q.version });
-  } catch (e) {
-    const err = e instanceof MarkingError ? e : new MarkingError(String(e), 503);
-    console.error("marking failed:", err.message);
-    // 429 and 503 tell the client to queue and retry with backoff.
-    if (err.status === 429) return fail(429, "free marking is busy; it will retry", { "Retry-After": "60" });
-    if (err.status === 401 || err.status === 403) return fail(503, "marking is not configured");
-    return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
-  }
+  // 429 and 503 tell the client to queue and retry with backoff.
+  if (last.status === 429) return fail(429, "free marking is busy; it will retry", { "Retry-After": "60" });
+  if (last.status === 401 || last.status === 403) return fail(503, "marking is not configured");
+  return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
 }
 
 export const depsFromEnv = (get: (k: string) => string | undefined): Deps => ({

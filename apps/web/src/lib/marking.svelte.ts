@@ -109,7 +109,7 @@ async function markOnServer(backend: Backend, job: MarkingJob, appeal?: Appeal):
     res = await fetch("/api/mark", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, answers: job.answers, appeal }),
+      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, answers: job.answers, appeal, photo: job.photo ?? false }),
     });
   } catch {
     throw new RetryLater("Offline");
@@ -158,7 +158,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; answers: Record<string, string> }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; answers: Record<string, string>; photo?: boolean }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const job: MarkingJob = {
@@ -169,6 +169,7 @@ export class MarkingQueue {
       questionVersion: input.question.version,
       variant: input.variant,
       answers: input.answers,
+      ...(input.photo ? { photo: true } : {}),
       createdAt: now,
       status: "pending",
       attempts: 0,

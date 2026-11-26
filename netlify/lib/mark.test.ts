@@ -58,28 +58,33 @@ describe("/api/mark", () => {
       expect((await handleMark(post(b), d)).status).toBeGreaterThanOrEqual(400);
     expect(d.seen.some((u) => u.includes("generativelanguage"))).toBe(false);
   });
-  it("marks with Groq first when it has a key, and falls back to Gemini if Groq fails", async () => {
+  it("typed answers go to Groq first, photo answers to Gemini first; each stands in for the other", async () => {
     const hosts: string[] = [];
-    const withGroq = (groqWorks: boolean) => {
-      const base = deps(ok(1.5));
+    const setup = (groq: () => Response, gemini: () => Response) => {
+      const base = deps(gemini);
       const fetch = (async (url: string, init?: RequestInit) => {
-        if (url.includes("groq")) {
-          hosts.push("groq");
-          return groqWorks ? ok(2)() : new Response("busy", { status: 503 });
-        }
+        if (url.includes("groq")) return hosts.push("groq"), groq();
         if (url.includes("generativelanguage")) hosts.push("gemini");
         return base.fetch(url, init);
       }) as unknown as typeof globalThis.fetch;
       return { ...base, fetch, groqKey: "g" };
     };
-    const fast = (await (await handleMark(post(body), withGroq(true))).json()) as { result: { score: number; model: string } };
-    expect(fast.result.model).toBe("openai/gpt-oss-120b");
-    expect(fast.result.score).toBe(1);
-    expect(hosts.includes("gemini")).toBe(false);
+    type Out = { result: { score: number; model: string } };
+    // Typed: Groq's verdict stands, pass or fail; Gemini never called.
+    const typed = (await (await handleMark(post(body), setup(ok(0), ok(2)))).json()) as Out;
+    expect([typed.result.model, typed.result.score, hosts]).toEqual(["openai/gpt-oss-120b", 0, ["groq"]]);
+    // Photo: Gemini marks (three samples for consensus); Groq never called.
     hosts.length = 0;
-    const fallback = (await (await handleMark(post(body), withGroq(false))).json()) as { result: { model: string } };
-    expect(fallback.result.model).toBe("m1");
-    expect(hosts[0]).toBe("groq");
+    const photo = (await (await handleMark(post({ ...body, photo: true }), setup(ok(0), ok(2)))).json()) as Out;
+    expect([photo.result.model, photo.result.score, hosts]).toEqual(["m1", 1, ["gemini", "gemini", "gemini"]]);
+    // Either marker down: the other marks.
+    const groqDown = (await (await handleMark(post(body), setup(() => new Response("busy", { status: 503 }), ok(2)))).json()) as Out;
+    expect(groqDown.result.model).toBe("m1");
+    const geminiDown = (await (await handleMark(post({ ...body, photo: true }), setup(ok(2), () => new Response("busy", { status: 503 })))).json()) as Out;
+    expect(geminiDown.result.model).toBe("openai/gpt-oss-120b");
+    // ...but a Groq fail on a photo answer waits for Gemini.
+    expect((await handleMark(post({ ...body, photo: true }), setup(ok(0), () => new Response("busy", { status: 503 })))).status).toBe(503);
+    expect((await handleMark(post({ ...body, photo: "yes" }), setup(ok(2), ok(2)))).status).toBe(400);
   });
 
   it("passes quota errors on as 429 so the client queues the job", async () => {
