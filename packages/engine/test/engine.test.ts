@@ -190,6 +190,20 @@ describe("selection", () => {
     expect(["q2", "q3", "q4"]).not.toContain(q!.id);
   });
 
+  it("never repeats a question while an unseen one is within ±150 of the target", () => {
+    const t = targetRating(1500);
+    const band = [
+      { id: "seen-near", rating: Math.round(t) },
+      { id: "new-edge", rating: Math.round(t + 140) },
+      { id: "new-far", rating: Math.round(t + 400) },
+    ];
+    for (let i = 0; i < 200; i++) expect(pickQuestion(band, 1500, { everSeen: new Set(["seen-near"]) })!.id).toBe("new-edge");
+    // Band used up: a repeat near the target beats a new question far away.
+    const used = new Set(["seen-near", "new-edge"]);
+    const picks = Array.from({ length: 500 }, () => pickQuestion(band, 1500, { everSeen: used })!.id);
+    expect(picks.filter((id) => id === "new-far").length).toBeLessThan(10);
+  });
+
   it("returns null for an empty pool", () => {
     expect(pickQuestion([], 1500)).toBeNull();
   });
