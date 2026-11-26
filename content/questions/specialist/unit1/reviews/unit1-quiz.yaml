@@ -1,0 +1,509 @@
+# Unit quiz pool: Unit 1. Never served in practice (SPEC §8.1a).
+
+- id: spec.u1.quiz.codes-3-letters
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1040
+  responseSkills: { calculation: 1020 }
+  stem: |
+    How many 3-letter codes can be made from the letters A to E, if letters may repeat?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 125 }
+  solution: |
+    Each of the 3 places has 5 options: $5^3 = 125$.
+  verify: |
+    def answers():
+        return {'a': 5 ** 3}
+
+- id: spec.u1.quiz.angle-semicircle
+  pool: unit-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1080
+  responseSkills: { reading: 1070, calculation: 1050 }
+  stem: |
+    $AB$ is a diameter of a circle and $C$ is on the circle with $\angle CAB = 34^\circ$. Find $\angle CBA$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 56 }
+  solution: |
+    $\angle ACB = 90^\circ$ (angle in a semicircle), so $\angle CBA = 180^\circ - 90^\circ - 34^\circ = 56^\circ$.
+  verify: |
+    def answers():
+        A, B, C = on_circle(180, 1), on_circle(0, 1), on_circle(2 * 34, 1)
+        return {'a': approx(angle_at(C, B, A), 4)}
+
+- id: spec.u1.quiz.scale-vector
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1100
+  responseSkills: { calculation: 1080 }
+  stem: |
+    $\mathbf{a} = 2\mathbf{i} - 5\mathbf{j}$. Find $3\mathbf{a}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['6', '-15'] }
+  solution: |
+    $3\mathbf{a} = 6\mathbf{i} - 15\mathbf{j}$.
+  verify: |
+    def answers():
+        return {'a': [6, -15]}
+
+- id: spec.u1.quiz.factorial-6
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1150
+  responseSkills: { calculation: 1130 }
+  stem: |
+    In how many orders can 6 runners finish a race, if there are no ties?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 720 }
+  solution: |
+    $6! = 720$.
+  verify: |
+    def answers():
+        return {'a': sympy.factorial(6)}
+
+- id: spec.u1.quiz.choose-3-of-10
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1270
+  responseSkills: { reading: 1250, calculation: 1250 }
+  stem: |
+    A student chooses 3 of 10 elective subjects. How many choices are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 120 }
+  solution: |
+    Order doesn't matter: $\binom{10}{3} = 120$.
+  verify: |
+    def answers():
+        return {'a': sympy.binomial(10, 3)}
+
+- id: spec.u1.quiz.contrapositive-square
+  pool: unit-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1280
+  responseSkills: { reading: 1270, precision: 1260 }
+  stem: |
+    Which statement is the contrapositive of "If $n^2$ is even, then $n$ is even"?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'If $n$ is even, then $n^2$ is even.' }
+        - { id: b, text: 'If $n^2$ is odd, then $n$ is odd.' }
+        - { id: c, text: 'If $n^2$ is even, then $n$ is odd.' }
+        - { id: d, text: 'If $n$ is odd, then $n^2$ is odd.' }
+      answer: { type: mcq, key: d }
+  solution: |
+    Swap the parts and negate both: "If $n$ is not even, then $n^2$ is not even", i.e. (d).
+  verify: |
+    def answers():
+        return {'a': 'd'}
+
+- id: spec.u1.quiz.dot-perp-check
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1300
+  responseSkills: { calculation: 1280, reasoning: 1290 }
+  stem: |
+    Find $(3\mathbf{i} - 2\mathbf{j}) \cdot (4\mathbf{i} + 6\mathbf{j})$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 0 }
+  solution: |
+    $12 - 12 = 0$, so the vectors are perpendicular.
+  verify: |
+    def answers():
+        return {'a': 3 * 4 + (-2) * 6}
+
+- id: spec.u1.quiz.tangent-length-8-17
+  pool: unit-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1320
+  responseSkills: { calculation: 1300 }
+  stem: |
+    A circle has radius 8. A point $M$ is 17 units from the center. Find the length of a tangent from $M$ to the circle.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 15 }
+  solution: |
+    The tangent is perpendicular to the radius: $\sqrt{17^2 - 8^2} = 15$.
+  verify: |
+    def answers():
+        return {'a': sympy.sqrt(17**2 - 8**2)}
+
+- id: spec.u1.quiz.union-three
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1340
+  responseSkills: { calculation: 1320 }
+  stem: |
+    $|A| = 12$, $|B| = 10$, $|C| = 8$, $|A \cap B| = 4$, $|A \cap C| = 3$, $|B \cap C| = 2$ and $|A \cap B \cap C| = 1$. Find $|A \cup B \cup C|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 22 }
+  solution: |
+    $12 + 10 + 8 - 4 - 3 - 2 + 1 = 22$.
+  verify: |
+    def answers():
+        return {'a': 12 + 10 + 8 - 4 - 3 - 2 + 1}
+
+- id: spec.u1.quiz.vector-ab
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.components }
+  rating: 1290
+  responseSkills: { calculation: 1270 }
+  stem: |
+    $A$ is $(3, -1)$ and $B$ is $(-2, 4)$. Find $\overrightarrow{AB}$.
+  parts:
+    - id: a
+      answer: { type: vector, key: ['-5', '5'] }
+  solution: |
+    End minus start: $(-2 - 3)\mathbf{i} + (4 + 1)\mathbf{j} = -5\mathbf{i} + 5\mathbf{j}$.
+  verify: |
+    def answers():
+        return {'a': [-2 - 3, 4 + 1]}
+
+- id: spec.u1.quiz.same-arc
+  pool: unit-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1350
+  responseSkills: { reading: 1330, calculation: 1320 }
+  stem: |
+    $A$, $B$, $C$ and $D$ lie on a circle, with $C$ and $D$ on the same side of chord $AB$. $\angle ACB = 47^\circ$. Find $\angle ADB$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 47 }
+  solution: |
+    Angles on the same arc $AB$, on the same side, are equal: $47^\circ$.
+  verify: |
+    def answers():
+        A, B = on_circle(200, 1), on_circle(294, 1)
+        C, D = on_circle(60, 1), on_circle(120, 1)
+        return {'a': approx(angle_at(A, D, B), 4)}
+
+- id: spec.u1.quiz.pigeon-socks-5
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1380
+  responseSkills: { reading: 1360, reasoning: 1370, calculation: 1330 }
+  stem: |
+    A drawer holds socks in 5 colors. How many socks must you take, without looking, to be sure of 3 of the same color?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 11 }
+  solution: |
+    With 10 socks you could have exactly 2 of each color. With 11 socks in 5 colors, $11 > 2 \times 5$, so some color has at least 3.
+  verify: |
+    def answers():
+        return {'a': 2 * 5 + 1}
+
+- id: spec.u1.quiz.vowel-start
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1420
+  responseSkills: { reading: 1400, calculation: 1400, reasoning: 1410 }
+  stem: |
+    How many arrangements of the letters of TRIANGLE begin and end with a vowel?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 4320 }
+  solution: |
+    The vowels are I, A, E. Choose the first and last letters in order from them: $3 \times 2 = 6$ ways. The other 6 letters fill the middle: $6! = 720$. Total $6 \times 720 = 4320$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {'a': sum(1 for p in permutations('TRIANGLE') if p[0] in 'IAE' and p[-1] in 'IAE')}
+
+- id: spec.u1.quiz.secant-5-7
+  pool: unit-quiz
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1430
+  responseSkills: { calculation: 1410 }
+  stem: |
+    From a point $M$, two secants cut a circle: one at $A$ and $B$ with $MA = 5$ and $AB = 7$, the other at $C$ and $D$ with $MC = 4$. Find $CD$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 11 }
+  solution: |
+    Measure from $M$: $MB = 5 + 7 = 12$. Then $MA \times MB = MC \times MD$ gives $60 = 4 \times MD$, so $MD = 15$ and $CD = MD - MC = 11$.
+  verify: |
+    def answers():
+        md = sympy.Rational(5 * (5 + 7), 4)
+        return {'a': md - 4}
+
+- id: spec.u1.quiz.angle-between
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.scalar-product }
+  rating: 1440
+  responseSkills: { calculation: 1420 }
+  stem: |
+    Find the angle between $2\mathbf{i} + 2\mathbf{j}$ and $-3\mathbf{j}$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 135 }
+  solution: |
+    $\cos\theta = \dfrac{-6}{\sqrt{8} \times 3} = -\dfrac{1}{\sqrt{2}}$, so $\theta = 135^\circ$.
+  verify: |
+    def answers():
+        c = sympy.Rational(-6) / (sympy.sqrt(8) * 3)
+        return {'a': sympy.deg(sympy.acos(c))}
+
+- id: spec.u1.quiz.cyclic-exterior
+  pool: unit-quiz
+  skills: { primary: spec.geometry.circle-problems }
+  rating: 1450
+  responseSkills: { reading: 1430, reasoning: 1440, calculation: 1420 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral, and $AB$ is extended beyond $B$ to $E$. $\angle CBE = 81^\circ$. Find $\angle ADC$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 81 }
+  solution: |
+    An exterior angle of a cyclic quadrilateral equals the interior opposite angle: $\angle ADC = \angle CBE = 81^\circ$.
+  verify: |
+    def answers():
+        return {'a': 81}
+
+- id: spec.u1.quiz.committee-with-chair
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1460
+  responseSkills: { reading: 1440, calculation: 1440, reasoning: 1450 }
+  stem: |
+    A committee of 4, one of whom is the chair, is chosen from 9 people. How many ways are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 504 }
+  solution: |
+    Choose the 4 members, $\binom{9}{4} = 126$, then the chair from them, 4 ways: $126 \times 4 = 504$.
+  verify: |
+    def answers():
+        return {'a': sympy.binomial(9, 4) * 4}
+
+- id: spec.u1.quiz.negate-exists
+  pool: unit-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1470
+  responseSkills: { reading: 1460, precision: 1450 }
+  stem: |
+    Which is the negation of "There is a prime number greater than 100 that is even"?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Every prime number greater than 100 is odd.' }
+        - { id: b, text: 'There is a prime number greater than 100 that is odd.' }
+        - { id: c, text: 'Every prime number is even.' }
+        - { id: d, text: 'No prime number is greater than 100.' }
+      answer: { type: mcq, key: a }
+  solution: |
+    Negating "there is an $x$ with $P$" gives "every $x$ has not $P$": every prime greater than 100 is not even, i.e. is odd. That is (a).
+  verify: |
+    def answers():
+        return {'a': 'a'}
+
+- id: spec.u1.quiz.midpoint-vector
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.geometric }
+  rating: 1480
+  responseSkills: { reading: 1460, calculation: 1460, reasoning: 1470 }
+  stem: |
+    $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. $P$ divides $AB$ so that $AP : PB = 1 : 3$. Which vector is $\overrightarrow{OP}$?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: '$\tfrac{1}{4}\mathbf{a} + \tfrac{3}{4}\mathbf{b}$' }
+        - { id: b, text: '$\tfrac{1}{3}\mathbf{a} + \tfrac{2}{3}\mathbf{b}$' }
+        - { id: c, text: '$\tfrac{3}{4}\mathbf{a} + \tfrac{1}{4}\mathbf{b}$' }
+        - { id: d, text: '$\tfrac{1}{2}(\mathbf{a} + \mathbf{b})$' }
+      answer: { type: mcq, key: c }
+  solution: |
+    $\overrightarrow{OP} = \mathbf{a} + \tfrac{1}{4}(\mathbf{b} - \mathbf{a}) = \tfrac{3}{4}\mathbf{a} + \tfrac{1}{4}\mathbf{b}$.
+  verify: |
+    def answers():
+        return {'a': 'c'}
+
+- id: spec.u1.quiz.pascal-sum-row
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1490
+  responseSkills: { reasoning: 1480, calculation: 1470 }
+  stem: |
+    Find $\binom{8}{0} + \binom{8}{1} + \binom{8}{2} + \cdots + \binom{8}{8}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 256 }
+  solution: |
+    Both sides of the row-sum identity count the subsets of 8 objects: $2^8 = 256$.
+  verify: |
+    def answers():
+        return {'a': sum(sympy.binomial(8, k) for k in range(9))}
+
+- id: spec.u1.quiz.odd-times-odd-proof
+  pool: unit-quiz
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1440
+  responseSkills: { reasoning: 1430, proof: 1430, clarity: 1380 }
+  stem: |
+    Prove that the product of any two odd integers is odd.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: write, description: "Writes the integers as 2a + 1 and 2b + 1 for integers a, b", points: 1, dimension: proof }
+          - { id: expand, description: "(2a + 1)(2b + 1) = 4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1", points: 2, dimension: reasoning }
+          - { id: conclude, description: "This is one more than an even number, so it is odd", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the integers be $2a + 1$ and $2b + 1$. Their product is $4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1$, which is one more than an even number, so it is odd.
+
+- id: spec.u1.quiz.relative-velocity
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.applications }
+  rating: 1510
+  responseSkills: { reading: 1490, calculation: 1490 }
+  stem: |
+    Car $A$ has velocity $20\mathbf{i}$ m/s and car $B$ has velocity $15\mathbf{j}$ m/s. Find the speed of $B$ relative to $A$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 25 }
+  solution: |
+    $\mathbf{v}_B - \mathbf{v}_A = -20\mathbf{i} + 15\mathbf{j}$, with length $\sqrt{400 + 225} = 25$ m/s.
+  verify: |
+    def answers():
+        return {'a': sympy.sqrt(20**2 + 15**2)}
+
+- id: spec.u1.quiz.angle-center-tangent
+  pool: unit-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1520
+  responseSkills: { reading: 1500, reasoning: 1510, calculation: 1490 }
+  stem: |
+    Tangents from $P$ touch a circle with center $O$ at $A$ and $B$, and $\angle AOB = 112^\circ$. Find $\angle APB$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 68 }
+  solution: |
+    $\angle OAP = \angle OBP = 90^\circ$ (tangent ⟂ radius), and the angles of quadrilateral $OAPB$ add to $360^\circ$: $\angle APB = 360^\circ - 180^\circ - 112^\circ = 68^\circ$.
+  verify: |
+    def answers():
+        return {'a': 360 - 90 - 90 - 112}
+
+- id: spec.u1.quiz.ie-not-div
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1530
+  responseSkills: { reading: 1510, calculation: 1510, reasoning: 1520 }
+  stem: |
+    How many integers from 1 to 300 are divisible by neither 4 nor 6?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 200 }
+  solution: |
+    Divisible by 4: 75. By 6: 50. By both, i.e. by 12: 25. By 4 or 6: $75 + 50 - 25 = 100$. Neither: $300 - 100 = 200$.
+  verify: |
+    def answers():
+        return {'a': sum(1 for n in range(1, 301) if n % 4 and n % 6)}
+
+- id: spec.u1.quiz.circle-chords-cross
+  pool: unit-quiz
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  rating: 1570
+  responseSkills: { reading: 1550, reasoning: 1560, calculation: 1540, synthesis: 1550 }
+  stem: |
+    Chords $AC$ and $BD$ of a circle meet at $X$. $\angle ABD = 32^\circ$ and $\angle BXC = 70^\circ$. Find $\angle BAC$, in degrees.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 38 }
+  solution: |
+    $A$, $X$, $C$ lie on a line, so $\angle BXC$ is an exterior angle of triangle $ABX$, so $\angle BAX + \angle ABX = 70^\circ$, giving $\angle BAC = 70^\circ - 32^\circ = 38^\circ$.
+  verify: |
+    def answers():
+        return {'a': 70 - 32}
+
+- id: spec.u1.quiz.sum-of-digits-arrangements
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1600
+  responseSkills: { calculation: 1580, reasoning: 1590 }
+  stem: |
+    How many even 4-digit numbers can be made from the digits 1, 2, 3, 4, 5, 6, each used at most once?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 180 }
+  solution: |
+    The last digit is even: 3 choices. The other three places take 3 of the remaining 5 digits in order: $5 \times 4 \times 3 = 60$. Total $3 \times 60 = 180$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {'a': sum(1 for p in permutations('123456', 4) if int(p[-1]) % 2 == 0)}
+
+- id: spec.u1.quiz.vector-proof-parallelogram
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.proofs }
+  rating: 1640
+  responseSkills: { reasoning: 1630, proof: 1630, clarity: 1580 }
+  stem: |
+    $ABCD$ is a quadrilateral with $\overrightarrow{AB} = \overrightarrow{DC}$. Use vectors to prove that $\overrightarrow{AD} = \overrightarrow{BC}$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: route, description: "Writes AD = AB + BC + CD (or another route around the quadrilateral)", points: 1, dimension: proof }
+          - { id: cancel, description: "Uses CD = −DC = −AB, so AB + CD = 0", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So AD = BC", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Going around the quadrilateral, $\overrightarrow{AD} = \overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CD}$. Since $\overrightarrow{CD} = -\overrightarrow{DC} = -\overrightarrow{AB}$, the first and last terms cancel, leaving $\overrightarrow{AD} = \overrightarrow{BC}$.
+
+- id: spec.u1.quiz.projection-length-k
+  pool: unit-quiz
+  skills: { primary: spec.vectors-2d.projection }
+  rating: 1650
+  responseSkills: { calculation: 1630, reasoning: 1640 }
+  stem: |
+    The scalar projection of $k\mathbf{i} + 2\mathbf{j}$ onto $3\mathbf{i} + 4\mathbf{j}$ is 5. Find $k$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: '\frac{17}{3}', form: [exact] }
+  solution: |
+    $\dfrac{3k + 8}{5} = 5$, so $3k = 17$ and $k = \tfrac{17}{3}$.
+  verify: |
+    def answers():
+        k = sympy.symbols('k')
+        return {'a': sympy.solve(sympy.Eq((3 * k + 8) / 5, 5), k)[0]}
+
+- id: spec.u1.quiz.tangent-secant-solve
+  pool: unit-quiz
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1660
+  responseSkills: { calculation: 1640, reasoning: 1650 }
+  stem: |
+    From $M$, a tangent touches a circle at $T$ with $MT = 12$, and a secant cuts the circle at $A$ and $B$ with $AB = 10$ and $A$ between $M$ and $B$. Find $MA$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 8 }
+  solution: |
+    $MT^2 = MA \times MB$: $144 = x(x + 10)$, so $x^2 + 10x - 144 = 0$, $(x + 18)(x - 8) = 0$, and $MA = 8$.
+  verify: |
+    def answers():
+        x = sympy.symbols('x', positive=True)
+        return {'a': sympy.solve(sympy.Eq(x * (x + 10), 144), x)[0]}
+
+- id: spec.u1.quiz.grid-paths
+  pool: unit-quiz
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1680
+  responseSkills: { reading: 1660, calculation: 1660, reasoning: 1670 }
+  stem: |
+    A path on a grid moves only right or up, one unit at a time, from $(0, 0)$ to $(5, 4)$. How many such paths pass through $(2, 2)$?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 60 }
+  solution: |
+    To $(2, 2)$: 4 moves, 2 of them right: $\binom{4}{2} = 6$. From $(2, 2)$ to $(5, 4)$: 5 moves, 3 right: $\binom{5}{2} = 10$. Total $6 \times 10 = 60$.
+  verify: |
+    def answers():
+        return {'a': sympy.binomial(4, 2) * sympy.binomial(5, 2)}
