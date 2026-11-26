@@ -28,9 +28,9 @@ export interface Deps {
 }
 
 const ID = /^[a-z0-9][a-z0-9.-]{0,120}$/;
-const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
+export const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...headers } });
-const fail = (status: number, error: string, headers?: Record<string, string>) => json({ error }, status, headers);
+export const fail = (status: number, error: string, headers?: Record<string, string>) => json({ error }, status, headers);
 
 let jwks: ReturnType<typeof createRemoteJWKSet> | null = null;
 /** Verify a Firebase ID token; returns the uid. */
@@ -39,6 +39,19 @@ export async function verifyFirebaseToken(token: string, project: string): Promi
   const { payload } = await jwtVerify(token, jwks, { issuer: `https://securetoken.google.com/${project}`, audience: project });
   if (!payload.sub) throw new Error("token has no subject");
   return payload.sub;
+}
+
+/** Only signed-in students (a valid Firebase ID token) may use the owner's key. Returns a 401, or null if allowed. */
+export async function authorize(req: Request, deps: Deps): Promise<Response | null> {
+  if (!deps.firebaseProject) return null;
+  const token = req.headers.get("Authorization")?.match(/^Bearer (.+)$/)?.[1];
+  if (!token) return fail(401, "sign in to use marking");
+  try {
+    await (deps.verify ?? ((t) => verifyFirebaseToken(t, deps.firebaseProject!)))(token);
+    return null;
+  } catch {
+    return fail(401, "sign in again to use marking");
+  }
 }
 
 /** Light shape check: the request is untrusted. */
@@ -63,15 +76,8 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
   if (req.method !== "POST") return fail(405, "POST only", { Allow: "POST" });
   if (!deps.key) return fail(503, "marking is not configured");
 
-  if (deps.firebaseProject) {
-    const token = req.headers.get("Authorization")?.match(/^Bearer (.+)$/)?.[1];
-    if (!token) return fail(401, "sign in to use marking");
-    try {
-      await (deps.verify ?? ((t) => verifyFirebaseToken(t, deps.firebaseProject!)))(token);
-    } catch {
-      return fail(401, "sign in again to use marking");
-    }
-  }
+  const denied = await authorize(req, deps);
+  if (denied) return denied;
 
   let body: unknown;
   try {

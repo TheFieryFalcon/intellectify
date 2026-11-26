@@ -10,6 +10,9 @@
   import type { PartResult } from "$lib/practice";
   import Markdown from "./Markdown.svelte";
   import MathField from "./MathField.svelte";
+  import PaperFirst from "./PaperFirst.svelte";
+  import PaperTip from "./PaperTip.svelte";
+  import { paperFirst } from "$lib/paper.svelte";
 
   let { question, onresolve, header = true }: { question: QuestionT; onresolve: (parts: PartResult[], answers: string[]) => void | Promise<void>; header?: boolean } = $props();
 
@@ -81,8 +84,10 @@
       <span class="tier">Tier {tier}</span>
       <span class="muted">Rating {question.rating}</span>
       {#if question.requiresCalculator}<span class="muted">Calculator</span>{/if}
+      {#if paperFirst(question)}<PaperFirst />{/if}
       {#if !resolved && !mixed}<span class="muted attempts">{allowed === Infinity ? "Unlimited attempts" : `${allowed} attempt${allowed === 1 ? "" : "s"} per part`}</span>{/if}
     </div>
+    {#if paperFirst(question)}<PaperTip />{/if}
   {/if}
 
   <Markdown text={question.stem} />

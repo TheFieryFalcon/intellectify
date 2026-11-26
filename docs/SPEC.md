@@ -579,6 +579,12 @@ answer:
   - unlimited monthly-problem submissions;
   - vision-LLM handwriting transcription when the MyScript quota runs out.
 
+### 10.5 Photo answers
+- Written answers can be **photographed**: the Photo button takes a picture with the camera or uploads one.
+- The photo is shrunk on the device (longest side 1600 px, JPEG) and sent to **`/api/transcribe`**, or straight to the student's own provider (§10.4). This is a vision model told only to transcribe the handwriting into text with LaTeX maths, marking unreadable parts [illegible].
+- The transcription is added to the answer box, labelled "From photo · check it", for the student to correct before submitting. Marking and appeals then use that text as usual.
+- **Photos are never stored.** `/api/transcribe` uses the same sign-in check as `/api/mark`, accepts one JPEG, PNG or WebP of about 3 MB at most, and reports 429 when over quota.
+
 ---
 
 ## 11. Content pipeline (offline, owner-run scripts)
@@ -1205,6 +1211,10 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
+
+### 15.5a Paper first
+- Questions at **Tier 3 and above**, and **every written question**, show a **"Paper first"** label: they are meant to be worked out on paper, then answered on the site.
+- The first time a student meets one, a one-time tip says so (and, for written questions, that the answer can be photographed). "Got it" dismisses it for good in that browser.
 
 ### 15.6 Platform and accessibility
 - Responsive web app, desktop-first but usable on phones and tablets. Stylus input is supported on tablets.
