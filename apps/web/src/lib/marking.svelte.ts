@@ -16,10 +16,10 @@ import {
   type Appeal,
   type MarkResult,
 } from "@intellectify/content/marking";
-import { fillTemplate } from "@intellectify/content/template";
+import { fillServed, type WordPicks } from "@intellectify/content/template";
 import type { Backend, MarkingJob, User } from "./backend";
 import { loadByok, loadEffort, type Byok } from "./byok";
-import { loadCourse, loadQuestions, type QuestionT } from "./content";
+import { loadCourse, loadQuestions, loadWords, type QuestionT } from "./content";
 import { achievementsFor } from "./achievements.svelte";
 import { profileFor } from "./profile.svelte";
 import { recordAppeal, recordMarked } from "./record";
@@ -37,13 +37,11 @@ export function nextDelay(attempts: number, retryAfterMs = 0): number {
 }
 
 /** The filled question a job was answered on (null if it no longer exists). */
-export async function jobQuestion(job: Pick<MarkingJob, "course" | "skill" | "questionId" | "variant">): Promise<QuestionT | null> {
-  const pool = await loadQuestions(fetch, job.course, job.skill);
+export async function jobQuestion(job: Pick<MarkingJob, "course" | "skill" | "questionId" | "variant" | "words">): Promise<QuestionT | null> {
+  const [pool, lists] = await Promise.all([loadQuestions(fetch, job.course, job.skill), loadWords(fetch)]);
   const q = pool.find((x) => x.id === job.questionId);
-  if (!q) return null;
-  if (job.variant === null) return q;
-  const v = q.variants?.[job.variant];
-  return v ? fillTemplate(q, v) : null;
+  if (!q || (job.variant !== null && !q.variants?.[job.variant])) return null;
+  return fillServed(q, job.variant, job.words ?? null, lists);
 }
 
 class RetryLater extends Error {
@@ -124,7 +122,7 @@ async function markOnServer(backend: Backend, job: MarkingJob, appeal?: Appeal):
     res = await fetch("/api/mark", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, answers: job.answers, appeal, effort: loadEffort("free") }),
+      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, words: job.words ?? null, answers: job.answers, appeal, effort: loadEffort("free") }),
     });
   } catch {
     throw new RetryLater("Offline");
@@ -173,7 +171,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; answers: Record<string, string> }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const job: MarkingJob = {
@@ -183,6 +181,7 @@ export class MarkingQueue {
       questionId: input.question.id,
       questionVersion: input.question.version,
       variant: input.variant,
+      words: input.words ?? null,
       answers: input.answers,
       createdAt: now,
       status: "pending",

@@ -3,12 +3,12 @@ import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
 import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
-import { fillTemplate } from "./template.js";
+import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, slopeOf, type SectionReviews, type UnitReviews } from "./reviews.js";
-import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
+import { CourseManifest, CurriculumVersion, Question, ResponseSkills, WordListsFile, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
 export interface BundleSkill {
@@ -50,6 +50,8 @@ export interface BuildResult {
     tutorials: Tutorial[];
   }[];
   achievements: AchievementT[];
+  /** Word lists (SPEC §9.6), shared by every course. */
+  words: WordLists;
   errors: string[];
   warnings: string[];
 }
@@ -76,6 +78,9 @@ export function buildContent(contentDir: string): BuildResult {
   if (!rsParsed.success) errors.push(`response-skills.yaml: ${rsParsed.error.issues.map((i) => i.message).join("; ")}`);
   const responseSkills = rsParsed.success ? rsParsed.data : [];
   const rsIds = new Set(responseSkills.map((r) => r.id));
+  const wordsParsed = WordListsFile.safeParse(readYaml(join(contentDir, "words.yaml")));
+  if (!wordsParsed.success) errors.push(`words.yaml: ${wordsParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+  const words: WordLists = wordsParsed.success ? wordsParsed.data : {};
 
   const curriculumDir = join(contentDir, "curriculum");
   for (const courseId of readdirSync(curriculumDir)) {
@@ -190,9 +195,18 @@ export function buildContent(contentDir: string): BuildResult {
         if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
           errors.push(`${where}: a computed answer exercises calculation`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
+        // Word variety (SPEC §9.6): known lists, and words never reach an answer or the verify code.
+        const firstPicks: WordPicks | null = q.words ? Object.fromEntries(Object.keys(q.words).map((slot) => [slot, 0])) : null;
+        for (const [slot, list] of Object.entries(q.words ?? {})) {
+          if (!words[list]) errors.push(`${where}: words slot ${slot} uses unknown list ${list}`);
+          if (!/^[a-z]\w*$/.test(slot) || (q.variants ?? []).some((v) => slot in v)) errors.push(`${where}: words slot ${slot} must be a plain name not used by a variant`);
+          const used = new RegExp(`\\{\\{\\s*${slot}(\\.\\w+)?\\s*\\}\\}`);
+          if (q.parts.some((p) => p.answer && used.test(JSON.stringify(p.answer))) || used.test(q.verify ?? "")) errors.push(`${where}: words slot ${slot} can't change an answer`);
+          if (![q.stem, q.solution, ...q.parts.map((p) => p.prompt ?? "")].some((t) => used.test(t))) warnings.push(`${where}: words slot ${slot} is never used`);
+        }
         // MCQ keys and diagrams may be templated ({{key}}), so check them once per filled variant.
         for (const params of q.variants ?? [{}]) {
-          const filled = q.variants ? fillTemplate(q, params) : q;
+          const filled = fillTemplate(q, { ...params, ...wordParams(q.words, firstPicks, words) });
           const texts = [filled.stem, filled.solution, ...filled.parts.flatMap((p) => [p.prompt ?? "", ...(p.options ?? []).map((o) => o.text)])];
           for (const t of texts) for (const e of diagramErrors(t)) errors.push(`${where}${q.variants ? ` variant ${JSON.stringify(params)}` : ""}: ${e}`);
           for (const p of filled.parts) {
@@ -205,7 +219,7 @@ export function buildContent(contentDir: string): BuildResult {
         }
         // Self-check: every answer key must be accepted by its own checker, for every variant.
         for (const params of q.variants ?? [{}]) {
-          const filled = fillTemplate(q, params);
+          const filled = fillTemplate(q, { ...params, ...wordParams(q.words, firstPicks, words) });
           for (const p of filled.parts) {
             if (!p.answer || p.answer.type === "mcq" || p.answer.type === "multi-select") continue;
             const keyLatex = keyAsLatex(p.answer);
@@ -315,7 +329,7 @@ export function buildContent(contentDir: string): BuildResult {
     }
     bundles.push({ course, questions, sectionReviews, unitReviews, tutorials: [...tutorials.values()] });
   }
-  return { bundles, achievements: loadAchievements(contentDir, errors), errors, warnings };
+  return { bundles, achievements: loadAchievements(contentDir, errors), words, errors, warnings };
 }
 
 /** LaTeX that should satisfy a spec: its own key, rendered as a student would type it. */

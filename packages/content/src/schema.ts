@@ -120,9 +120,14 @@ export const Question = z.object({
   solution: z.string().min(1),
   /** Pre-generated parameter sets; `{{name}}` placeholders are filled from one of these. */
   variants: z.array(z.record(z.union([z.string(), z.number()]))).optional(),
+  /** Word variety (SPEC §9.6): slot → word list in content/words.yaml, picked at random on each serve. */
+  words: z.record(z.string()).optional(),
   /** SymPy verification script, run offline (SPEC §11.3). */
   verify: z.string().optional(),
 });
+
+/** content/words.yaml: named word lists (SPEC §9.6). */
+export const WordListsFile = z.record(z.array(z.union([z.string().min(1), z.record(z.string().min(1))])).min(2));
 
 export const ResponseSkills = z.array(z.object({ id: z.string(), name: z.string() })).min(1);
 

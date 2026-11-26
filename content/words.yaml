@@ -1,0 +1,88 @@
+# Word lists for word variety (docs/SPEC.md §9.6). A question names the lists it draws from:
+#
+#   words: { who: person, craft: aircraft, u: units }
+#
+# and uses {{who}}, {{craft}}, {{u.speed}} in its text. Each serve picks entries at random,
+# independently of the numeric variant. Words never change an answer.
+#
+# For a plain entry, {{slot}} is the word, {{slot.a}} adds "a" or "an", and {{slot.A}} and
+# {{slot.Cap}} capitalize (for the start of a sentence). For an entry with fields, {{slot.field}}
+# is that field, and {{slot}} is its `name` field.
+#
+# People are referred to by name only, never by pronoun, so any name fits any sentence.
+
+person:
+  - Adam
+  - Priya
+  - Kai
+  - Mei
+  - Liam
+  - Zara
+  - Tom
+  - Aisha
+  - Noah
+  - Chloe
+  - Ravi
+  - Sofia
+  - Jack
+  - Amara
+  - Leo
+  - Hana
+  - Ethan
+  - Yuki
+  - Oliver
+  - Fatima
+  - Lucas
+  - Isla
+  - Ben
+  - Ngaio
+  - Sam
+  - Elena
+  - Arjun
+  - Grace
+  - Mateo
+  - Ruby
+
+# Flies with an airspeed and a heading, and can be blown by wind.
+aircraft:
+  - plane
+  - seaplane
+  - helicopter
+  - light aircraft
+  - jet
+  - glider
+  - drone
+  - air ambulance
+
+# Moves through water with a heading, and can be carried by a current.
+vessel:
+  - boat
+  - ship
+  - yacht
+  - ferry
+  - motorboat
+  - fishing boat
+  - catamaran
+  - tugboat
+
+# Crosses a river under its own power, pointing straight across.
+crosser:
+  - { name: swimmer, verb: swims }
+  - { name: kayaker, verb: paddles }
+  - { name: rower, verb: rows }
+  - { name: paddleboarder, verb: paddles }
+
+# Travels on roads.
+road:
+  - car
+  - truck
+  - bus
+  - van
+  - motorbike
+  - taxi
+
+# Matching distance and speed units (time stays in hours).
+units:
+  - { name: km, distance: km, speed: km/h }
+  - { name: nautical miles, distance: nautical miles, speed: knots }
+  - { name: miles, distance: miles, speed: mph }

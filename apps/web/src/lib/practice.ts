@@ -16,9 +16,9 @@ import {
   type SkillSize,
   type Tier,
 } from "@intellectify/engine";
-import { fillTemplate } from "@intellectify/content/template";
+import { fillServed, pickWords, type WordPicks } from "@intellectify/content/template";
 import type { CourseProgress, StoredSkillState } from "./backend";
-import type { CourseBundle, QuestionT } from "./content";
+import { wordLists, type CourseBundle, type QuestionT } from "./content";
 import type { MarkResult } from "@intellectify/content/marking";
 import { partRating } from "@intellectify/content/schema";
 
@@ -43,7 +43,23 @@ export const isAutoMarked = (q: QuestionT) => q.parts.every((p) => p.answer);
 export interface Served {
   question: QuestionT;
   variant: number | null;
+  /** Words picked for this serve (SPEC §9.6); null if the question has no word slots. */
+  words: WordPicks | null;
 }
+
+/** Serve a question: a random numeric variant and freshly picked words. */
+export function serveOne(q: QuestionT, rand: () => number = Math.random): Served {
+  const variant = q.variants?.length ? Math.floor(rand() * q.variants.length) : null;
+  const words = pickWords(q.words, wordLists(), rand);
+  return { question: fillServed(q, variant, words, wordLists()), variant, words };
+}
+
+/** Rebuild a served question from its stored variant and words. */
+export const reserve = (q: QuestionT, variant: number | null, words: WordPicks | null | undefined): Served => ({
+  question: fillServed(q, variant, words ?? null, wordLists()),
+  variant,
+  words: words ?? null,
+});
 
 /** Choose the next question for a skill and fill in a random variant. */
 export function serveQuestion(pool: QuestionT[], state: StoredSkillState, hidden: ReadonlySet<string> = new Set(), opts: { freeResponse?: boolean } = {}): Served | null {
@@ -54,10 +70,7 @@ export function serveQuestion(pool: QuestionT[], state: StoredSkillState, hidden
     everSeen: new Set(state.seen),
     hidden,
   });
-  if (!picked) return null;
-  if (!picked.variants?.length) return { question: picked, variant: null };
-  const variant = Math.floor(Math.random() * picked.variants.length);
-  return { question: fillTemplate(picked, picked.variants[variant]!), variant };
+  return picked ? serveOne(picked) : null;
 }
 
 export interface PartResult {

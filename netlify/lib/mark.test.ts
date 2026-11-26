@@ -13,12 +13,14 @@ const question = {
   variants: [{ n: 7 }],
 };
 const auto = { ...question, id: "s.k.auto", parts: [{ id: "a", marks: 1, answer: { type: "numeric", key: 1 } }] };
+const worded = { ...question, id: "s.k.words", variants: undefined, words: { who: "person" }, stem: "{{who}} claims 7 is odd. Prove it." };
 
 function deps(marker: (body: { model: string; messages: { content: string }[] }) => Response, extra: Partial<Deps> = {}): Deps & { seen: string[] } {
   const seen: string[] = [];
   const fetch = (async (url: string, init?: RequestInit) => {
     seen.push(url);
-    if (url.endsWith("/content/specialist/questions/s.k.json")) return Response.json([question, auto]);
+    if (url.endsWith("/content/specialist/questions/s.k.json")) return Response.json([question, auto, worded]);
+    if (url.endsWith("/content/words.json")) return Response.json({ person: ["Adam", "Priya", "Kai"] });
     if (url.includes("groq")) return marker(JSON.parse(init!.body as string));
     return new Response("not found", { status: 404 });
   }) as unknown as typeof globalThis.fetch;
@@ -69,6 +71,15 @@ describe("/api/mark", () => {
     expect([await runs(1), await runs(2), await runs()]).toEqual([1, 3, 3]);
     expect((await handleMark(post({ ...body, effort: 7 }), deps(ok(2)))).status).toBe(400);
     expect((await handleMark(post(body), deps(ok(2), { groqKey: undefined }))).status).toBe(503);
+  });
+
+  it("fills the words the question was served with, and refuses words it can't have had", async () => {
+    let prompt = "";
+    const d = deps((b) => ((prompt = b.messages[1]!.content), ok(2)()));
+    const req = { ...body, questionId: "s.k.words", variant: null };
+    expect((await handleMark(post({ ...req, words: { who: 1 } }), d)).status).toBe(200);
+    expect(prompt).toContain("Priya claims 7 is odd.");
+    for (const words of [{ who: 3 }, { who: 0.5 }, { them: 0 }, null, { who: 0, extra: 1 }]) expect((await handleMark(post({ ...req, words }), d)).status).toBe(400);
   });
 
   it("passes quota errors on as 429 so the client queues the job", async () => {

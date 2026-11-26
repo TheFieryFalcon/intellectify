@@ -6,12 +6,11 @@
   import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
   import MarkView from "$lib/components/MarkView.svelte";
   import { markingFor } from "$lib/marking.svelte";
-  import { fillTemplate } from "@intellectify/content/template";
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { loadSectionReviews, type QuestionT } from "$lib/content";
-  import type { PartResult, Served } from "$lib/practice";
+  import { loadSectionReviews, loadWords, type QuestionT } from "$lib/content";
+  import { reserve, type PartResult, type Served } from "$lib/practice";
   import { recordResult } from "$lib/record";
   import { serve, slopeOf, type ChallengeState } from "$lib/review";
   import SlopeMark from "$lib/components/SlopeMark.svelte";
@@ -45,7 +44,7 @@
     if (!store?.loaded || !section || !user || !backend || loadedFor === sectionId) return;
     loadedFor = sectionId;
     // The Challenge draws only from its own authored pool (SPEC §8.4), never from practice.
-    loadSectionReviews(fetch, data.course.id, sectionId).then(async (r) => {
+    Promise.all([loadSectionReviews(fetch, data.course.id, sectionId), loadWords(fetch)]).then(async ([r]) => {
       sequence = r.challenge;
       pool = new Map(r.challenge.map((q) => [q.id, q] as [string, QuestionT]));
       ch = await backend.loadChallenge(user.uid, data.course.id, sectionId);
@@ -57,7 +56,7 @@
   async function start() {
     if (!section) return;
     const served = sequence.map((q) => serve(q));
-    ch = { questions: served.map((s) => ({ id: s.question.id, variant: s.variant })), results: [], startedAt: Date.now(), finishedAt: null };
+    ch = { questions: served.map((s) => ({ id: s.question.id, variant: s.variant, words: s.words })), results: [], startedAt: Date.now(), finishedAt: null };
     resolved = false;
     await save(ch);
   }
@@ -68,7 +67,7 @@
     const ref = ch.questions[ch.results.length - (resolved ? 1 : 0)];
     const q = ref && pool.get(ref.id);
     if (!q) return null;
-    return { question: ref.variant !== null && q.variants ? fillTemplate(q, q.variants[ref.variant]!) : q, variant: ref.variant };
+    return reserve(q, ref.variant, ref.words);
   });
 
   async function resolve(parts: PartResult[], answers: string[]) {
@@ -83,7 +82,7 @@
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !current || !ch) return;
     const q = current.question;
-    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, answers });
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, answers });
     ch = { ...ch, results: [...ch.results, { id: q.id, outcome: null, firstTry: false, jobId: job.id }] };
     resolved = true;
     await save(ch);

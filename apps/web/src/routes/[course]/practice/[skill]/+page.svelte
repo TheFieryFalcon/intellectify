@@ -8,7 +8,7 @@
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { indexSkills, loadQuestions, type QuestionT } from "$lib/content";
+  import { indexSkills, loadQuestions, loadWords, type QuestionT } from "$lib/content";
   import { getStartTier, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { recordResult } from "$lib/record";
@@ -42,7 +42,7 @@
     if (!store?.loaded || loadedFor === skillId) return;
     loadedFor = skillId;
     pool = null;
-    loadQuestions(fetch, data.course.id, skillId).then((qs) => {
+    Promise.all([loadQuestions(fetch, data.course.id, skillId), loadWords(fetch)]).then(([qs]) => {
       pool = qs;
       // A link to one question (?q=<id>) serves it first; practice then carries on as usual.
       const wanted = page.url.searchParams.get("q");
@@ -61,13 +61,15 @@
     summary = null;
     xpGained = 0;
     jobId = null;
-    served = serveQuestion(pool, stateOrNew(store.progress, skillId, getStartTier(data.course.id)));
+    // Written answers still waiting to be marked count as seen (SPEC §5.4): don't serve them again meanwhile.
+    const waiting = new Set((marking?.jobs ?? []).filter((j) => j.status === "pending").map((j) => j.questionId));
+    served = serveQuestion(pool, stateOrNew(store.progress, skillId, getStartTier(data.course.id)), waiting);
     round++;
   }
 
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !served) return;
-    const j = await marking.submit({ course: data.course.id, skill: skillId, question: served.question, variant: served.variant, answers });
+    const j = await marking.submit({ course: data.course.id, skill: skillId, question: served.question, variant: served.variant, words: served.words, answers });
     jobId = j.id;
   }
 

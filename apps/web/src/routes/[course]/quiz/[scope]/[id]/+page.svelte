@@ -9,7 +9,7 @@
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { loadSectionReviews, loadUnitReviews } from "$lib/content";
+  import { loadSectionReviews, loadUnitReviews, loadWords } from "$lib/content";
   import { getStartTier, stateOrNew, type PartResult, type Served } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
   import { recordResult } from "$lib/record";
@@ -60,7 +60,7 @@
     loadedFor = page.url.pathname;
     const skills = target.skills;
     // Quizzes draw only from their own authored pool (SPEC §8), never from practice.
-    const pool = scope === "unit" ? loadUnitReviews(fetch, data.course.id, Number(page.params.id)).then((r) => r.unitQuiz) : loadSectionReviews(fetch, data.course.id, page.params.id!).then((r) => r.sectionQuiz);
+    const pool = loadWords(fetch).then(() => scope === "unit" ? loadUnitReviews(fetch, data.course.id, Number(page.params.id)).then((r) => r.unitQuiz) : loadSectionReviews(fetch, data.course.id, page.params.id!).then((r) => r.sectionQuiz));
     pool.then((qs) => {
       quiz = buildQuiz(bySkill(qs), QUIZ_MIX[scope]);
       // A skill opened for the first time starts from its default placement.
@@ -81,7 +81,7 @@
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !current) return;
     const q = current.question;
-    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, answers });
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, answers });
     results = [...results, { skill: q.skills.primary, outcome: null, firstTry: false, jobId: job.id }];
     resolved = true;
   }

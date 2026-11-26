@@ -1,3 +1,4 @@
+import type { WordPicks } from "@intellectify/content/template";
 import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
 import type { MarkResult } from "@intellectify/content/marking";
 
@@ -75,7 +76,7 @@ export interface XpGrant {
 /** Everything the app needs from a backend. Firebase and local storage both implement it. */
 /** Saved Section Challenge progress (SPEC §8.4: untimed, resumable). */
 export interface ChallengeState {
-  questions: { id: string; variant: number | null }[];
+  questions: { id: string; variant: number | null; words?: WordPicks | null }[];
   /** One entry per finished question, in order. A written answer has a null outcome until its mark lands. */
   results: { id: string; outcome: number | null; firstTry: boolean; jobId?: string; skipped?: boolean }[];
   startedAt: number;
@@ -99,6 +100,8 @@ export interface MarkingJob {
   questionId: string;
   questionVersion: number;
   variant: number | null;
+  /** Words picked when it was served (SPEC §9.6). */
+  words?: WordPicks | null;
   answers: Record<string, string>;
   createdAt: number;
   /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */

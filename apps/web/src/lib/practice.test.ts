@@ -67,6 +67,20 @@ describe("scoreQuestion", () => {
   });
 });
 
+describe("word variety (SPEC §9.6)", () => {
+  it("fills picked words, keeps them with the serve, and never repeats an entry within a question", async () => {
+    const { fillServed, pickWords, validPicks } = await import("@intellectify/content/template");
+    const lists = { person: ["Adam", "Priya"], aircraft: ["plane", "air ambulance"], units: [{ name: "km", speed: "km/h" }] };
+    const slots = { a: "person", b: "person", craft: "aircraft", u: "units" };
+    const picks = pickWords(slots, lists, () => 0.99)!;
+    expect(picks.a).not.toBe(picks.b);
+    expect(validPicks(slots, picks, lists)).toBe(true);
+    expect(validPicks(slots, { ...picks, a: 2 }, lists)).toBe(false);
+    const q = fillServed({ stem: "{{a}} and {{b}} board {{craft.a}} at {{u.speed}}. {{craft.A}} it is.", words: slots }, null, { a: 0, b: 1, craft: 1, u: 0 }, lists);
+    expect(q.stem).toBe("Adam and Priya board an air ambulance at km/h. An air ambulance it is.");
+  });
+});
+
 describe("serveQuestion", () => {
   it("serves free-response questions, unless asked for auto-marked only", () => {
     const fr = q({ id: "fr", parts: [{ id: "a", marks: 1, rubric: { criteria: [{ id: "c", description: "d", points: 1, dimension: "proof" }] } }] });

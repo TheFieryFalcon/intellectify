@@ -1,5 +1,6 @@
 import type { BundleSkill, CourseBundle, QuestionT } from "@intellectify/content";
 import type { SectionReviews, UnitReviews } from "@intellectify/content/reviews";
+import type { WordLists } from "@intellectify/content/template";
 
 export type { BundleSkill, CourseBundle, QuestionT };
 
@@ -20,6 +21,18 @@ export function loadCourse(fetchFn: Fetch, id: string): Promise<CourseBundle> {
   }
   return courseCache.get(id)!;
 }
+
+let wordsPromise: Promise<WordLists> | null = null;
+let wordsLoaded: WordLists = {};
+/** Word lists for word variety (SPEC §9.6), shared by every course. Await before serving questions. */
+export function loadWords(fetchFn: Fetch): Promise<WordLists> {
+  wordsPromise ??= fetchFn("/content/words.json")
+    .then((r) => (r.ok ? (r.json() as Promise<WordLists>) : {}))
+    .then((w) => (wordsLoaded = w));
+  return wordsPromise;
+}
+/** The word lists, once loadWords has resolved. */
+export const wordLists = (): WordLists => wordsLoaded;
 
 /** Questions whose primary skill is `skillId`. Missing file = no questions yet. */
 export function loadQuestions(fetchFn: Fetch, course: string, skillId: string): Promise<QuestionT[]> {

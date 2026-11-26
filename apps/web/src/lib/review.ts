@@ -3,11 +3,10 @@
  * Pure functions, so they can be tested without the app.
  */
 import { tierOf, type Tier } from "@intellectify/engine";
-import { fillTemplate } from "@intellectify/content/template";
 import { challengeLength, QUIZ_MIX, slopeOf } from "@intellectify/content/reviews";
 export { slopeOf };
 import type { QuestionT } from "./content";
-import type { Served } from "./practice";
+import { serveOne, type Served } from "./practice";
 
 export { challengeLength, QUIZ_MIX };
 
@@ -28,12 +27,8 @@ const shuffle = <T>(xs: T[], rand: Rand): T[] => {
   return a;
 };
 
-/** Fill a random variant, as practice does. */
-export function serve(q: QuestionT, rand: Rand = Math.random): Served {
-  if (!q.variants?.length) return { question: q, variant: null };
-  const variant = Math.floor(rand() * q.variants.length);
-  return { question: fillTemplate(q, q.variants[variant]!), variant };
-}
+/** Fill a random variant and pick words, as practice does. */
+export const serve = (q: QuestionT, rand: Rand = Math.random): Served => serveOne(q, rand);
 
 /**
  * Build a quiz: for each tier in the mix, take questions round-robin across skills (so every skill

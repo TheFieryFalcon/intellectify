@@ -4,7 +4,7 @@
  * request, and only signed-in students (Firebase ID token) may use the key.
  */
 import { createRemoteJWKSet, jwtVerify } from "jose";
-import { fillTemplate } from "../../packages/content/src/template";
+import { fillServed, validPicks, type WordLists, type WordPicks } from "../../packages/content/src/template";
 import { GROQ_ENDPOINT, MARKING_MODELS, TRANSCRIBE_MODELS, effortLevel, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
 import type { QuestionT } from "../../packages/content/src/schema";
 
@@ -13,6 +13,8 @@ export interface MarkRequest {
   skill: string;
   questionId: string;
   variant: number | null;
+  /** Words picked when it was served (SPEC §9.6), checked against the deployed word lists. */
+  words?: WordPicks | null;
   answers: Record<string, string>;
   appeal?: Appeal;
   /** Marking effort, 1 (one run) or 2 (three runs, by consensus); default 2. */
@@ -103,11 +105,15 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
   const pool = (await res.json()) as QuestionT[];
   let q = pool.find((x) => x.id === r.questionId);
   if (!q || !isRubricMarked(q)) return fail(404, "unknown free-response question");
-  if (r.variant !== null) {
-    const v = q.variants?.[r.variant];
-    if (!v) return fail(400, "unknown variant");
-    q = fillTemplate(q, v);
+  if (r.variant !== null && !q.variants?.[r.variant]) return fail(400, "unknown variant");
+  let lists: WordLists = {};
+  if (q.words) {
+    const w = await deps.fetch(`${origin}/content/words.json`);
+    if (!w.ok) return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
+    lists = (await w.json()) as WordLists;
   }
+  if (!validPicks(q.words, r.words ?? null, lists)) return fail(400, "bad words");
+  q = fillServed(q, r.variant, r.words ?? null, lists);
 
   // Groq marks: fast, rarely busy and free. Gemini's free quota is kept for reading photos.
   const level = effortLevel("free", r.effort ?? 2);
