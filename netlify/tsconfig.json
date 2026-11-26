@@ -1,5 +1,18 @@
 {
   "extends": "../tsconfig.base.json",
-  "compilerOptions": { "noEmit": true, "allowImportingTsExtensions": true, "lib": ["ES2022", "DOM"] },
-  "include": ["**/*.ts", "**/*.mts"]
+  "compilerOptions": {
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "lib": [
+      "ES2022",
+      "DOM"
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": [
+    "**/*.scratch.ts"
+  ]
 }

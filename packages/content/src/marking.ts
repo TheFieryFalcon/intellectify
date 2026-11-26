@@ -202,6 +202,9 @@ export const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta
  */
 export const MARKING_MODELS = ["gemini-3.8-flash", "gemini-3.5-flash"];
 export const TRANSCRIBE_MODELS = ["gemini-3.8-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite"];
+/** Groq's OpenAI-compatible endpoint and its fast reasoning model (text only: photos stay with Gemini). */
+export const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+export const GROQ_MODELS = ["openai/gpt-oss-120b"];
 /** @deprecated use MARKING_MODELS or TRANSCRIBE_MODELS */
 export const GEMINI_MODELS = MARKING_MODELS;
 

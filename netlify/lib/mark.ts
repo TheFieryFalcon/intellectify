@@ -5,7 +5,7 @@
  */
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { fillTemplate } from "../../packages/content/src/template";
-import { GEMINI_ENDPOINT, MARKING_MODELS, TRANSCRIBE_MODELS, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
+import { GEMINI_ENDPOINT, GROQ_ENDPOINT, GROQ_MODELS, MARKING_MODELS, TRANSCRIBE_MODELS, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
 import type { QuestionT } from "../../packages/content/src/schema";
 
 export interface MarkRequest {
@@ -24,6 +24,9 @@ export interface Deps {
   firebaseProject: string | null;
   /** Models for marking, and for reading photos. */
   models: string[];
+  /** Groq key and models: tried first for marking when set (fast, rarely busy), then Gemini. */
+  groqKey?: string;
+  groqModels?: string[];
   transcribeModels?: string[];
   fetch: typeof fetch;
   verify?: (token: string) => Promise<string>;
@@ -76,7 +79,7 @@ function parse(body: unknown): MarkRequest | string {
 
 export async function handleMark(req: Request, deps: Deps): Promise<Response> {
   if (req.method !== "POST") return fail(405, "POST only", { Allow: "POST" });
-  if (!deps.key) return fail(503, "marking is not configured");
+  if (!deps.key && !deps.groqKey) return fail(503, "marking is not configured");
 
   const denied = await authorize(req, deps);
   if (denied) return denied;
@@ -103,16 +106,38 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
     q = fillTemplate(q, v);
   }
 
+  // Groq first when configured (fast, rarely busy), then Gemini, within the function's time limit.
+  if (deps.groqKey) {
+    try {
+      const result: MarkResult = await markWithModels({
+        question: q,
+        answers: r.answers,
+        appeal: r.appeal,
+        endpoint: GROQ_ENDPOINT,
+        key: deps.groqKey,
+        models: deps.groqModels ?? GROQ_MODELS,
+        reasoningEffort: "low",
+        fetch: deps.fetch,
+        timeout: 20_000,
+        budget: 20_000,
+      });
+      return json({ result, questionVersion: q.version });
+    } catch (e) {
+      console.error("Groq marking failed, trying Gemini:", (e as Error).message);
+      if (!deps.key) return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
+    }
+  }
   try {
     const result: MarkResult = await markWithModels({
       question: q,
       answers: r.answers,
       appeal: r.appeal,
       endpoint: GEMINI_ENDPOINT,
-      key: deps.key,
+      key: deps.key!,
       models: deps.models,
       reasoningEffort: "low",
       fetch: deps.fetch,
+      budget: deps.groqKey ? 32_000 : 50_000,
     });
     return json({ result, questionVersion: q.version });
   } catch (e) {
@@ -129,6 +154,8 @@ export const depsFromEnv = (get: (k: string) => string | undefined): Deps => ({
   key: get("GEMINI_API_KEY"),
   firebaseProject: get("MARK_SKIP_AUTH") === "1" ? null : (get("FIREBASE_PROJECT_ID") ?? "intellectify-4357c"),
   models: get("MARK_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? MARKING_MODELS,
+  groqKey: get("GROQ_API_KEY"),
+  groqModels: get("GROQ_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean),
   transcribeModels: get("TRANSCRIBE_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? TRANSCRIBE_MODELS,
   fetch,
 });
