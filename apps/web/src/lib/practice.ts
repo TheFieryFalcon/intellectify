@@ -3,10 +3,12 @@ import {
   autoMarkedOutcome,
   CONFIG,
   freeResponseOutcome,
-  multiPartOutcome,
   newSkillState,
   pickQuestion,
+  applyParts,
+  reviseParts,
   reviseOutcome,
+  type PartOutcome,
   rollUp,
   tierOf,
   type RankLevel,
@@ -18,6 +20,7 @@ import { fillTemplate } from "@intellectify/content/template";
 import type { CourseProgress, StoredSkillState } from "./backend";
 import type { CourseBundle, QuestionT } from "./content";
 import type { MarkResult } from "@intellectify/content/marking";
+import { partRating } from "@intellectify/content/schema";
 
 const SEEN_LIMIT = 200;
 const RECENT = 20;
@@ -71,7 +74,18 @@ export interface ResultSummary {
   changes: { skills: Record<string, StoredSkillState>; responseSkills: Record<string, StoredSkillState> };
 }
 
-/** Apply a resolved question to every skill it touches (SPEC §5.1, §5.6). Pure: returns the new states. */
+/** Each part's share of the question's marks. */
+const shares = (parts: { marks: number }[]) => {
+  const total = parts.reduce((t, p) => t + p.marks, 0);
+  if (total <= 0) throw new RangeError("a question needs positive marks");
+  return parts.map((p) => p.marks / total);
+};
+const overall = (parts: PartOutcome[]) => parts.reduce((t, p) => t + p.share * p.outcome, 0);
+
+/**
+ * Apply a resolved question to every skill it touches (SPEC §5.1, §5.6). Ratings are per part: each part
+ * counts against its own rating and tier (attempt credit included), weighted by its marks. Pure.
+ */
 export function scoreQuestion(
   progress: CourseProgress,
   question: QuestionT,
@@ -79,16 +93,30 @@ export function scoreQuestion(
   sizeOf: (skillId: string) => SkillSize = () => "medium",
   startTier: Tier = CONFIG.defaultStartTier,
 ): ResultSummary {
-  const tier = tierOf(question.rating);
-  const outcome = multiPartOutcome(parts.map((p) => ({ marks: p.marks, outcome: autoMarkedOutcome(tier, p.solvedOn) })));
-  // Auto-marked: every listed response skill gets the question's outcome.
+  const share = shares(parts);
+  const outcomes: PartOutcome[] = parts.map((p, i) => {
+    const rating = partRating(question, question.parts[i] ?? {});
+    return { rating, outcome: autoMarkedOutcome(tierOf(rating), p.solvedOn), share: share[i]! };
+  });
+  // Auto-marked: every listed response skill gets the question's overall outcome.
+  const outcome = overall(outcomes);
   const rs = Object.fromEntries(Object.keys(question.responseSkills).map((id) => [id, outcome]));
-  return applyOutcomes(progress, question, outcome, rs, sizeOf, startTier);
+  return applyOutcomes(progress, question, outcomes, rs, sizeOf, startTier);
+}
+
+/** A marked answer's part outcomes: freeResponseOutcome of each rubric part's score (SPEC §6.3). */
+export function markedParts(question: QuestionT, result: MarkResult): PartOutcome[] {
+  const parts = question.parts.filter((p) => p.rubric);
+  const share = shares(parts);
+  return parts.map((p, i) => {
+    const s = Math.min(1, Math.max(0, result.parts?.[p.id] ?? result.score));
+    return { rating: partRating(question, p), outcome: freeResponseOutcome(s), share: share[i]! };
+  });
 }
 
 /**
- * Apply an LLM-marked answer (SPEC §6.3, §5.6): content skills get freeResponseOutcome(s), and each
- * rubric dimension updates its response skill with that dimension's own score.
+ * Apply an LLM-marked answer (SPEC §6.3, §5.6): content skills part by part, and each rubric dimension
+ * updates its response skill with that dimension's own score.
  */
 export function scoreMarked(
   progress: CourseProgress,
@@ -97,13 +125,13 @@ export function scoreMarked(
   sizeOf: (skillId: string) => SkillSize = () => "medium",
   startTier: Tier = CONFIG.defaultStartTier,
 ): ResultSummary {
-  return applyOutcomes(progress, question, freeResponseOutcome(Math.min(1, Math.max(0, result.score))), result.dimensions, sizeOf, startTier);
+  return applyOutcomes(progress, question, markedParts(question, result), result.dimensions, sizeOf, startTier);
 }
 
 function applyOutcomes(
   progress: CourseProgress,
   question: QuestionT,
-  outcome: number,
+  parts: PartOutcome[],
   responseOutcomes: Record<string, number>,
   sizeOf: (skillId: string) => SkillSize,
   startTier: Tier,
@@ -111,12 +139,12 @@ function applyOutcomes(
   const skills: Record<string, StoredSkillState> = {};
   const primaryId = question.skills.primary;
   const before = stateOrNew(progress, primaryId, startTier);
-  const primary = applyOutcome(before, question.rating, outcome, 1, sizeOf(primaryId));
+  const primary = applyParts(before, parts, 1, sizeOf(primaryId));
   skills[primaryId] = toStored(primary.state, [...before.seen, question.id].slice(-SEEN_LIMIT));
 
   for (const id of question.skills.secondary) {
     const s = stateOrNew(progress, id, startTier);
-    skills[id] = toStored(applyOutcome(s, question.rating, outcome, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
+    skills[id] = toStored(applyParts(s, parts, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
   }
 
   const responseSkills: Record<string, StoredSkillState> = {};
@@ -126,14 +154,14 @@ function applyOutcomes(
   }
 
   return {
-    outcome,
+    outcome: overall(parts),
     tier: tierOf(question.rating),
     primary: { id: primaryId, before, after: skills[primaryId]!, deltaTheta: primary.deltaTheta, rankBefore: primary.rankBefore, rankAfter: primary.rankAfter },
     changes: { skills, responseSkills },
   };
 }
 
-/** Correct an applied mark after an appeal re-mark (SPEC §10.3): every touched skill moves by the difference. */
+/** Correct an applied mark after an appeal re-mark (SPEC §10.3): every touched skill moves by the exact difference, part by part. */
 export function reviseMarked(
   progress: CourseProgress,
   question: QuestionT,
@@ -142,16 +170,16 @@ export function reviseMarked(
   sizeOf: (skillId: string) => SkillSize = () => "medium",
   startTier: Tier = CONFIG.defaultStartTier,
 ): ResultSummary {
-  const o1 = freeResponseOutcome(before.score);
-  const o2 = freeResponseOutcome(after.score);
+  const p1 = markedParts(question, before);
+  const p2 = markedParts(question, after);
   const skills: Record<string, StoredSkillState> = {};
   const primaryId = question.skills.primary;
   const prev = stateOrNew(progress, primaryId, startTier);
-  const primary = reviseOutcome(prev, question.rating, o1, o2, 1, sizeOf(primaryId));
+  const primary = reviseParts(prev, p1, p2, 1, sizeOf(primaryId));
   skills[primaryId] = toStored(primary.state, prev.seen);
   for (const id of question.skills.secondary) {
     const s = stateOrNew(progress, id, startTier);
-    skills[id] = toStored(reviseOutcome(s, question.rating, o1, o2, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
+    skills[id] = toStored(reviseParts(s, p1, p2, CONFIG.secondaryWeight, sizeOf(id)).state, s.seen);
   }
   const responseSkills: Record<string, StoredSkillState> = {};
   for (const id of new Set([...Object.keys(before.dimensions), ...Object.keys(after.dimensions)])) {
@@ -160,7 +188,7 @@ export function reviseMarked(
     responseSkills[id] = toStored(reviseOutcome(s, question.responseSkills[id] ?? question.rating, before.dimensions[id] ?? 0, after.dimensions[id] ?? 0).state);
   }
   return {
-    outcome: o2,
+    outcome: overall(p2),
     tier: tierOf(question.rating),
     primary: { id: primaryId, before: prev, after: skills[primaryId]!, deltaTheta: primary.deltaTheta, rankBefore: primary.rankBefore, rankAfter: primary.rankAfter },
     changes: { skills, responseSkills },

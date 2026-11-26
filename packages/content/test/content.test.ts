@@ -100,7 +100,7 @@ describe("validation catches bad content", () => {
   });
 
   it("later-unit content: Challenges only, a later unit, and never Year 11 → Year 12", () => {
-    const key = "['\\\\frac{12}{5}', '\\\\frac{16}{5}']";
+    const key = "['\\frac{12}{5}', '\\frac{16}{5}']";
     const withRequires = (pool: string, rating: number, sections: string) =>
       projectionQuestion(key).replace("  rating: 1300\n", `  rating: ${rating}\n  pool: ${pool}\n  requires: [${sections}]\n`);
     const errs = (yaml: string) => buildWith((d) => fixture(d, yaml)).errors.join("\n");
@@ -108,6 +108,13 @@ describe("validation catches bad content", () => {
     expect(errs(withRequires("challenge", 1600, "complex"))).toMatch(/a Year 11 Challenge can't require Year 12 content/);
     expect(errs(withRequires("challenge", 1600, "combinatorics"))).toMatch(/isn't in a later unit/);
     expect(errs(withRequires("challenge", 1600, "nowhere"))).toMatch(/requires unknown section nowhere/);
+  });
+
+  it("part ratings: the question's rating is its hardest part's", () => {
+    const key = "['\\frac{12}{5}', '\\frac{16}{5}']";
+    const withPartRating = (r: number) => projectionQuestion(key).replace("      answer:", `      rating: ${r}\n      answer:`);
+    expect(buildWith((d) => fixture(d, withPartRating(1300))).errors).toEqual([]);
+    expect(buildWith((d) => fixture(d, withPartRating(1500))).errors.join("\n")).toMatch(/must equal its hardest part's|rated above the question/);
   });
 
   it("a review mapping to a missing skill", () => {

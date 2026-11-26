@@ -6,6 +6,7 @@
   import { maxAttempts, tierOf } from "@intellectify/engine";
   import type { AnswerSpec } from "@intellectify/checker";
   import type { QuestionT } from "$lib/content";
+  import { partRating } from "@intellectify/content/schema";
   import type { PartResult } from "$lib/practice";
   import Markdown from "./Markdown.svelte";
   import MathField from "./MathField.svelte";
@@ -20,6 +21,10 @@
   import("@intellectify/checker").then((m) => (checker = m));
 
   const tier = $derived(tierOf(question.rating));
+  /** Ratings are per part (SPEC §5.1): each part has its own tier and attempts. */
+  const partTiers = $derived(question.parts.map((p) => tierOf(partRating(question, p))));
+  const mixed = $derived(new Set(partTiers).size > 1);
+  const allowedFor = (i: number) => maxAttempts(partTiers[i] ?? tier);
   const allowed = $derived(maxAttempts(tier));
   const resolved = $derived(parts.length > 0 && parts.every((p) => p.done));
   const isChoice = (spec: AnswerSpec | undefined) => spec?.type === "mcq" || spec?.type === "multi-select";
@@ -43,7 +48,7 @@
         st.done = true;
         st.message = null;
       } else {
-        const left = allowed - st.attempts;
+        const left = allowedFor(i) - st.attempts;
         st.message = left > 0 ? `${verdict.message} ${left} attempt${left === 1 ? "" : "s"} left.` : verdict.message;
         if (left <= 0) st.done = true;
       }
@@ -76,7 +81,7 @@
       <span class="tier">Tier {tier}</span>
       <span class="muted">Rating {question.rating}</span>
       {#if question.requiresCalculator}<span class="muted">Calculator</span>{/if}
-      {#if !resolved}<span class="muted attempts">{allowed === Infinity ? "Unlimited attempts" : `${allowed} attempt${allowed === 1 ? "" : "s"} per part`}</span>{/if}
+      {#if !resolved && !mixed}<span class="muted attempts">{allowed === Infinity ? "Unlimited attempts" : `${allowed} attempt${allowed === 1 ? "" : "s"} per part`}</span>{/if}
     </div>
   {/if}
 
@@ -86,7 +91,7 @@
     {#each question.parts as p, i (p.id)}
       {@const st = parts[i]!}
       <div class="part" class:solved={st.solvedOn !== null} class:failed={st.done && st.solvedOn === null}>
-        {#if question.parts.length > 1}<span class="part-id">({p.id})</span>{/if}
+        {#if question.parts.length > 1}<span class="part-id">({p.id}){#if mixed}<span class="part-tier">T{partTiers[i]}</span>{/if}</span>{/if}
         <div class="part-body">
           {#if p.prompt}<Markdown text={p.prompt} />{/if}
           {#if isChoice(p.answer)}
@@ -131,7 +136,8 @@
   .attempts { margin-left: auto; }
   form { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
   .part { display: flex; gap: 10px; }
-  .part-id { font-weight: 600; padding-top: 2px; }
+  .part-id { font-weight: 600; padding-top: 2px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .part-tier { font-size: 10px; font-weight: 600; color: var(--accent); }
   .part-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
   .part.solved :global(.field) { border-color: var(--good); }
   .part.failed :global(.field) { border-color: var(--bad); }

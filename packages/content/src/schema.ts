@@ -90,6 +90,8 @@ export const Part = z
     id: z.string(),
     prompt: z.string().optional(),
     marks: z.number().positive().default(1),
+    /** The part's own rating (SPEC §5.1); defaults to the question's. The question's rating is its hardest part's. */
+    rating: z.number().int().min(1000).max(2400).optional(),
     /** Options for MCQ / multi-select parts. */
     options: z.array(z.object({ id: z.string(), text: z.string() })).optional(),
     answer: AnswerSpec.optional(),
@@ -129,3 +131,6 @@ export type CurriculumVersionT = z.infer<typeof CurriculumVersion>;
 export type CourseManifestT = z.infer<typeof CourseManifest>;
 export type QuestionT = z.infer<typeof Question>;
 export type AnswerSpecT = z.infer<typeof AnswerSpec>;
+
+/** A part's rating: its own, or the question's (SPEC §5.1). */
+export const partRating = (q: { rating: number }, p: { rating?: number }): number => p.rating ?? q.rating;

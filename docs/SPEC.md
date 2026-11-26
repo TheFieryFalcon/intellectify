@@ -321,7 +321,12 @@ Only the **final outcome** counts, so there is one θ update per question. Wrong
 | 5 | 5 | 1.0, 0.9, 0.81, 0.729, 0.656 (geometric ×0.9) |
 | 6 | Unlimited | No penalty for wrong answers (milestone scoring, §8.6) |
 
-**Multi-part questions:** each part has its own attempts, and the question outcome is the weighted mean of the part outcomes (weights = part marks).
+**Multi-part questions:** ratings are **per part**. A part may have its own `rating`; parts without one use the question's. The question's rating is always its **hardest part's** (the build enforces this), so adding an easy part never lowers it. Selection, tier labels and Challenge grades use that headline rating.
+- Each part has its own tier, so its own attempts and attempt credit.
+- θ updates part by part, all from the same starting θ: Δθ = K·Σ (marks share) × (part outcome − P(correct at that part's rating)). With one part, or parts sharing one rating, this is exactly the single update.
+- Each part counts toward the rank gate at its own tier.
+- The question's overall outcome (shown, and used for response skills and XP) is the mark-weighted mean of the part outcomes.
+- Written parts are scored the same way: the marker returns each part's score, and appeals revise part by part.
 
 ### 6.3 Free-response
 - **One attempt**, plus an **appeal** (§10.3).

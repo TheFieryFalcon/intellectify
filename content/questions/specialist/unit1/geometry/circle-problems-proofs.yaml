@@ -275,3 +275,48 @@
     Since $P$ lies on $AB$, $\angle TAB + \angle TBA = \angle TAP + \angle TBP = \angle AQP + \angle PQB = \angle AQB$. The angles of triangle $ATB$ then give $\angle ATB = 180^\circ - \angle AQB$.
 
     So in quadrilateral $ATBQ$ (with $T$ and $Q$ on opposite sides of $AB$), the opposite angles at $T$ and $Q$ add to $180^\circ$, and it is cyclic.
+
+- id: spec.geometry.circle-problems.perpendicular-chords-sum
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  rating: 1810
+  responseSkills: { reading: 1780, reasoning: 1800, proof: 1800, clarity: 1760, synthesis: 1790 }
+  stem: |
+    Chords $AB$ and $CD$ of a circle with center $O$ and radius $r$ meet at right angles at $X$.
+
+    ```diagram
+    view: [-4.48, 6.45, -4.48, 4.48]
+    width: 260
+    alt: "Chords AB and CD of a circle with center O meet at right angles at X"
+    points: { A: [-2, 0], B: [6, 0], C: [0, 3], D: [0, -4], X: [0, 0], O: [2, -0.5] }
+    draw:
+      - { type: circle, center: O, radius: 4.031 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: X, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+      - { type: point, at: X, label: 'X', pos: sw }
+      - { type: point, at: O, label: 'O', pos: se }
+    ```
+
+    Prove that $AX^2 + BX^2 + CX^2 + DX^2 = 4r^2$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'construct', description: "Drops perpendiculars OM to AB and ON to CD, which bisect the chords: AM = MB = a, CN = ND = c", points: 1, dimension: proof }
+          - { id: 'rectangle', description: "OMXN is a rectangle, so MX = ON = n and NX = OM = m", points: 1, dimension: reasoning }
+          - { id: 'pieces', description: "AX = a − n and XB = a + n (or the reverse), so AX² + XB² = 2a² + 2n²; likewise CX² + DX² = 2c² + 2m²", points: 1, dimension: reasoning }
+          - { id: 'pythag', description: "Pythagoras in triangles OMB and ONC: a² + m² = r² and c² + n² = r², so the sum is 2r² + 2r² = 4r²", points: 1, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = MB = a$ and $CN = ND = c$, where $AB = 2a$ and $CD = 2c$. Let $OM = m$ and $ON = n$.
+
+    $OMXN$ has right angles at $M$, $X$ and $N$, so it is a rectangle: $MX = ON = n$ and $NX = OM = m$. Then (with $X$ between $A$ and $M$, as in the figure) $AX = a - n$ and $XB = a + n$, so
+    $$AX^2 + XB^2 = (a - n)^2 + (a + n)^2 = 2a^2 + 2n^2.$$
+    In the same way, $CX^2 + DX^2 = 2c^2 + 2m^2$. (If $X$ is on the other side of $M$, the signs swap and the sums are the same.)
+
+    By Pythagoras in triangles $OMB$ and $ONC$, $a^2 + m^2 = r^2$ and $c^2 + n^2 = r^2$. Adding,
+    $$AX^2 + BX^2 + CX^2 + DX^2 = 2(a^2 + m^2) + 2(c^2 + n^2) = 4r^2.$$

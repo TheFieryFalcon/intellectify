@@ -23,6 +23,8 @@ export interface MarkResult {
   feedback: string;
   /** Rubric score s in [0, 1]: mark-weighted mean of each part's points fraction. */
   score: number;
+  /** Each rubric part's points fraction, by part ID (SPEC §5.1: parts are rated separately). */
+  parts?: Record<string, number>;
   /** Score per rubric dimension (response skill), in [0, 1]. */
   dimensions: Record<string, number>;
   model: string;
@@ -137,10 +139,12 @@ export function scoreMarking(q: QuestionT, reply: unknown, model: string, at = D
   // Part score = points fraction; question score = mark-weighted mean over rubric parts.
   let weighted = 0;
   let marks = 0;
+  const parts: Record<string, number> = {};
   for (const p of rubricParts(q)) {
     const cs = criteria.filter((c) => c.id.startsWith(`${p.id}.`));
     const total = cs.reduce((a, c) => a + c.points, 0);
-    weighted += p.marks * (total ? cs.reduce((a, c) => a + c.awarded, 0) / total : 0);
+    parts[p.id] = total ? cs.reduce((a, c) => a + c.awarded, 0) / total : 0;
+    weighted += p.marks * parts[p.id]!;
     marks += p.marks;
   }
   const dims: Record<string, [number, number]> = {};
@@ -153,6 +157,7 @@ export function scoreMarking(q: QuestionT, reply: unknown, model: string, at = D
     criteria,
     feedback: typeof raw.feedback === "string" ? repairLatex(raw.feedback) : "",
     score: marks ? weighted / marks : 0,
+    parts,
     dimensions: Object.fromEntries(Object.entries(dims).map(([k, [a, t]]) => [k, t ? a / t : 0])),
     model,
     at,

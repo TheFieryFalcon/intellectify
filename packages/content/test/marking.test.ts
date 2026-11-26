@@ -24,6 +24,7 @@ describe("scoreMarking", () => {
     // Part a: 2/3, part b: 1.5/4; weighted by marks 3 and 1.
     expect(r.score).toBeCloseTo((3 * (2 / 3) + 1 * (1.5 / 4)) / 4);
     expect(r.dimensions).toEqual({ proof: 3.5 / 6, clarity: 0 });
+    expect(r.parts).toEqual({ a: 2 / 3, b: 1.5 / 4 });
   });
   it("scores missing criteria as 0 and ignores invented ones", () => {
     const r = scoreMarking(q, { criteria: [{ id: "a.bonus", awarded: 100, feedback: "" }], feedback: "" }, "m");

@@ -228,6 +228,10 @@ export function buildContent(contentDir: string): BuildResult {
           else if (home && at.unit <= home.unit) errors.push(`${where}: ${id} isn't in a later unit, so it isn't "later content"`);
           else if (home && at.year !== home.year) errors.push(`${where}: a Year ${home.year} Challenge can't require Year ${at.year} content (${id})`);
         }
+        // Ratings are per part (SPEC §5.1); the question's rating is its hardest part's, so an easy part never lowers it.
+        const own = q.parts.filter((p) => p.rating !== undefined).map((p) => p.rating!);
+        if (own.some((r) => r > q.rating)) errors.push(`${where}: a part is rated above the question; the question's rating must be its hardest part's`);
+        if (own.length === q.parts.length && own.length && Math.max(...own) !== q.rating) errors.push(`${where}: the question's rating (${q.rating}) must equal its hardest part's (${Math.max(...own)})`);
         if (q.pool === "practice") (questions[q.skills.primary] ??= []).push(q);
         else if (skillUnit.has(q.skills.primary)) {
           if (q.pool === "challenge" && (q.rating < CHALLENGE_RATING[0] || q.rating >= CHALLENGE_RATING[1])) errors.push(`${where}: Section Challenge problems are Tier 4–5`);
