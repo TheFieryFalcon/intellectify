@@ -1,5 +1,6 @@
 import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
-import { emptyProfile, type Backend, type Placement, type Profile, type User } from "./backend";
+import { emptyProfile, type Backend, type DailyRecord, type Placement, type Profile, type User } from "./backend";
+import { nextStreak } from "./daily";
 import { setStartTiers } from "./practice";
 
 /** Today's date in Perth (YYYY-MM-DD): days roll over at local midnight for WA students. */
@@ -61,6 +62,21 @@ export class ProfileStore {
     this.profile = { ...this.profile, placement };
     setStartTiers(placement.tiers);
     await this.backend.setPlacement(this.user.uid, placement);
+  }
+
+  /** Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break today's entry. */
+  async recordDaily(key: string, day: string, solved: boolean) {
+    const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
+    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return;
+    const streak = solved ? nextStreak(prev, day) : prev.streak;
+    const recent = Object.entries({ ...prev.done, [key]: solved ? "solved" : "tried" }).slice(-40);
+    const daily: DailyRecord = { lastSolved: solved ? day : prev.lastSolved, streak, best: Math.max(prev.best, streak), done: Object.fromEntries(recent) as DailyRecord["done"] };
+    this.profile = { ...this.profile, daily };
+    try {
+      await this.backend.saveDaily(this.user, daily);
+    } catch {
+      // Saved locally in the store; a failed save is retried with the next daily problem.
+    }
   }
 
   /** XP for a resolved question, applying the 30-day repeat rule. Returns the amount granted. */

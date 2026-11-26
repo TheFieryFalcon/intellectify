@@ -53,6 +53,17 @@ export interface Profile {
   lastVisitDay: string | null;
   /** Onboarding placement (SPEC §5.3): the maths mark given, where it's from, and the starting tier per course. */
   placement: Placement | null;
+  /** Daily problems (SPEC §8.5): streak and recent days. */
+  daily: DailyRecord | null;
+}
+
+export interface DailyRecord {
+  /** Perth date of the last solved daily problem. */
+  lastSolved: string | null;
+  streak: number;
+  best: number;
+  /** Recent daily problems by "<day>:<course>:<year group>": solved, or tried without solving. */
+  done: Record<string, "solved" | "tried">;
 }
 
 export interface Placement {
@@ -63,7 +74,7 @@ export interface Placement {
   at: number;
 }
 
-export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null, placement: null });
+export const emptyProfile = (): Profile => ({ xp: 0, questionXpAt: {}, lastVisitDay: null, placement: null, daily: null });
 
 export interface XpGrant {
   amount: number;
@@ -102,6 +113,8 @@ export interface MarkingJob {
   variant: number | null;
   /** Words picked when it was served (SPEC §9.6). */
   words?: WordPicks | null;
+  /** Set for a daily problem (SPEC §8.5): "<day>:<course>:<year group>", so the mark can extend the streak. */
+  daily?: string | null;
   answers: Record<string, string>;
   createdAt: number;
   /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */
@@ -141,6 +154,8 @@ export interface Backend {
   setPlacement(uid: string, placement: Placement): Promise<void>;
   /** Add XP to the profile and the public leaderboard mirror. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
+  /** Save the daily-problem record (and the public streak for leaderboards). */
+  saveDaily(user: User, daily: DailyRecord): Promise<void>;
 
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */

@@ -172,7 +172,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; answers: Record<string, string> }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const job: MarkingJob = {
@@ -183,6 +183,7 @@ export class MarkingQueue {
       questionVersion: input.question.version,
       variant: input.variant,
       words: input.words ?? null,
+      ...(input.daily ? { daily: input.daily } : {}),
       answers: input.answers,
       createdAt: now,
       status: "pending",
@@ -315,6 +316,8 @@ export class MarkingQueue {
           jobId: job.id,
         });
         await this.put({ ...(this.job(job.id) ?? job), applied: true });
+        // A written daily problem counts as solved at the free-response pass mark (SPEC §6.3, §8.5).
+        if (job.daily && profile) await profile.recordDaily(job.daily, job.daily.split(":")[0]!, job.result!.score >= 0.6);
       } else {
         await recordAppeal({ course, store, profile, question, first: job.result!, second: job.appeal!.result! });
         const cur = this.job(job.id) ?? job;

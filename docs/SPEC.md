@@ -413,9 +413,11 @@ An endless adaptive stream for one skill (§5.7).
   |---|---|---|---|---|---|---|---|
   | Tier | 1 | 2 | 2 | 3 | 3 | 4 | 4 |
 
+- **One per year group (implemented):** a Year 11 and a Year 12 problem each day, each targeting **the block its year group has just learnt**. Course outlines live in `content/schedules/<course>-y<yearGroup>-<year>.yaml` as blocks of school weeks ("T2 W2" to "T2 W4") and dot points; the build maps dot points to skills and checks them. The WA school calendar (Term 1 from the Monday of 1–4 Feb, else the Wednesday of 31 Jan–3 Feb; 10-week terms with 2-week breaks; Early Easter makes Term 1 nine weeks and Term 2 eleven) gives the school week for a Perth date (engine `calendar.ts`, ported from the owner's Connectify). The target is the latest block that has started; in the holidays, the last one before them; in January, the end of the previous year. If that block has no questions yet, the nearest earlier block with questions stands in (labeled "latest with questions"). A year group without an outline revises everything that has questions. A year without its own outline reuses the latest one.
+- The pick is deterministic from the Perth date, course and year group (seeded hash), so it's the same for everyone with no server; its variant and words are seeded the same way. If the day's tier has no question in the target, the nearest tier stands in (lower first). Students default to their year group (from onboarding) and can switch.
 - Normal attempt rules for its tier. It updates θ like any other problem.
 - It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
-- A **daily streak** (consecutive days solved) feeds a leaderboard.
+- A **daily streak** (consecutive days solved) feeds a leaderboard. A daily problem is solved with any credit on an auto-marked question, or at the 60% pass mark on a written one (when its mark arrives). One attempt per day per year group; afterwards the page shows the question and solution. The streak lives on the profile and is mirrored to the public profile (`dailyStreak`, `dailyBest`).
 
 ### 8.6 Monthly problems (Tier 6)
 - **Two problems per course each month**, both open for the whole month:

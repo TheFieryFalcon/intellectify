@@ -23,6 +23,7 @@ const q = (over: Partial<QuestionT> = {}): QuestionT => ({
 });
 
 const course: CourseBundle = {
+  schedules: [],
   id: "c",
   name: "C",
   versions: [],

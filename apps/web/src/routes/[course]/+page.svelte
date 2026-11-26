@@ -3,6 +3,7 @@
   import RankDot from "$lib/components/RankDot.svelte";
   import SkillTable from "$lib/components/SkillTable.svelte";
   import TechTree from "$lib/components/TechTree.svelte";
+  import CourseLinks from "$lib/components/CourseLinks.svelte";
   import { computeRollups } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
   import { courseProgress, session } from "$lib/session.svelte";
@@ -52,6 +53,8 @@
     <span class="sep" aria-hidden="true"></span>
     {#each ["small", "medium", "large", "cornerstone"] as size (size)}<span class="size"><span class="shape {size}" aria-hidden="true"></span>{size}</span>{/each}
   </div>
+
+  <CourseLinks course={data.course.id} />
 
   {#if store?.error}<p class="error" role="alert">{store.error}</p>{/if}
   {#if !store || !store.loaded || !rollups}

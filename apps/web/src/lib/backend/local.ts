@@ -79,6 +79,9 @@ export function createLocalBackend(): Backend {
       if (grant.visitDay) p.lastVisitDay = grant.visitDay;
       write(profileKey(u.uid), p);
     },
+    async saveDaily(u, daily) {
+      write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), daily });
+    },
     async loadProgress(uid, course) {
       return { ...emptyProgress(), ...read<Partial<CourseProgress>>(progressKey(uid, course), {}) };
     },

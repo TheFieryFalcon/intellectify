@@ -132,6 +132,12 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
       await batch.commit();
     },
+    async saveDaily(u, daily) {
+      const batch = writeBatch(db);
+      batch.set(doc(db, "users", u.uid), { daily }, { merge: true });
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, dailyStreak: daily.streak, dailyBest: daily.best, dailyLast: daily.lastSolved, updatedAt: serverTimestamp() }, { merge: true });
+      await batch.commit();
+    },
     async loadAchievements(uid, course) {
       const d = await getDoc(doc(courseDoc(uid, course), "meta", "achievements"));
       return d.exists() ? (d.data() as AchievementRecord) : null;

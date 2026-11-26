@@ -1,8 +1,9 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
-import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
+import { parseTermWeek, SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
+import { z } from "zod";
 import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
@@ -38,7 +39,21 @@ export interface CourseBundle {
   versions: { year: number; id: string; effectiveFrom: string }[];
   units: { number: number; year: number; sections: BundleSection[] }[];
   responseSkills: { id: string; name: string }[];
+  /** When each year group learns each block of skills (SPEC §8.5), for the daily problem. */
+  schedules: CourseSchedule[];
 }
+/** A course outline: blocks of skills by school week (12-slot order, from parseTermWeek). */
+export interface CourseSchedule {
+  yearGroup: number;
+  year: number;
+  blocks: { from: number; to: number; name: string; skills: string[] }[];
+}
+const ScheduleFile = z.object({
+  course: z.string(),
+  yearGroup: z.number().int().min(7).max(12),
+  year: z.number().int().min(2020),
+  blocks: z.array(z.object({ from: z.string(), to: z.string(), name: z.string().min(1), dotPoints: z.array(z.string()).min(1) })).min(1),
+});
 export interface BuildResult {
   bundles: {
     course: CourseBundle;
@@ -258,6 +273,29 @@ export function buildContent(contentDir: string): BuildResult {
       }
     }
 
+    // Course outlines (SPEC §8.5): dot points become skills, weeks become 12-slot orders.
+    const schedules: CourseSchedule[] = [];
+    const schedDir = join(contentDir, "schedules");
+    const allSkills = versions.flatMap((v) => v.units.flatMap((u) => u.sections.flatMap((s) => s.skills)));
+    const knownDots = new Set(allSkills.flatMap((k) => k.dotPoints));
+    for (const file of existsSync(schedDir) ? readdirSync(schedDir).filter((f) => f.endsWith(".yaml")) : []) {
+      const parsed = ScheduleFile.safeParse(readYaml(join(schedDir, file)));
+      if (!parsed.success) {
+        errors.push(`schedules/${file}: ${parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+        continue;
+      }
+      if (parsed.data.course !== manifest.id) continue;
+      const blocks = parsed.data.blocks.map((b, i) => {
+        const from = parseTermWeek(b.from), to = parseTermWeek(b.to);
+        if (from === null || to === null || to < from) errors.push(`schedules/${file} block ${i + 1}: bad weeks "${b.from}" to "${b.to}"`);
+        for (const d of b.dotPoints) if (!knownDots.has(d)) errors.push(`schedules/${file} block ${i + 1}: unknown dot point ${d}`);
+        const skills = allSkills.filter((k) => k.dotPoints.some((d) => b.dotPoints.includes(d))).map((k) => k.id);
+        if (!skills.length) errors.push(`schedules/${file} block ${i + 1}: no skill covers its dot points`);
+        return { from: from ?? 0, to: to ?? 0, name: b.name, skills };
+      });
+      schedules.push({ yearGroup: parsed.data.yearGroup, year: parsed.data.year, blocks });
+    }
+
     const unitYear = new Map<number, number>();
     versions.forEach((v) => v.units.forEach((u) => unitYear.set(u.number, v.year)));
     const course: CourseBundle = {
@@ -265,6 +303,7 @@ export function buildContent(contentDir: string): BuildResult {
       name: manifest.name,
       versions: versions.map((v) => ({ year: v.year, id: v.id, effectiveFrom: v.source.effectiveFrom })),
       responseSkills,
+      schedules,
       units: versions
         .flatMap((v) => v.units)
         .sort((a, b) => a.number - b.number)

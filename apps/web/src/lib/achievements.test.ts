@@ -7,6 +7,7 @@ import { emptyStats, evaluate, onChallenge, onQuestion, onQuiz, weekKey, type Qu
 
 const st = (theta: number, rank: number, resolved = 5): StoredSkillState => ({ theta, rank: rank as 0, gates: [0, 0, 0, 0, 0, 0, 0], resolved, dropTier: false, seen: [], updatedAt: 0 });
 const course: CourseBundle = {
+  schedules: [],
   id: "c", name: "C", versions: [], responseSkills: [{ id: "proof", name: "Proof" }],
   units: [{ number: 1, year: 11, sections: [{ id: "s", code: "1.1", name: "S", hours: 1,
     skills: ["a", "b"].map((x) => ({ id: x, name: x, summary: "", size: "medium" as const, dotPoints: ["1.1.1"], reviewDotPoints: [], prereqs: x === "b" ? ["a"] : [], external: [], weight: 1, questionCount: 1, hasTutorial: false })) }] }],
