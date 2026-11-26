@@ -5,11 +5,16 @@
   import TechTree from "$lib/components/TechTree.svelte";
   import { computeRollups } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
-  import { courseProgress } from "$lib/session.svelte";
+  import { courseProgress, session } from "$lib/session.svelte";
+  import { achievementsFor } from "$lib/achievements.svelte";
 
   let { data } = $props();
   const store = $derived(courseProgress(data.course.id));
   const rollups = $derived(store ? computeRollups(data.course, store.progress) : null);
+  // Best Section Challenge result per section, for the map.
+  const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
+  $effect(() => void achievements?.load());
+  const challengeBest = $derived(Object.fromEntries(Object.entries(achievements?.stats.challenges ?? {}).map(([k, v]) => [k, v.best])));
 
   const VIEW_KEY = "intellectify:view";
   let view = $state<"tree" | "table">(readView());
@@ -52,7 +57,7 @@
   {#if !store || !store.loaded || !rollups}
     <p class="muted">Loading your progress…</p>
   {:else if view === "tree"}
-    <TechTree course={data.course} progress={store.progress} {rollups} />
+    <TechTree course={data.course} progress={store.progress} {rollups} {challengeBest} />
   {:else}
     <SkillTable course={data.course} progress={store.progress} />
   {/if}

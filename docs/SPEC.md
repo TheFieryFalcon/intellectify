@@ -366,9 +366,8 @@ An endless adaptive stream for one skill (§5.7).
   | Pool | Size |
   |---|---|
   | Quiz pools | at least 2× the quiz's mix in every tier |
-  | Challenge pools | at least the Challenge length, with a third of that cross-skill |
-
-- Challenge problems must be Tier 4–5 (a build error otherwise).
+  
+- Challenge problems must be Tier 4–5 (a build error otherwise). A Section Challenge is a fixed sequence, not a pool (§8.4).
 - Pools include **written** (rubric-marked) questions. These are marked in the background (§10.2). The quiz summary and the Challenge average fill in as marks arrive, and quiz and Challenge achievements wait until every answer is marked.
 
 ### 8.2 Section quiz
@@ -378,12 +377,22 @@ An endless adaptive stream for one skill (§5.7).
 ### 8.3 Unit quiz
 - **15 questions**, fixed mix: 2×T1, 4×T2, 6×T3, 3×T4, drawn across the unit.
 - Both quiz mixes are **config-driven**. Questions are spread round-robin across the skills, falling back to the nearest tier when a tier runs short, and served easiest first. After each question the solution is shown.
-- Section quiz, unit quiz and Section Challenge are linked from every skill page (§15.3).
+- Section quiz, unit quiz and Section Challenge are linked from every skill page (§15.3), and they are on the map. Each section's quiz (a checklist tile) and Challenge (a summit tile, showing the best result) sit at the foot of the section. Each unit's quiz (a star badge) sits below the unit.
 
 ### 8.4 Section Challenge
-- **10–25 Tier 4–5 cross-skill (synthesis) problems**; the count scales with section size: the section's dot points, clamped to 10–25.
-- Problems tagged with secondary skills come first (up to a third of the challenge); the rest are drawn round-robin from the section's Tier 4–5 questions.
-- **Untimed**, and progress is saved across sessions.
+- A **fixed, authored sequence of 10–15 problems** per section; the count scales with section size (its dot points, clamped to 10–15). There is no pool and no random picking: every student meets the same problems in the same order.
+- Problems are **unconventional**: synthesis across the section's skills, often with tools the course doesn't name, e.g. proofs about matrices, coordinates, tilings or grids. Any notation they use is defined in the question.
+- **Graded like slopes, and served in rising order:**
+
+  | Grade | Rating | Mark |
+  |---|---|---|
+  | Green | 1550–1699 (Tier 4) | circle |
+  | Yellow | 1700–1849 | square |
+  | Red | 1850–1949 | triangle |
+  | Black | 1950–1999 | diamond |
+
+  Each Challenge ends on **exactly one black problem**. The build enforces the length, the rising order and the single black finale, and warns if a grade is missing or fewer than a third of the problems are cross-skill.
+- **Untimed**, and progress is saved across sessions. "Try again" restarts the same sequence; the best average is kept.
 - **Soft gate:** always available. If any skill in the section is below Gold, a "Recommended at Gold" warning appears before starting.
 - Each problem has one **primary skill** (full update) and secondary skills (0.5× update).
 

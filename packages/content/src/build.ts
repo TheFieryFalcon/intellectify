@@ -7,7 +7,7 @@ import { fillTemplate } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
-import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, type SectionReviews, type UnitReviews } from "./reviews.js";
+import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, slopeOf, type SectionReviews, type UnitReviews } from "./reviews.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
@@ -284,10 +284,17 @@ export function buildContent(contentDir: string): BuildResult {
         const r = sectionReviews[s.id];
         if (!r) continue;
         checkQuiz(`${s.id} section quiz pool`, r.sectionQuiz, QUIZ_MIX.section);
+        // The Section Challenge (SPEC §8.4): a fixed sequence, file order, climbing to one black finale.
+        const ch = r.challenge;
+        if (!ch.length) continue;
         const len = challengeLength(s.skills.reduce((t, k) => t + k.dotPoints.length, 0));
-        if (r.challenge.length && r.challenge.length < len) warnings.push(`${s.id} challenge pool: ${r.challenge.length} problems; needs ${len}`);
-        const cross = r.challenge.filter((q) => q.skills.secondary.length).length;
-        if (r.challenge.length && cross * 3 < len) warnings.push(`${s.id} challenge pool: ${cross} cross-skill problems; needs ${Math.ceil(len / 3)}`);
+        if (ch.length !== len) warnings.push(`${s.id} Challenge: ${ch.length} problems; should be ${len}`);
+        ch.forEach((q, i) => i > 0 && q.rating < ch[i - 1]!.rating && errors.push(`${s.id} Challenge: ${q.id} is easier than the problem before it`));
+        const blacks = ch.filter((q) => slopeOf(q.rating) === "black");
+        if (blacks.length !== 1 || slopeOf(ch.at(-1)!.rating) !== "black") errors.push(`${s.id} Challenge: needs exactly one black problem (rated 1950–1999), last`);
+        for (const g of ["green", "yellow", "red"] as const) if (!ch.some((q) => slopeOf(q.rating) === g)) warnings.push(`${s.id} Challenge: no ${g} problem`);
+        const cross = ch.filter((q) => q.skills.secondary.length).length;
+        if (cross * 3 < len) warnings.push(`${s.id} Challenge: ${cross} cross-skill problems; needs ${Math.ceil(len / 3)}`);
       }
     }
     bundles.push({ course, questions, sectionReviews, unitReviews, tutorials: [...tutorials.values()] });

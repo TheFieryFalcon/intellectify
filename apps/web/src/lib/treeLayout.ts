@@ -26,6 +26,11 @@ export function labelLines(text: string): number {
 }
 export const nodeHeight = (size: keyof typeof SHAPE_H, name: string) => SHAPE_H[size] + LABEL_GAP + labelLines(name) * LABEL_LINE + 4;
 const SECTION_LABEL = 30;
+/** Row at the foot of each section for its quiz and Challenge, and one below each unit for its quiz. */
+const REVIEW_ROW = 78;
+const UNIT_QUIZ_ROW = 86;
+/** Review icon size (must match .review in TechTree.svelte). */
+export const REVIEW_SIZE = 38;
 const UNIT_HEADER = 34;
 const YEAR_HEADER = 40;
 const UNIT_GAP = 28;
@@ -60,12 +65,22 @@ export interface LaidOutEdge {
   hidden: boolean;
   d: string;
 }
+/** A review on the map (SPEC §8): a section's quiz and Challenge, and each unit's quiz. */
+export interface LaidOutReview {
+  kind: "section-quiz" | "challenge" | "unit-quiz";
+  /** Section ID, or unit number as text. */
+  id: string;
+  /** Center of the icon. */
+  cx: number;
+  cy: number;
+}
 export interface TreeLayout {
   width: number;
   height: number;
   nodes: Map<string, LaidOutNode>;
   regions: LaidOutRegion[];
   edges: LaidOutEdge[];
+  reviews: LaidOutReview[];
   headers: { kind: "year" | "unit"; text: string; x: number; y: number }[];
 }
 
@@ -91,7 +106,7 @@ export function layoutTree(course: CourseBundle): TreeLayout {
       return { section: s, g, w: g.graph().width ?? 0, h: (g.graph().height ?? 0) + SECTION_LABEL };
     });
     const w = sections.reduce((t, x) => t + x.w, 0) + SECTION_GAP * Math.max(0, sections.length - 1);
-    return { unit: u, sections, w, h: Math.max(...sections.map((x) => x.h)) };
+    return { unit: u, sections, w, h: Math.max(...sections.map((x) => x.h)) + REVIEW_ROW };
   });
 
   const width = Math.max(...units.map((x) => x.w));
@@ -99,6 +114,7 @@ export function layoutTree(course: CourseBundle): TreeLayout {
   const regions: LaidOutRegion[] = [];
   const headers: TreeLayout["headers"] = [];
   const edges: LaidOutEdge[] = [];
+  const reviews: LaidOutReview[] = [];
   let y = 0;
   let year: number | null = null;
 
@@ -114,6 +130,9 @@ export function layoutTree(course: CourseBundle): TreeLayout {
     for (const { section: s, g, w: sw } of sections) {
       // Every region in a unit gets the same height, so their bottoms line up too.
       regions.push({ id: s.id, name: s.name, x: ox, y, w: sw, h });
+      // The section's quiz and Challenge sit side by side at the foot of its region.
+      const ry = y + h - REVIEW_ROW / 2 - 6;
+      reviews.push({ kind: "section-quiz", id: s.id, cx: ox + sw / 2 - 44, cy: ry }, { kind: "challenge", id: s.id, cx: ox + sw / 2 + 44, cy: ry });
       for (const k of s.skills) {
         const n = g.node(k.id);
         const x = ox + n.x - NODE_W / 2;
@@ -146,7 +165,10 @@ export function layoutTree(course: CourseBundle): TreeLayout {
       }
       ox += sw + SECTION_GAP;
     }
-    y += h + UNIT_GAP;
+    y += h;
+    // The unit quiz, centered below the unit's sections.
+    reviews.push({ kind: "unit-quiz", id: String(unit.number), cx: width / 2, cy: y + UNIT_QUIZ_ROW / 2 - 4 });
+    y += UNIT_QUIZ_ROW + UNIT_GAP;
   }
 
   // Prerequisites in another section or unit are only drawn while a chain is highlighted.
@@ -173,7 +195,7 @@ export function layoutTree(course: CourseBundle): TreeLayout {
           }
         }
 
-  return { width, height: y, nodes, regions, edges, headers };
+  return { width, height: y, nodes, regions, edges, reviews, headers };
 }
 
 type Section = CourseBundle["units"][number]["sections"][number];

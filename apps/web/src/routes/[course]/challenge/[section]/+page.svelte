@@ -13,7 +13,9 @@
   import { loadSectionReviews, type QuestionT } from "$lib/content";
   import type { PartResult, Served } from "$lib/practice";
   import { recordResult } from "$lib/record";
-  import { buildChallenge, bySkill, challengeLength, serve, type ChallengeState } from "$lib/review";
+  import { serve, slopeOf, type ChallengeState } from "$lib/review";
+  import SlopeMark from "$lib/components/SlopeMark.svelte";
+  import { SLOPES } from "@intellectify/content/reviews";
   import { profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
@@ -27,7 +29,8 @@
   const marking = $derived(markingFor(session.backend, session.user));
 
   let pool = $state<Map<string, QuestionT> | null>(null);
-  let pools: Map<string, QuestionT[]> = new Map();
+  /** The Challenge's fixed sequence (SPEC §8.4). */
+  let sequence = $state<QuestionT[]>([]);
   let ch = $state<ChallengeState | null | undefined>(undefined);
   let resolved = $state(false);
   let lastOutcome = $state(0);
@@ -43,7 +46,7 @@
     loadedFor = sectionId;
     // The Challenge draws only from its own authored pool (SPEC §8.4), never from practice.
     loadSectionReviews(fetch, data.course.id, sectionId).then(async (r) => {
-      pools = bySkill(r.challenge);
+      sequence = r.challenge;
       pool = new Map(r.challenge.map((q) => [q.id, q] as [string, QuestionT]));
       ch = await backend.loadChallenge(user.uid, data.course.id, sectionId);
     });
@@ -53,8 +56,7 @@
 
   async function start() {
     if (!section) return;
-    const picked = buildChallenge(pools, challengeLength(section.skills.reduce((t, k) => t + k.dotPoints.length, 0)));
-    const served = picked.map((q) => serve(q));
+    const served = sequence.map((q) => serve(q));
     ch = { questions: served.map((s) => ({ id: s.question.id, variant: s.variant })), results: [], startedAt: Date.now(), finishedAt: null };
     resolved = false;
     await save(ch);
@@ -143,7 +145,11 @@
   {:else if ch === null}
     <section class="card">
       <h1>Section Challenge · {section.name}</h1>
-      <p class="muted">{challengeLength(section.skills.reduce((t, k) => t + k.dotPoints.length, 0))} problems · Tier 4–5 · untimed · progress saved</p>
+      <p class="muted">{sequence.length} problems · untimed · progress saved</p>
+      <p class="ramp">
+        {#each SLOPES as g, i (g)}{#if i}<span class="arrow">→</span>{/if}<SlopeMark slope={g} label />
+          <span class="muted count">{sequence.filter((q) => slopeOf(q.rating) === g).length}</span>{/each}
+      </p>
       {#if belowGold.length}
         <div class="notice" role="note">
           <strong>Recommended at Gold</strong>
@@ -162,13 +168,13 @@
       </div>
       <div class="actions">
         <a class="btn primary" href="/{data.course.id}">Back to the tree</a>
-        <button class="btn" onclick={restart}>New challenge</button>
+        <button class="btn" onclick={restart}>Try again</button>
       </div>
     </section>
   {:else if current}
     <div class="progress">
       <span>Section Challenge · {section.name}</span>
-      <span class="num">{shown + 1} / {ch.questions.length}</span>
+      <span class="num"><SlopeMark slope={slopeOf(current.question.rating)} label /> · {shown + 1} / {ch.questions.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * ch.results.length) / ch.questions.length}%"></span></div>
     {#key shown}
@@ -193,11 +199,14 @@
       </section>
     {/if}
   {:else}
-    <p class="muted">This challenge's questions have changed. <button class="link" onclick={restart}>Start a new one</button></p>
+    <p class="muted">This Challenge has changed. <button class="link" onclick={restart}>Start again</button></p>
   {/if}
 </div>
 
 <style>
+  .ramp { display: flex; align-items: center; gap: 8px; margin: 4px 0 14px; }
+  .ramp .arrow { color: var(--muted); }
+  .ramp .count { font-size: 12px; margin-left: -4px; }
   .crumbs { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
   .crumbs a { color: var(--muted); text-decoration: none; }
   .crumbs a:hover { color: var(--accent); }

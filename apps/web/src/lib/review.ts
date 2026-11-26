@@ -4,7 +4,8 @@
  */
 import { tierOf, type Tier } from "@intellectify/engine";
 import { fillTemplate } from "@intellectify/content/template";
-import { CHALLENGE_RATING, challengeLength, QUIZ_MIX } from "@intellectify/content/reviews";
+import { challengeLength, QUIZ_MIX, slopeOf } from "@intellectify/content/reviews";
+export { slopeOf };
 import type { QuestionT } from "./content";
 import type { Served } from "./practice";
 
@@ -62,23 +63,6 @@ export function buildQuiz(pools: Map<string, QuestionT[]>, mix: Partial<Record<T
   }
   // Easiest first, so the quiz builds up.
   return picked.sort((a, b) => a.rating - b.rating).map((q) => serve(q, rand));
-}
-
-/** Pick Section Challenge problems: Tier 4–5, cross-skill problems first, spread across skills. */
-export function buildChallenge(pools: Map<string, QuestionT[]>, length: number, rand: Rand = Math.random): QuestionT[] {
-  const hard = [...pools.values()].flat().filter((q) => q.rating >= CHALLENGE_RATING[0] && q.rating < CHALLENGE_RATING[1]);
-  const cross = shuffle(hard.filter((q) => q.skills.secondary.length > 0), rand);
-  const bySkill = new Map<string, QuestionT[]>();
-  for (const q of shuffle(hard.filter((q) => q.skills.secondary.length === 0), rand)) bySkill.set(q.skills.primary, [...(bySkill.get(q.skills.primary) ?? []), q]);
-  const picked: QuestionT[] = cross.slice(0, Math.ceil(length / 3));
-  // Then round-robin across skills until the challenge is full.
-  const queues = [...bySkill.values()];
-  for (let i = 0; picked.length < length && queues.some((qq) => qq.length); i++) {
-    const q = queues[i % queues.length]!.shift();
-    if (q) picked.push(q);
-  }
-  for (const q of cross.slice(Math.ceil(length / 3))) if (picked.length < length) picked.push(q);
-  return picked.sort((a, b) => a.rating - b.rating);
 }
 
 export type { ChallengeState } from "./backend/types";

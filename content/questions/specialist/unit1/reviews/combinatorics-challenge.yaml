@@ -1,246 +1,216 @@
-# Section Challenge pool: Combinatorics (1.2). Tier 4–5 synthesis problems (SPEC §8.4).
+# Section Challenge: Combinatorics (1.2). A fixed sequence, green → yellow → red → black (SPEC §8.4).
 
-- id: spec.combinatorics.ch.mississippi-s-apart
-  pool: challenge
-  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
-  rating: 1640
-  responseSkills: { calculation: 1610, reasoning: 1630, synthesis: 1620 }
-  stem: |
-    How many arrangements of the letters of MISSISSIPPI have no two S's next to each other?
-  parts:
-    - id: a
-      answer: { type: numeric, key: 7350 }
-  solution: |
-    Arrange the other 7 letters first: M, I, I, I, I, P, P, with I four times and P twice: $\dfrac{7!}{4!\,2!} = 105$.
-
-    That row has 8 gaps (6 between letters and 2 at the ends). The 4 identical S's go in 4 different gaps: $\binom{8}{4} = 70$.
-
-    $105 \times 70 = 7350$.
-  verify: |
-    from sympy.utilities.iterables import multiset_permutations
-    def answers():
-        return {"a": sum(1 for p in multiset_permutations(list("MISSISSIPPI")) if "SS" not in "".join(p))}
-
-- id: spec.combinatorics.ch.balanced-committee
-  pool: challenge
-  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.counting-principles] }
-  rating: 1580
-  responseSkills: { reading: 1560, calculation: 1560, reasoning: 1570, synthesis: 1560 }
-  stem: |
-    A committee of 5 is chosen from 6 men and 5 women. It must include at least 2 women and at least 1 man. How many committees are possible?
-  parts:
-    - id: a
-      answer: { type: numeric, key: 380 }
-  solution: |
-    All committees: $\binom{11}{5} = 462$. Remove those breaking a rule:
-    - no women: $\binom{6}{5} = 6$;
-    - exactly 1 woman: $5 \times \binom{6}{4} = 75$;
-    - no men: $\binom{5}{5} = 1$.
-
-    These cases don't overlap, so $462 - 6 - 75 - 1 = 380$.
-  verify: |
-    from itertools import combinations
-    def answers():
-        people = ["m"] * 6 + ["w"] * 5
-        return {"a": sum(1 for c in combinations(range(11), 5) if sum(people[i] == "w" for i in c) >= 2 and sum(people[i] == "m" for i in c) >= 1)}
-
-- id: spec.combinatorics.ch.hockey-stick-3
-  pool: challenge
-  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
-  rating: 1600
-  responseSkills: { reasoning: 1590, calculation: 1570, synthesis: 1580 }
-  stem: |
-    Find $\binom{3}{3} + \binom{4}{3} + \binom{5}{3} + \cdots + \binom{12}{3}$.
-  parts:
-    - id: a
-      answer: { type: numeric, key: 715 }
-  solution: |
-    Replace $\binom{3}{3}$ by $\binom{4}{4}$ (both are 1), then apply Pascal's rule repeatedly: $\binom{4}{4} + \binom{4}{3} = \binom{5}{4}$, then $\binom{5}{4} + \binom{5}{3} = \binom{6}{4}$, and so on, up to $\binom{12}{4} + \binom{12}{3} = \binom{13}{4} = 715$.
-  verify: |
-    def answers():
-        return {"a": sum(sympy.binomial(n, 3) for n in range(3, 13))}
-
-- id: spec.combinatorics.ch.ends-avoided
-  pool: challenge
-  skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
-  rating: 1570
-  responseSkills: { reading: 1550, calculation: 1550, reasoning: 1560, synthesis: 1550 }
-  stem: |
-    The numbers $1, 2, 3, 4, 5, 6$ are arranged in a row. In how many arrangements is 1 not first and 6 not last?
-  parts:
-    - id: a
-      answer: { type: numeric, key: 504 }
-  solution: |
-    Let $F$ be the arrangements with 1 first, and $L$ those with 6 last. $|F| = |L| = 5! = 120$ and $|F \cap L| = 4! = 24$.
-
-    $|F \cup L| = 120 + 120 - 24 = 216$, so the wanted count is $720 - 216 = 504$.
-  verify: |
-    from itertools import permutations
-    def answers():
-        return {"a": sum(1 for p in permutations(range(1, 7)) if p[0] != 1 and p[-1] != 6)}
-
-- id: spec.combinatorics.ch.square-last-digits
-  pool: challenge
-  skills: { primary: spec.combinatorics.pigeonhole }
-  rating: 1720
-  responseSkills: { reasoning: 1710, proof: 1700, clarity: 1650 }
-  stem: |
-    Prove that among any 7 integers, there are two whose squares differ by a multiple of 10.
-  parts:
-    - id: a
-      rubric:
-        criteria:
-          - { id: digits, description: "Shows a square can only end in 0, 1, 4, 5, 6 or 9 (checks the last digits 0–9)", points: 2, dimension: reasoning }
-          - { id: pigeon, description: "Uses these 6 last digits as boxes: 7 squares in 6 boxes, so two share a last digit", points: 1, dimension: proof }
-          - { id: differ, description: "Two squares with the same last digit differ by a multiple of 10", points: 1, dimension: reasoning }
-          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
-  solution: |
-    The last digit of $n^2$ depends only on the last digit of $n$. Squaring $0, 1, \dots, 9$ gives last digits $0, 1, 4, 9, 6, 5, 6, 9, 4, 1$, so a square ends in one of only 6 digits: 0, 1, 4, 5, 6, 9.
-
-    Take these 6 last digits as boxes. The squares of the 7 integers are 7 objects in 6 boxes, so two squares end in the same digit. Their difference ends in 0, so it is a multiple of 10.
-
-- id: spec.combinatorics.ch.couples-round
-  pool: challenge
-  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.counting-principles] }
-  rating: 1600
-  responseSkills: { reading: 1580, calculation: 1580, reasoning: 1590, synthesis: 1580 }
-  stem: |
-    Four couples sit at a round table with 8 seats. In how many ways can they sit if each couple sits together? (Seatings that differ only by everyone moving the same number of seats around count as the same.)
-  parts:
-    - id: a
-      answer: { type: numeric, key: 96 }
-  solution: |
-    Treat each couple as a block: 4 blocks around a table, $(4 - 1)! = 6$ ways. Each couple can sit in 2 orders: $2^4 = 16$. Total $6 \times 16 = 96$.
-  verify: |
-    from itertools import permutations
-    def answers():
-        seen = set()
-        for p in permutations(range(8)):
-            if all(abs(p.index(2 * c) - p.index(2 * c + 1)) in (1, 7) for c in range(4)):
-                k = p.index(0)
-                seen.add(p[k:] + p[:k])
-        return {"a": len(seen)}
-
-- id: spec.combinatorics.ch.collinear-triangles
-  pool: challenge
-  skills: { primary: spec.combinatorics.combinations }
-  rating: 1560
-  responseSkills: { reading: 1540, calculation: 1540, reasoning: 1550 }
-  stem: |
-    Twelve points are marked in a plane. Exactly 5 of them lie on one straight line, and no other three of the points lie on a line. How many triangles have their corners at three of the points?
-  parts:
-    - id: a
-      answer: { type: numeric, key: 210 }
-  solution: |
-    Any 3 points make a triangle unless they lie on a line. The only such triples are 3 of the 5 collinear points: $\binom{5}{3} = 10$. So $\binom{12}{3} - 10 = 220 - 10 = 210$.
-  verify: |
-    def answers():
-        return {"a": sympy.binomial(12, 3) - sympy.binomial(5, 3)}
-
-- id: spec.combinatorics.ch.split-pairs-identity
-  pool: challenge
-  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
-  rating: 1760
-  responseSkills: { reasoning: 1740, proof: 1740, clarity: 1680, synthesis: 1720 }
-  stem: |
-    Use a counting argument to prove that $\binom{2n}{2} = 2\binom{n}{2} + n^2$ for every whole number $n \ge 2$.
-  parts:
-    - id: a
-      rubric:
-        criteria:
-          - { id: setup, description: "Describes one collection counted both ways, e.g. pairs of people from n girls and n boys; the left side counts all pairs", points: 1, dimension: proof }
-          - { id: same, description: "Pairs with both people from the same group: 2·C(n, 2)", points: 1, dimension: reasoning }
-          - { id: mixed, description: "Pairs with one from each group: n × n = n²", points: 1, dimension: reasoning }
-          - { id: conclude, description: "These cases cover every pair once, so the two counts are equal", points: 1, dimension: proof }
-          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
-  solution: |
-    Count the pairs that can be chosen from $n$ girls and $n$ boys. All $2n$ people together give $\binom{2n}{2}$ pairs.
-
-    Count them again by type. Two girls: $\binom{n}{2}$. Two boys: $\binom{n}{2}$. One of each: $n$ choices of girl and $n$ of boy, so $n^2$. Every pair is exactly one of these types, so there are $2\binom{n}{2} + n^2$ pairs.
-
-    Both expressions count the same pairs, so $\binom{2n}{2} = 2\binom{n}{2} + n^2$.
-
-- id: spec.combinatorics.ch.six-or-ten-not-fifteen
-  pool: challenge
-  skills: { primary: spec.combinatorics.inclusion-exclusion }
-  rating: 1700
-  responseSkills: { reading: 1680, calculation: 1680, reasoning: 1690 }
-  stem: |
-    How many integers from 1 to 2000 are divisible by 6 or by 10, but not by 15?
-  parts:
-    - id: a
-      answer: { type: numeric, key: 401 }
-  solution: |
-    Divisible by 6: $333$. By 10: $200$. By both, i.e. by 30: $66$. So $333 + 200 - 66 = 467$ are divisible by 6 or 10.
-
-    Of these, the ones also divisible by 15 are divisible by $\text{lcm}(6, 15) = 30$ or $\text{lcm}(10, 15) = 30$: the 66 multiples of 30. So $467 - 66 = 401$.
-  verify: |
-    def answers():
-        return {"a": sum(1 for n in range(1, 2001) if (n % 6 == 0 or n % 10 == 0) and n % 15 != 0)}
-
-- id: spec.combinatorics.ch.evens-in-order
-  pool: challenge
-  skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
-  rating: 1580
-  responseSkills: { reading: 1560, calculation: 1560, reasoning: 1570, synthesis: 1560 }
-  stem: |
-    The digits $1, 2, 3, 4, 5, 6$ are each used once to make a 6-digit number. In how many of these numbers do the even digits appear in increasing order from left to right?
-  parts:
-    - id: a
-      answer: { type: numeric, key: 120 }
-  solution: |
-    Choose the 3 places for the even digits: $\binom{6}{3} = 20$. They must go in as 2, 4, 6, in only 1 order. The odd digits fill the other places in $3! = 6$ ways. $20 \times 6 = 120$.
-
-    (Equivalently, the $3!$ orders of the even digits are equally common, so $\dfrac{6!}{3!} = 120$.)
-  verify: |
-    from itertools import permutations
-    def answers():
-        return {"a": sum(1 for p in permutations([1, 2, 3, 4, 5, 6]) if [d for d in p if d % 2 == 0] == [2, 4, 6])}
-
-- id: spec.combinatorics.ch.divisors-7200
+- id: spec.combinatorics.ch.zero-determinant
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles }
-  rating: 1660
-  responseSkills: { calculation: 1640, reasoning: 1650 }
+  rating: 1580
+  responseSkills: { reading: 1570, calculation: 1550, reasoning: 1570 }
   stem: |
-    $7200 = 2^5 \times 3^2 \times 5^2$.
+    A $2 \times 2$ matrix $\begin{pmatrix} a & b \\ c & d \end{pmatrix}$ is a square array of four numbers. Its determinant is $ad - bc$.
+
+    Each of $a, b, c, d$ is 0 or 1. How many of these 16 matrices have determinant 0?
   parts:
     - id: a
-      prompt: How many positive divisors does 7200 have?
-      answer: { type: numeric, key: 54 }
-    - id: b
-      prompt: How many of these divisors are perfect squares?
-      answer: { type: numeric, key: 12 }
+      answer: { type: numeric, key: 10 }
   solution: |
-    (a) A divisor is $2^a 3^b 5^c$ with $0 \le a \le 5$, $0 \le b \le 2$, $0 \le c \le 2$: $6 \times 3 \times 3 = 54$.
+    $ad - bc = 0$ means $ad = bc$, and each product is 0 or 1.
 
-    (b) A square divisor needs every exponent even: $a \in \{0, 2, 4\}$, $b \in \{0, 2\}$, $c \in \{0, 2\}$: $3 \times 2 \times 2 = 12$.
+    - $ad = bc = 1$: all four entries are 1. That's 1 matrix.
+    - $ad = bc = 0$: $ad = 0$ for 3 of the 4 choices of $(a, d)$, and likewise $bc = 0$ for 3 choices of $(b, c)$. That's $3 \times 3 = 9$.
+
+    Total $1 + 9 = 10$.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for a, b, c, d in product((0, 1), repeat=4) if a * d - b * c == 0)}
+
+- id: spec.combinatorics.ch.spaced-ones
+  pool: challenge
+  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
+  rating: 1620
+  responseSkills: { reading: 1600, calculation: 1590, reasoning: 1610, synthesis: 1600 }
+  stem: |
+    A string of 8 digits uses only 0s and 1s, with exactly three 1s and no two 1s next to each other. How many such strings are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 20 }
+  solution: |
+    Write the five 0s first. They leave 6 gaps (4 between them and 2 at the ends). Putting the three 1s in three different gaps keeps them apart, and each choice of gaps gives exactly one string: $\binom{6}{3} = 20$.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for s in product("01", repeat=8) if s.count("1") == 3 and "11" not in "".join(s))}
+
+- id: spec.combinatorics.ch.round-robin
+  pool: challenge
+  skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  rating: 1660
+  responseSkills: { reading: 1640, calculation: 1630, reasoning: 1650, synthesis: 1640 }
+  stem: |
+    In a tournament, each of 6 teams plays every other team exactly once, and every game has a winner (no draws).
+  parts:
+    - id: a
+      prompt: How many games are played?
+      answer: { type: numeric, key: 15 }
+    - id: b
+      prompt: How many different lists of results (who won each game) are possible?
+      answer: { type: numeric, key: 32768 }
+  solution: |
+    (a) Each game is a pair of teams: $\binom{6}{2} = 15$.
+
+    (b) Each of the 15 games has 2 possible winners, independently: $2^{15} = 32768$.
   verify: |
     def answers():
-        ds = sympy.divisors(7200)
-        return {"a": len(ds), "b": sum(1 for d in ds if sympy.sqrt(d).is_integer)}
+        g = sympy.binomial(6, 2)
+        return {"a": g, "b": 2 ** g}
 
-- id: spec.combinatorics.ch.leaders-identity
+- id: spec.combinatorics.ch.permutation-matrices
   pool: challenge
-  skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.pascal] }
-  rating: 1800
-  responseSkills: { reasoning: 1780, proof: 1780, clarity: 1720, synthesis: 1760 }
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1720
+  responseSkills: { reading: 1710, calculation: 1690, reasoning: 1710 }
   stem: |
-    Use a counting argument to prove that $\binom{n}{r}\binom{r}{k} = \binom{n}{k}\binom{n-k}{r-k}$ for whole numbers $0 \le k \le r \le n$.
+    A square array of 0s and 1s with exactly one 1 in every row and every column is called a permutation matrix.
+  parts:
+    - id: a
+      prompt: How many $4 \times 4$ permutation matrices are there?
+      answer: { type: numeric, key: 24 }
+    - id: b
+      prompt: How many $3 \times 3$ arrays of 0s and 1s have exactly two 1s in every row and every column?
+      answer: { type: numeric, key: 6 }
+  solution: |
+    (a) The 1 in row 1 can go in any of 4 columns, the 1 in row 2 in any of the 3 columns left, and so on: $4! = 24$.
+
+    (b) Swap every 0 and 1. An array with two 1s in every row and column becomes one with exactly one 1 in every row and column, a $3 \times 3$ permutation matrix, and the swap pairs them up exactly. So there are as many as there are $3 \times 3$ permutation matrices: $3! = 6$.
+  verify: |
+    from itertools import product
+    def answers():
+        def count(n, k):
+            rows = [r for r in product((0, 1), repeat=n) if sum(r) == k]
+            return sum(1 for m in product(rows, repeat=n) if all(sum(col) == k for col in zip(*m)))
+        return {"a": count(4, 1), "b": count(3, 2)}
+
+- id: spec.combinatorics.ch.matrix-every-column
+  pool: challenge
+  skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.counting-principles] }
+  rating: 1760
+  responseSkills: { reading: 1750, calculation: 1730, reasoning: 1750, synthesis: 1740 }
+  stem: |
+    An array of 0s and 1s has 4 rows and 3 columns. Each row contains exactly one 1. How many such arrays have at least one 1 in every column?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 36 }
+  solution: |
+    Each row chooses the column of its 1: $3^4 = 81$ arrays in all.
+
+    Let $A_j$ be the arrays with column $j$ empty. $|A_j| = 2^4 = 16$, $|A_j \cap A_k| = 1^4 = 1$, and no array has all three columns empty. Arrays with some empty column: $3 \times 16 - 3 \times 1 + 0 = 45$.
+
+    So $81 - 45 = 36$ arrays have a 1 in every column.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for cols in product(range(3), repeat=4) if len(set(cols)) == 3)}
+
+- id: spec.combinatorics.ch.four-consecutive-24
+  pool: challenge
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1800
+  responseSkills: { reasoning: 1790, proof: 1790, clarity: 1740 }
+  stem: |
+    Use combinations to prove that the product of any four consecutive positive integers is a multiple of 24.
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Describes one collection counted both ways, e.g. a committee of r chosen from n people, with k leaders from the committee", points: 1, dimension: proof }
-          - { id: left, description: "Left side: choose the committee (C(n, r)), then its k leaders from it (C(r, k))", points: 1, dimension: reasoning }
-          - { id: right, description: "Right side: choose the k leaders first (C(n, k)), then the other r − k members from the remaining n − k people (C(n − k, r − k))", points: 1, dimension: reasoning }
-          - { id: conclude, description: "Both count the same committees-with-leaders, so the two sides are equal", points: 1, dimension: proof }
-          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
+          - { id: rewrite, description: "Writes the product as n(n + 1)(n + 2)(n + 3) and relates it to C(n + 3, 4) = (n + 3)(n + 2)(n + 1)n / 4!", points: 2, dimension: reasoning }
+          - { id: integer, description: "C(n + 3, 4) counts the groups of 4 from n + 3 objects, so it is a whole number", points: 1, dimension: proof }
+          - { id: conclude, description: "So the product equals 24 × C(n + 3, 4), a multiple of 24", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    Count the ways to choose, from $n$ people, a committee of $r$ with $k$ of its members as leaders.
+    Let the integers be $n, n + 1, n + 2, n + 3$ with $n \ge 1$. Then
+    $$\binom{n+3}{4} = \frac{(n+3)(n+2)(n+1)n}{4!}.$$
+    $\binom{n+3}{4}$ counts the groups of 4 that can be chosen from $n + 3$ objects, so it is a whole number. Hence $n(n+1)(n+2)(n+3) = 24\binom{n+3}{4}$ is a multiple of 24.
 
-    First way: choose the committee, $\binom{n}{r}$ ways, then its $k$ leaders from those $r$ members, $\binom{r}{k}$ ways. Total $\binom{n}{r}\binom{r}{k}$.
+- id: spec.combinatorics.ch.domino-tilings
+  pool: challenge
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1870
+  responseSkills: { reading: 1850, calculation: 1840, reasoning: 1860 }
+  stem: |
+    A $2 \times 10$ rectangle is to be covered exactly by ten $1 \times 2$ dominoes, each lying flat either horizontally or vertically. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 89 }
+  solution: |
+    Let $t_n$ be the number of tilings of a $2 \times n$ rectangle. Look at the left end: either one vertical domino fills it, leaving a $2 \times (n-1)$ rectangle, or two horizontal dominoes stacked together fill a $2 \times 2$ block, leaving $2 \times (n-2)$. These cases don't overlap, so $t_n = t_{n-1} + t_{n-2}$, with $t_1 = 1$ and $t_2 = 2$.
 
-    Second way: choose the $k$ leaders from all $n$ people, $\binom{n}{k}$ ways, then the other $r - k$ committee members from the $n - k$ people left, $\binom{n-k}{r-k}$ ways. Total $\binom{n}{k}\binom{n-k}{r-k}$.
+    That gives $1, 2, 3, 5, 8, 13, 21, 34, 55, 89$, so $t_{10} = 89$.
+  verify: |
+    def answers():
+        t = {0: 1, 1: 1}
+        for n in range(2, 11):
+            t[n] = t[n - 1] + t[n - 2]
+        return {"a": t[10]}
 
-    Both count the same choices, so the two expressions are equal.
+- id: spec.combinatorics.ch.colored-rectangle
+  pool: challenge
+  skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.combinatorics.combinations] }
+  rating: 1890
+  responseSkills: { reasoning: 1880, proof: 1880, clarity: 1830, synthesis: 1870 }
+  stem: |
+    Every square of a grid with 3 rows and 7 columns is colored black or white. Prove that there are two rows and two columns whose four crossing squares are all the same color.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: column, description: "In each column, two of its three squares share a color (pigeonhole with 2 colors)", points: 1, dimension: reasoning }
+          - { id: boxes, description: "Labels each column by a pair of rows and the shared color: 3 pairs × 2 colors = 6 boxes", points: 2, dimension: reasoning }
+          - { id: pigeon, description: "7 columns in 6 boxes: two columns have the same label", points: 1, dimension: proof }
+          - { id: corners, description: "Those two columns and that pair of rows give four squares of one color", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Each column has 3 squares and only 2 colors, so two of its squares share a color. Label the column by one such pair of rows and their color. There are $\binom{3}{2} = 3$ pairs of rows and 2 colors, so $3 \times 2 = 6$ possible labels.
+
+    7 columns with 6 labels: two columns share a label, the same pair of rows and the same color. In those two rows and two columns, all four crossing squares have that color.
+
+- id: spec.combinatorics.ch.no-three-alike
+  pool: challenge
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1920
+  responseSkills: { reading: 1900, calculation: 1900, reasoning: 1910 }
+  stem: |
+    How many strings of 10 letters, each A or B, have no three equal letters in a row?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 178 }
+  solution: |
+    Split a string into runs of equal letters, e.g. AABAB... Here every run has length 1 or 2, and the runs alternate between A and B, so a string is fixed by its first letter and its list of run lengths.
+
+    The number of ways to write 10 as an ordered sum of 1s and 2s satisfies $f(n) = f(n-1) + f(n-2)$ (the last run has length 1 or 2), with $f(1) = 1$, $f(2) = 2$: $1, 2, 3, 5, 8, 13, 21, 34, 55, 89$. So $f(10) = 89$, and with 2 choices of first letter there are $2 \times 89 = 178$ strings.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for s in product("AB", repeat=10) if "AAA" not in "".join(s) and "BBB" not in "".join(s))}
+
+- id: spec.combinatorics.ch.central-divisible
+  pool: challenge
+  skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  rating: 1975
+  responseSkills: { reasoning: 1960, proof: 1960, clarity: 1900, synthesis: 1950 }
+  stem: |
+    Prove that $\binom{2n}{n}$ is divisible by $n + 1$ for every whole number $n \ge 1$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: relate, description: "Writes C(2n, n + 1) in terms of C(2n, n): C(2n, n + 1) = n/(n + 1) × C(2n, n)", points: 2, dimension: reasoning }
+          - { id: difference, description: "Subtracts: C(2n, n) − C(2n, n + 1) = C(2n, n)/(n + 1)", points: 1, dimension: reasoning }
+          - { id: integer, description: "The left side is a difference of whole numbers, so C(2n, n)/(n + 1) is a whole number", points: 1, dimension: proof }
+          - { id: conclude, description: "So n + 1 divides C(2n, n)", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    From the formula,
+    $$\binom{2n}{n+1} = \frac{(2n)!}{(n+1)!\,(n-1)!} = \frac{n}{n+1} \cdot \frac{(2n)!}{n!\,n!} = \frac{n}{n+1}\binom{2n}{n}.$$
+    So
+    $$\binom{2n}{n} - \binom{2n}{n+1} = \left(1 - \frac{n}{n+1}\right)\binom{2n}{n} = \frac{1}{n+1}\binom{2n}{n}.$$
+    The left side is a difference of two whole numbers, so $\dfrac{1}{n+1}\binom{2n}{n}$ is a whole number: $n + 1$ divides $\binom{2n}{n}$.
