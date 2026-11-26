@@ -818,3 +818,197 @@
     from sympy.utilities.iterables import multiset_permutations
     def answers():
         return {"a": sum(1 for p in multiset_permutations([1, 1, 2, 2, 3, 3, 4]) if all(p[i] != p[i + 1] for i in range(6)))}
+
+- id: spec.combinatorics.permutations.relay-order
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1060
+  responseSkills: { reading: 1060, calculation: 1020 }
+  words: { club: club }
+  variants:
+    - { n: 4, v: 24 }
+    - { n: 5, v: 120 }
+    - { n: 6, v: 720 }
+  stem: |
+    {{n}} members of the {{club}} run a relay race, one leg each. In how many different orders can they run?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Any order of {{n}} different people: ${{n}}! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": len(list(permutations(range(n))))}
+
+- id: spec.combinatorics.permutations.medal-podium
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1150
+  responseSkills: { reading: 1150, calculation: 1110 }
+  words: { sport: sport }
+  variants:
+    - { n: 8, v: 336 }
+    - { n: 10, v: 720 }
+    - { n: 12, v: 1320 }
+  stem: |
+    {{n}} teams enter a {{sport}} tournament. Gold, silver and bronze medals go to three different teams. In how many ways can the medals be awarded?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Gold, then silver, then bronze: $^{ {{n}} }P_3 = {{n}} \times ({{n}} - 1) \times ({{n}} - 2) = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": len(list(permutations(range(n), 3)))}
+
+- id: spec.combinatorics.permutations.queue-ahead
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1450
+  responseSkills: { reading: 1440, calculation: 1400, reasoning: 1440 }
+  words: { p1: person, p2: person, shop: shop }
+  variants:
+    - { n: 5, v: 60 }
+    - { n: 6, v: 360 }
+    - { n: 7, v: 2520 }
+  stem: |
+    {{n}} people, including {{p1}} and {{p2}}, queue at the {{shop}}. In how many orders can they queue if {{p1}} is somewhere ahead of {{p2}} (not necessarily directly)?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Of all ${{n}}!$ orders, swapping {{p1}} and {{p2}} pairs each order with {{p1}} ahead to one with {{p2}} ahead. So exactly half have {{p1}} ahead: $\tfrac{ {{n}}! }{2} = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": sum(1 for q in permutations(range(n)) if q.index(0) < q.index(1))}
+
+- id: spec.combinatorics.permutations.timetable
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1400
+  responseSkills: { reading: 1400, calculation: 1360 }
+  words: { s1: subject, s2: subject, s3: subject, s4: subject, s5: subject }
+  stem: |
+    A school day has 5 periods. {{s1}}, {{s2}}, {{s3}}, {{s4}} and {{s5}} each get one period. In how many ways can the day be timetabled if {{s1}} can't be first?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 96 }
+  solution: |
+    All orders: $5! = 120$. Orders with {{s1}} first: $4! = 24$. So $120 - 24 = 96$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for t in permutations(range(5)) if t[0] != 0)}
+
+- id: spec.combinatorics.permutations.shelf-by-subject
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1620
+  responseSkills: { reading: 1600, calculation: 1580, reasoning: 1600 }
+  words: { who: person, s1: subject, s2: subject, s3: subject }
+  variants:
+    - { a: 3, b: 2, c: 2, v: 144 }
+    - { a: 2, b: 2, c: 3, v: 144 }
+    - { a: 3, b: 3, c: 2, v: 432 }
+  stem: |
+    {{who}} has {{a}} different {{s1}} books, {{b}} different {{s2}} books and {{c}} different {{s3}} books, and puts them all on one shelf so that each subject's books are together. In how many ways can the shelf be arranged?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Order the three subject blocks: $3!$. Then order the books inside each block: ${{a}}!$, ${{b}}!$ and ${{c}}!$. Total $3! \times {{a}}! \times {{b}}! \times {{c}}! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(a, b, c, v):
+        books = [0] * a + [1] * b + [2] * c
+        def together(order):
+            subj = [books[i] for i in order]
+            runs = [s for i, s in enumerate(subj) if i == 0 or subj[i - 1] != s]
+            return len(runs) == 3
+        return {"a": sum(1 for o in permutations(range(a + b + c)) if together(o))}
+
+- id: spec.combinatorics.permutations.three-apart
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1700
+  responseSkills: { reading: 1680, calculation: 1670, reasoning: 1690 }
+  words: { p1: person, p2: person, p3: person }
+  variants:
+    - { n: 6, v: 144 }
+    - { n: 7, v: 1440 }
+  stem: |
+    {{n}} people, including {{p1}}, {{p2}} and {{p3}}, stand in a row. In how many ways can they stand if no two of {{p1}}, {{p2}} and {{p3}} are next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Line up the other ${{n}} - 3$ people first: $({{n}} - 3)!$ ways. That leaves ${{n}} - 2$ gaps (between them and at the ends), and {{p1}}, {{p2}} and {{p3}} go into 3 different gaps, in order: $^{ {{n}} - 2 }P_3$ ways. Total {{v}}.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": sum(1 for q in permutations(range(n)) if all(abs(q.index(i) - q.index(j)) > 1 for i in range(3) for j in range(i)))}
+
+- id: spec.combinatorics.permutations.end-seat
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1330
+  responseSkills: { reading: 1320, calculation: 1290 }
+  words: { who: person, venue: venue }
+  variants:
+    - { k: 4, n: 5, v: 48 }
+    - { k: 5, n: 6, v: 240 }
+    - { k: 6, n: 7, v: 1440 }
+  stem: |
+    {{who}} and {{k}} friends have a row of {{n}} seats at the {{venue}}. {{who}} wants an end seat. In how many ways can they all sit?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    {{who}} takes one of the 2 end seats, and the {{k}} friends fill the other seats in ${{k}}!$ ways: $2 \times {{k}}! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(k, n, v):
+        return {"a": sum(1 for q in permutations(range(n)) if q.index(0) in (0, n - 1))}
+
+- id: spec.combinatorics.permutations.host-between
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1520
+  responseSkills: { reading: 1500, calculation: 1480, reasoning: 1500 }
+  words: { who: person, p1: person, p2: person }
+  variants:
+    - { n: 6, v: 12 }
+    - { n: 7, v: 48 }
+    - { n: 8, v: 240 }
+  stem: |
+    {{n}} people sit around a round table at {{who}}'s dinner party, where only positions relative to each other matter. {{who}} must sit between {{p1}} and {{p2}}. In how many ways can everyone sit?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Treat {{p1}}, {{who}}, {{p2}} as one block, with {{who}} in the middle: 2 orders ({{p1}} on the left or right). That's ${{n}} - 2$ units around the table: $({{n}} - 3)!$ ways. Total $2 \times ({{n}} - 3)! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        seen = set()
+        for q in permutations(range(n)):
+            i = q.index(0)
+            if {q[(i - 1) % n], q[(i + 1) % n]} == {1, 2}:
+                k = q.index(0)
+                seen.add(q[k:] + q[:k])
+        return {"a": len(seen)}
+
+- id: spec.combinatorics.permutations.photo-rows
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1580
+  responseSkills: { reading: 1570, calculation: 1540, reasoning: 1560 }
+  words: { who: person }
+  variants:
+    - { n: 6, h: 3, v: 360 }
+    - { n: 8, h: 4, v: 20160 }
+  stem: |
+    {{n}} friends, including {{who}}, pose for a photo in two rows of {{h}}: a front row and a back row. {{who}} must be in the front row. In how many ways can they be arranged?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    There are {{n}} different spots. {{who}} takes one of the {{h}} front spots, and the others fill the remaining ${{n}} - 1$ spots in $({{n}} - 1)!$ ways: ${{h}} \times ({{n}} - 1)! = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, h, v):
+        return {"a": sum(1 for q in permutations(range(n)) if q.index(0) < h)}

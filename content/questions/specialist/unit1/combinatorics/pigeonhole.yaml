@@ -303,3 +303,233 @@
     There are $2^{10} - 1 = 1023$ non-empty groups. Each sum is at least 10 and at most $90 + 91 + \cdots + 99 = 945$, so there are at most $936$ possible sums.
     $1023 > 936$, so by the pigeonhole principle two different groups $A$ and $B$ have the same sum.
     Remove the numbers they share from both. The sums stay equal (the same amount was taken from each). Neither group becomes empty: if $A$ lost everything, $A$ would sit inside $B$, and then $B$'s extra numbers would have to sum to 0, which is impossible for positive numbers with $A \ne B$. So the two remaining groups don't overlap, are non-empty and have equal sums.
+
+- id: spec.combinatorics.pigeonhole.fruit-bag
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1180
+  responseSkills: { reading: 1180, calculation: 1130 }
+  words: { who: person, f1: snack, f2: snack, f3: snack }
+  variants:
+    - { k: 2, v: 4 }
+    - { k: 3, v: 7 }
+    - { k: 4, v: 10 }
+    - { k: 5, v: 13 }
+  stem: |
+    A bag holds plenty of {{f1.plural}}, {{f2.plural}} and {{f3.plural}}. Without looking, how many must {{who}} take out to be **sure** of getting {{k}} of the same kind?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    With 3 kinds as boxes, ${{k}} - 1$ of each, $3({{k}} - 1)$ items, could avoid {{k}} of a kind. One more forces it: $3({{k}} - 1) + 1 = {{v}}$.
+  verify: |
+    def answers(k, v):
+        return {"a": 3 * (k - 1) + 1}
+
+- id: spec.combinatorics.pigeonhole.one-color-pair
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1340
+  responseSkills: { reading: 1340, calculation: 1290, reasoning: 1330 }
+  words: { who: person, c1: color, c2: color }
+  variants:
+    - { a: 10, b: 8, v: 10 }
+    - { a: 6, b: 12, v: 14 }
+    - { a: 9, b: 5, v: 7 }
+  stem: |
+    {{who}}'s drawer has {{a}} {{c1}} socks and {{b}} {{c2}} socks. Taking socks in the dark, how many must {{who}} take to be **sure** of getting two {{c1}} socks?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The worst case takes all {{b}} {{c2}} socks first, then {{c1}} socks. Two {{c1}} socks need ${{b}} + 2 = {{v}}$ socks, and ${{b}} + 1$ could include only one.
+  verify: |
+    def answers(a, b, v):
+        return {"a": b + 2}
+
+- id: spec.combinatorics.pigeonhole.marble-bag
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1480
+  responseSkills: { reading: 1470, calculation: 1440, reasoning: 1470 }
+  words: { c1: color, c2: color, c3: color }
+  variants:
+    - { a: 10, b: 8, c: 5, v1: 10, v2: 19 }
+    - { a: 7, b: 9, c: 6, v1: 10, v2: 17 }
+    - { a: 12, b: 4, c: 6, v1: 10, v2: 19 }
+  stem: |
+    A bag holds {{a}} {{c1}} marbles, {{b}} {{c2}} marbles and {{c}} {{c3}} marbles. Marbles are taken out without looking.
+  parts:
+    - id: a
+      prompt: How many must be taken to be sure of getting 4 of the same color?
+      answer: { type: numeric, key: '{{v1}}' }
+    - id: b
+      prompt: How many must be taken to be sure of getting at least one of **every** color?
+      answer: { type: numeric, key: '{{v2}}' }
+  solution: |
+    **(a)** 3 of each color, 9 marbles, can avoid 4 of a color. The 10th forces it: **10**.
+
+    **(b)** The worst case takes every marble of the two most common colors first, ${{v2}} - 1$ marbles, without the third color. One more forces it: **{{v2}}**.
+  verify: |
+    def answers(a, b, c, v1, v2):
+        return {"a": 3 * 3 + 1, "b": a + b + c - min(a, b, c) + 1}
+
+- id: spec.combinatorics.pigeonhole.same-mark
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1300
+  responseSkills: { reading: 1300, calculation: 1260, reasoning: 1290 }
+  words: { subject: subject }
+  variants:
+    - { n: 40, v: 4 }
+    - { n: 50, v: 5 }
+    - { n: 25, v: 3 }
+    - { n: 70, v: 7 }
+  stem: |
+    {{n}} students sit a {{subject}} quiz marked out of 10, in whole marks (0 to 10). What is the largest number $k$ such that you can be sure at least $k$ students got the same mark?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    There are 11 possible marks. If each mark had at most ${{v}} - 1$ students, there would be at most $11({{v}} - 1)$ students, fewer than {{n}}. So some mark has at least {{v}}, and the marks can be spread so that none has more.
+  verify: |
+    import math
+    def answers(n, v):
+        return {"a": math.ceil(n / 11)}
+
+- id: spec.combinatorics.pigeonhole.club-shirts
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1380
+  responseSkills: { reading: 1370, calculation: 1340, reasoning: 1370 }
+  words: { club: club }
+  variants:
+    - { n: 25, k: 4, v: 7 }
+    - { n: 17, k: 3, v: 6 }
+    - { n: 31, k: 5, v: 7 }
+    - { n: 40, k: 6, v: 7 }
+  stem: |
+    The {{club}}'s {{n}} members each get a shirt in one of {{k}} colors. At least how many members must have shirts of the same color, whatever colors they choose?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    If every color had at most ${{v}} - 1$ shirts, there'd be at most ${{k}}({{v}} - 1)$ shirts, fewer than {{n}}. So some color has at least {{v}}. Spreading the shirts as evenly as possible shows it can't be guaranteed higher.
+  verify: |
+    import math
+    def answers(n, k, v):
+        return {"a": math.ceil(n / k)}
+
+- id: spec.combinatorics.pigeonhole.two-initials
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1280
+  responseSkills: { reading: 1280, reasoning: 1250 }
+  stem: |
+    A school has 700 students. Must two of them have the same two initials (first name and surname, each a letter A to Z)?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Yes, always' }
+        - { id: b, text: 'No, not necessarily' }
+        - { id: c, text: 'Only if some names repeat' }
+      answer: { type: mcq, key: a }
+  solution: |
+    There are $26 \times 26 = 676$ possible pairs of initials, the boxes. 700 students in 676 boxes force two into the same box.
+  verify: |
+    def answers():
+        return {"a": "a" if 700 > 26 * 26 else "b"}
+
+- id: spec.combinatorics.pigeonhole.glove-pairs
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1440
+  responseSkills: { reading: 1440, calculation: 1390, reasoning: 1430 }
+  words: { who: person }
+  variants:
+    - { n: 4, v: 5 }
+    - { n: 5, v: 6 }
+    - { n: 6, v: 7 }
+  stem: |
+    {{who}} has {{n}} pairs of gloves, each pair a different color, all mixed up in a box. Left and right gloves are different. Taking gloves without looking, how many must {{who}} take to be **sure** of getting a matching left and right glove of the same color?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    {{who}} could take all {{n}} left gloves and still have no match. The next glove is a right glove, and its left partner is already out: ${{n}} + 1 = {{v}}$.
+  verify: |
+    from itertools import combinations
+    def answers(n, v):
+        gloves = [(c, side) for c in range(n) for side in 'LR']
+        for m in range(1, 2 * n + 1):
+            if all(any((c, 'L') in s and (c, 'R') in s for c in range(n)) for s in map(set, combinations(gloves, m))):
+                return {"a": m}
+
+- id: spec.combinatorics.pigeonhole.birthday-trio
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1350
+  responseSkills: { reading: 1350, calculation: 1300 }
+  words: { venue: venue }
+  stem: |
+    Including 29 February, there are 366 possible birthdays. What is the least number of people the {{venue}} must hold to be **sure** that some 3 of them share a birthday?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 733 }
+  solution: |
+    With 2 people on every birthday, $2 \times 366 = 732$ people avoid three sharing. One more forces it: $733$.
+  verify: |
+    def answers():
+        return {"a": 2 * 366 + 1}
+
+- id: spec.combinatorics.pigeonhole.round-robin-wins
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1620
+  responseSkills: { reading: 1610, reasoning: 1610 }
+  words: { sport: sport }
+  stem: |
+    In a {{sport}} round robin, each of 6 teams plays every other team once, and there are no draws. Must two teams finish with the same number of wins?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'Yes, always' }
+        - { id: b, text: 'No, not necessarily' }
+      answer: { type: mcq, key: b }
+  solution: |
+    No. Each team has between 0 and 5 wins, which is 6 possible totals for 6 teams, so the pigeonhole principle doesn't force a repeat. It can happen: rank the teams 1 to 6 and let the higher-ranked team win every game. Then the teams win 5, 4, 3, 2, 1 and 0 games.
+  verify: |
+    from itertools import combinations
+    def answers():
+        wins = [0] * 6
+        for i, j in combinations(range(6), 2):
+            wins[min(i, j)] += 1
+        return {"a": "b" if len(set(wins)) == 6 else "a"}
+
+- id: spec.combinatorics.pigeonhole.party-handshakes
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1560
+  responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
+  words: { who: person }
+  stem: |
+    At {{who}}'s party, some pairs of guests shake hands (each pair at most once, and nobody shakes their own hand). There are at least 2 guests. Prove that two guests shook the same number of hands.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'range', description: "With n guests, each shakes between 0 and n − 1 hands", points: 1, dimension: reasoning }
+          - { id: 'not-both', description: "Explains why 0 and n − 1 can't both occur", points: 2, dimension: proof }
+          - { id: 'php', description: "So n guests share at most n − 1 values, and two guests have the same count", points: 1, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Say there are $n$ guests. Each shakes between $0$ and $n - 1$ hands. If someone shook $n - 1$ hands, they shook everyone's, so nobody shook $0$. So $0$ and $n - 1$ can't both occur, and the $n$ counts take at most $n - 1$ different values. By the pigeonhole principle, two guests have the same count.
+
+- id: spec.combinatorics.pigeonhole.snack-streak
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1770
+  responseSkills: { reasoning: 1760, proof: 1760, synthesis: 1740, clarity: 1720 }
+  words: { who: person, f: snack }
+  stem: |
+    Over 30 days, {{who}} eats at least one {{f}} every day and 45 {{f.plural}} in total. Prove that there is a run of consecutive days on which {{who}} eats exactly 14 {{f.plural}}.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'sums', description: "Uses running totals s₁ < s₂ < … < s₃₀ = 45 (total eaten by the end of each day)", points: 1, dimension: synthesis }
+          - { id: 'shift', description: "Considers the 60 numbers s₁, …, s₃₀ and s₁ + 14, …, s₃₀ + 14, all from 1 to 59", points: 2, dimension: reasoning }
+          - { id: 'php', description: "Pigeonhole: two are equal, necessarily some s_j = s_i + 14", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So days i + 1 to j contain exactly 14", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $s_k$ be the number eaten by the end of day $k$. Since at least one is eaten each day, $1 \le s_1 < s_2 < \dots < s_{30} = 45$. The numbers $s_1 + 14, \dots, s_{30} + 14$ are also all different, and lie between 15 and 59. So the 60 numbers $s_1, \dots, s_{30}, s_1 + 14, \dots, s_{30} + 14$ all lie between 1 and 59. By the pigeonhole principle two are equal. Two from the same list can't be, so $s_j = s_i + 14$ for some $i < j$. Then on days $i + 1$ to $j$, exactly 14 were eaten.
