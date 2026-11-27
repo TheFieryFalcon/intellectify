@@ -180,7 +180,7 @@
   .result { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
   .feedback { margin: 0; font-size: 13px; }
   .bad { color: var(--bad); }
-  .actions { display: flex; gap: 8px; }
+  .actions { display: flex; gap: 8px; margin-top: 20px; }
   .result-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
   @media (max-width: 520px) { .result-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .result-row div { display: flex; flex-direction: column; gap: 2px; }

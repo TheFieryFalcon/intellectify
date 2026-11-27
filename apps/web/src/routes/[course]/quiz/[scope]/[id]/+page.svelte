@@ -212,6 +212,6 @@
   td a { color: var(--ink); text-decoration: none; }
   td a:hover { color: var(--accent); }
   .num { font-variant-numeric: tabular-nums; }
-  .actions { display: flex; gap: 8px; margin-top: 12px; }
+  .actions { display: flex; gap: 8px; margin-top: 20px; }
   .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>

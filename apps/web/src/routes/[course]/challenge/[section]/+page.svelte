@@ -256,7 +256,7 @@
   .v { font-size: 18px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .xp { color: var(--accent); }
   .num { font-variant-numeric: tabular-nums; }
-  .actions { display: flex; gap: 8px; margin-top: 14px; }
+  .actions { display: flex; gap: 8px; margin-top: 20px; }
   .link { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; }
   .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>

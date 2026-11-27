@@ -117,5 +117,5 @@
   .card { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
   .status { font-weight: 600; margin: 0 0 8px; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }
-  .actions { margin-top: 16px; display: flex; gap: 8px; }
+  .actions { margin-top: 20px; display: flex; gap: 8px; }
 </style>
