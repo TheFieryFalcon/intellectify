@@ -27,7 +27,7 @@ export class ProfileStore {
 
   constructor(
     private readonly backend: Backend,
-    private readonly user: User,
+    private user: User,
   ) {
     // Save the public mirror before the page goes away (a debounced save may be waiting).
     if (typeof document !== "undefined") {
@@ -134,6 +134,13 @@ export class ProfileStore {
     } catch {
       // A failed save loses this grant on reload; practice itself is unaffected.
     }
+  }
+
+  /** Change the display name (onboarding or Settings). Checked for banned words by the caller and the rules. */
+  async rename(name: string) {
+    await this.backend.setDisplayName(this.user, name);
+    this.user = { ...this.user, displayName: name };
+    this.profile = { ...this.profile, nameSet: true };
   }
 
   /** Save the onboarding placement; new skills start at its tier for their course from now on. */

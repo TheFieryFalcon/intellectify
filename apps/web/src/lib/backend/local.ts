@@ -76,6 +76,16 @@ export function createLocalBackend(): Backend {
     async setPlacement(uid, placement) {
       write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), placement });
     },
+    async setDisplayName(u, name) {
+      if (user && user.uid === u.uid) {
+        user = { ...user, displayName: name };
+        write(USER_KEY, user);
+      }
+      write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), nameSet: true });
+      const pub = read<Partial<PublicProfile> | null>(publicKey(u.uid), null);
+      if (pub) write(publicKey(u.uid), { ...pub, displayName: name });
+      emit();
+    },
     async grantXp(u, grant) {
       const p = { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}) };
       p.xp += grant.amount;

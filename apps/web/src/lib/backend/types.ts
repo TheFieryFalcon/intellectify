@@ -12,6 +12,8 @@ export interface User {
   local: boolean;
   /** Signed in anonymously (Firebase), e.g. to test deploy previews. Kept off public leaderboards. */
   anonymous?: boolean;
+  /** Signed in with Google: the name came from Google, so onboarding asks for one. */
+  google?: boolean;
 }
 
 /** A skill's stored state: the engine's state plus selection history. */
@@ -59,6 +61,8 @@ export interface Profile {
   daily: DailyRecord | null;
   /** Problems done and XP by period, for leaderboards (SPEC §12.2). */
   stats: ActivityStats | null;
+  /** The student has chosen their display name (sign-up form, onboarding or Settings). */
+  nameSet?: boolean;
 }
 
 /** A skill's rank and θ (null until resolved), as shown to other students. */
@@ -212,6 +216,8 @@ export interface Backend {
   loadProfile(uid: string): Promise<Profile>;
   /** Save the onboarding placement. */
   setPlacement(uid: string, placement: Placement): Promise<void>;
+  /** Change the display name everywhere it's stored (account, profile, public mirror). */
+  setDisplayName(user: User, name: string): Promise<void>;
   /** Add XP to the profile. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
   /** Save the daily-problem record. */

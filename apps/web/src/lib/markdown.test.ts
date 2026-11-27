@@ -25,3 +25,10 @@ describe("glossary hovers (SPEC §3.2)", () => {
     expect(linkGlossary("arc", [{ term: "arc", definition: 'a < b & "c"' }])).toContain("a &lt; b &amp; &quot;c&quot;");
   });
 });
+
+describe("line breaks", () => {
+  it("keeps a student's line breaks only when asked", () => {
+    expect(renderMarkdown("AD = AB Given\nCD = CB Given", { breaks: true })).toContain("<br>");
+    expect(renderMarkdown("AD = AB Given\nCD = CB Given")).not.toContain("<br>");
+  });
+});

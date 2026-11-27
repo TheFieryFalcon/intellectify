@@ -28,7 +28,11 @@ export function linkGlossary(text: string, terms: { term: string; definition: st
   });
 }
 
-export function renderMarkdown(src: string, opts: { inline?: boolean; glossary?: { term: string; definition: string }[] } = {}): string {
+/**
+ * `breaks`: a single newline is a line break (a student's own writing keeps the lines they typed);
+ * otherwise Markdown joins lines into one paragraph, as authored content expects.
+ */
+export function renderMarkdown(src: string, opts: { inline?: boolean; breaks?: boolean; glossary?: { term: string; definition: string }[] } = {}): string {
   // Diagrams first (SPEC §9.4): their YAML must not be touched by the math or Markdown passes.
   const figures: string[] = [];
   const tex = (t: string) => katex.renderToString(t, { throwOnError: false, strict: "ignore" });
@@ -47,7 +51,8 @@ export function renderMarkdown(src: string, opts: { inline?: boolean; glossary?:
     .replace(/(?<!\\)\$([^$]+?)\$/g, (_, t: string) => keep(t, false))
     .replace(/\\\$/g, "$");
   const linked = opts.glossary?.length ? linkGlossary(protectedSrc, opts.glossary) : protectedSrc;
-  const html = opts.inline ? (marked.parseInline(linked, { async: false }) as string) : (marked.parse(linked, { async: false }) as string);
+  const breaks = !!opts.breaks;
+  const html = opts.inline ? (marked.parseInline(linked, { async: false, breaks }) as string) : (marked.parse(linked, { async: false, breaks }) as string);
   return html
     .replace(/@@MATH(\d+)@@/g, (_, i: string) => math[Number(i)]!)
     .replace(/(?:<p>)?@@FIG(\d+)@@(?:<\/p>)?/g, (_, i: string) => figures[Number(i)]!);
@@ -78,7 +83,7 @@ export function renderUserMarkdown(src: string, purify: (html: string) => string
       .replace(/\\\$/g, "$")
       // Raw HTML shows as typed (and "x < 3" stays text); the sanitizer is a second layer.
       .replace(/</g, "&lt;");
-  const md = (t: string, inline: boolean) => purify((inline ? marked.parseInline(protect(t), { async: false }) : marked.parse(protect(t), { async: false })) as string);
+  const md = (t: string, inline: boolean) => purify((inline ? marked.parseInline(protect(t), { async: false, breaks: true }) : marked.parse(protect(t), { async: false, breaks: true })) as string);
   const spoilerHtml = spoilers.map(
     (sp) => `<span class="spoiler" tabindex="0" role="button" aria-label="${esc(sp.label ? `Spoiler: ${sp.label}` : "Spoiler")}" data-label="${esc(sp.label || "Spoiler")}"><span class="spoiler-body">${md(sp.body, true)}</span></span>`,
   );

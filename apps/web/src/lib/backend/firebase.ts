@@ -72,6 +72,7 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     email: u.email,
     local: false,
     anonymous: u.isAnonymous,
+    google: u.providerData.some((p) => p.providerId === "google.com"),
   });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
@@ -99,6 +100,7 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
         const { user } = await createUserWithEmailAndPassword(auth, email.trim(), password);
         if (name.trim()) {
           await updateProfile(user, { displayName: name.trim() });
+          await setDoc(doc(db, "users", user.uid), { displayName: name.trim(), nameSet: true }, { merge: true });
           emit(auth.currentUser);
         }
       } catch (err) {
@@ -121,6 +123,14 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     },
     async setPlacement(uid, placement) {
       await setDoc(doc(db, "users", uid), { placement }, { merge: true });
+    },
+    async setDisplayName(u, name) {
+      if (auth.currentUser) await updateProfile(auth.currentUser, { displayName: name });
+      const batch = writeBatch(db);
+      batch.set(doc(db, "users", u.uid), { displayName: name, nameSet: true }, { merge: true });
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: name }, { merge: true });
+      await batch.commit();
+      emit(auth.currentUser);
     },
     async grantXp(u, grant) {
       const batch = writeBatch(db);

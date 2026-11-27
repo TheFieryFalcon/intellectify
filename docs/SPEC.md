@@ -575,7 +575,7 @@ Word problems change their story each time, not just their numbers, so they don'
 - **As built:**
   - The function loads the question, rubric and model solution from the deploy's own content files (never from the request), and needs a Firebase ID token.
   - **Free marking is Groq only** (`openai/gpt-oss-120b`, medium reasoning effort). Gemini's free tier is kept for reading photos, since a consensus mark used 3 of its ~20 requests a day per model. In testing, Groq gave a correct but messy handwritten proof 0% while Gemini 3.8 Flash gave it 100%; that's the accepted trade-off for free marking (an own key fixes it).
-  - **Marking effort** (Settings slider, stored per marker in the browser): the free marker offers 1 (one Groq run) and 2 (three runs by consensus; the default). With an own key, 1–10 (default 3) pick the model, reasoning effort and number of runs, from `EFFORT_LEVELS` in `packages/content/src/marking.ts`. Settings shows only the number.
+  - **Marking effort** (Settings slider, stored per marker in the browser): the free marker offers 1 (one Groq run) and 2 (three runs by consensus; the default). With an own key, 1–10 (default 3) pick the model, reasoning effort and number of runs, from `EFFORT_LEVELS` in `packages/content/src/marking.ts`. Settings shows only the number. The slider always shows 1–10; without an own key, 3–10 are shown hatched and the thumb stops at 2.
   - A step that sorts a transcription into "Answer" and "Rough work" was tried and dropped: on one run it moved steps the proof relied on into rough work. Groq's vision model (Qwen) was also tried as a reader and looped on rough work.
   - Own-key Gemini marking uses Gemini 3.8 Flash, then 3.5 Flash. Flash-Lite is **not** used for marking: in testing it gave the same proof 100% one time and 20% the next. When the marker is busy, the reply is 429 or 503, and the answer waits in the queue and retries. A late mark beats a wrong one.
   - **Consensus:** every answer is marked three times in parallel. Each criterion takes the median award, completeness needs a majority, and the feedback comes from the run closest to the median total. If some runs fail, the rest still count.
@@ -1259,6 +1259,8 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 ### 15.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
+  - **Display name** (Phase 1): 2–30 characters, no banned words (§13.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name); existing Google accounts are asked once.
+- **Students' own writing** (written answers, previews, history, discussion posts) keeps the line breaks they typed; authored content (questions, tutorials, solutions) uses normal Markdown paragraphs.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
 
 ### 15.4a Wording: points, not marks

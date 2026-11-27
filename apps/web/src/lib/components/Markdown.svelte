@@ -2,9 +2,9 @@
   import { renderMarkdown } from "$lib/markdown";
   import { glossaryTerms } from "$lib/glossary.svelte";
 
-  /** `glossary={false}` for a student's own writing, which gets no definition hovers. */
+  /** `glossary={false}` for a student's own writing: no definition hovers, and the line breaks they typed are kept. */
   let { text, inline = false, glossary = true }: { text: string; inline?: boolean; glossary?: boolean } = $props();
-  const html = $derived(renderMarkdown(text, { inline, glossary: glossary ? glossaryTerms() : undefined }));
+  const html = $derived(renderMarkdown(text, { inline, breaks: !glossary, glossary: glossary ? glossaryTerms() : undefined }));
 </script>
 
 {#if inline}
