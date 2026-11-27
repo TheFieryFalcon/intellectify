@@ -44,7 +44,7 @@ export interface CourseBundle {
   /** When each year group learns each block of skills (SPEC §8.5), for the daily problem. */
   schedules: CourseSchedule[];
   /** WA school years from content/calendar (SPEC §8.6): term dates and exam periods. */
-  calendars: SchoolYear[];
+  calendars?: SchoolYear[];
 }
 /** A course outline: blocks of skills by school week (12-slot order, from parseTermWeek). */
 export interface CourseSchedule {

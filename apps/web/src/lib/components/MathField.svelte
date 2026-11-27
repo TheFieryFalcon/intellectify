@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { Key } from "$lib/keypad";
-  import { insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
+  import { addReadAloud, insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
 
   let {
     value = $bindable(""),
@@ -22,6 +22,7 @@
   onMount(async () => {
     await loadMathLive();
     ready = true;
+    if (el) addReadAloud(el);
   });
 
   // Keep the element in sync when the value is reset from outside (e.g. next question).

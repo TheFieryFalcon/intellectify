@@ -50,3 +50,28 @@ export function saveEffort(p: MarkProvider, level: number) {
     /* storage blocked: the default level is used */
   }
 }
+
+/**
+ * Check a key with the provider's cheapest call, listing models (SPEC §15.5: test-key button). Nothing
+ * is marked and nothing is charged. Returns "ok", "refused" (bad key) or "unreachable".
+ */
+export async function testKey(byok: Byok): Promise<"ok" | "refused" | "unreachable"> {
+  try {
+    if (byok.provider === "anthropic") {
+      const { default: Anthropic } = await import("@anthropic-ai/sdk");
+      const client = new Anthropic({ apiKey: byok.key, dangerouslyAllowBrowser: true, maxRetries: 0 });
+      try {
+        await client.models.list({ limit: 1 });
+        return "ok";
+      } catch (e) {
+        return e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError ? "refused" : "unreachable";
+      }
+    }
+    const url = byok.provider === "openai" ? "https://api.openai.com/v1/models" : "https://generativelanguage.googleapis.com/v1beta/openai/models";
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${byok.key}` } });
+    if (res.ok) return "ok";
+    return res.status === 400 || res.status === 401 || res.status === 403 ? "refused" : "unreachable";
+  } catch {
+    return "unreachable";
+  }
+}

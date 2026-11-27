@@ -8,7 +8,7 @@
    */
   import { onMount } from "svelte";
   import type { Key } from "$lib/keypad";
-  import { insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
+  import { addReadAloud, insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
   import { joinMath, splitMath, type Segment } from "$lib/mathtext";
 
   let {
@@ -105,7 +105,10 @@
     });
     wrap.append(mf);
     // The element upgrades once MathLive has loaded; set the value after.
-    queueMicrotask(() => (mf.value = latex));
+    queueMicrotask(() => {
+      mf.value = latex;
+      addReadAloud(mf);
+    });
     return wrap;
   }
 

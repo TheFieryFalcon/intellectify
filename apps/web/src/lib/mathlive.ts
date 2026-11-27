@@ -11,6 +11,9 @@ export async function loadMathLive(): Promise<void> {
   loading ??= import("mathlive").then(({ MathfieldElement }) => {
     MathfieldElement.fontsDirectory = "/mathlive/fonts";
     MathfieldElement.soundsDirectory = null;
+    // Accessible maths (SPEC §15.6): screen readers hear each field through MathLive's live region,
+    // and Ctrl+Alt+S reads the whole answer aloud with the browser's own voice.
+    MathfieldElement.speechEngine = "local";
   });
   await loading;
   const vk = (window as unknown as { mathVirtualKeyboard?: { layouts: unknown } }).mathVirtualKeyboard;
@@ -29,4 +32,11 @@ export type MathfieldEl = HTMLElement & {
 /** Insert keypad LaTeX at the caret: `#0` takes the selection, `#?` boxes are left to fill in. */
 export function insertLatex(el: MathfieldEl, latex: string) {
   el.insert(latex, { selectionMode: "placeholder", focus: true, feedback: false, format: "latex" });
+}
+
+/** Ctrl+Alt+S reads a field's maths aloud (SPEC §15.6). Call once the element has upgraded. */
+export function addReadAloud(el: MathfieldEl) {
+  const mf = el as MathfieldEl & { keybindings?: object[] };
+  if (!Array.isArray(mf.keybindings)) return;
+  mf.keybindings = [...mf.keybindings, { key: "ctrl+alt+[KeyS]", command: ["speak", "all", { withHighlighting: false }] }];
 }

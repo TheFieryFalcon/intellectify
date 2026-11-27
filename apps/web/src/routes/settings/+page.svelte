@@ -4,7 +4,7 @@
    * goes only to the provider, never to Intellectify's servers.
    */
   import { maxEffort } from "@intellectify/content/marking";
-  import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, type ByokProvider } from "$lib/byok";
+  import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, testKey, type ByokProvider } from "$lib/byok";
   import { profileFor } from "$lib/profile.svelte";
   import ShiftKeySettings from "$lib/components/ShiftKeySettings.svelte";
   import { session } from "$lib/session.svelte";
@@ -69,6 +69,19 @@
   function remove() {
     saveByok(null);
     current = null;
+    tested = null;
+  }
+  /** Test the saved key (or the one being typed) with the provider. */
+  let tested = $state<string | null>(null);
+  let testing = $state(false);
+  async function test() {
+    const byok = key.trim() ? { provider, key: key.trim() } : current;
+    if (!byok || testing) return;
+    testing = true;
+    tested = null;
+    const r = await testKey(byok);
+    tested = r === "ok" ? "Key works" : r === "refused" ? `${PROVIDER_LABEL[byok.provider]} refused this key` : `Couldn't reach ${PROVIDER_LABEL[byok.provider]}`;
+    testing = false;
   }
 </script>
 
@@ -122,7 +135,9 @@
       </div>
       <div class="actions">
         <button class="btn primary" disabled={!key.trim()}>Save</button>
+        <button type="button" class="btn" onclick={test} disabled={testing || (!key.trim() && !current)}>{testing ? "Testing" : "Test key"}</button>
         {#if current}<button type="button" class="btn quiet" onclick={remove}>Remove key</button>{/if}
+        {#if tested}<span class="note" class:err={tested !== "Key works"} role="status">{tested}</span>{/if}
       </div>
     </form>
   </section>

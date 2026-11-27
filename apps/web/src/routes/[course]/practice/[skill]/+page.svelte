@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import TutorialButton from "$lib/components/TutorialButton.svelte";
   import ReportButton from "$lib/components/ReportButton.svelte";
   import { page } from "$app/state";
   import Markdown from "$lib/components/Markdown.svelte";
@@ -122,14 +123,9 @@
     <p class="muted">No questions yet</p>
   {:else}
     <div class="history-nav">
-      <button class="btn link" disabled={back >= past.length} onclick={() => back++}>← Back</button>
-      {#if back > 0}
-        <span class="muted small">{ago(past[back - 1]!.at)}</span>
-        <button class="btn link" onclick={() => back--}>Forward →</button>
-        <button class="btn link" onclick={() => (back = 0)}>Current question</button>
-      {/if}
+      <a class="btn link" href="/{data.course.id}">← Back</a>
       <span class="nav-end">
-        {#if back === 0 && served}<span class="tools"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span>{/if}
+        {#if back === 0 && served}<span class="tools"><TutorialButton course={data.course} skill={served.question.skills.primary} /><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span>{/if}
         <a class="btn link" href="/{data.course.id}/history?skill={skillId}">History</a>
       </span>
     </div>
@@ -168,11 +164,23 @@
       </section>
     {/if}
     </div>
+    <!-- Earlier answers in this skill (SPEC §15.4b), under the question. -->
+    {#if past.length}
+      <nav class="history-nav steps" aria-label="Earlier answers">
+        <button class="btn link" disabled={back >= past.length} onclick={() => back++}>← Previous</button>
+        {#if back > 0}
+          <span class="muted small">{ago(past[back - 1]!.at)}</span>
+          <button class="btn link" onclick={() => back--}>Next →</button>
+          <button class="btn link" onclick={() => (back = 0)}>Current question</button>
+        {/if}
+      </nav>
+    {/if}
   {/if}
 </div>
 
 <style>
   .history-nav { display: flex; align-items: center; gap: 6px 16px; margin: -4px 0 10px; flex-wrap: wrap; }
+  .history-nav.steps { margin: 16px 0 0; }
   .nav-end { margin-left: auto; display: inline-flex; align-items: center; gap: 16px; }
   .small { font-size: 12px; }
   .result.past { margin-top: 0; }

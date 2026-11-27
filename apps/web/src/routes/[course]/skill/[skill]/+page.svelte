@@ -11,6 +11,9 @@
   import { getStartTier, toStored } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { courseProgress } from "$lib/session.svelte";
+  import { listHistory, type HistoryEntry } from "$lib/history";
+  import { markingFor } from "$lib/marking.svelte";
+  import { session } from "$lib/session.svelte";
 
   let { data } = $props();
   const index = $derived(indexSkills(data.course));
@@ -31,6 +34,30 @@
     return `${RANK_LABEL[next]}: ${needs.join(", ")}`;
   });
 
+
+  /** Every rank's floor and gate, and how far the student is (SPEC §15.3). */
+  const ladder = $derived(
+    ([1, 2, 3, 4, 5] as const).map((r) => {
+      const need = gateFor(r, entry?.skill.size);
+      const have = Math.min(skillState ? skillState.gates.slice(r).reduce((a, b) => a + b, 0) : 0, need);
+      return { rank: r, floor: RANK_FLOOR[r], need, have, earned: rank >= r };
+    }),
+  );
+
+  /** The last answers in this skill, from this browser's history (SPEC §15.4b). */
+  const marking = $derived(markingFor(session.backend, session.user));
+  let recent = $state<HistoryEntry[]>([]);
+  $effect(() => {
+    const id = entry?.skill.id;
+    recent = id ? listHistory(data.course.id).filter((h) => h.skill === id).slice(0, 5) : [];
+  });
+  const outcomeOf = (h: HistoryEntry): string => {
+    if (h.outcome !== null) return `${Math.round(h.outcome * 100)}%`;
+    const job = h.jobId && marking ? marking.job(h.jobId) : null;
+    return job?.result ? `${Math.round(job.result.score * 100)}%` : "Marking";
+  };
+  const when = (at: number) => new Date(at).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+  const nameOf = (id: string) => listed.find((q) => q.id === id)?.title ?? id;
 
   /** Overview, or the skill's Questions tab (SPEC §15.3a). */
   const tab = $derived(page.url.searchParams.get("tab") === "questions" ? "questions" : "overview");
@@ -99,9 +126,14 @@
       {#if entry.skill.hasTutorial}<p><a class="btn" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a></p>{/if}
     {:else}
       <div class="actions">
-
-        <button class="btn primary" onclick={start}>Practice</button>
-        {#if entry.skill.hasTutorial}<a class="btn" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a>{/if}
+        {#if !skillState && entry.skill.hasTutorial}
+          <!-- First visit: Learn comes first, but is never required (SPEC §15.3). -->
+          <a class="btn primary" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a>
+          <button class="btn" onclick={start}>Practice</button>
+        {:else}
+          <button class="btn primary" onclick={start}>Practice</button>
+          {#if entry.skill.hasTutorial}<a class="btn" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a>{/if}
+        {/if}
         {#if skillState}
           <label class="drop"><input type="checkbox" checked={skillState.dropTier} onchange={toggleDrop} /> Easier questions</label>
         {/if}
@@ -110,6 +142,19 @@
 
 
     <dl>
+      <dt>Ranks</dt>
+      <dd>
+        <ul class="ladder">
+          {#each ladder as l (l.rank)}
+            <li class:earned={l.earned}>
+              <RankDot rank={l.rank} label />
+              <span class="muted">θ {l.floor}</span>
+              <span>{l.have}/{l.need} at Tier {l.rank}+</span>
+              {#if l.earned}<span class="tick" aria-label="Earned">✓</span>{/if}
+            </li>
+          {/each}
+        </ul>
+      </dd>
       <dt>Size</dt>
       <dd class="size">{entry.skill.size}</dd>
       <dt>Dot points</dt>
@@ -127,6 +172,15 @@
         <dt>Leads to</dt>
         <dd class="links">
           {#each leadsTo as s (s.id)}<a href="/{data.course.id}/skill/{s.id}"><RankDot rank={rankOf(s.id)} /> {s.name}</a>{/each}
+        </dd>
+      {/if}
+      {#if recent.length}
+        <dt>Recent</dt>
+        <dd class="recent">
+          {#each recent as h (h.id)}
+            <span class="row"><span class="muted">{when(h.at)}</span><span class="qname">{nameOf(h.questionId)}</span><span>{outcomeOf(h)}</span></span>
+          {/each}
+          <a href="/{data.course.id}/history?skill={entry.skill.id}">History</a>
         </dd>
       {/if}
     </dl>
@@ -154,5 +208,12 @@
   .links a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; }
   .links a:hover { color: var(--accent); }
   @media (max-width: 520px) { dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 10px; } }
+  .ladder { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .ladder li { display: grid; grid-template-columns: 110px 70px 1fr auto; align-items: center; gap: 8px; font-size: 14px; }
+  .ladder li:not(.earned) { color: var(--muted); }
+  .tick { color: var(--good); }
+  .recent { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+  .recent .row { display: grid; grid-template-columns: 56px 1fr auto; gap: 8px; }
+  .qname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .subfilter { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 13px; color: var(--muted); }
 </style>

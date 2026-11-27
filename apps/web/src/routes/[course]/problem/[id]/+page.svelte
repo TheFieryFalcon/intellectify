@@ -9,6 +9,8 @@
   import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
   import MarkView from "$lib/components/MarkView.svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import TutorialButton from "$lib/components/TutorialButton.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
   import ReportButton from "$lib/components/ReportButton.svelte";
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
@@ -33,6 +35,7 @@
   /** The question changed since the link was made, so the numbers or names differ. */
   let changed = $state(false);
   let summary = $state<ResultSummary | null>(null);
+  let gained = $state(0);
   let jobId = $state<string | null>(null);
   const job = $derived(jobId && marking ? marking.job(jobId) : null);
 
@@ -58,6 +61,7 @@
     if (!store || !served) return;
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "shared" });
     summary = r.summary;
+    gained = r.xp;
   }
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !served) return;
@@ -74,7 +78,7 @@
   </p>
   <div class="head">
     <h1>{entry?.title ?? "Shared problem"}</h1>
-    {#if served}<span class="tools"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span>{/if}
+    {#if served}<span class="tools"><TutorialButton course={data.course} skill={served.question.skills.primary} /><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span>{/if}
   </div>
   {#if changed && served}<p class="muted small">This question has changed since the link was made, so its numbers or names may differ</p>{/if}
 
@@ -98,7 +102,7 @@
     {/if}
     {#if summary}
       <section class="card">
-        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"} · {Math.round(summary.outcome * 100)}%</p>
+        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={gained} />
         <h2>Solution</h2>
         <Markdown text={q.solution} />
       </section>
@@ -116,7 +120,6 @@
   h1 { margin: 0; font-size: 24px; }
   .small { font-size: 12px; margin: -6px 0 12px; }
   .card { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-  .status { font-weight: 600; margin: 0 0 8px; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }
   .actions { margin-top: 20px; display: flex; gap: 8px; }
 </style>
