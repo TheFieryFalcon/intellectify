@@ -4,8 +4,8 @@
   import { achievementToasts } from "$lib/achievements.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/state";
+  import { beforeNavigate, goto } from "$app/navigation";
+  import { page, updated } from "$app/state";
   import LevelBadge from "$lib/components/LevelBadge.svelte";
   import TierCelebration from "$lib/components/TierCelebration.svelte";
   import TierGem from "$lib/components/TierGem.svelte";
@@ -48,6 +48,12 @@
   $effect(() => {
     if (profile?.loaded && !profile.failed && (!profile.profile.placement?.tiers || (session.user?.google && !profile.profile.nameSet)) && !publicRoute && !page.url.pathname.startsWith("/onboarding") && !page.url.pathname.startsWith("/dev"))
       goto("/onboarding", { replaceState: true });
+  });
+
+  // After a deploy, an open tab is still running the old version. Load the new one at the next page change
+  // (a full load, not an in-app one), so old code never keeps saving progress (SPEC §16.2).
+  beforeNavigate(({ willUnload, to }) => {
+    if (updated.current && !willUnload && to?.url) location.href = to.url.href;
   });
 </script>
 

@@ -6,5 +6,7 @@ export default {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter({ fallback: "index.html" }),
+    // Notice a new deploy within a minute, so an open tab switches to it at the next page change (SPEC §16.2).
+    version: { pollInterval: 60_000 },
   },
 };
