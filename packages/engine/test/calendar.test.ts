@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { autoEarlyEaster, dateOfDay, easterMonday, parseTermWeek, schoolPosition, term1Start, terms } from "../src/calendar.js";
+import { autoEarlyEaster, dateOfDay, easterMonday, examsOn, monthlyScope, parseTermWeek, schoolPosition, schoolPositionIn, term1Start, terms, termsFor, unitAt, type SchoolYear } from "../src/calendar.js";
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 describe("WA school calendar", () => {
@@ -28,5 +28,40 @@ describe("WA school calendar", () => {
   it("gives Early Easter a nine-week Term 1", () => {
     const year = [2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035].find(autoEarlyEaster);
     if (year) expect(terms(year)[0]!.weeks).toBe(9);
+  });
+});
+
+describe("calendar files", () => {
+  const cal2026: SchoolYear = {
+    year: 2026,
+    terms: [
+      { term: 1, start: "2026-02-02", end: "2026-04-02" },
+      { term: 2, start: "2026-04-20", end: "2026-07-03" },
+      { term: 3, start: "2026-07-20", end: "2026-09-25" },
+      { term: 4, start: "2026-10-12", end: "2026-12-17" },
+    ],
+    exams: [{ name: "ATAR written examinations", start: "2026-10-28", end: "2026-11-19" }],
+  };
+  it("agrees with the WA rule for 2026", () => {
+    const fromFile = termsFor(2026, [cal2026]);
+    expect(fromFile.map((t) => [t.start.toISOString().slice(0, 10), t.weeks])).toEqual(terms(2026).map((t) => [t.start.toISOString().slice(0, 10), t.weeks]));
+    expect(schoolPositionIn(dateOfDay("2026-05-06"), [cal2026])).toEqual(schoolPosition(dateOfDay("2026-05-06")));
+  });
+  it("counts school weeks and units of 15 weeks, skipping holidays", () => {
+    const at = (d: string, y: 11 | 12) => unitAt(dateOfDay(d), y, [cal2026]);
+    expect(at("2026-01-20", 11)).toEqual({ unit: "year10", week: 0 });
+    expect(at("2026-01-20", 12)).toEqual({ unit: 2, week: 0 });
+    expect(at("2026-02-02", 11)).toEqual({ unit: 1, week: 1 });
+    expect(at("2026-04-10", 11)).toEqual({ unit: 1, week: 9 }); // Term 1 is 9 weeks; holidays don't count
+    expect(at("2026-05-18", 11)).toEqual({ unit: 1, week: 14 });
+    expect(at("2026-06-01", 12)).toEqual({ unit: 4, week: 16 });
+    expect(monthlyScope(dateOfDay("2026-03-01"), 11, [cal2026])).toBe("year10");
+    expect(monthlyScope(dateOfDay("2026-08-01"), 11, [cal2026])).toBe(1);
+    expect(monthlyScope(dateOfDay("2026-03-01"), 12, [cal2026])).toBe(2);
+    expect(monthlyScope(dateOfDay("2026-08-01"), 12, [cal2026])).toBe(3);
+  });
+  it("lists exam periods", () => {
+    expect(examsOn(dateOfDay("2026-11-02"), [cal2026]).map((e) => e.name)).toEqual(["ATAR written examinations"]);
+    expect(examsOn(dateOfDay("2026-12-02"), [cal2026])).toEqual([]);
   });
 });

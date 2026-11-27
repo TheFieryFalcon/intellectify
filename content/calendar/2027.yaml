@@ -1,0 +1,12 @@
+# WA school calendar (SPEC §8.5–8.6). Term 1 and the Term 2 start are the Department of Education's
+# published dates; the rest follow the WA rule (10-week terms, 2-week breaks; Term 4 ends on a Thursday).
+# Check against education.wa.edu.au/term-dates and SCSA's 2027 examination dates when they're published.
+year: 2027
+terms:
+  - { term: 1, start: 2027-02-01, end: 2027-04-09 }
+  - { term: 2, start: 2027-04-26, end: 2027-07-02 }
+  - { term: 3, start: 2027-07-19, end: 2027-09-24 }
+  - { term: 4, start: 2027-10-11, end: 2027-12-16 }
+semesters:
+  - { semester: 1, terms: [1, 2] }
+  - { semester: 2, terms: [3, 4] }

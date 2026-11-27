@@ -40,7 +40,7 @@
 
   const skills = $derived(indexSkills(data.course));
   const target = $derived(
-    dailyTarget(data.course.schedules, year, day, (id) => (skills.get(id)?.skill.questionCount ?? 0) > 0, [...skills.keys()]),
+    dailyTarget(data.course.schedules, year, day, (id) => (skills.get(id)?.skill.questionCount ?? 0) > 0, [...skills.keys()], data.course.calendars ?? []),
   );
 
   let served = $state<Served | null>(null);

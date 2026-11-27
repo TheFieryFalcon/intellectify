@@ -4,7 +4,7 @@
  * course outline and the WA school calendar), at the day's tier: Mon 1, Tue–Wed 2, Thu–Fri 3, Sat–Sun 4.
  * Picked deterministically from the date, so no server is needed.
  */
-import { dateOfDay, schoolPosition, tierOf, type Tier } from "@intellectify/engine";
+import { dateOfDay, schoolPositionIn, tierOf, type SchoolYear, type Tier } from "@intellectify/engine";
 import type { CourseSchedule } from "@intellectify/content";
 import type { QuestionT } from "./content";
 
@@ -29,7 +29,14 @@ export interface DailyTarget {
  * nearest earlier block that has questions. A year group with no outline yet revises everything that
  * has questions.
  */
-export function dailyTarget(schedules: CourseSchedule[], yearGroup: YearGroup, day: string, hasQuestions: (skill: string) => boolean, allSkills: string[]): DailyTarget | null {
+export function dailyTarget(
+  schedules: CourseSchedule[],
+  yearGroup: YearGroup,
+  day: string,
+  hasQuestions: (skill: string) => boolean,
+  allSkills: string[],
+  calendars: readonly SchoolYear[] = [],
+): DailyTarget | null {
   const date = dateOfDay(day);
   const own = schedules.filter((s) => s.yearGroup === yearGroup).sort((a, b) => b.year - a.year);
   const sched = own.find((s) => s.year <= date.getUTCFullYear()) ?? own[own.length - 1];
@@ -37,7 +44,7 @@ export function dailyTarget(schedules: CourseSchedule[], yearGroup: YearGroup, d
     const skills = allSkills.filter(hasQuestions);
     return skills.length ? { skills, name: "Everything so far", earlier: false } : null;
   }
-  const pos = schoolPosition(date);
+  const pos = schoolPositionIn(date, calendars);
   // Before Term 1 starts, the year group has just finished last year's outline.
   const order = !pos.inTerm && pos.term === 1 && pos.week === 1 ? 49 : pos.order;
   const started = sched.blocks.filter((b) => b.from <= order).sort((a, b) => b.from - a.from || b.to - a.to);

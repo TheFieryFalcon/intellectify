@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
-import { parseTermWeek, SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
+import { dateOfDay, parseTermWeek, SKILL_SIZE, terms as ruleTerms, tierOf, type SchoolYear, type SkillSize } from "@intellectify/engine";
 import { z } from "zod";
 import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
@@ -43,6 +43,8 @@ export interface CourseBundle {
   responseSkills: { id: string; name: string }[];
   /** When each year group learns each block of skills (SPEC §8.5), for the daily problem. */
   schedules: CourseSchedule[];
+  /** WA school years from content/calendar (SPEC §8.6): term dates and exam periods. */
+  calendars: SchoolYear[];
 }
 /** A course outline: blocks of skills by school week (12-slot order, from parseTermWeek). */
 export interface CourseSchedule {
@@ -50,6 +52,49 @@ export interface CourseSchedule {
   year: number;
   blocks: { from: number; to: number; name: string; skills: string[] }[];
 }
+const day = z.union([z.string(), z.date()]).transform((v, ctx) => {
+  const text = v instanceof Date ? v.toISOString().slice(0, 10) : v;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text) || Number.isNaN(Date.parse(text))) ctx.addIssue({ code: "custom", message: `"${text}" isn't a date (YYYY-MM-DD)` });
+  return text;
+});
+const CalendarFile = z.object({
+  year: z.number().int().min(2020),
+  terms: z.array(z.object({ term: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]), start: day, end: day })).length(4),
+  semesters: z.array(z.object({ semester: z.union([z.literal(1), z.literal(2)]), terms: z.array(z.number().int().min(1).max(4)).min(1) })).optional(),
+  exams: z.array(z.object({ name: z.string().min(1), start: day, end: day, yearGroups: z.array(z.number().int()).optional() })).optional(),
+});
+
+/** Calendar files (SPEC §8.6): dates in order, terms within their year, and a note where they differ from the WA rule. */
+export function loadCalendars(dir: string, errors: string[], warnings: string[]): SchoolYear[] {
+  const out: SchoolYear[] = [];
+  for (const file of existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".yaml")).sort() : []) {
+    const parsed = CalendarFile.safeParse(readYaml(join(dir, file)));
+    const where = `calendar/${file}`;
+    if (!parsed.success) {
+      errors.push(`${where}: ${parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+      continue;
+    }
+    const cal = parsed.data as SchoolYear;
+    if (file !== `${cal.year}.yaml`) errors.push(`${where}: year ${cal.year} belongs in ${cal.year}.yaml`);
+    const sorted = [...cal.terms].sort((a, b) => a.term - b.term);
+    if (sorted.some((t, i) => t.term !== i + 1)) errors.push(`${where}: needs Terms 1, 2, 3 and 4 once each`);
+    sorted.forEach((t, i) => {
+      const start = dateOfDay(t.start), end = dateOfDay(t.end);
+      if (start.getUTCFullYear() !== cal.year || end.getUTCFullYear() !== cal.year) errors.push(`${where}: Term ${t.term} isn't in ${cal.year}`);
+      if (end < start) errors.push(`${where}: Term ${t.term} ends before it starts`);
+      if ([0, 6].includes(start.getUTCDay()) || [0, 6].includes(end.getUTCDay())) errors.push(`${where}: Term ${t.term} starts or ends on a weekend`);
+      const next = sorted[i + 1];
+      if (next && dateOfDay(next.start) <= end) errors.push(`${where}: Term ${next.term} starts before Term ${t.term} ends`);
+    });
+    for (const e of cal.exams ?? []) if (e.end < e.start) errors.push(`${where}: ${e.name} ends before it starts`);
+    const rule = ruleTerms(cal.year);
+    const differ = sorted.filter((t, i) => rule[i] && dateOfDay(t.start).getTime() !== rule[i]!.start.getTime()).map((t) => t.term);
+    if (differ.length) warnings.push(`${where}: Term ${differ.join(", ")} starts differ from the WA rule (fine if the published dates say so)`);
+    out.push(cal);
+  }
+  return out;
+}
+
 const ScheduleFile = z.object({
   course: z.string(),
   yearGroup: z.number().int().min(7).max(12),
@@ -98,6 +143,7 @@ export function buildContent(contentDir: string): BuildResult {
   const wordsParsed = WordListsFile.safeParse(readYaml(join(contentDir, "words.yaml")));
   if (!wordsParsed.success) errors.push(`words.yaml: ${wordsParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
   const words: WordLists = wordsParsed.success ? wordsParsed.data : {};
+  const calendars = loadCalendars(join(contentDir, "calendar"), errors, warnings);
 
   const curriculumDir = join(contentDir, "curriculum");
   for (const courseId of readdirSync(curriculumDir)) {
@@ -315,6 +361,7 @@ export function buildContent(contentDir: string): BuildResult {
       versions: versions.map((v) => ({ year: v.year, id: v.id, effectiveFrom: v.source.effectiveFrom })),
       responseSkills,
       schedules,
+      calendars,
       units: versions
         .flatMap((v) => v.units)
         .sort((a, b) => a.number - b.number)
