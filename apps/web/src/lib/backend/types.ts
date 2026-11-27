@@ -14,6 +14,8 @@ export interface User {
   anonymous?: boolean;
   /** Signed in with Google: the name came from Google, so onboarding asks for one. */
   google?: boolean;
+  /** When the account was created (ms), shown on the profile page as "Joined". */
+  joined?: number;
 }
 
 /** A skill's stored state: the engine's state plus selection history. */
@@ -51,7 +53,10 @@ export const emptyProgress = (): CourseProgress => ({ skills: {}, responseSkills
 export interface Profile {
   /** Total XP, never decreasing. */
   xp: number;
-  /** When each question last earned XP (key: question ID), for the 30-day repeat rule. */
+  /**
+   * When each question last earned XP (key: question ID), for the 30-day repeat rule. One-off grants use
+   * keys here too: `tutorial:<course>:<skill>` (first read) and `post:<day>:<n>` (discussion posts, 3 a day).
+   */
   questionXpAt: Record<string, number>;
   /** Perth date (YYYY-MM-DD) of the last first-visit bonus. */
   lastVisitDay: string | null;
@@ -63,6 +68,8 @@ export interface Profile {
   stats: ActivityStats | null;
   /** The student has chosen their display name (sign-up form, onboarding or Settings). */
   nameSet?: boolean;
+  /** Phone keyboard Shift keys the student changed from the defaults (SPEC §7.2); null = Shift types the key. */
+  shiftKeys?: Record<string, string | null>;
 }
 
 /** A skill's rank and θ (null until resolved), as shown to other students. */
@@ -95,6 +102,8 @@ export interface PublicProfile {
   achievements: Record<string, { ids: string[]; points: number }>;
   courses: Record<string, PublicCourse>;
   updatedAt: number;
+  /** When the account was created (ms). */
+  joined?: number;
 }
 
 export interface DailyRecord {
@@ -165,6 +174,10 @@ export interface MarkingJob {
   result: MarkResult | null;
   /** The result has been applied to θ, ranks, XP and achievements. */
   applied: boolean;
+  /** What applying it did, shown under the mark like an auto-marked result (XP includes a daily bonus). */
+  effect?: { xp: number; outcome: number; theta: number; deltaTheta: number; rankBefore: number; rankAfter: number } | null;
+  /** Paste detector signals (SPEC §7.2): blocked outside pastes, bursts, seconds to answer. */
+  signals?: { blocked: number; bursts: number; seconds: number } | null;
   /** One appeal per marked answer (SPEC §10.3). */
   appeal: {
     argument: string;
@@ -201,6 +214,26 @@ export interface Post {
   parent: string | null;
 }
 
+/** An error report on a question or tutorial (SPEC §11.4). The owner confirms or dismisses it. */
+export interface Report {
+  id: string;
+  uid: string;
+  name: string;
+  course: string;
+  kind: "question" | "tutorial";
+  /** Question ID, or the skill ID for a tutorial. */
+  target: string;
+  /** The exact variant and words the student saw (questions only). */
+  variant: number | null;
+  words: Record<string, number> | null;
+  /** The question's highest tier (questions only), for Counterexample (D21). */
+  tier: number | null;
+  note: string;
+  at: number;
+  status: "open" | "confirmed" | "dismissed";
+}
+export type NewReport = Omit<Report, "id" | "uid" | "name" | "at" | "status">;
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -223,6 +256,8 @@ export interface Backend {
   loadProfile(uid: string): Promise<Profile>;
   /** Save the onboarding placement. */
   setPlacement(uid: string, placement: Placement): Promise<void>;
+  /** Save the student's phone keyboard Shift keys (only those changed from the defaults). */
+  saveShiftKeys(uid: string, keys: Record<string, string | null>): Promise<void>;
   /** Change the display name everywhere it's stored (account, profile, public mirror). */
   setDisplayName(user: User, name: string): Promise<void>;
   /** Add XP to the profile. */
@@ -244,6 +279,16 @@ export interface Backend {
   addPost(user: User, thread: Pick<ThreadSummary, "key" | "day" | "course" | "year" | "questionId">, body: string, parent: string | null, name: string): Promise<Post>;
   /** Delete one of your own posts. */
   deletePost(key: string, post: Post): Promise<void>;
+
+  /** Report an error in a question or tutorial (SPEC §11.4). */
+  addReport(user: User, report: NewReport): Promise<void>;
+  /** This student's confirmed reports in one course, for achievements and XP. */
+  confirmedReports(uid: string, course: string): Promise<Report[]>;
+  /** The owner's review page: true for the owner's account (or one with the `admin` claim). */
+  isAdmin(): Promise<boolean>;
+  /** Every report, newest first (admin only). */
+  listReports(): Promise<Report[]>;
+  setReportStatus(id: string, status: Report["status"]): Promise<void>;
 
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */

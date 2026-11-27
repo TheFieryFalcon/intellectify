@@ -1,7 +1,9 @@
 # Intersecting chords, secants and tangents (1.1.12, 1.1.13).
 
 - id: spec.geometry.chord-secant-lengths.intersecting-chords
+  title: "Intersecting Chords"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1050
   responseSkills: {calculation: 1040, reading: 1040}
   variants:
@@ -45,7 +47,9 @@
         return {"a": approx(t[1], 3)}
 
 - id: spec.geometry.chord-secant-lengths.tangent-secant
+  title: "Tangent and Secant from a Point"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1080
   responseSkills: {calculation: 1070, reading: 1070}
   variants:
@@ -87,7 +91,9 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.chord-secant-lengths.two-secants
+  title: "Two Secants from a Point"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1120
   responseSkills: {calculation: 1110, reading: 1100}
   variants:
@@ -143,7 +149,9 @@
             lo, hi = (mid, hi) if (f(lo) < 0) == (f(mid) < 0) else (lo, mid)
         return {"a": approx(near_far(lo)[1], 6)}
 - id: spec.geometry.chord-secant-lengths.which-equation
+  title: "Which Tangent–Secant Equation Is True"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1160
   responseSkills: {reading: 1150}
   stem: |
@@ -173,7 +181,9 @@
   solution: |
     The tangent–secant result measures every length from $M$: $MT^2 = MA \times MB$.
 - id: spec.geometry.chord-secant-lengths.secant-with-chord
+  title: "Tangent Length from a Secant and Chord"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1270
   responseSkills: {reading: 1270, calculation: 1260, reasoning: 1260}
   variants:
@@ -214,7 +224,9 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.chord-secant-lengths.chords-algebra
+  title: "Intersecting Chords with an Unknown"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1300
   responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
   variants:
@@ -254,7 +266,9 @@
         return {"a": solve(x * (x + k) - c * d, x)[0]}
 
 - id: spec.geometry.chord-secant-lengths.perpendicular-to-diameter
+  title: "Chord Perpendicular to a Diameter: Length"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1330
   responseSkills: {calculation: 1310, reasoning: 1320, synthesis: 1300}
   variants:
@@ -296,7 +310,9 @@
         return {"a": approx(t[1] - t[0])}
 
 - id: spec.geometry.chord-secant-lengths.find-chord-from-tangent
+  title: "Chord Length from a Tangent"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1370
   responseSkills: {reading: 1350, calculation: 1350, reasoning: 1360}
   variants:
@@ -357,7 +373,9 @@
         return {"a": approx(far - ma, 4)}
 
 - id: spec.geometry.chord-secant-lengths.point-inside
+  title: "Chord Through a Point Inside a Circle"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1440
   responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1420}
   variants:
@@ -406,7 +424,9 @@
         return {"a": approx(best[1], 3)}
 
 - id: spec.geometry.chord-secant-lengths.chords-two-solutions
+  title: "Crossing Chords with Two Answers"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1450
   responseSkills: {reading: 1420, calculation: 1440, reasoning: 1440}
   variants:
@@ -446,9 +466,12 @@
         return {"a": sorted(solve(a * (L - a) - c * d, a))}
 
 - id: spec.geometry.chord-secant-lengths.prove-intersecting-chords
+  title: "Proving the Intersecting Chords Theorem"
   skills: {primary: spec.geometry.chord-secant-lengths}
-  rating: 1480
-  responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
+  subsection: "Intersecting chords"
+  rating: 1380
+  bookwork: true
+  responseSkills: {reasoning: 1370, proof: 1370, clarity: 1300}
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. Prove that $AX \times XB = CX \times XD$.
 
@@ -477,7 +500,9 @@
   solution: |
     Join $AC$ and $BD$. $\angle CAB = \angle CDB$ (same arc $CB$) and $\angle AXC = \angle DXB$ (vertically opposite). So triangles $AXC$ and $DXB$ are similar, and $\dfrac{AX}{DX} = \dfrac{CX}{BX}$. Cross-multiplying: $AX \times XB = CX \times XD$.
 - id: spec.geometry.chord-secant-lengths.two-secants-algebra
+  title: "Two Secants with an Unknown"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1500
   responseSkills: {reading: 1470, calculation: 1480, reasoning: 1490}
   variants:
@@ -517,7 +542,9 @@
         return {"a": solve(x * (x + ab) - mc * (mc + cd), x)[0]}
 
 - id: spec.geometry.chord-secant-lengths.through-center
+  title: "Secant Through the Center"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1550
   responseSkills: {calculation: 1530, reasoning: 1540, synthesis: 1520}
   variants:
@@ -562,9 +589,12 @@
         return {"a": approx(dist(M, A)), "b": approx(dist(M, B)), "c": approx(dist(M, T))}
 
 - id: spec.geometry.chord-secant-lengths.prove-tangent-secant
+  title: "Proving the Tangent–Secant Theorem"
   skills: {primary: spec.geometry.chord-secant-lengths}
-  rating: 1600
-  responseSkills: {reasoning: 1590, proof: 1590, clarity: 1500}
+  subsection: "Tangent and secant"
+  rating: 1500
+  bookwork: true
+  responseSkills: {reasoning: 1490, proof: 1490, clarity: 1400}
   stem: |
     From an outside point $M$, a tangent touches a circle at $T$ and a secant cuts it at $A$ and $B$ ($A$ nearer $M$). Prove that $MT^2 = MA \times MB$.
 
@@ -592,7 +622,9 @@
   solution: |
     Join $TA$ and $TB$. By the alternate segment theorem, $\angle MTA = \angle TBA = \angle MBT$. The angle at $M$ is common. So triangles $MTA$ and $MBT$ are similar, and $\dfrac{MT}{MB} = \dfrac{MA}{MT}$, giving $MT^2 = MA \times MB$.
 - id: spec.geometry.chord-secant-lengths.tangent-radius
+  title: "Radius from a Tangent and Secant"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1610
   responseSkills: {calculation: 1590, reasoning: 1600, synthesis: 1580}
   variants:
@@ -637,7 +669,9 @@
         return {"a": approx(R, 6)}
 
 - id: spec.geometry.chord-secant-lengths.arch
+  title: "Radius of a Bridge Arch"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1640
   responseSkills: {calculation: 1580, reasoning: 1630, synthesis: 1630}
   variants:
@@ -686,7 +720,9 @@
         return {"a": nsimplify(sqrt(h ** 2 + kk ** 2))}
 
 - id: spec.geometry.chord-secant-lengths.perpendicular-chords-radius
+  title: "Perpendicular Chords and the Radius"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1680
   responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1670}
   variants:
@@ -737,7 +773,9 @@
         return {"a": nsimplify(ax * xb / cx), "b": sqrt((Q[0] + ax) ** 2 + Q[1] ** 2)}
 
 - id: spec.geometry.chord-secant-lengths.circle-through-square
+  title: "Circle Through Two Corners of a Square"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   variants:
@@ -777,7 +815,9 @@
         return {"a": solve((Rational(a, 2)) ** 2 + (a - R) ** 2 - R ** 2, R)[0]}
 
 - id: spec.geometry.chord-secant-lengths.radical-axis-bisects
+  title: "Common Chord Halves a Common Tangent"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1740
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1720}
   stem: |
@@ -809,7 +849,9 @@
   solution: |
     Let $PQ$ extended meet $AB$ at $N$. From $N$, line $NA$ is a tangent to the first circle and $NPQ$ is a secant, so $NA^2 = NP \times NQ$. Likewise $NB^2 = NP \times NQ$ for the second circle. So $NA^2 = NB^2$ and $NA = NB$: $N$ is the midpoint of $AB$.
 - id: spec.geometry.chord-secant-lengths.converse-concyclic
+  title: "Equal Products Put Four Points on a Circle"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
@@ -841,7 +883,9 @@
     From $AX \times XB = CX \times XD$, $\dfrac{AX}{CX} = \dfrac{XD}{XB}$. Also $\angle AXC = \angle DXB$ (vertically opposite), so triangles $AXC$ and $DXB$ are similar (two pairs of sides in the same ratio with the included angles equal). Hence $\angle CAX = \angle BDX$, i.e. $\angle CAB = \angle CDB$.
     Segment $BC$ subtends equal angles at $A$ and $D$, which are on the same side of $BC$. By the converse of angles on the same arc, $A$, $B$, $C$ and $D$ are concyclic.
 - id: spec.geometry.chord-secant-lengths.harmonic-quadrilateral
+  title: "Tangents, a Secant and Equal Products"
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1790
   responseSkills: {reasoning: 1790, proof: 1790, clarity: 1680, synthesis: 1780}
   stem: |

@@ -1,5 +1,5 @@
 /**
- * Verify every question's answer key against its SymPy `verify` code (docs/SPEC.md §11.3).
+ * Verify every question's answer key against its SymPy `verify` code (docs/SPEC.md §11.2).
  *   pnpm verify            (from the repo root; needs python3 with sympy and pyyaml)
  * SymPy's answer must pass the app's own checker against the question's key, for every variant.
  * Form rules are ignored here: this checks values; the build already checks that keys pass their form rules.
@@ -60,11 +60,11 @@ for (const line of lines) {
   const spec = { ...part.answer, form: undefined } as AnswerSpec;
   let given: string | string[];
   if (line.kind === "choice") given = String(line.value);
-  else if (line.kind === "list") given = spec.type === "vector" ? `\\left(${(line.value as string[]).join(",")}\\right)` : (line.value as string[]).join(",");
+  else if (line.kind === "list") given = spec.type === "vector" ? `\\left(${(line.value as string[]).join(",")}\\right)` : (line.value as string[]).join(spec.type === "features" ? "\n" : ",");
   else given = String(line.value);
   try {
     const verdict = checkAnswer(spec, given);
-    if (!verdict.correct) errors.push(`${where} part ${part.id}: SymPy says ${JSON.stringify(given)}, which doesn't match the key ${JSON.stringify(part.answer.key)} (${verdict.message})`);
+    if (!verdict.correct) errors.push(`${where} part ${part.id}: SymPy says ${JSON.stringify(given)}, which doesn't match the key ${JSON.stringify("key" in part.answer ? part.answer.key : part.answer.features.map((f) => f.key))} (${verdict.message})`);
   } catch (err) {
     errors.push(`${where} part ${part.id}: couldn't compare (${(err as Error).message})`);
   }
@@ -82,7 +82,7 @@ for (const q of byId.values()) {
   for (const v of variants) for (const p of autoParts) if (!covered.get(v)?.has(p)) errors.push(`${v}: verify didn't return part ${p}`);
 }
 
-// Every computed answer must be machine-checked (SPEC §11.3).
+// Every computed answer must be machine-checked (SPEC §11.2).
 for (const id of missing) errors.push(`${id}: computed answers need verify code`);
 if (errors.length) {
   errors.forEach((e) => console.error(`error: ${e}`));

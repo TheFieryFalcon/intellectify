@@ -1,7 +1,9 @@
 # Proof methods: more written proofs (1.1.4, 1.1.5).
 
 - id: spec.geometry.proof-methods.three-consecutive-sum
+  title: "Sum of Three Consecutive Integers"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Direct proof"
   rating: 1300
   responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
   stem: |
@@ -17,7 +19,9 @@
     Let the integers be $n - 1$, $n$, $n + 1$. Their sum is $3n$, a multiple of 3.
 
 - id: spec.geometry.proof-methods.consecutive-squares-odd
+  title: "Difference of Consecutive Squares Is Odd"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Direct proof"
   rating: 1350
   responseSkills: { reasoning: 1340, proof: 1340, clarity: 1300 }
   stem: |
@@ -34,7 +38,9 @@
     Let the integers be $n$ and $n + 1$. Then $(n + 1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$, which is odd.
 
 - id: spec.geometry.proof-methods.irrational-sum-counterexample
+  title: "Can Two Irrationals Add to a Rational?"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Counterexamples"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -51,7 +57,9 @@
     $\sqrt{2}$ is irrational, and so is $-\sqrt{2}$ (if $-\sqrt{2} = r$ were rational, then $\sqrt{2} = -r$ would be rational). Their sum is $0$, which is rational. So the claim is false.
 
 - id: spec.geometry.proof-methods.seven-n-plus-4
+  title: "When 7n + 4 Is Even"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contrapositive"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -72,7 +80,9 @@
     Both directions hold.
 
 - id: spec.geometry.proof-methods.three-consecutive-product
+  title: "Product of Three Consecutive Integers"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by cases"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550 }
   stem: |
@@ -89,7 +99,9 @@
     Let the integers be $n$, $n + 1$, $n + 2$. One of $n$, $n + 1$ is even, so the product is a multiple of 2. The three integers leave different remainders on division by 3, so one of them leaves remainder 0, and the product is a multiple of 3. A number that is a multiple of both 2 and 3 is a multiple of 6.
 
 - id: spec.geometry.proof-methods.square-not-4k-plus-3
+  title: "Squares Never Leave Remainder 3 on Division by 4"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by cases"
   rating: 1620
   responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
   stem: |
@@ -107,7 +119,9 @@
     Every integer is even or odd. If $x = 2k$, then $x^2 = 4k^2$ leaves remainder 0 on division by 4. If $x = 2k + 1$, then $x^2 = 4k^2 + 4k + 1 = 4(k^2 + k) + 1$ leaves remainder 1. So a square leaves remainder 0 or 1, never 3.
 
 - id: spec.geometry.proof-methods.rational-times-irrational
+  title: "Rational Times Irrational"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1650
   responseSkills: { reasoning: 1640, proof: 1640, clarity: 1600 }
   stem: |
@@ -125,7 +139,9 @@
     Suppose, for contradiction, that $ab = r$ is rational. Since $a \ne 0$, $b = \dfrac{r}{a}$. With $r = \tfrac{p}{q}$ and $a = \tfrac{s}{t}$ ($s \ne 0$), $b = \dfrac{pt}{qs}$ is rational, contradicting $b$ irrational. So $ab$ is irrational.
 
 - id: spec.geometry.proof-methods.n5-minus-n
+  title: "n⁵ − n Is a Multiple of 5"
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by cases"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750 }
   stem: |

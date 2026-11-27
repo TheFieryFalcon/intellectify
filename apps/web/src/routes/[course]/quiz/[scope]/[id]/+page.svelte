@@ -1,5 +1,8 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import TutorialButton from "$lib/components/TutorialButton.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   const MODE = "quiz" as const;
   /** Section quiz (8) and unit quiz (15): a fixed tier mix across the skills (SPEC §8.2, §8.3). */
   import { page } from "$app/state";
@@ -12,7 +15,7 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
   import { loadSectionReviews, loadUnitReviews, loadWords } from "$lib/content";
-  import { getStartTier, stateOrNew, type PartResult, type Served } from "$lib/practice";
+  import { getStartTier, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
   import { recordResult } from "$lib/record";
   import { buildQuiz, bySkill, QUIZ_MIX } from "$lib/review";
@@ -53,6 +56,8 @@
   );
   const pending = $derived(settled.filter((r) => r.outcome === null).length);
   let xp = $state(0);
+  /** The last auto-marked result, for its result row. */
+  let last = $state<{ summary: ResultSummary; xp: number } | null>(null);
   let before: Record<string, StoredSkillState | undefined> = {};
   let done = $state(false);
 
@@ -77,6 +82,7 @@
     const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements, mode: MODE });
     results = [...results, { skill: current.question.skills.primary, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }];
     xp += r.xp;
+    last = r;
     resolved = true;
   }
 
@@ -162,7 +168,7 @@
       <span class="num">{index + 1} / {quiz.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * (index + (resolved ? 1 : 0))) / quiz.length}%"></span></div>
-    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
+    <div class="share-row"><span class="tools"><TutorialButton course={data.course} skill={current.question.skills.primary} /><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /><ReportButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></span></div>
     {#key index}
       {#if isRubricMarked(current.question)}
         <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
@@ -171,13 +177,14 @@
       {/if}
     {/key}
     {#if resolved}
-      {@const last = results.at(-1)!}
-      {@const job = last.jobId && marking ? marking.job(last.jobId) : null}
+      {@const lastResult = last}
+      {@const done = results.at(-1)!}
+      {@const job = done.jobId && marking ? marking.job(done.jobId) : null}
       <section class="card after">
         {#if job && marking}
           <MarkView {job} queue={marking} />
         {:else}
-          <p class:good={(last.outcome ?? 0) > 0.6} class:bad={(last.outcome ?? 0) <= 0.6} class="verdict">{(last.outcome ?? 0) > 0.6 ? "Correct" : "Not this time"}</p>
+          {#if lastResult}<ResultRow outcome={lastResult.summary.outcome} theta={lastResult.summary.primary.after.theta} deltaTheta={lastResult.summary.primary.deltaTheta} rankBefore={lastResult.summary.primary.rankBefore} rankAfter={lastResult.summary.primary.rankAfter} xp={lastResult.xp} />{/if}
         {/if}
         <h2>Solution</h2>
         <Markdown text={current.question.solution} />
@@ -198,9 +205,6 @@
   .after { margin-top: 16px; }
   h1 { font-size: 22px; margin: 0 0 14px; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 14px 0 8px; }
-  .verdict { margin: 0; font-weight: 600; }
-  .good { color: var(--good); }
-  .bad { color: var(--bad); }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
   .stats div { display: flex; flex-direction: column; gap: 2px; }
   .k { font-size: 11px; color: var(--muted); }

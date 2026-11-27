@@ -1,7 +1,9 @@
 # Logic: written explanations and proofs (1.1.1–1.1.4).
 
 - id: spec.geometry.logic.square-converse-rhombus
+  title: "Converse of a Statement About Squares"
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1260
   responseSkills: { reasoning: 1250, clarity: 1210, precision: 1210 }
   stem: |
@@ -18,7 +20,9 @@
     Converse: "If a quadrilateral has four equal sides, then it is a square." It is false: a rhombus with angles $60^\circ$ and $120^\circ$ has four equal sides but is not a square.
 
 - id: spec.geometry.logic.contrapositive-x-squared
+  title: "Contrapositive of \"If x > 3, then x² > 9\""
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1280
   responseSkills: { reasoning: 1270, clarity: 1230, precision: 1230 }
   stem: |
@@ -36,7 +40,9 @@
     It is true. Directly: $x^2 \le 9$ means $-3 \le x \le 3$, so $x \le 3$. (Equally, the original is true, since $x > 3$ gives $x^2 > 3x > 9$, and a statement and its contrapositive are always both true or both false.)
 
 - id: spec.geometry.logic.square-at-least-x
+  title: "Is x² Always at Least x?"
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1300
   responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
   stem: |
@@ -53,7 +59,9 @@
     False. Take $x = \tfrac{1}{2}$: $x^2 = \tfrac{1}{4} < \tfrac{1}{2} = x$. One counterexample is enough to disprove a "for all" statement.
 
 - id: spec.geometry.logic.no-square-negative
+  title: "No Real Number Squares to −1"
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1320
   responseSkills: { reasoning: 1310, proof: 1310, clarity: 1270, precision: 1270 }
   stem: |
@@ -70,7 +78,9 @@
     To show "there is an $x$ with $x^2 = -1$" is false, we show its negation, "for every real $x$, $x^2 \ne -1$". If $x \ge 0$ then $x^2 = x \cdot x \ge 0$; if $x < 0$ then $x^2$ is a product of two negatives, so $x^2 > 0$. Either way $x^2 \ge 0 > -1$. So no real number squares to $-1$.
 
 - id: spec.geometry.logic.prime-odd-fix
+  title: "Fixing \"Every Prime Is Odd\""
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1350
   responseSkills: { reasoning: 1340, clarity: 1300, precision: 1300 }
   stem: |
@@ -89,7 +99,9 @@
     True version: "If $n$ is a prime greater than 2, then $n$ is odd." An even number greater than 2 is divisible by 2 and by itself, so it is not prime; hence a prime greater than 2 must be odd.
 
 - id: spec.geometry.logic.abs-less-3-iff
+  title: "|x| < 3 if and Only if x² < 9"
   skills: { primary: spec.geometry.logic }
+  subsection: "If and only if"
   rating: 1380
   responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
   stem: |
@@ -112,7 +124,9 @@
     Hence $|x| < 3 \Leftrightarrow x^2 < 9$.
 
 - id: spec.geometry.logic.negate-every-student
+  title: "Negating \"Every Student Passed a Test\""
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1400
   responseSkills: { reasoning: 1390, clarity: 1350, precision: 1350 }
   stem: |
@@ -131,7 +145,9 @@
     To show the original statement is false, it is enough to find one student who failed every test.
 
 - id: spec.geometry.logic.de-morgan-cases
+  title: "\"Not Both\" Means \"At Least One Is Not\""
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -156,7 +172,9 @@
     The last two columns agree in every case, so the two statements are always both true or both false.
 
 - id: spec.geometry.logic.contrapositive-same-truth
+  title: "Why a Statement and Its Contrapositive Agree"
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1440
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
   stem: |
@@ -178,7 +196,9 @@
     That is the same situation, so the two statements are false together and true together.
 
 - id: spec.geometry.logic.n-squared-n-1-claim
+  title: "Checking a Few Cases Isn't a Proof"
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -195,7 +215,9 @@
     Checking a few cases can't prove a statement about every whole number. In fact the claim is false: $n = 1, 2, 3$ give $3, 7, 13$, but $n = 4$ gives $21 = 3 \times 7$, which is not prime.
 
 - id: spec.geometry.logic.quantifier-order
+  title: "Swapping \"For All\" and \"There Exists\""
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1480
   responseSkills: { reasoning: 1470, clarity: 1430, precision: 1430 }
   stem: |
@@ -220,7 +242,9 @@
     The order of the quantifiers changes the meaning.
 
 - id: spec.geometry.logic.not-every-rectangle
+  title: "Not Every Rectangle Is a Square"
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1500
   responseSkills: { reasoning: 1490, clarity: 1450, precision: 1450 }
   stem: |
@@ -236,7 +260,9 @@
     "Not every rectangle is a square" means "there exists a rectangle that is not a square". It is true: a $1 \times 2$ rectangle has four right angles but sides of different lengths, so it is not a square.
 
 - id: spec.geometry.logic.rational-plus-irrational
+  title: "Rational Plus Irrational"
   skills: { primary: spec.geometry.logic, secondary: [spec.geometry.proof-methods] }
+  subsection: "Implication, converse and contrapositive"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510, synthesis: 1540 }
   stem: |
@@ -254,7 +280,9 @@
     Suppose, for contradiction, that $x + y = r$ is rational. Then $y = r - x$. Writing $r = \tfrac{a}{b}$ and $x = \tfrac{c}{d}$ with integers $a, b, c, d$ ($b, d \ne 0$), $y = \tfrac{ad - bc}{bd}$ is rational. This contradicts $y$ being irrational, so $x + y$ is irrational.
 
 - id: spec.geometry.logic.product-even-contrapositive
+  title: "Even Product, Even Factor"
   skills: { primary: spec.geometry.logic, secondary: [spec.geometry.proof-methods] }
+  subsection: "Implication, converse and contrapositive"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550, precision: 1550, synthesis: 1580 }
   stem: |
@@ -273,7 +301,9 @@
     Let $a = 2m + 1$, $b = 2n + 1$. Then $ab = 4mn + 2m + 2n + 1 = 2(2mn + m + n) + 1$, which is odd. The contrapositive is true, so the original statement is true.
 
 - id: spec.geometry.logic.squares-order
+  title: "When Does a > b Give a² > b²?"
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1650
   responseSkills: { reasoning: 1640, proof: 1640, clarity: 1600 }
   stem: |
@@ -293,7 +323,9 @@
     Now suppose $a > b \ge 0$. Then $a^2 - b^2 = (a - b)(a + b)$. Here $a - b > 0$, and $a + b > 0$ because $a > 0$ and $b \ge 0$. So $a^2 - b^2 > 0$, i.e. $a^2 > b^2$.
 
 - id: spec.geometry.logic.chain-implications
+  title: "Chaining Implications"
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1720
   responseSkills: { reasoning: 1710, clarity: 1670 }
   stem: |
@@ -312,7 +344,9 @@
     Example, for a whole number $n$: $P$: "$n = 4$", $Q$: "$n$ is even", $R$: "$n^2$ is even". Then $P \Rightarrow Q$ and $Q \Rightarrow R$ are true, but $R \Rightarrow P$ is false: $n = 2$ has $n^2$ even and $n \ne 4$.
 
 - id: spec.geometry.logic.quadratic-between
+  title: "A Quadratic Inequality, Both Directions"
   skills: { primary: spec.geometry.logic }
+  subsection: "If and only if"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750 }
   stem: |

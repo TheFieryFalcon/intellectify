@@ -13,6 +13,8 @@ export interface QuestionIndexEntry {
   /** Primary skill, and every tagged skill. */
   skill: string;
   skills: string[];
+  /** The point within the primary skill, in words (SPEC §3). */
+  subsection: string;
   section: string;
   unit: number;
   year: number;
@@ -33,9 +35,9 @@ export interface QuestionIndexEntry {
   source: string;
 }
 
-/** "pair-together" → "Pair together"; a question's own `title` wins. */
+/** A question's `title` (every question has one; the build checks), else its id in title case. */
 export const questionTitle = (q: Pick<QuestionT, "id"> & { title?: string }) =>
-  q.title ?? q.id.split(".").pop()!.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
+  q.title ?? q.id.split(".").pop()!.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
 export function buildQuestionIndex(
   course: CourseBundle,
@@ -52,6 +54,7 @@ export function buildQuestionIndex(
       title: questionTitle(q),
       skill: q.skills.primary,
       skills: [q.skills.primary, ...q.skills.secondary],
+      subsection: q.subsection ?? "",
       ...at,
       rating: q.rating,
       tier: tierOf(q.rating),

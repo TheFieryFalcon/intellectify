@@ -1,9 +1,11 @@
 # Section Challenge: Vectors in the plane (1.3). A fixed sequence, green → yellow → red → black (SPEC §8.4).
 
 - id: spec.vectors-2d.ch.matrix-times-vector
+  title: "A Matrix Acting on a Vector"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1570
   responseSkills: { reading: 1560, calculation: 1540 }
   stem: |
@@ -21,8 +23,10 @@
         return {"a": list(M * sympy.Matrix([4, -2]))}
 
 - id: spec.vectors-2d.ch.quarter-turn
+  title: "Turning a Vector Through 90°"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.components] }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1600
   responseSkills: { reading: 1580, calculation: 1570, reasoning: 1590, synthesis: 1580 }
   stem: |
@@ -38,8 +42,10 @@
         return {"a": list(R * sympy.Matrix([3, 4]))}
 
 - id: spec.vectors-2d.ch.sum-equals-difference
+  title: "Equal Sum and Difference Lengths"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1630
   responseSkills: { reasoning: 1620, calculation: 1600 }
   stem: |
@@ -56,8 +62,10 @@
         return {"a": sympy.simplify(lhs / 4 - (a1 * b1 + a2 * b2))}
 
 - id: spec.vectors-2d.ch.distance-to-line
+  title: "Distance from a Point to a Line"
   pool: challenge
   skills: { primary: spec.vectors-2d.projection, secondary: [spec.vectors-2d.geometric] }
+  subsection: "Distance to a line"
   rating: 1660
   responseSkills: { reading: 1640, calculation: 1640, reasoning: 1650, synthesis: 1640 }
   stem: |
@@ -74,8 +82,10 @@
         return {"a": sympy.sqrt(ap.dot(ap) - proj**2)}
 
 - id: spec.vectors-2d.ch.forces-5-8-7
+  title: "Angle Between Two Forces from the Resultant"
   pool: challenge
   skills: { primary: spec.vectors-2d.applications, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Forces, equilibrium and work"
   rating: 1690
   responseSkills: { reading: 1670, calculation: 1670, reasoning: 1680, synthesis: 1670 }
   stem: |
@@ -91,8 +101,10 @@
         return {"a": sympy.deg(sympy.acos(c))}
 
 - id: spec.vectors-2d.ch.two-a-minus-three-b
+  title: "Length of a Combination of Unit Vectors"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1720
   responseSkills: { calculation: 1700, reasoning: 1710 }
   stem: |
@@ -107,8 +119,10 @@
         return {"a": sympy.sqrt(4 - 12 * sympy.Rational(1, 2) + 9)}
 
 - id: spec.vectors-2d.ch.unit-sum-root3
+  title: "Angle Between Unit Vectors from Their Sum"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1750
   responseSkills: { calculation: 1730, reasoning: 1740 }
   stem: |
@@ -123,9 +137,11 @@
         return {"a": sympy.deg(sympy.acos(sympy.Rational(3 - 2, 2)))}
 
 - id: spec.vectors-2d.ch.rotation-matrix-proof
+  title: "A Matrix That Turns Vectors Through 90°"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Setting up a vector proof"
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1760, clarity: 1720, synthesis: 1750 }
   stem: |
@@ -145,31 +161,41 @@
 
     Its dot product with $\begin{pmatrix} x \\ y \end{pmatrix}$ is $-yx + xy = 0$, so it is perpendicular to the original vector. Its length is $\sqrt{(-y)^2 + x^2} = \sqrt{x^2 + y^2}$, the same as the original.
 
-- id: spec.vectors-2d.ch.semicircle-by-vectors
+- id: spec.vectors-2d.ch.centroid-squares
+  title: "Distances to the Meeting Point of the Medians"
   pool: challenge
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Triangles and circles"
   rating: 1810
-  responseSkills: { reasoning: 1800, proof: 1790, clarity: 1750, synthesis: 1780 }
+  responseSkills: { reasoning: 1790, proof: 1780, clarity: 1740, synthesis: 1790 }
   stem: |
-    $AB$ is a diameter of a circle with center $O$, and $C$ is any other point on the circle. Use vectors to prove that $\angle ACB = 90^\circ$.
+    In triangle $ABC$, the three lines from each corner to the midpoint of the opposite side meet at $G$, the point with position vector $\tfrac{1}{3}(\mathbf{a} + \mathbf{b} + \mathbf{c})$, where $\mathbf{a}$, $\mathbf{b}$, $\mathbf{c}$ are the position vectors of $A$, $B$, $C$. Use vectors to prove that
+    $$GA^2 + GB^2 + GC^2 = \tfrac{1}{3}\left(AB^2 + BC^2 + CA^2\right).$$
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Lets OA = a, so OB = −a, and OC = c with |c| = |a| (radii)", points: 1, dimension: proof }
-          - { id: sides, description: "CA = a − c and CB = −a − c", points: 1, dimension: reasoning }
-          - { id: dot, description: "CA · CB = −|a|² + |c|² = 0", points: 2, dimension: reasoning }
+          - { id: setup, description: "Takes vectors from G: u = GA, v = GB, w = GC, and shows u + v + w = 0", points: 1, dimension: proof }
+          - { id: sides, description: "AB² = |v − u|² = |u|² + |v|² − 2u·v, and likewise for BC² and CA²", points: 1, dimension: reasoning }
+          - { id: sum, description: "AB² + BC² + CA² = 2(|u|² + |v|² + |w|²) − 2(u·v + v·w + w·u)", points: 1, dimension: reasoning }
+          - { id: zero, description: "Squares u + v + w = 0 to get u·v + v·w + w·u = −½(|u|² + |v|² + |w|²)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So AB² + BC² + CA² = 3(GA² + GB² + GC²)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    Let $\overrightarrow{OA} = \mathbf{a}$. Then $\overrightarrow{OB} = -\mathbf{a}$, and let $\overrightarrow{OC} = \mathbf{c}$, where $|\mathbf{c}| = |\mathbf{a}|$ (radii).
+    Let $\mathbf{u} = \overrightarrow{GA}$, $\mathbf{v} = \overrightarrow{GB}$ and $\mathbf{w} = \overrightarrow{GC}$, with $\mathbf{g} = \tfrac{1}{3}(\mathbf{a} + \mathbf{b} + \mathbf{c})$. Then
+    $$\mathbf{u} + \mathbf{v} + \mathbf{w} = (\mathbf{a} + \mathbf{b} + \mathbf{c}) - 3\mathbf{g} = \mathbf{0}.$$
 
-    $\overrightarrow{CA} = \mathbf{a} - \mathbf{c}$ and $\overrightarrow{CB} = -\mathbf{a} - \mathbf{c}$, so
-    $$\overrightarrow{CA} \cdot \overrightarrow{CB} = -|\mathbf{a}|^2 - \mathbf{a} \cdot \mathbf{c} + \mathbf{c} \cdot \mathbf{a} + |\mathbf{c}|^2 = |\mathbf{c}|^2 - |\mathbf{a}|^2 = 0.$$
-    So $CA \perp CB$, and $\angle ACB = 90^\circ$.
+    $\overrightarrow{AB} = \mathbf{v} - \mathbf{u}$, so $AB^2 = |\mathbf{v} - \mathbf{u}|^2 = |\mathbf{u}|^2 + |\mathbf{v}|^2 - 2\,\mathbf{u}\cdot\mathbf{v}$. Doing the same for $BC$ and $CA$ and adding,
+    $$AB^2 + BC^2 + CA^2 = 2\left(|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2\right) - 2\left(\mathbf{u}\cdot\mathbf{v} + \mathbf{v}\cdot\mathbf{w} + \mathbf{w}\cdot\mathbf{u}\right).$$
+
+    Squaring $\mathbf{u} + \mathbf{v} + \mathbf{w} = \mathbf{0}$: $|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2 + 2\left(\mathbf{u}\cdot\mathbf{v} + \mathbf{v}\cdot\mathbf{w} + \mathbf{w}\cdot\mathbf{u}\right) = 0$, so the second bracket is $-\tfrac{1}{2}\left(|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2\right)$. Substituting,
+    $$AB^2 + BC^2 + CA^2 = 3\left(|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2\right) = 3\left(GA^2 + GB^2 + GC^2\right).$$
 
 - id: spec.vectors-2d.ch.closest-approach-3
+  title: "Closest Approach of Two Ships"
   pool: challenge
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Collision and closest approach"
   rating: 1840
   responseSkills: { reading: 1830, calculation: 1820, reasoning: 1830 }
   stem: |
@@ -187,8 +213,10 @@
         return {"a": sympy.sqrt(d2.subs(t, tm))}
 
 - id: spec.vectors-2d.ch.max-3x-4y
+  title: "Largest Value of 3x + 4y on a Circle"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.components] }
+  subsection: "Magnitudes and the scalar product"
   rating: 1870
   responseSkills: { reasoning: 1860, calculation: 1840, synthesis: 1850 }
   stem: |
@@ -205,8 +233,10 @@
         return {"a": sympy.maximum(f, t, sympy.Interval(0, 2 * sympy.pi))}
 
 - id: spec.vectors-2d.ch.dot-forces-equality
+  title: "A Vector from Its Length and a Scalar Product"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1880
   responseSkills: { reasoning: 1870, calculation: 1850 }
   stem: |
@@ -223,9 +253,11 @@
         return {"a": [s[0][x], s[0][y]]}
 
 - id: spec.vectors-2d.ch.triangle-area-determinant
+  title: "Area of a Triangle from Its Vectors"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.vectors-2d.components, secondary: [spec.vectors-2d.geometric] }
+  subsection: "Notation and arithmetic"
   rating: 1890
   responseSkills: { reading: 1880, calculation: 1870, reasoning: 1880, synthesis: 1870 }
   stem: |
@@ -240,8 +272,10 @@
         return {"a": sympy.Rational(abs(4 * 5 - 1 * 1), 2)}
 
 - id: spec.vectors-2d.ch.altitudes-concurrent
+  title: "The Three Altitudes Meet by Vectors"
   pool: challenge
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Triangles and circles"
   rating: 1920
   responseSkills: { reasoning: 1910, proof: 1910, clarity: 1860, synthesis: 1900 }
   stem: |
@@ -263,8 +297,10 @@
     i.e. $(\mathbf{h} - \mathbf{c}) \cdot (\mathbf{b} - \mathbf{a}) = 0$. So $CH \perp AB$, and $H$ lies on the third altitude too.
 
 - id: spec.vectors-2d.ch.dot-bound
+  title: "Scalar Product at Most the Product of Lengths"
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.proofs] }
+  subsection: "Magnitudes and the scalar product"
   rating: 1975
   responseSkills: { reasoning: 1960, proof: 1960, clarity: 1910, synthesis: 1950 }
   stem: |

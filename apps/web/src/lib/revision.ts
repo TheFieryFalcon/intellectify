@@ -4,8 +4,15 @@
  * Questions come from the question index, so every pool (practice, quizzes, Challenges) is in play.
  */
 import type { QuestionIndexEntry } from "./content";
+import { parseSubKey, subKey } from "./subsections";
 
-export type Scope = { kind: "course" } | { kind: "unit"; unit: number } | { kind: "section"; id: string } | { kind: "skill"; id: string };
+export type Scope =
+  | { kind: "course" }
+  | { kind: "unit"; unit: number }
+  | { kind: "section"; id: string }
+  | { kind: "skill"; id: string }
+  /** One subsection of a skill (SPEC §3). */
+  | { kind: "subsection"; skill: string; name: string };
 export type ExamLevel = "easy" | "hard";
 export const EXAM_TIERS: Record<ExamLevel, [number, number]> = { easy: [2, 3], hard: [3, 4] };
 
@@ -26,9 +33,12 @@ export function parseScope(s: string | null): Scope {
   const [k, v = ""] = (s ?? "").split(/:(.*)/s);
   if (k === "unit" && Number(v)) return { kind: "unit", unit: Number(v) };
   if ((k === "section" || k === "skill") && v) return { kind: k, id: v };
+  const sub = k === "sub" ? parseSubKey(v) : null;
+  if (sub) return { kind: "subsection", ...sub };
   return { kind: "course" };
 }
-export const scopeKey = (s: Scope) => (s.kind === "course" ? "course" : s.kind === "unit" ? `unit:${s.unit}` : `${s.kind}:${s.id}`);
+export const scopeKey = (s: Scope) =>
+  s.kind === "course" ? "course" : s.kind === "unit" ? `unit:${s.unit}` : s.kind === "subsection" ? `sub:${subKey(s.skill, s.name)}` : `${s.kind}:${s.id}`;
 
 export function specFromParams(p: URLSearchParams): RevisionSpec {
   const list = (k: string) => (p.get(k) ?? "").split(",").filter(Boolean);
@@ -60,6 +70,7 @@ export function inScope(e: QuestionIndexEntry, s: Scope): boolean {
   if (s.kind === "unit") return e.unit === s.unit;
   if (s.kind === "section") return e.section === s.id;
   if (s.kind === "skill") return e.skills.includes(s.id);
+  if (s.kind === "subsection") return e.skill === s.skill && e.subsection === s.name;
   return true;
 }
 

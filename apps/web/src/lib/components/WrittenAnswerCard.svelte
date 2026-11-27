@@ -2,12 +2,19 @@
   import { checkGate, gateReady } from "$lib/gate.svelte";
   /**
    * A free-response question (SPEC §6.3): one written answer per rubric part, one submission.
-   * Mathematics goes between $…$; the preview renders it as the marker will read it.
+   * Answers are edited as they read, with maths inline (MathTextEditor), and stored with maths between $…$.
    */
   import { tierOf } from "@intellectify/engine";
   import { MAX_ANSWER } from "@intellectify/content/marking";
   import type { QuestionT } from "$lib/content";
   import Markdown from "./Markdown.svelte";
+  import MathKeypad from "./MathKeypad.svelte";
+  import MathTextEditor from "./MathTextEditor.svelte";
+  import { handOffSignals, newSignals, provideSignals } from "$lib/paste";
+  import InkPad from "./InkPad.svelte";
+  import { stylusOn } from "$lib/ink";
+  import type { Key } from "$lib/keypad";
+  import { isTouch } from "$lib/mathlive";
   import PaperFirst from "./PaperFirst.svelte";
   import PaperTip from "./PaperTip.svelte";
   import { MAX_IMAGES, shrinkPhoto, transcribePhotos } from "$lib/photo";
@@ -19,7 +26,6 @@
   const tier = $derived(tierOf(question.rating));
   const points = $derived(parts.reduce((a, p) => a + p.rubric!.criteria.reduce((b, c) => b + c.points, 0), 0));
   let answers = $state<Record<string, string>>({});
-  let preview = $state(false);
   /**
    * Photo answers (SPEC §10.5), per part: a tray of pages (camera shots or uploads, in order), read
    * together into text for the student to check. Photos stay on the device until read, then are dropped.
@@ -55,7 +61,6 @@
       answers[partId] = before ? `${before}\n\n${text}` : text;
       fromPhoto[partId] = true;
       photos[partId] = [];
-      preview = false;
     } catch (err) {
       photoError[partId] = (err as Error).message;
     } finally {
@@ -63,13 +68,32 @@
     }
   }
 
+  /** The keypad types into the answer last used (computers; phones use the maths keyboard). */
+  const touch = isTouch();
+  let editors = $state<Record<string, MathTextEditor | undefined>>({});
+  let activePart = $state<string | null>(null);
+  const target = () => editors[activePart && editors[activePart] ? activePart : (parts[0]?.id ?? "")];
+  const press = (key: Key) => target()?.insert(key);
+  const over = $derived(parts.some((p) => (answers[p.id] ?? "").length > MAX_ANSWER));
+
   let sending = $state(false);
+  /** Handwriting (SPEC §7.2): the pad's maths goes into the part it was opened from. */
+  let pad = $state<InkPad>();
+  let inkPart = $state<string | null>(null);
+  const writeIn = (partId: string) => {
+    inkPart = partId;
+    pad?.open();
+  };
+  /** Paste detector signals for this answer (SPEC §7.2), shared with its editors. */
+  const signals = newSignals();
+  provideSignals(signals);
   const ready = $derived(parts.every((p) => (answers[p.id] ?? "").trim().length > 0));
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
     if (!ready || sending || submitted) return;
     sending = true;
+    handOffSignals(signals);
     await onsubmit(Object.fromEntries(parts.map((p) => [p.id, answers[p.id]!.trim()])));
     sending = false;
   }
@@ -102,19 +126,19 @@
         {#if parts.length > 1}<span class="part-id">({p.id})</span>{/if}
         <div class="part-body">
           {#if p.prompt}<Markdown text={p.prompt} />{/if}
-          {#if preview || submitted}
+          {#if submitted}
             <div class="preview" aria-live="polite">
               {#if (answers[p.id] ?? "").trim()}<Markdown text={answers[p.id]!} glossary={false} />{:else}<p class="muted">—</p>{/if}
             </div>
           {:else}
-            <textarea
+            <MathTextEditor
+              bind:this={editors[p.id]}
               bind:value={answers[p.id]}
-              rows="8"
-              maxlength={MAX_ANSWER}
-              placeholder="Your working. Maths between $ signs, e.g. $N = 7k$"
-              aria-label="Answer{parts.length > 1 ? ` to part ${p.id}` : ''}"
               disabled={sending}
-            ></textarea>
+              label="Answer{parts.length > 1 ? ` to part ${p.id}` : ''}"
+              placeholder="Your working. Use the keypad or type $ for maths"
+              onfocus={() => (activePart = p.id)}
+            />
             {#if photos[p.id]?.length}
               <div class="tray">
                 {#each photos[p.id] as img, i (img)}
@@ -130,6 +154,16 @@
               </div>
             {/if}
             <div class="under">
+              <button type="button" class="photo btn link" disabled={sending} onpointerdown={(e) => e.preventDefault()} onclick={() => editors[p.id]?.addMath()}>
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 9 H4.5 L6.8 13.5 L10 2.5 H14" /></svg>
+                Maths
+              </button>
+              {#if stylusOn()}
+                <button type="button" class="photo btn link" disabled={sending} onclick={() => writeIn(p.id)}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 L3.6 10.4 L10.8 3.2 L12.8 5.2 L5.6 12.4 Z M9.6 4.4 L11.6 6.4" /></svg>
+                  Handwrite
+                </button>
+              {/if}
               <label class="photo btn link">
                 <input type="file" accept="image/*" capture="environment" disabled={reading[p.id] || sending} onchange={(e) => addPhotos(p.id, e)} />
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5.5 H4.6 L5.8 3.8 H10.2 L11.4 5.5 H14 V12.6 H2 Z" /><circle cx="8" cy="8.9" r="2.3" /></svg>
@@ -142,17 +176,19 @@
               </label>
               {#if fromPhoto[p.id] && !reading[p.id]}<span class="from-photo">From photo · check it</span>{/if}
               {#if photoError[p.id]}<span class="photo-error" role="status">{photoError[p.id]}</span>{/if}
-              <span class="count muted">{(answers[p.id] ?? "").length} / {MAX_ANSWER}</span>
+              <span class="count muted" class:bad={(answers[p.id] ?? "").length > MAX_ANSWER}>{(answers[p.id] ?? "").length} / {MAX_ANSWER}</span>
             </div>
           {/if}
         </div>
       </div>
     {/each}
 
+    {#if !submitted && !touch}<MathKeypad oninsert={press} />{/if}
+    {#if !submitted && stylusOn()}<InkPad bind:this={pad} oninsert={(latex) => inkPart && editors[inkPart]?.insert({ insert: latex } as Key)} />{/if}
+
     {#if !submitted}
       <div class="actions">
-        <button class="btn primary" disabled={!ready || sending}>{sending ? "Submitting" : "Submit for marking"}</button>
-        <button type="button" class="btn quiet" onclick={() => (preview = !preview)}>{preview ? "Edit" : "Preview"}</button>
+        <button class="btn primary" disabled={!ready || sending || over}>{sending ? "Submitting" : "Submit for marking"}</button>
       </div>
     {/if}
   </form>
@@ -167,11 +203,10 @@
   .part { display: flex; gap: 10px; }
   .part-id { font-weight: 600; padding-top: 2px; }
   .part-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-  textarea { font: inherit; font-size: 15px; line-height: 1.5; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); resize: vertical; min-height: 140px; }
-  textarea:focus { outline: none; border-color: var(--accent); }
   .preview { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--bg); min-height: 60px; }
   .under { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .count { font-size: 11px; margin-left: auto; }
+  .count.bad { color: var(--bad); }
   .photo { position: relative; gap: 5px; }
   .photo input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .photo svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linejoin: round; }

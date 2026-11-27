@@ -4,14 +4,19 @@
    * goes only to the provider, never to Intellectify's servers.
    */
   import { maxEffort } from "@intellectify/content/marking";
-  import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, type ByokProvider } from "$lib/byok";
+  import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, testKey, type ByokProvider } from "$lib/byok";
   import { profileFor } from "$lib/profile.svelte";
+  import ShiftKeySettings from "$lib/components/ShiftKeySettings.svelte";
+  import { quotaOut, setStylus, stylusOn } from "$lib/ink";
   import { session } from "$lib/session.svelte";
   import { loadBannedWords } from "$lib/moderation";
   import { cleanName, NAME_MAX, nameError } from "$lib/names";
 
   /** Display name (SPEC §12.3): shown on leaderboards, profiles and discussions. */
   const profile = $derived(profileFor(session.backend, session.user));
+  /** The owner's account (the `admin` claim) gets a link to the error reports. */
+  let admin = $state(false);
+  $effect(() => void session.backend?.isAdmin().then((a) => (admin = a)).catch(() => {}));
   let name = $state(session.user?.displayName ?? "");
   let banned = $state<string[]>([]);
   $effect(() => void loadBannedWords().then((w) => (banned = w)));
@@ -34,6 +39,10 @@
       renaming = false;
     }
   }
+
+  /** Handwriting pad (SPEC §7.2, §15.5): on unless turned off, per browser. */
+  let stylus = $state(stylusOn());
+  const handwritingOut = quotaOut();
 
   const saved = loadByok();
   let provider = $state<ByokProvider>(saved?.provider ?? "gemini");
@@ -65,11 +74,25 @@
   function remove() {
     saveByok(null);
     current = null;
+    tested = null;
+  }
+  /** Test the saved key (or the one being typed) with the provider. */
+  let tested = $state<string | null>(null);
+  let testing = $state(false);
+  async function test() {
+    const byok = key.trim() ? { provider, key: key.trim() } : current;
+    if (!byok || testing) return;
+    testing = true;
+    tested = null;
+    const r = await testKey(byok);
+    tested = r === "ok" ? "Key works" : r === "refused" ? `${PROVIDER_LABEL[byok.provider]} refused this key` : `Couldn't reach ${PROVIDER_LABEL[byok.provider]}`;
+    testing = false;
   }
 </script>
 
 <div class="wrap narrow">
   <h1>Settings</h1>
+  {#if admin}<p class="admin"><a href="/admin/reports">Error reports</a></p>{/if}
   {#if session.user}
     <section class="card">
       <h2>Profile</h2>
@@ -85,6 +108,15 @@
       </form>
     </section>
   {/if}
+  {#if session.user}<ShiftKeySettings {profile} />{/if}
+  <section class="card">
+    <h2>Handwriting</h2>
+    <label class="switch"><input type="checkbox" bind:checked={stylus} onchange={() => setStylus(stylus)} /> Handwriting pad</label>
+    <dl class="facts">
+      <dt>Reader</dt>
+      <dd>{handwritingOut ? "AI (MyScript's free quota is used up this month)" : "MyScript, then AI if it's busy"}</dd>
+    </dl>
+  </section>
   <section class="card">
     <h2>Marking key</h2>
     <dl class="facts">
@@ -116,7 +148,9 @@
       </div>
       <div class="actions">
         <button class="btn primary" disabled={!key.trim()}>Save</button>
+        <button type="button" class="btn" onclick={test} disabled={testing || (!key.trim() && !current)}>{testing ? "Testing" : "Test key"}</button>
         {#if current}<button type="button" class="btn quiet" onclick={remove}>Remove key</button>{/if}
+        {#if tested}<span class="note" class:err={tested !== "Key works"} role="status">{tested}</span>{/if}
       </div>
     </form>
   </section>
@@ -164,6 +198,7 @@
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 16px; }
   h2 { margin: 0; font-family: var(--font-body); font-size: 15px; font-weight: 600; }
   .facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0; font-size: 14px; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
   .facts dt { color: var(--muted); }
   .facts dd { margin: 0; }
   form { display: flex; flex-direction: column; gap: 10px; }
@@ -186,6 +221,7 @@
   .keyrow input#key { flex: 1; min-width: 0; font: inherit; font-family: ui-monospace, monospace; font-size: 13px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
   .actions { display: flex; gap: 8px; }
   .wrap > .card + .card { margin-top: 16px; }
+  .admin { margin: -8px 0 16px; font-size: 14px; }
   .effort { display: flex; align-items: flex-start; gap: 14px; }
   .slider { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   /* Track: chosen (accent), available (track), locked without an own key (hatched). */

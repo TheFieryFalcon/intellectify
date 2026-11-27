@@ -5,6 +5,7 @@
    */
   import Markdown from "./Markdown.svelte";
   import ShareButton from "./ShareButton.svelte";
+  import ReportButton from "./ReportButton.svelte";
   import { loadIndexedQuestion, loadWords, wordLists, type QuestionIndexEntry, type QuestionT } from "$lib/content";
   import { fillServed, pickWords, type WordPicks } from "@intellectify/content/template";
 
@@ -46,9 +47,9 @@
       <button class="row" class:two={!!skillName} onclick={() => toggle(e)} aria-expanded={open === e.id}>
         <span class="tier t{e.tier}">T{e.tier}</span>
         <span class="title">{e.title}</span>
-        {#if skillName}<span class="skill muted">{skillName(e.skill)}</span>{/if}
+        {#if skillName}<span class="skill muted">{skillName(e.skill)}{e.subsection ? ` · ${e.subsection}` : ""}</span>{/if}
         <span class="meta muted">
-          {e.kind === "written" ? "Written" : e.answerTypes.join(", ")}
+          {!skillName && e.subsection ? `${e.subsection} · ` : ""}{e.kind === "written" ? "Written" : e.answerTypes.join(", ")}
           {#if POOL[e.pool]} · {POOL[e.pool]}{/if}
           {#if e.later} · Later unit{/if}
           {#if answered.has(e.id)} · <span class="done">Answered</span>{/if}
@@ -69,7 +70,7 @@
             <Markdown text={shown.solution} />
             <p class="row-actions">
               {#if e.pool === "practice"}<a class="btn" href="/{course}/practice/{e.skill}?q={e.id}">Practice this</a>{/if}
-              <ShareButton {course} question={shown} variant={shownVariant} words={shownWords} />
+              <span class="tools"><ShareButton {course} question={shown} variant={shownVariant} words={shownWords} /><ReportButton {course} question={shown} variant={shownVariant} words={shownWords} /></span>
             </p>
           {/if}
         </div>

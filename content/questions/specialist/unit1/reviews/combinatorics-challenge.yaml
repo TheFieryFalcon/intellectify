@@ -1,9 +1,11 @@
 # Section Challenge: Combinatorics (1.2). A fixed sequence, green → yellow → red → black (SPEC §8.4).
 
 - id: spec.combinatorics.ch.zero-determinant
+  title: "0–1 Matrices with Zero Determinant"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1580
   responseSkills: { reading: 1570, calculation: 1550, reasoning: 1570 }
   stem: |
@@ -26,8 +28,10 @@
         return {"a": sum(1 for a, b, c, d in product((0, 1), repeat=4) if a * d - b * c == 0)}
 
 - id: spec.combinatorics.ch.spaced-ones
+  title: "Binary Strings with Spaced-Out 1s"
   pool: challenge
   skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
+  subsection: "Counting by a clever choice"
   rating: 1620
   responseSkills: { reading: 1600, calculation: 1590, reasoning: 1610, synthesis: 1600 }
   stem: |
@@ -43,8 +47,10 @@
         return {"a": sum(1 for s in product("01", repeat=8) if s.count("1") == 3 and "11" not in "".join(s))}
 
 - id: spec.combinatorics.ch.round-robin
+  title: "Results of a Round-Robin Tournament"
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  subsection: "Cases and the addition principle"
   rating: 1660
   responseSkills: { reading: 1640, calculation: 1630, reasoning: 1650, synthesis: 1640 }
   stem: |
@@ -66,9 +72,11 @@
         return {"a": g, "b": 2 ** g}
 
 - id: spec.combinatorics.ch.permutation-matrices
+  title: "Counting Permutation Matrices"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1720
   responseSkills: { reading: 1710, calculation: 1690, reasoning: 1710 }
   stem: |
@@ -93,8 +101,10 @@
         return {"a": count(4, 1), "b": count(3, 2)}
 
 - id: spec.combinatorics.ch.matrix-every-column
+  title: "0–1 Arrays with Every Column Used"
   pool: challenge
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.counting-principles] }
+  subsection: "Arrangements with conditions"
   rating: 1760
   responseSkills: { reading: 1750, calculation: 1730, reasoning: 1750, synthesis: 1740 }
   stem: |
@@ -114,8 +124,10 @@
         return {"a": sum(1 for cols in product(range(3), repeat=4) if len(set(cols)) == 3)}
 
 - id: spec.combinatorics.ch.four-consecutive-24
+  title: "Four Consecutive Integers and 24"
   pool: challenge
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting by a clever choice"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1740 }
   stem: |
@@ -134,8 +146,10 @@
     $\binom{n+3}{4}$ counts the groups of 4 that can be chosen from $n + 3$ objects, so it is a whole number. Hence $n(n+1)(n+2)(n+3) = 24\binom{n+3}{4}$ is a multiple of 24.
 
 - id: spec.combinatorics.ch.domino-tilings
+  title: "Tiling a Strip with Dominoes"
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1870
   responseSkills: { reading: 1850, calculation: 1840, reasoning: 1860 }
   stem: |
@@ -155,8 +169,10 @@
         return {"a": t[10]}
 
 - id: spec.combinatorics.ch.colored-rectangle
+  title: "A One-Color Rectangle in a Two-Color Grid"
   pool: challenge
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.combinatorics.combinations] }
+  subsection: "Points, handshakes and colorings"
   rating: 1890
   responseSkills: { reasoning: 1880, proof: 1880, clarity: 1830, synthesis: 1870 }
   stem: |
@@ -176,8 +192,10 @@
     7 columns with 6 labels: two columns share a label, the same pair of rows and the same color. In those two rows and two columns, all four crossing squares have that color.
 
 - id: spec.combinatorics.ch.no-three-alike
+  title: "A–B Strings with No Three in a Row"
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1920
   responseSkills: { reading: 1900, calculation: 1900, reasoning: 1910 }
   stem: |
@@ -195,8 +213,10 @@
         return {"a": sum(1 for s in product("AB", repeat=10) if "AAA" not in "".join(s) and "BBB" not in "".join(s))}
 
 - id: spec.combinatorics.ch.central-divisible
+  title: "The Middle Binomial Coefficient and n + 1"
   pool: challenge
   skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  subsection: "Further identities"
   rating: 1975
   responseSkills: { reasoning: 1960, proof: 1960, clarity: 1900, synthesis: 1950 }
   stem: |

@@ -1,5 +1,7 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import TutorialButton from "$lib/components/TutorialButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   /**
    * Daily problem (SPEC §8.5): one per year group per day, the same for everyone, targeting the block the
    * year group has just learnt, at the day's tier. Normal attempt rules; it updates θ like any problem.
@@ -9,6 +11,7 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
   import MarkView from "$lib/components/MarkView.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
   import { indexSkills } from "$lib/content";
@@ -18,7 +21,7 @@
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
   import { currentStreak, dailyTarget, dailyTier, yearGroupOf, type YearGroup } from "$lib/daily";
-  import { dateOfDay } from "@intellectify/engine";
+  import { dateOfDay, tierOf } from "@intellectify/engine";
   import { dailyProblem } from "$lib/dailyProblem";
   import { onDaily } from "$lib/achievements";
 
@@ -38,12 +41,15 @@
 
   const skills = $derived(indexSkills(data.course));
   const target = $derived(
-    dailyTarget(data.course.schedules, year, day, (id) => (skills.get(id)?.skill.questionCount ?? 0) > 0, [...skills.keys()]),
+    dailyTarget(data.course.schedules, year, day, (id) => (skills.get(id)?.skill.questionCount ?? 0) > 0, [...skills.keys()], data.course.calendars ?? []),
   );
 
   let served = $state<Served | null>(null);
   let loading = $state(true);
   let summary = $state<ResultSummary | null>(null);
+  /** XP from answering plus the daily bonus. */
+  let xpGained = $state(0);
+  let dailyBonus = $state(0);
   let jobId = $state<string | null>(null);
   const job = $derived(jobId && marking ? marking.job(jobId) : null);
 
@@ -72,8 +78,10 @@
     if (!store || !served || !profile) return;
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "daily" });
     summary = r.summary;
+    xpGained = r.xp;
     const solved = r.summary.outcome > 0;
-    await profile.recordDaily(key, day, solved);
+    const bonus = await profile.recordDaily(key, day, solved, tierOf(served.question.rating));
+    dailyBonus = bonus;
     await achievements?.event(
       (s) => onDaily(s, { day, solved, firstTry: solved && parts.every((p) => p.solvedOn === 1), streak: profile.profile.daily?.streak ?? 0 }),
       store,
@@ -121,7 +129,7 @@
       <Markdown text={served.question.solution} />
     </section>
   {:else}
-    <div class="share-row"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></div>
+    <div class="share-row"><span class="tools"><TutorialButton course={data.course} skill={served.question.skills.primary} /><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span></div>
     {#if isRubricMarked(served.question)}
       <WrittenAnswerCard question={served.question} onsubmit={submitWritten} submitted={jobId !== null} />
     {:else}
@@ -136,7 +144,8 @@
     {/if}
     {#if summary}
       <section class="card">
-        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"} · {Math.round(summary.outcome * 100)}%</p>
+        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"}{#if dailyBonus} · daily bonus +{dailyBonus} XP{/if}</p>
+        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
         <h2>Solution</h2>
         <Markdown text={served.question.solution} />
       </section>

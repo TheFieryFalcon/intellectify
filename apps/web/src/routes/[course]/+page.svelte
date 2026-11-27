@@ -28,6 +28,7 @@
     } catch {
       return;
     }
+    void achievements.syncReports(store, profile);
     if (!Object.keys(store.progress.skills).length && !Object.keys(achievements.earned).length) return;
     profile.publishCourse(data.course, store.progress);
     const ids = Object.keys(achievements.earned);

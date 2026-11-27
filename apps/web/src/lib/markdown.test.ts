@@ -7,7 +7,7 @@ const terms = [
   { term: "combination", definition: "An unordered selection." },
 ];
 
-describe("glossary hovers (SPEC §3.2)", () => {
+describe("glossary hovers (SPEC §3.1)", () => {
   it("links the first mention of each term, plurals too, longest match first", () => {
     const out = linkGlossary("A major arc and an arc. Two combinations, another combination.", terms);
     expect(out.match(/<dfn/g)).toHaveLength(3);

@@ -16,7 +16,7 @@
 <style>
   .md :global(p) { margin: 0 0 0.7em; }
   .md :global(p:last-child) { margin-bottom: 0; }
-  /* Glossary hovers (SPEC §3.2): the definition shows on hover, tap or keyboard focus. */
+  /* Glossary hovers (SPEC §3.1): the definition shows on hover, tap or keyboard focus. */
   .md :global(dfn.gloss) { position: relative; font-style: inherit; text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; outline: none; }
   .md :global(dfn.gloss:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
   .md :global(.gloss-def) {

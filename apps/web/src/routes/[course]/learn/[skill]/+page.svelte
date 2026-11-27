@@ -1,7 +1,11 @@
 <script lang="ts">
   import { page } from "$app/state";
   import Markdown from "$lib/components/Markdown.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   import { indexSkills, loadTutorial, type TutorialT } from "$lib/content";
+  import { profileFor } from "$lib/profile.svelte";
+  import { readingSeconds } from "$lib/reading";
+  import { session } from "$lib/session.svelte";
 
   let { data } = $props();
   const index = $derived(indexSkills(data.course));
@@ -12,6 +16,48 @@
     const id = page.params.skill;
     tutorial = undefined;
     loadTutorial(fetch, data.course.id, id).then((t) => (tutorial = t));
+  });
+
+  // Reading a tutorial earns 40 XP the first time per skill (SPEC §12.4), once the student has reached the
+  // end and spent the time it takes to read it at 600 words a minute, counting only while the page is in view.
+  const profile = $derived(profileFor(session.backend, session.user));
+  let end = $state<HTMLElement | null>(null);
+  let earned = $state(0);
+  let reachedEnd = $state(false);
+  let readFor = $state(0);
+  const needed = $derived(tutorial ? readingSeconds(tutorial.markdown) : Infinity);
+  $effect(() => {
+    void page.params.skill;
+    reachedEnd = false;
+    readFor = 0;
+    earned = 0;
+  });
+  $effect(() => {
+    if (!tutorial) return;
+    const tick = setInterval(() => {
+      if (document.visibilityState === "visible" && document.hasFocus()) readFor += 1;
+    }, 1000);
+    return () => clearInterval(tick);
+  });
+  $effect(() => {
+    const el = end;
+    if (!el) return;
+    const seen = new IntersectionObserver(([e]) => {
+      if (e?.isIntersecting) reachedEnd = true;
+    });
+    seen.observe(el);
+    return () => seen.disconnect();
+  });
+  let granting = false;
+  $effect(() => {
+    const p = profile;
+    const skill = page.params.skill;
+    if (!p?.loaded || !skill || !reachedEnd || readFor < needed || earned || granting) return;
+    granting = true;
+    void p.grantTutorial(data.course.id, skill).then((xp) => {
+      earned = xp;
+      granting = false;
+    });
   });
 </script>
 
@@ -37,7 +83,11 @@
       {/if}
       <Markdown text={tutorial.markdown} />
     </article>
-    <p class="end"><a class="btn primary" href="/{data.course.id}/practice/{page.params.skill}">Practice this skill</a></p>
+    <p class="end" bind:this={end}>
+      {#if earned}<span class="xp">+{earned} XP</span>{/if}
+      <a class="btn primary" href="/{data.course.id}/practice/{page.params.skill}">Practice this skill</a>
+      <ReportButton course={data.course.id} tutorial={page.params.skill!} />
+    </p>
   {/if}
 </div>
 
@@ -60,5 +110,6 @@
   article :global(blockquote) { margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; }
   article :global(table) { border-collapse: collapse; margin: 10px 0; }
   article :global(th), article :global(td) { border: 1px solid var(--line); padding: 6px 10px; }
-  .end { margin-top: 28px; }
+  .xp { color: var(--accent); font-weight: 600; font-size: 14px; }
+  .end { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 </style>

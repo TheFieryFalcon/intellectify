@@ -53,6 +53,8 @@ button { font: inherit; }
 .btn.link:hover { color: var(--ink); }
 .btn.link:disabled { opacity: .45; }
 .btn.link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Share and Report error, side by side. */
+.tools { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 16px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .muted { color: var(--muted); }
 .wrap { max-width: 1320px; margin: 0 auto; padding: 24px 16px 56px; }
@@ -74,6 +76,11 @@ input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; bord
 .diagram .dp { fill: var(--ink); }
 .diagram .da { stroke: var(--muted); stroke-width: 1.3; fill: none; }
 .diagram .dl { width: 100%; height: 100%; display: flex; font-size: 14px; color: var(--ink); line-height: 1; white-space: nowrap; }
+.diagram .dt { font-size: 11px; color: var(--muted); }
+.diagram .dc { stroke-width: 2; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.diagram .dr { stroke: none; }
+.diagram .dsf { stroke-width: 1.1; fill: none; stroke-linecap: round; }
+.diagram .do { fill: var(--surface); stroke: var(--ink); stroke-width: 1.4; }
 .diagram-error { color: var(--bad); font-size: 12px; white-space: pre-wrap; }
 
 /* Filter rows (Questions, History, Discussions): on phones, a tidy two-column grid with labels above. */
@@ -83,4 +90,14 @@ input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; bord
   .filters select, .filters input { width: 100%; max-width: none !important; box-sizing: border-box; }
   .filters > input[type="search"], .filters > .wide { grid-column: 1 / -1; }
   .filters > .btn.link { justify-self: start; margin-left: 0 !important; }
+}
+
+/* Phone maths keyboard (SPEC §7.2): each 123 key shows what Shift types, small in its top corner, like the
+   labels printed above calculator keys. MathLive hides these on small screens; we want them there most. */
+.MLK__rows > .MLK__row > div { position: relative; }
+.MLK__rows > .MLK__row > div > aside {
+  display: block !important;
+  position: absolute; top: 2px; right: 3px;
+  font-size: 9px !important; line-height: 1 !important;
+  color: var(--accent) !important; opacity: 0.85; pointer-events: none; white-space: nowrap;
 }

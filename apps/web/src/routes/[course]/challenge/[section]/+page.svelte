@@ -1,5 +1,8 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import TutorialButton from "$lib/components/TutorialButton.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   const MODE = "challenge" as const;
   /** Section Challenge: Tier 4–5 problems across a section, untimed and resumable (SPEC §8.4). */
   import { page } from "$app/state";
@@ -12,7 +15,7 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
   import { loadSectionReviews, loadWords, type QuestionT } from "$lib/content";
-  import { reserve, type PartResult, type Served } from "$lib/practice";
+  import { reserve, type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { recordResult } from "$lib/record";
   import { serve, slopeOf, type ChallengeState } from "$lib/review";
   import SlopeMark from "$lib/components/SlopeMark.svelte";
@@ -35,6 +38,8 @@
   let ch = $state<ChallengeState | null | undefined>(undefined);
   let resolved = $state(false);
   let lastOutcome = $state(0);
+  /** The last auto-marked result, for its result row. */
+  let lastResult = $state<{ summary: ResultSummary; xp: number } | null>(null);
   let finishing = $state(false);
 
   /** Skills below Gold get the soft-gate notice. */
@@ -76,6 +81,7 @@
     if (!store || !current || !ch) return;
     const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements, mode: MODE });
     lastOutcome = r.summary.outcome;
+    lastResult = r;
     ch = { ...ch, results: [...ch.results, { id: current.question.id, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }] };
     resolved = true;
     await save(ch);
@@ -202,7 +208,7 @@
         <button class="btn quiet" onclick={skip}>Skip</button>
       </div>
     {/if}
-    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
+    <div class="share-row"><span class="tools"><TutorialButton course={data.course} skill={current.question.skills.primary} /><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /><ReportButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></span></div>
     {#key shown}
       {#if isRubricMarked(current.question)}
         <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
@@ -217,7 +223,7 @@
         {#if job && marking}
           <MarkView {job} queue={marking} />
         {:else}
-          <p class="verdict" class:good={lastOutcome > 0.6} class:bad={lastOutcome <= 0.6}>{lastOutcome > 0.6 ? "Correct" : "Not this time"}</p>
+          {#if lastResult}<ResultRow outcome={lastResult.summary.outcome} theta={lastResult.summary.primary.after.theta} deltaTheta={lastResult.summary.primary.deltaTheta} rankBefore={lastResult.summary.primary.rankBefore} rankAfter={lastResult.summary.primary.rankAfter} xp={lastResult.xp} />{/if}
         {/if}
         <h2>Solution</h2>
         <Markdown text={current.question.solution} />
@@ -247,9 +253,6 @@
   .notice { margin: 14px 0 0; padding: 10px 14px; border-radius: 8px; background: var(--accent-soft); font-size: 13px; }
   .notice ul { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
   .notice a { color: var(--ink); }
-  .verdict { margin: 0; font-weight: 600; }
-  .good { color: var(--good); }
-  .bad { color: var(--bad); }
   .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px 0 6px; }
   .stats div { display: flex; flex-direction: column; gap: 2px; }
   .k { font-size: 11px; color: var(--muted); }

@@ -138,6 +138,8 @@ export function evaluate(e: MathJson, scope: Scope = {}): Complex {
     }
     case "HorizontalSpacing":
       return Complex.ONE;
+    case "Integrate":
+      return integrate(a, scope);
   }
 
   if (h && UNARY[h]) {
@@ -145,6 +147,24 @@ export function evaluate(e: MathJson, scope: Scope = {}): Complex {
     return UNARY[h](ev(a[0]!), h);
   }
   throw new EvalError(`unsupported operation ${h}`);
+}
+
+/** A definite integral ∫_a^b f dv, by composite Simpson's rule (answers like "write as a single integral"). */
+function integrate(a: MathJson[], scope: Scope): Complex {
+  const [body, limits] = a;
+  const [v, lo, hi] = limits !== undefined && head(limits) === "Tuple" ? args(limits) : [];
+  const name = v !== undefined && head(v) === "Hold" ? args(v!)[0] : v;
+  if (body === undefined || typeof name !== "string" || lo === undefined || hi === undefined) throw new EvalError("only definite integrals can be evaluated");
+  const x0 = real(evaluate(lo, scope), "an integral's limit");
+  const x1 = real(evaluate(hi, scope), "an integral's limit");
+  const n = 400;
+  const h = (x1 - x0) / n;
+  let sum = Complex.ZERO;
+  for (let k = 0; k <= n; k++) {
+    const w = k === 0 || k === n ? 1 : k % 2 ? 4 : 2;
+    sum = sum.add(evaluate(body, { ...scope, [name]: new Complex(x0 + k * h) }).mul(new Complex(w)));
+  }
+  return sum.mul(new Complex(h / 3));
 }
 
 function applyPrefix(name: string, arg: MathJson, scope: Scope): Complex {
@@ -182,6 +202,18 @@ export function freeSymbols(e: MathJson, out = new Set<string>()): Set<string> {
   } else if (Array.isArray(e)) {
     const [h, ...rest] = e;
     if (h === "Apply") return out;
+    if (h === "Integrate") {
+      const [body, limits] = rest;
+      const bounds = limits !== undefined && head(limits) === "Tuple" ? args(limits) : [];
+      const v = bounds[0] !== undefined && head(bounds[0]) === "Hold" ? args(bounds[0]!)[0] : bounds[0];
+      const inner = freeSymbols(body ?? 0);
+      inner.delete(v as string);
+      // A trailing "d" from "dx" written as letters.
+      inner.delete("d");
+      inner.forEach((x) => out.add(x));
+      bounds.slice(1).forEach((x) => freeSymbols(x, out));
+      return out;
+    }
     rest.forEach((x) => freeSymbols(x, out));
   }
   return out;

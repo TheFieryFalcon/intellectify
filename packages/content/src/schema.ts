@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-/* ───────────────────────── Curriculum (docs/SPEC.md §3, §3.1) ───────────────────────── */
+/* ───────────────────────── Curriculum (docs/SPEC.md §3) ───────────────────────── */
 
 const dotPoint = z.string().regex(/^\d+\.\d+\.\d+$/, "dot point IDs look like 1.2.6");
 
@@ -15,11 +15,16 @@ export const Skill = z.object({
   id: z.string().regex(/^[a-z]+\.[a-z0-9-]+\.[a-z0-9-]+$/, "skill IDs look like spec.section.skill"),
   name: z.string().min(1),
   summary: z.string().min(1),
-  /** SPEC §3.3: sets the question targets and how much it takes to rank up. */
+  /** SPEC §3.2: sets the question targets and how much it takes to rank up. */
   size: z.enum(["small", "medium", "large", "cornerstone"]),
   dotPoints: z.array(dotPoint).min(1),
   prereqs: z.array(z.string()).default([]),
   external: z.array(ExternalPrereq).default([]),
+  /**
+   * Subsections (SPEC §3): the specific points the skill covers, named in words ("Pascal's rule"), never by
+   * dot-point number. Every question in the skill is tagged with one.
+   */
+  subsections: z.array(z.string().min(1).max(60)).default([]),
 });
 
 export const Section = z.object({
@@ -48,7 +53,7 @@ export const CourseManifest = z.object({
   versions: z.record(z.object({ current: z.string(), available: z.array(z.string()).min(1) })),
 });
 
-/* ───────────────────────── Questions (docs/SPEC.md §7, §9, §11.2) ───────────────────────── */
+/* ───────────────────────── Questions (docs/SPEC.md §7, §9, §11.1) ───────────────────────── */
 
 const formRule = z.enum([
   "exact",
@@ -60,6 +65,7 @@ const formRule = z.enum([
   "polar",
   "exponential",
   "constant-of-integration",
+  "single-integral",
 ]);
 const varSpec = z.object({
   domain: z.tuple([z.number(), z.number()]).optional(),
@@ -67,6 +73,7 @@ const varSpec = z.object({
   complex: z.boolean().optional(),
 });
 const vars = z.record(varSpec).optional();
+const element = z.enum(["expression", "equation", "point"]);
 const common = { form: z.array(formRule).optional(), tolerance: z.number().positive().optional() };
 
 export const AnswerSpec = z.discriminatedUnion("type", [
@@ -75,8 +82,19 @@ export const AnswerSpec = z.discriminatedUnion("type", [
   z.object({ type: z.literal("equation"), key: z.string(), vars, samples: z.number().int().positive().optional(), ...common }),
   z.object({ type: z.literal("vector"), key: z.array(z.string()).min(2).max(3), vars, ...common }),
   z.object({ type: z.literal("matrix"), key: z.array(z.array(z.string()).min(1)).min(1), vars, ...common }),
-  z.object({ type: z.literal("set"), key: z.array(z.string()).min(1), vars, element: z.enum(["expression", "equation"]).optional(), ...common }),
-  z.object({ type: z.literal("list"), key: z.array(z.string()).min(1), vars, element: z.enum(["expression", "equation"]).optional(), ...common }),
+  z.object({ type: z.literal("set"), key: z.array(z.string()).min(1), vars, element: element.optional(), ...common }),
+  z.object({ type: z.literal("list"), key: z.array(z.string()).min(1), vars, element: element.optional(), ...common }),
+  /** A set of reals: interval notation or inequalities in `variable` (SPEC §7.1). */
+  z.object({ type: z.literal("interval"), key: z.string(), variable: z.string().optional(), notation: z.enum(["interval", "inequality"]).optional(), ...common }),
+  /** A complex number: value plus form; polar and exponential answers need r > 0 and −π < θ ≤ π unless `principal: false`. */
+  z.object({ type: z.literal("complex"), key: z.string(), principal: z.boolean().optional(), ...common }),
+  /** Feature entry (SPEC §7.1): a graph's features, each a set of equations, points or values; an empty key is "None". */
+  z.object({
+    type: z.literal("features"),
+    features: z
+      .array(z.object({ id: z.string(), label: z.string(), element, key: z.array(z.string()), vars, tolerance: z.number().positive().optional() }))
+      .min(1),
+  }),
   z.object({ type: z.literal("mcq"), key: z.string() }),
   z.object({ type: z.literal("multi-select"), key: z.array(z.string()).min(1) }),
 ]);
@@ -106,8 +124,15 @@ export const Question = z.object({
   version: z.number().int().positive().default(1),
   status: z.enum(["draft", "reviewed"]).default("draft"),
   skills: z.object({ primary: z.string(), secondary: z.array(z.string()).default([]) }),
+  /** One of the primary skill's subsections (SPEC §3). */
+  subsection: z.string().min(1).optional(),
   /** 1000 (incredibly easy) to 2000 (second-year uni); 2000+ is Tier 6. */
   rating: z.number().int().min(1000).max(2400),
+  /**
+   * Bookwork (SPEC §4): the task is to reproduce a proof the textbook teaches (a syllabus theorem or a standard
+   * worked proof). Its ratings already include the 100-point bookwork discount.
+   */
+  bookwork: z.boolean().optional(),
   /** Difficulty per response skill, for auto-marked questions (SPEC §5.6). */
   responseSkills: z.record(z.number().int().min(1000).max(2400)).default({}),
   requiresCalculator: z.boolean().default(false),
@@ -124,7 +149,7 @@ export const Question = z.object({
   variants: z.array(z.record(z.union([z.string(), z.number()]))).optional(),
   /** Word variety (SPEC §9.6): slot → word list in content/words.yaml, picked at random on each serve. */
   words: z.record(z.string()).optional(),
-  /** SymPy verification script, run offline (SPEC §11.3). */
+  /** SymPy verification script, run offline (SPEC §11.2). */
   verify: z.string().optional(),
 });
 

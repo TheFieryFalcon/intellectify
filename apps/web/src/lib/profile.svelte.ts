@@ -1,6 +1,8 @@
 import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
+import { withRetry } from "./retry";
+import { shiftOverrides, storeShiftOverrides, type ShiftMap } from "./keypad";
 import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type Placement, type Profile, type PublicCourse, type User } from "./backend";
-import { addProblem, addXp, roll } from "./activity";
+import { addProblem, addXp, mergeStats, roll } from "./activity";
 import type { CourseBundle } from "./content";
 import { publicCourse } from "./public";
 import { loadBannedWords, safeName } from "./moderation";
@@ -47,6 +49,10 @@ export interface LevelUp {
 export class ProfileStore {
   profile = $state<Profile>(emptyProfile());
   loaded = $state(false);
+  /** The saved profile couldn't be loaded: nothing is saved this session (see load()). */
+  failed = $state(false);
+  /** Why it didn't load (Firestore's error code, or the message), shown in the banner for diagnosis. */
+  loadError = $state<string | null>(null);
   /** Set when a grant crosses a level boundary; the layout shows it as a toast. */
   levelUp = $state<LevelUp | null>(null);
   progress = $derived(levelProgress(this.profile.xp));
@@ -83,12 +89,29 @@ export class ProfileStore {
   async flush() {
     if (this.timer) clearTimeout(this.timer);
     this.timer = null;
-    if (!this.dirty || !this.loaded) return;
+    if (!this.dirty || !this.loaded || this.failed) return;
     this.dirty = false;
     const courses = this.pendingCourses;
     const achievements = this.pendingAchievements;
     this.pendingCourses = {};
     this.pendingAchievements = {};
+    // XP, the daily record and the counters are saved as whole values, so first take in anything newer
+    // already saved (another tab or device, or an earlier session): an out-of-date tab never lowers them.
+    try {
+      const latest = await this.backend.loadProfile(this.user.uid);
+      this.profile = {
+        ...this.profile,
+        xp: Math.max(this.profile.xp, latest.xp),
+        daily: newerDaily(this.profile.daily, latest.daily),
+        stats: mergeStats(this.profile.stats, latest.stats),
+      };
+    } catch {
+      // Can't check what's saved: try again later rather than risk overwriting it.
+      this.pendingCourses = { ...courses, ...this.pendingCourses };
+      this.pendingAchievements = { ...achievements, ...this.pendingAchievements };
+      this.dirty = true;
+      return;
+    }
     const d = this.profile.daily;
     try {
       const banned = await loadBannedWords();
@@ -101,6 +124,7 @@ export class ProfileStore {
         achievements,
         courses,
         updatedAt: Date.now(),
+        ...(this.user.joined ? { joined: this.user.joined } : {}),
       });
     } catch {
       // Keep the changes for the next try.
@@ -138,9 +162,14 @@ export class ProfileStore {
 
   async load() {
     try {
-      this.profile = await this.backend.loadProfile(this.user.uid);
-    } catch {
-      // Offline or blocked: start from zero locally; grants still try to save.
+      this.profile = await withRetry(() => this.backend.loadProfile(this.user.uid));
+    } catch (err) {
+      this.loadError = (err as { code?: string }).code ?? (err as Error).message ?? null;
+      // Not "a new student": the saved profile just didn't load. Save nothing this session, so nothing
+      // real is overwritten, and say so (layout banner); a reload tries again.
+      this.failed = true;
+      this.loaded = true;
+      return;
     }
     // Deploy previews: each anonymous sign-in is a new account. Reuse this browser's last anonymous
     // placement instead of asking for the maths mark every time.
@@ -152,6 +181,8 @@ export class ProfileStore {
       }
     }
     if (this.profile.placement?.tiers) setStartTiers(this.profile.placement.tiers);
+    // The account's phone keyboard Shift keys follow the student to this device.
+    if (this.profile.shiftKeys) storeShiftOverrides(this.profile.shiftKeys);
     this.profile = { ...this.profile, stats: roll(this.profile.stats, perthDay()) };
     this.loaded = true;
     const today = perthDay();
@@ -160,7 +191,7 @@ export class ProfileStore {
 
   /** Add XP, update the level immediately, and persist. */
   async grant(amount: number, extra: { questionId?: string; visitDay?: string } = {}) {
-    if (amount <= 0 && !extra.visitDay) return;
+    if (this.failed || (amount <= 0 && !extra.visitDay)) return;
     const before = levelProgress(this.profile.xp);
     this.profile = {
       ...this.profile,
@@ -186,8 +217,18 @@ export class ProfileStore {
     this.profile = { ...this.profile, nameSet: true };
   }
 
+  /** Save the phone keyboard Shift keys (SPEC §7.2), on this device and the account. */
+  async setShiftKeys(map: ShiftMap) {
+    if (this.failed) throw new Error("Your profile didn't load, so this can't be saved. Reload the page.");
+    const shiftKeys = shiftOverrides(map);
+    storeShiftOverrides(shiftKeys);
+    this.profile = { ...this.profile, shiftKeys };
+    await this.backend.saveShiftKeys(this.user.uid, shiftKeys);
+  }
+
   /** Save the onboarding placement; new skills start at its tier for their course from now on. */
   async setPlacement(placement: Placement) {
+    if (this.failed) throw new Error("Your profile didn't load. Reload the page.");
     this.profile = { ...this.profile, placement };
     setStartTiers(placement.tiers);
     if (this.user.anonymous) writeAnonPlacement(placement);
@@ -195,9 +236,14 @@ export class ProfileStore {
   }
 
   /** Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break today's entry. */
-  async recordDaily(key: string, day: string, solved: boolean) {
+  /** Returns the daily bonus XP granted (SPEC §12.4: 30 + 10 × tier on the first solve of each day's problem). */
+  async recordDaily(key: string, day: string, solved: boolean, tier = 0): Promise<number> {
+    if (this.failed) return 0;
+    // The daily record is saved whole: start from the latest saved one, not this tab's copy.
+    const latest = await this.backend.loadProfile(this.user.uid).catch(() => null);
+    if (latest) this.profile = { ...this.profile, daily: newerDaily(this.profile.daily, latest.daily) };
     const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
-    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return;
+    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return 0;
     const streak = solved ? nextStreak(prev, day) : prev.streak;
     const recent = Object.entries({ ...prev.done, [key]: solved ? "solved" : "tried" }).slice(-40);
     const daily: DailyRecord = { lastSolved: solved ? day : prev.lastSolved, streak, best: Math.max(prev.best, streak), done: Object.fromEntries(recent) as DailyRecord["done"] };
@@ -208,6 +254,38 @@ export class ProfileStore {
     } catch {
       // Saved locally in the store; a failed save is retried with the next daily problem.
     }
+    if (!solved || !tier) return 0;
+    const bonus = XP.daily(tier);
+    await this.grant(bonus);
+    return bonus;
+  }
+
+  /**
+   * XP for a marked written answer (SPEC §12.4: 24 × tier × rubric score). A proof already written once
+   * earns a fifth of that, however long ago: it's much easier the second time.
+   */
+  async grantWritten(questionId: string, tier: number, score: number): Promise<number> {
+    const full = XP.freeResponse(tier, score);
+    const amount = this.profile.questionXpAt[questionId] ? Math.round(full * WRITTEN_REPEAT_RATE) : full;
+    await this.grant(amount, { questionId });
+    return amount;
+  }
+
+  /** XP for reading a skill's tutorial, the first time only (SPEC §12.4). */
+  async grantTutorial(course: string, skill: string): Promise<number> {
+    const key = `tutorial:${course}:${skill}`;
+    if (!this.loaded || this.profile.questionXpAt[key]) return 0;
+    await this.grant(XP.tutorialFirstRead, { questionId: key });
+    return XP.tutorialFirstRead;
+  }
+
+  /** XP for a discussion post or comment (SPEC §12.4: 20, at most 3 a Perth day). */
+  async grantPost(): Promise<number> {
+    const day = perthDay();
+    const n = [1, 2, 3].find((i) => !this.profile.questionXpAt[`post:${day}:${i}`]);
+    if (!this.loaded || !n) return 0;
+    await this.grant(XP.discussionPost, { questionId: `post:${day}:${n}` });
+    return XP.discussionPost;
   }
 
   /** XP for a resolved question, applying the 30-day repeat rule. Returns the amount granted. */
@@ -218,6 +296,17 @@ export class ProfileStore {
     return amount;
   }
 }
+
+/** The daily record with the later solve; the "done" lists combine. */
+function newerDaily(a: DailyRecord | null, b: DailyRecord | null): DailyRecord | null {
+  if (!a || !b) return a ?? b;
+  const later = (b.lastSolved ?? "") > (a.lastSolved ?? "") ? b : a;
+  const done = Object.fromEntries(Object.entries({ ...b.done, ...a.done }).slice(-40)) as DailyRecord["done"];
+  return { ...later, best: Math.max(a.best, b.best), done };
+}
+
+/** A repeated written answer earns this share of its XP (SPEC §12.4). */
+export const WRITTEN_REPEAT_RATE = 0.2;
 
 let current: { key: string; store: ProfileStore } | null = null;
 /** The profile store for the signed-in user, created and loaded on first use. */

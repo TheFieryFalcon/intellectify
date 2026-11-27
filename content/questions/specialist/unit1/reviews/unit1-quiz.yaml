@@ -1,8 +1,10 @@
 # Unit quiz pool: Unit 1. Never served in practice (SPEC §8.1a).
 
 - id: spec.u1.quiz.codes-3-letters
+  title: "Three-Letter Codes"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1040
   responseSkills: { calculation: 1020 }
   stem: |
@@ -17,8 +19,10 @@
         return {'a': 5 ** 3}
 
 - id: spec.u1.quiz.angle-semicircle
+  title: "Angle in a Semicircle (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1080
   responseSkills: { reading: 1070, calculation: 1050 }
   stem: |
@@ -34,8 +38,10 @@
         return {'a': approx(angle_at(C, B, A), 4)}
 
 - id: spec.u1.quiz.scale-vector
+  title: "Multiplying a Vector by a Number"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1100
   responseSkills: { calculation: 1080 }
   stem: |
@@ -50,8 +56,10 @@
         return {'a': [6, -15]}
 
 - id: spec.u1.quiz.factorial-6
+  title: "Finishing Orders in a Race"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1150
   responseSkills: { calculation: 1130 }
   stem: |
@@ -66,8 +74,10 @@
         return {'a': sympy.factorial(6)}
 
 - id: spec.u1.quiz.choose-3-of-10
+  title: "Choosing Elective Subjects"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1270
   responseSkills: { reading: 1250, calculation: 1250 }
   stem: |
@@ -82,8 +92,10 @@
         return {'a': sympy.binomial(10, 3)}
 
 - id: spec.u1.quiz.contrapositive-square
+  title: "Contrapositive of \"If n² Is Even\""
   pool: unit-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1280
   responseSkills: { reading: 1270, precision: 1260 }
   stem: |
@@ -103,8 +115,10 @@
         return {'a': 'd'}
 
 - id: spec.u1.quiz.dot-perp-check
+  title: "Scalar Product of Two Vectors (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1300
   responseSkills: { calculation: 1280, reasoning: 1290 }
   stem: |
@@ -119,8 +133,10 @@
         return {'a': 3 * 4 + (-2) * 6}
 
 - id: spec.u1.quiz.tangent-length-8-17
+  title: "Length of a Tangent from a Point (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1320
   responseSkills: { calculation: 1300 }
   stem: |
@@ -135,8 +151,10 @@
         return {'a': sympy.sqrt(17**2 - 8**2)}
 
 - id: spec.u1.quiz.union-three
+  title: "Size of a Union of Three Sets"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1340
   responseSkills: { calculation: 1320 }
   stem: |
@@ -151,8 +169,10 @@
         return {'a': 12 + 10 + 8 - 4 - 3 - 2 + 1}
 
 - id: spec.u1.quiz.vector-ab
+  title: "Vector Between Two Points"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1290
   responseSkills: { calculation: 1270 }
   stem: |
@@ -167,8 +187,10 @@
         return {'a': [-2 - 3, 4 + 1]}
 
 - id: spec.u1.quiz.same-arc
+  title: "Angles on the Same Arc (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1350
   responseSkills: { reading: 1330, calculation: 1320 }
   stem: |
@@ -185,8 +207,10 @@
         return {'a': approx(angle_at(A, D, B), 4)}
 
 - id: spec.u1.quiz.pigeon-socks-5
+  title: "Three Socks of the Same Color"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1380
   responseSkills: { reading: 1360, reasoning: 1370, calculation: 1330 }
   stem: |
@@ -201,8 +225,10 @@
         return {'a': 2 * 5 + 1}
 
 - id: spec.u1.quiz.vowel-start
+  title: "TRIANGLE Beginning and Ending with a Vowel"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1420
   responseSkills: { reading: 1400, calculation: 1400, reasoning: 1410 }
   stem: |
@@ -218,8 +244,10 @@
         return {'a': sum(1 for p in permutations('TRIANGLE') if p[0] in 'IAE' and p[-1] in 'IAE')}
 
 - id: spec.u1.quiz.secant-5-7
+  title: "Two Secants from a Point (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Two secants from a point"
   rating: 1430
   responseSkills: { calculation: 1410 }
   stem: |
@@ -235,8 +263,10 @@
         return {'a': md - 4}
 
 - id: spec.u1.quiz.angle-between
+  title: "Angle Between Two Vectors (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1440
   responseSkills: { calculation: 1420 }
   stem: |
@@ -252,8 +282,10 @@
         return {'a': sympy.deg(sympy.acos(c))}
 
 - id: spec.u1.quiz.cyclic-exterior
+  title: "Exterior Angle of a Cyclic Quadrilateral (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Finding and proving angles"
   rating: 1450
   responseSkills: { reading: 1430, reasoning: 1440, calculation: 1420 }
   stem: |
@@ -268,8 +300,10 @@
         return {'a': 81}
 
 - id: spec.u1.quiz.committee-with-chair
+  title: "Committee with a Chair"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Splitting into groups and roles"
   rating: 1460
   responseSkills: { reading: 1440, calculation: 1440, reasoning: 1450 }
   stem: |
@@ -284,8 +318,10 @@
         return {'a': sympy.binomial(9, 4) * 4}
 
 - id: spec.u1.quiz.negate-exists
+  title: "Negating \"There Is an Even Prime over 100\""
   pool: unit-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1470
   responseSkills: { reading: 1460, precision: 1450 }
   stem: |
@@ -305,8 +341,10 @@
         return {'a': 'a'}
 
 - id: spec.u1.quiz.midpoint-vector
+  title: "Point Dividing a Segment in a Ratio (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Points dividing a line"
   rating: 1480
   responseSkills: { reading: 1460, calculation: 1460, reasoning: 1470 }
   stem: |
@@ -326,8 +364,10 @@
         return {'a': 'c'}
 
 - id: spec.u1.quiz.pascal-sum-row
+  title: "Sum of a Row of Pascal's Triangle (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Row sums"
   rating: 1490
   responseSkills: { reasoning: 1480, calculation: 1470 }
   stem: |
@@ -342,8 +382,10 @@
         return {'a': sum(sympy.binomial(8, k) for k in range(9))}
 
 - id: spec.u1.quiz.odd-times-odd-proof
+  title: "Odd Times Odd Is Odd"
   pool: unit-quiz
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Direct proof"
   rating: 1440
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1380 }
   stem: |
@@ -360,8 +402,10 @@
     Let the integers be $2a + 1$ and $2b + 1$. Their product is $4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1$, which is one more than an even number, so it is odd.
 
 - id: spec.u1.quiz.relative-velocity
+  title: "Speed of One Car Relative to Another (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Relative velocity"
   rating: 1510
   responseSkills: { reading: 1490, calculation: 1490 }
   stem: |
@@ -376,8 +420,10 @@
         return {'a': sympy.sqrt(20**2 + 15**2)}
 
 - id: spec.u1.quiz.angle-center-tangent
+  title: "Two Tangents and the Angle at the Center (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1520
   responseSkills: { reading: 1500, reasoning: 1510, calculation: 1490 }
   stem: |
@@ -392,8 +438,10 @@
         return {'a': 360 - 90 - 90 - 112}
 
 - id: spec.u1.quiz.ie-not-div
+  title: "Integers Divisible by Neither 4 nor 6"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1530
   responseSkills: { reading: 1510, calculation: 1510, reasoning: 1520 }
   stem: |
@@ -408,8 +456,10 @@
         return {'a': sum(1 for n in range(1, 301) if n % 4 and n % 6)}
 
 - id: spec.u1.quiz.circle-chords-cross
+  title: "Angle from Crossing Chords (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Finding and proving angles"
   rating: 1570
   responseSkills: { reading: 1550, reasoning: 1560, calculation: 1540, synthesis: 1550 }
   stem: |
@@ -424,8 +474,10 @@
         return {'a': 70 - 32}
 
 - id: spec.u1.quiz.sum-of-digits-arrangements
+  title: "Even Four-Digit Numbers from Six Digits"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1600
   responseSkills: { calculation: 1580, reasoning: 1590 }
   stem: |
@@ -441,8 +493,10 @@
         return {'a': sum(1 for p in permutations('123456', 4) if int(p[-1]) % 2 == 0)}
 
 - id: spec.u1.quiz.vector-proof-parallelogram
+  title: "Opposite Sides of a Parallelogram by Vectors"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1580 }
   stem: |
@@ -459,8 +513,10 @@
     Going around the quadrilateral, $\overrightarrow{AD} = \overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CD}$. Since $\overrightarrow{CD} = -\overrightarrow{DC} = -\overrightarrow{AB}$, the first and last terms cancel, leaving $\overrightarrow{AD} = \overrightarrow{BC}$.
 
 - id: spec.u1.quiz.projection-length-k
+  title: "Finding k from a Scalar Projection (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1650
   responseSkills: { calculation: 1630, reasoning: 1640 }
   stem: |
@@ -476,8 +532,10 @@
         return {'a': sympy.solve(sympy.Eq((3 * k + 8) / 5, 5), k)[0]}
 
 - id: spec.u1.quiz.tangent-secant-solve
+  title: "Secant Length from a Tangent"
   pool: unit-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1660
   responseSkills: { calculation: 1640, reasoning: 1650 }
   stem: |
@@ -493,8 +551,10 @@
         return {'a': sympy.solve(sympy.Eq(x * (x + 10), 144), x)[0]}
 
 - id: spec.u1.quiz.grid-paths
+  title: "Grid Paths Through a Given Point"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Paths on a grid"
   rating: 1680
   responseSkills: { reading: 1660, calculation: 1660, reasoning: 1670 }
   stem: |

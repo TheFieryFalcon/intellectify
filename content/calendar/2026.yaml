@@ -1,0 +1,15 @@
+# WA school calendar (SPEC §8.5–8.6): which school week a date is in, and which unit each year group is in.
+# Public school term dates, Department of Education (education.wa.edu.au/term-dates); first and last school day.
+# ATAR examination periods, SCSA 2026 Year 12 ATAR course examinations (7 to 12 Circular, February 2026).
+year: 2026
+terms:
+  - { term: 1, start: 2026-02-02, end: 2026-04-02 }
+  - { term: 2, start: 2026-04-20, end: 2026-07-03 }
+  - { term: 3, start: 2026-07-20, end: 2026-09-25 }
+  - { term: 4, start: 2026-10-12, end: 2026-12-17 }
+semesters:
+  - { semester: 1, terms: [1, 2] }
+  - { semester: 2, terms: [3, 4] }
+exams:
+  - { name: ATAR practical examinations, start: 2026-09-26, end: 2026-10-25, yearGroups: [12] }
+  - { name: ATAR written examinations, start: 2026-10-28, end: 2026-11-19, yearGroups: [12] }

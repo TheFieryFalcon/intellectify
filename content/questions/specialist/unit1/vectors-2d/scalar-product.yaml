@@ -2,7 +2,9 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.scalar-product.components
+  title: "Scalar Product in Components"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1030
   responseSkills: { calculation: 1030 }
   variants:
@@ -21,7 +23,9 @@
         return {"a": Matrix([a1, a2]).dot(Matrix([b1, b2]))}
 
 - id: spec.vectors-2d.scalar-product.self-dot
+  title: "A Vector Dotted with Itself"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1060
   responseSkills: { calculation: 1060 }
   variants:
@@ -39,7 +43,9 @@
         return {"a": x**2 + y**2}
 
 - id: spec.vectors-2d.scalar-product.from-angle
+  title: "Scalar Product from Lengths and an Angle"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1080
   responseSkills: { calculation: 1080 }
   variants:
@@ -58,7 +64,9 @@
         return {"a": p*q*cos(rad(t))}
 
 - id: spec.vectors-2d.scalar-product.which-perpendicular
+  title: "Which Pair Is Perpendicular"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1110
   responseSkills: { calculation: 1100, reading: 1100 }
   stem: |
@@ -75,7 +83,9 @@
     Perpendicular means the dot product is 0. Only $(4)(1) + (-1)(4) = 0$. (Option d is parallel: the second vector is $-1$ times the first.)
 
 - id: spec.vectors-2d.scalar-product.sign
+  title: "What a Negative Scalar Product Means"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1150
   responseSkills: { reading: 1150 }
   stem: |
@@ -92,7 +102,9 @@
     $\mathbf{a}\cdot\mathbf{b} = |\mathbf{a}|\,|\mathbf{b}|\cos\theta$ and the magnitudes are positive, so $\cos\theta < 0$. The angle is obtuse.
 
 - id: spec.vectors-2d.scalar-product.perpendicular-simple
+  title: "Finding k for Perpendicular Vectors"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1200
   responseSkills: { calculation: 1190 }
   variants:
@@ -113,7 +125,9 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.scalar-product.parallel-or-perpendicular
+  title: "Parallel, Perpendicular or Neither?"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1260
   responseSkills: { reading: 1250, calculation: 1220 }
   variants:
@@ -140,7 +154,9 @@
         return {"a": k}
 
 - id: spec.vectors-2d.scalar-product.angle-1dp
+  title: "Angle Between Two Vectors"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1280
   responseSkills: { calculation: 1280 }
   requiresCalculator: true
@@ -161,7 +177,9 @@
         return {"a": round(float(deg(acos(a.dot(b) / (a.norm()*b.norm())))), 1)}
 
 - id: spec.vectors-2d.scalar-product.angle-exact
+  title: "Exact Angle Between Two Vectors"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1310
   responseSkills: { calculation: 1300 }
   variants:
@@ -182,7 +200,9 @@
         return {"a": deg(acos(simplify(u.dot(v) / (u.norm()*v.norm()))))}
 
 - id: spec.vectors-2d.scalar-product.unit-perpendicular
+  title: "Perpendicular Unit Vector"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1320 }
   variants:
@@ -202,7 +222,9 @@
         return {"a": list(p / p.norm())}
 
 - id: spec.vectors-2d.scalar-product.expand
+  title: "Expanding a Scalar Product"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1360
   responseSkills: { calculation: 1340, reading: 1330 }
   variants:
@@ -220,7 +242,9 @@
         return {"a": p**2 + d - 2*q**2}
 
 - id: spec.vectors-2d.scalar-product.perpendicular-quadratic
+  title: "Perpendicular Vectors with a Quadratic in k"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1390
   responseSkills: { calculation: 1380 }
   stem: |
@@ -237,7 +261,9 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.scalar-product.right-angle-corner
+  title: "Which Corner Is a Right Angle"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1410
   responseSkills: { calculation: 1390, reading: 1400 }
   stem: |
@@ -260,7 +286,9 @@
         return {"a": right[0] if right else "d"}
 
 - id: spec.vectors-2d.scalar-product.perpendicular-given-length
+  title: "Perpendicular Vector of a Given Length"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1420
   responseSkills: { calculation: 1400, synthesis: 1400 }
   stem: |
@@ -278,7 +306,9 @@
         return {"a": [s[x], s[y]]}
 
 - id: spec.vectors-2d.scalar-product.magnitude-combination
+  title: "Length of a Combination from an Angle"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1440
   responseSkills: { calculation: 1420, reading: 1420 }
   variants:
@@ -298,7 +328,9 @@
         return {"a": sqrt(4*p**2 + 4*d + q**2)}
 
 - id: spec.vectors-2d.scalar-product.triangle-angle
+  title: "Angle of a Triangle from Its Corners"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1450
   responseSkills: { calculation: 1430, reading: 1420 }
   requiresCalculator: true
@@ -318,7 +350,9 @@
         return {"a": round(float(deg(acos(u.dot(v) / (u.norm()*v.norm())))), 1)}
 
 - id: spec.vectors-2d.scalar-product.difference-of-squares
+  title: "Sum and Difference of Equal-Length Vectors"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1470
   responseSkills: {reasoning: 1460, proof: 1460, clarity: 1400}
   stem: |
@@ -337,7 +371,9 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.scalar-product.given-dot-and-length
+  title: "Vector from a Scalar Product and a Length"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1560
   responseSkills: {calculation: 1540, reasoning: 1540, synthesis: 1520}
   stem: |
@@ -355,7 +391,9 @@
         return {"a": [s[x], s[y]]}
 
 - id: spec.vectors-2d.scalar-product.difference-from-sum
+  title: "Length of a Difference from Another Length"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1590
   responseSkills: {calculation: 1560, reasoning: 1570, synthesis: 1570}
   stem: |
@@ -373,7 +411,9 @@
         return {"a": sqrt(9 - 2*dv + 25)}
 
 - id: spec.vectors-2d.scalar-product.angle-45-check
+  title: "Vectors at 45°"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1610
   responseSkills: {calculation: 1580, reasoning: 1590, synthesis: 1600}
   stem: |
@@ -391,7 +431,9 @@
         return {"a": sols[0]}
 
 - id: spec.vectors-2d.scalar-product.perpendicular-combination
+  title: "Angle from Perpendicular Combinations"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1630
   responseSkills: {calculation: 1580, reasoning: 1610, synthesis: 1620}
   stem: |
@@ -409,9 +451,12 @@
         return {"a": deg(acos(cv))}
 
 - id: spec.vectors-2d.scalar-product.cosine-rule-proof
+  title: "Proving the Cosine Rule"
   skills: { primary: spec.vectors-2d.scalar-product }
-  rating: 1650
-  responseSkills: {reasoning: 1650, proof: 1650, clarity: 1550}
+  subsection: "Magnitudes and the scalar product"
+  rating: 1550
+  bookwork: true
+  responseSkills: {reasoning: 1550, proof: 1550, clarity: 1450}
   stem: |
     In triangle $ABC$, let $\mathbf{b} = \overrightarrow{AC}$ and $\mathbf{c} = \overrightarrow{AB}$, and let $A$ also stand for the angle at corner $A$. Use the scalar product to prove the cosine rule, $|BC|^2 = |\mathbf{b}|^2 + |\mathbf{c}|^2 - 2|\mathbf{b}|\,|\mathbf{c}|\cos A$.
   parts:
@@ -429,7 +474,9 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.scalar-product.angle-60-quadratic
+  title: "Vectors at 60° with an Unknown"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1700
   responseSkills: {calculation: 1680, reasoning: 1680, synthesis: 1680}
   stem: |
@@ -446,7 +493,9 @@
         return {"a": [s for s in solve(2*k/(k**2 + 1) - Rational(1, 2), k)]}
 
 - id: spec.vectors-2d.scalar-product.minimize
+  title: "Shortest Length of a + tb"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -469,7 +518,9 @@
         return {"a": t0, "b": sqrt(f.subs(t, t0))}
 
 - id: spec.vectors-2d.scalar-product.closed-triangle
+  title: "Three Vectors Adding to Zero"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1750
   responseSkills: {calculation: 1680, reasoning: 1730, synthesis: 1750}
   stem: |
@@ -490,7 +541,9 @@
         return {"a": -Rational(9 + 25 + 49, 2), "b": deg(acos(d / 15))}
 
 - id: spec.vectors-2d.scalar-product.unit-vectors
+  title: "Scalar Products of i and j"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1040
   responseSkills: { calculation: 1040, reading: 1030 }
   stem: |
@@ -510,7 +563,9 @@
         return {"a": i.dot(j), "b": (2*i).dot(3*i)}
 
 - id: spec.vectors-2d.scalar-product.same-or-opposite
+  title: "Scalar Product of Vectors in the Same Direction"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1130
   responseSkills: { reading: 1120, calculation: 1100 }
   variants:
@@ -529,7 +584,9 @@
         return {"a": 3*4*cos(t)}
 
 - id: spec.vectors-2d.scalar-product.distribute
+  title: "Distributing a Scalar Product"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1260
   responseSkills: { calculation: 1250 }
   variants:
@@ -549,7 +606,9 @@
         return {"a": a.dot(b + c)}
 
 - id: spec.vectors-2d.scalar-product.given-value
+  title: "Finding k from a Scalar Product"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1320
   responseSkills: { calculation: 1310 }
   variants:
@@ -569,7 +628,9 @@
         return {"a": solve(6 - kk - t, kk)[0]}
 
 - id: spec.vectors-2d.scalar-product.angle-type
+  title: "Acute, Right or Obtuse?"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1380
   responseSkills: { calculation: 1360, reading: 1370 }
   variants:
@@ -593,7 +654,9 @@
         return {"a": "a" if d > 0 else "b" if d == 0 else "c"}
 
 - id: spec.vectors-2d.scalar-product.from-sum-length
+  title: "Scalar Product and Angle from a Sum's Length"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1440
   responseSkills: { calculation: 1420, reading: 1420 }
   stem: |
@@ -614,7 +677,9 @@
         return {"a": d, "b": deg(acos(d / 24))}
 
 - id: spec.vectors-2d.scalar-product.rectangle-diagonals
+  title: "Angle Between the Diagonals of a Rectangle"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1460
   responseSkills: { calculation: 1440, synthesis: 1420 }
   requiresCalculator: true
@@ -634,7 +699,9 @@
         return {"a": round(float(min(t, 180 - t)), 1)}
 
 - id: spec.vectors-2d.scalar-product.angle-in-triangle-exact
+  title: "Exact Angle of a Triangle"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1430
   responseSkills: { calculation: 1410, reading: 1410 }
   stem: |
@@ -652,7 +719,9 @@
         return {"a": deg(acos(simplify(u.dot(v) / (u.norm()*v.norm()))))}
 
 - id: spec.vectors-2d.scalar-product.perpendicular-combination-angle
+  title: "Scalar Product and Angle from Perpendicular Combinations"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1580
   responseSkills: {calculation: 1560, reasoning: 1560, synthesis: 1550}
   requiresCalculator: true
@@ -675,7 +744,9 @@
         return {"a": dv, "b": round(float(deg(acos(dv / 6))), 1)}
 
 - id: spec.vectors-2d.scalar-product.rotated-axes
+  title: "Components Along Turned Axes"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1630
   responseSkills: {calculation: 1580, reasoning: 1610, synthesis: 1620}
   stem: |
@@ -699,7 +770,9 @@
         return {"x": simplify(s[x]), "y": simplify(s[y])}
 
 - id: spec.vectors-2d.scalar-product.angle-45-length
+  title: "Vector at 45° with a Given Length"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1710
   responseSkills: {calculation: 1660, reasoning: 1690, synthesis: 1700}
   stem: |
@@ -718,7 +791,9 @@
         return {"a": [simplify(s[x]), simplify(s[y])]}
 
 - id: spec.vectors-2d.scalar-product.obtuse-range
+  title: "When the Angle Is Obtuse"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1720
   responseSkills: {reading: 1700, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -745,7 +820,9 @@
         return {"a": "b"}
 
 - id: spec.vectors-2d.scalar-product.right-angle-on-axis
+  title: "Right Angles from Points on the x-Axis"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1730
   responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1720}
   stem: |
@@ -763,7 +840,9 @@
         return {"a": solve((A - P).dot(B - P), x)}
 
 - id: spec.vectors-2d.scalar-product.cauchy-schwarz
+  title: "Square of a Scalar Product at Most the Product of Squares"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1750
   responseSkills: {reasoning: 1750, proof: 1750, clarity: 1620, synthesis: 1700}
   stem: |
@@ -786,7 +865,9 @@
         return {}
 
 - id: spec.vectors-2d.scalar-product.three-unit-vectors
+  title: "Largest Sum of Squared Distances Between Unit Vectors"
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1820
   responseSkills: {calculation: 1770, reasoning: 1800, proof: 1760, synthesis: 1820}
   stem: |

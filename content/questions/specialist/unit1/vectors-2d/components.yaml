@@ -2,7 +2,9 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.components.column-to-ij
+  title: "Column Vector in i, j Form"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1010
   responseSkills: {reading: 1010, calculation: 1000}
   variants:
@@ -20,7 +22,9 @@
         return {"a": [x, y]}
 
 - id: spec.vectors-2d.components.magnitude
+  title: "Magnitude of a Vector"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1040
   responseSkills: { calculation: 1040 }
   variants:
@@ -39,7 +43,9 @@
         return {"a": sqrt(x**2 + y**2)}
 
 - id: spec.vectors-2d.components.combine
+  title: "Combining Column Vectors"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1090
   responseSkills: { calculation: 1050 }
   variants:
@@ -59,7 +65,9 @@
         return {"a": [2*a1 - b1, 2*a2 - b2]}
 
 - id: spec.vectors-2d.components.between-points
+  title: "Vector and Distance Between Two Points"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1110
   responseSkills: { calculation: 1100, reading: 1100 }
   variants:
@@ -81,7 +89,9 @@
         return {"a": [bx - ax, by - ay], "b": sqrt((bx - ax)**2 + (by - ay)**2)}
 
 - id: spec.vectors-2d.components.unit-vector
+  title: "Unit Vector in a Given Direction"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1180
   responseSkills: { calculation: 1170 }
   variants:
@@ -102,7 +112,9 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.components.given-magnitude
+  title: "Vector with a Given Length and Direction"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1270
   responseSkills: { calculation: 1260, reading: 1250 }
   variants:
@@ -121,7 +133,9 @@
         return {"a": [L*x/n, L*y/n]}
 
 - id: spec.vectors-2d.components.parallel-unknown
+  title: "Finding an Unknown for Parallel Vectors"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1290
   responseSkills: { calculation: 1270, reading: 1280 }
   variants:
@@ -141,7 +155,9 @@
         return {"a": p * k}
 
 - id: spec.vectors-2d.components.from-polar
+  title: "Vector from Its Length and Direction Angle"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1310
   responseSkills: { calculation: 1300 }
   variants:
@@ -161,7 +177,9 @@
         return {"a": [r*cos(a), r*sin(a)]}
 
 - id: spec.vectors-2d.components.direction-angle
+  title: "Direction Angle of a Vector"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1330 }
   variants:
@@ -181,7 +199,9 @@
         return {"a": deg(atan2(sympify(ys), sympify(xs))) % 360}
 
 - id: spec.vectors-2d.components.solve-scalars
+  title: "Writing a Vector as a Combination of Two Others"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1350
   responseSkills: { calculation: 1340, reading: 1320 }
   variants:
@@ -205,7 +225,9 @@
         return {"p": s[p], "q": s[q]}
 
 - id: spec.vectors-2d.components.fourth-corner
+  title: "Fourth Corner of a Parallelogram"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1370
   responseSkills: { reading: 1360, calculation: 1300 }
   variants:
@@ -224,7 +246,9 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.components.sum-and-difference
+  title: "Two Vectors from Their Sum and Difference"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1410
   responseSkills: { calculation: 1390, reading: 1400 }
   stem: |
@@ -245,7 +269,9 @@
         return {"a": list(a), "b": list(s - a)}
 
 - id: spec.vectors-2d.components.magnitude-unknown
+  title: "Unknown Component from a Length"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1420
   responseSkills: { calculation: 1410 }
   stem: |
@@ -261,7 +287,9 @@
         return {"a": solve(k**2 + (k + 1)**2 - 25, k)}
 
 - id: spec.vectors-2d.components.collinear
+  title: "Three Points on a Line"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1440
   responseSkills: { reading: 1430, calculation: 1400 }
   variants:
@@ -281,7 +309,9 @@
         return {"a": 1 + 2*t}
 
 - id: spec.vectors-2d.components.divide-segment
+  title: "Point Dividing a Segment in a Ratio"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1450
   responseSkills: { calculation: 1430, reading: 1420 }
   variants:
@@ -300,7 +330,9 @@
         return {"a": [ax + f*(bx - ax), ay + f*(by - ay)]}
 
 - id: spec.vectors-2d.components.distance-along
+  title: "Points a Given Distance Along a Line"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1470
   responseSkills: { calculation: 1450, synthesis: 1430 }
   stem: |
@@ -322,7 +354,9 @@
         return {"a": list(A + 4*u), "b": list(A + 15*u)}
 
 - id: spec.vectors-2d.components.parallelogram-midpoint
+  title: "Distance to the Midpoint of a Parallelogram Side"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1510
   responseSkills: { calculation: 1480, reading: 1480 }
   stem: |
@@ -341,7 +375,9 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.components.magnitude-quadratic
+  title: "Length of a Combination with an Unknown"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1580
   responseSkills: {calculation: 1570, reasoning: 1560, synthesis: 1520}
   stem: |
@@ -358,7 +394,9 @@
         return {"a": solve((2*k - 1)**2 + (k + 3)**2 - 25, k)}
 
 - id: spec.vectors-2d.components.equal-length-sum
+  title: "Equal-Length Vector with a Horizontal Sum"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1590
   responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1580}
   stem: |
@@ -377,7 +415,9 @@
         return {"a": [s[x], s[y]]}
 
 - id: spec.vectors-2d.components.three-parallelograms
+  title: "Three Parallelograms from Three Points"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1620
   responseSkills: {reading: 1610, calculation: 1570, reasoning: 1600, synthesis: 1580}
   stem: |
@@ -403,7 +443,9 @@
         return {"a": list(A + C - B), "b": list(B + C - A), "c": list(A + B - C)}
 
 - id: spec.vectors-2d.components.greatest-least
+  title: "Greatest and Least Length of a Combination"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1650
   responseSkills: {reading: 1580, calculation: 1600, reasoning: 1630, synthesis: 1650}
   variants:
@@ -427,7 +469,9 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.components.closest-point
+  title: "Closest Point on a Moving Path"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1700
   responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1700}
   stem: |
@@ -451,7 +495,9 @@
         return {"a": t0, "b": sqrt(d2.subs(t, t0))}
 
 - id: spec.vectors-2d.components.square-corners
+  title: "Missing Corners of a Square"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1720
   responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1720}
   stem: |
@@ -480,7 +526,9 @@
         return {"b": list(B), "d": list(D)}
 
 - id: spec.vectors-2d.components.rhombus-corners
+  title: "Missing Corners of a Rhombus"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1760
   responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
   stem: |
@@ -510,7 +558,9 @@
         return {"b": list(B), "d": list(D)}
 
 - id: spec.vectors-2d.components.unit-makes-parallel
+  title: "Unit Vector That Makes a Sum Horizontal"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1710
   responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
   stem: |
@@ -529,7 +579,9 @@
         return {"a": [s[x], s[y]]}
 
 - id: spec.vectors-2d.components.equilateral-corner
+  title: "Third Corner of an Equilateral Triangle"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1740
   responseSkills: {calculation: 1690, reasoning: 1720, synthesis: 1730}
   stem: |
@@ -552,7 +604,9 @@
         return {"a": [simplify(C[0]), simplify(C[1])]}
 
 - id: spec.vectors-2d.components.angle-bisector
+  title: "Vector Bisecting the Angle Between Two Others"
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1760
   responseSkills: {calculation: 1690, reasoning: 1740, synthesis: 1760}
   stem: |

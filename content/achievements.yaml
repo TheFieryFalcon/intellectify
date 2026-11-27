@@ -1,5 +1,5 @@
 # Achievements (docs/SPEC.md §12.1). Generated from the spec's tables; rules are evaluated client-side.
-# `pending` rules wait for a feature (monthly problems, reports) and can't be earned yet.
+# `pending` rules wait for a feature (monthly problems) and can't be earned yet.
 
 - id: P1
   name: Groundwork
@@ -110,8 +110,8 @@
   name: Spot the Flaw
   tier: platinum
   points: 10
-  criterion: Submit a report that auto-reverification confirms (question hidden)
-  rule: {kind: pending, feature: reports}
+  criterion: Report an error that gets confirmed
+  rule: {kind: count, stat: reports, gte: 1}
 - id: P19
   name: Comeback
   tier: platinum
@@ -272,7 +272,7 @@
   points: 25
   secret: true
   criterion: A confirmed report on a Tier 5 or Tier 6 question
-  rule: {kind: pending, feature: reports}
+  rule: {kind: count, stat: hardReports, gte: 1}
 - id: D22
   name: Contradiction
   tier: diamond

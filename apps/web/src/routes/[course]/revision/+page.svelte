@@ -2,6 +2,8 @@
   /** Revision (SPEC §8.6): Exam Revision at two levels, or Custom Revision with any filters. */
   import { loadQuestionIndex, type QuestionIndexEntry } from "$lib/content";
   import { candidates, specToParams, parseScope, type ExamLevel, type RevisionSpec } from "$lib/revision";
+  import SubsectionSelect from "$lib/components/SubsectionSelect.svelte";
+  import { subKey } from "$lib/subsections";
 
   let { data } = $props();
 
@@ -14,19 +16,24 @@
   const sections = $derived(data.course.units.flatMap((u) => u.sections).filter((s) => has((e) => e.section === s.id)));
   const skills = $derived(data.course.units.flatMap((u) => u.sections.flatMap((s) => s.skills)).filter((k) => has((e) => e.skills.includes(k.id))));
   const tags = $derived([...new Set(index.flatMap((e) => e.tags))].sort());
+  const usedSubs = $derived(new Set(index.map((e) => subKey(e.skill, e.subsection))));
+  /** Narrow a skill scope to one of its subsections: "sub:<skill>/<name>", or the scope unchanged. */
+  const withSub = (scope: string, sub: string) => (scope.startsWith("skill:") && sub.startsWith(`${scope.slice(6)}/`) ? `sub:${sub}` : scope);
 
   let examLevel = $state<ExamLevel>("easy");
   let examScope = $state("course");
   let examKind = $state<"" | "auto" | "written">("");
+  let examSub = $state("");
 
   let scope = $state("course");
   let tiers = $state<number[]>([]);
   let kind = $state<"" | "auto" | "written">("");
   let picked = $state<string[]>([]);
   let later = $state(false);
+  let sub = $state("");
 
-  const examSpec = $derived<RevisionSpec>({ mode: "exam", scope: parseScope(examScope), level: examLevel, tiers: [], kind: examKind, tags: [], later: false });
-  const customSpec = $derived<RevisionSpec>({ mode: "custom", scope: parseScope(scope), level: "easy", tiers: [...tiers].sort(), kind, tags: picked, later });
+  const examSpec = $derived<RevisionSpec>({ mode: "exam", scope: parseScope(withSub(examScope, examSub)), level: examLevel, tiers: [], kind: examKind, tags: [], later: false });
+  const customSpec = $derived<RevisionSpec>({ mode: "custom", scope: parseScope(withSub(scope, sub)), level: "easy", tiers: [...tiers].sort(), kind, tags: picked, later });
   const examCount = $derived(candidates(index, examSpec).length);
   const customCount = $derived(candidates(index, customSpec).length);
   const href = (s: RevisionSpec) => `/${data.course.id}/revision/run?${specToParams(s)}`;
@@ -63,7 +70,8 @@
       {/each}
     </div>
     <div class="row">
-      <label>Scope {@render scopeSelect(examScope, (v) => (examScope = v))}</label>
+      <label>Scope {@render scopeSelect(examScope, (v) => ((examScope = v), (examSub = "")))}</label>
+      {#if examScope.startsWith("skill:")}<label>Subsection <SubsectionSelect course={data.course} value={examSub} skill={examScope.slice(6)} any="Any" only={usedSubs} onchange={(v) => (examSub = v)} /></label>{/if}
       <label>Type {@render typeSelect(examKind, (v) => (examKind = v))}</label>
     </div>
     <div class="go">
@@ -75,7 +83,8 @@
   <section class="card">
     <h2>Custom revision</h2>
     <div class="row">
-      <label>Scope {@render scopeSelect(scope, (v) => (scope = v))}</label>
+      <label>Scope {@render scopeSelect(scope, (v) => ((scope = v), (sub = "")))}</label>
+      {#if scope.startsWith("skill:")}<label>Subsection <SubsectionSelect course={data.course} value={sub} skill={scope.slice(6)} any="Any" only={usedSubs} onchange={(v) => (sub = v)} /></label>{/if}
       <label>Type {@render typeSelect(kind, (v) => (kind = v))}</label>
     </div>
     <fieldset>

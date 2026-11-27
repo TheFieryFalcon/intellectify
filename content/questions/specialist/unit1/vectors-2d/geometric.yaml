@@ -2,7 +2,9 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.geometric.which-vector
+  title: "Which Quantity Is a Vector"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Vectors and scalars"
   rating: 1020
   responseSkills: { reading: 1020 }
   stem: |
@@ -19,7 +21,9 @@
     A vector needs a size and a direction. Only "5 km due north" gives a direction.
 
 - id: spec.vectors-2d.geometric.scalar-multiple-magnitude
+  title: "Length of a Multiple of a Vector"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Vectors and scalars"
   rating: 1050
   responseSkills: { calculation: 1050 }
   variants:
@@ -38,7 +42,9 @@
         return {"a": abs(k) * m}
 
 - id: spec.vectors-2d.geometric.negative-multiple
+  title: "What a Negative Multiple Does"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Vectors and scalars"
   rating: 1070
   responseSkills: { reading: 1070 }
   stem: |
@@ -55,7 +61,9 @@
     $|-2| = 2$, so it is twice as long. The negative sign reverses the direction.
 
 - id: spec.vectors-2d.geometric.chain
+  title: "Adding Vectors Head to Tail"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1090
   responseSkills: { reading: 1090 }
   stem: |
@@ -72,7 +80,9 @@
     Head to tail: $A \to B \to C \to D$ has the same effect as going straight from $A$ to $D$, so the sum is $\overrightarrow{AD}$.
 
 - id: spec.vectors-2d.geometric.perpendicular-walk
+  title: "Distance After Two Perpendicular Legs"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1120
   responseSkills: { calculation: 1100, reading: 1120 }
   variants:
@@ -92,7 +102,9 @@
         return {"a": sqrt(e**2 + n**2)}
 
 - id: spec.vectors-2d.geometric.parallelogram-diagonal
+  title: "Diagonal of a Parallelogram"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1150
   responseSkills: {reading: 1150, calculation: 1100}
   stem: |
@@ -108,7 +120,9 @@
         return {"a": a + c}
 
 - id: spec.vectors-2d.geometric.parallelogram-other-diagonal
+  title: "Other Diagonal of a Parallelogram"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1200
   responseSkills: {reading: 1200, calculation: 1150}
   stem: |
@@ -125,7 +139,9 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.geometric.midpoint-path
+  title: "Vector to the Midpoint of a Side"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1270
   responseSkills: {reading: 1270, calculation: 1220, reasoning: 1250}
   stem: |
@@ -141,7 +157,9 @@
         return {"a": c + a / 2}
 
 - id: spec.vectors-2d.geometric.bearing-resultant
+  title: "Distance and Bearing After Two Legs"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1300
   responseSkills: {reading: 1300, calculation: 1280, reasoning: 1280}
   requiresCalculator: true
@@ -165,7 +183,9 @@
         return {"a": sqrt(s**2 + e**2), "b": round(float(180 - theta), 1)}
 
 - id: spec.vectors-2d.geometric.divide-side
+  title: "Point Dividing a Side in a Ratio"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Points dividing a line"
   rating: 1350
   responseSkills: {reading: 1340, calculation: 1300, reasoning: 1330}
   variants:
@@ -186,7 +206,9 @@
         return {"a": a + Rational(p, p + q) * (b - a)}
 
 - id: spec.vectors-2d.geometric.sum-60
+  title: "Length of a Sum from an Angle"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1380
   responseSkills: {reading: 1360, calculation: 1370, reasoning: 1360}
   variants:
@@ -207,7 +229,9 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.geometric.difference-120
+  title: "Length of a Difference from an Angle"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1430
   responseSkills: {reading: 1430, calculation: 1400, reasoning: 1410}
   variants:
@@ -226,7 +250,9 @@
         return {"a": sqrt(p**2 + q**2 - 2*p*q*cos(2*pi/3))}
 
 - id: spec.vectors-2d.geometric.hexagon
+  title: "Vectors in a Regular Hexagon"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1470
   responseSkills: {reading: 1470, calculation: 1420, reasoning: 1450, synthesis: 1450}
   stem: |
@@ -255,7 +281,9 @@
         return {"a": coeffs(D - A), "b": coeffs(D - C)}
 
 - id: spec.vectors-2d.geometric.two-forces
+  title: "Resultant of Two Forces at an Angle"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1490
   responseSkills: {reading: 1450, calculation: 1470, reasoning: 1470}
   requiresCalculator: true
@@ -278,9 +306,12 @@
         return {"a": R, "b": round(float(theta), 1)}
 
 - id: spec.vectors-2d.geometric.midpoint-theorem
+  title: "Midpoint Theorem by Vectors"
   skills: { primary: spec.vectors-2d.geometric }
-  rating: 1520
-  responseSkills: {reasoning: 1500, proof: 1500, clarity: 1450}
+  subsection: "Points dividing a line"
+  rating: 1420
+  bookwork: true
+  responseSkills: {reasoning: 1400, proof: 1400, clarity: 1350}
   stem: |
     In triangle $OAB$, $M$ is the midpoint of $OA$ and $N$ is the midpoint of $OB$. Use vectors to prove that $MN$ is parallel to $AB$ and half its length.
   parts:
@@ -298,7 +329,9 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.geometric.equal-magnitudes
+  title: "Two Vectors and Their Sum All the Same Length"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1570
   responseSkills: {reading: 1500, calculation: 1520, reasoning: 1550, synthesis: 1570}
   stem: |
@@ -316,7 +349,9 @@
         return {"a": deg(sol[0])}
 
 - id: spec.vectors-2d.geometric.sum-and-difference
+  title: "Length of a Difference from a Sum"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1610
   responseSkills: {calculation: 1580, reasoning: 1590, synthesis: 1600}
   variants:
@@ -336,7 +371,9 @@
         return {"a": sqrt(p**2 + q**2 - 2*p*q*c)}
 
 - id: spec.vectors-2d.geometric.equilibrium-angle
+  title: "Angle Between Forces in Equilibrium"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1660
   responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1650}
   requiresCalculator: true
@@ -356,7 +393,9 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.geometric.trapezium-diagonals
+  title: "Where the Diagonals of a Trapezium Meet"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1710
   responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
   variants:
@@ -378,7 +417,9 @@
         return {"a": s[lam] * (k*a + c)}
 
 - id: spec.vectors-2d.geometric.cevians
+  title: "Where Two Lines in a Triangle Cross"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Points dividing a line"
   rating: 1740
   responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1730}
   stem: |
@@ -398,7 +439,9 @@
         return {"a": (1 - sol[s])*a + Rational(3, 4)*sol[s]*b}
 
 - id: spec.vectors-2d.geometric.medians-meet
+  title: "The Three Medians Meet by Vectors"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Points dividing a line"
   rating: 1760
   responseSkills: {reasoning: 1760, proof: 1760, clarity: 1650, synthesis: 1720}
   stem: |
@@ -420,7 +463,9 @@
     All three points are the same point, $\tfrac{1}{3}(\mathbf{a} + \mathbf{b})$. So the three lines pass through it, and it is $\tfrac{2}{3}$ of the way along each.
 
 - id: spec.vectors-2d.geometric.point-on-diagonal
+  title: "Point on a Diagonal of a Parallelogram"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Points dividing a line"
   rating: 1330
   responseSkills: {reading: 1320, calculation: 1280, reasoning: 1310}
   variants:
@@ -439,7 +484,9 @@
         return {"a": Rational(p, p + q) * (a + c) - a}
 
 - id: spec.vectors-2d.geometric.hexagon-midpoints
+  title: "Midpoints in a Regular Hexagon"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1700
   responseSkills: {reading: 1650, calculation: 1650, reasoning: 1680, synthesis: 1690}
   stem: |
@@ -462,7 +509,9 @@
         return {"a": simplify(s[x])*a + simplify(s[y])*b}
 
 - id: spec.vectors-2d.geometric.line-meets-side
+  title: "Where a Line Meets an Extended Side"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Points dividing a line"
   rating: 1740
   responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
   stem: |
@@ -483,7 +532,9 @@
         return {"a": X.subs(t, t0)}
 
 - id: spec.vectors-2d.geometric.quadrilateral-identity
+  title: "A Vector Identity for Any Quadrilateral"
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1720
   responseSkills: {reasoning: 1710, proof: 1710, clarity: 1600, synthesis: 1680}
   stem: |

@@ -2,7 +2,9 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.combinatorics.combinations.evaluate
+  title: "Evaluating a Combination"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1050
   responseSkills: { calculation: 1050 }
   variants:
@@ -21,7 +23,9 @@
         return {"a": binomial(n, r)}
 
 - id: spec.combinatorics.combinations.choose-team
+  title: "Choosing a Team"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1100
   responseSkills: { calculation: 1080, reading: 1100 }
   variants:
@@ -40,7 +44,9 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.combinatorics.combinations.exactly-two-women
+  title: "Committee with Exactly Two Women"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1330
   responseSkills: { calculation: 1300, reading: 1330 }
   stem: |
@@ -55,7 +61,9 @@
         return {"a": binomial(7, 2) * binomial(5, 2)}
 
 - id: spec.combinatorics.combinations.at-least-one-man
+  title: "Committee with at Least One Man"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1360
   responseSkills: { calculation: 1330, reading: 1360 }
   stem: |
@@ -70,7 +78,9 @@
         return {"a": binomial(12, 4) - binomial(7, 4)}
 
 - id: spec.combinatorics.combinations.solve-ncr
+  title: "Solving for n in a Combination"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1330
   responseSkills: { calculation: 1330 }
   variants:
@@ -92,7 +102,9 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.combinatorics.combinations.diagonals
+  title: "Diagonals of a Polygon"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting shapes"
   rating: 1420
   responseSkills: {reading: 1420, calculation: 1380, reasoning: 1400}
   variants:
@@ -110,7 +122,9 @@
         return {"a": binomial(n, 2) - n}
 
 - id: spec.combinatorics.combinations.at-least-two-girls
+  title: "Committee with at Least Two Girls"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1460
   responseSkills: {reading: 1460, calculation: 1430, reasoning: 1440}
   stem: |
@@ -125,7 +139,9 @@
         return {"a": sum(binomial(5, g) * binomial(6, 5 - g) for g in range(2, 6))}
 
 - id: spec.combinatorics.combinations.feuding-pair
+  title: "Team Without a Feuding Pair"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Who must or mustn't be chosen"
   rating: 1470
   responseSkills: {reading: 1470, calculation: 1430, reasoning: 1450}
   words: { p1: person, p2: person, sport: sport }
@@ -142,7 +158,9 @@
         return {"a": sum(1 for t in combos(range(10), 4) if not (0 in t and 1 in t))}
 
 - id: spec.combinatorics.combinations.grid-paths
+  title: "Routes Across a Street Grid"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Paths on a grid"
   rating: 1440
   responseSkills: {reading: 1440, calculation: 1390, reasoning: 1420, synthesis: 1420}
   words: { who: person }
@@ -161,7 +179,9 @@
         return {"a": binomial(r + u, u)}
 
 - id: spec.combinatorics.combinations.triangles-two-lines
+  title: "Triangles from Points on Two Parallel Lines"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting shapes"
   rating: 1500
   responseSkills: {reading: 1500, calculation: 1450, reasoning: 1480, synthesis: 1480}
   stem: |
@@ -177,7 +197,9 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.combinatorics.combinations.whole-number-solutions
+  title: "Whole-Number Solutions of x + y + z"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Sharing identical objects"
   rating: 1580
   responseSkills: {calculation: 1500, reasoning: 1560, synthesis: 1580}
   stem: |
@@ -202,7 +224,9 @@
         return {"a": a, "b": b}
 
 - id: spec.combinatorics.combinations.more-women
+  title: "Committees with More Women Than Men"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1560
   responseSkills: {reading: 1550, calculation: 1520, reasoning: 1540}
   stem: |
@@ -222,7 +246,9 @@
         return {"a": sum(binomial(5, w) * binomial(7, 6 - w) for w in range(6) if w > 6 - w)}
 
 - id: spec.combinatorics.combinations.two-hearts
+  title: "Card Hands with Exactly Two Hearts"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1550
   responseSkills: {reading: 1540, calculation: 1520, reasoning: 1530}
   stem: |
@@ -237,7 +263,9 @@
         return {"a": binomial(13, 2) * binomial(39, 3)}
 
 - id: spec.combinatorics.combinations.examination
+  title: "Four-Letter Arrangements from EXAMINATION"
   skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
+  subsection: "Choosing from categories"
   rating: 1650
   responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
   stem: |
@@ -259,7 +287,9 @@
         return {"a": len(set(permutations("EXAMINATION", 4)))}
 
 - id: spec.combinatorics.combinations.pairs-up
+  title: "Splitting People into Pairs"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Splitting into groups and roles"
   rating: 1680
   responseSkills: {calculation: 1600, reasoning: 1660, synthesis: 1660}
   variants:
@@ -283,7 +313,9 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.combinatorics.combinations.every-suit
+  title: "Card Hands with Every Suit"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1720
   responseSkills: {calculation: 1620, reasoning: 1700, synthesis: 1720}
   stem: |
@@ -298,7 +330,9 @@
         return {"a": 4 * binomial(13, 2) * 13**3}
 
 - id: spec.combinatorics.combinations.no-consecutive-subsets
+  title: "Subsets with No Two Consecutive Numbers"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting by a clever choice"
   rating: 1800
   responseSkills: {calculation: 1750, reasoning: 1780, proof: 1720, synthesis: 1800}
   stem: |
@@ -317,7 +351,9 @@
         return {"a": total}
 
 - id: spec.combinatorics.combinations.capped-sharing
+  title: "Sharing Sweets with a Cap per Child"
   skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  subsection: "Sharing identical objects"
   rating: 1790
   responseSkills: {calculation: 1650, reasoning: 1770, synthesis: 1790}
   stem: |
@@ -338,7 +374,9 @@
         return {"a": sum(1 for p in product(range(1, 5), repeat=4) if sum(p) == 10)}
 
 - id: spec.combinatorics.combinations.handshakes
+  title: "Handshakes at a Party"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1120
   responseSkills: { calculation: 1100, reading: 1120 }
   words: { who: person }
@@ -357,7 +395,9 @@
         return {"a": binomial(n, 2)}
 
 - id: spec.combinatorics.combinations.triangles-from-points
+  title: "Triangles from Points on a Circle"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting shapes"
   rating: 1290
   responseSkills: { calculation: 1270, reading: 1290 }
   variants:
@@ -375,7 +415,9 @@
         return {"a": binomial(n, 3)}
 
 - id: spec.combinatorics.combinations.toppings
+  title: "Pizzas with at Least Ten Toppings"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1370
   responseSkills: { calculation: 1350, reading: 1360 }
   stem: |
@@ -390,7 +432,9 @@
         return {"a": sum(binomial(12, k) for k in (10, 11, 12))}
 
 - id: spec.combinatorics.combinations.books-to-students
+  title: "Sharing Books Equally Among Students"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Splitting into groups and roles"
   rating: 1480
   responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
   words: { p1: person, p2: person, p3: person }
@@ -406,7 +450,9 @@
         return {"a": binomial(9, 3) * binomial(6, 3) * binomial(3, 3)}
 
 - id: spec.combinatorics.combinations.chessboard-rectangles
+  title: "Rectangles on a Chessboard"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting shapes"
   rating: 1700
   responseSkills: {calculation: 1620, reasoning: 1680, synthesis: 1700}
   variants:
@@ -424,7 +470,9 @@
         return {"a": sum((n - h + 1) * (n - w + 1) for h in range(1, n + 1) for w in range(1, n + 1))}
 
 - id: spec.combinatorics.combinations.sum-divisible-by-3
+  title: "Three Numbers with a Sum Divisible by 3"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting by a clever choice"
   rating: 1760
   responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
   stem: |
@@ -444,7 +492,9 @@
         return {"a": sum(1 for c in combos(range(1, 31), 3) if sum(c) % 3 == 0)}
 
 - id: spec.combinatorics.combinations.paths-below-diagonal
+  title: "Grid Paths That Stay Below the Diagonal"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Paths on a grid"
   rating: 1850
   responseSkills: {calculation: 1800, reasoning: 1830, proof: 1780, synthesis: 1850}
   stem: |
@@ -467,7 +517,9 @@
         return {"a": f(6, 6)}
 
 - id: spec.combinatorics.combinations.pick-toppings
+  title: "Choosing Pizza Toppings"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing a group"
   rating: 1260
   responseSkills: {calculation: 1250}
   variants:
@@ -484,7 +536,9 @@
     def answers(n, r, v):
         return {"a": binomial(n, r)}
 - id: spec.combinatorics.combinations.lotto
+  title: "Lottery Entries"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing a group"
   rating: 1290
   responseSkills: {calculation: 1280, reading: 1270}
   requiresCalculator: true
@@ -499,7 +553,9 @@
     def answers():
         return {"a": binomial(45, 6)}
 - id: spec.combinatorics.combinations.at-least-three-women
+  title: "Committee with at Least Three Women"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing from categories"
   rating: 1320
   responseSkills: {calculation: 1300, reading: 1310}
   stem: |
@@ -515,7 +571,9 @@
         people = ["W"] * 4 + ["M"] * 6
         return {"a": sum(1 for c in combinations(range(10), 5) if sum(people[i] == "W" for i in c) >= 3)}
 - id: spec.combinatorics.combinations.three-aces
+  title: "Card Hands with Exactly Three Aces"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing from categories"
   rating: 1350
   responseSkills: {calculation: 1330, reading: 1340}
   requiresCalculator: true
@@ -530,7 +588,9 @@
     def answers():
         return {"a": binomial(4, 3) * binomial(48, 2)}
 - id: spec.combinatorics.combinations.quadrilaterals
+  title: "Quadrilaterals from Points on a Circle"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Counting shapes"
   rating: 1380
   responseSkills: {calculation: 1360, reading: 1370}
   stem: |
@@ -544,7 +604,9 @@
     def answers():
         return {"a": binomial(10, 4)}
 - id: spec.combinatorics.combinations.both-or-neither
+  title: "Team Where Two Members Come Together or Not at All"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Who must or mustn't be chosen"
   rating: 1410
   responseSkills: {calculation: 1390, reasoning: 1390, synthesis: 1390}
   words: { p1: person, p2: person, club: club }
@@ -560,7 +622,9 @@
     def answers():
         return {"a": sum(1 for c in combinations(range(12), 4) if (0 in c) == (1 in c))}
 - id: spec.combinatorics.combinations.split-groups
+  title: "Splitting a Group in Two"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Splitting into groups and roles"
   rating: 1440
   responseSkills: {reading: 1420, calculation: 1420, reasoning: 1420}
   stem: |
@@ -574,7 +638,9 @@
     def answers():
         return {"a": binomial(12, 5)}
 - id: spec.combinatorics.combinations.three-evens
+  title: "Subsets with Exactly Three Even Numbers"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing from categories"
   rating: 1470
   responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1440}
   stem: |
@@ -592,7 +658,9 @@
             n += sum(1 for c in combinations(range(1, 11), k) if sum(x % 2 == 0 for x in c) == 3)
         return {"a": n}
 - id: spec.combinatorics.combinations.balls-nonempty
+  title: "Identical Balls in Boxes, None Empty"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Sharing identical objects"
   rating: 1500
   responseSkills: {calculation: 1480, reasoning: 1480, synthesis: 1470}
   stem: |
@@ -606,7 +674,9 @@
     def answers():
         return {"a": sum(1 for a in range(1, 9) for b in range(1, 9) if 8 - a - b >= 1)}
 - id: spec.combinatorics.combinations.increasing-digits
+  title: "Numbers with Strictly Increasing Digits"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Counting by a clever choice"
   rating: 1560
   responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
   stem: |
@@ -620,7 +690,9 @@
     def answers():
         return {"a": sum(1 for n in range(1000, 10000) if all(a < b for a, b in zip(str(n), str(n)[1:])))}
 - id: spec.combinatorics.combinations.all-four-suits
+  title: "Card Hands Containing All Four Suits"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing from categories"
   rating: 1620
   responseSkills: {calculation: 1570, reasoning: 1600, synthesis: 1610}
   requiresCalculator: true
@@ -638,7 +710,9 @@
         return {"a": sum(binomial(13, a) * binomial(13, b) * binomial(13, c) * binomial(13, d)
                          for a, b, c, d in product(range(1, 6), repeat=4) if a + b + c + d == 5)}
 - id: spec.combinatorics.combinations.solutions-at-least-two
+  title: "Solutions with Every Variable at Least Two"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Sharing identical objects"
   rating: 1660
   responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1650}
   stem: |
@@ -652,7 +726,9 @@
     def answers():
         return {"a": sum(1 for a in range(2, 21) for b in range(2, 21) for c in range(2, 21) if 20 - a - b - c >= 2)}
 - id: spec.combinatorics.combinations.no-consecutive-three
+  title: "Choosing Three Numbers, No Two Consecutive"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Counting by a clever choice"
   rating: 1690
   responseSkills: {calculation: 1630, reasoning: 1670, synthesis: 1680}
   stem: |
@@ -667,7 +743,9 @@
     def answers():
         return {"a": sum(1 for c in combinations(range(1, 21), 3) if c[1] - c[0] > 1 and c[2] - c[1] > 1)}
 - id: spec.combinatorics.combinations.grid-triangles
+  title: "Triangles from a Square Grid of Points"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Counting shapes"
   rating: 1730
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1730}
   stem: |
@@ -689,7 +767,9 @@
         col = lambda a, b, c: (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0]) == 0
         return {"a": sum(1 for t in combinations(pts, 3) if not col(*t))}
 - id: spec.combinatorics.combinations.two-pairs-committee
+  title: "Choosing a Mixed-Doubles Squad"
   skills: {primary: spec.combinatorics.combinations}
+  subsection: "Choosing from categories"
   rating: 1370
   responseSkills: {calculation: 1350, reading: 1360}
   stem: |
@@ -704,7 +784,9 @@
         return {"a": binomial(7, 2) * binomial(6, 2)}
 
 - id: spec.combinatorics.combinations.club-committee
+  title: "Choosing a Club Committee"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1100
   responseSkills: { reading: 1100, calculation: 1060 }
   words: { club: club }
@@ -726,7 +808,9 @@
         return {"a": len(list(combinations(range(n), r)))}
 
 - id: spec.combinatorics.combinations.tasting-platter
+  title: "Building a Tasting Platter"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1240
   responseSkills: { reading: 1240, calculation: 1200 }
   words: { shop: shop }
@@ -747,7 +831,9 @@
         return {"a": len(list(combinations(range(n), r)))}
 
 - id: spec.combinatorics.combinations.year-mix
+  title: "Committee with Two Members from Each Year"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1380
   responseSkills: { reading: 1380, calculation: 1340 }
   words: { club: club }
@@ -768,7 +854,9 @@
         return {"a": sum(1 for c in combinations(range(a + b), 4) if sum(1 for x in c if x < a) == 2)}
 
 - id: spec.combinatorics.combinations.at-least-one-year12
+  title: "Committee with at Least One Year 12"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1460
   responseSkills: { reading: 1450, calculation: 1420, reasoning: 1440 }
   words: { club: club }
@@ -789,7 +877,9 @@
         return {"a": sum(1 for c in combinations(range(a + b), 4) if any(x >= a for x in c))}
 
 - id: spec.combinatorics.combinations.squad-with-injury
+  title: "Squad with a Captain In and a Player Out"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Who must or mustn't be chosen"
   rating: 1430
   responseSkills: { reading: 1430, calculation: 1390, reasoning: 1410 }
   words: { p1: person, p2: person, sport: sport }
@@ -810,7 +900,9 @@
         return {"a": sum(1 for c in combinations(range(n), r) if 0 in c and 1 not in c)}
 
 - id: spec.combinatorics.combinations.two-unnamed-teams
+  title: "Splitting Friends into Two Unnamed Teams"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Splitting into groups and roles"
   rating: 1640
   responseSkills: { reading: 1630, calculation: 1600, reasoning: 1630 }
   words: { sport: sport }
@@ -831,7 +923,9 @@
         return {"a": len({frozenset([frozenset(c), frozenset(set(range(n)) - set(c))]) for c in combinations(range(n), h)})}
 
 - id: spec.combinatorics.combinations.playlist-mix
+  title: "Playlist with at Least Three Rock Songs"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1560
   responseSkills: { reading: 1550, calculation: 1530, reasoning: 1540 }
   words: { who: person }
@@ -852,7 +946,9 @@
         return {"a": sum(1 for c in combinations(range(r + p), 5) if sum(1 for x in c if x < r) >= 3)}
 
 - id: spec.combinatorics.combinations.route-via-shop
+  title: "Street Routes via the Shop"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Paths on a grid"
   rating: 1600
   responseSkills: { reading: 1590, calculation: 1560, reasoning: 1590 }
   words: { who: person, venue: venue, shop: shop }
@@ -878,7 +974,9 @@
         return {"a": count}
 
 - id: spec.combinatorics.combinations.route-avoiding-roadworks
+  title: "Street Routes Avoiding Roadworks"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Paths on a grid"
   rating: 1700
   responseSkills: { reading: 1690, calculation: 1660, reasoning: 1690 }
   words: { who: person, venue: venue }
@@ -904,7 +1002,9 @@
         return {"a": count}
 
 - id: spec.combinatorics.combinations.prize-split
+  title: "Sharing Prizes in Unequal Numbers"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Splitting into groups and roles"
   rating: 1520
   responseSkills: { reading: 1510, calculation: 1490, reasoning: 1500 }
   words: { p1: person, p2: person, p3: person }
@@ -925,7 +1025,9 @@
         return {"a": sum(1 for a in combinations(range(n), 3) for b in combinations([x for x in range(n) if x not in a], 2))}
 
 - id: spec.combinatorics.combinations.lottery-four-match
+  title: "Raffle Draws Matching Exactly Four Numbers"
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1650
   responseSkills: { reading: 1640, calculation: 1610, reasoning: 1630 }
   words: { who: person }

@@ -1,78 +1,92 @@
 # Section Challenge: Geometry (1.1). A fixed sequence, green → yellow → red → black (SPEC §8.4).
 
-- id: spec.geometry.ch.perpendicular-bisects-chord
+- id: spec.geometry.ch.concentric-equal-pieces
+  title: "A Line Through Two Circles with One Center"
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1570
-  responseSkills: { reasoning: 1560, proof: 1560, clarity: 1500 }
+  responseSkills: { reasoning: 1560, proof: 1550, clarity: 1500 }
   stem: |
-    $AB$ is a chord of a circle with center $O$, and $M$ is the point on $AB$ with $OM \perp AB$. Prove that $M$ is the midpoint of $AB$.
+    Two circles have the same center $O$. A straight line cuts the larger circle at $A$ and $D$ and the smaller circle at $B$ and $C$, in the order $A$, $B$, $C$, $D$. Prove that $AB = CD$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.732, -1], B: [1.732, -1], M: [0, -1], O: [0, 0] }
+    points: { A: [-1.873, -0.7], B: [-0.975, -0.7], C: [0.975, -0.7], D: [1.873, -0.7], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
-      - { type: segment, from: A, to: B }
-      - { type: segment, from: O, to: M }
-      - { type: angle, at: M, from: B, to: O, right: true }
+      - { type: circle, center: O, radius: 1.2 }
+      - { type: segment, from: A, to: D }
       - { type: point, at: O, label: 'O', pos: n }
-      - { type: point, at: A, label: 'A', pos: w }
-      - { type: point, at: B, label: 'B', pos: e }
-      - { type: point, at: M, label: 'M', pos: s }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: s }
+      - { type: point, at: D, label: 'D', pos: se }
     ```
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: radii, description: "OA = OB (radii)", points: 1, dimension: reasoning }
-          - { id: right, description: "∠OMA = ∠OMB = 90° and OM is common", points: 1, dimension: reasoning }
-          - { id: congruent, description: "Triangles OMA and OMB are congruent (RHS)", points: 1, dimension: proof }
-          - { id: conclude, description: "So AM = BM: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: foot, description: "Drops the perpendicular OM from O to the line", points: 1, dimension: proof }
+          - { id: bisects, description: "The perpendicular from the center bisects a chord, in both circles: AM = MD and BM = MC", points: 2, dimension: reasoning }
+          - { id: subtract, description: "AB = AM − BM = MD − MC = CD", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
+    Let $M$ be the foot of the perpendicular from $O$ to the line. The perpendicular from the center of a circle to a chord bisects the chord. $AD$ is a chord of the larger circle, so $AM = MD$; $BC$ is a chord of the smaller circle, so $BM = MC$.
 
-- id: spec.geometry.ch.exterior-angle-proof
+    $B$ lies between $A$ and $M$, and $C$ between $M$ and $D$, so $AB = AM - BM = MD - MC = CD$.
+
+- id: spec.geometry.ch.cyclic-extended-sides
+  title: "Angles Where Opposite Sides Meet"
   pool: challenge
   skills: { primary: spec.geometry.circle-angles }
-  rating: 1580
-  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1510 }
+  subsection: "Cyclic quadrilaterals"
+  rating: 1590
+  responseSkills: { reasoning: 1580, proof: 1570, clarity: 1510 }
   stem: |
-    $ABCD$ is a cyclic quadrilateral, and side $DC$ is extended beyond $C$ to $E$. Prove that $\angle BCE = \angle BAD$.
+    $ABCD$ is a cyclic quadrilateral. Lines $AB$ and $DC$, extended beyond $B$ and $C$, meet at $P$. Lines $AD$ and $BC$, extended beyond $D$ and $C$, meet at $Q$. Prove that $\angle APD + \angle AQB = 180^\circ - 2\angle DAB$.
 
     ```diagram
-    view: [-2.45, 3.88, -2.45, 2.45]
-    width: 230
-    points: { A: [-1.879, -0.684], B: [0.684, -1.879], C: [1.97, 0.347], D: [-0.684, 1.879], E: [3.43, -0.496], O: [0, 0] }
+    view: [-2.45, 4.6, -2.6, 4.7]
+    width: 260
+    points: { A: [-1.879, -0.684], B: [1.286, -1.532], C: [2, 0], D: [1, 1.732], P: [3.177, -2.039], Q: [3.97, 4.224], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
-      - { type: segment, from: A, to: B }
-      - { type: segment, from: B, to: C }
-      - { type: segment, from: C, to: D }
-      - { type: segment, from: D, to: A }
-      - { type: segment, from: C, to: E }
-      - { type: point, at: A, label: 'A' }
-      - { type: point, at: B, label: 'B' }
-      - { type: point, at: C, label: 'C' }
-      - { type: point, at: D, label: 'D' }
-      - { type: point, at: E, label: 'E' }
+      - { type: segment, from: A, to: P }
+      - { type: segment, from: D, to: P }
+      - { type: segment, from: A, to: Q }
+      - { type: segment, from: B, to: Q }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: e }
+      - { type: point, at: D, label: 'D', pos: nw }
+      - { type: point, at: P, label: 'P', pos: e }
+      - { type: point, at: Q, label: 'Q', pos: e }
     ```
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: line, description: "∠BCE = 180° − ∠BCD (angles on a straight line)", points: 1, dimension: reasoning }
-          - { id: cyclic, description: "∠BAD = 180° − ∠BCD (opposite angles of a cyclic quadrilateral)", points: 2, dimension: reasoning }
-          - { id: conclude, description: "So ∠BCE = ∠BAD", points: 1, dimension: proof }
+          - { id: names, description: "Names ∠DAB = α and ∠ABC = β, and uses ∠ADC = 180° − β (opposite angles of a cyclic quadrilateral)", points: 1, dimension: reasoning }
+          - { id: p, description: "Angle sum of triangle APD: ∠APD = 180° − α − (180° − β) = β − α", points: 1, dimension: reasoning }
+          - { id: q, description: "Angle sum of triangle ABQ: ∠AQB = 180° − α − β", points: 1, dimension: reasoning }
+          - { id: add, description: "Adds to get 180° − 2α", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    $D$, $C$, $E$ lie on a line, so $\angle BCE = 180^\circ - \angle BCD$. Opposite angles of a cyclic quadrilateral add to $180^\circ$, so $\angle BAD = 180^\circ - \angle BCD$. Hence $\angle BCE = \angle BAD$.
+    Let $\angle DAB = \alpha$ and $\angle ABC = \beta$. Opposite angles of a cyclic quadrilateral add to $180^\circ$, so $\angle ADC = 180^\circ - \beta$.
+
+    In triangle $APD$, the angle at $A$ is $\alpha$ and the angle at $D$ is $\angle ADC = 180^\circ - \beta$ ($P$ is on line $DC$ beyond $C$). So $\angle APD = 180^\circ - \alpha - (180^\circ - \beta) = \beta - \alpha$.
+
+    In triangle $ABQ$, the angle at $A$ is $\alpha$ and the angle at $B$ is $\beta$ ($Q$ is on line $BC$ beyond $C$). So $\angle AQB = 180^\circ - \alpha - \beta$.
+
+    Adding, $\angle APD + \angle AQB = 180^\circ - 2\alpha = 180^\circ - 2\angle DAB$.
 
 - id: spec.geometry.ch.tangent-two-chords
+  title: "Tangent and Two Chords"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1600
   responseSkills: { reading: 1560, reasoning: 1570, calculation: 1540, synthesis: 1560 }
   variants:
@@ -115,8 +129,10 @@
         return {"a": approx(angle_at(T, B, A))}
 
 - id: spec.geometry.ch.tangent-meets-diameter
+  title: "Tangent Meeting an Extended Diameter"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1640
   responseSkills: { reasoning: 1610, proof: 1600, clarity: 1560, synthesis: 1590 }
   stem: |
@@ -152,8 +168,10 @@
     The tangent at $C$ is perpendicular to the radius, so $\angle OCT = 90^\circ$. In triangle $OCT$, $\angle CTO = 180^\circ - 90^\circ - 2x = 90^\circ - 2x$. Since $T$ lies on line $AB$, $\angle ATC = \angle CTO = 90^\circ - 2\angle CAB$.
 
 - id: spec.geometry.ch.log2-3-irrational
+  title: "log₂ 3 Is Irrational"
   pool: challenge
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1690
   responseSkills: { reasoning: 1670, proof: 1670, clarity: 1620 }
   stem: |
@@ -172,8 +190,10 @@
     Then $2^{p/q} = 3$, and raising both sides to the power $q$ gives $2^p = 3^q$. The left side is even (as $p \ge 1$) and the right side is odd, which is impossible. So $\log_2 3$ is irrational.
 
 - id: spec.geometry.ch.circle-through-lattice
+  title: "Circle Through Three Grid Points"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Finding and proving lengths"
   rating: 1720
   responseSkills: { reading: 1710, reasoning: 1710, calculation: 1690, synthesis: 1700 }
   variants:
@@ -209,9 +229,11 @@
         return {"a": sqrt(cx ** 2 + cy ** 2)}
 
 - id: spec.geometry.ch.determinant-one-coprime
+  title: "Determinant 1 Means No Common Factor"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1740
   responseSkills: { reasoning: 1730, proof: 1730, clarity: 1680 }
   stem: |
@@ -227,116 +249,146 @@
   solution: |
     Suppose, for contradiction, that a whole number $k > 1$ divides both $a$ and $b$. Then $k$ divides $ad$ and $bc$, so it divides their difference $ad - bc = 1$. No whole number greater than 1 divides 1, which is a contradiction. So $a$ and $b$ have no common factor greater than 1.
 
-- id: spec.geometry.ch.equal-chords-equidistant
+- id: spec.geometry.ch.tangents-meet-distance
+  title: "Where Two Tangents Meet"
   pool: challenge
-  skills: { primary: spec.geometry.chords-tangents }
-  rating: 1760
-  responseSkills: { reasoning: 1650, proof: 1640, clarity: 1600 }
+  skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.proof-methods] }
+  subsection: "Tangents from a point"
+  rating: 1750
+  responseSkills: { reasoning: 1700, proof: 1690, clarity: 1620, synthesis: 1680 }
   stem: |
-    $AB$ and $CD$ are chords of equal length in a circle with center $O$ and radius $r$. Prove that $AB$ and $CD$ are the same distance from $O$.
+    A chord $AB$ of a circle with center $O$ and radius $r$ is at distance $d > 0$ from $O$. The tangents at $A$ and $B$ meet at $P$. Prove that $OP = \dfrac{r^2}{d}$.
 
     ```diagram
-    view: [-2.45, 2.45, -2.45, 2.45]
-    width: 230
-    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-1, 1.732], O: [0, 0] }
+    view: [-2.45, 3.75, -2.45, 2.45]
+    width: 250
+    points: { A: [1.2, 1.6], B: [1.2, -1.6], P: [3.333, 0], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
-      - { type: segment, from: A, to: B, ticks: 1 }
-      - { type: segment, from: C, to: D, ticks: 1 }
-      - { type: point, at: O, label: 'O', pos: e }
-      - { type: point, at: A, label: 'A' }
-      - { type: point, at: B, label: 'B' }
-      - { type: point, at: C, label: 'C' }
-      - { type: point, at: D, label: 'D' }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: P }
+      - { type: segment, from: B, to: P }
+      - { type: segment, from: O, to: P, dashed: true }
+      - { type: point, at: O, label: 'O', pos: w }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: P, label: 'P', pos: e }
     ```
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: feet, description: "Drops perpendiculars OM to AB and ON to CD; these bisect the chords, so AM = ½AB = ½CD = CN", points: 2, dimension: reasoning }
-          - { id: pythag, description: "Pythagoras in the right triangles: OM² = r² − AM² and ON² = r² − CN²", points: 1, dimension: reasoning }
-          - { id: conclude, description: "So OM = ON: the chords are equally far from O", points: 1, dimension: proof }
+          - { id: congruent, description: "Triangles OAP and OBP are congruent (RHS: right angles at A and B, OA = OB, OP common), so ∠AOP = ∠BOP", points: 1, dimension: reasoning }
+          - { id: perpendicular, description: "OP meets AB at M with triangles OMA and OMB congruent (SAS), so OM ⟂ AB and OM = d", points: 2, dimension: reasoning }
+          - { id: similar, description: "Triangles OMA and OAP are similar (common angle at O, right angles at M and A)", points: 1, dimension: proof }
+          - { id: conclude, description: "OM/OA = OA/OP, so OP = r²/d", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = \tfrac{1}{2}AB = \tfrac{1}{2}CD = CN$.
+    A tangent is perpendicular to the radius at its point of contact, so $\angle OAP = \angle OBP = 90^\circ$. Triangles $OAP$ and $OBP$ have $OA = OB = r$ and $OP$ common, so they are congruent (RHS), and $\angle AOP = \angle BOP$.
 
-    In the right triangles $OMA$ and $ONC$, $OA = OC = r$, so $OM^2 = r^2 - AM^2 = r^2 - CN^2 = ON^2$. Hence $OM = ON$.
+    Let $OP$ meet $AB$ at $M$. Triangles $OMA$ and $OMB$ have $OA = OB$, $OM$ common and $\angle AOM = \angle BOM$, so they are congruent (SAS). Then $\angle OMA = \angle OMB$, and these add to $180^\circ$, so each is $90^\circ$. So $OM \perp AB$, and $OM$ is the distance from $O$ to the chord: $OM = d$.
 
-- id: spec.geometry.ch.tangent-secant-proof
+    Triangles $OMA$ and $OAP$ share the angle at $O$, and $\angle OMA = \angle OAP = 90^\circ$, so they are similar:
+    $$\frac{OM}{OA} = \frac{OA}{OP} \quad\Rightarrow\quad OP = \frac{OA^2}{OM} = \frac{r^2}{d}.$$
+
+- id: spec.geometry.ch.square-circle-radius
+  title: "Circle Through a Square's Corners and Side"
   pool: challenge
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
-  rating: 1790
-  responseSkills: { reasoning: 1710, proof: 1700, clarity: 1650, synthesis: 1690 }
+  subsection: "Intersecting chords"
+  rating: 1780
+  responseSkills: { reasoning: 1720, proof: 1710, clarity: 1640, synthesis: 1720 }
   stem: |
-    From a point $M$ outside a circle, a tangent touches the circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. Prove that $MT^2 = MA \times MB$.
+    Square $ABCD$ has side length $s$. A circle passes through $A$ and $B$ and touches the side $CD$. Prove that the radius of the circle is $\dfrac{5s}{8}$.
 
     ```diagram
-    view: [-2.45, 4.05, -2.45, 2.45]
+    view: [-2.1, 2.1, -1, 2.45]
     width: 230
-    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.954, -0.425], B: [-1.504, -1.318], O: [0, 0] }
+    points: { A: [-1, 0], B: [1, 0], C: [1, 2], D: [-1, 2], K: [0, 0.75], T: [0, 2] }
     draw:
-      - { type: circle, center: O, radius: 2 }
-      - { type: segment, from: M, to: T }
-      - { type: segment, from: M, to: B }
-      - { type: point, at: M, label: 'M', pos: e }
-      - { type: point, at: T, label: 'T', pos: n }
-      - { type: point, at: A, label: 'A', pos: s }
-      - { type: point, at: B, label: 'B', pos: sw }
+      - { type: polygon, points: [A, B, C, D] }
+      - { type: circle, center: K, radius: 1.25 }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
     ```
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: triangles, description: "Considers triangles MTA and MBT, which share the angle at M", points: 1, dimension: proof }
-          - { id: alt, description: "∠MTA = ∠MBT by the alternate segment theorem", points: 2, dimension: reasoning }
-          - { id: similar, description: "So the triangles are similar: MT/MB = MA/MT", points: 1, dimension: reasoning }
-          - { id: conclude, description: "Rearranges to MT² = MA × MB", points: 1, dimension: proof }
+          - { id: axis, description: "The center lies on the perpendicular bisector of chord AB, which passes through the midpoints N of AB and M of CD", points: 1, dimension: reasoning }
+          - { id: touch, description: "The radius to the point of contact is perpendicular to CD, so the circle touches CD at M", points: 1, dimension: reasoning }
+          - { id: diameter, description: "MN extended is a diameter MS of the circle", points: 1, dimension: proof }
+          - { id: chords, description: "Intersecting chords at N: MN × NS = AN × NB, so s × NS = s²/4 and NS = s/4", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Diameter MS = 5s/4, so the radius is 5s/8", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    Triangles $MTA$ and $MBT$ share the angle at $M$. The angle between tangent $MT$ and chord $TA$ equals the angle in the alternate segment: $\angle MTA = \angle MBT$. So the triangles are similar, and $\dfrac{MT}{MB} = \dfrac{MA}{MT}$, i.e. $MT^2 = MA \times MB$.
+    Let $N$ and $M$ be the midpoints of $AB$ and $CD$, and $K$ the center. $AB$ is a chord, so $K$ lies on its perpendicular bisector, the line $NM$.
 
-- id: spec.geometry.ch.alternate-segment-proof
+    The radius to the point of contact is perpendicular to the tangent $CD$. $CD \parallel AB$, so this radius is perpendicular to $AB$ too, and it lies along the line through $K$ perpendicular to $AB$: the line $NM$. So the circle touches $CD$ at $M$.
+
+    The line $MN$ passes through $K$, so it meets the circle again at $S$, with $MS$ a diameter, and $N$ is inside the circle between $M$ and $S$. Chords $MS$ and $AB$ cross at $N$, so by the intersecting chords theorem
+    $$MN \times NS = AN \times NB \quad\Rightarrow\quad s \times NS = \frac{s}{2}\cdot\frac{s}{2} \quad\Rightarrow\quad NS = \frac{s}{4}.$$
+    The diameter is $MS = s + \dfrac{s}{4} = \dfrac{5s}{4}$, so the radius is $\dfrac{5s}{8}$.
+
+- id: spec.geometry.ch.feet-mean-proportional
+  title: "Perpendiculars from a Point on an Arc"
   pool: challenge
-  skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-angles] }
-  rating: 1820
-  responseSkills: { reasoning: 1750, proof: 1740, clarity: 1690, synthesis: 1720 }
+  skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
+  subsection: "The alternate segment theorem"
+  rating: 1830
+  responseSkills: { reasoning: 1760, proof: 1750, clarity: 1680, synthesis: 1780 }
   stem: |
-    A tangent touches a circle at $T$, and $S$ is a point on the tangent. $TB$ is a chord, and $\angle STB$ is acute. $A$ is a point on the circle on the other side of $TB$ from $S$. Prove that $\angle STB = \angle TAB$.
+    Tangents from a point $P$ touch a circle at $A$ and $B$. $C$ is a point on the minor arc $AB$, and $D$, $E$, $F$ are the feet of the perpendiculars from $C$ to $AB$, $PA$ and $PB$. Prove that $CD^2 = CE \times CF$.
 
     ```diagram
-    view: [-2.65, 2.85, -2.45, 2.45]
+    view: [-2.45, 2.45, -4.4, 2.45]
     width: 230
-    points: { A: [-1.732, 1], B: [1.732, 1], T: [-0, -2], S: [2.4, -2], U: [-2.2, -2], O: [0, 0] }
+    points: { P: [0, -4], A: [-1.732, -1], B: [1.732, -1], C: [-0.684, -1.879], D: [-0.684, -1], E: [-1.089, -2.113], F: [0.747, -2.706], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
-      - { type: segment, from: U, to: S }
-      - { type: segment, from: T, to: B }
-      - { type: segment, from: T, to: A }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
       - { type: segment, from: A, to: B }
-      - { type: point, at: T, label: 'T', pos: s }
-      - { type: point, at: S, label: 'S', pos: s }
-      - { type: point, at: A, label: 'A', pos: nw }
-      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: C, to: E }
+      - { type: segment, from: C, to: F }
+      - { type: angle, at: D, from: A, to: C, right: true }
+      - { type: angle, at: E, from: A, to: C, right: true }
+      - { type: angle, at: F, from: B, to: C, right: true }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: s }
+      - { type: point, at: D, label: 'D', pos: n }
+      - { type: point, at: E, label: 'E', pos: w }
+      - { type: point, at: F, label: 'F', pos: e }
     ```
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: diameter, description: "Draws the diameter TD and states ∠STD = 90° (tangent ⟂ radius)", points: 1, dimension: proof }
-          - { id: semicircle, description: "∠TBD = 90° (angle in a semicircle)", points: 1, dimension: reasoning }
-          - { id: equal, description: "So ∠STB = 90° − ∠BTD = ∠TDB (angle sum of triangle TBD)", points: 2, dimension: reasoning }
-          - { id: arc, description: "∠TDB = ∠TAB (angles on the same arc TB)", points: 1, dimension: reasoning }
+          - { id: cyclic, description: "AECD and BFCD are cyclic (each has two opposite right angles)", points: 1, dimension: reasoning }
+          - { id: first, description: "∠CDE = ∠CAE = ∠CBA = ∠CFD (same arc; alternate segment; same arc)", points: 2, dimension: reasoning }
+          - { id: second, description: "∠CED = ∠CAD = ∠CBF = ∠CDF (same arc; alternate segment; same arc)", points: 2, dimension: reasoning }
+          - { id: similar, description: "So triangles CDE and CFD are similar, giving CD/CF = CE/CD and CD² = CE × CF", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    Draw the diameter $TD$. The tangent is perpendicular to the radius, so $\angle STD = 90^\circ$ and $\angle STB = 90^\circ - \angle BTD$.
+    $\angle CEA = \angle CDA = 90^\circ$, and these are opposite angles of quadrilateral $AECD$, so it is cyclic. In the same way $\angle CFB = \angle CDB = 90^\circ$, so $BFCD$ is cyclic.
 
-    $\angle TBD = 90^\circ$ (angle in a semicircle), so in triangle $TBD$, $\angle TDB = 90^\circ - \angle BTD$. Hence $\angle STB = \angle TDB$.
+    **First pair of angles.** In circle $AECD$, $\angle CDE = \angle CAE$ (same arc $CE$). By the alternate segment theorem, the angle between tangent $AP$ and chord $AC$ equals the angle in the alternate segment: $\angle CAE = \angle CBA$. In circle $BFCD$, $\angle CBD = \angle CFD$ (same arc $CD$). So $\angle CDE = \angle CFD$.
 
-    $D$ and $A$ are on the same side of $TB$, so $\angle TDB$ and $\angle TAB$ stand on the same arc $TB$ and are equal. So $\angle STB = \angle TAB$.
+    **Second pair.** In circle $AECD$, $\angle CED = \angle CAD$ (same arc $CD$). By the alternate segment theorem at $B$, $\angle CBF = \angle CAB$. In circle $BFCD$, $\angle CBF = \angle CDF$ (same arc $CF$). So $\angle CED = \angle CDF$.
+
+    Triangles $CDE$ and $CFD$ have two pairs of equal angles, so they are similar:
+    $$\frac{CD}{CF} = \frac{CE}{CD} \quad\Rightarrow\quad CD^2 = CE \times CF.$$
 
 - id: spec.geometry.ch.bisector-meets-perpendicular
+  title: "Angle Bisector and Perpendicular Bisector Meet on the Circle"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Finding and proving angles"
   rating: 1870
   responseSkills: { reasoning: 1860, proof: 1850, clarity: 1810, synthesis: 1850 }
   stem: |
@@ -370,8 +422,10 @@
     Since $AB \ne AC$, the bisector of angle $A$ is not the perpendicular bisector of $BC$, so the two lines meet in exactly one point, $M$, which lies on the circle.
 
 - id: spec.geometry.ch.touching-circles-parallel
+  title: "Parallel Tangents on Touching Circles"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1880
   responseSkills: { reasoning: 1770, proof: 1760, clarity: 1700, synthesis: 1750 }
   stem: |
@@ -406,8 +460,10 @@
     At $T$, the two angles the common tangent makes with line $AB$ (one on each side of $T$) are vertically opposite, so equal. Hence the tangents at $A$ and $B$ make equal alternate angles with the line $AB$, and so they are parallel.
 
 - id: spec.geometry.ch.common-chord-bisects-tangent
+  title: "Common Chord Through the Middle of a Common Tangent"
   pool: challenge
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Tangent and secant"
   rating: 1900
   responseSkills: { reasoning: 1890, proof: 1880, clarity: 1840, synthesis: 1880 }
   stem: |
@@ -441,8 +497,10 @@
     Hence $MA^2 = MB^2$, so $MA = MB$, and $M$ is the midpoint of $AB$.
 
 - id: spec.geometry.ch.root2-plus-root3
+  title: "√2 + √3 Is Irrational"
   pool: challenge
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1930
   responseSkills: { reasoning: 1920, proof: 1920, clarity: 1870 }
   stem: |
@@ -464,8 +522,10 @@
     So $\sqrt{2} + \sqrt{3}$ is irrational.
 
 - id: spec.geometry.ch.ptolemy
+  title: "Diagonals and Sides of a Cyclic Quadrilateral"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  subsection: "Finding and proving lengths"
   rating: 1980
   responseSkills: { reasoning: 1970, proof: 1970, clarity: 1920, synthesis: 1960 }
   stem: |

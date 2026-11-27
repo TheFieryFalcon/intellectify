@@ -1,7 +1,9 @@
 # Chords and tangents: written proofs (1.1.7, 1.1.8).
 
 - id: spec.geometry.chords-tangents.diameter-tangents-parallel
+  title: "Tangents at the Ends of a Diameter"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1290
   responseSkills: { reasoning: 1280, proof: 1280, clarity: 1240 }
   stem: |
@@ -31,9 +33,12 @@
     Let $AB$ be a diameter. The tangent at $A$ is perpendicular to radius $OA$, and the tangent at $B$ is perpendicular to radius $OB$; both radii lie along the line $AB$. So both tangents are perpendicular to $AB$, and two lines perpendicular to the same line are parallel.
 
 - id: spec.geometry.chords-tangents.bisecting-radius-perpendicular
+  title: "Line from the Center to a Chord's Midpoint"
   skills: { primary: spec.geometry.chords-tangents }
-  rating: 1300
-  responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
+  subsection: "Chords and the center"
+  rating: 1200
+  bookwork: true
+  responseSkills: { reasoning: 1190, proof: 1190, clarity: 1150 }
   stem: |
     $AB$ is a chord (not a diameter) of a circle with center $O$, and $M$ is its midpoint. Prove that $OM \perp AB$.
 
@@ -63,9 +68,12 @@
     Triangles $OMA$ and $OMB$ have $OA = OB$ (radii), $AM = BM$ and $OM$ common, so they are congruent (SSS) and $\angle OMA = \angle OMB$. These angles lie on the straight line $AB$, so they add to $180^\circ$; each is $90^\circ$. Hence $OM \perp AB$.
 
 - id: spec.geometry.chords-tangents.perpendicular-bisector-center
+  title: "Perpendicular Bisector of a Chord"
   skills: { primary: spec.geometry.chords-tangents }
-  rating: 1350
-  responseSkills: { reasoning: 1340, proof: 1340, clarity: 1300 }
+  subsection: "Chords and the center"
+  rating: 1250
+  bookwork: true
+  responseSkills: { reasoning: 1240, proof: 1240, clarity: 1200 }
   stem: |
     Prove that the perpendicular bisector of any chord of a circle passes through the center.
 
@@ -95,7 +103,9 @@
     Let $AB$ be a chord and $O$ the center. $OA = OB$ (radii), so $O$ is equidistant from $A$ and $B$. Every point equidistant from $A$ and $B$ lies on the perpendicular bisector of $AB$. So the perpendicular bisector passes through $O$.
 
 - id: spec.geometry.chords-tangents.concentric-chord-midpoint
+  title: "Chord Touching an Inner Circle"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -126,7 +136,9 @@
     $AB$ touches the smaller circle at $T$, so $OT \perp AB$ (tangent ⟂ radius). In the larger circle, $OT$ is then the perpendicular from the center to the chord $AB$, and that perpendicular bisects the chord. So $T$ is the midpoint of $AB$.
 
 - id: spec.geometry.chords-tangents.op-bisects-angles
+  title: "Line to the Center Bisects the Angles"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1440
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
   stem: |
@@ -160,7 +172,9 @@
     $\angle OAP = \angle OBP = 90^\circ$ (tangent ⟂ radius). Triangles $OAP$ and $OBP$ have these right angles, the common hypotenuse $OP$, and $OA = OB$ (radii), so they are congruent (RHS). Hence $\angle APO = \angle BPO$ and $\angle AOP = \angle BOP$: $OP$ bisects both angles.
 
 - id: spec.geometry.chords-tangents.op-perpendicular-ab
+  title: "Line to the Center Is Perpendicular to the Chord"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -195,7 +209,9 @@
     $PA = PB$ (tangents from one point) and $OA = OB$ (radii). So $P$ and $O$ are both equidistant from $A$ and $B$, and both lie on the perpendicular bisector of $AB$. Two different points determine a line, so $OP$ is that perpendicular bisector, and $OP \perp AB$.
 
 - id: spec.geometry.chords-tangents.isosceles-tangent-parallel
+  title: "Tangent at the Apex of an Isosceles Triangle"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1480
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
@@ -227,7 +243,9 @@
     Let $X$ be a point on the tangent at $A$, on the opposite side of $AB$ from $C$. By the alternate segment theorem, $\angle XAB = \angle ACB$. Since $AB = AC$, $\angle ACB = \angle ABC$. So $\angle XAB = \angle ABC$: these are alternate angles for the lines $AX$ and $BC$ with transversal $AB$, so the tangent is parallel to $BC$.
 
 - id: spec.geometry.chords-tangents.incircle-half-perimeter
+  title: "Inscribed Circle and Half the Perimeter"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -263,7 +281,9 @@
     So $AF + BD + CE$ is half the perimeter.
 
 - id: spec.geometry.chords-tangents.pitot
+  title: "Quadrilateral Around a Circle"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1540
   responseSkills: { reasoning: 1530, proof: 1530, clarity: 1490 }
   stem: |
@@ -296,7 +316,9 @@
     Each side touches the circle once. From each corner, the two tangents to the circle are equal: call their lengths $a, b, c, d$ at $A, B, C, D$. Then $AB = a + b$, $BC = b + c$, $CD = c + d$ and $DA = d + a$, so $AB + CD = a + b + c + d = BC + DA$.
 
 - id: spec.geometry.chords-tangents.tangent-chord-half-center
+  title: "Tangent–Chord Angle and the Center"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1560
   responseSkills: { reasoning: 1550, clarity: 1510 }
   stem: |
@@ -329,7 +351,9 @@
     The tangent is perpendicular to the radius, so $\angle OTS = 90^\circ$ and $\angle OTB = 90^\circ - \angle STB$. $OT = OB$, so triangle $OTB$ is isosceles with $\angle OBT = \angle OTB$. Hence $\angle TOB = 180^\circ - 2(90^\circ - \angle STB) = 2\angle STB$.
 
 - id: spec.geometry.chords-tangents.touching-centers-collinear
+  title: "Centers of Touching Circles"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1580
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
   stem: |
@@ -359,7 +383,9 @@
     Let the centers be $O_1$ and $O_2$. The common tangent at $T$ is perpendicular to both radii $O_1T$ and $O_2T$. There is only one line through $T$ perpendicular to the tangent, so $O_1T$ and $O_2T$ both lie along it. Hence $O_1$, $T$, $O_2$ are collinear.
 
 - id: spec.geometry.chords-tangents.triangle-pde-perimeter
+  title: "Perimeter of a Triangle Cut by a Tangent"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1620
   responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
   stem: |
@@ -393,7 +419,9 @@
     Tangents from one point are equal: $DA = DC$, $EB = EC$ and $PA = PB$. The perimeter is $PD + DE + EP = PD + DC + CE + EP = (PD + DA) + (EB + EP) = PA + PB = 2PA$.
 
 - id: spec.geometry.chords-tangents.two-circles-tangent-angles
+  title: "Tangents to Two Intersecting Circles"
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
+  subsection: "The alternate segment theorem"
   rating: 1660
   responseSkills: { reasoning: 1650, proof: 1650, clarity: 1610, synthesis: 1640 }
   stem: |
@@ -431,7 +459,9 @@
     Triangles $ADB$ and $CAB$ therefore have $\angle ADB = \angle CAB$ and $\angle DAB = \angle ACB$, so they are similar, and their third angles are equal: $\angle ABD = \angle ABC$.
 
 - id: spec.geometry.chords-tangents.chord-equals-radius
+  title: "Chord Equal to the Radius"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -461,7 +491,9 @@
     $OA = OB$ (radii) $= AB$, so triangle $OAB$ is equilateral and $\angle OAB = 60^\circ$. The tangent at $A$ is perpendicular to $OA$, so the angle between it and $AB$ is $90^\circ - 60^\circ = 30^\circ$ (on the side of $B$).
 
 - id: spec.geometry.chords-tangents.three-tangents-right-angle
+  title: "Three Tangents and a Right Angle"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1720
   responseSkills: { reasoning: 1710, proof: 1710, clarity: 1670 }
   stem: |
@@ -499,7 +531,9 @@
     From $D$, the tangents $DA$ and $DC$ give congruent right triangles $OAD$ and $OCD$ (RHS), so $OD$ bisects $\angle AOC$. Likewise $OE$ bisects $\angle COB$. Since $A$, $O$, $B$ are collinear, $\angle AOC + \angle COB = 180^\circ$. Hence $\angle DOE = \tfrac{1}{2}\angle AOC + \tfrac{1}{2}\angle COB = 90^\circ$.
 
 - id: spec.geometry.chords-tangents.three-tangents-product
+  title: "Product of Tangent Lengths on a Diameter"
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730 }
   stem: |
@@ -537,3 +571,76 @@
     $OC \perp DE$ (tangent ⟂ radius), and $\angle DOE = 90^\circ$. In right triangle $DOE$, the altitude $OC$ splits it into triangles $DCO$ and $OCE$, which are similar ($\angle CDO = 90^\circ - \angle DOC = \angle COE$, and both have a right angle at $C$). So $\dfrac{DC}{OC} = \dfrac{OC}{CE}$, i.e. $OC^2 = DC \times CE$.
 
     Equal tangents give $DC = DA$ and $CE = EB$, and $OC = r$. Hence $AD \times BE = r^2$.
+
+- id: spec.geometry.chords-tangents.perpendicular-bisects-chord
+  title: "Perpendicular from the Center Bisects a Chord"
+  skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
+  rating: 1470
+  bookwork: true
+  responseSkills: { reasoning: 1460, proof: 1460, clarity: 1400 }
+  stem: |
+    $AB$ is a chord of a circle with center $O$, and $M$ is the point on $AB$ with $OM \perp AB$. Prove that $M$ is the midpoint of $AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, -1], B: [1.732, -1], M: [0, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: O, to: M }
+      - { type: angle, at: M, from: B, to: O, right: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: M, label: 'M', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: radii, description: "OA = OB (radii)", points: 1, dimension: reasoning }
+          - { id: right, description: "∠OMA = ∠OMB = 90° and OM is common", points: 1, dimension: reasoning }
+          - { id: congruent, description: "Triangles OMA and OMB are congruent (RHS)", points: 1, dimension: proof }
+          - { id: conclude, description: "So AM = BM: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
+
+- id: spec.geometry.chords-tangents.equal-chords-equidistant
+  title: "Equal Chords Are Equally Far from the Center"
+  skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
+  rating: 1660
+  bookwork: true
+  responseSkills: { reasoning: 1550, proof: 1540, clarity: 1500 }
+  stem: |
+    $AB$ and $CD$ are chords of equal length in a circle with center $O$ and radius $r$. Prove that $AB$ and $CD$ are the same distance from $O$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: feet, description: "Drops perpendiculars OM to AB and ON to CD; these bisect the chords, so AM = ½AB = ½CD = CN", points: 2, dimension: reasoning }
+          - { id: pythag, description: "Pythagoras in the right triangles: OM² = r² − AM² and ON² = r² − CN²", points: 1, dimension: reasoning }
+          - { id: conclude, description: "So OM = ON: the chords are equally far from O", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = \tfrac{1}{2}AB = \tfrac{1}{2}CD = CN$.
+
+    In the right triangles $OMA$ and $ONC$, $OA = OC = r$, so $OM^2 = r^2 - AM^2 = r^2 - CN^2 = ON^2$. Hence $OM = ON$.

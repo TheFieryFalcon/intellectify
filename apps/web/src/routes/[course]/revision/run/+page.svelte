@@ -1,5 +1,8 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import TutorialButton from "$lib/components/TutorialButton.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   /**
    * A revision session (SPEC §8.6): questions one after another from the chosen mix, for as long as the
    * student likes. Normal attempt rules; answers update θ, XP and achievements like practice.
@@ -32,6 +35,7 @@
     if (s.kind === "unit") return `Unit ${s.unit}`;
     if (s.kind === "section") return data.course.units.flatMap((u) => u.sections).find((x) => x.id === s.id)?.name ?? s.id;
     if (s.kind === "skill") return skills.get(s.id)?.skill.name ?? s.id;
+    if (s.kind === "subsection") return `${skills.get(s.skill)?.skill.name ?? s.skill} · ${s.name}`;
     return "Whole course";
   });
   const title = $derived(spec.mode === "exam" ? `Exam revision · ${spec.level === "hard" ? "Hard" : "Easy"}` : "Custom revision");
@@ -40,6 +44,7 @@
   let pool = $state<QuestionIndexEntry[] | null>(null);
   let served = $state<Served | null>(null);
   let summary = $state<ResultSummary | null>(null);
+  let gained = $state(0);
   let jobId = $state<string | null>(null);
   const job = $derived(jobId && marking ? marking.job(jobId) : null);
   let round = $state(0);
@@ -84,6 +89,7 @@
     if (!store || !served) return;
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "revision" });
     summary = r.summary;
+    gained = r.xp;
     tally = [...tally, r.summary.outcome];
   }
 
@@ -114,7 +120,7 @@
     {@const q = served.question}
     <div class="skill-row">
       <span class="skill muted">{skills.get(q.skills.primary)?.skill.name ?? q.skills.primary}</span>
-      <ShareButton course={data.course.id} question={q} variant={served.variant} words={served.words} />
+      <span class="tools"><TutorialButton course={data.course} skill={q.skills.primary} /><ShareButton course={data.course.id} question={q} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={q} variant={served.variant} words={served.words} /></span>
     </div>
     {#key round}
       {#if isRubricMarked(q)}
@@ -133,7 +139,7 @@
     {/if}
     {#if summary}
       <section class="card">
-        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"} · {Math.round(summary.outcome * 100)}%</p>
+        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={gained} />
         <h2>Solution</h2>
         <Markdown text={q.solution} />
         <div class="actions"><button class="btn primary" onclick={next}>Next question</button></div>
@@ -154,7 +160,6 @@
   .skill-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 6px; }
   .skill { font-size: 12px; }
   .card { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-  .status { font-weight: 600; margin: 0 0 8px; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }
   .actions { display: flex; gap: 8px; margin-top: 20px; }
   .skip { display: flex; justify-content: flex-end; margin-top: 8px; }

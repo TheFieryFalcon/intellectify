@@ -2,7 +2,9 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.combinatorics.permutations.books-in-a-row
+  title: "Books in a Row"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1040
   responseSkills: { calculation: 1040 }
   variants:
@@ -21,7 +23,9 @@
         return {"a": factorial(n)}
 
 - id: spec.combinatorics.permutations.distinct-letters
+  title: "Arranging Distinct Letters"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1090
   responseSkills: { calculation: 1080, reading: 1090 }
   variants:
@@ -41,7 +45,9 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.combinatorics.permutations.repeated-letters
+  title: "Arranging Letters with Repeats"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1290
   responseSkills: { calculation: 1280, reading: 1290 }
   variants:
@@ -61,7 +67,9 @@
         return {"a": sum(1 for _ in multiset_permutations(list(w)))}
 
 - id: spec.combinatorics.permutations.pair-together
+  title: "Two Friends Side by Side in a Photo"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1330
   responseSkills: { calculation: 1300, reading: 1330 }
   words: { p1: person, p2: person }
@@ -82,7 +90,9 @@
         return {"a": sum(1 for p in permutations(range(n)) if abs(p.index(0) - p.index(1)) == 1)}
 
 - id: spec.combinatorics.permutations.pair-apart
+  title: "Two People Not Side by Side"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1380
   responseSkills: { calculation: 1350, reading: 1380 }
   variants:
@@ -102,7 +112,9 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.combinatorics.permutations.no-two-adjacent
+  title: "Arranging a Word with No Two of One Letter Together"
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.combinations] }
+  subsection: "Objects together or apart"
   rating: 1420
   responseSkills: {reading: 1420, calculation: 1400, reasoning: 1400, synthesis: 1400}
   variants:
@@ -123,7 +135,9 @@
         return {"a": sum(1 for p in multiset_permutations(list(w)) if ok(p))}
 
 - id: spec.combinatorics.permutations.parallel
+  title: "Arranging PARALLEL, with the L's Together"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1460
   responseSkills: {reading: 1450, calculation: 1450, reasoning: 1440}
   stem: |
@@ -148,7 +162,9 @@
         return {"a": len(perms), "b": sum(1 for p in perms if "LLL" in "".join(p))}
 
 - id: spec.combinatorics.permutations.alternate
+  title: "Boys and Girls Alternating in a Row"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1430
   responseSkills: {reading: 1430, calculation: 1400, reasoning: 1410}
   stem: |
@@ -165,7 +181,9 @@
         return {"a": sum(1 for p in permutations(kids) if all(p[i][0] != p[i + 1][0] for i in range(6)))}
 
 - id: spec.combinatorics.permutations.equation-consonants
+  title: "Arranging EQUATION: Consonant Ends and Vowels Together"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1460
   responseSkills: {reading: 1460, calculation: 1450, reasoning: 1440}
   stem: |
@@ -196,7 +214,9 @@
         return {"a": a, "b": b}
 
 - id: spec.combinatorics.permutations.round-table
+  title: "Seating Around a Round Table"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arrangements in a circle"
   rating: 1500
   responseSkills: {reading: 1500, calculation: 1450, reasoning: 1480}
   variants:
@@ -226,7 +246,9 @@
         return {"a": len(arr), "b": sum(1 for p in arr if not adj(p))}
 
 - id: spec.combinatorics.permutations.greater-than
+  title: "Numbers Greater Than 4000 from Five Digits"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1520
   responseSkills: {reading: 1520, calculation: 1480, reasoning: 1500}
   stem: |
@@ -247,7 +269,9 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.combinatorics.permutations.before
+  title: "Letters in a Given Order, Not Necessarily Together"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1570
   responseSkills: {reading: 1550, calculation: 1520, reasoning: 1550, synthesis: 1560}
   stem: |
@@ -273,7 +297,9 @@
                 "b": sum(1 for p in perms if p.index("A") < p.index("B") < p.index("C"))}
 
 - id: spec.combinatorics.permutations.bookkeeper
+  title: "BOOKKEEPER with the O's Apart"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1600
   responseSkills: {calculation: 1550, reasoning: 1580, synthesis: 1580}
   stem: |
@@ -294,7 +320,9 @@
         return {"a": sum(1 for p in multiset_permutations(list("BOOKKEEPER")) if "OO" not in "".join(p))}
 
 - id: spec.combinatorics.permutations.subject-blocks
+  title: "Shelving Books in Subject Blocks"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1580
   responseSkills: {reading: 1560, calculation: 1550, reasoning: 1560}
   stem: |
@@ -315,7 +343,9 @@
         return {"a": sum(1 for p in permutations(books) if grouped(p))}
 
 - id: spec.combinatorics.permutations.dictionary-rank
+  title: "Position of a Word in Dictionary Order"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1640
   responseSkills: {reading: 1600, calculation: 1590, reasoning: 1620, synthesis: 1620}
   variants:
@@ -337,7 +367,9 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.combinatorics.permutations.record-arrangements
+  title: "Arrangements Where Each Number Is a New High or Low"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1780
   responseSkills: {calculation: 1730, reasoning: 1760, proof: 1720, synthesis: 1780}
   stem: |
@@ -362,7 +394,9 @@
         return {"a": sum(1 for p in permutations(range(1, 7)) if ok(p)), "b": 2**(n - 1)}
 
 - id: spec.combinatorics.permutations.no-consecutive-neighbors
+  title: "No Consecutive Numbers Side by Side"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1760
   responseSkills: {calculation: 1650, reasoning: 1740, synthesis: 1760}
   stem: |
@@ -383,7 +417,9 @@
         return {"a": sum(1 for p in permutations(range(1, 6)) if all(abs(p[i] - p[i + 1]) != 1 for i in range(4)))}
 
 - id: spec.combinatorics.permutations.no-equal-neighbors
+  title: "Six Digits with No Equal Neighbors"
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  subsection: "Repeated objects"
   rating: 1740
   responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
   stem: |
@@ -404,7 +440,9 @@
         return {"a": sum(1 for p in multiset_permutations([1, 1, 2, 2, 3, 3]) if all(p[i] != p[i + 1] for i in range(5)))}
 
 - id: spec.combinatorics.permutations.fixed-end
+  title: "Photo Line-Up with One Person at the End"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1070
   responseSkills: { calculation: 1060, reading: 1070 }
   words: { who: person }
@@ -423,7 +461,9 @@
         return {"a": factorial(n - 1)}
 
 - id: spec.combinatorics.permutations.vowel-ends
+  title: "Arrangements Beginning and Ending with a Vowel"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1350
   responseSkills: {reading: 1350, calculation: 1330, reasoning: 1330}
   stem: |
@@ -439,7 +479,9 @@
         return {"a": sum(1 for p in permutations("NUMBER") if p[0] in "UE" and p[-1] in "UE")}
 
 - id: spec.combinatorics.permutations.couples-in-a-row
+  title: "Couples Sitting Together in a Row"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1450
   responseSkills: {reading: 1440, calculation: 1430, reasoning: 1430}
   variants:
@@ -459,7 +501,9 @@
         return {"a": sum(1 for p in permutations(people) if all(p[i] // 2 == p[i + 1] // 2 for i in range(0, 2 * c, 2)))}
 
 - id: spec.combinatorics.permutations.vowels-together
+  title: "Arrangements with the Vowels Together"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1480
   responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
   stem: |
@@ -478,7 +522,9 @@
         return {"a": sum(1 for p in permutations("TRIANGLE") if together(p))}
 
 - id: spec.combinatorics.permutations.alternate-round-couple
+  title: "Alternating Round Table with a Couple Together"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arrangements in a circle"
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -505,7 +551,9 @@
         return {"a": count}
 
 - id: spec.combinatorics.permutations.mathematics-no-repeats
+  title: "MATHEMATICS with No Identical Letters Together"
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  subsection: "Repeated objects"
   rating: 1770
   responseSkills: {calculation: 1700, reasoning: 1750, synthesis: 1760}
   stem: |
@@ -540,7 +588,9 @@
         return {"a": go(tuple(counts[c] for c in letters), -1)}
 
 - id: spec.combinatorics.permutations.exactly-one-fixed
+  title: "Exactly One Number in Its Own Place"
   skills: { primary: spec.combinatorics.permutations, secondary: [spec.combinatorics.inclusion-exclusion] }
+  subsection: "Fixed positions and order"
   rating: 1820
   responseSkills: {calculation: 1720, reasoning: 1800, synthesis: 1820}
   stem: |
@@ -559,7 +609,9 @@
         return {"a": sum(1 for p in permutations(range(7)) if sum(p[i] == i for i in range(7)) == 1)}
 
 - id: spec.combinatorics.permutations.three-from-pencil
+  title: "Three-Letter Arrangements from PENCIL"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Arranging different objects"
   rating: 1270
   responseSkills: {calculation: 1260}
   stem: |
@@ -574,7 +626,9 @@
     def answers():
         return {"a": len(set(permutations("PENCIL", 3)))}
 - id: spec.combinatorics.permutations.ends-fixed-pair
+  title: "Two People at the Ends of a Row"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Fixed positions and order"
   rating: 1300
   responseSkills: {calculation: 1280, reading: 1290}
   words: { p1: person, p2: person }
@@ -593,7 +647,9 @@
     def answers(n, v):
         return {"a": sum(1 for p in permutations(range(n)) if {p[0], p[-1]} == {0, 1})}
 - id: spec.combinatorics.permutations.vowels-even-places
+  title: "Vowels in the Even Places"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Fixed positions and order"
   rating: 1340
   responseSkills: {calculation: 1320, reading: 1330}
   stem: |
@@ -608,7 +664,9 @@
     def answers():
         return {"a": sum(1 for p in permutations("SPECIAL") if all(p[i] in "EIA" for i in (1, 3, 5)))}
 - id: spec.combinatorics.permutations.greater-than-5000
+  title: "Four-Digit Numbers Greater Than 5000"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Arranging different objects"
   rating: 1370
   responseSkills: {calculation: 1350, reading: 1350}
   stem: |
@@ -623,7 +681,9 @@
     def answers():
         return {"a": sum(1 for p in permutations("1234567", 4) if int("".join(p)) > 5000)}
 - id: spec.combinatorics.permutations.assess
+  title: "Arranging the Letters of ASSESS"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Repeated objects"
   rating: 1400
   responseSkills: {calculation: 1390, reasoning: 1380}
   stem: |
@@ -638,7 +698,9 @@
     def answers():
         return {"a": len(list(multiset_permutations(list("ASSESS"))))}
 - id: spec.combinatorics.permutations.three-separated
+  title: "Three People, No Two Side by Side"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Objects together or apart"
   rating: 1420
   responseSkills: {calculation: 1400, reasoning: 1400, synthesis: 1390}
   stem: |
@@ -653,7 +715,9 @@
     def answers():
         return {"a": sum(1 for p in permutations(range(7)) if all(abs(p.index(a) - p.index(b)) > 1 for a, b in ((0, 1), (0, 2), (1, 2))))}
 - id: spec.combinatorics.permutations.round-table-apart
+  title: "Round Table with Two People Apart"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Arrangements in a circle"
   rating: 1440
   responseSkills: {reading: 1420, calculation: 1420, reasoning: 1420}
   words: { p1: person, p2: person }
@@ -674,7 +738,9 @@
             n += gap not in (1, 7)
         return {"a": n}
 - id: spec.combinatorics.permutations.odd-distinct
+  title: "Odd Numbers with Distinct Digits"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Arranging different objects"
   rating: 1460
   responseSkills: {reading: 1440, calculation: 1440, reasoning: 1440}
   stem: |
@@ -688,7 +754,9 @@
     def answers():
         return {"a": sum(1 for n in range(1000, 10000) if n % 2 and len(set(str(n))) == 4)}
 - id: spec.combinatorics.permutations.statistics
+  title: "Arranging the Letters of STATISTICS"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Repeated objects"
   rating: 1490
   responseSkills: {calculation: 1480, reasoning: 1470}
   stem: |
@@ -706,7 +774,9 @@
         for v in c.values(): d *= factorial(v)
         return {"a": factorial(10) / d}
 - id: spec.combinatorics.permutations.banana-n-apart
+  title: "BANANA with the N's Apart"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Repeated objects"
   rating: 1520
   responseSkills: {calculation: 1500, reasoning: 1500, synthesis: 1480}
   stem: |
@@ -721,7 +791,9 @@
     def answers():
         return {"a": sum(1 for p in multiset_permutations(list("BANANA")) if "NN" not in "".join(p))}
 - id: spec.combinatorics.permutations.alternate-round
+  title: "Boys and Girls Alternating at a Round Table"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Arrangements in a circle"
   rating: 1560
   responseSkills: {calculation: 1540, reasoning: 1540, synthesis: 1530}
   stem: |
@@ -740,7 +812,9 @@
             n += all((seats[i] < 4) != (seats[(i + 1) % 8] < 4) for i in range(8))
         return {"a": n}
 - id: spec.combinatorics.permutations.five-from-parallel
+  title: "Five-Letter Arrangements from PARALLEL"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Repeated objects"
   rating: 1620
   responseSkills: {calculation: 1600, reasoning: 1600, synthesis: 1590}
   stem: |
@@ -766,7 +840,9 @@
     def answers():
         return {"a": len(list(multiset_permutations(list("PARALLEL"), 5)))}
 - id: spec.combinatorics.permutations.order-of-three
+  title: "Three Numbers in Order, Not Necessarily Together"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Fixed positions and order"
   rating: 1650
   responseSkills: {calculation: 1620, reasoning: 1630, synthesis: 1630}
   stem: |
@@ -781,9 +857,11 @@
     def answers():
         return {"a": sum(1 for p in permutations(range(1, 7)) if p.index(1) < p.index(2) < p.index(3))}
 - id: spec.combinatorics.permutations.couples-apart
+  title: "No Couple Sitting Together"
   skills:
     primary: spec.combinatorics.permutations
     secondary: [spec.combinatorics.inclusion-exclusion]
+  subsection: "Objects together or apart"
   rating: 1680
   responseSkills: {calculation: 1630, reasoning: 1660, synthesis: 1670}
   stem: |
@@ -799,7 +877,9 @@
     def answers():
         return {"a": sum(1 for p in permutations(range(6)) if all(p[i] // 2 != p[i + 1] // 2 for i in range(5)))}
 - id: spec.combinatorics.permutations.no-equal-neighbors-1123
+  title: "Seven Digits with No Equal Neighbors"
   skills: {primary: spec.combinatorics.permutations}
+  subsection: "Repeated objects"
   rating: 1720
   responseSkills: {calculation: 1670, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -820,7 +900,9 @@
         return {"a": sum(1 for p in multiset_permutations([1, 1, 2, 2, 3, 3, 4]) if all(p[i] != p[i + 1] for i in range(6)))}
 
 - id: spec.combinatorics.permutations.relay-order
+  title: "Relay Running Orders"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1060
   responseSkills: { reading: 1060, calculation: 1020 }
   words: { club: club }
@@ -841,7 +923,9 @@
         return {"a": len(list(permutations(range(n))))}
 
 - id: spec.combinatorics.permutations.medal-podium
+  title: "Awarding Gold, Silver and Bronze"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1150
   responseSkills: { reading: 1150, calculation: 1110 }
   words: { sport: sport }
@@ -862,7 +946,9 @@
         return {"a": len(list(permutations(range(n), 3)))}
 
 - id: spec.combinatorics.permutations.queue-ahead
+  title: "One Person Ahead of Another in a Queue"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1450
   responseSkills: { reading: 1440, calculation: 1400, reasoning: 1440 }
   words: { p1: person, p2: person, shop: shop }
@@ -883,7 +969,9 @@
         return {"a": sum(1 for q in permutations(range(n)) if q.index(0) < q.index(1))}
 
 - id: spec.combinatorics.permutations.timetable
+  title: "Timetabling a School Day"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1400
   responseSkills: { reading: 1400, calculation: 1360 }
   words: { s1: subject, s2: subject, s3: subject, s4: subject, s5: subject }
@@ -900,7 +988,9 @@
         return {"a": sum(1 for t in permutations(range(5)) if t[0] != 0)}
 
 - id: spec.combinatorics.permutations.shelf-by-subject
+  title: "Bookshelf Grouped by Subject"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1620
   responseSkills: { reading: 1600, calculation: 1580, reasoning: 1600 }
   words: { who: person, s1: subject, s2: subject, s3: subject }
@@ -926,7 +1016,9 @@
         return {"a": sum(1 for o in permutations(range(a + b + c)) if together(o))}
 
 - id: spec.combinatorics.permutations.three-apart
+  title: "Three Friends, No Two Side by Side"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1700
   responseSkills: { reading: 1680, calculation: 1670, reasoning: 1690 }
   words: { p1: person, p2: person, p3: person }
@@ -946,7 +1038,9 @@
         return {"a": sum(1 for q in permutations(range(n)) if all(abs(q.index(i) - q.index(j)) > 1 for i in range(3) for j in range(i)))}
 
 - id: spec.combinatorics.permutations.end-seat
+  title: "Seating with an End Seat"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1330
   responseSkills: { reading: 1320, calculation: 1290 }
   words: { who: person, venue: venue }
@@ -967,7 +1061,9 @@
         return {"a": sum(1 for q in permutations(range(n)) if q.index(0) in (0, n - 1))}
 
 - id: spec.combinatorics.permutations.host-between
+  title: "Dinner Host Between Two Guests"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arrangements in a circle"
   rating: 1520
   responseSkills: { reading: 1500, calculation: 1480, reasoning: 1500 }
   words: { who: person, p1: person, p2: person }
@@ -994,7 +1090,9 @@
         return {"a": len(seen)}
 
 - id: spec.combinatorics.permutations.photo-rows
+  title: "Two-Row Photo with One Person in Front"
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Fixed positions and order"
   rating: 1580
   responseSkills: { reading: 1570, calculation: 1540, reasoning: 1560 }
   words: { who: person }

@@ -1,7 +1,9 @@
 # Intersecting chords, secants and tangents: written proofs (1.1.8).
 
 - id: spec.geometry.chord-secant-lengths.equal-parts-equal-chords
+  title: "Equal Parts Give Equal Chords"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1330
   responseSkills: { reasoning: 1320, proof: 1320, clarity: 1280 }
   stem: |
@@ -35,7 +37,9 @@
     By the intersecting chords theorem, $AX \times XB = CX \times XD$. Since $AX = CX \ne 0$, dividing gives $XB = XD$. Then $AB = AX + XB = CX + XD = CD$.
 
 - id: spec.geometry.chord-secant-lengths.tangents-equal-by-power
+  title: "Equal Tangents from the Tangent–Secant Theorem"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -67,9 +71,12 @@
     By the tangent–secant theorem, $MS^2 = MA \times MB$ and $MT^2 = MA \times MB$. So $MS^2 = MT^2$, and since lengths are positive, $MS = MT$.
 
 - id: spec.geometry.chord-secant-lengths.two-secants-proof
+  title: "Proving the Two-Secant Theorem"
   skills: { primary: spec.geometry.chord-secant-lengths }
-  rating: 1500
-  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  subsection: "Two secants from a point"
+  rating: 1400
+  bookwork: true
+  responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
     From a point $M$ outside a circle, one line cuts the circle at $A$ and $B$, and another at $C$ and $D$. Prove that $MA \times MB = MC \times MD$.
 
@@ -101,7 +108,9 @@
     (Alternatively, triangles $MAD$ and $MCB$ share the angle at $M$ and have $\angle MDA = \angle MBC$, angles on the same arc $AC$, so they are similar and $\tfrac{MA}{MC} = \tfrac{MD}{MB}$.)
 
 - id: spec.geometry.chord-secant-lengths.perpendicular-chord-diameter
+  title: "Chord Perpendicular to a Diameter"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -134,7 +143,9 @@
     $AB$ passes through the center and is perpendicular to the chord $CD$, so it bisects $CD$: $CX = XD$. By the intersecting chords theorem, $AX \times XB = CX \times XD = CX^2$.
 
 - id: spec.geometry.chord-secant-lengths.power-inside
+  title: "Chords Through a Point Inside a Circle"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550 }
   stem: |
@@ -166,7 +177,9 @@
     The diameter through $X$ (any diameter, if $X = O$) meets the circle at $P$ and $Q$ with $XP = r - d$ and $XQ = r + d$. For any chord $AB$ through $X$, the intersecting chords theorem gives $AX \times XB = XP \times XQ = (r - d)(r + d) = r^2 - d^2$.
 
 - id: spec.geometry.chord-secant-lengths.power-outside
+  title: "Secants from a Point Outside a Circle"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Two secants from a point"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -198,7 +211,9 @@
     Draw a tangent $MT$. It is perpendicular to the radius $OT$, so by Pythagoras $MT^2 = OM^2 - OT^2 = d^2 - r^2$. By the tangent–secant theorem, every secant from $M$ has $MA \times MB = MT^2 = d^2 - r^2$.
 
 - id: spec.geometry.chord-secant-lengths.tangent-by-pythagoras
+  title: "Tangent–Secant Theorem by Pythagoras"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
   stem: |
@@ -231,7 +246,9 @@
     The tangent is perpendicular to the radius, so $MT^2 = MO^2 - r^2$. Since $A$ and $B$ lie on line $MO$ at distance $r$ from $O$, $MA = MO - r$ and $MB = MO + r$. So $MA \times MB = MO^2 - r^2 = MT^2$.
 
 - id: spec.geometry.chord-secant-lengths.radius-from-tangent
+  title: "Radius from a Tangent Length"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1550
   responseSkills: { reasoning: 1540, proof: 1540, clarity: 1500 }
   stem: |
@@ -263,7 +280,9 @@
     The line through the center meets the circle at $A$ and at $B$, the other end of a diameter, so $MB = a + 2r$. By the tangent–secant theorem, $t^2 = a(a + 2r) = a^2 + 2ar$, so $r = \dfrac{t^2 - a^2}{2a}$.
 
 - id: spec.geometry.chord-secant-lengths.tangent-between
+  title: "Tangent Length Between the Secant Lengths"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -294,7 +313,9 @@
     By the tangent–secant theorem, $MT^2 = MA \times MB$. Since $0 < MA < MB$, we have $MA^2 < MA \times MB < MB^2$, i.e. $MA^2 < MT^2 < MB^2$. All are positive lengths, so $MA < MT < MB$.
 
 - id: spec.geometry.chord-secant-lengths.bisecting-chords-diameters
+  title: "Chords That Bisect Each Other"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1480
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
@@ -328,7 +349,9 @@
     Let the chords $AB$ and $CD$ have the same midpoint $X$. Suppose $X$ is not the center $O$. The line from the center to the midpoint of a chord is perpendicular to the chord, so $OX \perp AB$ and $OX \perp CD$. But through $X$ there is only one line perpendicular to $OX$, so $AB$ and $CD$ would be the same line, contradicting their being different chords. Hence $X = O$, and both chords pass through the center: both are diameters.
 
 - id: spec.geometry.chord-secant-lengths.am-gm-circle
+  title: "Geometric Mean at Most the Arithmetic Mean"
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-problems] }
+  subsection: "Intersecting chords"
   rating: 1680
   responseSkills: { reasoning: 1670, proof: 1670, clarity: 1630, synthesis: 1660 }
   stem: |
@@ -348,7 +371,9 @@
     In triangle $OXC$, the angle at $X$ is $90^\circ$, so the hypotenuse $OC = r$ is at least as long as $CX$ (equal when $X = O$). Hence $\sqrt{ab} \le \dfrac{a + b}{2}$.
 
 - id: spec.geometry.chord-secant-lengths.altitude-mean-proportional
+  title: "Altitude of a Right-Angled Triangle"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
@@ -382,7 +407,9 @@
     $\angle ACB = 90^\circ$, so $C$ lies on the circle with diameter $AB$. Extend $CD$ to meet that circle again at $E$. The diameter $AB$ is perpendicular to the chord $CE$, so it bisects it: $CD = DE$. By the intersecting chords theorem, $AD \times DB = CD \times DE = CD^2$.
 
 - id: spec.geometry.chord-secant-lengths.equal-chords-split
+  title: "Two Equal Chords Crossing"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
@@ -417,7 +444,9 @@
     Two numbers with sum $L$ and product $P$ are the roots of $t^2 - Lt + P = 0$, since $(t - u)(t - v) = t^2 - (u + v)t + uv$. A quadratic has at most two roots, so $\{AX, XB\}$ and $\{CX, XD\}$ are the same pair of numbers. Hence $AX = CX$ and $XB = XD$, or $AX = XD$ and $XB = CX$.
 
 - id: spec.geometry.chord-secant-lengths.half-chord-bound
+  title: "Chord Through the Midpoint of Another"
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1580
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
   stem: |
@@ -450,7 +479,9 @@
     $X$ is the midpoint of $AB$, so $AX = XB = 5$, and by the intersecting chords theorem $CX \times XD = 5 \times 5 = 25$. If both $CX$ and $XD$ were greater than 5, their product would be greater than 25. So the shorter of them is at most 5.
 
 - id: spec.geometry.chord-secant-lengths.concyclic-by-power
+  title: "Four Points on a Circle via Two Circles"
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-problems] }
+  subsection: "Two secants from a point"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750, synthesis: 1780 }
   stem: |

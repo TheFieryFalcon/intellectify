@@ -68,7 +68,11 @@ export interface SchoolPosition {
 /** Where a date falls in the school year. Before Term 1 it is Term 1 Week 1, not in term. */
 export function schoolPosition(date: Date, early?: boolean): SchoolPosition {
   const year = date.getUTCFullYear();
-  const list = terms(year, early ?? autoEarlyEaster(year));
+  return positionIn(date, terms(year, early ?? autoEarlyEaster(year)));
+}
+
+function positionIn(date: Date, list: Term[]): SchoolPosition {
+  const year = date.getUTCFullYear();
   if (date < list[0]!.start) return { year, term: 1, week: 1, inTerm: false, order: 1 };
   let i = 0;
   while (i < 3 && date >= list[i + 1]!.monday) i++;
@@ -86,3 +90,76 @@ export function parseTermWeek(text: string): number | null {
 
 /** A Perth calendar date (YYYY-MM-DD) as the UTC-midnight Date this module works in. */
 export const dateOfDay = (day: string) => new Date(`${day}T00:00:00Z`);
+
+/* ───────────── Calendar files (SPEC §8.6): content/calendar/<year>.yaml ───────────── */
+
+/** A school year as recorded in a calendar file: term dates (YYYY-MM-DD, first and last school day) and exam periods. */
+export interface SchoolYear {
+  year: number;
+  terms: { term: 1 | 2 | 3 | 4; start: string; end: string }[];
+  /** Semester 1 is Terms 1–2 and Semester 2 is Terms 3–4 unless a file says otherwise. */
+  semesters?: { semester: 1 | 2; terms: number[] }[];
+  exams?: { name: string; start: string; end: string; yearGroups?: number[] }[];
+}
+
+/** School weeks per unit (SPEC §8.6). */
+export const UNIT_WEEKS = 15;
+
+/** A calendar file's terms in this module's form; Week 1 starts on the Monday of the first school day's week. */
+export function termsOf(cal: SchoolYear): Term[] {
+  return [...cal.terms]
+    .sort((a, b) => a.term - b.term)
+    .map((t) => {
+      const start = dateOfDay(t.start);
+      const monday = mondayOf(start);
+      const weeks = Math.floor((dateOfDay(t.end).getTime() - monday.getTime()) / (7 * DAY)) + 1;
+      return { term: t.term, start, monday, weeks };
+    });
+}
+
+/** The year's terms: from its calendar file when there is one, else by the rule above. */
+export function termsFor(year: number, calendars: readonly SchoolYear[] = []): Term[] {
+  const cal = calendars.find((c) => c.year === year);
+  return cal ? termsOf(cal) : terms(year);
+}
+
+/** Where a date falls, using the calendar files where they exist. */
+export function schoolPositionIn(date: Date, calendars: readonly SchoolYear[] = []): SchoolPosition {
+  return positionIn(date, termsFor(date.getUTCFullYear(), calendars));
+}
+
+/** School weeks started so far this year (holidays don't count; 0 before Term 1). */
+export function schoolWeek(date: Date, calendars: readonly SchoolYear[] = []): number {
+  const list = termsFor(date.getUTCFullYear(), calendars);
+  let n = 0;
+  for (const t of list) {
+    if (date < t.monday) break;
+    n += Math.min(t.weeks, Math.floor((date.getTime() - t.monday.getTime()) / (7 * DAY)) + 1);
+  }
+  return n;
+}
+
+/**
+ * The unit a year group is in (SPEC §8.6): every unit is 15 school weeks from the start of the year,
+ * so Year 11 is in Unit 1 for weeks 1–15 and Unit 2 after; Year 12 in Units 3 and 4. Before Term 1
+ * starts, a year group is still in the last unit of the year before (Year 11 then counts as Year 10).
+ */
+export function unitAt(date: Date, yearGroup: 11 | 12, calendars: readonly SchoolYear[] = []): { unit: number | "year10"; week: number } {
+  const week = schoolWeek(date, calendars);
+  if (week === 0) return { unit: yearGroup === 11 ? "year10" : 2, week };
+  const first = yearGroup === 11 ? 1 : 3;
+  return { unit: week <= UNIT_WEEKS ? first : first + 1, week };
+}
+
+/** What a monthly problem covers (SPEC §8.6): the unit its year group finished most recently. */
+export function monthlyScope(date: Date, yearGroup: 11 | 12, calendars: readonly SchoolYear[] = []): number | "year10" {
+  const { unit } = unitAt(date, yearGroup, calendars);
+  if (unit === "year10") return "year10";
+  return unit === 1 ? "year10" : unit - 1;
+}
+
+/** Exam periods running on a date. */
+export function examsOn(date: Date, calendars: readonly SchoolYear[] = []) {
+  const cal = calendars.find((c) => c.year === date.getUTCFullYear());
+  return (cal?.exams ?? []).filter((e) => date >= dateOfDay(e.start) && date <= dateOfDay(e.end));
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emptyStats, onAppeal, onDaily, onMarked, onPost } from "./achievements";
+import { emptyStats, onAppeal, onDaily, onMarked, onPost, onReports } from "./achievements";
 
 const solve = (s = emptyStats(), day: string, firstTry = true, streak = 1) => onDaily(s, { day, solved: true, firstTry, streak });
 
@@ -52,5 +52,18 @@ describe("written answers and appeals", () => {
     let s = onPost(emptyStats(), "2026-11-27:specialist:11");
     s = onPost(s, "2026-11-27:specialist:11");
     expect(s.counts.discussions).toBe(1);
+  });
+});
+
+describe("error reports", () => {
+  it("counts confirmed reports, and Tier 5+ question reports separately, without ever going down", () => {
+    let s = onReports(emptyStats(), [{ tier: 3 }, { tier: null }]);
+    expect(s.counts.reports).toBe(2);
+    expect(s.counts.hardReports).toBe(0);
+    s = onReports(s, [{ tier: 3 }, { tier: null }, { tier: 5 }]);
+    expect(s.counts.reports).toBe(3);
+    expect(s.counts.hardReports).toBe(1);
+    s = onReports(s, [{ tier: 5 }]); // two reopened: earned counts stay
+    expect(s.counts.reports).toBe(3);
   });
 });

@@ -10,12 +10,14 @@
     "./diagram": "./src/diagram.ts",
     "./marking": "./src/marking.ts",
     "./reviews": "./src/reviews.ts",
-    "./question-index": "./src/question-index.ts"
+    "./question-index": "./src/question-index.ts",
+    "./moderation": "./src/moderation.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p .",
     "build:content": "tsx src/cli.ts",
-    "verify:content": "tsx src/verify.ts"
+    "verify:content": "tsx src/verify.ts",
+    "moderation": "tsx src/banned-rules.ts"
   },
   "dependencies": {
     "@intellectify/checker": "workspace:*",

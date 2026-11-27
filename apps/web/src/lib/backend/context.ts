@@ -1,6 +1,9 @@
 /** Netlify's build context: "production", "deploy-preview", "branch-deploy", or "dev" locally (vite.config.ts). */
 export const deployContext = typeof __DEPLOY_CONTEXT__ !== "undefined" ? __DEPLOY_CONTEXT__ : "dev";
 
+/** The owner's Firebase account; firestore.rules `admin()` names the same IDs. */
+export const OWNER_UIDS: readonly string[] = ["35SYdSB2iNafu4EPkaobQ03qFJe2"];
+
 /**
  * Anonymous accounts may answer this many questions before they must sign up or log in (SPEC §2.1a).
  * Deploy previews are for testing, so they have no limit.

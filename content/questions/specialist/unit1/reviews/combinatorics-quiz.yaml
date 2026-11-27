@@ -1,8 +1,10 @@
 # Section quiz pool: Combinatorics (1.2). Never served in practice (SPEC §8.1a).
 
 - id: spec.combinatorics.sq.sandwiches
+  title: "Building Sandwiches"
   pool: section-quiz
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1060
   responseSkills: { reading: 1050, calculation: 1040 }
   stem: |
@@ -17,8 +19,10 @@
         return {"a": 4 * 5 * 3}
 
 - id: spec.combinatorics.sq.trophies
+  title: "Lining Up Trophies"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1080
   responseSkills: { calculation: 1060 }
   stem: |
@@ -33,8 +37,10 @@
         return {"a": sympy.factorial(5)}
 
 - id: spec.combinatorics.sq.nine-two
+  title: "Evaluating a Combination (Quiz)"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1110
   responseSkills: { calculation: 1100 }
   stem: |
@@ -49,8 +55,10 @@
         return {"a": sympy.binomial(9, 2)}
 
 - id: spec.combinatorics.sq.union-small
+  title: "Size of a Union"
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1150
   responseSkills: { calculation: 1130 }
   stem: |
@@ -65,8 +73,10 @@
         return {"a": 14 + 9 - 5}
 
 - id: spec.combinatorics.sq.pascal-twelve
+  title: "Combining Two Combinations"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's rule"
   rating: 1300
   responseSkills: { reasoning: 1290, calculation: 1280 }
   stem: |
@@ -81,8 +91,10 @@
         return {"a": sympy.binomial(11, 4) + sympy.binomial(11, 5)}
 
 - id: spec.combinatorics.sq.birth-months
+  title: "Students Sharing a Birth Month"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "At least k in one box"
   rating: 1320
   responseSkills: { reading: 1300, reasoning: 1310, calculation: 1270 }
   stem: |
@@ -97,8 +109,10 @@
         return {"a": sympy.ceiling(sympy.Rational(30, 12))}
 
 - id: spec.combinatorics.sq.level
+  title: "Arranging the Letters of LEVEL"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1290
   responseSkills: { calculation: 1270 }
   stem: |
@@ -113,8 +127,10 @@
         return {"a": sympy.factorial(5) / (sympy.factorial(2) ** 2)}
 
 - id: spec.combinatorics.sq.two-girls
+  title: "Committee with Exactly Two Girls"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1350
   responseSkills: { reading: 1330, calculation: 1320 }
   stem: |
@@ -129,8 +145,10 @@
         return {"a": sympy.binomial(5, 2) * sympy.binomial(7, 2)}
 
 - id: spec.combinatorics.sq.over-5000
+  title: "Numbers over 5000 with Distinct Digits"
   pool: section-quiz
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1420
   responseSkills: { reading: 1400, calculation: 1400, reasoning: 1410 }
   stem: |
@@ -145,8 +163,10 @@
         return {"a": sum(1 for n in range(5001, 10000) if len(set(str(n))) == 4)}
 
 - id: spec.combinatorics.sq.not-together
+  title: "Two People Not Sitting Together"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1430
   responseSkills: { calculation: 1410, reasoning: 1420 }
   stem: |
@@ -162,8 +182,10 @@
         return {"a": sum(1 for p in permutations(range(6)) if abs(p.index(0) - p.index(1)) != 1)}
 
 - id: spec.combinatorics.sq.exactly-one-of
+  title: "Divisible by 3 or 7 but Not Both"
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1500
   responseSkills: { reading: 1480, calculation: 1480, reasoning: 1490 }
   stem: |
@@ -178,8 +200,10 @@
         return {"a": sum(1 for n in range(1, 501) if (n % 3 == 0) != (n % 7 == 0))}
 
 - id: spec.combinatorics.sq.mirror-row
+  title: "Equal Combinations in One Row"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Symmetry"
   rating: 1420
   responseSkills: { reasoning: 1410, calculation: 1390 }
   stem: |
@@ -195,8 +219,10 @@
         return {"a": sympy.binomial(n, 2)}
 
 - id: spec.combinatorics.sq.lollies
+  title: "Sharing Lollies, at Least One Each"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Sharing identical objects"
   rating: 1490
   responseSkills: { reading: 1470, calculation: 1460, reasoning: 1480 }
   stem: |
@@ -212,8 +238,10 @@
         return {"a": sum(1 for c in product(range(1, 11), repeat=4) if sum(c) == 10)}
 
 - id: spec.combinatorics.sq.consecutive-pair
+  title: "Nine Numbers Include Two Consecutive"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1470
   responseSkills: { reasoning: 1460, proof: 1460, clarity: 1400 }
   stem: |
@@ -230,8 +258,10 @@
     Split $1, \dots, 16$ into 8 boxes of consecutive pairs: $\{1, 2\}, \{3, 4\}, \dots, \{15, 16\}$. Every number is in exactly one box. Nine numbers in eight boxes put two of them in the same box, and the two numbers in a box differ by 1. So two of the chosen numbers differ by exactly 1.
 
 - id: spec.combinatorics.sq.arrange-aa
+  title: "ARRANGE with the A's Together"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1580
   responseSkills: { reading: 1550, calculation: 1560, reasoning: 1570 }
   stem: |
@@ -247,8 +277,10 @@
         return {"a": sum(1 for p in multiset_permutations(list("ARRANGE")) if "AA" in "".join(p))}
 
 - id: spec.combinatorics.sq.powers-to-1000
+  title: "Squares, Cubes or Fifth Powers up to 1000"
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1650
   responseSkills: { reading: 1620, calculation: 1630, reasoning: 1640 }
   stem: |

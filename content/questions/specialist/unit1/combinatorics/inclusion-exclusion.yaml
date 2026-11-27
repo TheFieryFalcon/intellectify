@@ -1,7 +1,9 @@
 # Inclusion–exclusion for two and three sets (1.2.5).
 
 - id: spec.combinatorics.inclusion-exclusion.two-set-formula
+  title: "Size of a Union of Two Sets"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1050
   responseSkills: { calculation: 1050 }
   variants:
@@ -19,7 +21,9 @@
         return {"a": a + b - ab}
 
 - id: spec.combinatorics.inclusion-exclusion.neither
+  title: "Students Who Play Neither Sport"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1280
   responseSkills: { reading: 1280, calculation: 1250 }
   words: { sp1: sport, sp2: sport }
@@ -38,7 +42,9 @@
         return {"a": n - (s + t - b)}
 
 - id: spec.combinatorics.inclusion-exclusion.div-2-or-3
+  title: "Integers Divisible by One of Two Numbers"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1330 }
   variants:
@@ -56,7 +62,9 @@
         return {"a": sum(1 for k in range(1, n + 1) if k % p == 0 or k % q == 0)}
 
 - id: spec.combinatorics.inclusion-exclusion.three-languages
+  title: "Students Studying Three Languages"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1440
   responseSkills: {reading: 1440, calculation: 1400, reasoning: 1420}
   stem: |
@@ -87,7 +95,9 @@
         return {"a": at_least_one, "b": exactly_one}
 
 - id: spec.combinatorics.inclusion-exclusion.divisible-3-5-7
+  title: "Integers Divisible by at Least One of Three Numbers"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1480
   responseSkills: {reading: 1450, calculation: 1450, reasoning: 1460}
   variants:
@@ -105,7 +115,9 @@
         return {"a": sum(1 for k in range(1, n + 1) if k % a == 0 or k % b == 0 or k % c == 0)}
 
 - id: spec.combinatorics.inclusion-exclusion.coprime-to-30
+  title: "Integers Divisible by None of 2, 3 and 5"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1470
   responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1450}
   stem: |
@@ -120,7 +132,9 @@
         return {"a": sum(1 for k in range(1, 1001) if k % 2 and k % 3 and k % 5)}
 
 - id: spec.combinatorics.inclusion-exclusion.find-triple
+  title: "Finding a Triple Intersection"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1450
   responseSkills: {reading: 1440, calculation: 1420, reasoning: 1430}
   stem: |
@@ -136,7 +150,9 @@
         return {"a": solve(Eq(55, 25 + 30 + 20 - 10 - 8 - 6 + x), x)[0]}
 
 - id: spec.combinatorics.inclusion-exclusion.squares-or-cubes
+  title: "Perfect Squares or Perfect Cubes"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1560
   responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
   variants:
@@ -154,7 +170,9 @@
         return {"a": sum(1 for k in range(1, n + 1) if integer_nthroot(k, 2)[1] or integer_nthroot(k, 3)[1])}
 
 - id: spec.combinatorics.inclusion-exclusion.not-in-place
+  title: "Arrangements with Three Numbers Out of Place"
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  subsection: "Arrangements with conditions"
   rating: 1600
   responseSkills: {calculation: 1520, reasoning: 1580, synthesis: 1600}
   stem: |
@@ -170,7 +188,9 @@
         return {"a": sum(1 for p in permutations(range(1, 7)) if p[0] != 1 and p[1] != 2 and p[2] != 3)}
 
 - id: spec.combinatorics.inclusion-exclusion.every-letter
+  title: "Strings Using Every Letter"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Arrangements with conditions"
   rating: 1620
   responseSkills: {calculation: 1550, reasoning: 1600, synthesis: 1620}
   variants:
@@ -189,7 +209,9 @@
         return {"a": sum(1 for s in product("ABC", repeat=n) if set(s) == {"A", "B", "C"})}
 
 - id: spec.combinatorics.inclusion-exclusion.three-set-proof
+  title: "Proving Inclusion–Exclusion for Three Sets"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1700
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1650}
   stem: |
@@ -215,7 +237,9 @@
     So the right-hand side counts every element of $A \cup B \cup C$ exactly once, and nothing else. It therefore equals $|A \cup B \cup C|$.
 
 - id: spec.combinatorics.inclusion-exclusion.coprime-to-210
+  title: "Integers with No Factor in Common with 210"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1740
   responseSkills: {calculation: 1600, reasoning: 1720, synthesis: 1740}
   stem: |
@@ -234,7 +258,9 @@
         return {"a": sum(1 for k in range(1, 211) if gcd(k, 210) == 1)}
 
 - id: spec.combinatorics.inclusion-exclusion.letters-envelopes
+  title: "Letters All in the Wrong Envelopes"
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  subsection: "Arrangements with conditions"
   rating: 1770
   responseSkills: {calculation: 1650, reasoning: 1750, synthesis: 1770}
   stem: |
@@ -250,7 +276,9 @@
         return {"a": sum(1 for p in permutations(range(5)) if all(p[i] != i for i in range(5)))}
 
 - id: spec.combinatorics.inclusion-exclusion.only-a
+  title: "Elements in A but Not B"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1080
   responseSkills: { reading: 1080, calculation: 1060 }
   variants:
@@ -268,7 +296,9 @@
         return {"a": a - ab}
 
 - id: spec.combinatorics.inclusion-exclusion.two-divisors
+  title: "Integers Divisible by Either or Both of Two Numbers"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1160
   responseSkills: { calculation: 1150, reading: 1140 }
   variants:
@@ -286,7 +316,9 @@
         return {"a": sum(1 for k in range(1, n + 1) if k % p == 0 or k % q == 0)}
 
 - id: spec.combinatorics.inclusion-exclusion.find-overlap
+  title: "Club Members Who Swim and Run"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1320
   responseSkills: { reading: 1310, calculation: 1280 }
   variants:
@@ -305,7 +337,9 @@
         return {"a": solve(a + b - x - u, x)[0]}
 
 - id: spec.combinatorics.inclusion-exclusion.not-a-power
+  title: "Integers That Aren't Squares, Cubes or Fifth Powers"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1720
   responseSkills: {calculation: 1680, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -325,7 +359,9 @@
         return {"a": sum(1 for n in range(1, 1001) if not any(is_power(n, k) for k in (2, 3, 5)))}
 
 - id: spec.combinatorics.inclusion-exclusion.two-clubs-neither
+  title: "Students in Neither Club"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1250
   responseSkills: { reading: 1250, calculation: 1200 }
   words: { c1: club, c2: club }
@@ -346,7 +382,9 @@
         return {"a": n - len(A | B)}
 
 - id: spec.combinatorics.inclusion-exclusion.subjects-both
+  title: "Students Taking Both Subjects"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1320
   responseSkills: { reading: 1320, calculation: 1280 }
   words: { s1: subject, s2: subject }
@@ -366,7 +404,9 @@
         return {"a": a + b - n}
 
 - id: spec.combinatorics.inclusion-exclusion.three-sports-none
+  title: "Students Playing None of Three Sports"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1520
   responseSkills: { reading: 1510, calculation: 1490, reasoning: 1500 }
   words: { sp1: sport, sp2: sport, sp3: sport }
@@ -385,7 +425,9 @@
         return {"a": n - (a + b + c - ab - ac - bc + abc)}
 
 - id: spec.combinatorics.inclusion-exclusion.three-sports-exactly-one
+  title: "Students Playing Exactly One of Three Sports"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1620
   responseSkills: { reading: 1610, calculation: 1590, reasoning: 1610 }
   words: { sp1: sport, sp2: sport, sp3: sport }
@@ -407,7 +449,9 @@
         return {"a": oa + ob + oc}
 
 - id: spec.combinatorics.inclusion-exclusion.coat-mixup
+  title: "Nobody Gets Their Own Coat Back"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Arrangements with conditions"
   rating: 1680
   responseSkills: { reading: 1660, calculation: 1650, reasoning: 1670 }
   words: { who: person, venue: venue }
@@ -427,7 +471,9 @@
         return {"a": sum(1 for p in permutations(range(n)) if all(p[i] != i for i in range(n)))}
 
 - id: spec.combinatorics.inclusion-exclusion.snack-survey
+  title: "Survey: People Who Like Both Foods"
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1400
   responseSkills: { reading: 1400, calculation: 1360 }
   words: { f1: snack, f2: snack }

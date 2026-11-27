@@ -2,6 +2,7 @@
  * Answer history (SPEC §15.4b): every answer a student gives, kept in this browser only.
  * Never synced, so it costs no Firestore reads or writes. Oldest entries drop past MAX per course.
  */
+import type { SubmittedSignals } from "./paste";
 import type { WordPicks } from "@intellectify/content/template";
 
 export type HistoryMode = "practice" | "quiz" | "challenge" | "daily" | "revision" | "shared";
@@ -22,6 +23,8 @@ export interface HistoryEntry {
   outcome: number | null;
   /** Written answers: the marking job, which holds the score and feedback. */
   jobId?: string;
+  /** Paste detector signals (SPEC §7.2): blocked outside pastes, bursts, seconds to answer. */
+  signals?: SubmittedSignals | null;
 }
 
 export const MAX = 500;

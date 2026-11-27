@@ -1,5 +1,5 @@
 /**
- * Course glossary (SPEC §3.2): terms defined in tutorials. Wherever a term appears in a tutorial,
+ * Course glossary (SPEC §3.1): terms defined in tutorials. Wherever a term appears in a tutorial,
  * question or solution, its first mention shows the definition on hover, tap or focus.
  */
 export interface GlossaryTerm {

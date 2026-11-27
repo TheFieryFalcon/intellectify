@@ -6,6 +6,8 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import QuestionList from "$lib/components/QuestionList.svelte";
+  import SubsectionSelect from "$lib/components/SubsectionSelect.svelte";
+  import { inSubsection, subKey } from "$lib/subsections";
   import { indexSkills, loadQuestionIndex, type QuestionIndexEntry } from "$lib/content";
   import { answeredIds } from "$lib/practice";
   import { courseProgress } from "$lib/session.svelte";
@@ -30,6 +32,16 @@
   }
 
   const tags = $derived([...new Set(all.flatMap((q) => q.tags))].sort());
+  /** Subsections that have questions, so the filter never offers an empty one. */
+  const usedSubs = $derived(new Set(all.map((q) => subKey(q.skill, q.subsection))));
+  /** A new skill clears a subsection from another skill. */
+  function setSkill(v: string) {
+    const next = new URLSearchParams(page.url.searchParams);
+    if (v) next.set("skill", v);
+    else next.delete("skill");
+    if (v && !get("sub").startsWith(`${v}/`)) next.delete("sub");
+    goto(`?${next}`, { replaceState: true, keepFocus: true, noScroll: true });
+  }
   const POOLS: [string, string][] = [["practice", "Practice"], ["section-quiz", "Section quiz"], ["unit-quiz", "Unit quiz"], ["challenge", "Challenge"]];
 
   const filtered = $derived.by(() => {
@@ -40,13 +52,14 @@
         (!get("kind") || q.kind === get("kind")) &&
         (!get("tag") || q.tags.includes(get("tag"))) &&
         (!get("skill") || q.skills.includes(get("skill"))) &&
+        inSubsection(q, get("sub")) &&
         (!get("section") || q.section === get("section")) &&
         (!get("unit") || q.unit === Number(get("unit"))) &&
         (!get("year") || q.year === Number(get("year"))) &&
         (!get("pool") || q.pool === get("pool")) &&
         (!get("later") || q.later === (get("later") === "yes")) &&
         (!get("answered") || answered.has(q.id) === (get("answered") === "yes")) &&
-        (!text || q.title.toLowerCase().includes(text) || skillName(q.skill).toLowerCase().includes(text)),
+        (!text || q.title.toLowerCase().includes(text) || skillName(q.skill).toLowerCase().includes(text) || q.subsection.toLowerCase().includes(text)),
     );
   });
 
@@ -61,6 +74,12 @@
   });
 
   /** Groups in a sensible order; a question with several tags or skills appears under each. */
+  /** Group label → its place in the curriculum, for grouping by subsection. */
+  const subsectionOrder = $derived(
+    new Map(
+      [...skills.values()].flatMap((k) => k.skill.subsections.map((n) => (get("skill") ? n : `${k.skill.name} · ${n}`))).map((label, i) => [label, i] as const),
+    ),
+  );
   const groups = $derived.by((): { key: string; label: string; items: QuestionIndexEntry[] }[] => {
     const by = get("group");
     if (!by) return [{ key: "all", label: "", items: sorted }];
@@ -70,10 +89,16 @@
       if (by === "tier") add(`Tier ${q.tier}`, q);
       else if (by === "tag") q.tags.forEach((t) => add(t, q));
       else if (by === "skill") q.skills.forEach((s) => add(skillName(s), q));
+      else if (by === "subsection") add(get("skill") ? q.subsection : `${skillName(q.skill)} · ${q.subsection}`, q);
       else if (by === "section") add(sections.find((s) => s.id === q.section)?.name ?? q.section, q);
       else if (by === "answered") add(answered.has(q.id) ? "Answered" : "Not answered", q);
     }
-    return [...keyed.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true })).map(([k, items]) => ({ key: k, label: k, items }));
+    // Subsections follow the curriculum's order; everything else sorts by name.
+    const order = by === "subsection" ? subsectionOrder : null;
+    const rank = (k: string) => order?.get(k) ?? Infinity;
+    return [...keyed.entries()]
+      .sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b, undefined, { numeric: true }))
+      .map(([k, items]) => ({ key: k, label: k, items }));
   });
 </script>
 
@@ -89,12 +114,13 @@
     <label>Year <select value={get("year")} onchange={(e) => set("year", e.currentTarget.value)}><option value="">All</option><option value="11">11</option><option value="12">12</option></select></label>
     <label>Unit <select value={get("unit")} onchange={(e) => set("unit", e.currentTarget.value)}><option value="">All</option>{#each data.course.units as u (u.number)}<option value={String(u.number)}>{u.number}</option>{/each}</select></label>
     <label>Section <select value={get("section")} onchange={(e) => set("section", e.currentTarget.value)}><option value="">All</option>{#each sections as s (s.id)}<option value={s.id}>{s.name}</option>{/each}</select></label>
-    <label>Skill <select value={get("skill")} onchange={(e) => set("skill", e.currentTarget.value)}><option value="">All</option>{#each [...skills.values()] as k (k.skill.id)}<option value={k.skill.id}>{k.skill.name}</option>{/each}</select></label>
+    <label>Skill <select value={get("skill")} onchange={(e) => setSkill(e.currentTarget.value)}><option value="">All</option>{#each [...skills.values()] as k (k.skill.id)}<option value={k.skill.id}>{k.skill.name}</option>{/each}</select></label>
+    <label>Subsection <SubsectionSelect course={data.course} value={get("sub")} skill={get("skill")} only={usedSubs} onchange={(v) => set("sub", v)} /></label>
     <label>Pool <select value={get("pool")} onchange={(e) => set("pool", e.currentTarget.value)}><option value="">All</option>{#each POOLS as [v, l] (v)}<option value={v}>{l}</option>{/each}</select></label>
     <label>Later units <select value={get("later")} onchange={(e) => set("later", e.currentTarget.value)}><option value="">Any</option><option value="yes">Needed</option><option value="no">Not needed</option></select></label>
     <label>Answered <select value={get("answered")} onchange={(e) => set("answered", e.currentTarget.value)}><option value="">Any</option><option value="yes">Yes</option><option value="no">No</option></select></label>
     <label>Sort <select value={get("sort") || "easy"} onchange={(e) => set("sort", e.currentTarget.value)}><option value="easy">Easiest first</option><option value="hard">Hardest first</option><option value="name">Name</option><option value="tag">Tag</option></select></label>
-    <label>Group <select value={get("group")} onchange={(e) => set("group", e.currentTarget.value)}><option value="">None</option><option value="tier">Tier</option><option value="tag">Tag</option><option value="skill">Skill</option><option value="section">Section</option><option value="answered">Answered</option></select></label>
+    <label>Group <select value={get("group")} onchange={(e) => set("group", e.currentTarget.value)}><option value="">None</option><option value="tier">Tier</option><option value="tag">Tag</option><option value="skill">Skill</option><option value="subsection">Subsection</option><option value="section">Section</option><option value="answered">Answered</option></select></label>
     {#if [...p.keys()].length}<button class="btn link" onclick={() => goto("?", { replaceState: true, noScroll: true })}>Clear</button>{/if}
   </div>
 
@@ -104,7 +130,7 @@
     <p class="muted">No questions match</p>
   {:else}
     {#each groups as g (g.key)}
-      {#if g.label}<h2>{g.label} <span class="muted">{g.items.length}</span></h2>{/if}
+      {#if g.label}<h2 class:named={get("group") === "subsection" || get("group") === "skill" || get("group") === "section"}>{g.label} <span class="muted">{g.items.length}</span></h2>{/if}
       <QuestionList course={data.course.id} entries={g.items.slice(0, 300)} {skillName} {answered} />
       {#if g.items.length > 300}<p class="muted small">Showing 300 of {g.items.length}: narrow the filters to see the rest</p>{/if}
     {/each}
@@ -121,5 +147,7 @@
   .controls select, .search { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; max-width: 200px; }
   .search { min-width: 180px; flex: 1 1 180px; max-width: 280px; }
   h2 { font-family: var(--font-body); font-size: 13px; font-weight: 600; margin: 18px 0 8px; text-transform: capitalize; }
+  /* Skill, section and subsection names keep their own capitals. */
+  h2.named { text-transform: none; }
   .small { font-size: 12px; }
 </style>

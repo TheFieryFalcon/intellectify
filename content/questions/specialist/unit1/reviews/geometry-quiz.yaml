@@ -1,8 +1,10 @@
 # Section quiz pool: Geometry (1.1). Never served in practice (SPEC §8.1a).
 
 - id: spec.geometry.sq.rain-contrapositive
+  title: "Contrapositive of \"If It Rains\""
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1050
   responseSkills: { reading: 1040 }
   stem: |
@@ -22,8 +24,10 @@
         return {"a": "c"}
 
 - id: spec.geometry.sq.center-from-38
+  title: "Angle at the Center from the Circumference (Quiz)"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1080
   responseSkills: { reading: 1060, calculation: 1040 }
   variants:
@@ -65,8 +69,10 @@
         return {"a": approx(angle_at(A, (0, 0), B))}
 
 - id: spec.geometry.sq.tangent-12
+  title: "Tangent Length by Pythagoras"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1150
   responseSkills: { calculation: 1120 }
   variants:
@@ -105,8 +111,10 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.sq.chords-4-9-6
+  title: "Intersecting Chords (Quiz)"
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1120
   responseSkills: { calculation: 1100 }
   variants:
@@ -144,8 +152,10 @@
         return {"a": Rational(ax * xb, cx)}
 
 - id: spec.geometry.sq.converse-of-four
+  title: "Counterexample to \"Even Means a Multiple of 4\""
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1300
   responseSkills: { reading: 1290, reasoning: 1280, calculation: 1250 }
   stem: |
@@ -160,8 +170,10 @@
         return {"a": next(n for n in range(1, 100) if n % 2 == 0 and n % 4 != 0)}
 
 - id: spec.geometry.sq.cyclic-2x-3x
+  title: "Opposite Angles with an Unknown"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1290
   responseSkills: { reading: 1270, calculation: 1270 }
   variants:
@@ -200,8 +212,10 @@
         return {"a": solve(f(e1) + f(e2) - 180, X)[0]}
 
 - id: spec.geometry.sq.diameter-complement
+  title: "Angles in a Triangle on a Diameter"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1340
   responseSkills: { reasoning: 1330, proof: 1320, clarity: 1280 }
   stem: |
@@ -232,8 +246,10 @@
     $AB$ is a diameter, so $\angle ACB = 90^\circ$ (angle in a semicircle). The angles of triangle $ABC$ add to $180^\circ$, so $\angle CAB + \angle CBA = 180^\circ - 90^\circ = 90^\circ$.
 
 - id: spec.geometry.sq.tangent-chord-center
+  title: "Tangent–Chord Angle and the Angle at the Center"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1380
   responseSkills: { reading: 1360, reasoning: 1370, calculation: 1340 }
   variants:
@@ -275,8 +291,10 @@
         return {"a": approx(angle_at(T, (0, 0), B))}
 
 - id: spec.geometry.sq.tangent-secant-3-9
+  title: "Tangent Length from a Secant"
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1410
   responseSkills: { reading: 1390, calculation: 1390 }
   variants:
@@ -316,8 +334,10 @@
         return {"a": approx(dist(M, T), 6)}
 
 - id: spec.geometry.sq.exterior-and-opposite
+  title: "Exterior and Opposite Angles of a Cyclic Quadrilateral"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Finding and proving angles"
   rating: 1440
   responseSkills: { reading: 1420, reasoning: 1430, calculation: 1400 }
   variants:
@@ -370,8 +390,10 @@
         return {"a": approx(angle_at(B, A, D), 6), "b": approx(angle_at(A, D, C), 6)}
 
 - id: spec.geometry.sq.tangents-minor-arc
+  title: "Two Tangents and a Point on the Minor Arc"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1500
   responseSkills: { reading: 1480, reasoning: 1490, calculation: 1460 }
   variants:
@@ -419,8 +441,10 @@
         return {"a": approx(angle_at(A, C, B))}
 
 - id: spec.geometry.sq.base-angle-22
+  title: "From a Base Angle to the Circumference (Quiz)"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1430
   responseSkills: { reading: 1410, reasoning: 1420, calculation: 1400 }
   variants:
@@ -463,8 +487,10 @@
         return {"a": approx(angle_at(A, C, B))}
 
 - id: spec.geometry.sq.negate-for-every-y
+  title: "Negating \"For Every x There Is a y\""
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1450
   responseSkills: { reading: 1440, reasoning: 1430, precision: 1420 }
   stem: |
@@ -484,8 +510,10 @@
         return {"a": "b"}
 
 - id: spec.geometry.sq.prime-2p-plus-1
+  title: "When 2p + 1 Isn't Prime"
   pool: section-quiz
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Counterexamples"
   rating: 1410
   responseSkills: { reading: 1400, reasoning: 1400, calculation: 1370 }
   stem: |
@@ -500,8 +528,10 @@
         return {"a": next(p for p in sympy.primerange(2, 100) if not sympy.isprime(2 * p + 1))}
 
 - id: spec.geometry.sq.odd-square-minus-one
+  title: "Odd Squares Minus 1 Are Multiples of 8"
   pool: section-quiz
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Direct proof"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1540 }
   stem: |
@@ -521,8 +551,10 @@
     $k$ and $k + 1$ are consecutive integers, so one of them is even, and $k(k + 1) = 2m$ for some integer $m$. Then $n^2 - 1 = 8m$, a multiple of 8.
 
 - id: spec.geometry.sq.tangents-major-arc-proof
+  title: "Two Tangents and the Angle on the Major Arc"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1620, clarity: 1580 }
   stem: |

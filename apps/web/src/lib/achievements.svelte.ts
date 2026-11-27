@@ -2,9 +2,10 @@
  * Reactive achievements for one course: loads definitions and the student's record, checks rules after
  * each event, grants XP and queues toasts (SPEC §12.1, §12.4).
  */
+import { withRetry } from "./retry";
 import type { AchievementT } from "@intellectify/content";
 import { XP } from "@intellectify/engine";
-import { emptyStats, evaluate, onChallenge, onQuestion, onQuiz, type AchievementStats, type QuestionEvent } from "./achievements";
+import { emptyStats, evaluate, onChallenge, onQuestion, onQuiz, onReports, type AchievementStats, type QuestionEvent } from "./achievements";
 import type { Backend, User } from "./backend";
 import type { CourseBundle } from "./content";
 import { computeRollups } from "./practice";
@@ -22,6 +23,8 @@ export class AchievementsStore {
   earned = $state<Record<string, number>>({});
   defs = $state<AchievementT[]>([]);
   loaded = $state(false);
+  /** The saved record couldn't be loaded: nothing is evaluated or saved this session (no empty overwrite). */
+  failed = $state(false);
 
   constructor(
     private backend: Backend,
@@ -37,7 +40,13 @@ export class AchievementsStore {
   }
 
   private async fetchRecord() {
-    const [defs, rec] = await Promise.all([loadAchievementDefs(), this.backend.loadAchievements(this.user.uid, this.course.id).catch(() => null)]);
+    let rec: Awaited<ReturnType<Backend["loadAchievements"]>> = null;
+    const defs = await loadAchievementDefs();
+    try {
+      rec = await withRetry(() => this.backend.loadAchievements(this.user.uid, this.course.id));
+    } catch {
+      this.failed = true;
+    }
     this.defs = defs;
     if (rec) {
       this.stats = { ...emptyStats(), ...(rec.stats as Partial<AchievementStats>) };
@@ -47,6 +56,7 @@ export class AchievementsStore {
   }
 
   private async settle(stats: AchievementStats, store: CourseProgressStore, profile: ProfileStore | null) {
+    if (this.failed) return [];
     const now = Date.now();
     const { stats: next, newly } = evaluate(this.defs, stats, { course: this.course, progress: store.progress, rollups: computeRollups(this.course, store.progress), now }, this.earned);
     this.stats = next;
@@ -77,6 +87,16 @@ export class AchievementsStore {
   async event(update: (s: AchievementStats) => AchievementStats, store: CourseProgressStore, profile: ProfileStore | null) {
     await this.load();
     return this.settle(update(this.snap()), store, profile);
+  }
+  /** Newly confirmed error reports earn XP (once each) and their achievements. Checked once per session. */
+  async syncReports(store: CourseProgressStore, profile: ProfileStore | null) {
+    await this.load();
+    if (this.failed) return;
+    const confirmed = await this.backend.confirmedReports(this.user.uid, this.course.id).catch(() => null);
+    const fresh = confirmed ? confirmed.length - (this.stats.counts.reports ?? 0) : 0;
+    if (!confirmed || fresh <= 0) return;
+    if (profile) await profile.grant(fresh * XP.confirmedReport);
+    await this.settle(onReports(this.snap(), confirmed), store, profile);
   }
   async challenge(e: Parameters<typeof onChallenge>[1], store: CourseProgressStore, profile: ProfileStore | null) {
     await this.load();

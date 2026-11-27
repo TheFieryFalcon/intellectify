@@ -1,6 +1,7 @@
 import { close, Complex } from "./complex.js";
 import { evaluate, EvalError, freeSymbols, type Scope } from "./evaluate.js";
 import { checkForm, type FormRule } from "./forms.js";
+import { IntervalError, parseSet, sameSet, type Notation } from "./interval.js";
 import { args, head, listElements, matrixRows, parseLatex, ParseError, unwrap, type MathJson } from "./parse.js";
 
 /** How each variable is sampled for numeric equivalence. */
@@ -27,9 +28,34 @@ export type AnswerSpec =
   | (Common & { type: "equation"; key: string; vars?: Vars; samples?: number })
   | (Common & { type: "vector"; key: string[]; vars?: Vars })
   | (Common & { type: "matrix"; key: string[][]; vars?: Vars })
-  | (Common & { type: "set" | "list"; key: string[]; vars?: Vars; element?: "expression" | "equation" })
+  | (Common & { type: "set" | "list"; key: string[]; vars?: Vars; element?: Element })
+  | (Common & { type: "interval"; key: string; variable?: string; notation?: Notation })
+  | (Common & { type: "complex"; key: string; principal?: boolean })
+  | { type: "features"; features: Feature[] }
   | { type: "mcq"; key: string }
   | { type: "multi-select"; key: string[] };
+
+/** What one element of a set or list is: an expression (default), an equation or a point (x, y). */
+export type Element = "expression" | "equation" | "point";
+
+/**
+ * One feature of a graph (SPEC §7.1, feature-entry): asymptotes, intercepts, turning points, a locus.
+ * The key is the full set (any order); an empty key means "None".
+ */
+export interface Feature {
+  id: string;
+  label: string;
+  element: Element;
+  key: string[];
+  vars?: Vars;
+  tolerance?: number;
+}
+
+/** The student's entry for a feature with no elements. */
+export const NONE = "none";
+/** Feature answers are stored as one line per feature, in order. */
+export const splitFeatures = (answer: string | string[]): string[] => (Array.isArray(answer) ? answer : answer.split("\n"));
+export const joinFeatures = (answers: string[]): string => answers.join("\n");
 
 export type Verdict =
   | { correct: true }
@@ -90,7 +116,9 @@ function unknownSymbolVerdict(student: MathJson, allowed: Set<string>): Verdict 
 
 /** Numeric-sampling equivalence of two expressions (optionally up to an additive constant). */
 function equivalent(student: MathJson, key: MathJson, vars: Vars, opts: { samples?: number; tolerance?: number; upToConstant?: boolean; constants?: Scope } = {}): boolean {
-  const tol = opts.tolerance ?? DEFAULT_TOL;
+  // Integrals are evaluated numerically, so compare them a little more loosely.
+  const integral = JSON.stringify([student, key]).includes('"Integrate"');
+  const tol = Math.max(opts.tolerance ?? DEFAULT_TOL, integral ? 1e-7 : 0);
   const points = Object.keys(vars).length ? samplePoints(vars, opts.samples ?? 8) : [{}];
   let offset: Complex | null = null;
   let compared = 0;
@@ -165,7 +193,9 @@ export function checkAnswer(spec: AnswerSpec, answer: string | string[]): Verdic
     const given = new Set(Array.isArray(answer) ? answer : [answer]);
     return given.size === spec.key.length && spec.key.every((k) => given.has(k)) ? { correct: true } : WRONG;
   }
+  if (spec.type === "features") return checkFeatures(spec.features, splitFeatures(answer)).every(Boolean) ? { correct: true } : WRONG;
   if (typeof answer !== "string") return WRONG;
+  if (spec.type === "interval") return checkInterval(spec, answer);
 
   const parsed = parseStudent(answer);
   if (!parsed.ok) return parsed.verdict;
@@ -230,18 +260,143 @@ export function checkAnswer(spec: AnswerSpec, answer: string | string[]): Verdic
     case "list": {
       const items = listElements(student) ?? [unwrap(student)];
       if (items.length !== spec.key.length) return { correct: false, reason: "shape", message: `Expected ${spec.key.length} item${spec.key.length === 1 ? "" : "s"}.` };
-      const keys = spec.key.map((k) => parseLatex(k));
-      const same = (s: MathJson, k: MathJson) => (spec.element === "equation" ? equivalentEquation(s, k, vars, spec.tolerance) : equivalent(s, k, vars, { tolerance: spec.tolerance }));
-      if (spec.type === "list") return items.every((s, i) => same(s, keys[i]!)) ? formMsg() : WRONG;
-      const unused = new Set(keys.map((_, i) => i));
-      for (const s of items) {
-        const match = [...unused].find((i) => same(s, keys[i]!));
-        if (match === undefined) return WRONG;
-        unused.delete(match);
+      const ok = matchElements(items, spec.key, spec.element, vars, spec.tolerance, spec.type === "list");
+      return ok ? formMsg() : WRONG;
+    }
+
+    case "complex": {
+      const unknown = unknownSymbolVerdict(student, allowed);
+      if (unknown) return unknown;
+      if (!equivalent(student, parseLatex(spec.key), {}, { tolerance: spec.tolerance })) return WRONG;
+      const form = formMsg();
+      if (!form.correct) return form;
+      const polar = spec.form?.some((f) => f === "polar" || f === "exponential");
+      if (polar && spec.principal !== false) {
+        const bad = polarParts(student);
+        if (bad) return { correct: false, reason: "form", message: bad };
       }
-      return formMsg();
+      return form;
     }
   }
+}
+
+/** Elements match keys in order (list) or in any order (set). */
+function matchElements(items: MathJson[], keySrc: string[], element: Element | undefined, vars: Vars, tol: number | undefined, ordered: boolean): boolean {
+  if (items.length !== keySrc.length) return false;
+  const keys = keySrc.map((k) => parseLatex(k));
+  const same = (s: MathJson, k: MathJson): boolean => {
+    if (element === "equation") return equivalentEquation(s, k, vars, tol);
+    if (element === "point") {
+      const a = listElements(s);
+      const b = listElements(k);
+      return !!a && !!b && a.length === b.length && a.every((x, i) => equivalent(x, b[i]!, vars, { tolerance: tol }));
+    }
+    return equivalent(s, k, vars, { tolerance: tol });
+  };
+  if (ordered) return items.every((s, i) => same(s, keys[i]!));
+  const unused = new Set(keys.map((_, i) => i));
+  for (const s of items) {
+    const match = [...unused].find((i) => same(s, keys[i]!));
+    if (match === undefined) return false;
+    unused.delete(match);
+  }
+  return true;
+}
+
+/** Elements of a typed set: "a, b", "(1, 2), (3, 4)", or one element alone. */
+function elementsOf(e: MathJson, element: Element | undefined): MathJson[] {
+  const list = listElements(e);
+  if (!list) return [unwrap(e)];
+  // A single point (1, 2) is itself a list: it's one element, not two.
+  if (element === "point" && !list.some((x) => listElements(x))) return [e];
+  return list;
+}
+
+/** Which features of a feature-entry answer are right, in order (SPEC §7.1). */
+export function checkFeatures(features: Feature[], answers: string[]): boolean[] {
+  return features.map((f, i) => {
+    const given = (answers[i] ?? "").trim();
+    if (!f.key.length) return /^(\\text\{)?\s*none\s*\}?$/i.test(given) || given === "\\varnothing" || given === "\\emptyset";
+    if (!given || given.toLowerCase() === NONE) return false;
+    let e: MathJson;
+    try {
+      e = parseLatex(given);
+    } catch {
+      return false;
+    }
+    const vars: Vars = f.vars ?? { x: {}, y: {} };
+    if ([...freeSymbols(e)].some((s) => !(s in vars))) return false;
+    try {
+      return matchElements(elementsOf(e, f.element), f.key, f.element, vars, f.tolerance, false);
+    } catch {
+      return false;
+    }
+  });
+}
+
+function checkInterval(spec: Extract<AnswerSpec, { type: "interval" }>, answer: string): Verdict {
+  const v = spec.variable ?? "x";
+  let given;
+  try {
+    given = parseSet(answer, v);
+  } catch (err) {
+    if (err instanceof IntervalError) return { correct: false, reason: "unreadable", message: `${err.message[0]!.toUpperCase()}${err.message.slice(1)}.` };
+    throw err;
+  }
+  const key = parseSet(spec.key, v);
+  if (!sameSet(given.intervals, key.intervals, spec.tolerance)) return WRONG;
+  if (spec.notation && given.notation !== spec.notation) {
+    return { correct: false, reason: "form", message: spec.notation === "interval" ? "Give the answer in interval notation." : `Give the answer as an inequality in ${v}.` };
+  }
+  return { correct: true };
+}
+
+/**
+ * A polar or exponential answer must have a positive modulus and the principal argument, −π < θ ≤ π
+ * (WACE convention), e.g. 2 cis(−2π/3), not −2 cis(π/3) or 2 cis(4π/3). Returns a message, or null if fine.
+ */
+function polarParts(e: MathJson): string | null {
+  const theta = argumentOf(e);
+  if (theta === null) return null;
+  let t: number, value: Complex;
+  try {
+    const z = evaluate(theta);
+    if (!z.isReal(1e-9)) return null;
+    t = z.re;
+    value = evaluate(e);
+  } catch {
+    return null;
+  }
+  const r = value.div(new Complex(Math.cos(t), Math.sin(t)));
+  if (!(r.re > 0 && Math.abs(r.im) < 1e-9 * Math.max(1, r.re))) return "The modulus r must be positive.";
+  if (t <= -Math.PI + 1e-12 || t > Math.PI + 1e-12) return "Use the principal argument, −π < θ ≤ π.";
+  return null;
+}
+
+/** θ in r cis θ, cis θ, or r e^{iθ} (the coefficient of i in the exponent), or null if none. */
+function argumentOf(e: MathJson): MathJson | null {
+  let found = null as MathJson | null;
+  const visit = (n: MathJson) => {
+    if (found !== null || !Array.isArray(n)) return;
+    const items = n.slice(1);
+    const at = items.indexOf("cis");
+    if (at >= 0 && items[at + 1] !== undefined) {
+      found = items[at + 1]!;
+      return;
+    }
+    if (head(n) === "Cis" || (head(n) === "Apply" && items[0] === "cis")) {
+      found = items[items.length - 1]!;
+      return;
+    }
+    const exponent = head(n) === "Exp" ? items[0] : head(n) === "Power" && (items[0] === "e" || items[0] === "ExponentialE") ? items[1] : undefined;
+    if (exponent !== undefined) {
+      found = ["Divide", exponent, "i"];
+      return;
+    }
+    items.forEach(visit);
+  };
+  visit(e);
+  return found;
 }
 
 /** Vector components from (a, b), a column/row matrix, or a i + b j (+ c k) form. */

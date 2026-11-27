@@ -70,6 +70,7 @@
       <div><dt>Problems</dt><dd>{(p.stats?.problems ?? 0).toLocaleString("en-US")}</dd></div>
       <div><dt>Daily streak</dt><dd>{liveStreak(p, today)}{#if p.daily?.best}<span class="muted"> · best {p.daily.best}</span>{/if}</dd></div>
       <div><dt>Achievement points</dt><dd>{achievementPoints(p)}</dd></div>
+      {#if p.joined}<div><dt>Joined</dt><dd>{new Date(p.joined).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric", timeZone: "Australia/Perth" })}</dd></div>{/if}
     </dl>
 
     {#if positions.length}

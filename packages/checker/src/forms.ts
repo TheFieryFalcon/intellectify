@@ -13,7 +13,8 @@ export type FormRule =
   | "cartesian"
   | "polar"
   | "exponential"
-  | "constant-of-integration";
+  | "constant-of-integration"
+  | "single-integral";
 
 const walk = (e: MathJson, visit: (n: MathJson) => void) => {
   visit(e);
@@ -85,6 +86,16 @@ const RULES: Record<FormRule, { test: (e: MathJson) => boolean; message: string 
   exponential: {
     test: (e) => some(e, isExpOfImaginary),
     message: "Give the answer in exponential form re^{iθ}.",
+  },
+  "single-integral": {
+    test: (e) => {
+      let n = 0;
+      walk(e, (x) => {
+        if (head(x) === "Integrate") n++;
+      });
+      return n === 1;
+    },
+    message: "Write the answer as a single integral.",
   },
   "constant-of-integration": {
     test: (e) => hasSymbol(e, "C") || hasSymbol(e, "c"),

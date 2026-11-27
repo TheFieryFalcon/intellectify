@@ -15,7 +15,7 @@ export function parseDailyKey(key: string): { day: string; course: string; year:
 
 export async function dailyProblem(fetchFn: typeof fetch, course: CourseBundle, day: string, year: YearGroup) {
   const skills = indexSkills(course);
-  const target = dailyTarget(course.schedules, year, day, (id) => (skills.get(id)?.skill.questionCount ?? 0) > 0, [...skills.keys()]);
+  const target = dailyTarget(course.schedules, year, day, (id) => (skills.get(id)?.skill.questionCount ?? 0) > 0, [...skills.keys()], course.calendars ?? []);
   const tier = dailyTier(day);
   if (!target) return { target, tier, served: null as Served | null };
   const [pools] = await Promise.all([Promise.all(target.skills.map((s) => loadQuestions(fetchFn, course.id, s))), loadWords(fetchFn)]);

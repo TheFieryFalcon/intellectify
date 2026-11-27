@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
-import { parseTermWeek, SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
+import { dateOfDay, parseTermWeek, SKILL_SIZE, terms as ruleTerms, tierOf, type SchoolYear, type SkillSize } from "@intellectify/engine";
 import { z } from "zod";
 import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
@@ -21,6 +21,8 @@ export interface BundleSkill {
   reviewDotPoints: string[];
   prereqs: string[];
   external: { course: string; version: string; dotPoints: string[]; note: string }[];
+  /** Named points within the skill (SPEC §3), in the order the curriculum lists them. */
+  subsections: string[];
   /** Weight in roll-ups: number of dot points (including review dot points it covers). */
   weight: number;
   questionCount: number;
@@ -41,6 +43,8 @@ export interface CourseBundle {
   responseSkills: { id: string; name: string }[];
   /** When each year group learns each block of skills (SPEC §8.5), for the daily problem. */
   schedules: CourseSchedule[];
+  /** WA school years from content/calendar (SPEC §8.6): term dates and exam periods. */
+  calendars?: SchoolYear[];
 }
 /** A course outline: blocks of skills by school week (12-slot order, from parseTermWeek). */
 export interface CourseSchedule {
@@ -48,6 +52,49 @@ export interface CourseSchedule {
   year: number;
   blocks: { from: number; to: number; name: string; skills: string[] }[];
 }
+const day = z.union([z.string(), z.date()]).transform((v, ctx) => {
+  const text = v instanceof Date ? v.toISOString().slice(0, 10) : v;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text) || Number.isNaN(Date.parse(text))) ctx.addIssue({ code: "custom", message: `"${text}" isn't a date (YYYY-MM-DD)` });
+  return text;
+});
+const CalendarFile = z.object({
+  year: z.number().int().min(2020),
+  terms: z.array(z.object({ term: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]), start: day, end: day })).length(4),
+  semesters: z.array(z.object({ semester: z.union([z.literal(1), z.literal(2)]), terms: z.array(z.number().int().min(1).max(4)).min(1) })).optional(),
+  exams: z.array(z.object({ name: z.string().min(1), start: day, end: day, yearGroups: z.array(z.number().int()).optional() })).optional(),
+});
+
+/** Calendar files (SPEC §8.6): dates in order, terms within their year, and a note where they differ from the WA rule. */
+export function loadCalendars(dir: string, errors: string[], warnings: string[]): SchoolYear[] {
+  const out: SchoolYear[] = [];
+  for (const file of existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".yaml")).sort() : []) {
+    const parsed = CalendarFile.safeParse(readYaml(join(dir, file)));
+    const where = `calendar/${file}`;
+    if (!parsed.success) {
+      errors.push(`${where}: ${parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+      continue;
+    }
+    const cal = parsed.data as SchoolYear;
+    if (file !== `${cal.year}.yaml`) errors.push(`${where}: year ${cal.year} belongs in ${cal.year}.yaml`);
+    const sorted = [...cal.terms].sort((a, b) => a.term - b.term);
+    if (sorted.some((t, i) => t.term !== i + 1)) errors.push(`${where}: needs Terms 1, 2, 3 and 4 once each`);
+    sorted.forEach((t, i) => {
+      const start = dateOfDay(t.start), end = dateOfDay(t.end);
+      if (start.getUTCFullYear() !== cal.year || end.getUTCFullYear() !== cal.year) errors.push(`${where}: Term ${t.term} isn't in ${cal.year}`);
+      if (end < start) errors.push(`${where}: Term ${t.term} ends before it starts`);
+      if ([0, 6].includes(start.getUTCDay()) || [0, 6].includes(end.getUTCDay())) errors.push(`${where}: Term ${t.term} starts or ends on a weekend`);
+      const next = sorted[i + 1];
+      if (next && dateOfDay(next.start) <= end) errors.push(`${where}: Term ${next.term} starts before Term ${t.term} ends`);
+    });
+    for (const e of cal.exams ?? []) if (e.end < e.start) errors.push(`${where}: ${e.name} ends before it starts`);
+    const rule = ruleTerms(cal.year);
+    const differ = sorted.filter((t, i) => rule[i] && dateOfDay(t.start).getTime() !== rule[i]!.start.getTime()).map((t) => t.term);
+    if (differ.length) warnings.push(`${where}: Term ${differ.join(", ")} starts differ from the WA rule (fine if the published dates say so)`);
+    out.push(cal);
+  }
+  return out;
+}
+
 const ScheduleFile = z.object({
   course: z.string(),
   yearGroup: z.number().int().min(7).max(12),
@@ -96,6 +143,7 @@ export function buildContent(contentDir: string): BuildResult {
   const wordsParsed = WordListsFile.safeParse(readYaml(join(contentDir, "words.yaml")));
   if (!wordsParsed.success) errors.push(`words.yaml: ${wordsParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
   const words: WordLists = wordsParsed.success ? wordsParsed.data : {};
+  const calendars = loadCalendars(join(contentDir, "calendar"), errors, warnings);
 
   const curriculumDir = join(contentDir, "curriculum");
   for (const courseId of readdirSync(curriculumDir)) {
@@ -129,6 +177,8 @@ export function buildContent(contentDir: string): BuildResult {
     const sectionPlace = new Map<string, { unit: number; year: number }>();
     const prereqsOf = new Map<string, string[]>();
     const reviewFor = new Map<string, string[]>();
+    /** Skill ID → its subsections (SPEC §3). */
+    const subsectionsOf = new Map<string, string[]>();
     for (const v of versions) {
       for (const u of v.units) {
         for (const s of u.sections) {
@@ -140,6 +190,9 @@ export function buildContent(contentDir: string): BuildResult {
             skillUnit.set(k.id, u.number);
             skillSection.set(k.id, s.id);
             prereqsOf.set(k.id, k.prereqs);
+            subsectionsOf.set(k.id, k.subsections);
+            if (new Set(k.subsections).size !== k.subsections.length) errors.push(`${k.id}: duplicate subsection`);
+            for (const n of k.subsections) if (/^\d+(\.\d+)*$/.test(n.trim())) errors.push(`${k.id}: subsection "${n}" should be named in words, not by number`);
             covered.push(...k.dotPoints);
           }
           for (const r of s.reviewDotPoints) {
@@ -168,7 +221,7 @@ export function buildContent(contentDir: string): BuildResult {
     const cycle = findCycle(prereqsOf);
     if (cycle) errors.push(`prerequisite cycle: ${cycle.join(" → ")}`);
 
-    // Tutorials (SPEC §3.2).
+    // Tutorials (SPEC §3.1).
     const skillDotPoints = new Map<string, string[]>();
     for (const v of versions) for (const u of v.units) for (const s of u.sections) for (const k of s.skills) skillDotPoints.set(k.id, [...k.dotPoints, ...(reviewFor.get(k.id) ?? [])]);
     const tutorials = loadTutorials(contentDir, courseId, skillDotPoints, errors, warnings);
@@ -179,6 +232,8 @@ export function buildContent(contentDir: string): BuildResult {
     const unitReviews: Record<number, UnitReviews<QuestionT>> = {};
     const qDir = join(contentDir, "questions", courseId);
     const qIds = new Set<string>();
+    /** Titles already used in this course, so two questions never share a name (SPEC §15.3a). */
+    const titleOwner = new Map<string, string>();
     let files: string[] = [];
     try {
       files = listYaml(qDir);
@@ -199,6 +254,10 @@ export function buildContent(contentDir: string): BuildResult {
         if (qIds.has(q.id)) errors.push(`${where}: duplicate question ID`);
         qIds.add(q.id);
         for (const s of [q.skills.primary, ...q.skills.secondary]) if (!skillUnit.has(s)) errors.push(`${where}: unknown skill ${s}`);
+        // Every question names one of its primary skill's subsections (SPEC §3).
+        const subs = subsectionsOf.get(q.skills.primary) ?? [];
+        if (!q.subsection) errors.push(`${where}: no subsection${subs.length ? ` (one of: ${subs.join("; ")})` : ` (${q.skills.primary} lists none yet)`}`);
+        else if (!subs.includes(q.subsection)) errors.push(`${where}: subsection "${q.subsection}" isn't one of ${q.skills.primary}'s (${subs.join("; ") || "none listed"})`);
         for (const r of Object.keys(q.responseSkills)) if (!rsIds.has(r)) errors.push(`${where}: unknown response skill ${r}`);
         // Response-skill tagging rules (SPEC §5.6).
         if (!Object.keys(q.responseSkills).length) errors.push(`${where}: no response skills`);
@@ -209,6 +268,12 @@ export function buildContent(contentDir: string): BuildResult {
         if (q.skills.secondary.length && !("synthesis" in q.responseSkills)) errors.push(`${where}: cross-skill questions exercise synthesis`);
         if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
           errors.push(`${where}: a computed answer exercises calculation`);
+        // Every question has a readable title, in title case, that says what it's about (SPEC §15.3a).
+        if (!q.title) errors.push(`${where}: needs a title`);
+        else if (/\{\{/.test(q.title)) errors.push(`${where}: a title can't use variant or word placeholders`);
+        else if (/^[a-z]{2,} [a-z]{2,}/.test(q.title)) errors.push(`${where}: titles are in title case`);
+        else if (titleOwner.has(q.title)) errors.push(`${where}: title "${q.title}" is already used by ${titleOwner.get(q.title)}; a quiz-pool twin of a practice question adds " (Quiz)"`);
+        else titleOwner.set(q.title, q.id);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
         // Word variety (SPEC §9.6): known lists, and words never reach an answer or the verify code.
         const firstPicks: WordPicks | null = q.words ? Object.fromEntries(Object.keys(q.words).map((slot) => [slot, 0])) : null;
@@ -304,6 +369,7 @@ export function buildContent(contentDir: string): BuildResult {
       versions: versions.map((v) => ({ year: v.year, id: v.id, effectiveFrom: v.source.effectiveFrom })),
       responseSkills,
       schedules,
+      calendars,
       units: versions
         .flatMap((v) => v.units)
         .sort((a, b) => a.number - b.number)
@@ -317,12 +383,13 @@ export function buildContent(contentDir: string): BuildResult {
             hours: s.hours,
             skills: s.skills.map((k) => {
               const review = reviewFor.get(k.id) ?? [];
-              // Size targets (SPEC §3.3), checked once a skill has any questions.
+              // Size targets (SPEC §3.2), checked once a skill has any questions.
               const qs = questions[k.id] ?? [];
               const rules = SKILL_SIZE[k.size];
               const tier5 = qs.filter((q) => tierOf(q.rating) === 5).length;
               if (qs.length && qs.length < rules.minQuestions) warnings.push(`${k.id} (${k.size}): ${qs.length} questions; needs at least ${rules.minQuestions}`);
               if (qs.length && tier5 < rules.minTier5) warnings.push(`${k.id} (${k.size}): ${tier5} Tier 5 questions; needs at least ${rules.minTier5}`);
+              for (const n of k.subsections) if (qs.length && !qs.some((q) => q.subsection === n)) warnings.push(`${k.id}: no practice questions in subsection "${n}"`);
               return {
                 id: k.id,
                 name: k.name,
@@ -332,6 +399,7 @@ export function buildContent(contentDir: string): BuildResult {
                 reviewDotPoints: review,
                 prereqs: k.prereqs,
                 external: k.external,
+                subsections: k.subsections,
                 weight: k.dotPoints.length + review.length,
                 questionCount: questions[k.id]?.length ?? 0,
                 hasTutorial: tutorials.has(k.id),
@@ -385,6 +453,11 @@ function keyAsLatex(spec: Exclude<QuestionT["parts"][number]["answer"], undefine
     case "set":
     case "list":
       return spec.key.join(",");
+    case "interval":
+    case "complex":
+      return spec.key;
+    case "features":
+      return spec.features.map((f) => (f.key.length ? f.key.join(",") : "none")).join("\n");
     default:
       return "";
   }

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { diagramErrors } from "./diagram-check.js";
 
 /**
- * Tutorials (docs/SPEC.md §3.2): one Markdown file per skill at
+ * Tutorials (docs/SPEC.md §3.1): one Markdown file per skill at
  * content/tutorials/<course>/<skillId>.md, with YAML front matter.
  */
 export const TutorialFront = z.object({
@@ -75,7 +75,7 @@ export function loadTutorials(contentDir: string, course: string, skillDotPoints
     else if (proseWords > PROSE_WARN) warnings.push(`${where}: ${proseWords} words of prose; aim for at most ${PROSE_WARN}`);
     const watchOut = markdown.split(/^## Watch out/m)[1];
     if (watchOut && (watchOut.match(/^- /gm) ?? []).length > 3) errors.push(`${where}: "Watch out" has more than three points`);
-    // Metadata (dot points, prerequisites) is rendered from the curriculum, not written in the body (SPEC §3.2, §15.1).
+    // Metadata (dot points, prerequisites) is rendered from the curriculum, not written in the body (SPEC §3.1, §15.1).
     if (!markdown.startsWith("## Key ideas")) errors.push(`${where}: the body must start at "## Key ideas"; dot points and prerequisites are shown from the curriculum`);
     for (const t of terms) {
       const key = t.term.toLowerCase();

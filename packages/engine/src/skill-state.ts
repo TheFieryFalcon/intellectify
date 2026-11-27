@@ -30,7 +30,7 @@ export interface ApplyResult {
  * @param rating the question's rating (or, for response skills, that skill's difficulty on the question)
  * @param outcome final outcome in [0, 1]
  * @param weight 1 for the primary skill, CONFIG.secondaryWeight for secondary skills
- * @param size the skill's size (SPEC §3.3): bigger skills move θ more slowly and need more correct answers per rank
+ * @param size the skill's size (SPEC §3.2): bigger skills move θ more slowly and need more correct answers per rank
  */
 export function applyOutcome(state: SkillState, rating: number, outcome: number, weight = 1, size: SkillSize = "medium"): ApplyResult {
   const rules = SKILL_SIZE[size];

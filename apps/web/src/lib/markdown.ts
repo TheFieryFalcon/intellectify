@@ -11,7 +11,7 @@ const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 const reEsc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /**
- * Glossary hovers (SPEC §3.2): the first mention of each term (or its plural) becomes a <dfn> with its
+ * Glossary hovers (SPEC §3.1): the first mention of each term (or its plural) becomes a <dfn> with its
  * definition, shown on hover, tap or focus. Runs on the text with math and figures already set aside.
  */
 export function linkGlossary(text: string, terms: { term: string; definition: string }[]): string {

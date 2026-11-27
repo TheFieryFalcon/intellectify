@@ -10,7 +10,7 @@ const course: CourseBundle = {
   schedules: [],
   id: "c", name: "C", versions: [], responseSkills: [{ id: "proof", name: "Proof" }],
   units: [{ number: 1, year: 11, sections: [{ id: "s", code: "1.1", name: "S", hours: 1,
-    skills: ["a", "b"].map((x) => ({ id: x, name: x, summary: "", size: "medium" as const, dotPoints: ["1.1.1"], reviewDotPoints: [], prereqs: x === "b" ? ["a"] : [], external: [], weight: 1, questionCount: 1, hasTutorial: false })) }] }],
+    skills: ["a", "b"].map((x) => ({ id: x, name: x, summary: "", size: "medium" as const, dotPoints: ["1.1.1"], reviewDotPoints: [], prereqs: x === "b" ? ["a"] : [], external: [], subsections: [], weight: 1, questionCount: 1, hasTutorial: false })) }] }],
 };
 const def = (id: string, rule: AchievementT["rule"]): AchievementT => ({ id, name: id, tier: "platinum", points: 10, secret: false, criterion: "", rule });
 const q = (over: Partial<QuestionEvent>): QuestionEvent => ({ skill: "a", tier: 3, outcome: 1, firstTry: true, lastSolvedOn: 1, crossSkill: false, before: st(1400, 2), after: { a: st(1410, 2) }, at: Date.UTC(2026, 10, 25), ...over });

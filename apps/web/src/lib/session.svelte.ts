@@ -1,4 +1,5 @@
 import type { RankLevel } from "@intellectify/engine";
+import { withRetry } from "./retry";
 import { getBackend, emptyProgress, type AttemptRecord, type Backend, type CourseProgress, type StoredSkillState, type User } from "./backend";
 
 /** App-wide session: the signed-in user and the backend in use. */
@@ -22,6 +23,8 @@ export class CourseProgressStore {
   progress = $state<CourseProgress>(emptyProgress());
   loaded = $state(false);
   error = $state<string | null>(null);
+  /** Saved progress couldn't be loaded: nothing is saved this session, so a fresh-looking state never overwrites it. */
+  failed = $state(false);
 
   constructor(
     readonly course: string,
@@ -34,9 +37,10 @@ export class CourseProgressStore {
 
   async load() {
     try {
-      this.progress = await this.backend.loadProgress(this.uid, this.course);
+      this.progress = await withRetry(() => this.backend.loadProgress(this.uid, this.course));
     } catch (err) {
-      this.error = `Couldn't load your progress: ${(err as Error).message}`;
+      this.failed = true;
+      this.error = `Couldn't load your progress (${(err as Error).message}), so answers aren't being saved. Reload the page.`;
     } finally {
       this.loaded = true;
     }
@@ -52,6 +56,7 @@ export class CourseProgressStore {
       responseSkills: { ...this.progress.responseSkills, ...changes.responseSkills },
       rollupRanks: { ...this.progress.rollupRanks, ...changes.rollupRanks },
     };
+    if (this.failed) return;
     try {
       await this.backend.saveResult(this.uid, this.course, changes, attempt);
       this.error = null;
@@ -63,6 +68,7 @@ export class CourseProgressStore {
   /** Persist a single skill's state (placement, drop-a-tier). */
   async saveSkill(skillId: string, state: StoredSkillState) {
     this.progress = { ...this.progress, skills: { ...this.progress.skills, [skillId]: state } };
+    if (this.failed) return;
     try {
       await this.backend.saveResult(this.uid, this.course, { skills: { [skillId]: state }, responseSkills: {}, rollupRanks: {} }, null);
     } catch (err) {

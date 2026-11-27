@@ -209,7 +209,7 @@ describe("selection", () => {
   });
 });
 
-describe("skill sizes (SPEC §3.3)", () => {
+describe("skill sizes (SPEC §3.2)", () => {
   it("bigger skills need more correct answers per rank", () => {
     const g = gatesWith({ 5: 4 });
     expect(eligibleRank(1750, g, "medium")).toBe(5); // 3 needed

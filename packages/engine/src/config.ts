@@ -44,7 +44,7 @@ export const RANK_BUFFER: Record<Exclude<RankLevel, 0>, number> = {
 export const GATE_BASE: Record<Exclude<RankLevel, 0>, number> = { 1: 3, 2: 3, 3: 3, 4: 3, 5: 3 };
 
 /**
- * Skill sizes (SPEC §3.3). Bigger skills (foundational, difficult or heavily examined) get more questions
+ * Skill sizes (SPEC §3.2). Bigger skills (foundational, difficult or heavily examined) get more questions
  * and take more to rank up: extra correct answers at every gate, and θ moves more slowly (K is scaled down).
  */
 export type SkillSize = "small" | "medium" | "large" | "cornerstone";

@@ -4,6 +4,8 @@
  * Busy or offline: the job waits and retries with backoff, and resumes on the next visit. A result is
  * applied to θ, ranks, XP and achievements when it lands, using θ as it is then.
  */
+import { takeSignals } from "./paste";
+import { tierOf } from "@intellectify/engine";
 import {
   GEMINI_ENDPOINT,
   MARK_SCHEMA,
@@ -177,6 +179,7 @@ export class MarkingQueue {
   async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; mode?: HistoryMode; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
+    const signals = takeSignals();
     const job: MarkingJob = {
       id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
       course: input.course,
@@ -195,6 +198,7 @@ export class MarkingQueue {
       result: null,
       applied: false,
       appeal: null,
+      ...(signals ? { signals } : {}),
     };
     await this.put(job);
     addHistory({
@@ -319,7 +323,7 @@ export class MarkingQueue {
       await store.ready;
       const profile = profileFor(this.backend, this.user);
       if (first) {
-        await recordMarked({
+        const r = await recordMarked({
           course,
           store,
           profile,
@@ -330,12 +334,15 @@ export class MarkingQueue {
           mark: job.result!,
           jobId: job.id,
         });
-        await this.put({ ...(this.job(job.id) ?? job), applied: true });
         // A written daily problem counts as solved at the free-response pass mark (SPEC §6.3, §8.5).
+        let dailyXp = 0;
+        if (job.daily && profile) dailyXp = await profile.recordDaily(job.daily, job.daily.split(":")[0]!, job.result!.score >= 0.6, tierOf(question.rating));
+        const p = r.summary.primary;
+        const effect = { xp: r.xp + dailyXp, outcome: r.summary.outcome, theta: p.after.theta, deltaTheta: p.deltaTheta, rankBefore: p.rankBefore, rankAfter: p.rankAfter };
+        await this.put({ ...(this.job(job.id) ?? job), applied: true, effect });
         if (job.daily && profile) {
           const day = job.daily.split(":")[0]!;
           const solved = job.result!.score >= 0.6;
-          await profile.recordDaily(job.daily, day, solved);
           // A written answer is one submission, so a solve is a first-try solve.
           await achievementsFor(this.backend, this.user, course)?.event(
             (s) => onDaily(s, { day, solved, firstTry: solved, streak: profile.profile.daily?.streak ?? 0 }),
