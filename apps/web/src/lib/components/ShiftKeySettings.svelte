@@ -4,7 +4,7 @@
    * symbol, chosen from every keypad key. Saved to the account, so it follows the student.
    */
   import katex from "katex";
-  import { SHIFT_SLOTS, faceForInsert, loadShiftMap, shiftChoices, type ShiftMap } from "$lib/keypad";
+  import { SHIFT_SLOTS, faceForInsert, loadShiftMap, shiftChoices, shiftCommand, type ShiftMap } from "$lib/keypad";
   import type { ProfileStore } from "$lib/profile.svelte";
 
   let { profile }: { profile: ProfileStore | null } = $props();
@@ -51,7 +51,7 @@
           {/each}
           {#if map[s.id] && !nameOf.has(map[s.id]!)}<option value={map[s.id]}>{map[s.id]}</option>{/if}
         </select>
-        <span class="shifted" aria-hidden="true">{#if map[s.id]}{@html tex(box(faceForInsert(map[s.id]!)))}{/if}</span>
+        <span class="shifted" aria-hidden="true">{#if map[s.id] && shiftCommand(map[s.id]!)}<span class="cmd">{shiftCommand(map[s.id]!)!.name}</span>{:else if map[s.id]}{@html tex(box(faceForInsert(map[s.id]!)))}{/if}</span>
       </label>
     {/each}
   </div>
@@ -66,9 +66,10 @@
   h2 { margin: 0; font-size: 18px; }
   .small { font-size: 13px; margin: -4px 0 0; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 14px; }
-  .slot { display: grid; grid-template-columns: 34px 1fr 40px; align-items: center; gap: 8px; }
+  .slot { display: grid; grid-template-columns: 34px 1fr 56px; align-items: center; gap: 8px; }
   .base { display: flex; align-items: center; justify-content: center; height: 32px; border: 1px solid var(--line); border-radius: 6px; background: var(--region); font-size: 15px; }
-  .shifted { font-size: 15px; color: var(--accent); text-align: center; }
+  .shifted { font-size: 15px; color: var(--accent); text-align: center; overflow: hidden; }
+  .cmd { font-size: 11px; }
   select { font: inherit; font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 5px 6px; min-width: 0; width: 100%; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .foot { display: flex; align-items: center; gap: 12px; }

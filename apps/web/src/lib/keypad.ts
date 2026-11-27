@@ -72,6 +72,7 @@ export const FULL: KeyGroup[] = [
       k("\\overline{#0}", "Overline"), k("\\bar{#0}", "Bar"), k("\\hat{#0}", "Hat"), k("\\dot{#0}", "Dot above"), k("\\ddot{#0}", "Two dots above"),
       k("#@'", "Prime", "f'"), k("!", "Factorial", "n!"), k("\\binom{#?}{#?}", "Choose"),
       k("{}^{#?}C_{#?}", "Combinations", "{}^{n}C_{r}"), k("{}^{#?}P_{#?}", "Permutations", "{}^{n}P_{r}"),
+      k("[", "Open square bracket"), k("]", "Close square bracket"), k("|", "Vertical bar"),
     ],
   },
   {
@@ -137,6 +138,22 @@ export const FULL: KeyGroup[] = [
     ],
   },
   {
+    name: "ClassPad",
+    keys: [
+      k("\\operatorname{solve}\\left(#0\\right)", "solve(", "\\operatorname{solve}"),
+      k("\\operatorname{Define}\\,f\\left(x\\right)=", "Define f(x)=", "\\operatorname{Def}"),
+      k("f\\left(x\\right)", "f(x)"),
+      k("0\\le x\\le 2\\pi", "0 ≤ x ≤ 2π", "{\\scriptstyle 0\\le x\\le 2\\pi}"),
+      k("\\operatorname{diff}\\left(#0\\right)", "diff(", "\\operatorname{diff}"),
+      k("\\operatorname{approx}\\left(#0\\right)", "approx(", "\\operatorname{approx}"),
+      op("cis", "cis"),
+      k("\\operatorname{expand}\\left(#0\\right)", "expand(", "\\operatorname{expand}"),
+      k("\\operatorname{factor}\\left(#0\\right)", "factor(", "\\operatorname{factor}"),
+      k("\\operatorname{combine}\\left(#0\\right)", "combine(", "{\\scriptstyle\\operatorname{combine}}"),
+      k("\\operatorname{ans}", "ans"),
+    ],
+  },
+  {
     name: "Statistics",
     keys: [k("\\bar{x}", "x bar"), k("\\hat{p}", "p hat"), k("\\mu", "Mu"), k("\\sigma", "Sigma"), k("\\sigma^2", "Variance"), k("\\sum", "Sum"), k("\\mathrm{P}\\left(#0\\right)", "Probability", "P(A)"), k("\\mathrm{E}\\left(#0\\right)", "Expected value", "E(X)")],
   },
@@ -147,7 +164,12 @@ export const faceOf = (key: Key) => key.face ?? key.insert.replace(/#[0?@]/g, "\
 
 /**
  * Shift keys on the phone keyboard's 123 tab (like a Casio ClassPad): each key's shifted symbol can be
- * chosen in Settings. `null` means Shift types the key itself.
+ * chosen in Settings. `null` means Shift types the key itself; "@copy", "@cut", "@paste" and "@undo" are
+ * editing commands. Defaults are the ClassPad II shift keys for Specialist (the owner's ClassPad sheet):
+ * the Spec column where it has an entry (= solve(, ( [, ) ], x Define f(x)=, y f(x), z 0≤x≤2π, 7 diff(,
+ * 8 approx(, 9 cis(, × expand(, − factor(, + combine(), the ClassPad default elsewhere (^ √, 1–3 sin cos
+ * tan, 4 eˣ, 5 ln, 6 log base, 0 π, . i, ÷ fraction), and the shifts of ClassPad buttons we don't have
+ * moved onto ours that ClassPad doesn't have: (−) ⇒ on ∀, EXP ∞ on e, "," | on n, EXE ans on π.
  */
 export interface ShiftSlot {
   id: string;
@@ -159,36 +181,36 @@ export interface ShiftSlot {
   defaultShift: string | null;
 }
 export const SHIFT_SLOTS: ShiftSlot[] = [
-  { id: "x", base: "x", name: "x", defaultShift: "t" },
-  { id: "n", base: "n", name: "n", defaultShift: "a" },
-  { id: "7", base: "7", name: "7", defaultShift: null },
-  { id: "8", base: "8", name: "8", defaultShift: null },
-  { id: "9", base: "9", name: "9", defaultShift: null },
-  { id: "div", base: "\\frac{#@}{#?}", face: "\\div", name: "Divide", defaultShift: "\\div" },
-  { id: "e", base: "e", name: "e", defaultShift: "\\ln\\left(#0\\right)" },
+  { id: "x", base: "x", name: "x", defaultShift: "\\operatorname{Define}\\,f\\left(x\\right)=" },
+  { id: "n", base: "n", name: "n", defaultShift: "|" },
+  { id: "7", base: "7", name: "7", defaultShift: "\\operatorname{diff}\\left(#0\\right)" },
+  { id: "8", base: "8", name: "8", defaultShift: "\\operatorname{approx}\\left(#0\\right)" },
+  { id: "9", base: "9", name: "9", defaultShift: "\\operatorname{cis}\\left(#0\\right)" },
+  { id: "div", base: "\\frac{#@}{#?}", face: "\\div", name: "Divide", defaultShift: "\\frac{#0}{#?}" },
+  { id: "e", base: "e", name: "e", defaultShift: "\\infty" },
   { id: "i", base: "i", name: "i", defaultShift: "\\theta" },
-  { id: "pi", base: "\\pi", name: "Pi", defaultShift: "\\sin\\left(#0\\right)" },
-  { id: "y", base: "y", name: "y", defaultShift: "\\le" },
-  { id: "z", base: "z", name: "z", defaultShift: "\\ge" },
-  { id: "4", base: "4", name: "4", defaultShift: null },
-  { id: "5", base: "5", name: "5", defaultShift: null },
-  { id: "6", base: "6", name: "6", defaultShift: null },
-  { id: "times", base: "\\times", name: "Times", defaultShift: "\\cdot" },
+  { id: "pi", base: "\\pi", name: "Pi", defaultShift: "\\operatorname{ans}" },
+  { id: "y", base: "y", name: "y", defaultShift: "f\\left(x\\right)" },
+  { id: "z", base: "z", name: "z", defaultShift: "0\\le x\\le 2\\pi" },
+  { id: "4", base: "4", name: "4", defaultShift: "e^{#?}" },
+  { id: "5", base: "5", name: "5", defaultShift: "\\ln\\left(#0\\right)" },
+  { id: "6", base: "6", name: "6", defaultShift: "\\log_{#?}\\left(#0\\right)" },
+  { id: "times", base: "\\times", name: "Times", defaultShift: "\\operatorname{expand}\\left(#0\\right)" },
   { id: "square", base: "#@^2", name: "Squared", defaultShift: "#@'" },
-  { id: "power", base: "#@^{#?}", name: "Power", defaultShift: "#@_{#?}" },
+  { id: "power", base: "#@^{#?}", name: "Power", defaultShift: "\\sqrt{#0}" },
   { id: "sqrt", base: "\\sqrt{#0}", name: "Square root", defaultShift: "\\sqrt[#?]{#0}" },
-  { id: "open", base: "(", name: "Open bracket", defaultShift: "\\left[#0\\right]" },
-  { id: "close", base: ")", name: "Close bracket", defaultShift: "\\left|#0\\right|" },
-  { id: "1", base: "1", name: "1", defaultShift: null },
-  { id: "2", base: "2", name: "2", defaultShift: null },
-  { id: "3", base: "3", name: "3", defaultShift: null },
-  { id: "minus", base: "-", name: "Minus", defaultShift: "\\mp" },
+  { id: "open", base: "(", name: "Open bracket", defaultShift: "[" },
+  { id: "close", base: ")", name: "Close bracket", defaultShift: "]" },
+  { id: "1", base: "1", name: "1", defaultShift: "\\sin\\left(#0\\right)" },
+  { id: "2", base: "2", name: "2", defaultShift: "\\cos\\left(#0\\right)" },
+  { id: "3", base: "3", name: "3", defaultShift: "\\tan\\left(#0\\right)" },
+  { id: "minus", base: "-", name: "Minus", defaultShift: "\\operatorname{factor}\\left(#0\\right)" },
   { id: "int", base: "\\int_{#?}^{#?}#0\\,dx", face: "\\int_a^b", name: "Definite integral", defaultShift: "\\int #0\\,dx" },
-  { id: "forall", base: "\\forall", name: "For all", defaultShift: "\\exists" },
-  { id: "0", base: "0", name: "0", defaultShift: "\\infty" },
-  { id: "dot", base: ".", name: "Point", defaultShift: null },
-  { id: "eq", base: "=", name: "Equals", defaultShift: "\\ne" },
-  { id: "plus", base: "+", name: "Plus", defaultShift: "\\pm" },
+  { id: "forall", base: "\\forall", name: "For all", defaultShift: "\\Rightarrow" },
+  { id: "0", base: "0", name: "0", defaultShift: "\\pi" },
+  { id: "dot", base: ".", name: "Point", defaultShift: "i" },
+  { id: "eq", base: "=", name: "Equals", defaultShift: "\\operatorname{solve}\\left(#0\\right)" },
+  { id: "plus", base: "+", name: "Plus", defaultShift: "\\operatorname{combine}\\left(#0\\right)" },
 ];
 const SHIFT_STORE = "intellectify:shift-keys";
 export type ShiftMap = Record<string, string | null>;
@@ -215,11 +237,23 @@ export function storeShiftOverrides(overrides: ShiftMap) {
   }
 }
 export const saveShiftMap = (map: ShiftMap) => storeShiftOverrides(shiftOverrides(map));
+/** Editing commands a Shift key can run (MathLive command names). */
+export const SHIFT_COMMANDS: { value: string; name: string; command: string }[] = [
+  { value: "@copy", name: "Copy", command: "copyToClipboard" },
+  { value: "@cut", name: "Cut", command: "cutToClipboard" },
+  { value: "@paste", name: "Paste", command: "pasteFromClipboard" },
+  { value: "@undo", name: "Undo", command: "undo" },
+];
+export const shiftCommand = (value: string) => SHIFT_COMMANDS.find((c) => c.value === value);
+
 /** Every key a shift can be set to, once each, grouped as on the keypad. */
 export function shiftChoices(): KeyGroup[] {
   const seen = new Set<string>();
   const once = (keys: Key[]) => keys.filter((key) => !seen.has(key.insert) && seen.add(key.insert));
-  return [{ name: "Basic", keys: once(BASIC) }, ...GREEK.map((g) => ({ name: `Greek: ${g.name.toLowerCase()}`, keys: once(g.keys) })), ...FULL.map((g) => ({ name: g.name, keys: once(g.keys) }))];
+  return [
+    { name: "Editing", keys: SHIFT_COMMANDS.map((c) => ({ insert: c.value, name: c.name })) },
+    { name: "Basic", keys: once(BASIC) }, ...GREEK.map((g) => ({ name: `Greek: ${g.name.toLowerCase()}`, keys: once(g.keys) })), ...FULL.map((g) => ({ name: g.name, keys: once(g.keys) })),
+  ];
 }
 
 /** The face to show for some inserted LaTeX: its keypad key's face if it has one ("\\sin" for sin(□)). */
@@ -238,6 +272,7 @@ const GLYPH: Record<string, string> = {
   "Vectors and matrices": "<b>v</b>",
   "Functions and calculus": "∫",
   "Complex numbers": "ℂ",
+  ClassPad: "CAS",
   Statistics: "σ",
 };
 
@@ -249,6 +284,8 @@ export function phoneLayouts(shift: ShiftMap = Object.fromEntries(SHIFT_SLOTS.ma
     for (let i = 0; i < keys.length; i += per) out.push(keys.slice(i, i + per).map(cap));
     return out;
   };
+  /** Faces too wide for a key at full size (CAS words, ranges) get MathLive's small keycap text. */
+  const long = (face: string) => /\\operatorname\{\w{5,}\}|\\le|\\scriptstyle/.test(face);
   const slot = (id: string) => {
     const s = SHIFT_SLOTS.find((x) => x.id === id)!;
     const sh = shift[id];
@@ -256,7 +293,7 @@ export function phoneLayouts(shift: ShiftMap = Object.fromEntries(SHIFT_SLOTS.ma
       latex: s.face ?? s.base.replace(/#@/g, "#?"),
       insert: s.base,
       tooltip: s.name,
-      ...(sh ? { shift: { latex: faceForInsert(sh), insert: sh } } : {}),
+      ...(sh ? { shift: shiftCommand(sh) ? { label: `<span class="cmd">${shiftCommand(sh)!.name}</span>`, command: shiftCommand(sh)!.command } : { latex: faceForInsert(sh), insert: sh, ...(long(faceForInsert(sh)) ? { class: "small" } : {}) } } : {}),
     };
   };
   const numeric = {
