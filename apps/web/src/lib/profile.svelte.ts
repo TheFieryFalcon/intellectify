@@ -236,13 +236,14 @@ export class ProfileStore {
   }
 
   /** Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break today's entry. */
-  async recordDaily(key: string, day: string, solved: boolean) {
-    if (this.failed) return;
+  /** Returns the daily bonus XP granted (SPEC §12.4: 30 + 10 × tier on the first solve of each day's problem). */
+  async recordDaily(key: string, day: string, solved: boolean, tier = 0): Promise<number> {
+    if (this.failed) return 0;
     // The daily record is saved whole: start from the latest saved one, not this tab's copy.
     const latest = await this.backend.loadProfile(this.user.uid).catch(() => null);
     if (latest) this.profile = { ...this.profile, daily: newerDaily(this.profile.daily, latest.daily) };
     const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
-    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return;
+    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return 0;
     const streak = solved ? nextStreak(prev, day) : prev.streak;
     const recent = Object.entries({ ...prev.done, [key]: solved ? "solved" : "tried" }).slice(-40);
     const daily: DailyRecord = { lastSolved: solved ? day : prev.lastSolved, streak, best: Math.max(prev.best, streak), done: Object.fromEntries(recent) as DailyRecord["done"] };
@@ -253,6 +254,10 @@ export class ProfileStore {
     } catch {
       // Saved locally in the store; a failed save is retried with the next daily problem.
     }
+    if (!solved || !tier) return 0;
+    const bonus = XP.daily(tier);
+    await this.grant(bonus);
+    return bonus;
   }
 
   /** XP for a resolved question, applying the 30-day repeat rule. Returns the amount granted. */

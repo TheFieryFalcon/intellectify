@@ -5,6 +5,7 @@
   import type { MarkingQueue } from "$lib/marking.svelte";
   import { loadByok } from "$lib/byok";
   import Markdown from "./Markdown.svelte";
+  import ResultRow from "./ResultRow.svelte";
 
   let { job, queue }: { job: MarkingJob; queue: MarkingQueue } = $props();
 
@@ -65,6 +66,10 @@
       </tbody>
     </table>
     {#if final.feedback}<div class="overall"><Markdown text={final.feedback} /></div>{/if}
+    {#if job.effect}
+      {@const e = job.effect}
+      <div class="effect"><ResultRow outcome={e.outcome} theta={e.theta} deltaTheta={e.deltaTheta} rankBefore={e.rankBefore} rankAfter={e.rankAfter} xp={e.xp} /></div>
+    {/if}
 
     {#if job.appeal?.status === "pending"}
       <div class="waiting" role="status"><span class="spin" aria-hidden="true"></span><strong>{busy ? "Re-marking" : "Appeal queued"}</strong></div>
@@ -110,4 +115,5 @@
   .appeal textarea { font: inherit; font-size: 14px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
   .actions { display: flex; gap: 8px; }
   .appeal-btn { align-self: flex-start; padding-left: 0; }
+  .effect { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
 </style>

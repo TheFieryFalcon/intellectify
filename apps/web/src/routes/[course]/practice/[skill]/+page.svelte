@@ -2,17 +2,15 @@
   import ShareButton from "$lib/components/ShareButton.svelte";
   import ReportButton from "$lib/components/ReportButton.svelte";
   import { page } from "$app/state";
-  import type { RankLevel } from "@intellectify/engine";
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
   import MarkView from "$lib/components/MarkView.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
-  import RankDot from "$lib/components/RankDot.svelte";
   import { indexSkills, loadQuestions, loadWords, wordLists, type QuestionT } from "$lib/content";
   import { getStartTier, reserve, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
-  import { RANK_LABEL, score } from "$lib/ranks";
   import { recordResult } from "$lib/record";
   import { serve } from "$lib/review";
   import { profileFor } from "$lib/profile.svelte";
@@ -110,7 +108,6 @@
     xpGained = r.xp;
   }
 
-  const fmtDelta = (d: number) => `${d >= 0 ? "+" : "−"}${Math.abs(Math.round(d))}`;
 </script>
 
 <div class="wrap narrow">
@@ -163,18 +160,7 @@
     {#if summary}
       {@const p = summary.primary}
       <section class="result">
-        <div class="result-row">
-          <div><span class="k">Outcome</span><span class="v">{Math.round(summary.outcome * 100)}%</span></div>
-          <div><span class="k">θ</span><span class="v">{Math.round(p.after.theta)} <span class:up={p.deltaTheta >= 0} class:down={p.deltaTheta < 0}>{fmtDelta(p.deltaTheta)}</span></span></div>
-          <div><span class="k">Score</span><span class="v">{score(p.after.theta)}</span></div>
-          <div><span class="k">Rank</span><span class="v"><RankDot rank={p.rankAfter as RankLevel} label /></span></div>
-          <div><span class="k">XP</span><span class="v xp">+{xpGained}</span></div>
-        </div>
-        {#if p.rankAfter > p.rankBefore}
-          <p class="rank-up">Rank up: {RANK_LABEL[p.rankBefore]} → {RANK_LABEL[p.rankAfter]}</p>
-        {:else if p.rankAfter < p.rankBefore}
-          <p class="muted">Rank down: {RANK_LABEL[p.rankBefore]} → {RANK_LABEL[p.rankAfter]}</p>
-        {/if}
+        <ResultRow outcome={summary.outcome} theta={p.after.theta} deltaTheta={p.deltaTheta} rankBefore={p.rankBefore} rankAfter={p.rankAfter} xp={xpGained} />
         {#if store.error}<p class="feedback bad">{store.error}</p>{/if}
         <h2>Solution</h2>
         <Markdown text={question.solution} />
@@ -197,14 +183,5 @@
   .feedback { margin: 0; font-size: 13px; }
   .bad { color: var(--bad); }
   .actions { display: flex; gap: 8px; margin-top: 20px; }
-  .result-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
-  @media (max-width: 520px) { .result-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .result-row div { display: flex; flex-direction: column; gap: 2px; }
-  .k { font-size: 11px; color: var(--muted); }
-  .v { font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .up { color: var(--good); font-size: 13px; }
-  .xp { color: var(--accent); }
-  .down { color: var(--bad); font-size: 13px; }
-  .rank-up { font-weight: 600; color: var(--accent); }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }
 </style>

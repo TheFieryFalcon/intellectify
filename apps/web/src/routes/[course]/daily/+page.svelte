@@ -10,6 +10,7 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
   import MarkView from "$lib/components/MarkView.svelte";
+  import ResultRow from "$lib/components/ResultRow.svelte";
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
   import { indexSkills } from "$lib/content";
@@ -19,7 +20,7 @@
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
   import { currentStreak, dailyTarget, dailyTier, yearGroupOf, type YearGroup } from "$lib/daily";
-  import { dateOfDay } from "@intellectify/engine";
+  import { dateOfDay, tierOf } from "@intellectify/engine";
   import { dailyProblem } from "$lib/dailyProblem";
   import { onDaily } from "$lib/achievements";
 
@@ -45,6 +46,9 @@
   let served = $state<Served | null>(null);
   let loading = $state(true);
   let summary = $state<ResultSummary | null>(null);
+  /** XP from answering plus the daily bonus. */
+  let xpGained = $state(0);
+  let dailyBonus = $state(0);
   let jobId = $state<string | null>(null);
   const job = $derived(jobId && marking ? marking.job(jobId) : null);
 
@@ -73,8 +77,10 @@
     if (!store || !served || !profile) return;
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "daily" });
     summary = r.summary;
+    xpGained = r.xp;
     const solved = r.summary.outcome > 0;
-    await profile.recordDaily(key, day, solved);
+    const bonus = await profile.recordDaily(key, day, solved, tierOf(served.question.rating));
+    dailyBonus = bonus;
     await achievements?.event(
       (s) => onDaily(s, { day, solved, firstTry: solved && parts.every((p) => p.solvedOn === 1), streak: profile.profile.daily?.streak ?? 0 }),
       store,
@@ -137,7 +143,8 @@
     {/if}
     {#if summary}
       <section class="card">
-        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"} · {Math.round(summary.outcome * 100)}%</p>
+        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"}{#if dailyBonus} · daily bonus +{dailyBonus} XP{/if}</p>
+        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
         <h2>Solution</h2>
         <Markdown text={served.question.solution} />
       </section>

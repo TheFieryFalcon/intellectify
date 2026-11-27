@@ -171,6 +171,8 @@ export interface MarkingJob {
   result: MarkResult | null;
   /** The result has been applied to θ, ranks, XP and achievements. */
   applied: boolean;
+  /** What applying it did, shown under the mark like an auto-marked result (XP includes a daily bonus). */
+  effect?: { xp: number; outcome: number; theta: number; deltaTheta: number; rankBefore: number; rankAfter: number } | null;
   /** One appeal per marked answer (SPEC §10.3). */
   appeal: {
     argument: string;

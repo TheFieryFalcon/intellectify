@@ -898,8 +898,8 @@ Phase 1: `/profile/<uid>` (the name in the header links to your own) shows name,
 One account-wide **level**, earned with **XP** from almost everything a student does. It scales slowly: an hour gets a new student a few levels, while **level 500+ is reachable by determined students**, roughly 500 hours of activity over an ATAR career. There is no level cap.
 
 **Level curve.**
-- The XP needed to go from level L to L + 1 is **101 + 2L**.
-- So the total XP needed to reach level L is **(L − 1)(L + 101)**.
+- The XP needed to go from level L to L + 1 is **101 + 2L**, plus an **early extra** below level 50: 60 at level 1, shrinking evenly to 0 at level 50 (each level's extra rounded to a whole number). New students earn much faster than the long-run rate (first-visit, first-read, rank-up and daily bonuses all come early), so without it the first levels came every few minutes; with it, level 1 → 2 costs 163 XP, about **10 minutes** of early play, and costs rise to 200 by level 49. From level 50 the curve is unchanged.
+- So the total XP needed to reach level L is **(L − 1)(L + 101)** plus the early extras of levels 1 to L − 1 (1,500 in all from level 50 on).
 - The hours below assume about **600 XP per hour** of typical practice (tunable).
 
 **Level tiers** use the same ladder as ranks and achievements, with Unranked called **Basic** here. The tier designs match the rank and achievement visuals (§12.1).
@@ -907,16 +907,16 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 | Tier | Levels | Total XP to reach | ≈ Hours |
 |---|---|---|---|
 | Basic | 1–9 | 0 | 0 |
-| Bronze | 10–24 | 999 | 2 |
-| Silver | 25–49 | 3,024 | 5 |
-| Gold | 50–99 | 7,399 | 12 |
-| Platinum | 100–149 | 19,899 | 33 |
-| Diamond | 150–199 | 37,399 | 62 |
-| Ruby | 200–299 | 59,899 | 100 |
-| Tanzanite | 300–399 | 119,899 | 200 |
-| Vibranium | 400–499 | 199,899 | 333 |
-| Solarium | 500–749 | 299,899 | 500 |
-| Antimatter | 750+ | 637,399 | 1,062 |
+| Bronze | 10–24 | 1,495 | 2.5 |
+| Silver | 25–49 | 4,127 | 7 |
+| Gold | 50–99 | 8,899 | 15 |
+| Platinum | 100–149 | 21,399 | 36 |
+| Diamond | 150–199 | 38,899 | 65 |
+| Ruby | 200–299 | 61,399 | 102 |
+| Tanzanite | 300–399 | 121,399 | 202 |
+| Vibranium | 400–499 | 201,399 | 336 |
+| Solarium | 500–749 | 301,399 | 502 |
+| Antimatter | 750+ | 638,899 | 1,065 |
 
 **XP sources** (starting values, tunable):
 
@@ -927,7 +927,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 | Read a tutorial (first time per skill) | 40 |
 | Finish a section quiz / unit quiz | +50 / +100 bonus |
 | Finish a Section Challenge | +200 bonus |
-| Solve the daily problem | 30 + 10 × tier |
+| Solve the daily problem | 30 + 10 × tier (on the first solve of each day's problem, per year group; written dailies at the 60% pass mark) |
 | Score a monthly Tier 6 milestone | 100 per milestone |
 | Rank up in a skill or response skill | Bronze 40, Silver 80, Gold 160, Platinum 280, Diamond 500 |
 | Earn an achievement | 4 × its points |
@@ -1274,7 +1274,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Header:** tier, rating, calculator flag, skill(s).
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Submit**, **Give up**.
-- **After resolving:** worked solution; Δθ and score change; rank and achievement toasts; Next. **Share** and **Report error** sit above the question.
+- **After resolving:** a result row (outcome, θ and its change, score, rank, **+XP**, the daily bonus included on the daily problem); worked solution; rank and achievement toasts; Next. A written answer shows the same row under its mark once the mark is applied (it can arrive later; it's kept on the marking job, so it also shows on the marked-answer page). **Share** and **Report error** sit above the question.
 - A small **Tutorial** link opens the skill's tutorial in a side panel (bottom sheet on phones) without leaving the question.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 

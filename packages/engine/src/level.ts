@@ -1,9 +1,21 @@
 /**
  * Global level and XP (docs/SPEC.md §12.4).
- * Total XP to reach level L is (L − 1)(L + 101); going from L to L + 1 costs 101 + 2L.
+ * Going from L to L + 1 costs 101 + 2L, plus an early-levels extra that is 60 at level 1 and shrinks
+ * evenly to 0 at level 50: new students earn fast (first-visit, tutorial, rank-up and daily bonuses), so
+ * the first levels take about 10 minutes each instead of a few. From level 50 the curve is unchanged.
  * At about 600 XP per hour, level 500 (Solarium) takes about 500 hours.
  */
 const CURVE = 101;
+/** The early-levels extra: EARLY_EXTRA × (EARLY_UNTIL − L) / (EARLY_UNTIL − 1) on top of level L's cost, for L < EARLY_UNTIL. */
+const EARLY_EXTRA = 60;
+const EARLY_UNTIL = 50;
+
+/** One level's early extra, a whole number (so level costs never go down). */
+const earlyAt = (L: number) => (L < EARLY_UNTIL ? Math.round((EARLY_EXTRA * (EARLY_UNTIL - L)) / (EARLY_UNTIL - 1)) : 0);
+/** The early extra summed over levels 1 … m. */
+const EARLY_SUMS = [0];
+for (let L = 1; L < EARLY_UNTIL; L++) EARLY_SUMS.push(EARLY_SUMS[L - 1]! + earlyAt(L));
+const earlyExtra = (m: number) => EARLY_SUMS[Math.max(0, Math.min(m, EARLY_UNTIL - 1))]!;
 
 export const LEVEL_TIERS = [
   { key: "basic", name: "Basic", minLevel: 1 },
@@ -23,7 +35,7 @@ export type LevelTier = (typeof LEVEL_TIERS)[number];
 /** Total XP needed to reach `level`. */
 export function xpForLevel(level: number): number {
   if (level <= 1) return 0;
-  return (level - 1) * (level + CURVE);
+  return (level - 1) * (level + CURVE) + earlyExtra(level - 1);
 }
 
 /** Level reached with `xp` total XP (no cap). */
@@ -48,7 +60,7 @@ export interface LevelProgress {
   tier: LevelTier;
   /** XP earned since the start of the current level. */
   into: number;
-  /** XP the current level needs in total (101 + 2L). */
+  /** XP the current level needs in total (101 + 2L, plus the early extra below level 50). */
   needed: number;
 }
 
