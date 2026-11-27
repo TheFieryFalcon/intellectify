@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-/* ───────────────────────── Curriculum (docs/SPEC.md §3, §3.1) ───────────────────────── */
+/* ───────────────────────── Curriculum (docs/SPEC.md §3) ───────────────────────── */
 
 const dotPoint = z.string().regex(/^\d+\.\d+\.\d+$/, "dot point IDs look like 1.2.6");
 
@@ -15,7 +15,7 @@ export const Skill = z.object({
   id: z.string().regex(/^[a-z]+\.[a-z0-9-]+\.[a-z0-9-]+$/, "skill IDs look like spec.section.skill"),
   name: z.string().min(1),
   summary: z.string().min(1),
-  /** SPEC §3.3: sets the question targets and how much it takes to rank up. */
+  /** SPEC §3.2: sets the question targets and how much it takes to rank up. */
   size: z.enum(["small", "medium", "large", "cornerstone"]),
   dotPoints: z.array(dotPoint).min(1),
   prereqs: z.array(z.string()).default([]),
@@ -53,7 +53,7 @@ export const CourseManifest = z.object({
   versions: z.record(z.object({ current: z.string(), available: z.array(z.string()).min(1) })),
 });
 
-/* ───────────────────────── Questions (docs/SPEC.md §7, §9, §11.2) ───────────────────────── */
+/* ───────────────────────── Questions (docs/SPEC.md §7, §9, §11.1) ───────────────────────── */
 
 const formRule = z.enum([
   "exact",
@@ -149,7 +149,7 @@ export const Question = z.object({
   variants: z.array(z.record(z.union([z.string(), z.number()]))).optional(),
   /** Word variety (SPEC §9.6): slot → word list in content/words.yaml, picked at random on each serve. */
   words: z.record(z.string()).optional(),
-  /** SymPy verification script, run offline (SPEC §11.3). */
+  /** SymPy verification script, run offline (SPEC §11.2). */
   verify: z.string().optional(),
 });
 

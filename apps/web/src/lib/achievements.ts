@@ -221,7 +221,7 @@ export function onPost(prev: AchievementStats, threadKey: string): AchievementSt
 }
 
 /**
- * The student's confirmed error reports in this course (SPEC §11.5): Spot the Flaw (P18) and, on a
+ * The student's confirmed error reports in this course (SPEC §11.4): Spot the Flaw (P18) and, on a
  * Tier 5 or 6 question, Counterexample (D21). Counts only grow, so a dismissed report never takes one away.
  */
 export function onReports(prev: AchievementStats, confirmed: { tier: number | null }[]): AchievementStats {

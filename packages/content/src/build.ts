@@ -221,7 +221,7 @@ export function buildContent(contentDir: string): BuildResult {
     const cycle = findCycle(prereqsOf);
     if (cycle) errors.push(`prerequisite cycle: ${cycle.join(" → ")}`);
 
-    // Tutorials (SPEC §3.2).
+    // Tutorials (SPEC §3.1).
     const skillDotPoints = new Map<string, string[]>();
     for (const v of versions) for (const u of v.units) for (const s of u.sections) for (const k of s.skills) skillDotPoints.set(k.id, [...k.dotPoints, ...(reviewFor.get(k.id) ?? [])]);
     const tutorials = loadTutorials(contentDir, courseId, skillDotPoints, errors, warnings);
@@ -375,7 +375,7 @@ export function buildContent(contentDir: string): BuildResult {
             hours: s.hours,
             skills: s.skills.map((k) => {
               const review = reviewFor.get(k.id) ?? [];
-              // Size targets (SPEC §3.3), checked once a skill has any questions.
+              // Size targets (SPEC §3.2), checked once a skill has any questions.
               const qs = questions[k.id] ?? [];
               const rules = SKILL_SIZE[k.size];
               const tier5 = qs.filter((q) => tierOf(q.rating) === 5).length;

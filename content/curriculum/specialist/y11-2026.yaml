@@ -1,6 +1,6 @@
 # Mathematics Specialist ATAR, Year 11 (Units 1–2). DRAFT skill tree.
 #
-# - Skill IDs are stable and independent of syllabus numbering (SPEC §3.1).
+# - Skill IDs are stable and independent of syllabus numbering (SPEC §3).
 # - `dotPoints` maps each skill to this version's syllabus content descriptors.
 #   Every dot point is covered exactly once, by a skill or by a section-level
 #   `reviewDotPoints` mapping onto an earlier skill.

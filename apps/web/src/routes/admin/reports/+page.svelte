@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Error reports for the owner (SPEC §11.5). Confirming one awards the reporter XP and achievements the
+   * Error reports for the owner (SPEC §11.4). Confirming one awards the reporter XP and achievements the
    * next time they open the course; fix the content in the next release.
    */
   import type { Report } from "$lib/backend";

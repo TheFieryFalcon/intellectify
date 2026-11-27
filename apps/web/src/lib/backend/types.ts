@@ -214,7 +214,7 @@ export interface Post {
   parent: string | null;
 }
 
-/** An error report on a question or tutorial (SPEC §11.5). The owner confirms or dismisses it. */
+/** An error report on a question or tutorial (SPEC §11.4). The owner confirms or dismisses it. */
 export interface Report {
   id: string;
   uid: string;
@@ -280,7 +280,7 @@ export interface Backend {
   /** Delete one of your own posts. */
   deletePost(key: string, post: Post): Promise<void>;
 
-  /** Report an error in a question or tutorial (SPEC §11.5). */
+  /** Report an error in a question or tutorial (SPEC §11.4). */
   addReport(user: User, report: NewReport): Promise<void>;
   /** This student's confirmed reports in one course, for achievements and XP. */
   confirmedReports(uid: string, course: string): Promise<Report[]>;

@@ -83,7 +83,7 @@ export interface TutorialT {
   markdown: string;
 }
 
-/** A skill's tutorial (SPEC §3.2), or null if it hasn't been written yet. */
+/** A skill's tutorial (SPEC §3.1), or null if it hasn't been written yet. */
 export function loadTutorial(fetchFn: Fetch, course: string, skillId: string): Promise<TutorialT | null> {
   return fetchFn(`/content/${course}/tutorials/${skillId}.json`).then((r) => (r.ok ? (r.json() as Promise<TutorialT>) : null));
 }

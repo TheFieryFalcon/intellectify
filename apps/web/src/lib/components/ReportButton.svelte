@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Report an error in a question or tutorial (SPEC §11.5). The report keeps the exact variant and words the
+   * Report an error in a question or tutorial (SPEC §11.4). The report keeps the exact variant and words the
    * student saw, so the owner can open the same problem from the review page.
    */
   import { tierOf } from "@intellectify/engine";

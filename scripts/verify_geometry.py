@@ -1,5 +1,5 @@
 """
-Geometry helpers available to every question's `verify` code (docs/SPEC.md §11.3).
+Geometry helpers available to every question's `verify` code (docs/SPEC.md §11.2).
 They let a verify script build the actual figure from coordinates and *measure* the answer,
 instead of re-applying the theorem the question is testing.
 """

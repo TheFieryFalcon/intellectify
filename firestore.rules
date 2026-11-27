@@ -45,7 +45,7 @@ service cloud.firestore {
       }
     }
 
-    // Error reports on questions and tutorials (SPEC §11.5). Students create their own and can read them
+    // Error reports on questions and tutorials (SPEC §11.4). Students create their own and can read them
     // back (for achievements); only the owner sees every report and sets its status.
     match /reports/{id} {
       allow create: if signedIn()

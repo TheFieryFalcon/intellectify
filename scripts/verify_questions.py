@@ -1,5 +1,5 @@
 """
-Run every question's SymPy `verify` code and print its answers as JSON lines (docs/SPEC.md §11.3).
+Run every question's SymPy `verify` code and print its answers as JSON lines (docs/SPEC.md §11.2).
 
 Convention for a question's `verify` field (Python):
 
