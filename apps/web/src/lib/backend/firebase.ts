@@ -13,6 +13,7 @@ import {
   type User as FirebaseUser,
 } from "firebase/auth";
 import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { anonymousAllowed } from "./context";
 import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type StoredSkillState, type ThreadSummary, type User } from "./types";
 
 export interface FirebaseConfig {
@@ -112,6 +113,8 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     },
     async signInAsGuest() {
       // Anonymous accounts work on any domain, so deploy previews can be tested without adding them to Firebase.
+      // Deploy previews only: the button isn't shown elsewhere, and this refuses too.
+      if (!anonymousAllowed) throw new Error("Anonymous sign-in is only for deploy previews.");
       await signInAnonymously(auth).catch(friendly);
     },
     async signOut() {

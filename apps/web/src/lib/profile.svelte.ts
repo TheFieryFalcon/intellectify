@@ -10,6 +10,23 @@ import { setStartTiers } from "./practice";
 /** Today's date in Perth (YYYY-MM-DD): days roll over at local midnight for WA students. */
 export const perthDay = (d = new Date()) => new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Perth" }).format(d);
 
+const ANON_PLACEMENT = "intellectify:anon-placement";
+const readAnonPlacement = (): Placement | null => {
+  try {
+    const p = JSON.parse(localStorage.getItem(ANON_PLACEMENT) ?? "null") as Placement | null;
+    return p?.tiers ? p : null;
+  } catch {
+    return null;
+  }
+};
+const writeAnonPlacement = (p: Placement) => {
+  try {
+    localStorage.setItem(ANON_PLACEMENT, JSON.stringify(p));
+  } catch {
+    /* storage blocked: asked again next time */
+  }
+};
+
 export interface LevelUp {
   level: number;
   tier: LevelTier;
@@ -108,6 +125,15 @@ export class ProfileStore {
     } catch {
       // Offline or blocked: start from zero locally; grants still try to save.
     }
+    // Deploy previews: each anonymous sign-in is a new account. Reuse this browser's last anonymous
+    // placement instead of asking for the maths mark every time.
+    if (this.user.anonymous && !this.profile.placement?.tiers) {
+      const saved = readAnonPlacement();
+      if (saved) {
+        this.profile = { ...this.profile, placement: saved };
+        void this.backend.setPlacement(this.user.uid, saved).catch(() => {});
+      }
+    }
     if (this.profile.placement?.tiers) setStartTiers(this.profile.placement.tiers);
     this.profile = { ...this.profile, stats: roll(this.profile.stats, perthDay()) };
     this.loaded = true;
@@ -147,6 +173,7 @@ export class ProfileStore {
   async setPlacement(placement: Placement) {
     this.profile = { ...this.profile, placement };
     setStartTiers(placement.tiers);
+    if (this.user.anonymous) writeAnonPlacement(placement);
     await this.backend.setPlacement(this.user.uid, placement);
   }
 

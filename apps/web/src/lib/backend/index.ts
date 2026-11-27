@@ -4,6 +4,7 @@ import type { Backend } from "./types";
 
 export * from "./types";
 export { firebaseConfigured };
+export { anonymousAllowed } from "./context";
 
 let backend: Promise<Backend> | null = null;
 

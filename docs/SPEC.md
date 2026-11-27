@@ -1299,7 +1299,7 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 | Native (later) | **Capacitor** wrapping the same build |
 | Math | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
 | Handwriting | MyScript iink (free tier) |
-| Auth | Firebase Auth (Google + email; anonymous for testing deploy previews, kept off public leaderboards) |
+| Auth | Firebase Auth (Google + email; anonymous for testing deploy previews only: the option shows only when Netlify builds with `CONTEXT=deploy-preview`, and the backend refuses it elsewhere; kept off public leaderboards; the maths-mark placement is asked once per browser and reused for later anonymous accounts) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
 | Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
