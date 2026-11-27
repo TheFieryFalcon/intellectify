@@ -8,6 +8,9 @@
   import { MAX_ANSWER } from "@intellectify/content/marking";
   import type { QuestionT } from "$lib/content";
   import Markdown from "./Markdown.svelte";
+  import MathKeypad from "./MathKeypad.svelte";
+  import { insertIntoText, type Key } from "$lib/keypad";
+  import { tick } from "svelte";
   import PaperFirst from "./PaperFirst.svelte";
   import PaperTip from "./PaperTip.svelte";
   import { MAX_IMAGES, shrinkPhoto, transcribePhotos } from "$lib/photo";
@@ -63,6 +66,22 @@
     }
   }
 
+  /** The keypad types into the last answer box used, wrapping mathematics in $ signs (SPEC §7.2). */
+  let boxes = $state<Record<string, HTMLTextAreaElement | undefined>>({});
+  let activePart = $state<string | null>(null);
+  async function press(key: Key) {
+    const id = activePart && boxes[activePart] ? activePart : parts[0]?.id;
+    const box = id ? boxes[id] : undefined;
+    if (!id || !box || box.disabled) return;
+    const text = answers[id] ?? "";
+    const r = insertIntoText(text, box.selectionStart ?? text.length, box.selectionEnd ?? text.length, key.insert);
+    if (r.text.length > MAX_ANSWER) return;
+    answers[id] = r.text;
+    await tick();
+    box.focus();
+    box.setSelectionRange(r.caret, r.caret);
+  }
+
   let sending = $state(false);
   const ready = $derived(parts.every((p) => (answers[p.id] ?? "").trim().length > 0));
 
@@ -108,13 +127,19 @@
             </div>
           {:else}
             <textarea
+              bind:this={boxes[p.id]}
+              onfocus={() => (activePart = p.id)}
               bind:value={answers[p.id]}
               rows="8"
               maxlength={MAX_ANSWER}
-              placeholder="Your working. Maths between $ signs, e.g. $N = 7k$"
+              placeholder="Your working. Use the maths keypad, or put maths between $ signs"
               aria-label="Answer{parts.length > 1 ? ` to part ${p.id}` : ''}"
               disabled={sending}
             ></textarea>
+            {#if (answers[p.id] ?? "").includes("$")}
+              <!-- Mathematics as it will read, so the keypad's LaTeX never has to be read raw. -->
+              <div class="live" aria-hidden="true"><Markdown text={answers[p.id]!} glossary={false} /></div>
+            {/if}
             {#if photos[p.id]?.length}
               <div class="tray">
                 {#each photos[p.id] as img, i (img)}
@@ -148,6 +173,8 @@
         </div>
       </div>
     {/each}
+
+    {#if !submitted && !preview}<MathKeypad oninsert={press} />{/if}
 
     {#if !submitted}
       <div class="actions">
@@ -185,4 +212,7 @@
   .from-photo { font-size: 12px; color: var(--accent); font-weight: 500; }
   .photo-error { font-size: 12px; color: var(--bad); }
   .actions { display: flex; gap: 8px; }
+  .live { margin-top: 8px; padding: 8px 12px; border-left: 3px solid var(--accent-soft); font-size: 15px; color: var(--ink); max-height: 220px; overflow-y: auto; }
+  .live :global(p) { margin: 0 0 6px; }
+  .live :global(p:last-child) { margin-bottom: 0; }
 </style>

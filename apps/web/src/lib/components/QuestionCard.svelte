@@ -11,6 +11,8 @@
   import type { PartResult } from "$lib/practice";
   import Markdown from "./Markdown.svelte";
   import MathField from "./MathField.svelte";
+  import MathKeypad from "./MathKeypad.svelte";
+  import type { Key } from "$lib/keypad";
   import PaperFirst from "./PaperFirst.svelte";
   import PaperTip from "./PaperTip.svelte";
   import { paperFirst } from "$lib/paper.svelte";
@@ -32,6 +34,17 @@
   const allowed = $derived(maxAttempts(tier));
   const resolved = $derived(parts.length > 0 && parts.every((p) => p.done));
   const isChoice = (spec: AnswerSpec | undefined) => spec?.type === "mcq" || spec?.type === "multi-select";
+
+  /** One keypad per question (computers; phones use the field's own keyboard): it types into the last answer box used. */
+  const touch = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches;
+  let fields = $state<(MathField | undefined)[]>([]);
+  let active = $state(0);
+  const typed = $derived(question.parts.some((p) => !isChoice(p.answer)));
+  function press(key: Key) {
+    const open = (i: number) => !isChoice(question.parts[i]?.answer) && !parts[i]?.done && fields[i];
+    const i = open(active) ? active : question.parts.findIndex((_, j) => open(j));
+    if (i >= 0) fields[i]!.insert(key);
+  }
 
   async function check() {
     if (resolved || checking) return;
@@ -123,7 +136,7 @@
               {/each}
             </div>
           {:else}
-            <MathField bind:value={st.answer} disabled={st.done} label="Answer{question.parts.length > 1 ? ` to part ${p.id}` : ''}" onsubmit={check} />
+            <MathField bind:this={fields[i]} bind:value={st.answer} disabled={st.done} label="Answer{question.parts.length > 1 ? ` to part ${p.id}` : ''}" onsubmit={check} onfocus={() => (active = i)} />
           {/if}
           {#if st.solvedOn !== null}
             <p class="feedback good">Correct{st.solvedOn > 1 ? ` on attempt ${st.solvedOn}` : ""}</p>
@@ -133,6 +146,8 @@
         </div>
       </div>
     {/each}
+
+    {#if !resolved && typed && !touch}<MathKeypad oninsert={press} />{/if}
 
     {#if !resolved}
       <div class="actions">
