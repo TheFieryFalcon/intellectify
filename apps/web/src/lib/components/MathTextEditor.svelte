@@ -4,7 +4,7 @@
    * inline, never raw LaTeX. Stored as text with mathematics between $ signs, which is what the marker reads.
    *
    * Maths appears where the keypad inserts it, where "Maths" is pressed, or where $ is typed. Arrow keys
-   * (or Tab) past either end of a piece of maths go back to the words; Backspace in empty maths removes it.
+   * past either end of a piece of maths, Enter or $ go back to the words; Backspace in empty maths removes it.
    */
   import { onMount } from "svelte";
   import type { Key } from "$lib/keypad";
