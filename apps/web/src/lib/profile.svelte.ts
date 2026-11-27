@@ -1,4 +1,5 @@
 import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
+import { withRetry } from "./retry";
 import { shiftOverrides, storeShiftOverrides, type ShiftMap } from "./keypad";
 import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type Placement, type Profile, type PublicCourse, type User } from "./backend";
 import { addProblem, addXp, roll } from "./activity";
@@ -48,6 +49,8 @@ export interface LevelUp {
 export class ProfileStore {
   profile = $state<Profile>(emptyProfile());
   loaded = $state(false);
+  /** The saved profile couldn't be loaded: nothing is saved this session (see load()). */
+  failed = $state(false);
   /** Set when a grant crosses a level boundary; the layout shows it as a toast. */
   levelUp = $state<LevelUp | null>(null);
   progress = $derived(levelProgress(this.profile.xp));
@@ -84,7 +87,7 @@ export class ProfileStore {
   async flush() {
     if (this.timer) clearTimeout(this.timer);
     this.timer = null;
-    if (!this.dirty || !this.loaded) return;
+    if (!this.dirty || !this.loaded || this.failed) return;
     this.dirty = false;
     const courses = this.pendingCourses;
     const achievements = this.pendingAchievements;
@@ -139,9 +142,13 @@ export class ProfileStore {
 
   async load() {
     try {
-      this.profile = await this.backend.loadProfile(this.user.uid);
+      this.profile = await withRetry(() => this.backend.loadProfile(this.user.uid));
     } catch {
-      // Offline or blocked: start from zero locally; grants still try to save.
+      // Not "a new student": the saved profile just didn't load. Save nothing this session, so nothing
+      // real is overwritten, and say so (layout banner); a reload tries again.
+      this.failed = true;
+      this.loaded = true;
+      return;
     }
     // Deploy previews: each anonymous sign-in is a new account. Reuse this browser's last anonymous
     // placement instead of asking for the maths mark every time.
@@ -163,7 +170,7 @@ export class ProfileStore {
 
   /** Add XP, update the level immediately, and persist. */
   async grant(amount: number, extra: { questionId?: string; visitDay?: string } = {}) {
-    if (amount <= 0 && !extra.visitDay) return;
+    if (this.failed || (amount <= 0 && !extra.visitDay)) return;
     const before = levelProgress(this.profile.xp);
     this.profile = {
       ...this.profile,
@@ -191,6 +198,7 @@ export class ProfileStore {
 
   /** Save the phone keyboard Shift keys (SPEC §7.2), on this device and the account. */
   async setShiftKeys(map: ShiftMap) {
+    if (this.failed) throw new Error("Your profile didn't load, so this can't be saved. Reload the page.");
     const shiftKeys = shiftOverrides(map);
     storeShiftOverrides(shiftKeys);
     this.profile = { ...this.profile, shiftKeys };
@@ -199,6 +207,7 @@ export class ProfileStore {
 
   /** Save the onboarding placement; new skills start at its tier for their course from now on. */
   async setPlacement(placement: Placement) {
+    if (this.failed) throw new Error("Your profile didn't load. Reload the page.");
     this.profile = { ...this.profile, placement };
     setStartTiers(placement.tiers);
     if (this.user.anonymous) writeAnonPlacement(placement);
@@ -207,6 +216,7 @@ export class ProfileStore {
 
   /** Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break today's entry. */
   async recordDaily(key: string, day: string, solved: boolean) {
+    if (this.failed) return;
     const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
     if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return;
     const streak = solved ? nextStreak(prev, day) : prev.streak;

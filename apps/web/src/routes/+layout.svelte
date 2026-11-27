@@ -46,7 +46,7 @@
   });
   // Onboarding: signed-in students give their maths mark once, before anything else (SPEC §5.3).
   $effect(() => {
-    if (profile?.loaded && (!profile.profile.placement?.tiers || (session.user?.google && !profile.profile.nameSet)) && !publicRoute && !page.url.pathname.startsWith("/onboarding") && !page.url.pathname.startsWith("/dev"))
+    if (profile?.loaded && !profile.failed && (!profile.profile.placement?.tiers || (session.user?.google && !profile.profile.nameSet)) && !publicRoute && !page.url.pathname.startsWith("/onboarding") && !page.url.pathname.startsWith("/dev"))
       goto("/onboarding", { replaceState: true });
   });
 </script>
@@ -68,6 +68,9 @@
   </div>
   {#if session.backend?.kind === "local" && session.user}
     <p class="local">Local mode · saved in this browser</p>
+  {/if}
+  {#if profile?.failed}
+    <p class="load-failed" role="alert">Couldn't load your progress, so nothing is being saved. <button class="btn link" onclick={() => location.reload()}>Reload</button></p>
   {/if}
 </header>
 
@@ -131,4 +134,6 @@
   .toast .pts { color: var(--accent); font-variant-numeric: tabular-nums; }
   .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 22, 35, 0.18); font-weight: 500; animation: rise 0.25s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  .load-failed { margin: 0; padding: 8px 16px; font-size: 13px; text-align: center; background: color-mix(in srgb, var(--bad) 12%, var(--surface)); color: var(--ink); }
+  .load-failed .btn { margin-left: 6px; font-size: 13px; color: var(--bad); }
 </style>
