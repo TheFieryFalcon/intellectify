@@ -111,7 +111,7 @@
     <div class="history-nav">
       <button class="btn link" disabled={back >= past.length} onclick={() => back++}>← Back</button>
       {#if back > 0}
-        <span class="muted small">{ago(past[back - 1]!.at)} · {back} of {past.length}</span>
+        <span class="muted small">{ago(past[back - 1]!.at)}</span>
         <button class="btn link" onclick={() => back--}>Forward →</button>
         <button class="btn link" onclick={() => (back = 0)}>Current question</button>
       {/if}

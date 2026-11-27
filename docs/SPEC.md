@@ -1268,7 +1268,7 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 
 ### 15.4b Answer history and Back
 - Every answer a student gives (practice, quizzes, Challenges, daily, revision) is logged **in the browser only** (localStorage, newest 500 per course): question id, variant and word picks, the answer per part, the attempt each part was solved on, the outcome, and for written answers the marking job. Nothing is read from or written to Firestore for it, so it doesn't follow a student to another device.
-- **Back** on the practice screen steps through earlier answers in that skill (Forward and **Current question** return); the current question stays as it was, half-typed answers included.
+- **Back** on the practice screen steps through earlier answers in that skill (showing when each was answered; Forward and **Current question** return); the current question stays as it was, half-typed answers included.
 - **History** (`/<course>/history`) lists every logged answer by day, filterable by skill, mode and result (60% or more, under 60%, still marking). A row expands to the question as it was served, the answers given (marked right or wrong per part, or with the written score and feedback) and the worked solution. **Clear history** empties it.
 
 ### 15.4c Share a problem
