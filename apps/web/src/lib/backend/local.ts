@@ -80,6 +80,9 @@ export function createLocalBackend(): Backend {
     async loadProfile(uid) {
       return { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}) };
     },
+    async saveShiftKeys(uid, keys) {
+      write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), shiftKeys: keys });
+    },
     async setPlacement(uid, placement) {
       write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), placement });
     },

@@ -63,6 +63,8 @@ export interface Profile {
   stats: ActivityStats | null;
   /** The student has chosen their display name (sign-up form, onboarding or Settings). */
   nameSet?: boolean;
+  /** Phone keyboard Shift keys the student changed from the defaults (SPEC §7.2); null = Shift types the key. */
+  shiftKeys?: Record<string, string | null>;
 }
 
 /** A skill's rank and θ (null until resolved), as shown to other students. */
@@ -243,6 +245,8 @@ export interface Backend {
   loadProfile(uid: string): Promise<Profile>;
   /** Save the onboarding placement. */
   setPlacement(uid: string, placement: Placement): Promise<void>;
+  /** Save the student's phone keyboard Shift keys (only those changed from the defaults). */
+  saveShiftKeys(uid: string, keys: Record<string, string | null>): Promise<void>;
   /** Change the display name everywhere it's stored (account, profile, public mirror). */
   setDisplayName(user: User, name: string): Promise<void>;
   /** Add XP to the profile. */

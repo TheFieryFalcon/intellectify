@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { phoneLayouts, type Key } from "$lib/keypad";
+  import type { Key } from "$lib/keypad";
+  import { insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
 
   let {
     value = $bindable(""),
@@ -10,21 +11,16 @@
     onfocus,
   }: { value?: string; disabled?: boolean; label: string; onsubmit?: () => void; onfocus?: () => void } = $props();
 
-  type Field = HTMLElement & { value: string; insert: (s: string, o?: object) => boolean; executeCommand: (c: string) => boolean };
-  let el: Field = $state()!;
+  let el: MathfieldEl = $state()!;
   let ready = $state(false);
   /**
    * Phones: the answer field's own on-screen keyboard (numbers, letters, then the keypad's tabs).
    * Computers: the physical keyboard plus the keypad under the question (MathKeypad).
    */
-  const touch = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches;
+  const touch = isTouch();
 
   onMount(async () => {
-    const { MathfieldElement } = await import("mathlive");
-    MathfieldElement.fontsDirectory = "/mathlive/fonts";
-    MathfieldElement.soundsDirectory = null;
-    const vk = (window as unknown as { mathVirtualKeyboard?: { layouts: unknown } }).mathVirtualKeyboard;
-    if (vk && touch) vk.layouts = phoneLayouts();
+    await loadMathLive();
     ready = true;
   });
 
@@ -36,7 +32,7 @@
   /** Insert a keypad key at the caret: `#0` takes the selection, `#?` boxes are left to fill in. */
   export function insert(key: Key) {
     if (!el || disabled) return;
-    el.insert(key.insert, { selectionMode: "placeholder", focus: true, feedback: false, format: "latex" });
+    insertLatex(el, key.insert);
     value = el.value;
   }
 </script>

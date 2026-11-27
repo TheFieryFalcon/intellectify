@@ -1,4 +1,5 @@
 import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
+import { shiftOverrides, storeShiftOverrides, type ShiftMap } from "./keypad";
 import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type Placement, type Profile, type PublicCourse, type User } from "./backend";
 import { addProblem, addXp, roll } from "./activity";
 import type { CourseBundle } from "./content";
@@ -152,6 +153,8 @@ export class ProfileStore {
       }
     }
     if (this.profile.placement?.tiers) setStartTiers(this.profile.placement.tiers);
+    // The account's phone keyboard Shift keys follow the student to this device.
+    if (this.profile.shiftKeys) storeShiftOverrides(this.profile.shiftKeys);
     this.profile = { ...this.profile, stats: roll(this.profile.stats, perthDay()) };
     this.loaded = true;
     const today = perthDay();
@@ -184,6 +187,14 @@ export class ProfileStore {
     await this.backend.setDisplayName(this.user, name);
     this.user = { ...this.user, displayName: name };
     this.profile = { ...this.profile, nameSet: true };
+  }
+
+  /** Save the phone keyboard Shift keys (SPEC §7.2), on this device and the account. */
+  async setShiftKeys(map: ShiftMap) {
+    const shiftKeys = shiftOverrides(map);
+    storeShiftOverrides(shiftKeys);
+    this.profile = { ...this.profile, shiftKeys };
+    await this.backend.saveShiftKeys(this.user.uid, shiftKeys);
   }
 
   /** Save the onboarding placement; new skills start at its tier for their course from now on. */

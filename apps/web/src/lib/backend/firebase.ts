@@ -200,6 +200,10 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
       return { ...emptyProfile(), ...(d as Partial<Profile>) };
     },
+    async saveShiftKeys(uid, keys) {
+      // mergeFields replaces the whole map, so keys set back to their default disappear.
+      await setDoc(doc(db, "users", uid), { shiftKeys: keys }, { mergeFields: ["shiftKeys"] });
+    },
     async setPlacement(uid, placement) {
       await setDoc(doc(db, "users", uid), { placement }, { merge: true });
     },

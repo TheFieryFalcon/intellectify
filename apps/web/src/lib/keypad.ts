@@ -146,46 +146,134 @@ export const FULL: KeyGroup[] = [
 export const faceOf = (key: Key) => key.face ?? key.insert.replace(/#[0?@]/g, "\\square");
 
 /**
- * Insert a key into plain text (a written answer, where mathematics goes between $ signs). Outside $…$ the
- * mathematics is wrapped in $ signs; the caret lands in the first empty slot. Returns the new text and caret.
+ * Shift keys on the phone keyboard's 123 tab (like a Casio ClassPad): each key's shifted symbol can be
+ * chosen in Settings. `null` means Shift types the key itself.
  */
-export function insertIntoText(text: string, start: number, end: number, insert: string): { text: string; caret: number } {
-  const before = text.slice(0, start);
-  const selected = text.slice(start, end);
-  const dollars = (before.match(/(^|[^\\])\$/g) ?? []).length;
-  const inMath = dollars % 2 === 1;
-  // \left( and \right) are for the answer field's sizing; plain brackets read better in text.
-  let body = insert.replace(/\\left(?=[(|[]|\\\{)/g, "").replace(/\\right(?=[)|\]]|\\\})/g, "");
-  const CARET = "\u0000";
-  let caretPlaced = false;
-  body = body.replace(/#[0?@]/g, (slot) => {
-    if (slot === "#0" && selected) return selected;
-    if (caretPlaced) return "";
-    caretPlaced = true;
-    return CARET;
-  });
-  // A command straight before a letter needs a space after it ("\pi r", not "\pir").
-  if (/\\[a-zA-Z]+$/.test(body)) body += " ";
-  if (!inMath) body = `$${body}$`;
-  let at = body.indexOf(CARET);
-  if (at < 0) at = inMath ? body.length : body.length - 1;
-  body = body.replace(CARET, "");
-  return { text: before + body + text.slice(end), caret: start + at };
+export interface ShiftSlot {
+  id: string;
+  /** What the key types (LaTeX, slots allowed). */
+  base: string;
+  /** Its face, if not `base`. */
+  face?: string;
+  name: string;
+  defaultShift: string | null;
+}
+export const SHIFT_SLOTS: ShiftSlot[] = [
+  { id: "x", base: "x", name: "x", defaultShift: "t" },
+  { id: "n", base: "n", name: "n", defaultShift: "a" },
+  { id: "7", base: "7", name: "7", defaultShift: null },
+  { id: "8", base: "8", name: "8", defaultShift: null },
+  { id: "9", base: "9", name: "9", defaultShift: null },
+  { id: "div", base: "\\frac{#@}{#?}", face: "\\div", name: "Divide", defaultShift: "\\div" },
+  { id: "e", base: "e", name: "e", defaultShift: "\\ln\\left(#0\\right)" },
+  { id: "i", base: "i", name: "i", defaultShift: "\\theta" },
+  { id: "pi", base: "\\pi", name: "Pi", defaultShift: "\\sin\\left(#0\\right)" },
+  { id: "y", base: "y", name: "y", defaultShift: "\\le" },
+  { id: "z", base: "z", name: "z", defaultShift: "\\ge" },
+  { id: "4", base: "4", name: "4", defaultShift: null },
+  { id: "5", base: "5", name: "5", defaultShift: null },
+  { id: "6", base: "6", name: "6", defaultShift: null },
+  { id: "times", base: "\\times", name: "Times", defaultShift: "\\cdot" },
+  { id: "square", base: "#@^2", name: "Squared", defaultShift: "#@'" },
+  { id: "power", base: "#@^{#?}", name: "Power", defaultShift: "#@_{#?}" },
+  { id: "sqrt", base: "\\sqrt{#0}", name: "Square root", defaultShift: "\\sqrt[#?]{#0}" },
+  { id: "open", base: "(", name: "Open bracket", defaultShift: "\\left[#0\\right]" },
+  { id: "close", base: ")", name: "Close bracket", defaultShift: "\\left|#0\\right|" },
+  { id: "1", base: "1", name: "1", defaultShift: null },
+  { id: "2", base: "2", name: "2", defaultShift: null },
+  { id: "3", base: "3", name: "3", defaultShift: null },
+  { id: "minus", base: "-", name: "Minus", defaultShift: "\\mp" },
+  { id: "int", base: "\\int_{#?}^{#?}#0\\,dx", face: "\\int_a^b", name: "Definite integral", defaultShift: "\\int #0\\,dx" },
+  { id: "forall", base: "\\forall", name: "For all", defaultShift: "\\exists" },
+  { id: "0", base: "0", name: "0", defaultShift: "\\infty" },
+  { id: "dot", base: ".", name: "Point", defaultShift: null },
+  { id: "eq", base: "=", name: "Equals", defaultShift: "\\ne" },
+  { id: "plus", base: "+", name: "Plus", defaultShift: "\\pm" },
+];
+const SHIFT_STORE = "intellectify:shift-keys";
+export type ShiftMap = Record<string, string | null>;
+/** The student's shift keys: their choices over the defaults. */
+export function loadShiftMap(): ShiftMap {
+  let saved: ShiftMap = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(SHIFT_STORE) ?? "{}") as ShiftMap;
+  } catch {
+    // Unreadable or blocked: defaults.
+  }
+  return Object.fromEntries(SHIFT_SLOTS.map((s) => [s.id, s.id in saved ? saved[s.id]! : s.defaultShift]));
+}
+/** Only the keys changed from their defaults, which is what's stored. */
+export function shiftOverrides(map: ShiftMap): ShiftMap {
+  return Object.fromEntries(SHIFT_SLOTS.filter((s) => s.id in map && map[s.id] !== s.defaultShift).map((s) => [s.id, map[s.id] ?? null]));
+}
+/** Keep this device's copy of the student's Shift keys (the profile holds the account's). */
+export function storeShiftOverrides(overrides: ShiftMap) {
+  try {
+    localStorage.setItem(SHIFT_STORE, JSON.stringify(overrides));
+  } catch {
+    // Blocked: the choice lasts until the page closes.
+  }
+}
+export const saveShiftMap = (map: ShiftMap) => storeShiftOverrides(shiftOverrides(map));
+/** Every key a shift can be set to, once each, grouped as on the keypad. */
+export function shiftChoices(): KeyGroup[] {
+  const seen = new Set<string>();
+  const once = (keys: Key[]) => keys.filter((key) => !seen.has(key.insert) && seen.add(key.insert));
+  return [{ name: "Basic", keys: once(BASIC) }, ...GREEK.map((g) => ({ name: `Greek: ${g.name.toLowerCase()}`, keys: once(g.keys) })), ...FULL.map((g) => ({ name: g.name, keys: once(g.keys) }))];
 }
 
-/** On-screen keyboard layouts for the answer field on phones (MathLive): numbers and letters, then ours. */
-export function phoneLayouts(): unknown[] {
+/** The face to show for some inserted LaTeX: its keypad key's face if it has one ("\\sin" for sin(□)). */
+export function faceForInsert(insert: string): string {
+  const key = [...BASIC, ...GREEK.flatMap((g) => g.keys), ...FULL.flatMap((g) => g.keys)].find((k) => k.insert === insert && k.face);
+  return key?.face ?? insert.replace(/#@/g, "#?");
+}
+
+/** Short glyph labels for the phone keyboard's tabs, where words don't fit. */
+const GLYPH: Record<string, string> = {
+  Structures: "□ⁿ",
+  "Operators and relations": "±×",
+  "Logic and proof": "⇒",
+  "Sets and numbers": "∈",
+  Geometry: "△",
+  "Vectors and matrices": "<b>v</b>",
+  "Functions and calculus": "∫",
+  "Complex numbers": "ℂ",
+  Statistics: "σ",
+};
+
+/** On-screen keyboard layouts for the answer field on phones (MathLive): 123 with Shift keys, letters, then ours. */
+export function phoneLayouts(shift: ShiftMap = Object.fromEntries(SHIFT_SLOTS.map((s) => [s.id, s.defaultShift]))): unknown[] {
   const cap = (key: Key) => ({ latex: key.face ?? key.insert.replace(/#@/g, "#?"), insert: key.insert, tooltip: key.name });
   const rows = (keys: Key[], per = 8) => {
     const out: unknown[][] = [];
     for (let i = 0; i < keys.length; i += per) out.push(keys.slice(i, i + per).map(cap));
     return out;
   };
+  const slot = (id: string) => {
+    const s = SHIFT_SLOTS.find((x) => x.id === id)!;
+    const sh = shift[id];
+    return {
+      latex: s.face ?? s.base.replace(/#@/g, "#?"),
+      insert: s.base,
+      tooltip: s.name,
+      ...(sh ? { shift: { latex: faceForInsert(sh), insert: sh } } : {}),
+    };
+  };
+  const numeric = {
+    label: "123",
+    tooltip: "Numbers",
+    rows: [
+      [slot("x"), slot("n"), "[separator-5]", slot("7"), slot("8"), slot("9"), slot("div"), "[separator-5]", slot("e"), slot("i"), slot("pi")],
+      [slot("y"), slot("z"), "[separator-5]", slot("4"), slot("5"), slot("6"), slot("times"), "[separator-5]", slot("square"), slot("power"), slot("sqrt")],
+      [slot("open"), slot("close"), "[separator-5]", slot("1"), slot("2"), slot("3"), slot("minus"), "[separator-5]", slot("int"), slot("forall"), { label: "[backspace]", width: 1 }],
+      [{ label: "[shift]", width: 2 }, "[separator-5]", slot("0"), slot("dot"), slot("eq"), slot("plus"), "[separator-5]", "[left]", "[right]", { label: "[action]", width: 1 }],
+    ],
+  };
   return [
-    "numeric",
+    numeric,
     "alphabetic",
-    { label: "Basic", tooltip: "Common symbols", rows: rows(BASIC) },
+    { label: "π√", tooltip: "Common symbols", rows: rows(BASIC) },
     { label: "αβγ", tooltip: "Greek letters", rows: rows(GREEK.flatMap((g) => g.keys)) },
-    ...FULL.map((g) => ({ label: g.name.split(" ")[0], tooltip: g.name, rows: rows(g.keys) })),
+    ...FULL.map((g) => ({ label: GLYPH[g.name] ?? g.name, tooltip: g.name, rows: rows(g.keys) })),
   ];
 }

@@ -6,6 +6,7 @@
   import { maxEffort } from "@intellectify/content/marking";
   import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, type ByokProvider } from "$lib/byok";
   import { profileFor } from "$lib/profile.svelte";
+  import ShiftKeySettings from "$lib/components/ShiftKeySettings.svelte";
   import { session } from "$lib/session.svelte";
   import { loadBannedWords } from "$lib/moderation";
   import { cleanName, NAME_MAX, nameError } from "$lib/names";
@@ -89,6 +90,7 @@
       </form>
     </section>
   {/if}
+  {#if session.user}<ShiftKeySettings {profile} />{/if}
   <section class="card">
     <h2>Marking key</h2>
     <dl class="facts">
