@@ -10,6 +10,7 @@
   import Markdown from "./Markdown.svelte";
   import MathKeypad from "./MathKeypad.svelte";
   import MathTextEditor from "./MathTextEditor.svelte";
+  import { handOffSignals, newSignals, provideSignals } from "$lib/paste";
   import type { Key } from "$lib/keypad";
   import { isTouch } from "$lib/mathlive";
   import PaperFirst from "./PaperFirst.svelte";
@@ -74,12 +75,16 @@
   const over = $derived(parts.some((p) => (answers[p.id] ?? "").length > MAX_ANSWER));
 
   let sending = $state(false);
+  /** Paste detector signals for this answer (SPEC §7.2), shared with its editors. */
+  const signals = newSignals();
+  provideSignals(signals);
   const ready = $derived(parts.every((p) => (answers[p.id] ?? "").trim().length > 0));
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
     if (!ready || sending || submitted) return;
     sending = true;
+    handOffSignals(signals);
     await onsubmit(Object.fromEntries(parts.map((p) => [p.id, answers[p.id]!.trim()])));
     sending = false;
   }

@@ -4,6 +4,7 @@
  * Busy or offline: the job waits and retries with backoff, and resumes on the next visit. A result is
  * applied to θ, ranks, XP and achievements when it lands, using θ as it is then.
  */
+import { takeSignals } from "./paste";
 import { tierOf } from "@intellectify/engine";
 import {
   GEMINI_ENDPOINT,
@@ -178,6 +179,7 @@ export class MarkingQueue {
   async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; mode?: HistoryMode; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
+    const signals = takeSignals();
     const job: MarkingJob = {
       id: `${now}-${Math.random().toString(36).slice(2, 8)}`,
       course: input.course,
@@ -196,6 +198,7 @@ export class MarkingQueue {
       result: null,
       applied: false,
       appeal: null,
+      ...(signals ? { signals } : {}),
     };
     await this.put(job);
     addHistory({

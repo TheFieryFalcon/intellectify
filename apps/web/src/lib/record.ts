@@ -2,6 +2,7 @@
  * Record a resolved question: update every skill it touches, save, and grant XP (SPEC §5, §12.4).
  * Shared by practice, quizzes and Section Challenges.
  */
+import { takeSignals } from "./paste";
 import { tierOf, XP, type RankLevel } from "@intellectify/engine";
 import type { CourseBundle } from "./content";
 import { indexSkills } from "./content";
@@ -41,6 +42,7 @@ export async function recordResult(opts: {
     answers: question.parts.map((_, i) => opts.answers[i] ?? ""),
     solvedOn: parts.map((p) => p.solvedOn),
     outcome: result.outcome,
+    signals: takeSignals(),
   });
 
   // Rank-up XP for every rank newly reached, in content skills and response skills.

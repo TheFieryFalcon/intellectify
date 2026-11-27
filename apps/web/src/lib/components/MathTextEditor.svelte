@@ -10,6 +10,7 @@
   import type { Key } from "$lib/keypad";
   import { addReadAloud, insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
   import { joinMath, splitMath, type Segment } from "$lib/mathtext";
+  import { answerSignals, BURST, guardPaste } from "$lib/paste";
 
   let {
     value = $bindable(),
@@ -40,7 +41,12 @@
       if (root?.contains(r.startContainer) && !(r.startContainer as Element).closest?.(".m") && !r.startContainer.parentElement?.closest(".m")) saved = r.cloneRange();
     };
     document.addEventListener("selectionchange", track);
-    return () => document.removeEventListener("selectionchange", track);
+    // No pasting or dropping text from outside the site (SPEC §7.2); text copied here still pastes.
+    const unguard = guardPaste(root, blocked);
+    return () => {
+      document.removeEventListener("selectionchange", track);
+      unguard();
+    };
   });
 
   // Build the editor from `value` when it changes from outside.
@@ -159,8 +165,21 @@
     walk(root);
     return joinMath(segs).replace(/\n+$/, (m) => (m.length > 1 ? "\n" : ""));
   }
+  const signals = answerSignals();
+  let note = $state(false);
+  let noteTimer: ReturnType<typeof setTimeout> | undefined;
+  function blocked() {
+    if (signals) signals.blocked++;
+    note = true;
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(() => (note = false), 3500);
+  }
+  /** Set while the keypad or a paste of the student's own text is inserting, so it isn't counted as a burst. */
+  let inserting = false;
   function sync() {
-    last = serialize();
+    const next = serialize();
+    if (!inserting && signals && next.length - (last ?? "").length >= BURST) signals.bursts++;
+    last = next;
     value = last;
   }
 
@@ -193,10 +212,12 @@
   /** A keypad key: into the maths being edited, or as new maths at the caret. */
   export function insert(key: Key) {
     if (disabled) return;
+    inserting = true;
     if (activeMath && root.contains(activeMath)) {
       insertLatex(activeMath, key.insert);
       sync();
     } else newMath(key.insert);
+    inserting = false;
   }
   /** Empty maths at the caret, ready to type into. */
   export function addMath() {
@@ -216,8 +237,10 @@
   function onpaste(e: ClipboardEvent) {
     e.preventDefault();
     const text = e.clipboardData?.getData("text/plain") ?? "";
+    inserting = true;
     document.execCommand("insertText", false, text);
     sync();
+    inserting = false;
     // Pasted $…$ becomes maths.
     if (text.includes("$")) render((last = serialize()));
   }
@@ -241,8 +264,10 @@
     onfocus?.();
   }}
 ></div>
+{#if note}<p class="paste-note" role="status">Pasting from outside the site is off</p>{/if}
 
 <style>
+  .paste-note { margin: 4px 0 0; font-size: 12px; color: var(--bad); }
   .editor {
     min-height: 140px;
     padding: 10px 12px;

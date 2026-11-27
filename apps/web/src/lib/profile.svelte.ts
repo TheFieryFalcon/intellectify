@@ -260,10 +260,13 @@ export class ProfileStore {
     return bonus;
   }
 
-  /** XP for a marked written answer (SPEC §12.4: 24 × tier × rubric score), with the 30-day repeat rule. */
+  /**
+   * XP for a marked written answer (SPEC §12.4: 24 × tier × rubric score). A proof already written once
+   * earns a fifth of that, however long ago: it's much easier the second time.
+   */
   async grantWritten(questionId: string, tier: number, score: number): Promise<number> {
-    const last = this.profile.questionXpAt[questionId];
-    const amount = last && Date.now() - last < XP_REPEAT_WINDOW_MS ? 0 : XP.freeResponse(tier, score);
+    const full = XP.freeResponse(tier, score);
+    const amount = this.profile.questionXpAt[questionId] ? Math.round(full * WRITTEN_REPEAT_RATE) : full;
     await this.grant(amount, { questionId });
     return amount;
   }
@@ -301,6 +304,9 @@ function newerDaily(a: DailyRecord | null, b: DailyRecord | null): DailyRecord |
   const done = Object.fromEntries(Object.entries({ ...b.done, ...a.done }).slice(-40)) as DailyRecord["done"];
   return { ...later, best: Math.max(a.best, b.best), done };
 }
+
+/** A repeated written answer earns this share of its XP (SPEC §12.4). */
+export const WRITTEN_REPEAT_RATE = 0.2;
 
 let current: { key: string; store: ProfileStore } | null = null;
 /** The profile store for the signed-in user, created and loaded on first use. */

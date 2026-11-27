@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import type { Key } from "$lib/keypad";
   import { addReadAloud, insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
+  import { answerSignals, BURST, guardPaste } from "$lib/paste";
 
   let {
     value = $bindable(""),
@@ -19,11 +20,34 @@
    */
   const touch = isTouch();
 
-  onMount(async () => {
-    await loadMathLive();
-    ready = true;
-    if (el) addReadAloud(el);
+  onMount(() => {
+    // No pasting from outside the site (SPEC §7.2), from the keyboard or MathLive's own menu.
+    const unguard = guardPaste(el, blocked);
+    void loadMathLive().then(() => {
+      ready = true;
+      if (!el) return;
+      addReadAloud(el);
+      const mf = el as MathfieldEl & { menuItems?: { id?: string }[] };
+      if (Array.isArray(mf.menuItems)) mf.menuItems = mf.menuItems.filter((m) => m.id !== "paste");
+    });
+    return unguard;
   });
+
+  const signals = answerSignals();
+  let note = $state(false);
+  let noteTimer: ReturnType<typeof setTimeout> | undefined;
+  function blocked() {
+    if (signals) signals.blocked++;
+    note = true;
+    clearTimeout(noteTimer);
+    noteTimer = setTimeout(() => (note = false), 3500);
+  }
+  /** Characters arriving at once, not from the keypad, count as a burst (a signal, never a block). */
+  let inserting = false;
+  function changed(next: string) {
+    if (!inserting && signals && next.length - value.length >= BURST) signals.bursts++;
+    value = next;
+  }
 
   // Keep the element in sync when the value is reset from outside (e.g. next question).
   $effect(() => {
@@ -33,8 +57,10 @@
   /** Insert a keypad key at the caret: `#0` takes the selection, `#?` boxes are left to fill in. */
   export function insert(key: Key) {
     if (!el || disabled) return;
+    inserting = true;
     insertLatex(el, key.insert);
     value = el.value;
+    inserting = false;
   }
 </script>
 
@@ -50,7 +76,7 @@
   math-virtual-keyboard-policy={touch ? "auto" : "manual"}
   smart-fence="on"
   onfocus={() => onfocus?.()}
-  oninput={(e: Event) => (value = (e.currentTarget as HTMLElement & { value: string }).value)}
+  oninput={(e: Event) => changed((e.currentTarget as HTMLElement & { value: string }).value)}
   onkeydown={(e: KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -58,6 +84,7 @@
     }
   }}
 ></math-field>
+{#if note}<p class="paste-note" role="status">Pasting from outside the site is off</p>{/if}
 
 <style>
   .field {
@@ -75,6 +102,7 @@
   }
   .field:focus-within { border-color: var(--accent); outline: none; }
   .field.disabled { opacity: 0.7; }
+  .paste-note { margin: 4px 0 0; font-size: 12px; color: var(--bad); }
   /* On computers the keypad below replaces the field's own keyboard button. */
   .field:not(.touch)::part(virtual-keyboard-toggle) { display: none; }
 </style>

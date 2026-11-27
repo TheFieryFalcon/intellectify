@@ -16,6 +16,7 @@
   import PaperFirst from "./PaperFirst.svelte";
   import PaperTip from "./PaperTip.svelte";
   import { paperFirst } from "$lib/paper.svelte";
+  import { handOffSignals, newSignals, provideSignals } from "$lib/paste";
 
   let { question, onresolve, header = true }: { question: QuestionT; onresolve: (parts: PartResult[], answers: string[]) => void | Promise<void>; header?: boolean } = $props();
 
@@ -30,6 +31,9 @@
   const featureAnswers = (st: PartState) => st.features.map((f, j) => (st.none[j] ? "none" : f));
   let parts = $state<PartState[]>(fresh(question));
   let checking = $state(false);
+  /** Paste detector signals for this answer (SPEC §7.2), shared with its fields. */
+  const signals = newSignals();
+  provideSignals(signals);
   let checker: typeof import("@intellectify/checker") | null = null;
   import("@intellectify/checker").then((m) => (checker = m));
 
@@ -102,6 +106,7 @@
   }
 
   async function finish() {
+    handOffSignals(signals);
     await onresolve(
       question.parts.map((p, i) => ({ id: p.id, marks: p.marks, solvedOn: parts[i]!.solvedOn })),
       parts.map((p, i) => (featuresOf(question.parts[i]?.answer as AnswerSpec | undefined) ? featureAnswers(p).join("\n") : p.answer || p.choice.join(","))),

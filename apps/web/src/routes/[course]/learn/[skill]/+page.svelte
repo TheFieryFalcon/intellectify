@@ -4,6 +4,7 @@
   import ReportButton from "$lib/components/ReportButton.svelte";
   import { indexSkills, loadTutorial, type TutorialT } from "$lib/content";
   import { profileFor } from "$lib/profile.svelte";
+  import { readingSeconds } from "$lib/reading";
   import { session } from "$lib/session.svelte";
 
   let { data } = $props();
@@ -17,22 +18,46 @@
     loadTutorial(fetch, data.course.id, id).then((t) => (tutorial = t));
   });
 
-  // Reaching the end of a tutorial counts as reading it: 40 XP the first time per skill (SPEC §12.4).
+  // Reading a tutorial earns 40 XP the first time per skill (SPEC §12.4), once the student has reached the
+  // end and spent the time it takes to read it at 600 words a minute, counting only while the page is in view.
   const profile = $derived(profileFor(session.backend, session.user));
   let end = $state<HTMLElement | null>(null);
   let earned = $state(0);
+  let reachedEnd = $state(false);
+  let readFor = $state(0);
+  const needed = $derived(tutorial ? readingSeconds(tutorial.markdown) : Infinity);
+  $effect(() => {
+    void page.params.skill;
+    reachedEnd = false;
+    readFor = 0;
+    earned = 0;
+  });
+  $effect(() => {
+    if (!tutorial) return;
+    const tick = setInterval(() => {
+      if (document.visibilityState === "visible" && document.hasFocus()) readFor += 1;
+    }, 1000);
+    return () => clearInterval(tick);
+  });
   $effect(() => {
     const el = end;
-    const p = profile;
-    const skill = page.params.skill;
-    if (!el || !p?.loaded || !skill) return;
-    const seen = new IntersectionObserver(async ([e]) => {
-      if (!e?.isIntersecting) return;
-      seen.disconnect();
-      earned = await p.grantTutorial(data.course.id, skill);
+    if (!el) return;
+    const seen = new IntersectionObserver(([e]) => {
+      if (e?.isIntersecting) reachedEnd = true;
     });
     seen.observe(el);
     return () => seen.disconnect();
+  });
+  let granting = false;
+  $effect(() => {
+    const p = profile;
+    const skill = page.params.skill;
+    if (!p?.loaded || !skill || !reachedEnd || readFor < needed || earned || granting) return;
+    granting = true;
+    void p.grantTutorial(data.course.id, skill).then((xp) => {
+      earned = xp;
+      granting = false;
+    });
   });
 </script>
 

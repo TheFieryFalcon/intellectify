@@ -176,6 +176,8 @@ export interface MarkingJob {
   applied: boolean;
   /** What applying it did, shown under the mark like an auto-marked result (XP includes a daily bonus). */
   effect?: { xp: number; outcome: number; theta: number; deltaTheta: number; rankBefore: number; rankAfter: number } | null;
+  /** Paste detector signals (SPEC §7.2): blocked outside pastes, bursts, seconds to answer. */
+  signals?: { blocked: number; bursts: number; seconds: number } | null;
   /** One appeal per marked answer (SPEC §10.3). */
   appeal: {
     argument: string;

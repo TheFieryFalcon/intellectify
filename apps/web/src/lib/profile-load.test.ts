@@ -87,7 +87,7 @@ describe("one-off XP", () => {
     expect(await store.grantTutorial("specialist", "spec.combinatorics.pascal")).toBe(0);
     expect([await store.grantPost(), await store.grantPost(), await store.grantPost(), await store.grantPost()]).toEqual([20, 20, 20, 0]);
     expect(await store.grantWritten("proof-1", 3, 1)).toBe(72);
-    expect(await store.grantWritten("proof-1", 3, 1)).toBe(0);
+    expect(await store.grantWritten("proof-1", 3, 1)).toBe(14); // a repeat earns a fifth
     expect(await store.grantWritten("proof-2", 4, 0.5)).toBe(48);
   });
 });
