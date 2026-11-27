@@ -33,7 +33,9 @@
   let banned = $state<string[]>([]);
   $effect(() => void loadBannedWords().then((w) => (banned = w)));
   const nameErr = $derived(needsName ? nameError(name, banned) : null);
-  const valid = $derived((!needsName || !nameErr) && (!needsPlacement || (mark !== null && source !== null)));
+  /** One step at a time: the name first (Google sign-ups), then the maths mark. */
+  const step = $derived(needsName ? "name" : needsPlacement ? "placement" : "done");
+  const valid = $derived(step === "name" ? !nameErr : step === "placement" ? mark !== null && source !== null : true);
   const invalid = $derived(text.trim() !== "" && mark === null);
 
 
@@ -41,17 +43,23 @@
     e.preventDefault();
     if (!profile || !valid || saving) return;
     saving = true;
-    if (needsName) await profile.rename(cleanName(name));
-    if (needsPlacement) await profile.setPlacement({ mark: mark!, source: source!, tiers: { ...placementTiers(mark!, source!) }, at: Date.now() });
+    if (step === "name") {
+      await profile.rename(cleanName(name));
+      saving = false;
+      if (needsPlacement) return; // on to the maths mark
+    } else if (step === "placement") {
+      await profile.setPlacement({ mark: mark!, source: source!, tiers: { ...placementTiers(mark!, source!) }, at: Date.now() });
+    }
     goto("/", { replaceState: true });
   }
 </script>
 
 <div class="wrap narrow">
+  {#key step}
   <form class="card" onsubmit={save} in:fly={{ y: 12, duration: reduced ? 0 : 320, easing: cubicOut }}>
-    <h1>Welcome</h1>
+    <h1>{step === "placement" && session.user?.google ? "Your maths mark" : "Welcome"}</h1>
 
-    {#if needsName}
+    {#if step === "name"}
       <div class="field">
         <label for="name">Display name</label>
         <input id="name" class="name" type="text" autocomplete="nickname" maxlength={NAME_MAX} bind:value={name} aria-invalid={!!nameErr && name.trim() !== ""} />
@@ -59,7 +67,7 @@
       </div>
     {/if}
 
-    {#if needsPlacement}
+    {#if step === "placement"}
     <div class="field">
       <label for="mark">Most recent maths mark</label>
       <div class="mark" class:bad={invalid}>
@@ -102,6 +110,7 @@
       {saving ? "Setting up" : "Continue"}
     </button>
   </form>
+  {/key}
 </div>
 
 <style>

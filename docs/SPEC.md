@@ -1265,7 +1265,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 ### 15.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
-  - **Display name** (Phase 1): 2–30 characters, no banned words (§13.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name); existing Google accounts are asked once.
+  - **Display name** (Phase 1): 2–30 characters, no banned words (§13.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name) as its own first step, before the maths mark; existing Google accounts are asked once.
 - **Students' own writing** (written answers, previews, history, discussion posts) keeps the line breaks they typed; authored content (questions, tutorials, solutions) uses normal Markdown paragraphs.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
 
