@@ -57,3 +57,17 @@ export function dayBefore(day: string): string {
   const [y, m, d] = day.split("-").map(Number) as [number, number, number];
   return new Date(Date.UTC(y, m - 1, d - 1)).toISOString().slice(0, 10);
 }
+
+/**
+ * Two copies of the activity counters (this tab's and the latest saved) combined, so an out-of-date tab
+ * never lowers them: per period, the newer period wins, and within the same period the larger count.
+ */
+export function mergeStats(a: ActivityStats | null | undefined, b: ActivityStats | null | undefined): ActivityStats | null {
+  if (!a || !b) return a ?? b ?? null;
+  const pick = (ka: string, kb: string, va: number, vb: number): [string, number] => (ka === kb ? [ka, Math.max(va, vb)] : ka > kb ? [ka, va] : [kb, vb]);
+  const [day, dayProblems] = pick(a.day, b.day, a.dayProblems, b.dayProblems);
+  const [week, weekProblems] = pick(a.week, b.week, a.weekProblems, b.weekProblems);
+  const [, weekXp] = pick(a.week, b.week, a.weekXp, b.weekXp);
+  const [month, monthXp] = pick(a.month, b.month, a.monthXp, b.monthXp);
+  return { problems: Math.max(a.problems, b.problems), day, dayProblems, week, weekProblems, weekXp, month, monthXp };
+}

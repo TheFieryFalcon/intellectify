@@ -70,7 +70,7 @@
     <p class="local">Local mode · saved in this browser</p>
   {/if}
   {#if profile?.failed}
-    <p class="load-failed" role="alert">Couldn't load your progress, so nothing is being saved. <button class="btn link" onclick={() => location.reload()}>Reload</button></p>
+    <p class="load-failed" role="alert">Couldn't load your progress{profile.loadError ? ` (${profile.loadError})` : ""}, so nothing is being saved. <button class="btn link" onclick={() => location.reload()}>Reload</button></p>
   {/if}
 </header>
 

@@ -42,3 +42,33 @@ describe("loading saved progress", () => {
     expect(backend.setPlacement).not.toHaveBeenCalled();
   });
 });
+
+describe("saving from an out-of-date tab", () => {
+  it("never lowers XP, the daily record or the counters that are already saved", async () => {
+    const { emptyProfile } = await import("./backend/types");
+    const saved = {
+      ...emptyProfile(),
+      xp: 244,
+      placement: { mark: 96, source: "y11-methods" as const, tiers: { specialist: 4 }, at: 1 },
+      lastVisitDay: "2026-11-27",
+      daily: { lastSolved: "2026-11-27", streak: 1, best: 1, done: { "2026-11-27:specialist:11": "solved" as const } },
+      stats: { problems: 2, day: "2026-11-27", dayProblems: 2, week: "2026-11-23", weekProblems: 2, weekXp: 244, month: "2026-11", monthXp: 244 },
+    };
+    // This tab loaded an earlier state; the newer one was saved since (another tab or device).
+    const loads = [{ ...saved, xp: 158, daily: null, stats: { ...saved.stats, problems: 0, dayProblems: 0, weekProblems: 0, weekXp: 0, monthXp: 0 } }, saved];
+    const savePublic = vi.fn().mockResolvedValue(undefined);
+    const backend = {
+      loadProfile: vi.fn().mockImplementation(async () => loads.shift() ?? saved),
+      grantXp: vi.fn().mockResolvedValue(undefined),
+      savePublic,
+    } as unknown as Backend;
+    const store = new ProfileStore(backend, user);
+    await store.load();
+    store.countProblem();
+    await store.flush();
+    const [, stats, pub] = savePublic.mock.calls[0]!;
+    expect(pub.xp).toBe(244);
+    expect(pub.daily).toEqual({ streak: 1, best: 1, last: "2026-11-27" });
+    expect(stats).toMatchObject({ problems: 2, dayProblems: 2, weekXp: 244, monthXp: 244 });
+  });
+});

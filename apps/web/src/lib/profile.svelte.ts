@@ -2,7 +2,7 @@ import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intelle
 import { withRetry } from "./retry";
 import { shiftOverrides, storeShiftOverrides, type ShiftMap } from "./keypad";
 import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type Placement, type Profile, type PublicCourse, type User } from "./backend";
-import { addProblem, addXp, roll } from "./activity";
+import { addProblem, addXp, mergeStats, roll } from "./activity";
 import type { CourseBundle } from "./content";
 import { publicCourse } from "./public";
 import { loadBannedWords, safeName } from "./moderation";
@@ -51,6 +51,8 @@ export class ProfileStore {
   loaded = $state(false);
   /** The saved profile couldn't be loaded: nothing is saved this session (see load()). */
   failed = $state(false);
+  /** Why it didn't load (Firestore's error code, or the message), shown in the banner for diagnosis. */
+  loadError = $state<string | null>(null);
   /** Set when a grant crosses a level boundary; the layout shows it as a toast. */
   levelUp = $state<LevelUp | null>(null);
   progress = $derived(levelProgress(this.profile.xp));
@@ -93,6 +95,23 @@ export class ProfileStore {
     const achievements = this.pendingAchievements;
     this.pendingCourses = {};
     this.pendingAchievements = {};
+    // XP, the daily record and the counters are saved as whole values, so first take in anything newer
+    // already saved (another tab or device, or an earlier session): an out-of-date tab never lowers them.
+    try {
+      const latest = await this.backend.loadProfile(this.user.uid);
+      this.profile = {
+        ...this.profile,
+        xp: Math.max(this.profile.xp, latest.xp),
+        daily: newerDaily(this.profile.daily, latest.daily),
+        stats: mergeStats(this.profile.stats, latest.stats),
+      };
+    } catch {
+      // Can't check what's saved: try again later rather than risk overwriting it.
+      this.pendingCourses = { ...courses, ...this.pendingCourses };
+      this.pendingAchievements = { ...achievements, ...this.pendingAchievements };
+      this.dirty = true;
+      return;
+    }
     const d = this.profile.daily;
     try {
       const banned = await loadBannedWords();
@@ -143,7 +162,8 @@ export class ProfileStore {
   async load() {
     try {
       this.profile = await withRetry(() => this.backend.loadProfile(this.user.uid));
-    } catch {
+    } catch (err) {
+      this.loadError = (err as { code?: string }).code ?? (err as Error).message ?? null;
       // Not "a new student": the saved profile just didn't load. Save nothing this session, so nothing
       // real is overwritten, and say so (layout banner); a reload tries again.
       this.failed = true;
@@ -217,6 +237,9 @@ export class ProfileStore {
   /** Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break today's entry. */
   async recordDaily(key: string, day: string, solved: boolean) {
     if (this.failed) return;
+    // The daily record is saved whole: start from the latest saved one, not this tab's copy.
+    const latest = await this.backend.loadProfile(this.user.uid).catch(() => null);
+    if (latest) this.profile = { ...this.profile, daily: newerDaily(this.profile.daily, latest.daily) };
     const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
     if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return;
     const streak = solved ? nextStreak(prev, day) : prev.streak;
@@ -238,6 +261,14 @@ export class ProfileStore {
     await this.grant(amount, { questionId });
     return amount;
   }
+}
+
+/** The daily record with the later solve; the "done" lists combine. */
+function newerDaily(a: DailyRecord | null, b: DailyRecord | null): DailyRecord | null {
+  if (!a || !b) return a ?? b;
+  const later = (b.lastSolved ?? "") > (a.lastSolved ?? "") ? b : a;
+  const done = Object.fromEntries(Object.entries({ ...b.done, ...a.done }).slice(-40)) as DailyRecord["done"];
+  return { ...later, best: Math.max(a.best, b.best), done };
 }
 
 let current: { key: string; store: ProfileStore } | null = null;
