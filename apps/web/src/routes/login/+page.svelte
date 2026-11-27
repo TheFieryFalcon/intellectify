@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { firebaseConfigured } from "$lib/backend";
   import { session } from "$lib/session.svelte";
+  import { findBanned, loadBannedWords } from "$lib/moderation";
 
   type Mode = "sign-in" | "sign-up" | "reset";
   let mode = $state<Mode>("sign-in");
@@ -39,7 +40,11 @@
     e.preventDefault();
     const backend = session.backend!;
     if (mode === "sign-in") run(() => backend.signInWithEmail(email, password));
-    else if (mode === "sign-up") run(() => backend.signUpWithEmail(name, email, password));
+    else if (mode === "sign-up")
+      run(async () => {
+        if (findBanned(name, await loadBannedWords())) throw new Error("That name has a word that isn't allowed. Choose another.");
+        await backend.signUpWithEmail(name, email, password);
+      });
     else
       run(async () => {
         await backend.sendPasswordReset(email);

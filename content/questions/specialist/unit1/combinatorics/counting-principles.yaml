@@ -65,12 +65,13 @@
   skills: { primary: spec.combinatorics.counting-principles }
   rating: 1300
   responseSkills: { calculation: 1250, reading: 1300 }
+  words: { club: club }
   variants:
     - { n: 12, v: 1320 }
     - { n: 15, v: 2730 }
     - { n: 20, v: 6840 }
   stem: |
-    A club has {{n}} members. In how many ways can a president, a secretary and a treasurer be chosen if no member can hold more than one position?
+    The {{club}} has {{n}} members. In how many ways can a president, a secretary and a treasurer be chosen if no member can hold more than one position?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
@@ -99,8 +100,9 @@
   skills: { primary: spec.combinatorics.counting-principles }
   rating: 1280
   responseSkills: { reading: 1300, calculation: 1250 }
+  words: { who: person, shop: shop }
   stem: |
-    A café offers 5 sandwiches and 4 salads. A meal is either one sandwich or one salad, together with one of 3 drinks. How many different meals are possible?
+    {{who}}'s local {{shop}} offers 5 sandwiches and 4 salads. A meal there is either one sandwich or one salad, together with one of 3 drinks. How many different meals are possible?
   parts:
     - id: a
       answer: { type: numeric, key: 27 }
@@ -464,3 +466,207 @@
   verify: |
     def answers():
         return {"a": sum(1 for n in range(1, 1000) if sum(int(c) for c in str(n)) == 10)}
+
+- id: spec.combinatorics.counting-principles.outfits
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1040
+  responseSkills: { reading: 1040, calculation: 1000 }
+  words: { who: person }
+  variants:
+    - { s: 4, p: 3, h: 2, v: 24 }
+    - { s: 5, p: 4, h: 3, v: 60 }
+    - { s: 6, p: 3, h: 4, v: 72 }
+    - { s: 7, p: 2, h: 5, v: 70 }
+  stem: |
+    {{who}} has {{s}} shirts, {{p}} pairs of pants and {{h}} hats. An outfit is one shirt, one pair of pants and one hat. How many different outfits can {{who}} make?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Each outfit is a choice of shirt, then pants, then hat: ${{s}} \times {{p}} \times {{h}} = {{v}}$.
+  verify: |
+    from itertools import product
+    def answers(s, p, h, v):
+        return {"a": len(list(product(range(s), range(p), range(h))))}
+
+- id: spec.combinatorics.counting-principles.combo-deal
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1180
+  responseSkills: { reading: 1180, calculation: 1130 }
+  words: { shop: shop }
+  variants:
+    - { d: 4, s: 5, w: 3, v: 32 }
+    - { d: 6, s: 4, w: 5, v: 54 }
+    - { d: 3, s: 7, w: 2, v: 27 }
+    - { d: 5, s: 6, w: 6, v: 60 }
+  stem: |
+    The {{shop}} sells {{d}} drinks, {{s}} savory snacks and {{w}} sweet snacks. A combo deal is one drink with **either** one savory snack **or** one sweet snack. How many different combos are there?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Snack: savory *or* sweet, so ${{s}} + {{w}}$ choices (addition principle). Then a drink: ${{d}} \times ({{s}} + {{w}}) = {{v}}$.
+  verify: |
+    def answers(d, s, w, v):
+        return {"a": sum(1 for drink in range(d) for snack in range(s + w))}
+
+- id: spec.combinatorics.counting-principles.locker-code
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1230
+  responseSkills: { reading: 1230, calculation: 1180 }
+  words: { who: person }
+  stem: |
+    {{who}}'s locker code is 3 digits, each from 0 to 9. The first digit can't be 0, and no digit is used twice. How many codes are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 648 }
+  solution: |
+    First digit: 9 choices (1–9). Second: any of the 9 digits not used yet (0 is now allowed). Third: 8. Total $9 \times 9 \times 8 = 648$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for t in permutations(range(10), 3) if t[0] != 0)}
+
+- id: spec.combinatorics.counting-principles.league-fixtures
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1290
+  responseSkills: { reading: 1290, calculation: 1250 }
+  words: { sport: sport }
+  variants:
+    - { n: 8, v: 56 }
+    - { n: 10, v: 90 }
+    - { n: 12, v: 132 }
+    - { n: 14, v: 182 }
+  stem: |
+    In a {{sport}} league of {{n}} teams, every team plays every other team twice: once at home and once away. How many matches are played in a season?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    A match is an ordered pair (home team, away team) of different teams: ${{n}} \times ({{n}} - 1) = {{v}}$.
+  verify: |
+    from itertools import permutations
+    def answers(n, v):
+        return {"a": len(list(permutations(range(n), 2)))}
+
+- id: spec.combinatorics.counting-principles.routes-via-library
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1330
+  responseSkills: { reading: 1330, calculation: 1280 }
+  words: { who: person, venue: venue }
+  variants:
+    - { a: 3, b: 4, c: 2, v: 14 }
+    - { a: 5, b: 2, c: 3, v: 13 }
+    - { a: 4, b: 4, c: 1, v: 17 }
+    - { a: 2, b: 6, c: 5, v: 17 }
+  stem: |
+    {{who}} can walk from home to the library along {{a}} different paths, and from the library to the {{venue}} along {{b}} paths. There are also {{c}} paths straight from home to the {{venue}} that skip the library. How many different ways can {{who}} walk from home to the {{venue}}?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Through the library: ${{a}} \times {{b}}$ (multiplication principle). Or a direct path: {{c}} (addition principle). Total ${{a}} \times {{b}} + {{c}} = {{v}}$.
+  verify: |
+    def answers(a, b, c, v):
+        return {"a": a * b + c}
+
+- id: spec.combinatorics.counting-principles.round-trip-no-repeat
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1480
+  responseSkills: { reading: 1470, calculation: 1430, reasoning: 1460 }
+  words: { who: person, venue: venue }
+  variants:
+    - { a: 3, b: 5, v: 120 }
+    - { a: 4, b: 3, v: 72 }
+    - { a: 5, b: 4, v: 240 }
+  stem: |
+    There are {{a}} paths between {{who}}'s home and the library, and {{b}} paths between the library and the {{venue}}. {{who}} walks from home to the {{venue}} through the library, then back home through the library, without using any path twice. How many round trips are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Going: ${{a}} \times {{b}}$. Coming back, the path just used is ruled out on each stretch: $({{b}} - 1) \times ({{a}} - 1)$. Total ${{a}} \times {{b}} \times ({{b}} - 1) \times ({{a}} - 1) = {{v}}$.
+  verify: |
+    from itertools import product
+    def answers(a, b, v):
+        return {"a": sum(1 for h1, l1, l2, h2 in product(range(a), range(b), range(b), range(a)) if l1 != l2 and h1 != h2)}
+
+- id: spec.combinatorics.counting-principles.password-with-digit
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1560
+  responseSkills: { reading: 1550, calculation: 1520, reasoning: 1540 }
+  requiresCalculator: true
+  words: { who: person }
+  stem: |
+    {{who}} chooses a 5-character password. Each character is one of the 26 lowercase letters or one of the 10 digits, and characters may repeat. The site insists on **at least one digit**. How many passwords are allowed?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 48584800 }
+  solution: |
+    Count the complement. All passwords: $36^5 = 60\,466\,176$. Passwords with no digit (letters only): $26^5 = 11\,881\,376$. Allowed: $60\,466\,176 - 11\,881\,376 = 48\,584\,800$.
+  verify: |
+    def answers():
+        return {"a": 36**5 - 26**5}
+
+- id: spec.combinatorics.counting-principles.sundae-builder
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1420
+  responseSkills: { reading: 1420, calculation: 1380, reasoning: 1400 }
+  words: { shop: shop }
+  variants:
+    - { b: 3, t: 5, s: 4, v: 480 }
+    - { b: 2, t: 6, s: 3, v: 512 }
+    - { b: 4, t: 4, s: 5, v: 384 }
+  stem: |
+    A sundae at the {{shop}} has one of {{b}} ice-cream bases, **any selection** of its {{t}} toppings (including none at all), and either one of {{s}} sauces or no sauce. How many different sundaes are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Base: {{b}} choices. Each topping is in or out: $2^{ {{t}} }$ selections. Sauce: {{s}} sauces or none, ${{s}} + 1$ choices. Total ${{b}} \times 2^{ {{t}} } \times ({{s}} + 1) = {{v}}$.
+  verify: |
+    def answers(b, t, s, v):
+        return {"a": b * 2**t * (s + 1)}
+
+- id: spec.combinatorics.counting-principles.club-flag
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1380
+  responseSkills: { reading: 1380, calculation: 1340 }
+  words: { club: club }
+  variants:
+    - { k: 4, v: 36 }
+    - { k: 5, v: 80 }
+    - { k: 6, v: 150 }
+    - { k: 7, v: 252 }
+  stem: |
+    The {{club}} designs a flag with 3 vertical stripes. Each stripe is one of {{k}} colors, colors may be reused, but stripes that touch must be different colors. How many flags are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Left stripe: {{k}} colors. Middle: anything but the left's color, ${{k}} - 1$. Right: anything but the middle's, ${{k}} - 1$. Total ${{k}}({{k}} - 1)^2 = {{v}}$.
+  verify: |
+    from itertools import product
+    def answers(k, v):
+        return {"a": sum(1 for a, b, c in product(range(k), repeat=3) if a != b and b != c)}
+
+- id: spec.combinatorics.counting-principles.quiz-answer-sheets
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1150
+  responseSkills: { reading: 1150, calculation: 1100 }
+  words: { subject: subject }
+  variants:
+    - { n: 5, v: 1024 }
+    - { n: 6, v: 4096 }
+    - { n: 7, v: 16384 }
+  stem: |
+    A {{subject}} quiz has {{n}} multiple-choice questions, each with 4 options. Every question must be answered. In how many different ways can the answer sheet be filled in?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Each question independently has 4 choices: $4^{ {{n}} } = {{v}}$.
+  verify: |
+    from itertools import product
+    def answers(n, v):
+        return {"a": len(list(product(range(4), repeat=n)))}

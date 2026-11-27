@@ -90,6 +90,8 @@ export const Part = z
     id: z.string(),
     prompt: z.string().optional(),
     marks: z.number().positive().default(1),
+    /** The part's own rating (SPEC §5.1); defaults to the question's. The question's rating is its hardest part's. */
+    rating: z.number().int().min(1000).max(2400).optional(),
     /** Options for MCQ / multi-select parts. */
     options: z.array(z.object({ id: z.string(), text: z.string() })).optional(),
     answer: AnswerSpec.optional(),
@@ -109,14 +111,25 @@ export const Question = z.object({
   /** Difficulty per response skill, for auto-marked questions (SPEC §5.6). */
   responseSkills: z.record(z.number().int().min(1000).max(2400)).default({}),
   requiresCalculator: z.boolean().default(false),
+  /** Which pool serves it (SPEC §8): practice, or a review pool that practice never serves. */
+  pool: z.enum(["practice", "section-quiz", "unit-quiz", "challenge"]).default("practice"),
+  /** Section Challenges only: sections of later units (same year) this problem draws on. Students may skip it (SPEC §8.4). */
+  requires: z.array(z.string()).default([]),
+  /** Short name for question lists; defaults to the id's last segment, humanized. */
+  title: z.string().min(1).optional(),
   stem: z.string().min(1),
   parts: z.array(Part).min(1),
   solution: z.string().min(1),
   /** Pre-generated parameter sets; `{{name}}` placeholders are filled from one of these. */
   variants: z.array(z.record(z.union([z.string(), z.number()]))).optional(),
+  /** Word variety (SPEC §9.6): slot → word list in content/words.yaml, picked at random on each serve. */
+  words: z.record(z.string()).optional(),
   /** SymPy verification script, run offline (SPEC §11.3). */
   verify: z.string().optional(),
 });
+
+/** content/words.yaml: named word lists (SPEC §9.6). */
+export const WordListsFile = z.record(z.array(z.union([z.string().min(1), z.record(z.string().min(1))])).min(2));
 
 export const ResponseSkills = z.array(z.object({ id: z.string(), name: z.string() })).min(1);
 
@@ -125,3 +138,6 @@ export type CurriculumVersionT = z.infer<typeof CurriculumVersion>;
 export type CourseManifestT = z.infer<typeof CourseManifest>;
 export type QuestionT = z.infer<typeof Question>;
 export type AnswerSpecT = z.infer<typeof AnswerSpec>;
+
+/** A part's rating: its own, or the question's (SPEC §5.1). */
+export const partRating = (q: { rating: number }, p: { rating?: number }): number => p.rating ?? q.rating;

@@ -6,6 +6,8 @@
   import { placementTiers, type MarkSource } from "@intellectify/engine";
   import { profileFor } from "$lib/profile.svelte";
   import { session } from "$lib/session.svelte";
+  import { loadBannedWords } from "$lib/moderation";
+  import { cleanName, NAME_MAX, nameError } from "$lib/names";
 
   const YEARS: { year: 11 | 12; options: { id: MarkSource; label: string }[] }[] = [
     { year: 11, options: [{ id: "y11-methods", label: "Methods" }, { id: "y11-specialist", label: "Specialist" }] },
@@ -24,7 +26,14 @@
   });
   let source = $state<MarkSource | null>(null);
   let saving = $state(false);
-  const valid = $derived(mark !== null && source !== null);
+  /** Google gives the account's real name, so Google sign-ups choose the name others will see (SPEC §12.3). */
+  const needsName = $derived(!!session.user?.google && !profile?.profile.nameSet);
+  const needsPlacement = $derived(!profile?.profile.placement?.tiers);
+  let name = $state(session.user?.displayName ?? "");
+  let banned = $state<string[]>([]);
+  $effect(() => void loadBannedWords().then((w) => (banned = w)));
+  const nameErr = $derived(needsName ? nameError(name, banned) : null);
+  const valid = $derived((!needsName || !nameErr) && (!needsPlacement || (mark !== null && source !== null)));
   const invalid = $derived(text.trim() !== "" && mark === null);
 
 
@@ -32,8 +41,8 @@
     e.preventDefault();
     if (!profile || !valid || saving) return;
     saving = true;
-    const tiers = placementTiers(mark!, source!);
-    await profile.setPlacement({ mark: mark!, source: source!, tiers: { ...tiers }, at: Date.now() });
+    if (needsName) await profile.rename(cleanName(name));
+    if (needsPlacement) await profile.setPlacement({ mark: mark!, source: source!, tiers: { ...placementTiers(mark!, source!) }, at: Date.now() });
     goto("/", { replaceState: true });
   }
 </script>
@@ -42,6 +51,15 @@
   <form class="card" onsubmit={save} in:fly={{ y: 12, duration: reduced ? 0 : 320, easing: cubicOut }}>
     <h1>Welcome</h1>
 
+    {#if needsName}
+      <div class="field">
+        <label for="name">Display name</label>
+        <input id="name" class="name" type="text" autocomplete="nickname" maxlength={NAME_MAX} bind:value={name} aria-invalid={!!nameErr && name.trim() !== ""} />
+        {#if nameErr && name.trim() !== ""}<p class="err">{nameErr}</p>{:else}<p class="hint">Shown on leaderboards and in discussions</p>{/if}
+      </div>
+    {/if}
+
+    {#if needsPlacement}
     <div class="field">
       <label for="mark">Most recent maths mark</label>
       <div class="mark" class:bad={invalid}>
@@ -77,6 +95,7 @@
         {/each}
       </div>
     </fieldset>
+    {/if}
 
     <button class="btn primary go" disabled={!valid || saving}>
       {#if saving}<span class="spin" aria-hidden="true"></span>{/if}
@@ -100,7 +119,13 @@
   }
   h1 { margin: 0; font-size: 28px; }
   .field { display: flex; flex-direction: column; gap: 10px; border: 0; padding: 0; margin: 0; min-width: 0; }
-  label[for="mark"], legend { font-size: 13px; color: var(--muted); padding: 0; margin-bottom: 10px; }
+  .name { font: 500 18px var(--font-body); color: var(--ink); background: none; border: 0; border-bottom: 2px solid var(--line); padding: 4px 0 6px; outline: none; }
+  .name:focus { border-color: var(--accent); }
+  .name[aria-invalid="true"] { border-color: var(--bad); }
+  .hint, .err { margin: -4px 0 0; font-size: 12px; }
+  .hint { color: var(--muted); }
+  .err { color: var(--bad); }
+  label[for="name"], label[for="mark"], legend { font-size: 13px; color: var(--muted); padding: 0; margin-bottom: 10px; }
   fieldset legend { float: left; width: 100%; }
 
   .mark { display: flex; align-items: baseline; gap: 4px; border-bottom: 2px solid var(--line); transition: border-color 0.15s; }

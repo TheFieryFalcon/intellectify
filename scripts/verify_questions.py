@@ -47,7 +47,8 @@ def main(root: str) -> int:
                 ns.update({k: getattr(verify_geometry, k) for k in dir(verify_geometry) if not k.startswith("_") and k not in ("math", "sympy")})
                 try:
                     exec(code, ns)
-                    result = ns["answers"](**params)
+                    # Parameters starting with "_" are figure coordinates, not inputs (SPEC §9.3).
+                    result = ns["answers"](**{k: v for k, v in params.items() if not k.startswith("_")})
                     for part, value in result.items():
                         print(json.dumps({"question": q["id"], "variant": i if q.get("variants") else None, "part": part, **to_payload(value)}))
                 except Exception:

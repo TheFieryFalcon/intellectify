@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { tierOf } from "@intellectify/engine";
 import type { QuestionT } from "./content";
-import { buildChallenge, buildQuiz, challengeLength, QUIZ_MIX } from "./review";
+import { buildQuiz, challengeLength, QUIZ_MIX, slopeOf } from "./review";
 
 const mk = (id: string, skill: string, rating: number, secondary: string[] = []): QuestionT => ({
-  id, version: 1, status: "draft", skills: { primary: skill, secondary }, rating, responseSkills: {}, requiresCalculator: false,
+  id, version: 1, status: "draft", skills: { primary: skill, secondary }, rating, responseSkills: {}, requiresCalculator: false, pool: "practice", requires: [],
   stem: "S", parts: [{ id: "a", marks: 1, answer: { type: "numeric", key: 1 } }], solution: "S",
 });
 // Three skills, each with plenty of questions at every tier.
@@ -33,15 +33,10 @@ describe("reviews (SPEC §8.2–8.4)", () => {
     expect(quiz[0]!.question.id).toBe("a"); // Tier 2 is nearest to Tier 1
   });
 
-  it("builds a Section Challenge of Tier 4–5 problems, cross-skill ones included", () => {
-    const withCross = new Map(pools);
-    withCross.set("one", [...pools.get("one")!, mk("x1", "one", 1700, ["two"]), mk("x2", "two", 1680, ["three"])]);
-    const ch = buildChallenge(withCross, challengeLength(15), rand);
-    expect(ch).toHaveLength(14); // only 14 Tier 4–5 questions exist: 4 per skill plus 2 cross-skill
-    expect(buildChallenge(withCross, 10, rand)).toHaveLength(10);
-    expect(ch.every((q) => q.rating >= 1550)).toBe(true);
-    expect(ch.some((q) => q.id === "x1") && ch.some((q) => q.id === "x2")).toBe(true);
+  it("grades Challenge problems green, yellow, red, black; Challenges are 10–15 long", () => {
+    expect([1560, 1699, 1700, 1849, 1850, 1949, 1950, 1999].map(slopeOf)).toEqual(["green", "green", "yellow", "yellow", "red", "red", "black", "black"]);
     expect(challengeLength(3)).toBe(10);
-    expect(challengeLength(40)).toBe(25);
+    expect(challengeLength(12)).toBe(12);
+    expect(challengeLength(40)).toBe(15);
   });
 });

@@ -1,15 +1,22 @@
 <script lang="ts">
+  import ShareButton from "$lib/components/ShareButton.svelte";
+  const MODE = "challenge" as const;
   /** Section Challenge: Tier 4–5 problems across a section, untimed and resumable (SPEC §8.4). */
   import { page } from "$app/state";
-  import { XP } from "@intellectify/engine";
-  import { fillTemplate } from "@intellectify/content/template";
+  import { freeResponseOutcome, XP } from "@intellectify/engine";
+  import { isRubricMarked } from "@intellectify/content/marking";
+  import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
+  import MarkView from "$lib/components/MarkView.svelte";
+  import { markingFor } from "$lib/marking.svelte";
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { loadQuestions, type QuestionT } from "$lib/content";
-  import type { PartResult, Served } from "$lib/practice";
+  import { loadSectionReviews, loadWords, type QuestionT } from "$lib/content";
+  import { reserve, type PartResult, type Served } from "$lib/practice";
   import { recordResult } from "$lib/record";
-  import { buildChallenge, challengeLength, serve, type ChallengeState } from "$lib/review";
+  import { serve, slopeOf, type ChallengeState } from "$lib/review";
+  import SlopeMark from "$lib/components/SlopeMark.svelte";
+  import { SLOPES } from "@intellectify/content/reviews";
   import { profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
@@ -20,9 +27,11 @@
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
   const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
+  const marking = $derived(markingFor(session.backend, session.user));
 
   let pool = $state<Map<string, QuestionT> | null>(null);
-  let pools: Map<string, QuestionT[]> = new Map();
+  /** The Challenge's fixed sequence (SPEC §8.4). */
+  let sequence = $state<QuestionT[]>([]);
   let ch = $state<ChallengeState | null | undefined>(undefined);
   let resolved = $state(false);
   let lastOutcome = $state(0);
@@ -36,9 +45,10 @@
     const user = session.user, backend = session.backend;
     if (!store?.loaded || !section || !user || !backend || loadedFor === sectionId) return;
     loadedFor = sectionId;
-    Promise.all(section.skills.map((k) => loadQuestions(fetch, data.course.id, k.id).then((qs) => [k.id, qs] as [string, QuestionT[]]))).then(async (pairs) => {
-      pools = new Map(pairs);
-      pool = new Map(pairs.flatMap(([, qs]) => qs.map((q) => [q.id, q] as [string, QuestionT])));
+    // The Challenge draws only from its own authored pool (SPEC §8.4), never from practice.
+    Promise.all([loadSectionReviews(fetch, data.course.id, sectionId), loadWords(fetch)]).then(async ([r]) => {
+      sequence = r.challenge;
+      pool = new Map(r.challenge.map((q) => [q.id, q] as [string, QuestionT]));
       ch = await backend.loadChallenge(user.uid, data.course.id, sectionId);
     });
   });
@@ -47,9 +57,8 @@
 
   async function start() {
     if (!section) return;
-    const picked = buildChallenge(pools, challengeLength(section.skills.reduce((t, k) => t + k.dotPoints.length, 0)));
-    const served = picked.map((q) => serve(q));
-    ch = { questions: served.map((s) => ({ id: s.question.id, variant: s.variant })), results: [], startedAt: Date.now(), finishedAt: null };
+    const served = sequence.map((q) => serve(q));
+    ch = { questions: served.map((s) => ({ id: s.question.id, variant: s.variant, words: s.words })), results: [], startedAt: Date.now(), finishedAt: null };
     resolved = false;
     await save(ch);
   }
@@ -60,17 +69,67 @@
     const ref = ch.questions[ch.results.length - (resolved ? 1 : 0)];
     const q = ref && pool.get(ref.id);
     if (!q) return null;
-    return { question: ref.variant !== null && q.variants ? fillTemplate(q, q.variants[ref.variant]!) : q, variant: ref.variant };
+    return reserve(q, ref.variant, ref.words);
   });
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !current || !ch) return;
-    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements });
+    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements, mode: MODE });
     lastOutcome = r.summary.outcome;
     ch = { ...ch, results: [...ch.results, { id: current.question.id, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }] };
     resolved = true;
     await save(ch);
   }
+
+  async function submitWritten(answers: Record<string, string>) {
+    if (!marking || !current || !ch) return;
+    const q = current.question;
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, mode: MODE, answers });
+    ch = { ...ch, results: [...ch.results, { id: q.id, outcome: null, firstTry: false, jobId: job.id }] };
+    resolved = true;
+    await save(ch);
+  }
+
+  /** Later-unit sections a problem draws on (SPEC §8.4), with their unit, for the notice. */
+  const sectionsById = $derived(new Map(data.course.units.flatMap((u) => u.sections.map((s) => [s.id, { name: s.name, unit: u.number }] as const))));
+  const laterContent = (q: QuestionT) => q.requires.map((id) => sectionsById.get(id)).filter((x) => !!x);
+
+  /** Skip a problem that needs a later unit: no θ change, and left out of the average. */
+  async function skip() {
+    if (!ch || !current) return;
+    ch = { ...ch, results: [...ch.results, { id: current.question.id, outcome: null, firstTry: false, skipped: true }] };
+    resolved = false;
+    await save(ch);
+    await next();
+  }
+
+  /** Written answers take their outcome from the marking queue as marks arrive. */
+  const settled = $derived(
+    (ch?.results ?? []).map((r) => {
+      if (!r.jobId) return r;
+      const job = marking?.job(r.jobId);
+      const res = job?.appeal?.result ?? job?.result;
+      return { ...r, outcome: job?.status === "failed" ? 0 : res ? freeResponseOutcome(res.score) : r.outcome, firstTry: res ? res.score >= 0.6 : r.firstTry };
+    }),
+  );
+  const pending = $derived(settled.filter((r) => r.outcome === null && !r.skipped).length);
+  /** Problems actually attempted (skipped ones don't count). */
+  const attempted = $derived(settled.filter((r) => !r.skipped));
+
+  // Challenge achievements wait until every written answer is marked; marks are saved into the challenge.
+  let reported = false;
+  $effect(() => {
+    if (!ch?.finishedAt || pending > 0 || reported || !store) return;
+    reported = true;
+    const changed = settled.some((r, i) => r.outcome !== ch!.results[i]?.outcome);
+    if (changed) {
+      ch = { ...ch, results: settled };
+      void save(ch);
+    }
+    const avg = attempted.reduce((t, r) => t + (r.outcome ?? 0), 0) / Math.max(1, attempted.length);
+    // A sweep needs every problem done first time, so skipping one rules it out.
+    void achievements?.challenge({ section: sectionId, average: avg, allFirstTry: settled.every((r) => r.firstTry) }, store, profile);
+  });
 
   async function next() {
     if (!ch) return;
@@ -80,10 +139,6 @@
       ch = { ...ch, finishedAt: Date.now() };
       await save(ch);
       if (profile) await profile.grant(XP.sectionChallenge);
-      if (store) {
-        const avg = ch.results.reduce((t, r) => t + r.outcome, 0) / ch.results.length;
-        await achievements?.challenge({ section: sectionId, average: avg, allFirstTry: ch.results.every((r) => r.firstTry) }, store, profile);
-      }
       finishing = false;
     }
   }
@@ -93,7 +148,8 @@
     ch = null;
   }
 
-  const average = $derived(ch && ch.results.length ? ch.results.reduce((t, r) => t + r.outcome, 0) / ch.results.length : 0);
+  const average = $derived(attempted.length ? attempted.reduce((t, r) => t + (r.outcome ?? 0), 0) / attempted.length : 0);
+  const skipped = $derived(settled.length - attempted.length);
   const shown = $derived(ch ? ch.results.length - (resolved ? 1 : 0) : 0);
 </script>
 
@@ -107,7 +163,11 @@
   {:else if ch === null}
     <section class="card">
       <h1>Section Challenge · {section.name}</h1>
-      <p class="muted">{challengeLength(section.skills.reduce((t, k) => t + k.dotPoints.length, 0))} problems · Tier 4–5 · untimed · progress saved</p>
+      <p class="muted">{sequence.length} problems · untimed · progress saved{#if sequence.some((q) => q.requires.length)}{" · "}{sequence.filter((q) => q.requires.length).length} use a later unit (skippable){/if}</p>
+      <p class="ramp">
+        {#each SLOPES as g, i (g)}{#if i}<span class="arrow">→</span>{/if}<SlopeMark slope={g} label />
+          <span class="muted count">{sequence.filter((q) => slopeOf(q.rating) === g).length}</span>{/each}
+      </p>
       {#if belowGold.length}
         <div class="notice" role="note">
           <strong>Recommended at Gold</strong>
@@ -120,38 +180,60 @@
     <section class="card">
       <h1>Section Challenge · {section.name}</h1>
       <div class="stats">
-        <div><span class="k">Average outcome</span><span class="v">{Math.round(average * 100)}%</span></div>
-        <div><span class="k">First try</span><span class="v">{ch.results.filter((r) => r.firstTry).length} / {ch.results.length}</span></div>
+        <div><span class="k">Average outcome</span><span class="v">{pending ? "…" : `${Math.round(average * 100)}%`}</span></div>
+        <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || `${attempted.filter((r) => r.firstTry).length} / ${attempted.length}`}</span></div>
+        {#if skipped}<div><span class="k">Skipped</span><span class="v">{skipped}</span></div>{/if}
         <div><span class="k">Bonus XP</span><span class="v xp">+{XP.sectionChallenge}</span></div>
       </div>
       <div class="actions">
         <a class="btn primary" href="/{data.course.id}">Back to the tree</a>
-        <button class="btn" onclick={restart}>New challenge</button>
+        <button class="btn" onclick={restart}>Try again</button>
       </div>
     </section>
   {:else if current}
     <div class="progress">
       <span>Section Challenge · {section.name}</span>
-      <span class="num">{shown + 1} / {ch.questions.length}</span>
+      <span class="num"><SlopeMark slope={slopeOf(current.question.rating)} label /> · {shown + 1} / {ch.questions.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * ch.results.length) / ch.questions.length}%"></span></div>
+    {#if !resolved && laterContent(current.question).length}
+      <div class="later" role="note">
+        <span>Uses {laterContent(current.question).map((s) => `Unit ${s.unit} · ${s.name}`).join(", ")}</span>
+        <button class="btn quiet" onclick={skip}>Skip</button>
+      </div>
+    {/if}
+    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
     {#key shown}
-      <QuestionCard question={current.question} onresolve={resolve} />
+      {#if isRubricMarked(current.question)}
+        <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
+      {:else}
+        <QuestionCard question={current.question} onresolve={resolve} />
+      {/if}
     {/key}
     {#if resolved}
+      {@const last = ch.results.at(-1)}
+      {@const job = last?.jobId && marking ? marking.job(last.jobId) : null}
       <section class="card after">
-        <p class="verdict" class:good={lastOutcome > 0.6} class:bad={lastOutcome <= 0.6}>{lastOutcome > 0.6 ? "Correct" : "Not this time"}</p>
+        {#if job && marking}
+          <MarkView {job} queue={marking} />
+        {:else}
+          <p class="verdict" class:good={lastOutcome > 0.6} class:bad={lastOutcome <= 0.6}>{lastOutcome > 0.6 ? "Correct" : "Not this time"}</p>
+        {/if}
         <h2>Solution</h2>
         <Markdown text={current.question.solution} />
         <div class="actions"><button class="btn primary" disabled={finishing} onclick={next}>{ch.results.length < ch.questions.length ? "Next problem" : "Finish"}</button></div>
       </section>
     {/if}
   {:else}
-    <p class="muted">This challenge's questions have changed. <button class="link" onclick={restart}>Start a new one</button></p>
+    <p class="muted">This Challenge has changed. <button class="link" onclick={restart}>Start again</button></p>
   {/if}
 </div>
 
 <style>
+  .ramp { display: flex; align-items: center; gap: 8px; margin: 4px 0 14px; }
+  .ramp .arrow { color: var(--muted); }
+  .later { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; padding: 8px 8px 8px 14px; border-radius: 10px; background: var(--region); font-size: 13px; color: var(--muted); }
+  .ramp .count { font-size: 12px; margin-left: -4px; }
   .crumbs { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
   .crumbs a { color: var(--muted); text-decoration: none; }
   .crumbs a:hover { color: var(--accent); }
@@ -174,6 +256,7 @@
   .v { font-size: 18px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .xp { color: var(--accent); }
   .num { font-variant-numeric: tabular-nums; }
-  .actions { display: flex; gap: 8px; margin-top: 14px; }
+  .actions { display: flex; gap: 8px; margin-top: 20px; }
   .link { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; }
+  .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>

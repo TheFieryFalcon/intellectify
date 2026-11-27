@@ -1,15 +1,21 @@
 <script lang="ts">
+  import ShareButton from "$lib/components/ShareButton.svelte";
+  const MODE = "quiz" as const;
   /** Section quiz (8) and unit quiz (15): a fixed tier mix across the skills (SPEC §8.2, §8.3). */
   import { page } from "$app/state";
-  import { XP, type RankLevel } from "@intellectify/engine";
+  import { freeResponseOutcome, XP, type RankLevel } from "@intellectify/engine";
+  import { isRubricMarked } from "@intellectify/content/marking";
+  import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
+  import MarkView from "$lib/components/MarkView.svelte";
+  import { markingFor } from "$lib/marking.svelte";
   import Markdown from "$lib/components/Markdown.svelte";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { loadQuestions, type QuestionT } from "$lib/content";
+  import { loadSectionReviews, loadUnitReviews, loadWords } from "$lib/content";
   import { getStartTier, stateOrNew, type PartResult, type Served } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
   import { recordResult } from "$lib/record";
-  import { buildQuiz, QUIZ_MIX } from "$lib/review";
+  import { buildQuiz, bySkill, QUIZ_MIX } from "$lib/review";
   import { profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
@@ -20,6 +26,7 @@
   const store = $derived(courseProgress(data.course.id));
   const profile = $derived(profileFor(session.backend, session.user));
   const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
+  const marking = $derived(markingFor(session.backend, session.user));
 
   /** The skills in scope, and a name for the header. */
   const target = $derived.by(() => {
@@ -33,7 +40,18 @@
   let quiz = $state<Served[] | null>(null);
   let index = $state(0);
   let resolved = $state(false);
-  let results = $state<{ skill: string; outcome: number; firstTry: boolean }[]>([]);
+  /** One per answered question; written answers carry their marking job until the mark lands. */
+  let results = $state<{ skill: string; outcome: number | null; firstTry: boolean; jobId?: string }[]>([]);
+  /** Written answers take their outcome from the marking queue as marks arrive. */
+  const settled = $derived(
+    results.map((r) => {
+      if (!r.jobId) return r;
+      const job = marking?.job(r.jobId);
+      const res = job?.appeal?.result ?? job?.result;
+      return { ...r, outcome: job?.status === "failed" ? 0 : res ? freeResponseOutcome(res.score) : null, firstTry: !!res && res.score >= 0.6 };
+    }),
+  );
+  const pending = $derived(settled.filter((r) => r.outcome === null).length);
   let xp = $state(0);
   let before: Record<string, StoredSkillState | undefined> = {};
   let done = $state(false);
@@ -43,8 +61,10 @@
     if (!store?.loaded || !target || loadedFor === page.url.pathname) return;
     loadedFor = page.url.pathname;
     const skills = target.skills;
-    Promise.all(skills.map((k) => loadQuestions(fetch, data.course.id, k.id).then((qs) => [k.id, qs] as [string, QuestionT[]]))).then((pairs) => {
-      quiz = buildQuiz(new Map(pairs), QUIZ_MIX[scope]);
+    // Quizzes draw only from their own authored pool (SPEC §8), never from practice.
+    const pool = loadWords(fetch).then(() => scope === "unit" ? loadUnitReviews(fetch, data.course.id, Number(page.params.id)).then((r) => r.unitQuiz) : loadSectionReviews(fetch, data.course.id, page.params.id!).then((r) => r.sectionQuiz));
+    pool.then((qs) => {
+      quiz = buildQuiz(bySkill(qs), QUIZ_MIX[scope]);
       // A skill opened for the first time starts from its default placement.
       before = Object.fromEntries(skills.map((k) => [k.id, stateOrNew(store!.progress, k.id, getStartTier(data.course.id))]));
     });
@@ -54,11 +74,28 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !current) return;
-    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements });
+    const r = await recordResult({ course: data.course, store, profile, served: current, parts, answers, achievements, mode: MODE });
     results = [...results, { skill: current.question.skills.primary, outcome: r.summary.outcome, firstTry: parts.every((p) => p.solvedOn === 1) }];
     xp += r.xp;
     resolved = true;
   }
+
+  async function submitWritten(answers: Record<string, string>) {
+    if (!marking || !current) return;
+    const q = current.question;
+    const job = await marking.submit({ course: data.course.id, skill: q.skills.primary, question: q, variant: current.variant, words: current.words, mode: MODE, answers });
+    results = [...results, { skill: q.skills.primary, outcome: null, firstTry: false, jobId: job.id }];
+    resolved = true;
+  }
+
+  // Quiz achievements wait until every written answer is marked.
+  let reported = false;
+  $effect(() => {
+    if (!done || pending > 0 || reported || !store) return;
+    reported = true;
+    const unit = scope === "unit" ? Number(page.params.id) : (data.course.units.find((u) => u.sections.some((sec) => sec.id === page.params.id))?.number ?? 0);
+    void achievements?.quiz({ scope, unit, correct: settled.filter((r) => (r.outcome ?? 0) > 0.6).length, total: settled.length, allFirstTry: settled.every((r) => r.firstTry) }, store, profile);
+  });
 
   async function next() {
     if (!quiz) return;
@@ -68,23 +105,19 @@
       return;
     }
     done = true;
-    if (store) {
-      const unit = scope === "unit" ? Number(page.params.id) : (data.course.units.find((u) => u.sections.some((sec) => sec.id === page.params.id))?.number ?? 0);
-      await achievements?.quiz({ scope, unit, correct: results.filter((r) => r.outcome > 0.6).length, total: results.length, allFirstTry: results.every((r) => r.firstTry) }, store, profile);
-    }
     const bonus = scope === "unit" ? XP.unitQuiz : XP.sectionQuiz;
     if (profile) await profile.grant(bonus);
     xp += bonus;
   }
 
-  const correct = $derived(results.filter((r) => r.outcome > 0.6).length);
+  const correct = $derived(settled.filter((r) => (r.outcome ?? 0) > 0.6).length);
   const skillName = (id: string) => target?.skills.find((k) => k.id === id)?.name ?? id;
   const rows = $derived(
     target?.skills
       .map((k) => {
-        const mine = results.filter((r) => r.skill === k.id);
+        const mine = settled.filter((r) => r.skill === k.id);
         const b = before[k.id], a = store?.progress.skills[k.id];
-        return { id: k.id, n: mine.length, right: mine.filter((r) => r.outcome > 0.6).length, dTheta: a && b ? a.theta - b.theta : null, from: (b?.rank ?? 0) as RankLevel, to: (a?.rank ?? 0) as RankLevel };
+        return { id: k.id, n: mine.length, right: mine.filter((r) => (r.outcome ?? 0) > 0.6).length, dTheta: a && b ? a.theta - b.theta : null, from: (b?.rank ?? 0) as RankLevel, to: (a?.rank ?? 0) as RankLevel };
       })
       .filter((r) => r.n > 0) ?? [],
   );
@@ -105,7 +138,7 @@
       <h1>{scope === "unit" ? "Unit quiz" : "Section quiz"} · {target.name}</h1>
       <div class="stats">
         <div><span class="k">Correct</span><span class="v">{correct} / {quiz.length}</span></div>
-        <div><span class="k">First try</span><span class="v">{results.filter((r) => r.firstTry).length}</span></div>
+        <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || settled.filter((r) => r.firstTry).length}</span></div>
         <div><span class="k">XP</span><span class="v xp">+{xp}</span></div>
       </div>
       <table>
@@ -129,12 +162,23 @@
       <span class="num">{index + 1} / {quiz.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * (index + (resolved ? 1 : 0))) / quiz.length}%"></span></div>
+    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
     {#key index}
-      <QuestionCard question={current.question} onresolve={resolve} />
+      {#if isRubricMarked(current.question)}
+        <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
+      {:else}
+        <QuestionCard question={current.question} onresolve={resolve} />
+      {/if}
     {/key}
     {#if resolved}
+      {@const last = results.at(-1)!}
+      {@const job = last.jobId && marking ? marking.job(last.jobId) : null}
       <section class="card after">
-        <p class:good={results.at(-1)!.outcome > 0.6} class:bad={results.at(-1)!.outcome <= 0.6} class="verdict">{results.at(-1)!.outcome > 0.6 ? "Correct" : "Not this time"}</p>
+        {#if job && marking}
+          <MarkView {job} queue={marking} />
+        {:else}
+          <p class:good={(last.outcome ?? 0) > 0.6} class:bad={(last.outcome ?? 0) <= 0.6} class="verdict">{(last.outcome ?? 0) > 0.6 ? "Correct" : "Not this time"}</p>
+        {/if}
         <h2>Solution</h2>
         <Markdown text={current.question.solution} />
         <div class="actions"><button class="btn primary" onclick={next}>{index + 1 < quiz.length ? "Next question" : "Finish"}</button></div>
@@ -168,5 +212,6 @@
   td a { color: var(--ink); text-decoration: none; }
   td a:hover { color: var(--accent); }
   .num { font-variant-numeric: tabular-nums; }
-  .actions { display: flex; gap: 8px; margin-top: 12px; }
+  .actions { display: flex; gap: 8px; margin-top: 20px; }
+  .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>

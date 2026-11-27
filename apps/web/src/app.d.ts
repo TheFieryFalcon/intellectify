@@ -14,4 +14,8 @@ declare namespace svelteHTML {
     "math-field": Record<string, unknown>;
   }
 }
+declare global {
+  /** Netlify build context: "production", "deploy-preview", "branch-deploy", or "dev" locally (vite.config.ts). */
+  const __DEPLOY_CONTEXT__: string;
+}
 export {};

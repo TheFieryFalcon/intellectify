@@ -1,4 +1,4 @@
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Profile, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Post, type Profile, type PublicProfile, type ThreadSummary, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -10,6 +10,10 @@ const attemptsKey = (uid: string, course: string) => `intellectify:attempts:${ui
 const profileKey = (uid: string) => `intellectify:profile:${uid}`;
 const achievementsKey = (uid: string, course: string) => `intellectify:achievements:${uid}:${course}`;
 const markingKey = (uid: string) => `intellectify:marking:${uid}`;
+const THREADS_KEY = "intellectify:discuss:threads";
+const postsKey = (key: string) => `intellectify:discuss:posts:${key}`;
+const PUBLIC_PREFIX = "intellectify:public:";
+const publicKey = (uid: string) => `${PUBLIC_PREFIX}${uid}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
 
 const read = <T>(key: string, fallback: T): T => {
@@ -52,6 +56,12 @@ export function createLocalBackend(): Backend {
     async sendPasswordReset() {
       throw new Error("Email sign-in needs Firebase.");
     },
+    async upgradeWithGoogle() {
+      throw new Error("Accounts need Firebase.");
+    },
+    async upgradeWithEmail() {
+      throw new Error("Accounts need Firebase.");
+    },
     async signInAsGuest() {
       user = { uid: "guest", displayName: "Guest", email: null, local: true };
       write(USER_KEY, user);
@@ -72,12 +82,65 @@ export function createLocalBackend(): Backend {
     async setPlacement(uid, placement) {
       write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), placement });
     },
+    async setDisplayName(u, name) {
+      if (user && user.uid === u.uid) {
+        user = { ...user, displayName: name };
+        write(USER_KEY, user);
+      }
+      write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), nameSet: true });
+      const pub = read<Partial<PublicProfile> | null>(publicKey(u.uid), null);
+      if (pub) write(publicKey(u.uid), { ...pub, displayName: name });
+      emit();
+    },
     async grantXp(u, grant) {
       const p = { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}) };
       p.xp += grant.amount;
       if (grant.questionId) p.questionXpAt = { ...p.questionXpAt, [grant.questionId]: Date.now() };
       if (grant.visitDay) p.lastVisitDay = grant.visitDay;
       write(profileKey(u.uid), p);
+    },
+    async saveDaily(u, daily) {
+      write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), daily });
+    },
+    async savePublic(u, stats, pub) {
+      write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), stats });
+      const prev = read<Partial<PublicProfile>>(publicKey(u.uid), {});
+      write(publicKey(u.uid), { ...prev, ...pub, courses: { ...prev.courses, ...pub.courses }, achievements: { ...prev.achievements, ...pub.achievements } });
+    },
+    async listThreads() {
+      return Object.values(read<Record<string, ThreadSummary>>(THREADS_KEY, {})).sort((a, b) => b.updatedAt - a.updatedAt);
+    },
+    async loadPosts(key) {
+      return read<Post[]>(postsKey(key), []);
+    },
+    async addPost(u, t, body, parent, name) {
+      const post: Post = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, uid: u.uid, name, body, at: Date.now(), parent };
+      write(postsKey(t.key), [...read<Post[]>(postsKey(t.key), []), post]);
+      const threads = read<Record<string, ThreadSummary>>(THREADS_KEY, {});
+      const prev = threads[t.key];
+      threads[t.key] = { ...t, posts: (prev?.posts ?? 0) + 1, updatedAt: post.at, text: `${prev?.text ?? ""}\n${body}` };
+      write(THREADS_KEY, threads);
+      return post;
+    },
+    async deletePost(key, post) {
+      write(postsKey(key), read<Post[]>(postsKey(key), []).filter((p) => p.id !== post.id));
+      const threads = read<Record<string, ThreadSummary>>(THREADS_KEY, {});
+      const prev = threads[key];
+      if (prev) threads[key] = { ...prev, posts: Math.max(0, prev.posts - 1), text: prev.text.replace(`\n${post.body}`, "") };
+      write(THREADS_KEY, threads);
+    },
+    async listPublic() {
+      // Only this browser's guest, plus any other entries stored under the same prefix (handy for testing boards).
+      const out: PublicProfile[] = [];
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k?.startsWith(PUBLIC_PREFIX)) out.push(read<PublicProfile>(k, null as unknown as PublicProfile));
+        }
+      } catch {
+        /* storage blocked */
+      }
+      return out.filter(Boolean);
     },
     async loadProgress(uid, course) {
       return { ...emptyProgress(), ...read<Partial<CourseProgress>>(progressKey(uid, course), {}) };

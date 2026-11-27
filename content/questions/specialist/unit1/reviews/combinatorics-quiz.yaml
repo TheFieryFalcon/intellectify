@@ -1,0 +1,273 @@
+# Section quiz pool: Combinatorics (1.2). Never served in practice (SPEC §8.1a).
+
+- id: spec.combinatorics.sq.sandwiches
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1060
+  responseSkills: { reading: 1050, calculation: 1040 }
+  stem: |
+    A café offers 4 breads, 5 fillings and 3 sauces. A sandwich uses one of each. How many different sandwiches are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 60 }
+  solution: |
+    Three stages, each independent of the others: $4 \times 5 \times 3 = 60$.
+  verify: |
+    def answers():
+        return {"a": 4 * 5 * 3}
+
+- id: spec.combinatorics.sq.trophies
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1080
+  responseSkills: { calculation: 1060 }
+  stem: |
+    In how many ways can 5 different trophies be lined up on a shelf?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 120 }
+  solution: |
+    5 choices for the first place, then 4, 3, 2, 1: $5! = 120$.
+  verify: |
+    def answers():
+        return {"a": sympy.factorial(5)}
+
+- id: spec.combinatorics.sq.nine-two
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1110
+  responseSkills: { calculation: 1100 }
+  stem: |
+    Evaluate $\binom{9}{2}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 36 }
+  solution: |
+    $\binom{9}{2} = \dfrac{9 \times 8}{2} = 36$.
+  verify: |
+    def answers():
+        return {"a": sympy.binomial(9, 2)}
+
+- id: spec.combinatorics.sq.union-small
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1150
+  responseSkills: { calculation: 1130 }
+  stem: |
+    $|A| = 14$, $|B| = 9$ and $|A \cap B| = 5$. Find $|A \cup B|$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 18 }
+  solution: |
+    $|A \cup B| = 14 + 9 - 5 = 18$.
+  verify: |
+    def answers():
+        return {"a": 14 + 9 - 5}
+
+- id: spec.combinatorics.sq.pascal-twelve
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1300
+  responseSkills: { reasoning: 1290, calculation: 1280 }
+  stem: |
+    Write $\binom{11}{4} + \binom{11}{5}$ as a single combination, and find its value.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 792 }
+  solution: |
+    By Pascal's rule, neighbors in row 11 add to the entry below them: $\binom{11}{4} + \binom{11}{5} = \binom{12}{5} = 792$.
+  verify: |
+    def answers():
+        return {"a": sympy.binomial(11, 4) + sympy.binomial(11, 5)}
+
+- id: spec.combinatorics.sq.birth-months
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1320
+  responseSkills: { reading: 1300, reasoning: 1310, calculation: 1270 }
+  stem: |
+    A class has 30 students. What is the largest number $k$ for which we can be sure that at least $k$ students share a birth month?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 3 }
+  solution: |
+    The boxes are the 12 months. $30 > 2 \times 12$, so some month has at least 3 birthdays. 4 isn't guaranteed: 6 months with 3 birthdays and 6 months with 2 make 30 students with no month holding 4.
+  verify: |
+    def answers():
+        return {"a": sympy.ceiling(sympy.Rational(30, 12))}
+
+- id: spec.combinatorics.sq.level
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1290
+  responseSkills: { calculation: 1270 }
+  stem: |
+    How many different arrangements are there of the letters of LEVEL?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 30 }
+  solution: |
+    5 letters with L twice and E twice: $\dfrac{5!}{2!\,2!} = 30$.
+  verify: |
+    def answers():
+        return {"a": sympy.factorial(5) / (sympy.factorial(2) ** 2)}
+
+- id: spec.combinatorics.sq.two-girls
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1350
+  responseSkills: { reading: 1330, calculation: 1320 }
+  stem: |
+    A committee of 4 is chosen from 7 boys and 5 girls. How many committees have exactly 2 girls?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 210 }
+  solution: |
+    Choose the 2 girls and, separately, the 2 boys: $\binom{5}{2}\binom{7}{2} = 10 \times 21 = 210$.
+  verify: |
+    def answers():
+        return {"a": sympy.binomial(5, 2) * sympy.binomial(7, 2)}
+
+- id: spec.combinatorics.sq.over-5000
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.counting-principles }
+  rating: 1420
+  responseSkills: { reading: 1400, calculation: 1400, reasoning: 1410 }
+  stem: |
+    How many 4-digit numbers greater than 5000 have all their digits different?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2520 }
+  solution: |
+    The first digit is the most restricted: 5, 6, 7, 8 or 9, so 5 options. The other three places then have 9, 8 and 7 options. $5 \times 9 \times 8 \times 7 = 2520$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(5001, 10000) if len(set(str(n))) == 4)}
+
+- id: spec.combinatorics.sq.not-together
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1430
+  responseSkills: { calculation: 1410, reasoning: 1420 }
+  stem: |
+    Six people, including Ava and Ben, sit in a row of six chairs. In how many ways can they sit if Ava and Ben must not sit next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 480 }
+  solution: |
+    All seatings: $6! = 720$. With Ava and Ben together as a block: $5! \times 2! = 240$. So $720 - 240 = 480$.
+  verify: |
+    from itertools import permutations
+    def answers():
+        return {"a": sum(1 for p in permutations(range(6)) if abs(p.index(0) - p.index(1)) != 1)}
+
+- id: spec.combinatorics.sq.exactly-one-of
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1500
+  responseSkills: { reading: 1480, calculation: 1480, reasoning: 1490 }
+  stem: |
+    How many integers from 1 to 500 are divisible by 3 or by 7, but not by both?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 191 }
+  solution: |
+    Divisible by 3: $\lfloor 500/3 \rfloor = 166$. By 7: $\lfloor 500/7 \rfloor = 71$. By both, i.e. by 21: $\lfloor 500/21 \rfloor = 23$. "Exactly one" removes the overlap from both sets: $166 + 71 - 2 \times 23 = 191$.
+  verify: |
+    def answers():
+        return {"a": sum(1 for n in range(1, 501) if (n % 3 == 0) != (n % 7 == 0))}
+
+- id: spec.combinatorics.sq.mirror-row
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.pascal }
+  rating: 1420
+  responseSkills: { reasoning: 1410, calculation: 1390 }
+  stem: |
+    $\binom{n}{5} = \binom{n}{7}$. Find $\binom{n}{2}$.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 66 }
+  solution: |
+    Two different positions with equal values are mirror images in row $n$, so $5 + 7 = n = 12$. Then $\binom{12}{2} = 66$.
+  verify: |
+    def answers():
+        n = next(n for n in range(7, 40) if sympy.binomial(n, 5) == sympy.binomial(n, 7))
+        return {"a": sympy.binomial(n, 2)}
+
+- id: spec.combinatorics.sq.lollies
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1490
+  responseSkills: { reading: 1470, calculation: 1460, reasoning: 1480 }
+  stem: |
+    In how many ways can 10 identical lollies be shared among 4 children if every child gets at least one?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 84 }
+  solution: |
+    Give each child 1 lolly first. The other 6 are shared freely: 6 lollies and 3 dividers in a row, so $\binom{9}{3} = 84$.
+  verify: |
+    from itertools import product
+    def answers():
+        return {"a": sum(1 for c in product(range(1, 11), repeat=4) if sum(c) == 10)}
+
+- id: spec.combinatorics.sq.consecutive-pair
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.pigeonhole }
+  rating: 1470
+  responseSkills: { reasoning: 1460, proof: 1460, clarity: 1400 }
+  stem: |
+    Nine different numbers are chosen from $1, 2, 3, \dots, 16$. Prove that two of the chosen numbers differ by exactly 1.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: boxes, description: "Makes 8 boxes of consecutive pairs: {1, 2}, {3, 4}, …, {15, 16}", points: 2, dimension: reasoning }
+          - { id: pigeon, description: "Nine numbers in eight boxes, so two chosen numbers share a box", points: 1, dimension: proof }
+          - { id: differ, description: "Two different numbers in one box are consecutive, so they differ by 1", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Split $1, \dots, 16$ into 8 boxes of consecutive pairs: $\{1, 2\}, \{3, 4\}, \dots, \{15, 16\}$. Every number is in exactly one box. Nine numbers in eight boxes put two of them in the same box, and the two numbers in a box differ by 1. So two of the chosen numbers differ by exactly 1.
+
+- id: spec.combinatorics.sq.arrange-aa
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.permutations }
+  rating: 1580
+  responseSkills: { reading: 1550, calculation: 1560, reasoning: 1570 }
+  stem: |
+    How many arrangements of the letters of ARRANGE have the two A's next to each other?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 360 }
+  solution: |
+    Tape the two A's into one block (the A's are identical, so the block has 1 order). That leaves 6 items: AA, R, R, N, G, E, with R twice: $\dfrac{6!}{2!} = 360$.
+  verify: |
+    from sympy.utilities.iterables import multiset_permutations
+    def answers():
+        return {"a": sum(1 for p in multiset_permutations(list("ARRANGE")) if "AA" in "".join(p))}
+
+- id: spec.combinatorics.sq.powers-to-1000
+  pool: section-quiz
+  skills: { primary: spec.combinatorics.inclusion-exclusion }
+  rating: 1650
+  responseSkills: { reading: 1620, calculation: 1630, reasoning: 1640 }
+  stem: |
+    How many integers from 1 to 1000 are perfect squares, perfect cubes or perfect fifth powers?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 40 }
+  solution: |
+    Squares: $31$ ($31^2 = 961$). Cubes: $10$. Fifth powers: $3$ ($1, 32, 243$).
+
+    Both square and cube means a sixth power: $1, 64, 729$, so $3$. Square and fifth power means a tenth power: only $1$. Cube and fifth power means a fifteenth power: only $1$. All three: only $1$.
+
+    $31 + 10 + 3 - 3 - 1 - 1 + 1 = 40$.
+  verify: |
+    def answers():
+        s = set()
+        for k in (2, 3, 5):
+            m = 1
+            while m ** k <= 1000:
+                s.add(m ** k)
+                m += 1
+        return {"a": len(s)}

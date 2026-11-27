@@ -1,13 +1,15 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { checkAnswer } from "@intellectify/checker";
-import { SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
-import { fillTemplate } from "./template.js";
+import { parseTermWeek, SKILL_SIZE, tierOf, type SkillSize } from "@intellectify/engine";
+import { z } from "zod";
+import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
-import { CourseManifest, CurriculumVersion, Question, ResponseSkills, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
+import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, slopeOf, type SectionReviews, type UnitReviews } from "./reviews.js";
+import { CourseManifest, CurriculumVersion, Question, ResponseSkills, WordListsFile, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
 
 /* The bundle the web app loads. One per course. */
 export interface BundleSkill {
@@ -37,10 +39,34 @@ export interface CourseBundle {
   versions: { year: number; id: string; effectiveFrom: string }[];
   units: { number: number; year: number; sections: BundleSection[] }[];
   responseSkills: { id: string; name: string }[];
+  /** When each year group learns each block of skills (SPEC §8.5), for the daily problem. */
+  schedules: CourseSchedule[];
 }
+/** A course outline: blocks of skills by school week (12-slot order, from parseTermWeek). */
+export interface CourseSchedule {
+  yearGroup: number;
+  year: number;
+  blocks: { from: number; to: number; name: string; skills: string[] }[];
+}
+const ScheduleFile = z.object({
+  course: z.string(),
+  yearGroup: z.number().int().min(7).max(12),
+  year: z.number().int().min(2020),
+  blocks: z.array(z.object({ from: z.string(), to: z.string(), name: z.string().min(1), dotPoints: z.array(z.string()).min(1) })).min(1),
+});
 export interface BuildResult {
-  bundles: { course: CourseBundle; questions: Record<string, QuestionT[]>; tutorials: Tutorial[] }[];
+  bundles: {
+    course: CourseBundle;
+    /** Practice pools, by primary skill. */
+    questions: Record<string, QuestionT[]>;
+    /** Review pools (SPEC §8): by section ID, and by unit number. */
+    sectionReviews: Record<string, SectionReviews<QuestionT>>;
+    unitReviews: Record<number, UnitReviews<QuestionT>>;
+    tutorials: Tutorial[];
+  }[];
   achievements: AchievementT[];
+  /** Word lists (SPEC §9.6), shared by every course. */
+  words: WordLists;
   errors: string[];
   warnings: string[];
 }
@@ -67,6 +93,9 @@ export function buildContent(contentDir: string): BuildResult {
   if (!rsParsed.success) errors.push(`response-skills.yaml: ${rsParsed.error.issues.map((i) => i.message).join("; ")}`);
   const responseSkills = rsParsed.success ? rsParsed.data : [];
   const rsIds = new Set(responseSkills.map((r) => r.id));
+  const wordsParsed = WordListsFile.safeParse(readYaml(join(contentDir, "words.yaml")));
+  if (!wordsParsed.success) errors.push(`words.yaml: ${wordsParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+  const words: WordLists = wordsParsed.success ? wordsParsed.data : {};
 
   const curriculumDir = join(contentDir, "curriculum");
   for (const courseId of readdirSync(curriculumDir)) {
@@ -95,16 +124,21 @@ export function buildContent(contentDir: string): BuildResult {
 
     // Index skills and check structure.
     const skillUnit = new Map<string, number>();
+    const skillSection = new Map<string, string>();
+    /** Section ID → its unit and year, for `requires` checks. */
+    const sectionPlace = new Map<string, { unit: number; year: number }>();
     const prereqsOf = new Map<string, string[]>();
     const reviewFor = new Map<string, string[]>();
     for (const v of versions) {
       for (const u of v.units) {
         for (const s of u.sections) {
+          sectionPlace.set(s.id, { unit: u.number, year: v.year });
           const covered: string[] = [];
           for (const k of s.skills) {
             if (skillUnit.has(k.id)) errors.push(`duplicate skill ID ${k.id}`);
             if (!k.id.startsWith(`${manifest.skillIdPrefix}.${s.id}.`)) errors.push(`${k.id}: ID should start with ${manifest.skillIdPrefix}.${s.id}.`);
             skillUnit.set(k.id, u.number);
+            skillSection.set(k.id, s.id);
             prereqsOf.set(k.id, k.prereqs);
             covered.push(...k.dotPoints);
           }
@@ -141,6 +175,8 @@ export function buildContent(contentDir: string): BuildResult {
 
     // Questions.
     const questions: Record<string, QuestionT[]> = {};
+    const sectionReviews: Record<string, SectionReviews<QuestionT>> = {};
+    const unitReviews: Record<number, UnitReviews<QuestionT>> = {};
     const qDir = join(contentDir, "questions", courseId);
     const qIds = new Set<string>();
     let files: string[] = [];
@@ -174,9 +210,18 @@ export function buildContent(contentDir: string): BuildResult {
         if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
           errors.push(`${where}: a computed answer exercises calculation`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
+        // Word variety (SPEC §9.6): known lists, and words never reach an answer or the verify code.
+        const firstPicks: WordPicks | null = q.words ? Object.fromEntries(Object.keys(q.words).map((slot) => [slot, 0])) : null;
+        for (const [slot, list] of Object.entries(q.words ?? {})) {
+          if (!words[list]) errors.push(`${where}: words slot ${slot} uses unknown list ${list}`);
+          if (!/^[a-z]\w*$/.test(slot) || (q.variants ?? []).some((v) => slot in v)) errors.push(`${where}: words slot ${slot} must be a plain name not used by a variant`);
+          const used = new RegExp(`\\{\\{\\s*${slot}(\\.\\w+)?\\s*\\}\\}`);
+          if (q.parts.some((p) => p.answer && used.test(JSON.stringify(p.answer))) || used.test(q.verify ?? "")) errors.push(`${where}: words slot ${slot} can't change an answer`);
+          if (![q.stem, q.solution, ...q.parts.map((p) => p.prompt ?? "")].some((t) => used.test(t))) warnings.push(`${where}: words slot ${slot} is never used`);
+        }
         // MCQ keys and diagrams may be templated ({{key}}), so check them once per filled variant.
         for (const params of q.variants ?? [{}]) {
-          const filled = q.variants ? fillTemplate(q, params) : q;
+          const filled = fillTemplate(q, { ...params, ...wordParams(q.words, firstPicks, words) });
           const texts = [filled.stem, filled.solution, ...filled.parts.flatMap((p) => [p.prompt ?? "", ...(p.options ?? []).map((o) => o.text)])];
           for (const t of texts) for (const e of diagramErrors(t)) errors.push(`${where}${q.variants ? ` variant ${JSON.stringify(params)}` : ""}: ${e}`);
           for (const p of filled.parts) {
@@ -189,7 +234,7 @@ export function buildContent(contentDir: string): BuildResult {
         }
         // Self-check: every answer key must be accepted by its own checker, for every variant.
         for (const params of q.variants ?? [{}]) {
-          const filled = fillTemplate(q, params);
+          const filled = fillTemplate(q, { ...params, ...wordParams(q.words, firstPicks, words) });
           for (const p of filled.parts) {
             if (!p.answer || p.answer.type === "mcq" || p.answer.type === "multi-select") continue;
             const keyLatex = keyAsLatex(p.answer);
@@ -203,8 +248,52 @@ export function buildContent(contentDir: string): BuildResult {
           const leftover = JSON.stringify(filled).match(/\{\{\s*\w+\s*\}\}/);
           if (leftover) errors.push(`${where}: unfilled placeholder ${leftover[0]}`);
         }
-        (questions[q.skills.primary] ??= []).push(q);
+        // Later-unit content (SPEC §8.4): Challenges only, a later unit, and never across from Year 11 to Year 12.
+        for (const id of q.requires) {
+          const at = sectionPlace.get(id);
+          const home = skillUnit.has(q.skills.primary) ? sectionPlace.get(skillSection.get(q.skills.primary)!) : undefined;
+          if (q.pool !== "challenge") errors.push(`${where}: only Section Challenge problems may require later content`);
+          else if (!at) errors.push(`${where}: requires unknown section ${id}`);
+          else if (home && at.unit <= home.unit) errors.push(`${where}: ${id} isn't in a later unit, so it isn't "later content"`);
+          else if (home && at.year !== home.year) errors.push(`${where}: a Year ${home.year} Challenge can't require Year ${at.year} content (${id})`);
+        }
+        // Ratings are per part (SPEC §5.1); the question's rating is its hardest part's, so an easy part never lowers it.
+        const own = q.parts.filter((p) => p.rating !== undefined).map((p) => p.rating!);
+        if (own.some((r) => r > q.rating)) errors.push(`${where}: a part is rated above the question; the question's rating must be its hardest part's`);
+        if (own.length === q.parts.length && own.length && Math.max(...own) !== q.rating) errors.push(`${where}: the question's rating (${q.rating}) must equal its hardest part's (${Math.max(...own)})`);
+        if (q.pool === "practice") (questions[q.skills.primary] ??= []).push(q);
+        else if (skillUnit.has(q.skills.primary)) {
+          if (q.pool === "challenge" && (q.rating < CHALLENGE_RATING[0] || q.rating >= CHALLENGE_RATING[1])) errors.push(`${where}: Section Challenge problems are Tier 4–5`);
+          if (q.pool === "unit-quiz") (unitReviews[skillUnit.get(q.skills.primary)!] ??= { unitQuiz: [] }).unitQuiz.push(q);
+          else {
+            const r = (sectionReviews[skillSection.get(q.skills.primary)!] ??= { sectionQuiz: [], challenge: [] });
+            (q.pool === "challenge" ? r.challenge : r.sectionQuiz).push(q);
+          }
+        }
       }
+    }
+
+    // Course outlines (SPEC §8.5): dot points become skills, weeks become 12-slot orders.
+    const schedules: CourseSchedule[] = [];
+    const schedDir = join(contentDir, "schedules");
+    const allSkills = versions.flatMap((v) => v.units.flatMap((u) => u.sections.flatMap((s) => s.skills)));
+    const knownDots = new Set(allSkills.flatMap((k) => k.dotPoints));
+    for (const file of existsSync(schedDir) ? readdirSync(schedDir).filter((f) => f.endsWith(".yaml")) : []) {
+      const parsed = ScheduleFile.safeParse(readYaml(join(schedDir, file)));
+      if (!parsed.success) {
+        errors.push(`schedules/${file}: ${parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`);
+        continue;
+      }
+      if (parsed.data.course !== manifest.id) continue;
+      const blocks = parsed.data.blocks.map((b, i) => {
+        const from = parseTermWeek(b.from), to = parseTermWeek(b.to);
+        if (from === null || to === null || to < from) errors.push(`schedules/${file} block ${i + 1}: bad weeks "${b.from}" to "${b.to}"`);
+        for (const d of b.dotPoints) if (!knownDots.has(d)) errors.push(`schedules/${file} block ${i + 1}: unknown dot point ${d}`);
+        const skills = allSkills.filter((k) => k.dotPoints.some((d) => b.dotPoints.includes(d))).map((k) => k.id);
+        if (!skills.length) errors.push(`schedules/${file} block ${i + 1}: no skill covers its dot points`);
+        return { from: from ?? 0, to: to ?? 0, name: b.name, skills };
+      });
+      schedules.push({ yearGroup: parsed.data.yearGroup, year: parsed.data.year, blocks });
     }
 
     const unitYear = new Map<number, number>();
@@ -214,6 +303,7 @@ export function buildContent(contentDir: string): BuildResult {
       name: manifest.name,
       versions: versions.map((v) => ({ year: v.year, id: v.id, effectiveFrom: v.source.effectiveFrom })),
       responseSkills,
+      schedules,
       units: versions
         .flatMap((v) => v.units)
         .sort((a, b) => a.number - b.number)
@@ -250,9 +340,35 @@ export function buildContent(contentDir: string): BuildResult {
           })),
         })),
     };
-    bundles.push({ course, questions, tutorials: [...tutorials.values()] });
+    // Review pools (SPEC §8): enough for varied retakes, checked once a pool has any questions.
+    const tierCount = (qs: QuestionT[]) => qs.reduce<Record<number, number>>((m, q) => ((m[tierOf(q.rating)] = (m[tierOf(q.rating)] ?? 0) + 1), m), {});
+    const checkQuiz = (name: string, qs: QuestionT[], mix: Partial<Record<number, number>>) => {
+      if (!qs.length) return;
+      const have = tierCount(qs);
+      for (const [t, n] of Object.entries(mix)) if ((have[Number(t)] ?? 0) < n! * QUIZ_POOL_FACTOR) warnings.push(`${name}: ${have[Number(t)] ?? 0} Tier ${t} questions; needs ${n! * QUIZ_POOL_FACTOR}`);
+    };
+    for (const u of course.units) {
+      checkQuiz(`unit ${u.number} quiz pool`, unitReviews[u.number]?.unitQuiz ?? [], QUIZ_MIX.unit);
+      for (const s of u.sections) {
+        const r = sectionReviews[s.id];
+        if (!r) continue;
+        checkQuiz(`${s.id} section quiz pool`, r.sectionQuiz, QUIZ_MIX.section);
+        // The Section Challenge (SPEC §8.4): a fixed sequence, file order, climbing to one black finale.
+        const ch = r.challenge;
+        if (!ch.length) continue;
+        const len = challengeLength(s.skills.reduce((t, k) => t + k.dotPoints.length, 0));
+        if (ch.length !== len) warnings.push(`${s.id} Challenge: ${ch.length} problems; should be ${len}`);
+        ch.forEach((q, i) => i > 0 && q.rating < ch[i - 1]!.rating && errors.push(`${s.id} Challenge: ${q.id} is easier than the problem before it`));
+        const blacks = ch.filter((q) => slopeOf(q.rating) === "black");
+        if (blacks.length !== 1 || slopeOf(ch.at(-1)!.rating) !== "black") errors.push(`${s.id} Challenge: needs exactly one black problem (rated 1950–1999), last`);
+        for (const g of ["green", "yellow", "red"] as const) if (!ch.some((q) => slopeOf(q.rating) === g)) warnings.push(`${s.id} Challenge: no ${g} problem`);
+        const cross = ch.filter((q) => q.skills.secondary.length).length;
+        if (cross * 3 < len) warnings.push(`${s.id} Challenge: ${cross} cross-skill problems; needs ${Math.ceil(len / 3)}`);
+      }
+    }
+    bundles.push({ course, questions, sectionReviews, unitReviews, tutorials: [...tutorials.values()] });
   }
-  return { bundles, achievements: loadAchievements(contentDir, errors), errors, warnings };
+  return { bundles, achievements: loadAchievements(contentDir, errors), words, errors, warnings };
 }
 
 /** LaTeX that should satisfy a spec: its own key, rendered as a student would type it. */

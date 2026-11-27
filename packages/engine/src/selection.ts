@@ -11,8 +11,10 @@ export interface SelectionOptions {
   dropTier?: boolean;
   /** Question IDs seen recently; these are avoided unless nothing else is available. */
   recentlySeen?: ReadonlySet<string>;
-  /** Question IDs seen at any time; these are down-weighted. */
+  /** Question IDs seen at any time: never repeated while an unseen question remains near the target (see `band`). */
   everSeen?: ReadonlySet<string>;
+  /** Half-width of the no-repeat band around the target rating (SPEC §5.4); default CONFIG.noRepeatBand. */
+  band?: number;
   /** Hidden (reported) question IDs; always excluded. */
   hidden?: ReadonlySet<string>;
   /** Random source in [0, 1); injectable for tests. */
@@ -32,8 +34,10 @@ export function targetRating(theta: number, dropTier = false): number {
 }
 
 /**
- * Pick the next question: closest to the target rating, unseen preferred.
- * A soft weighting (not strict argmin) keeps sessions varied.
+ * Pick the next question: closest to the target rating. While any unseen question lies within ±band of
+ * the target, only unseen questions in the band are served, so a question isn't repeated while a new one
+ * near the student's level remains (SPEC §5.4). Once the band is used up, repeats are allowed, avoiding
+ * recent ones. A soft weighting (not strict argmin) keeps sessions varied.
  */
 export function pickQuestion<C extends Candidate>(pool: readonly C[], theta: number, opts: SelectionOptions = {}): C | null {
   const random = opts.random ?? Math.random;
@@ -41,9 +45,11 @@ export function pickQuestion<C extends Candidate>(pool: readonly C[], theta: num
   const visible = pool.filter((q) => !hidden.has(q.id));
   if (visible.length === 0) return null;
 
-  const fresh = visible.filter((q) => !opts.recentlySeen?.has(q.id));
-  const candidates = fresh.length > 0 ? fresh : visible;
   const target = targetRating(theta, opts.dropTier);
+  const band = opts.band ?? CONFIG.noRepeatBand;
+  const unseen = visible.filter((q) => !opts.everSeen?.has(q.id) && Math.abs(q.rating - target) <= band);
+  const fresh = visible.filter((q) => !opts.recentlySeen?.has(q.id));
+  const candidates = unseen.length > 0 ? unseen : fresh.length > 0 ? fresh : visible;
 
   const weights = candidates.map((q) => {
     const distance = Math.abs(q.rating - target);

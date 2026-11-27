@@ -1,0 +1,539 @@
+# Chords and tangents: written proofs (1.1.7, 1.1.8).
+
+- id: spec.geometry.chords-tangents.diameter-tangents-parallel
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1290
+  responseSkills: { reasoning: 1280, proof: 1280, clarity: 1240 }
+  stem: |
+    Prove that the tangents at the two ends of a diameter are parallel.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-0, -2], U1: [-1.8, 2], V1: [1.8, 2], U2: [-1.8, -2], V2: [1.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: U1, to: V1 }
+      - { type: segment, from: U2, to: V2 }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: O, label: 'O', pos: e }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'perp', description: "Each tangent is perpendicular to the radius at its point of contact, so both are perpendicular to the diameter", points: 2, dimension: reasoning }
+          - { id: 'parallel', description: "Two lines perpendicular to the same line are parallel", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $AB$ be a diameter. The tangent at $A$ is perpendicular to radius $OA$, and the tangent at $B$ is perpendicular to radius $OB$; both radii lie along the line $AB$. So both tangents are perpendicular to $AB$, and two lines perpendicular to the same line are parallel.
+
+- id: spec.geometry.chords-tangents.bisecting-radius-perpendicular
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1300
+  responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
+  stem: |
+    $AB$ is a chord (not a diameter) of a circle with center $O$, and $M$ is its midpoint. Prove that $OM \perp AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, -1], B: [1.732, -1], M: [0, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: M, ticks: 1 }
+      - { type: segment, from: M, to: B, ticks: 1 }
+      - { type: segment, from: O, to: M }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: M, label: 'M', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'congruent', description: "Triangles OMA and OMB: OA = OB, AM = BM, OM common, so congruent (SSS)", points: 2, dimension: reasoning }
+          - { id: 'angles', description: "So ∠OMA = ∠OMB, and they add to 180°", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Each is 90°: OM ⟂ AB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Triangles $OMA$ and $OMB$ have $OA = OB$ (radii), $AM = BM$ and $OM$ common, so they are congruent (SSS) and $\angle OMA = \angle OMB$. These angles lie on the straight line $AB$, so they add to $180^\circ$; each is $90^\circ$. Hence $OM \perp AB$.
+
+- id: spec.geometry.chords-tangents.perpendicular-bisector-center
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1350
+  responseSkills: { reasoning: 1340, proof: 1340, clarity: 1300 }
+  stem: |
+    Prove that the perpendicular bisector of any chord of a circle passes through the center.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1.286, -1.532], M: [-0.296, -1.108], K: [0.53, 1.984], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: M, ticks: 1 }
+      - { type: segment, from: M, to: B, ticks: 1 }
+      - { type: segment, from: M, to: K, dashed: true }
+      - { type: angle, at: M, from: B, to: K, right: true }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: M, label: 'M', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'equidistant', description: "The center O is equally far from the chord's endpoints A and B (radii)", points: 2, dimension: reasoning }
+          - { id: 'locus', description: "Points equidistant from A and B lie on the perpendicular bisector of AB", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So O is on it", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $AB$ be a chord and $O$ the center. $OA = OB$ (radii), so $O$ is equidistant from $A$ and $B$. Every point equidistant from $A$ and $B$ lies on the perpendicular bisector of $AB$. So the perpendicular bisector passes through $O$.
+
+- id: spec.geometry.chords-tangents.concentric-chord-midpoint
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1420
+  responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
+  stem: |
+    Two circles have the same center $O$. A chord $AB$ of the larger circle touches the smaller circle at $T$. Prove that $T$ is the midpoint of $AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.6, -1.2], B: [1.6, -1.2], T: [0, -1.2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: circle, center: O, radius: 1.2 }
+      - { type: segment, from: A, to: B }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: T, label: 'T', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'perp', description: "AB is a tangent to the smaller circle at T, so OT ⟂ AB", points: 2, dimension: reasoning }
+          - { id: 'bisect', description: "The perpendicular from the center to a chord of the larger circle bisects it", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So AT = TB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB$ touches the smaller circle at $T$, so $OT \perp AB$ (tangent ⟂ radius). In the larger circle, $OT$ is then the perpendicular from the center to the chord $AB$, and that perpendicular bisects the chord. So $T$ is the midpoint of $AB$.
+
+- id: spec.geometry.chords-tangents.op-bisects-angles
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1440
+  responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
+  stem: |
+    Tangents at $A$ and $B$ to a circle with center $O$ meet at $P$. Prove that $OP$ bisects both $\angle APB$ and $\angle AOB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { P: [3.6, 0], A: [1.111, 1.663], B: [1.111, -1.663], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: O, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: O, to: P }
+      - { type: point, at: O, label: 'O', pos: w }
+      - { type: point, at: P, label: 'P', pos: e }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'right', description: "∠OAP = ∠OBP = 90° (tangent ⟂ radius)", points: 1, dimension: reasoning }
+          - { id: 'congruent', description: "Triangles OAP and OBP: right angles, OP common, OA = OB, so congruent (RHS)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠APO = ∠BPO and ∠AOP = ∠BOP", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\angle OAP = \angle OBP = 90^\circ$ (tangent ⟂ radius). Triangles $OAP$ and $OBP$ have these right angles, the common hypotenuse $OP$, and $OA = OB$ (radii), so they are congruent (RHS). Hence $\angle APO = \angle BPO$ and $\angle AOP = \angle BOP$: $OP$ bisects both angles.
+
+- id: spec.geometry.chords-tangents.op-perpendicular-ab
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1460
+  responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
+  stem: |
+    Tangents at $A$ and $B$ to a circle with center $O$ meet at $P$. Prove that $OP$ is perpendicular to $AB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { P: [3.6, 0], A: [1.111, 1.663], B: [1.111, -1.663], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: O, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: O, to: P }
+      - { type: point, at: O, label: 'O', pos: w }
+      - { type: point, at: P, label: 'P', pos: e }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: segment, from: A, to: B }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'equal', description: "PA = PB (tangents from one point) and OA = OB (radii)", points: 2, dimension: reasoning }
+          - { id: 'bisector', description: "So both P and O are equidistant from A and B, and lie on the perpendicular bisector of AB", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Hence the line OP is that perpendicular bisector: OP ⟂ AB", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $PA = PB$ (tangents from one point) and $OA = OB$ (radii). So $P$ and $O$ are both equidistant from $A$ and $B$, and both lie on the perpendicular bisector of $AB$. Two different points determine a line, so $OP$ is that perpendicular bisector, and $OP \perp AB$.
+
+- id: spec.geometry.chords-tangents.isosceles-tangent-parallel
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1480
+  responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
+  stem: |
+    Triangle $ABC$ has $AB = AC$ and its corners on a circle. Prove that the tangent at $A$ is parallel to $BC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.638, -1.147], C: [1.638, -1.147], U: [-1.8, 2], V: [1.8, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: A, to: C, ticks: 1 }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: U, to: V }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'alt', description: "Alternate segment: the angle between the tangent and AB equals ∠ACB", points: 2, dimension: reasoning }
+          - { id: 'isosceles', description: "AB = AC gives ∠ACB = ∠ABC", points: 1, dimension: reasoning }
+          - { id: 'parallel', description: "So the tangent makes with AB the same angle as BC does: equal alternate angles, so the lines are parallel", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $X$ be a point on the tangent at $A$, on the opposite side of $AB$ from $C$. By the alternate segment theorem, $\angle XAB = \angle ACB$. Since $AB = AC$, $\angle ACB = \angle ABC$. So $\angle XAB = \angle ABC$: these are alternate angles for the lines $AX$ and $BC$ with transversal $AB$, so the tangent is parallel to $BC$.
+
+- id: spec.geometry.chords-tangents.incircle-half-perimeter
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1500
+  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  stem: |
+    A circle inside triangle $ABC$ touches $BC$, $CA$ and $AB$ at $D$, $E$ and $F$. Prove that $AF + BD + CE$ is half the perimeter of the triangle.
+
+    ```diagram
+    view: [-2.45, 4.65, -2.45, 3.45]
+    width: 260
+    points: { A: [0, 0], B: [4.2, 0], C: [1.3, 3], I: [1.649, 1.082], D: [2.427, 1.834], E: [0.655, 1.513], F: [1.649, 0] }
+    draw:
+      - { type: circle, center: I, radius: 1.082 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D', pos: ne }
+      - { type: point, at: E, label: 'E', pos: nw }
+      - { type: point, at: F, label: 'F', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'equal', description: "Equal tangents: AF = AE, BD = BF, CE = CD", points: 2, dimension: reasoning }
+          - { id: 'perimeter', description: "Perimeter = (AF + FB) + (BD + DC) + (CE + EA) = 2(AF + BD + CE)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So AF + BD + CE is half the perimeter", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Tangents from one point are equal: $AF = AE$, $BD = BF$, $CE = CD$. The perimeter is
+    $$AB + BC + CA = (AF + FB) + (BD + DC) + (CE + EA) = AF + BD + BD + CE + CE + AF = 2(AF + BD + CE).$$
+    So $AF + BD + CE$ is half the perimeter.
+
+- id: spec.geometry.chords-tangents.pitot
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1540
+  responseSkills: { reasoning: 1530, proof: 1530, clarity: 1490 }
+  stem: |
+    A circle touches all four sides of quadrilateral $ABCD$. Prove that $AB + CD = BC + DA$.
+
+    ```diagram
+    view: [-2.05, 2.07, -1.94, 2.05]
+    width: 260
+    points: { A: [1.623, 1.034], B: [-1.603, 1.603], C: [-1.122, -1.122], D: [0.947, -1.487], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 1.3 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'tangents', description: "Each corner is the meeting point of two tangents, which are equal: lengths a, b, c, d from A, B, C, D", points: 2, dimension: reasoning }
+          - { id: 'sides', description: "AB = a + b, BC = b + c, CD = c + d, DA = d + a", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "AB + CD = a + b + c + d = BC + DA", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Each side touches the circle once. From each corner, the two tangents to the circle are equal: call their lengths $a, b, c, d$ at $A, B, C, D$. Then $AB = a + b$, $BC = b + c$, $CD = c + d$ and $DA = d + a$, so $AB + CD = a + b + c + d = BC + DA$.
+
+- id: spec.geometry.chords-tangents.tangent-chord-half-center
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1560
+  responseSkills: { reasoning: 1550, clarity: 1510 }
+  stem: |
+    A tangent touches a circle with center $O$ at $T$, and $S$ is a point on the tangent. $TB$ is a chord with $\angle STB$ acute. Prove that $\angle TOB = 2\angle STB$.
+
+    ```diagram
+    view: [-2.45, 2.65, -2.45, 2.45]
+    width: 230
+    points: { T: [-0, -2], B: [1.879, 0.684], S: [2.2, -2], U: [-1.6, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: U, to: S }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: O, to: T }
+      - { type: segment, from: O, to: B }
+      - { type: point, at: O, label: 'O', pos: w }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: S, label: 'S', pos: s }
+      - { type: point, at: B, label: 'B', pos: ne }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'right', description: "∠OTS = 90°, so ∠OTB = 90° − ∠STB", points: 1, dimension: reasoning }
+          - { id: 'isosceles', description: "OT = OB, so ∠OBT = ∠OTB", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "Angle sum of triangle OTB: ∠TOB = 180° − 2(90° − ∠STB) = 2∠STB", points: 2, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    The tangent is perpendicular to the radius, so $\angle OTS = 90^\circ$ and $\angle OTB = 90^\circ - \angle STB$. $OT = OB$, so triangle $OTB$ is isosceles with $\angle OBT = \angle OTB$. Hence $\angle TOB = 180^\circ - 2(90^\circ - \angle STB) = 2\angle STB$.
+
+- id: spec.geometry.chords-tangents.touching-centers-collinear
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1580
+  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
+  stem: |
+    Two circles touch externally at $T$, sharing the tangent line there. Prove that their centers and $T$ lie on one straight line.
+
+    ```diagram
+    view: [-2.7, 3.5, -2.1, 2.1]
+    width: 280
+    points: { P1: [-1.2, 0], P2: [1.6, 0], T: [0, 0], U: [0, 1.9], V: [0, -1.9] }
+    draw:
+      - { type: circle, center: P1, radius: 1.2 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: U, to: V }
+      - { type: point, at: P1, label: 'O_1', pos: s }
+      - { type: point, at: P2, label: 'O_2', pos: s }
+      - { type: point, at: T, label: 'T', pos: se }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'perp', description: "Each radius to T is perpendicular to the common tangent at T", points: 2, dimension: reasoning }
+          - { id: 'one-line', description: "Through T there is only one line perpendicular to the tangent", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So both centers lie on that line, with T", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the centers be $O_1$ and $O_2$. The common tangent at $T$ is perpendicular to both radii $O_1T$ and $O_2T$. There is only one line through $T$ perpendicular to the tangent, so $O_1T$ and $O_2T$ both lie along it. Hence $O_1$, $T$, $O_2$ are collinear.
+
+- id: spec.geometry.chords-tangents.triangle-pde-perimeter
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1620
+  responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
+  stem: |
+    Tangents from $P$ touch a circle at $A$ and $B$. The tangent at a point $C$ of the minor arc $AB$ meets $PA$ at $D$ and $PB$ at $E$. Prove that the perimeter of triangle $PDE$ is $2PA$.
+
+    ```diagram
+    view: [-2.45, 4.45, -2.45, 2.45]
+    width: 230
+    points: { P: [4, 0], A: [1, 1.732], B: [1, -1.732], C: [2, 0], D: [2, 1.155], E: [2, -1.155], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: D, to: E }
+      - { type: point, at: P, label: 'P', pos: e }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: w }
+      - { type: point, at: D, label: 'D', pos: ne }
+      - { type: point, at: E, label: 'E', pos: se }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'equal', description: "Equal tangents: DA = DC and EB = EC", points: 2, dimension: reasoning }
+          - { id: 'sum', description: "Perimeter = PD + DC + CE + EP = PD + DA + EB + EP = PA + PB", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "PA = PB, so the perimeter is 2PA", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Tangents from one point are equal: $DA = DC$, $EB = EC$ and $PA = PB$. The perimeter is $PD + DE + EP = PD + DC + CE + EP = (PD + DA) + (EB + EP) = PA + PB = 2PA$.
+
+- id: spec.geometry.chords-tangents.two-circles-tangent-angles
+  skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
+  rating: 1660
+  responseSkills: { reasoning: 1650, proof: 1650, clarity: 1610, synthesis: 1640 }
+  stem: |
+    Two circles meet at $A$ and $B$. The tangent to the first circle at $A$ meets the second circle again at $C$, and the tangent to the second circle at $A$ meets the first circle again at $D$. Prove that $\angle ABD = \angle ABC$.
+
+    ```diagram
+    view: [-2.7, 3, -2.1, 2.1]
+    width: 280
+    points: { P1: [-0.9, 0], P2: [1, 0], A: [-0.118, 1.28], B: [-0.118, -1.28], C: [2.649, -0.411], D: [-2.274, -0.603] }
+    draw:
+      - { type: circle, center: P1, radius: 1.5 }
+      - { type: circle, center: P2, radius: 1.7 }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'first', description: "In the first circle (through A, B, D), AC is the tangent at A: ∠CAB = ∠ADB (alternate segment)", points: 1, dimension: reasoning }
+          - { id: 'second', description: "In the second circle (through A, B, C), AD is the tangent at A: ∠DAB = ∠ACB", points: 1, dimension: reasoning }
+          - { id: 'similar', description: "So triangles ADB and CAB have two pairs of equal angles and are similar", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Their third angles are equal: ∠ABD = ∠CBA", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    In the first circle, $AC$ is the tangent at $A$ and $AB$ a chord, so $\angle CAB = \angle ADB$ (alternate segment). In the second circle, $AD$ is the tangent at $A$, so $\angle DAB = \angle ACB$.
+
+    Triangles $ADB$ and $CAB$ therefore have $\angle ADB = \angle CAB$ and $\angle DAB = \angle ACB$, so they are similar, and their third angles are equal: $\angle ABD = \angle ABC$.
+
+- id: spec.geometry.chords-tangents.chord-equals-radius
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1520
+  responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
+  stem: |
+    A chord $AB$ of a circle is equal in length to the radius. Prove that the angle between $AB$ and the tangent at $A$ is $30^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.65, -2.45, 2.45]
+    width: 230
+    points: { A: [-0, -2], B: [1.732, -1], U: [-1.8, -2], V: [2.2, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: U, to: V }
+      - { type: segment, from: A, to: B }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: e }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'equilateral', description: "OA = OB = AB, so triangle OAB is equilateral and ∠OAB = 60°", points: 2, dimension: reasoning }
+          - { id: 'tangent', description: "The tangent at A is perpendicular to OA", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So the angle between AB and the tangent is 90° − 60° = 30°", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $OA = OB$ (radii) $= AB$, so triangle $OAB$ is equilateral and $\angle OAB = 60^\circ$. The tangent at $A$ is perpendicular to $OA$, so the angle between it and $AB$ is $90^\circ - 60^\circ = 30^\circ$ (on the side of $B$).
+
+- id: spec.geometry.chords-tangents.three-tangents-right-angle
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1720
+  responseSkills: { reasoning: 1710, proof: 1710, clarity: 1670 }
+  stem: |
+    $AB$ is a diameter of a circle with center $O$. The tangents at $A$ and $B$ are met by the tangent at a third point $C$, at $D$ and $E$ respectively. Prove that $\angle DOE = 90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 3.59]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [0.845, 1.813], D: [-2, 3.138], E: [2, 1.275], U: [-2, -1], V: [2, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: U, to: D }
+      - { type: segment, from: V, to: E }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: O, to: D }
+      - { type: segment, from: O, to: E }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: nw }
+      - { type: point, at: E, label: 'E', pos: ne }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'bisect-d', description: "OD bisects ∠AOC (congruent triangles OAD, OCD, or tangents from D)", points: 1, dimension: reasoning }
+          - { id: 'bisect-e', description: "OE bisects ∠COB", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "∠AOC + ∠COB = 180° (AB is a straight line)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So ∠DOE = ½∠AOC + ½∠COB = 90°", points: 2, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    From $D$, the tangents $DA$ and $DC$ give congruent right triangles $OAD$ and $OCD$ (RHS), so $OD$ bisects $\angle AOC$. Likewise $OE$ bisects $\angle COB$. Since $A$, $O$, $B$ are collinear, $\angle AOC + \angle COB = 180^\circ$. Hence $\angle DOE = \tfrac{1}{2}\angle AOC + \tfrac{1}{2}\angle COB = 90^\circ$.
+
+- id: spec.geometry.chords-tangents.three-tangents-product
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1780
+  responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730 }
+  stem: |
+    In the setup where $AB$ is a diameter of a circle with center $O$ and radius $r$, and the tangent at a third point $C$ meets the tangents at $A$ and $B$ at $D$ and $E$, you may use that $\angle DOE = 90^\circ$. Prove that $AD \times BE = r^2$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 3.59]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [0.845, 1.813], D: [-2, 3.138], E: [2, 1.275], U: [-2, -1], V: [2, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: U, to: D }
+      - { type: segment, from: V, to: E }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: O, to: D }
+      - { type: segment, from: O, to: E }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: nw }
+      - { type: point, at: E, label: 'E', pos: ne }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'altitude', description: "OC ⟂ DE (tangent ⟂ radius), so OC is the altitude from the right angle in triangle DOE", points: 1, dimension: reasoning }
+          - { id: 'similar', description: "Triangles DCO and OCE are similar (each similar to DOE), giving OC² = DC × CE", points: 2, dimension: reasoning }
+          - { id: 'tangents', description: "DC = DA and CE = EB (equal tangents)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "So r² = AD × BE", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $OC \perp DE$ (tangent ⟂ radius), and $\angle DOE = 90^\circ$. In right triangle $DOE$, the altitude $OC$ splits it into triangles $DCO$ and $OCE$, which are similar ($\angle CDO = 90^\circ - \angle DOC = \angle COE$, and both have a right angle at $C$). So $\dfrac{DC}{OC} = \dfrac{OC}{CE}$, i.e. $OC^2 = DC \times CE$.
+
+    Equal tangents give $DC = DA$ and $CE = EB$, and $OC = r$. Hence $AD \times BE = r^2$.

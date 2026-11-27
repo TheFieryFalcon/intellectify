@@ -36,7 +36,7 @@
       {#each Object.entries(job.answers) as [part, text] (part)}
         <div class="answer">
           {#if Object.keys(job.answers).length > 1}<span class="part-id">({part})</span>{/if}
-          <Markdown {text} />
+          <Markdown {text} glossary={false} />
         </div>
       {/each}
       <h2>Marking</h2>

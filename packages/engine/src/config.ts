@@ -78,6 +78,8 @@ export const CONFIG = {
   defaultStartTier: 3 as Tier,
   /** Target probability of success when picking the next question (SPEC §5.7). */
   targetP: 0.65,
+  /** No-repeat band (SPEC §5.4): unseen questions within this many points of the target are served before any repeat. */
+  noRepeatBand: 150,
   /** Free-response: rubric scores below this earn no credit (SPEC §6.3). */
   freeResponseThreshold: 0.6,
 } as const;

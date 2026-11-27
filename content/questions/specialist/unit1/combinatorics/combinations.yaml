@@ -128,13 +128,14 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1470
   responseSkills: {reading: 1470, calculation: 1430, reasoning: 1450}
+  words: { p1: person, p2: person, sport: sport }
   stem: |
-    A team of 4 is chosen from 10 people, but two of them, Sam and Kai, refuse to be on the team together. How many teams are possible?
+    A {{sport}} team of 4 is chosen from 10 people, but two of them, {{p1}} and {{p2}}, refuse to be on the team together. How many teams are possible?
   parts:
     - id: a
       answer: { type: numeric, key: 182 }
   solution: |
-    All teams $\dbinom{10}{4} = 210$, minus teams with both Sam and Kai, which need 2 more from the other 8: $\dbinom{8}{2} = 28$. Answer $182$.
+    All teams $\dbinom{10}{4} = 210$, minus teams with both {{p1}} and {{p2}}, which need 2 more from the other 8: $\dbinom{8}{2} = 28$. Answer $182$.
   verify: |
     from itertools import combinations as combos
     def answers():
@@ -144,11 +145,12 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1440
   responseSkills: {reading: 1440, calculation: 1390, reasoning: 1420, synthesis: 1420}
+  words: { who: person }
   variants:
     - { r: 5, u: 3, v: 56 }
     - { r: 6, u: 4, v: 210 }
   stem: |
-    On a grid of streets, you walk from one corner to the opposite corner using only steps **right** or **up**. The trip needs {{r}} steps right and {{u}} steps up. How many different routes are there?
+    {{who}} walks through a grid of streets from one corner to the opposite corner, using only steps **right** or **up**. The trip needs {{r}} steps right and {{u}} steps up. How many different routes are there?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
@@ -339,11 +341,12 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1120
   responseSkills: { calculation: 1100, reading: 1120 }
+  words: { who: person }
   variants:
     - { n: 12, v: 66 }
     - { n: 20, v: 190 }
   stem: |
-    At a meeting of {{n}} people, every person shakes hands once with every other person. How many handshakes are there?
+    At {{who}}'s party, {{n}} people are there, and every person shakes hands once with every other person. How many handshakes are there?
   parts:
     - id: a
       answer: { type: numeric, key: '{{v}}' }
@@ -390,13 +393,14 @@
   skills: { primary: spec.combinatorics.combinations }
   rating: 1480
   responseSkills: {reading: 1460, calculation: 1460, reasoning: 1460}
+  words: { p1: person, p2: person, p3: person }
   stem: |
-    9 different books are given to 3 students, Ana, Ben and Cy, so that each student gets 3 books. In how many ways can this be done?
+    9 different books are given to 3 students, {{p1}}, {{p2}} and {{p3}}, so that each student gets 3 books. In how many ways can this be done?
   parts:
     - id: a
       answer: { type: numeric, key: 1680 }
   solution: |
-    Ana's 3 books: $\dbinom{9}{3} = 84$. Ben's 3 from the remaining 6: $\dbinom{6}{3} = 20$. Cy gets the last 3. Total: $84 \times 20 = 1680$.
+    {{p1}}'s 3 books: $\dbinom{9}{3} = 84$. {{p2}}'s 3 from the remaining 6: $\dbinom{6}{3} = 20$. {{p3}} gets the last 3. Total: $84 \times 20 = 1680$.
   verify: |
     def answers():
         return {"a": binomial(9, 3) * binomial(6, 3) * binomial(3, 3)}
@@ -543,8 +547,9 @@
   skills: {primary: spec.combinatorics.combinations}
   rating: 1410
   responseSkills: {calculation: 1390, reasoning: 1390, synthesis: 1390}
+  words: { p1: person, p2: person, club: club }
   stem: |
-    A team of 4 is chosen from 12 people. Two of them, Kai and Lee, insist on being chosen together or not at all. How many teams are possible?
+    A team of 4 is chosen from the 12 members of the {{club}}. Two of them, {{p1}} and {{p2}}, insist on being chosen together or not at all. How many teams are possible?
   parts:
   - id: a
     answer: {type: numeric, key: '255'}
@@ -697,3 +702,242 @@
   verify: |
     def answers():
         return {"a": binomial(7, 2) * binomial(6, 2)}
+
+- id: spec.combinatorics.combinations.club-committee
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1100
+  responseSkills: { reading: 1100, calculation: 1060 }
+  words: { club: club }
+  variants:
+    - { n: 10, r: 3, v: 120 }
+    - { n: 12, r: 4, v: 495 }
+    - { n: 9, r: 5, v: 126 }
+    - { n: 15, r: 2, v: 105 }
+  stem: |
+    The {{club}} has {{n}} members and chooses a committee of {{r}}. The committee has no special roles. How many committees are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Order doesn't matter: $\dbinom{ {{n}} }{ {{r}} } = {{v}}$.
+  verify: |
+    from itertools import combinations
+    def answers(n, r, v):
+        return {"a": len(list(combinations(range(n), r)))}
+
+- id: spec.combinatorics.combinations.tasting-platter
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1240
+  responseSkills: { reading: 1240, calculation: 1200 }
+  words: { shop: shop }
+  variants:
+    - { n: 9, r: 3, v: 84 }
+    - { n: 10, r: 4, v: 210 }
+    - { n: 12, r: 3, v: 220 }
+  stem: |
+    The {{shop}} lets you build a tasting platter of any {{r}} different items from its menu of {{n}}. How many different platters are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    A platter is a selection, not an order: $\dbinom{ {{n}} }{ {{r}} } = {{v}}$.
+  verify: |
+    from itertools import combinations
+    def answers(n, r, v):
+        return {"a": len(list(combinations(range(n), r)))}
+
+- id: spec.combinatorics.combinations.year-mix
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1380
+  responseSkills: { reading: 1380, calculation: 1340 }
+  words: { club: club }
+  variants:
+    - { a: 6, b: 5, v: 150 }
+    - { a: 7, b: 4, v: 126 }
+    - { a: 8, b: 6, v: 420 }
+  stem: |
+    The {{club}} has {{a}} Year 11 members and {{b}} Year 12 members. A committee of 4 must have exactly 2 members from each year. How many committees are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Choose the Year 11s and the Year 12s separately: $\dbinom{ {{a}} }{2} \times \dbinom{ {{b}} }{2} = {{v}}$.
+  verify: |
+    from itertools import combinations
+    def answers(a, b, v):
+        return {"a": sum(1 for c in combinations(range(a + b), 4) if sum(1 for x in c if x < a) == 2)}
+
+- id: spec.combinatorics.combinations.at-least-one-year12
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1460
+  responseSkills: { reading: 1450, calculation: 1420, reasoning: 1440 }
+  words: { club: club }
+  variants:
+    - { a: 6, b: 5, v: 315 }
+    - { a: 7, b: 4, v: 295 }
+    - { a: 8, b: 3, v: 260 }
+  stem: |
+    The {{club}} has {{a}} Year 11 members and {{b}} Year 12 members. How many committees of 4 include **at least one** Year 12 member?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    All committees: $\dbinom{ {{a}} + {{b}} }{4}$. Those with no Year 12 member: $\dbinom{ {{a}} }{4}$. Subtract: {{v}}.
+  verify: |
+    from itertools import combinations
+    def answers(a, b, v):
+        return {"a": sum(1 for c in combinations(range(a + b), 4) if any(x >= a for x in c))}
+
+- id: spec.combinatorics.combinations.squad-with-injury
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1430
+  responseSkills: { reading: 1430, calculation: 1390, reasoning: 1410 }
+  words: { p1: person, p2: person, sport: sport }
+  variants:
+    - { n: 12, r: 5, v: 210 }
+    - { n: 15, r: 6, v: 1287 }
+    - { n: 11, r: 4, v: 84 }
+  stem: |
+    A {{sport}} squad of {{r}} is picked from {{n}} players. {{p1}} is the captain and must be picked, and {{p2}} is injured and can't be. How many squads are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    {{p1}} is in, {{p2}} is out, so choose the other ${{r}} - 1$ from the remaining ${{n}} - 2$: $\dbinom{ {{n}} - 2 }{ {{r}} - 1 } = {{v}}$.
+  verify: |
+    from itertools import combinations
+    def answers(n, r, v):
+        return {"a": sum(1 for c in combinations(range(n), r) if 0 in c and 1 not in c)}
+
+- id: spec.combinatorics.combinations.two-unnamed-teams
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1640
+  responseSkills: { reading: 1630, calculation: 1600, reasoning: 1630 }
+  words: { sport: sport }
+  variants:
+    - { n: 6, h: 3, v: 10 }
+    - { n: 8, h: 4, v: 35 }
+    - { n: 10, h: 5, v: 126 }
+  stem: |
+    {{n}} friends split into two teams of {{h}} for a game of {{sport}}. The teams have no names or colors, so only who plays with whom matters. In how many ways can the teams be formed?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Choosing one team of {{h}} fixes the other: $\dbinom{ {{n}} }{ {{h}} }$. But each split is counted twice (once from each team's side), so halve it: {{v}}.
+  verify: |
+    from itertools import combinations
+    def answers(n, h, v):
+        return {"a": len({frozenset([frozenset(c), frozenset(set(range(n)) - set(c))]) for c in combinations(range(n), h)})}
+
+- id: spec.combinatorics.combinations.playlist-mix
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1560
+  responseSkills: { reading: 1550, calculation: 1530, reasoning: 1540 }
+  words: { who: person }
+  variants:
+    - { r: 8, p: 6, v: 1316 }
+    - { r: 7, p: 7, v: 1001 }
+    - { r: 6, p: 9, v: 861 }
+  stem: |
+    {{who}} makes a playlist of 5 songs, chosen from {{r}} rock songs and {{p}} pop songs, with **at least 3** rock songs. Only which songs are chosen matters. How many playlists are possible?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Split by the number of rock songs: 3, 4 or 5. $\dbinom{ {{r}} }{3}\dbinom{ {{p}} }{2} + \dbinom{ {{r}} }{4}\dbinom{ {{p}} }{1} + \dbinom{ {{r}} }{5} = {{v}}$.
+  verify: |
+    from itertools import combinations
+    def answers(r, p, v):
+        return {"a": sum(1 for c in combinations(range(r + p), 5) if sum(1 for x in c if x < r) >= 3)}
+
+- id: spec.combinatorics.combinations.route-via-shop
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1600
+  responseSkills: { reading: 1590, calculation: 1560, reasoning: 1590 }
+  words: { who: person, venue: venue, shop: shop }
+  stem: |
+    {{who}} walks through a grid of streets from home to the {{venue}}, which is 6 blocks east and 4 blocks north, using only steps east or north. On the way, {{who}} wants to stop at the {{shop}}, which is 2 blocks east and 2 blocks north of home. How many routes pass the {{shop}}?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 90 }
+  solution: |
+    Home to the {{shop}}: 2 east and 2 north in some order, $\dbinom{4}{2} = 6$. The {{shop}} to the {{venue}}: 4 east and 2 north, $\dbinom{6}{2} = 15$. Total $6 \times 15 = 90$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        count = 0
+        for north in combinations(range(10), 4):
+            x = y = 0
+            through = False
+            for i in range(10):
+                if i in north: y += 1
+                else: x += 1
+                if (x, y) == (2, 2): through = True
+            count += through
+        return {"a": count}
+
+- id: spec.combinatorics.combinations.route-avoiding-roadworks
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1700
+  responseSkills: { reading: 1690, calculation: 1660, reasoning: 1690 }
+  words: { who: person, venue: venue }
+  stem: |
+    {{who}} walks through a grid of streets from home to the {{venue}}, 6 blocks east and 4 blocks north, using only steps east or north. The corner 3 blocks east and 1 block north of home is closed for roadworks. How many routes avoid it?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 130 }
+  solution: |
+    All routes: $\dbinom{10}{4} = 210$. Routes through the closed corner: home to it, $\dbinom{4}{1} = 4$, then on to the {{venue}} (3 east, 3 north), $\dbinom{6}{3} = 20$, so $80$. Avoiding it: $210 - 80 = 130$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        count = 0
+        for north in combinations(range(10), 4):
+            x = y = 0
+            bad = False
+            for i in range(10):
+                if i in north: y += 1
+                else: x += 1
+                if (x, y) == (3, 1): bad = True
+            count += not bad
+        return {"a": count}
+
+- id: spec.combinatorics.combinations.prize-split
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1520
+  responseSkills: { reading: 1510, calculation: 1490, reasoning: 1500 }
+  words: { p1: person, p2: person, p3: person }
+  variants:
+    - { n: 7, v: 210 }
+    - { n: 8, v: 560 }
+    - { n: 9, v: 1260 }
+  stem: |
+    {{n}} different prizes are shared out so that {{p1}} gets 3, {{p2}} gets 2 and {{p3}} gets the rest. In how many ways can this be done?
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Choose {{p1}}'s 3: $\dbinom{ {{n}} }{3}$. Then {{p2}}'s 2 from the rest: $\dbinom{ {{n}} - 3 }{2}$. {{p3}} gets what's left. Total {{v}}.
+  verify: |
+    from itertools import combinations
+    def answers(n, v):
+        return {"a": sum(1 for a in combinations(range(n), 3) for b in combinations([x for x in range(n) if x not in a], 2))}
+
+- id: spec.combinatorics.combinations.lottery-four-match
+  skills: { primary: spec.combinatorics.combinations }
+  rating: 1650
+  responseSkills: { reading: 1640, calculation: 1610, reasoning: 1630 }
+  words: { who: person }
+  stem: |
+    In a raffle game, {{who}} picks 6 different numbers from 1 to 20, and then 6 different numbers are drawn. In how many of the possible draws does {{who}} match **exactly 4** numbers?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 1365 }
+  solution: |
+    The draw must contain 4 of {{who}}'s 6 numbers, $\dbinom{6}{4} = 15$, and 2 of the other 14, $\dbinom{14}{2} = 91$. Total $15 \times 91 = 1365$.
+  verify: |
+    from itertools import combinations
+    def answers():
+        mine = set(range(6))
+        return {"a": sum(1 for d in combinations(range(20), 6) if len(mine & set(d)) == 4)}

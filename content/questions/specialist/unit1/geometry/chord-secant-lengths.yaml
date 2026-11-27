@@ -5,15 +5,18 @@
   rating: 1050
   responseSkills: {calculation: 1040, reading: 1040}
   variants:
-  - {ax: 4, xb: 9, cx: 6, v: 6}
-  - {ax: 5, xb: 8, cx: 4, v: 10}
+    - { ax: 4, xb: 9, cx: 6, v: 6, _A: '-0.131, 1.996', _B: '-1.621, -1.171', _C: '-1.989, 0.214', _D: '0.809, 1.829', _X: '-0.59, 1.021' }
+    - { ax: 5, xb: 8, cx: 4, v: 10, _A: '0.227, 1.987', _B: '-1.955, -0.422', _C: '-1.603, 1.196', _D: '1.865, 0.723', _X: '-0.612, 1.061' }
+    - { ax: 3, xb: 8, cx: 4, v: 6, _A: '-0.291, 1.979', _B: '-1.522, -1.298', _C: '-1.854, 0.75', _D: '1.215, 1.589', _X: '-0.627, 1.085' }
+    - { ax: 6, xb: 4, cx: 3, v: 8, _A: '1.215, 1.589', _B: '-1.854, 0.75', _C: '-1.568, 1.241', _D: '1.885, 0.669', _X: '-0.627, 1.085' }
+    - { ax: 2, xb: 9, cx: 3, v: 6, _A: '-0.616, 1.903', _B: '-1.285, -1.533', _C: '-1.674, 1.094', _D: '1.135, 1.647', _X: '-0.738, 1.278' }
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. $AX = {{ax}}$, $XB = {{xb}}$ and $CX = {{cx}}$. Find $XD$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.732, 1], B: [1.732, -1], C: [0.347, 1.97], D: [-1, -1.732], X: [-0.306, 0.176], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], X: [{{_X}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B }
@@ -40,20 +43,24 @@
         t = line_circle((0, 0), phi, r, c)
         assert abs(-t[0] - cx) < 1e-3, "no chord through X with that length on this circle"
         return {"a": approx(t[1], 3)}
+
 - id: spec.geometry.chord-secant-lengths.tangent-secant
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1080
   responseSkills: {calculation: 1070, reading: 1070}
   variants:
-  - {ma: 2, mb: 8, v: 4}
-  - {ma: 3, mb: 12, v: 6}
+    - { ma: 2, mb: 8, v: 4, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 3, mb: 12, v: 6, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 4, mb: 9, v: 6, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.796, -0.88', _B: '-0.289, -1.979', _T: '1.155, 1.633' }
+    - { ma: 4, mb: 16, v: 8, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 5, mb: 20, v: 10, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
   stem: |
     From $M$, a tangent touches a circle at $T$, and a secant cuts the circle at $A$ and $B$, with $MA = {{ma}}$ and $MB = {{mb}}$. Find $MT$.
 
     ```diagram
-    view: [-2.5, 4.7, -2.5, 2.5]
+    view: [{{_view}}]
     width: 260
-    points: { M: [4.2, 0], T: [0.952, 1.759], A: [1.942, -0.48], B: [-1.578, -1.228], O: [0, 0] }
+    points: { M: [{{_M}}], T: [{{_T}}], A: [{{_A}}], B: [{{_B}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: M, to: T }
@@ -78,17 +85,24 @@
         assert abs(t[0] - ma) < 1e-9 and abs(t[1] - mb) < 1e-9
         T = tangent_point_toward((0, 0), r, M, 1)
         return {"a": approx(dist(M, T))}
+
 - id: spec.geometry.chord-secant-lengths.two-secants
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1120
   responseSkills: {calculation: 1110, reading: 1100}
+  variants:
+    - { ma: 3, mb: 10, mc: 5, p: 30, v: 6, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.328, 0', _A: '1.946, -0.461', _B: '-1.279, -1.538', _C: '1.379, 1.449', _D: '0.989, 1.738' }
+    - { ma: 4, mb: 9, mc: 3, p: 36, v: 12, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.795, -0.881', _B: '0.261, -1.983', _C: '1.961, 0.395', _D: '-1.226, 1.58' }
+    - { ma: 2, mb: 12, mc: 3, p: 24, v: 8, _view: '-2.55, 3.15, -2.5, 2.5', _M: '2.603, 0', _A: '1.981, -0.275', _B: '-1.128, -1.652', _C: '1.87, 0.709', _D: '0.649, 1.892' }
+    - { ma: 4, mb: 15, mc: 5, p: 60, v: 12, _view: '-2.55, 3.67, -2.5, 2.5', _M: '3.12, 0', _A: '1.956, -0.418', _B: '-1.244, -1.566', _C: '1.818, 0.833', _D: '-0.004, 2' }
+    - { ma: 3, mb: 16, mc: 4, p: 48, v: 12, _view: '-2.55, 3.25, -2.5, 2.5', _M: '2.699, 0', _A: '1.976, -0.306', _B: '-1.154, -1.634', _C: '1.888, 0.661', _D: '0.266, 1.982' }
   stem: |
-    From $M$, two secants cut a circle at $A$, $B$ and at $C$, $D$. $MA = 3$, $MB = 10$ and $MC = 5$. Find $MD$.
+    From $M$, two secants cut a circle at $A$, $B$ and at $C$, $D$. $MA = {{ma}}$, $MB = {{mb}}$ and $MC = {{mc}}$. Find $MD$.
 
     ```diagram
-    view: [-2.5, 4.7, -2.5, 2.5]
+    view: [{{_view}}]
     width: 260
-    points: { M: [4.2, 0], A: [1.942, -0.48], B: [-1.578, -1.228], C: [1.942, 0.48], D: [-1.578, 1.228], O: [0, 0] }
+    points: { M: [{{_M}}], A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: M, to: B }
@@ -102,22 +116,52 @@
   parts:
   - id: a
     prompt: $MD$
-    answer: {type: numeric, key: '6'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    $MA \times MB = MC \times MD$, so $30 = 5 \times MD$ and $MD = 6$.
+    $MA \times MB = MC \times MD$, so ${{p}} = {{mc}} \times MD$ and $MD = {{v}}$.
   verify: |
-    def answers():
-        r, d = 3.5, 6.5
-        M = (d, 0.0)
-        phi = search(lambda a: (lambda t: t[0] if t else None)(line_circle(M, a, r)), 5, 90, 270)
-        assert abs(line_circle(M, phi, r)[0] - 5) < 1e-3
-        return {"a": approx(line_circle(M, phi, r)[1], 3)}
+    def answers(ma, mb, mc, p, v):
+        import math
+        # M at the origin; the first secant along the x-axis meets a circle at x = ma and x = mb.
+        c = ((ma + mb) / 2, 1.3 * mb)
+        R = math.dist(c, (ma, 0))
+        def near_far(th):
+            dx, dy = math.cos(th), math.sin(th)
+            b = -2 * (c[0] * dx + c[1] * dy); q = c[0] ** 2 + c[1] ** 2 - R * R
+            disc = b * b - 4 * q
+            return None if disc < 0 else ((-b - math.sqrt(disc)) / 2, (-b + math.sqrt(disc)) / 2)
+        # Scan directions for a second secant whose near point is at distance mc, then refine.
+        best = None
+        for n in range(1, 200000):
+            th = -math.pi / 2 + math.pi * n / 200000
+            nf = near_far(th)
+            if nf and nf[0] > 0 and (best is None or abs(nf[0] - mc) < abs(best[1][0] - mc)): best = (th, nf)
+        lo, hi = best[0] - math.pi / 200000, best[0] + math.pi / 200000
+        f = lambda th: (near_far(th) or (math.inf, 0))[0] - mc
+        for _ in range(100):
+            mid = (lo + hi) / 2
+            lo, hi = (mid, hi) if (f(lo) < 0) == (f(mid) < 0) else (lo, mid)
+        return {"a": approx(near_far(lo)[1], 6)}
 - id: spec.geometry.chord-secant-lengths.which-equation
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1160
   responseSkills: {reading: 1150}
   stem: |
     From $M$, a tangent touches a circle at $T$, and a secant cuts it at $A$ (nearer $M$) and $B$. Which equation is true?
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.954, -0.425], B: [-1.504, -1.318], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
   - id: a
     options:
@@ -133,10 +177,28 @@
   rating: 1270
   responseSkills: {reading: 1270, calculation: 1260, reasoning: 1260}
   variants:
-  - {ma: 5, ab: 15, v: 10}
-  - {ma: 4, ab: 21, v: 10}
+    - { ma: 5, ab: 15, v: 10, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 4, ab: 21, v: 10, _view: '-2.55, 3.12, -2.5, 2.5', _M: '2.573, 0', _A: '1.982, -0.265', _B: '-1.12, -1.657', _T: '1.554, 1.258' }
+    - { ma: 3, ab: 9, v: 6, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 8, ab: 10, v: 12, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.796, -0.88', _B: '-0.289, -1.979', _T: '1.155, 1.633' }
+    - { ma: 4, ab: 5, v: 6, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.796, -0.88', _B: '-0.289, -1.979', _T: '1.155, 1.633' }
   stem: |
     From $M$, a secant cuts a circle at $A$ and $B$ with $MA = {{ma}}$ and $AB = {{ab}}$, and a tangent touches the circle at $T$. Find $MT$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 230
+    points: { M: [{{_M}}], T: [{{_T}}], A: [{{_A}}], B: [{{_B}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: A, label: '{{ma}}', side: right }
+      - { type: segment, from: A, to: B, label: '{{ab}}', side: right }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $MT$
@@ -150,31 +212,76 @@
         M = (d, 0.0)
         T = tangent_point_toward((0, 0), r, M, 1)
         return {"a": approx(dist(M, T))}
+
 - id: spec.geometry.chord-secant-lengths.chords-algebra
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1300
   responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
+  variants:
+    - { k: 5, c: 6, d: 4, p: 24, w: 8, v: 3, _A: '1.241, 1.568', _B: '0.669, -1.885', _C: '-0.258, 1.983', _D: '1.981, -0.278', _X: '1.085, 0.627' }
+    - { k: 3, c: 5, d: 8, p: 40, w: 8, v: 5, _A: '1.759, -0.951', _B: '-0.129, 1.996', _C: '1.328, 1.496', _D: '0.562, -1.919', _X: '1.033, 0.182' }
+    - { k: 4, c: 3, d: 7, p: 21, w: 7, v: 3, _A: '1.81, -0.851', _B: '-0.241, 1.985', _C: '1.81, 0.851', _D: '-0.241, -1.985', _X: '1.195, 0' }
+    - { k: 7, c: 6, d: 5, p: 30, w: 10, v: 3, _A: '1.997, 0.111', _B: '-1.155, 1.633', _C: '1.668, -1.103', _D: '0.938, 1.767', _X: '1.27, 0.462' }
+    - { k: 2, c: 5, d: 3, p: 15, w: 5, v: 3, _A: '1.786, -0.9', _B: '-0.187, 1.991', _C: '0.505, -1.935', _D: '1.371, 1.456', _X: '1.046, 0.185' }
   stem: |
-    Chords $AB$ and $CD$ meet at $X$, with $AX = x$, $XB = x + 5$, $CX = 6$ and $XD = 4$. Find $x$.
+    Chords $AB$ and $CD$ meet at $X$, with $AX = x$, $XB = x + {{k}}$, $CX = {{c}}$ and $XD = {{d}}$. Find $x$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], X: [{{_X}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, label: 'x' }
+      - { type: segment, from: X, to: B, label: 'x + {{k}}' }
+      - { type: segment, from: C, to: X, label: '{{c}}', side: right }
+      - { type: segment, from: X, to: D, label: '{{d}}', side: right }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     prompt: $x =$
-    answer: {type: numeric, key: '3'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    $x(x + 5) = 6 \times 4 = 24$, so $x^2 + 5x - 24 = 0$, i.e. $(x + 8)(x - 3) = 0$. Lengths are positive, so $x = 3$.
+    $x(x + {{k}}) = {{c}} \times {{d}} = {{p}}$, so $x^2 + {{k}}x - {{p}} = 0$, i.e. $(x + {{w}})(x - {{v}}) = 0$. Lengths are positive, so $x = {{v}}$.
   verify: |
-    def answers():
-        x = symbols("x")
-        return {"a": [s for s in solve(x*(x + 5) - 24, x) if s > 0][0]}
+    def answers(k, c, d, p, w, v):
+        x = symbols("x", positive=True)
+        return {"a": solve(x * (x + k) - c * d, x)[0]}
+
 - id: spec.geometry.chord-secant-lengths.perpendicular-to-diameter
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1330
   responseSkills: {calculation: 1310, reasoning: 1320, synthesis: 1300}
   variants:
-  - {a: 2, b: 8, v: 8}
-  - {a: 3, b: 12, v: 12}
+    - { a: 2, b: 8, v: 8, _X: '-1.2, 0', _C: '-1.2, 1.6', _D: '-1.2, -1.6' }
+    - { a: 3, b: 12, v: 12, _X: '-1.2, 0', _C: '-1.2, 1.6', _D: '-1.2, -1.6' }
+    - { a: 1, b: 9, v: 6, _X: '-1.6, 0', _C: '-1.6, 1.2', _D: '-1.6, -1.2' }
+    - { a: 4, b: 9, v: 12, _X: '-0.769, 0', _C: '-0.769, 1.846', _D: '-0.769, -1.846' }
+    - { a: 1, b: 4, v: 4, _X: '-1.2, 0', _C: '-1.2, 1.6', _D: '-1.2, -1.6' }
   stem: |
     $AB$ is a diameter of a circle, and chord $CD$ is perpendicular to $AB$, meeting it at $X$. $AX = {{a}}$ and $XB = {{b}}$. Find $CD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], X: [{{_X}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, label: '{{a}}', side: right }
+      - { type: segment, from: X, to: B, label: '{{b}}', side: right }
+      - { type: segment, from: C, to: D }
+      - { type: angle, at: X, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+      - { type: point, at: X, label: 'X', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $CD$
@@ -187,68 +294,178 @@
         X = (-r + a, 0.0)
         t = line_circle(X, 90, r)
         return {"a": approx(t[1] - t[0])}
+
 - id: spec.geometry.chord-secant-lengths.find-chord-from-tangent
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1370
   responseSkills: {reading: 1350, calculation: 1350, reasoning: 1360}
+  variants:
+    - { t: 12, ma: 8, t2: 144, mb: 18, v: 10, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.796, -0.88', _B: '-0.289, -1.979', _T: '1.155, 1.633' }
+    - { t: 6, ma: 4, t2: 36, mb: 9, v: 5, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.796, -0.88', _B: '-0.289, -1.979', _T: '1.155, 1.633' }
+    - { t: 10, ma: 5, t2: 100, mb: 20, v: 15, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { t: 6, ma: 3, t2: 36, mb: 12, v: 9, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { t: 12, ma: 9, t2: 144, mb: 16, v: 7, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.66, -1.116', _B: '0.257, -1.983', _T: '1.155, 1.633' }
   stem: |
-    From $M$, a tangent $MT = 12$ touches a circle, and a secant cuts the circle at $A$ and $B$ with $MA = 8$. Find the length of the chord $AB$.
+    From $M$, a tangent $MT = {{t}}$ touches a circle, and a secant cuts the circle at $A$ and $B$ with $MA = {{ma}}$. Find the length of the chord $AB$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 260
+    points: { M: [{{_M}}], T: [{{_T}}], A: [{{_A}}], B: [{{_B}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T, label: '{{t}}' }
+      - { type: segment, from: M, to: A, label: '{{ma}}', side: right }
+      - { type: segment, from: A, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $AB$
-    answer: {type: numeric, key: '10'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    $MT^2 = MA \times MB$: $144 = 8 \times MB$, so $MB = 18$ and $AB = MB - MA = 10$.
+    $MT^2 = MA \times MB$: ${{t2}} = {{ma}} \times MB$, so $MB = {{mb}}$ and $AB = MB - MA = {{v}}$.
   verify: |
-    def answers():
-        # Through the center: MA = d - r = 8 and MT^2 = d^2 - r^2 = 144 give d + r = 18.
-        d, r = 13.0, 5.0
-        M = (d, 0.0)
-        assert abs(dist(M, tangent_point_toward((0, 0), r, M, 1)) - 12) < 1e-9
-        t = line_circle(M, 180, r)
-        assert abs(t[0] - 8) < 1e-9
-        return {"a": approx(t[1] - t[0])}
+    def near_far(M, c, R, th):
+        import math
+        dx, dy = math.cos(th), math.sin(th)
+        fx, fy = M[0] - c[0], M[1] - c[1]
+        b = 2 * (fx * dx + fy * dy); q = fx * fx + fy * fy - R * R
+        disc = b * b - 4 * q
+        if disc < 0: return None
+        return (-b - math.sqrt(disc)) / 2, (-b + math.sqrt(disc)) / 2
+
+    def far_for_near(M, c, R, near, lo, hi):
+        """Bisect the direction angle so the near intersection is at distance `near`; return the far one."""
+        for _ in range(200):
+            mid = (lo + hi) / 2
+            nf = near_far(M, c, R, mid)
+            if nf is None or nf[0] > near: hi = mid
+            else: lo = mid
+        return near_far(M, c, R, lo)[1]
+
+    def answers(t, ma, t2, mb, v):
+        import math
+        # Circle of radius t centered at (sqrt(2) t, 0): the tangent from M = origin has length t.
+        c, R = (math.sqrt(2) * t, 0.0), float(t)
+        T = tangent_point_toward(c, R, (0, 0), 1)
+        assert abs(dist((0, 0), T) - t) < 1e-9
+        far = far_for_near((0, 0), c, R, ma, 0.0, math.pi / 4)
+        return {"a": approx(far - ma, 4)}
+
 - id: spec.geometry.chord-secant-lengths.point-inside
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1440
   responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1420}
+  variants:
+    - { d: 6, r: 10, ax: 4, u: 4, w: 16, p: 64, v: '16', _A: '1, -1.732', _B: '-1, 1.732', _X: '0.6, -1.039' }
+    - { d: 3, r: 5, ax: 2, u: 2, w: 8, p: 16, v: '8', _A: '1, -1.732', _B: '-1, 1.732', _X: '0.6, -1.039' }
+    - { d: 5, r: 13, ax: 8, u: 8, w: 18, p: 144, v: '18', _A: '0.99, -1.738', _B: '-0.976, 1.746', _X: '0.385, -0.666' }
+    - { d: 4, r: 5, ax: 3, u: 1, w: 9, p: 9, v: '3', _A: '-0.239, -1.986', _B: '1.839, -0.786', _X: '0.8, -1.386' }
+    - { d: 8, r: 10, ax: 4, u: 2, w: 18, p: 36, v: '9', _A: '0.267, -1.982', _B: '2, -0.044', _X: '0.8, -1.386' }
   stem: |
-    A point $X$ is 6 cm from the center of a circle of radius 10 cm. A chord $AB$ passes through $X$ with $AX = 4$ cm. Find $XB$.
+    A point $X$ is {{d}} cm from the center of a circle of radius {{r}} cm. A chord $AB$ passes through $X$ with $AX = {{ax}}$ cm. Find $XB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], X: [{{_X}}], R: [-1.732, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: X, label: '{{ax}}', side: right }
+      - { type: segment, from: O, to: X, label: '{{d}}', dashed: true }
+      - { type: segment, from: O, to: R, label: '{{r}}', dashed: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: X, label: 'X', pos: s }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+    ```
   parts:
   - id: a
     prompt: $XB$ (cm)
-    answer: {type: numeric, key: '16'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    The diameter through $X$ is cut into $10 - 6 = 4$ and $10 + 6 = 16$. Intersecting chords: $AX \times XB = 4 \times 16 = 64$, so $XB = \tfrac{64}{4} = 16$ cm.
+    The diameter through $X$ is cut into ${{r}} - {{d}} = {{u}}$ and ${{r}} + {{d}} = {{w}}$. Intersecting chords: $AX \times XB = {{u}} \times {{w}} = {{p}}$, so $XB = \tfrac{ {{p}} }{ {{ax}} } = {{v}}$ cm.
   verify: |
-    def answers():
-        X = (6.0, 0.0)
-        phi = search(lambda a: (lambda t: -t[0] if t else None)(line_circle(X, a, 10)), 4)
-        assert abs(-line_circle(X, phi, 10)[0] - 4) < 1e-3
-        return {"a": approx(line_circle(X, phi, 10)[1], 3)}
+    def answers(d, r, ax, u, w, p, v):
+        import math
+        X = (float(d), 0.0)
+        # A chord through X with AX = ax: find its direction, then measure XB.
+        best = None
+        for k in range(0, 36000):
+            th = math.radians(k / 100)
+            dx, dy = math.cos(th), math.sin(th)
+            b = 2 * (X[0] * dx + X[1] * dy); c = d * d - r * r
+            disc = b * b - 4 * c
+            t1, t2 = (-b - math.sqrt(disc)) / 2, (-b + math.sqrt(disc)) / 2
+            if best is None or abs(-t1 - ax) < abs(best[0] - ax): best = (-t1, t2)
+        return {"a": approx(best[1], 3)}
+
 - id: spec.geometry.chord-secant-lengths.chords-two-solutions
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1450
   responseSkills: {reading: 1420, calculation: 1440, reasoning: 1440}
+  variants:
+    - { L: 8, c: 3, d: 5, cd: 15, p: 3, q: 5, _A: '1.786, -0.9', _B: '-0.187, 1.991', _C: '1.371, 1.456', _D: '0.505, -1.935', _X: '1.046, 0.185' }
+    - { L: 10, c: 3, d: 8, cd: 24, p: 4, q: 6, _A: '1.981, -0.278', _B: '-0.258, 1.983', _C: '1.241, 1.568', _D: '0.669, -1.885', _X: '1.085, 0.627' }
+    - { L: 9, c: 2, d: 9, cd: 18, p: 3, q: 6, _A: '-1.6, -1.199', _B: '-1.159, 1.63', _C: '-1.999, 0.072', _D: '1.001, -1.731', _X: '-1.453, -0.256' }
+    - { L: 11, c: 3, d: 10, cd: 30, p: 5, q: 6, _A: '0.938, 1.767', _B: '1.668, -1.103', _C: '1.997, 0.111', _D: '-1.155, 1.633', _X: '1.27, 0.462' }
+    - { L: 13, c: 3, d: 12, cd: 36, p: 4, q: 9, _A: '-0.852, -1.809', _B: '1.917, -0.571', _C: '0.475, -1.943', _D: '-1.898, 0.63', _X: '-0, -1.428' }
   stem: |
-    Chord $AB$ has length 8, and chord $CD$ crosses it at $X$ with $CX = 3$ and $XD = 5$. Find all possible values of $AX$.
+    Chord $AB$ has length {{L}}, and chord $CD$ crosses it at $X$ with $CX = {{c}}$ and $XD = {{d}}$. Find all possible values of $AX$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], X: [{{_X}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, label: '{{L}}', side: left }
+      - { type: segment, from: C, to: X, label: '{{c}}', side: left }
+      - { type: segment, from: X, to: D, label: '{{d}}', side: left }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     answer:
       type: set
-      key: ['3', '5']
+      key: ['{{p}}', '{{q}}']
   solution: |
-    $AX \times XB = 15$ with $AX + XB = 8$. So $AX(8 - AX) = 15$, giving $AX^2 - 8AX + 15 = 0$ and $AX = 3$ or $5$.
+    $AX \times XB = {{c}} \times {{d}} = {{cd}}$ with $AX + XB = {{L}}$. So $AX({{L}} - AX) = {{cd}}$, giving $AX^2 - {{L}}AX + {{cd}} = 0$ and $AX = {{p}}$ or ${{q}}$.
   verify: |
-    def answers():
-        x = symbols("x")
-        return {"a": solve(x*(8 - x) - 15, x)}
+    def answers(L, c, d, cd, p, q):
+        a = symbols("a", positive=True)
+        return {"a": sorted(solve(a * (L - a) - c * d, a))}
+
 - id: spec.geometry.chord-secant-lengths.prove-intersecting-chords
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1480
   responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. Prove that $AX \times XB = CX \times XD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, 1], B: [1.532, -1.286], C: [-1.286, -1.532], D: [1, 1.732], X: [-0.243, -0.043], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: n }
+    ```
   parts:
   - id: a
     rubric:
@@ -263,48 +480,107 @@
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1500
   responseSkills: {reading: 1470, calculation: 1480, reasoning: 1490}
+  variants:
+    - { ab: 7, mc: 4, cd: 11, md: 15, p: 60, w: 12, v: 5, _view: '-2.55, 3.67, -2.5, 2.5', _M: '3.12, 0', _A: '1.818, -0.833', _B: '-0.004, -2', _C: '1.956, 0.418', _D: '-1.244, 1.566' }
+    - { ab: 5, mc: 3, cd: 9, md: 12, p: 36, w: 9, v: 4, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.795, -0.881', _B: '0.261, -1.983', _C: '1.961, 0.395', _D: '-1.226, 1.58' }
+    - { ab: 9, mc: 4, cd: 5, md: 9, p: 36, w: 12, v: 3, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _C: '1.795, 0.881', _D: '0.261, 1.983' }
+    - { ab: 10, mc: 3, cd: 5, md: 8, p: 24, w: 12, v: 2, _view: '-2.55, 3.15, -2.5, 2.5', _M: '2.603, 0', _A: '1.981, -0.275', _B: '-1.128, -1.652', _C: '1.87, 0.709', _D: '0.649, 1.892' }
+    - { ab: 4, mc: 5, cd: 7, md: 12, p: 60, w: 10, v: 6, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.617, -1.178', _B: '0.385, -1.963', _C: '1.828, 0.811', _D: '-0.462, 1.946' }
   stem: |
-    From $M$, one secant cuts a circle at $A$ and $B$ with $MA = x$ and $AB = 7$. Another cuts it at $C$ and $D$ with $MC = 5$ and $CD = 7$. Find $x$.
+    From $M$, one secant cuts a circle at $A$ and $B$ with $MA = x$ and $AB = {{ab}}$. Another cuts it at $C$ and $D$ with $MC = {{mc}}$ and $CD = {{cd}}$. Find $x$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 280
+    points: { M: [{{_M}}], A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: A, label: 'x', side: left }
+      - { type: segment, from: A, to: B, label: '{{ab}}', side: right }
+      - { type: segment, from: M, to: C, label: '{{mc}}', side: right }
+      - { type: segment, from: C, to: D, label: '{{cd}}' }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: nw }
+      - { type: point, at: C, label: 'C', pos: s }
+      - { type: point, at: D, label: 'D', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $x =$
-    answer: {type: numeric, key: '5'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    $MA \times MB = MC \times MD$: $x(x + 7) = 5 \times 12 = 60$. So $x^2 + 7x - 60 = 0$, i.e. $(x + 12)(x - 5) = 0$, and $x = 5$. (So the secants are equally long: they are mirror images in the line through $M$ and the center.)
+    $MA \times MB = MC \times MD$: $x(x + {{ab}}) = {{mc}} \times {{md}} = {{p}}$. So $x^2 + {{ab}}x - {{p}} = 0$, i.e. $(x + {{w}})(x - {{v}}) = 0$, and $x = {{v}}$.
   verify: |
-    def answers():
-        x = symbols("x")
-        return {"a": [s for s in solve(x*(x + 7) - 60, x) if s > 0][0]}
+    def answers(ab, mc, cd, md, p, w, v):
+        x = symbols("x", positive=True)
+        return {"a": solve(x * (x + ab) - mc * (mc + cd), x)[0]}
+
 - id: spec.geometry.chord-secant-lengths.through-center
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1550
   responseSkills: {calculation: 1530, reasoning: 1540, synthesis: 1520}
+  variants:
+    - { d: 13, r: 5, a: 8, b: 18, s: 144, c: 12, _view: '-2.55, 5.75, -2.5, 2.5', _M: '5.2, 0' }
+    - { d: 10, r: 6, a: 4, b: 16, s: 64, c: 8, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0' }
+    - { d: 17, r: 8, a: 9, b: 25, s: 225, c: 15, _view: '-2.55, 4.8, -2.5, 2.5', _M: '4.25, 0' }
+    - { d: 25, r: 7, a: 18, b: 32, s: 576, c: 24, _view: '-2.55, 7.69, -2.5, 2.5', _M: '7.143, 0' }
+    - { d: 5, r: 3, a: 2, b: 8, s: 16, c: 4, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0' }
   stem: |
-    A point $M$ is 13 units from the center of a circle of radius 5. A secant from $M$ passes through the center, cutting the circle at $A$ and $B$.
+    A point $M$ is {{d}} units from the center of a circle of radius {{r}}. A secant from $M$ passes through the center, cutting the circle at $A$ and $B$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 300
+    points: { M: [{{_M}}], A: [2, 0], B: [-2, 0], R: [-1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: B, to: M }
+      - { type: segment, from: O, to: R, label: '{{r}}', dashed: true }
+      - { type: segment, from: O, to: M, label: '{{d}}', side: right }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: A, label: 'A', pos: ne }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
   - id: a
     prompt: Find $MA$.
-    answer: {type: numeric, key: '8'}
+    answer: {type: numeric, key: '{{a}}'}
   - id: b
     prompt: Find $MB$.
-    answer: {type: numeric, key: '18'}
+    answer: {type: numeric, key: '{{b}}'}
   - id: c
     prompt: Find the length of a tangent from $M$.
-    answer: {type: numeric, key: '12'}
+    answer: {type: numeric, key: '{{c}}'}
   solution: |
-    $MA = 13 - 5 = 8$ and $MB = 13 + 5 = 18$. Then $MT^2 = 8 \times 18 = 144$, so $MT = 12$ (which matches Pythagoras: $13^2 - 5^2 = 144$).
+    $MA = {{d}} - {{r}} = {{a}}$ and $MB = {{d}} + {{r}} = {{b}}$. Then $MT^2 = {{a}} \times {{b}} = {{s}}$, so $MT = {{c}}$ (which matches Pythagoras: ${{d}}^2 - {{r}}^2 = {{s}}$).
   verify: |
-    def answers():
-        M = (13.0, 0.0)
-        t = line_circle(M, 180, 5)
-        T = tangent_point_toward((0, 0), 5, M, 1)
-        return {"a": approx(t[0]), "b": approx(t[1]), "c": approx(dist(M, T))}
+    def answers(d, r, a, b, s, c):
+        M, A, B = (d, 0), (r, 0), (-r, 0)
+        T = tangent_point_toward((0, 0), r, M, 1)
+        return {"a": approx(dist(M, A)), "b": approx(dist(M, B)), "c": approx(dist(M, T))}
+
 - id: spec.geometry.chord-secant-lengths.prove-tangent-secant
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1600
   responseSkills: {reasoning: 1590, proof: 1590, clarity: 1500}
   stem: |
     From an outside point $M$, a tangent touches a circle at $T$ and a secant cuts it at $A$ and $B$ ($A$ nearer $M$). Prove that $MT^2 = MA \times MB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.954, -0.425], B: [-1.504, -1.318], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: n }
+      - { type: point, at: B, label: 'B', pos: nw }
+    ```
   parts:
   - id: a
     rubric:
@@ -319,91 +595,208 @@
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1610
   responseSkills: {calculation: 1590, reasoning: 1600, synthesis: 1580}
+  variants:
+    - { t: 8, a: 4, q: 16, r: '6', _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0', _T: '1.2, 1.6' }
+    - { t: 6, a: 2, q: 18, r: '8', _view: '-2.55, 3.05, -2.5, 2.5', _M: '2.5, 0', _T: '1.6, 1.2' }
+    - { t: 12, a: 6, q: 24, r: '9', _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0', _T: '1.2, 1.6' }
+    - { t: 12, a: 8, q: 18, r: '5', _view: '-2.55, 5.75, -2.5, 2.5', _M: '5.2, 0', _T: '0.769, 1.846' }
+    - { t: 15, a: 9, q: 25, r: '8', _view: '-2.55, 4.8, -2.5, 2.5', _M: '4.25, 0', _T: '0.941, 1.765' }
   stem: |
-    From $M$, a tangent of length 8 touches a circle, and a secant through the center cuts the circle at $A$ and $B$ with $MA = 4$. Find the radius.
+    From $M$, a tangent of length {{t}} touches a circle, and a secant through the center cuts the circle at $A$ and $B$ with $MA = {{a}}$. Find the radius.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 260
+    points: { M: [{{_M}}], T: [{{_T}}], A: [2, 0], B: [-2, 0], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T, label: '{{t}}', side: right }
+      - { type: segment, from: B, to: M }
+      - { type: segment, from: A, to: M, label: '{{a}}', side: right }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
   - id: a
     prompt: Radius
-    answer: {type: numeric, key: '6'}
+    answer: {type: numeric, key: '{{r}}'}
   solution: |
-    Let the radius be $r$, so $MB = 4 + 2r$. Then $8^2 = 4(4 + 2r)$, so $16 = 4 + 2r$ and $r = 6$.
+    Let the radius be $r$, so $MB = {{a}} + 2r$. Then ${{t}}^2 = {{a}}({{a}} + 2r)$, so ${{q}} = {{a}} + 2r$ and $r = {{r}}$.
   verify: |
-    def answers():
-        r = search(lambda rr: math_sqrt((4 + rr)**2 - rr*rr), 8, 0.01, 50, 499900)
-        return {"a": approx(r, 3)}
-    def math_sqrt(v):
-        return v ** 0.5
+    def answers(t, a, q, r):
+        import math
+        # Search the radius R for which the tangent from M = (a + R, 0) has length t.
+        lo, hi = 1e-6, 1e6
+        for _ in range(200):
+            R = (lo + hi) / 2
+            L = math.sqrt((a + R) ** 2 - R * R)
+            lo, hi = (R, hi) if L < t else (lo, R)
+        return {"a": approx(R, 6)}
+
 - id: spec.geometry.chord-secant-lengths.arch
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1640
   responseSkills: {calculation: 1580, reasoning: 1630, synthesis: 1630}
+  variants:
+    - { span: 12, rise: 2, h: 6, h2: 36, t: 4, rs: 4, r: '10', _view: '-1.7, 1.7, 1.35, 2.25', _R0: '1.2, 1.6', _R1: '1.048, 1.703', _R2: '0.887, 1.792', _R3: '0.719, 1.866', _R4: '0.545, 1.924', _R5: '0.366, 1.966', _R6: '0.184, 1.992', _R7: '0, 2', _R8: '-0.184, 1.992', _R9: '-0.366, 1.966', _R10: '-0.545, 1.924', _R11: '-0.719, 1.866', _R12: '-0.887, 1.792', _R13: '-1.048, 1.703', _R14: '-1.2, 1.6', _F: '-1.2, 1.6', _G: '1.2, 1.6', _K: '0, 1.6', _H: '0, 2' }
+    - { span: 16, rise: 4, h: 8, h2: 64, t: 8, rs: 16, r: '10', _view: '-2.1, 2.1, 0.95, 2.25', _R0: '1.6, 1.2', _R1: '1.427, 1.401', _R2: '1.23, 1.577', _R3: '1.011, 1.726', _R4: '0.774, 1.844', _R5: '0.524, 1.93', _R6: '0.264, 1.982', _R7: '0, 2', _R8: '-0.264, 1.982', _R9: '-0.524, 1.93', _R10: '-0.774, 1.844', _R11: '-1.011, 1.726', _R12: '-1.23, 1.577', _R13: '-1.427, 1.401', _R14: '-1.6, 1.2', _F: '-1.6, 1.2', _G: '1.6, 1.2', _K: '0, 1.2', _H: '0, 2' }
+    - { span: 24, rise: 8, h: 12, h2: 144, t: 16, rs: 64, r: '13', _view: '-2.35, 2.35, 0.52, 2.25', _R0: '1.846, 0.769', _R1: '1.692, 1.067', _R2: '1.489, 1.335', _R3: '1.245, 1.565', _R4: '0.966, 1.751', _R5: '0.659, 1.888', _R6: '0.334, 1.972', _R7: '0, 2', _R8: '-0.334, 1.972', _R9: '-0.659, 1.888', _R10: '-0.966, 1.751', _R11: '-1.245, 1.565', _R12: '-1.489, 1.335', _R13: '-1.692, 1.067', _R14: '-1.846, 0.769', _F: '-1.846, 0.769', _G: '1.846, 0.769', _K: '0, 0.769', _H: '0, 2' }
+    - { span: 10, rise: 1, h: 5, h2: 25, t: 2, rs: 1, r: '13', _view: '-1.27, 1.27, 1.6, 2.25', _R0: '0.769, 1.846', _R1: '0.664, 1.887', _R2: '0.557, 1.921', _R3: '0.447, 1.949', _R4: '0.337, 1.971', _R5: '0.225, 1.987', _R6: '0.113, 1.997', _R7: '0, 2', _R8: '-0.113, 1.997', _R9: '-0.225, 1.987', _R10: '-0.337, 1.971', _R11: '-0.447, 1.949', _R12: '-0.557, 1.921', _R13: '-0.664, 1.887', _R14: '-0.769, 1.846', _F: '-0.769, 1.846', _G: '0.769, 1.846', _K: '0, 1.846', _H: '0, 2' }
+    - { span: 8, rise: 2, h: 4, h2: 16, t: 4, rs: 4, r: '5', _view: '-2.1, 2.1, 0.95, 2.25', _R0: '1.6, 1.2', _R1: '1.427, 1.401', _R2: '1.23, 1.577', _R3: '1.011, 1.726', _R4: '0.774, 1.844', _R5: '0.524, 1.93', _R6: '0.264, 1.982', _R7: '0, 2', _R8: '-0.264, 1.982', _R9: '-0.524, 1.93', _R10: '-0.774, 1.844', _R11: '-1.011, 1.726', _R12: '-1.23, 1.577', _R13: '-1.427, 1.401', _R14: '-1.6, 1.2', _F: '-1.6, 1.2', _G: '1.6, 1.2', _K: '0, 1.2', _H: '0, 2' }
   stem: |
-    A bridge has an arch in the shape of an arc of a circle. The arch spans 12 m (the straight distance between its feet) and rises 2 m at its middle. Find the radius of the circle.
+    A bridge has an arch in the shape of an arc of a circle. The arch spans {{span}} m (the straight distance between its feet) and rises {{rise}} m at its middle. Find the radius of the circle.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 280
+    points: { R0: [{{_R0}}], R1: [{{_R1}}], R2: [{{_R2}}], R3: [{{_R3}}], R4: [{{_R4}}], R5: [{{_R5}}], R6: [{{_R6}}], R7: [{{_R7}}], R8: [{{_R8}}], R9: [{{_R9}}], R10: [{{_R10}}], R11: [{{_R11}}], R12: [{{_R12}}], R13: [{{_R13}}], R14: [{{_R14}}], F: [{{_F}}], G: [{{_G}}], K: [{{_K}}], H: [{{_H}}] }
+    draw:
+      - { type: segment, from: R0, to: R1 }
+      - { type: segment, from: R1, to: R2 }
+      - { type: segment, from: R2, to: R3 }
+      - { type: segment, from: R3, to: R4 }
+      - { type: segment, from: R4, to: R5 }
+      - { type: segment, from: R5, to: R6 }
+      - { type: segment, from: R6, to: R7 }
+      - { type: segment, from: R7, to: R8 }
+      - { type: segment, from: R8, to: R9 }
+      - { type: segment, from: R9, to: R10 }
+      - { type: segment, from: R10, to: R11 }
+      - { type: segment, from: R11, to: R12 }
+      - { type: segment, from: R12, to: R13 }
+      - { type: segment, from: R13, to: R14 }
+      - { type: segment, from: F, to: G, label: '{{span}}', side: right }
+      - { type: segment, from: K, to: H, label: '{{rise}}', side: right }
+    ```
   parts:
   - id: a
     prompt: Radius (m)
-    answer: {type: numeric, key: '10'}
+    answer: {type: numeric, key: '{{r}}'}
   solution: |
-    The span is a chord of length 12, and the rise lies on the diameter perpendicular to it, which cuts it into 6 and 6. That diameter is cut into $2$ and $2r - 2$. Intersecting chords: $6 \times 6 = 2(2r - 2)$, so $36 = 4r - 4$ and $r = 10$ m.
+    The span is a chord of length {{span}}, and the rise lies on the diameter perpendicular to it, which cuts it into {{h}} and {{h}}. That diameter is cut into ${{rise}}$ and $2r - {{rise}}$. Intersecting chords: ${{h}} \times {{h}} = {{rise}}(2r - {{rise}})$, so ${{h2}} = {{t}}r - {{rs}}$ and $r = {{r}}$ m.
   verify: |
-    def answers():
-        # Circle center (0, k) through (±6, 0) and (0, 2): solve for k, then the radius.
-        k = symbols("k", real=True)
-        kv = solve((6**2 + k**2) - (2 - k)**2, k)[0]
-        return {"a": sqrt(36 + kv**2)}
+    def answers(span, rise, h, h2, t, rs, r):
+        import math
+        # The circle through the feet (-h, 0), (h, 0) and the top (0, rise): center (0, k) with k found from equal distances.
+        k = symbols("k")
+        kk = solve((h ** 2 + k ** 2) - (rise - k) ** 2, k)[0]
+        return {"a": nsimplify(sqrt(h ** 2 + kk ** 2))}
+
 - id: spec.geometry.chord-secant-lengths.perpendicular-chords-radius
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1680
   responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1670}
+  variants:
+    - { ax: 2, xb: 6, cx: 3, xd: 4, p: 12, qx: '2', qy: '- \frac{1}{2}', hx: '4', v: '\frac{\sqrt{65}}{2}', _r: '1.814', _view: '-2.55, 3.25, -2.5, 2.5', _A: '-0.9, 0', _B: '2.7, 0', _C: '0, 1.35', _D: '0, -1.8', _Q: '0.9, -0.225' }
+    - { ax: 3, xb: 8, cx: 4, xd: 6, p: 24, qx: '\frac{5}{2}', qy: '-1', hx: '\frac{11}{2}', v: '\frac{5 \sqrt{5}}{2}', _r: '1.830', _view: '-2.55, 3.17, -2.5, 2.5', _A: '-0.982, 0', _B: '2.618, 0', _C: '0, 1.309', _D: '0, -1.964', _Q: '0.818, -0.327' }
+    - { ax: 4, xb: 6, cx: 3, xd: 8, p: 24, qx: '1', qy: '- \frac{5}{2}', hx: '5', v: '\frac{5 \sqrt{5}}{2}', _r: '1.830', _view: '-2.55, 2.55, -3.12, 2.5', _A: '-1.309, 0', _B: '1.964, 0', _C: '0, 0.982', _D: '0, -2.618', _Q: '0.327, -0.818' }
+    - { ax: 2, xb: 9, cx: 3, xd: 6, p: 18, qx: '\frac{7}{2}', qy: '- \frac{3}{2}', hx: '\frac{11}{2}', v: '\frac{\sqrt{130}}{2}', _r: '1.866', _view: '-2.55, 3.5, -2.5, 2.5', _A: '-0.655, 0', _B: '2.945, 0', _C: '0, 0.982', _D: '0, -1.964', _Q: '1.145, -0.491' }
+    - { ax: 3, xb: 4, cx: 2, xd: 6, p: 12, qx: '\frac{1}{2}', qy: '-2', hx: '\frac{7}{2}', v: '\frac{\sqrt{65}}{2}', _r: '1.814', _view: '-2.55, 2.55, -3.2, 2.5', _A: '-1.35, 0', _B: '1.8, 0', _C: '0, 0.9', _D: '0, -2.7', _Q: '0.225, -0.9' }
   stem: |
-    Chords $AB$ and $CD$ meet at right angles at $X$. $AX = 2$, $XB = 6$ and $CX = 3$. Find $XD$ and the exact radius of the circle.
+    Chords $AB$ and $CD$ meet at right angles at $X$. $AX = {{ax}}$, $XB = {{xb}}$ and $CX = {{cx}}$. Find $XD$ and the exact radius of the circle.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 260
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], X: [0, 0], Q: [{{_Q}}] }
+    draw:
+      - { type: circle, center: Q, radius: {{_r}} }
+      - { type: segment, from: A, to: X, label: '{{ax}}', side: right }
+      - { type: segment, from: X, to: B, label: '{{xb}}', side: right }
+      - { type: segment, from: C, to: X, label: '{{cx}}', side: right }
+      - { type: segment, from: X, to: D }
+      - { type: angle, at: X, from: B, to: C, right: true }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: D, label: 'D', pos: s }
+      - { type: point, at: X, label: 'X', pos: sw }
+    ```
   parts:
   - id: a
     prompt: $XD$
-    answer: {type: numeric, key: '4'}
+    answer: {type: numeric, key: '{{xd}}'}
   - id: b
     prompt: Radius
     answer:
       type: numeric
-      key: \frac{\sqrt{65}}{2}
+      key: '{{v}}'
       form: [exact]
   solution: |
-    Intersecting chords: $XD = \tfrac{2 \times 6}{3} = 4$.
-    Put $X$ at the origin with $A(-2, 0)$, $B(6, 0)$, $C(0, 3)$, $D(0, -4)$. The center is on the perpendicular bisectors of both chords: $x = 2$ and $y = -\tfrac{1}{2}$. The radius is the distance to $A$: $\sqrt{4^2 + \left(\tfrac{1}{2}\right)^2} = \tfrac{\sqrt{65}}{2}$.
+    Intersecting chords: $XD = \tfrac{ {{ax}} \times {{xb}} }{ {{cx}} } = {{xd}}$.
+    Put $X$ at the origin with $A(-{{ax}}, 0)$, $B({{xb}}, 0)$, $C(0, {{cx}})$, $D(0, -{{xd}})$. The center is on the perpendicular bisectors of both chords: $x = {{qx}}$ and $y = {{qy}}$. The radius is the distance to $A$: $\sqrt{ \left({{hx}}\right)^2 + \left({{qy}}\right)^2 } = {{v}}$.
   verify: |
-    def answers():
-        A, B, C = (-2, 0), (6, 0), (0, 3)
-        # Circle through A, B, C, then the second meeting point with the y-axis.
-        x0 = (A[0] + B[0]) / 2
-        y = symbols("y", real=True)
-        y0 = solve((x0 - A[0])**2 + (y - A[1])**2 - ((x0 - C[0])**2 + (y - C[1])**2), y)[0]
-        r = sqrt((x0 - A[0])**2 + (y0 - A[1])**2)
-        t = line_circle((0, 0), 90, float(r), (x0, float(y0)))
-        return {"a": approx(-t[0]), "b": nsimplify(r)}
+    def answers(ax, xb, cx, xd, p, qx, qy, hx, v):
+        A, B, C = (-ax, 0), (xb, 0), (0, cx)
+        D = (0, -ax * xb / cx)
+        X = (Rational(xb - ax, 2), Rational(cx) - Rational(cx + ax * xb / cx, 2))
+        Q = (Rational(xb - ax, 2), (Rational(cx) - Rational(ax * xb, cx)) / 2)
+        return {"a": nsimplify(ax * xb / cx), "b": sqrt((Q[0] + ax) ** 2 + Q[1] ** 2)}
+
 - id: spec.geometry.chord-secant-lengths.circle-through-square
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
+  variants:
+    - { a: 4, h: '2', k: '1', r: '2.5' }
+    - { a: 8, h: '4', k: '2', r: '5' }
+    - { a: 6, h: '3', k: '1.5', r: '3.75' }
+    - { a: 2, h: '1', k: '0.5', r: '1.25' }
+    - { a: 10, h: '5', k: '2.5', r: '6.25' }
   stem: |
-    $ABCD$ is a square with side 4. A circle passes through $A$ and $B$ and touches the opposite side $CD$. Find its radius.
+    $ABCD$ is a square with side {{a}}. A circle passes through $A$ and $B$ and touches the opposite side $CD$. Find its radius.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 220
+    points: { A: [0, 0], B: [2, 0], C: [2, 2], D: [0, 2], Q: [1, 0.75] }
+    draw:
+      - { type: circle, center: Q, radius: 1.25 }
+      - { type: segment, from: A, to: B, label: '{{a}}', side: right }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: se }
+      - { type: point, at: C, label: 'C', pos: ne }
+      - { type: point, at: D, label: 'D', pos: nw }
+    ```
   parts:
   - id: a
     prompt: Radius
-    answer: {type: numeric, key: '2.5'}
+    answer: {type: numeric, key: '{{r}}'}
   solution: |
-    By symmetry the circle touches $CD$ at its midpoint $T$, and the line through $T$ perpendicular to $CD$ is a diameter, which also cuts chord $AB$ in half at $N$. $NT = 4$, and the diameter is cut at $N$ into $4$ and $2r - 4$. Intersecting chords: $2 \times 2 = 4(2r - 4)$, so $2r - 4 = 1$ and $r = 2.5$.
+    By symmetry the circle touches $CD$ at its midpoint $T$, and the line through $T$ perpendicular to $CD$ is a diameter, which also cuts chord $AB$ in half at $N$. $NT = {{a}}$, and the diameter is cut at $N$ into ${{a}}$ and $2r - {{a}}$. Intersecting chords: ${{h}} \times {{h}} = {{a}}(2r - {{a}})$, so $2r - {{a}} = {{k}}$ and $r = {{r}}$.
   verify: |
-    def answers():
-        k = symbols("k", real=True)
-        # Center (2, k): distance to A(0, 0) equals distance to the line y = 4.
-        kv = [s for s in solve(4 + k**2 - (4 - k)**2, k)][0]
-        return {"a": 4 - kv}
+    def answers(a, h, k, r):
+        R = symbols("R", positive=True)
+        # Square with corners (0, 0), (a, 0), (a, a), (0, a); circle through (0, 0) and (a, 0), center (a/2, a - R) touching y = a.
+        return {"a": solve((Rational(a, 2)) ** 2 + (a - R) ** 2 - R ** 2, R)[0]}
+
 - id: spec.geometry.chord-secant-lengths.radical-axis-bisects
   skills: {primary: spec.geometry.chord-secant-lengths}
   rating: 1740
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1720}
   stem: |
     Two circles meet at $P$ and $Q$. A line touches the first circle at $A$ and the second at $B$. Prove that the line $PQ$, extended, cuts $AB$ in half.
+
+    ```diagram
+    view: [-2.6, 3, -2, 2.4]
+    width: 280
+    points: { P1: [-1, 0], P2: [1.1, 0], A: [-1.186, 1.287], B: [0.871, 1.584], P: [-0.157, 0.99], Q: [-0.157, -0.99], K: [-0.157, 1.436] }
+    draw:
+      - { type: circle, center: P1, radius: 1.3 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: Q, to: K, dashed: true }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: P, label: 'P', pos: ne }
+      - { type: point, at: Q, label: 'Q', pos: se }
+    ```
   parts:
   - id: a
     rubric:
@@ -421,6 +814,20 @@
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Lines $AB$ and $CD$ meet at $X$, with $X$ between $A$ and $B$ and between $C$ and $D$, and $AX \times XB = CX \times XD$. Prove that $A$, $B$, $C$ and $D$ lie on a circle.
+
+    ```diagram
+    view: [-2.2, 2.2, -1.6, 2.6]
+    width: 220
+    points: { A: [-1.6, 0.5], B: [1.45, -0.453], C: [-0.451, -1.003], D: [0.95, 2.111], X: [0, 0] }
+    draw:
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: se }
+    ```
   parts:
   - id: a
     rubric:
@@ -439,6 +846,26 @@
   responseSkills: {reasoning: 1790, proof: 1790, clarity: 1680, synthesis: 1780}
   stem: |
     From an outside point $M$, tangents touch a circle at $S$ and $T$, and a secant cuts it at $A$ and $B$. Prove that $SA \times TB = SB \times TA$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], A: [1.994, -0.157], B: [-1.926, -0.54], S: [1.111, 1.663], T: [1.111, -1.663], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: S }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: segment, from: S, to: A }
+      - { type: segment, from: S, to: B }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: S, label: 'S', pos: n }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: A, label: 'A', pos: ne }
+      - { type: point, at: B, label: 'B', pos: w }
+    ```
   parts:
   - id: a
     rubric:

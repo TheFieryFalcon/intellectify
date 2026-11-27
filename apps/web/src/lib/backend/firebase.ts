@@ -1,8 +1,12 @@
 import { FirebaseError, initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
   getAuth,
   GoogleAuthProvider,
+  linkWithCredential,
+  linkWithPopup,
+  signInWithCredential,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInAnonymously,
@@ -12,8 +16,9 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Profile, type StoredSkillState, type User } from "./types";
+import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { mergeAchievements, mergeProfile, mergeProgress } from "../claim";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type StoredSkillState, type ThreadSummary, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -29,6 +34,8 @@ const AUTH_MESSAGES: Record<string, string> = {
   "auth/user-not-found": "Wrong email or password.",
   "auth/invalid-email": "That email address isn't valid.",
   "auth/email-already-in-use": "An account with that email already exists. Sign in instead.",
+  "auth/account-exists-with-different-credential": "That email already has an account with a password. Log in with your email instead.",
+  "auth/provider-already-linked": "This account already has that login.",
   "auth/weak-password": "Use a password of at least 6 characters.",
   "auth/missing-password": "Enter your password.",
   "auth/too-many-requests": "Too many attempts. Wait a few minutes and try again.",
@@ -72,6 +79,7 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     email: u.email,
     local: false,
     anonymous: u.isAnonymous,
+    google: u.providerData.some((p) => p.providerId === "google.com"),
   });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
@@ -81,7 +89,32 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     if (u) void setDoc(doc(db, "users", u.uid), { displayName: toUser(u).displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true }).catch(() => {});
   });
 
-  return {
+  /** Everything an anonymous account holds, read while still signed in to it (SPEC §2.1a). */
+  async function exportAccount(uid: string) {
+    const courses = ((await fetch("/content/index.json").then((r) => (r.ok ? r.json() : []))) as { id: string }[]).map((c) => c.id);
+    const [profile, jobs, perCourse] = await Promise.all([
+      api.loadProfile(uid),
+      api.loadMarkingJobs(uid),
+      Promise.all(courses.map(async (c) => ({ c, progress: await api.loadProgress(uid, c), achievements: await api.loadAchievements(uid, c) }))),
+    ]);
+    return { profile, jobs, perCourse };
+  }
+
+  /** Merge an anonymous account's progress into the account now signed in. */
+  async function importInto(uid: string, from: Awaited<ReturnType<typeof exportAccount>>) {
+    const day = new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Perth" }).format(new Date());
+    const merged = mergeProfile(await api.loadProfile(uid), from.profile, day);
+    await setDoc(doc(db, "users", uid), JSON.parse(JSON.stringify({ xp: merged.xp, questionXpAt: merged.questionXpAt, placement: merged.placement, daily: merged.daily, stats: merged.stats })), { merge: true });
+    for (const { c, progress, achievements } of from.perCourse) {
+      const changes = mergeProgress(await api.loadProgress(uid, c), progress);
+      if (Object.keys(changes.skills).length || Object.keys(changes.responseSkills).length) await api.saveResult(uid, c, changes, null);
+      const ach = mergeAchievements(await api.loadAchievements(uid, c), achievements);
+      if (ach && achievements) await api.saveAchievements(uid, c, ach);
+    }
+    for (const job of from.jobs) await api.saveMarkingJob(uid, job);
+  }
+
+  const api: Backend = {
     kind: "firebase",
     onUser(cb) {
       listeners.add(cb);
@@ -99,6 +132,7 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
         const { user } = await createUserWithEmailAndPassword(auth, email.trim(), password);
         if (name.trim()) {
           await updateProfile(user, { displayName: name.trim() });
+          await setDoc(doc(db, "users", user.uid), { displayName: name.trim(), nameSet: true }, { merge: true });
           emit(auth.currentUser);
         }
       } catch (err) {
@@ -115,6 +149,52 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     async signOut() {
       await signOut(auth);
     },
+    async upgradeWithGoogle() {
+      const anon = auth.currentUser;
+      if (!anon?.isAnonymous) return false;
+      try {
+        await linkWithPopup(anon, new GoogleAuthProvider());
+        return true;
+      } catch (err) {
+        if (err instanceof FirebaseError && err.code === "auth/credential-already-in-use") {
+          // That Google account already has an Intellectify account: log in to it and bring this progress along.
+          const cred = GoogleAuthProvider.credentialFromError(err);
+          if (!cred) throw new Error("Couldn't sign in with Google. Try again.");
+          const data = await exportAccount(anon.uid);
+          await signInWithCredential(auth, cred);
+          await importInto(auth.currentUser!.uid, data);
+          return true;
+        }
+        friendly(err);
+        return false;
+      }
+    },
+    async upgradeWithEmail(mode, name, email, password) {
+      const anon = auth.currentUser;
+      if (!anon?.isAnonymous) return false;
+      if (mode === "sign-up") {
+        try {
+          await linkWithCredential(anon, EmailAuthProvider.credential(email.trim(), password));
+        } catch (err) {
+          friendly(err);
+          return false;
+        }
+        if (name.trim()) {
+          await updateProfile(anon, { displayName: name.trim() });
+          await setDoc(doc(db, "users", anon.uid), { displayName: name.trim(), nameSet: true }, { merge: true });
+        }
+        return true;
+      }
+      const data = await exportAccount(anon.uid);
+      try {
+        await signInWithEmailAndPassword(auth, email.trim(), password);
+      } catch (err) {
+        friendly(err);
+        return false;
+      }
+      await importInto(auth.currentUser!.uid, data);
+      return true;
+    },
     async loadProfile(uid) {
       const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
       return { ...emptyProfile(), ...(d as Partial<Profile>) };
@@ -122,15 +202,67 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     async setPlacement(uid, placement) {
       await setDoc(doc(db, "users", uid), { placement }, { merge: true });
     },
+    async setDisplayName(u, name) {
+      if (auth.currentUser) await updateProfile(auth.currentUser, { displayName: name });
+      const batch = writeBatch(db);
+      batch.set(doc(db, "users", u.uid), { displayName: name, nameSet: true }, { merge: true });
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: name }, { merge: true });
+      await batch.commit();
+      emit(auth.currentUser);
+    },
     async grantXp(u, grant) {
       const batch = writeBatch(db);
       const own: Record<string, unknown> = { xp: increment(grant.amount) };
       if (grant.questionId) own.questionXpAt = { [grant.questionId]: Date.now() };
       if (grant.visitDay) own.lastVisitDay = grant.visitDay;
       batch.set(doc(db, "users", u.uid), own, { merge: true });
-      // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
-      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), { displayName: u.displayName, xp: increment(grant.amount), updatedAt: serverTimestamp() }, { merge: true });
       await batch.commit();
+    },
+    async saveDaily(u, daily) {
+      await setDoc(doc(db, "users", u.uid), { daily }, { merge: true });
+    },
+    async savePublic(u, stats, pub) {
+      const batch = writeBatch(db);
+      batch.set(doc(db, "users", u.uid), { stats }, { merge: true });
+      // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
+      // Courses merge key by key, so a course not touched this session keeps its last mirror.
+      if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), JSON.parse(JSON.stringify(pub)), { merge: true });
+      await batch.commit();
+    },
+    async listThreads() {
+      const snap = await getDocs(query(collection(db, "discussions"), orderBy("updatedAt", "desc"), limit(300)));
+      return snap.docs.map((d) => ({ ...(d.data() as Omit<ThreadSummary, "key">), key: d.id }));
+    },
+    async loadPosts(key) {
+      const snap = await getDocs(query(collection(db, "discussions", key, "posts"), orderBy("at", "asc"), limit(1000)));
+      return snap.docs.map((d) => ({ ...(d.data() as Omit<Post, "id">), id: d.id }));
+    },
+    async addPost(u, t, body, parent, name) {
+      const ref = doc(collection(db, "discussions", t.key, "posts"));
+      const post: Post = { id: ref.id, uid: u.uid, name, body, at: Date.now(), parent };
+      // One transaction: the post, and the thread's count and search text.
+      await runTransaction(db, async (tx) => {
+        const threadRef = doc(db, "discussions", t.key);
+        const prev = (await tx.get(threadRef)).data() as Partial<ThreadSummary> | undefined;
+        tx.set(threadRef, { day: t.day, course: t.course, year: t.year, questionId: t.questionId, posts: (prev?.posts ?? 0) + 1, updatedAt: post.at, text: `${prev?.text ?? ""}\n${body}`.slice(-200000) });
+        tx.set(ref, { uid: post.uid, name, body, at: post.at, parent });
+      });
+      return post;
+    },
+    async deletePost(key, post) {
+      await runTransaction(db, async (tx) => {
+        const threadRef = doc(db, "discussions", key);
+        const prev = (await tx.get(threadRef)).data() as ThreadSummary | undefined;
+        if (prev) tx.set(threadRef, { ...prev, posts: Math.max(0, prev.posts - 1), text: prev.text.replace(`\n${post.body}`, "") });
+        tx.delete(doc(db, "discussions", key, "posts", post.id));
+      });
+    },
+    async listPublic() {
+      const snap = await getDocs(query(collection(db, "publicProfiles"), limit(1000)));
+      return snap.docs
+        .map((d) => ({ ...(d.data() as Partial<PublicProfile>), uid: d.id }))
+        .filter((p) => typeof p.xp === "number")
+        .map((p) => ({ displayName: "Student", stats: null, daily: null, achievements: {}, courses: {}, updatedAt: 0, ...p }) as PublicProfile);
     },
     async loadAchievements(uid, course) {
       const d = await getDoc(doc(courseDoc(uid, course), "meta", "achievements"));
@@ -182,4 +314,5 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       await batch.commit();
     },
   };
+  return api;
 }

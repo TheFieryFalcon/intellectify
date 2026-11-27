@@ -9,7 +9,8 @@
     "content": "pnpm --filter @intellectify/content build:content",
     "dev": "pnpm content && pnpm --filter @intellectify/web dev",
     "build": "pnpm content && pnpm --filter @intellectify/web build",
-    "verify": "pnpm --filter @intellectify/content verify:content"
+    "verify": "pnpm --filter @intellectify/content verify:content",
+    "moderation": "node scripts/banned-rules.mjs"
   },
   "devDependencies": {
     "@netlify/functions": "2.8.2",

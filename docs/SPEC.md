@@ -51,6 +51,12 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 
 Sign-in uses **Google** or **email and password** (Firebase Auth, project `intellectify-4357c`), with password reset by email.
 
+### 2.1a Trying it anonymously
+- **Continue anonymously** (Firebase anonymous auth) lets anyone try the site without an account. Anonymous accounts stay off leaderboards; their maths-mark placement is asked once per browser and reused by later anonymous accounts.
+- **Limit: 5 questions.** Once an anonymous account has answered 5 questions (resolved in any mode, or written answers submitted for marking), the next question opens a **Keep your progress** dialog that can't be closed: continue with Google, sign up with email, or log in. Pages without a question (the map, leaderboards, tutorials) stay open. The count is kept in the browser as each answer lands, so a reload doesn't reset it.
+- **Progress comes along.** Signing up (Google or email) adds the login to the anonymous account, so the account and all its data stay as they are. Logging in to an account that already exists (or choosing a Google account that already has one) merges the anonymous progress into it: per skill, the state with more resolved questions wins; XP and problem counts add up; earned achievements combine; written answers and their marks are copied; the account keeps its own placement, daily record and name. The anonymous account's data is left behind, unused. The page then reloads as the permanent account.
+- **Deploy previews have no limit**, for testing (Netlify builds them with `CONTEXT=deploy-preview`).
+
 ---
 
 ## 3. Curriculum structure
@@ -146,7 +152,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 **Every technical term is explained**
 - Each technical term or symbol is defined at first use: **bold** term, then a one-line plain-English definition, plus notation if any (e.g. **permutation**: an ordered arrangement; ${}^nP_r$).
 - Terms defined in other skills' tutorials link there instead of being redefined.
-- All defined terms feed a course **glossary**. Wherever a glossary term appears in a tutorial, question or solution, hovering or tapping it shows the definition.
+- All defined terms feed a course **glossary**. Wherever a glossary term appears in a tutorial, question or solution, hovering or tapping it shows the definition. **Implemented:** the first mention of each term (or its plural) in any rendered text is underlined with a dotted line; hover, tap or keyboard focus shows the term and its definition. A student's own written answer gets no hovers.
 - Use WA/WACE notation and conventions (cis θ, $\binom{n}{r}$ and ${}^nC_r$, column vectors, i/j/k), matching how exams and markers write.
 
 **Structure** (fixed headings, so tutorials feel consistent):
@@ -183,6 +189,7 @@ Every skill has a **size**, set in the curriculum file. Bigger skills are founda
 - Size is a judgment call, led by **how often exams test the skill**, then its difficulty. Specialist's Cornerstones: proof methods, permutations, combinations, the scalar product, displacement/force/velocity, converses and circle problems, complex arithmetic and induction.
 - **First-order foundations that exams rarely test on their own** (counting principles, vectors as directed line segments, component form, logic, matrix arithmetic, 3D vector algebra, …) are **Small**, even though everything builds on them. Their questions stay; only the rank requirements drop.
 - The content build warns when a skill with questions is below its size's minimums.
+- **Geometry is mostly written proofs.** In every Geometry skill (logic, proof methods and the circle theorems), at least 55% of practice questions are written (rubric-marked, §10). The auto-marked questions stay for quick checks. Written questions name their rubric dimensions as response skills (§5.6): Proof for structure, Reasoning for deductive steps, Clarity and Precision for the write-up.
 
 ## 4. Difficulty: tiers and question ratings
 
@@ -291,7 +298,9 @@ In a rubric, a deductive step ("so ∠XAC = ∠XDB") is a Reasoning criterion, a
 
 ### 5.7 Question selection
 - Target success probability **P\* ≈ 0.65**, the Alcumus-like "edge of ability" (tunable). The ideal rating is `d* = θ − S·ln(P*/(1−P*))`.
-- Choose from the skill's pool by closeness to `d*`. **Down-weight questions already seen**, and never repeat a question seen in the last N sessions unless the pool is exhausted. Template questions may repeat with fresh parameters.
+- Choose from the skill's pool by closeness to `d*`, with a soft weighting so sessions vary.
+- **No repeats near the student's level (implemented):** while any unseen question lies within **±150** of `d*` (`noRepeatBand`), only unseen questions in that band are served. Once the band is used up, repeats are allowed, avoiding the last 20 questions; a repeat near `d*` is preferred over a new question far from it. A repeat comes with a freshly picked variant and words (§9.3, §9.6), so it rarely reads the same.
+- "Seen" means answered (the last 200 per skill are stored), plus written answers still waiting in the marking queue.
 - **Drop a tier** (§5.3) shifts `d*` down into the band one tier below θ's current band.
 - Hidden questions (reported, §11.5) are excluded.
 
@@ -320,7 +329,12 @@ Only the **final outcome** counts, so there is one θ update per question. Wrong
 | 5 | 5 | 1.0, 0.9, 0.81, 0.729, 0.656 (geometric ×0.9) |
 | 6 | Unlimited | No penalty for wrong answers (milestone scoring, §8.6) |
 
-**Multi-part questions:** each part has its own attempts, and the question outcome is the weighted mean of the part outcomes (weights = part marks).
+**Multi-part questions:** ratings are **per part**. A part may have its own `rating`; parts without one use the question's. The question's rating is always its **hardest part's** (the build enforces this), so adding an easy part never lowers it. Selection, tier labels and Challenge grades use that headline rating.
+- Each part has its own tier, so its own attempts and attempt credit.
+- θ updates part by part, all from the same starting θ: Δθ = K·Σ (marks share) × (part outcome − P(correct at that part's rating)). With one part, or parts sharing one rating, this is exactly the single update.
+- Each part counts toward the rank gate at its own tier.
+- The question's overall outcome (shown, and used for response skills and XP) is the mark-weighted mean of the part outcomes.
+- Written parts are scored the same way: the marker returns each part's score, and appeals revise part by part.
 
 ### 6.3 Free-response
 - **One attempt**, plus an **appeal** (§10.3).
@@ -359,6 +373,17 @@ Graphical answers such as "sketch y = 1/f(x)" or "shade the locus" are handled t
 ### 8.1 Skill practice (core loop)
 An endless adaptive stream for one skill (§5.7).
 
+### 8.1a Review pools
+- Section quizzes, unit quizzes and Section Challenges draw from **their own authored pools**, never from practice. A question's `pool` field (`section-quiz`, `unit-quiz` or `challenge`; default `practice`) decides where it is served. The build writes `reviews/section-<id>.json` (`sectionQuiz`, `challenge`) and `reviews/unit-<n>.json` (`unitQuiz`).
+- **Pool sizes** (the build warns below these):
+
+  | Pool | Size |
+  |---|---|
+  | Quiz pools | at least 2× the quiz's mix in every tier |
+  
+- Challenge problems must be Tier 4–5 (a build error otherwise). A Section Challenge is a fixed sequence, not a pool (§8.4).
+- Pools include **written** (rubric-marked) questions. These are marked in the background (§10.2). The quiz summary and the Challenge average fill in as marks arrive, and quiz and Challenge achievements wait until every answer is marked.
+
 ### 8.2 Section quiz
 - **8 questions**, fixed mix: 2×T1, 2×T2, 3×T3, 1×T4, drawn across the section's skills.
 - Every question updates θ for its skill. An end summary shows score per skill and rank changes.
@@ -366,12 +391,23 @@ An endless adaptive stream for one skill (§5.7).
 ### 8.3 Unit quiz
 - **15 questions**, fixed mix: 2×T1, 4×T2, 6×T3, 3×T4, drawn across the unit.
 - Both quiz mixes are **config-driven**. Questions are spread round-robin across the skills, falling back to the nearest tier when a tier runs short, and served easiest first. After each question the solution is shown.
-- Section quiz, unit quiz and Section Challenge are linked from every skill page (§15.3).
+- Section quiz, unit quiz and Section Challenge are linked from every skill page (§15.3), and they are on the map. Each section's quiz (a checklist tile) and Challenge (a summit tile, showing the best result) sit at the foot of the section. Each unit's quiz (a star badge) sits below the unit.
 
 ### 8.4 Section Challenge
-- **10–25 Tier 4–5 cross-skill (synthesis) problems**; the count scales with section size: the section's dot points, clamped to 10–25.
-- Problems tagged with secondary skills come first (up to a third of the challenge); the rest are drawn round-robin from the section's Tier 4–5 questions.
-- **Untimed**, and progress is saved across sessions.
+- A **fixed, authored sequence of 10–15 problems** per section; the count scales with section size (its dot points, clamped to 10–15). There is no pool and no random picking: every student meets the same problems in the same order.
+- Problems are **unconventional**: synthesis across the section's skills, often with tools the course doesn't name, e.g. proofs about matrices, coordinates, tilings or grids. Any notation they use is defined in the question.
+- **Graded like slopes, and served in rising order:**
+
+  | Grade | Rating | Mark |
+  |---|---|---|
+  | Green | 1550–1699 (Tier 4) | circle |
+  | Yellow | 1700–1849 | square |
+  | Red | 1850–1949 | triangle |
+  | Black | 1950–1999 | diamond |
+
+  Each Challenge ends on **exactly one black problem**. The build enforces the length, the rising order and the single black finale, and warns if a grade is missing or fewer than a third of the problems are cross-skill.
+- **Later-unit content.** A problem may draw on a later unit of the **same year**, declared by `requires` (section IDs, e.g. `requires: [matrices]`). The problem shows "Uses Unit 2 · Matrices" and can be **skipped**: a skipped problem changes no θ and is left out of the average, though it rules out a first-try sweep. The build rejects `requires` outside Section Challenges, on a section that isn't in a later unit, and **any Year 11 Challenge problem that requires Year 12 content**.
+- **Untimed**, and progress is saved across sessions. "Try again" restarts the same sequence; the best average is kept.
 - **Soft gate:** always available. If any skill in the section is below Gold, a "Recommended at Gold" warning appears before starting.
 - Each problem has one **primary skill** (full update) and secondary skills (0.5× update).
 
@@ -383,9 +419,17 @@ An endless adaptive stream for one skill (§5.7).
   |---|---|---|---|---|---|---|---|
   | Tier | 1 | 2 | 2 | 3 | 3 | 4 | 4 |
 
+- **One per year group (implemented):** a Year 11 and a Year 12 problem each day, each targeting **the block its year group has just learnt**. Course outlines live in `content/schedules/<course>-y<yearGroup>-<year>.yaml` as blocks of school weeks ("T2 W2" to "T2 W4") and dot points; the build maps dot points to skills and checks them. The WA school calendar (Term 1 from the Monday of 1–4 Feb, else the Wednesday of 31 Jan–3 Feb; 10-week terms with 2-week breaks; Early Easter makes Term 1 nine weeks and Term 2 eleven) gives the school week for a Perth date (engine `calendar.ts`, ported from the owner's Connectify). The target is the latest block that has started; in the holidays, the last one before them; in January, the end of the previous year. If that block has no questions yet, the nearest earlier block with questions stands in (labeled "latest with questions"). A year group without an outline revises everything that has questions. A year without its own outline reuses the latest one.
+- The pick is deterministic from the Perth date, course and year group (seeded hash), so it's the same for everyone with no server; its variant and words are seeded the same way. If the day's tier has no question in the target, the nearest tier stands in (lower first). Students default to their year group (from onboarding) and can switch.
 - Normal attempt rules for its tier. It updates θ like any other problem.
 - It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
-- A **daily streak** (consecutive days solved) feeds a leaderboard.
+- A **daily streak** (consecutive days solved) feeds a leaderboard. A daily problem is solved with any credit on an auto-marked question, or at the 60% pass mark on a written one (when its mark arrives). One attempt per day per year group; afterwards the page shows the question and solution. The streak lives on the profile and is mirrored to the public profile (`dailyStreak`, `dailyBest`).
+
+### 8.5a Revision
+Reached from the **Revision** tile above the map (outside the skill tree). Questions come from every pool (practice, quizzes, Challenges) through the question index (§15.3a). Normal attempt rules; answers update θ, XP and achievements like practice, and written answers are marked as usual. A session runs until the student stops, showing questions done and the average score; **Skip** moves on without recording anything.
+- **Exam revision.** **Easy**: Tiers 2 and 3. **Hard**: Tiers 3 and 4. A fair coin picks the tier of each question (the other tier if one runs dry), so the mix is half and half. Scope: the whole course, a unit, a section or a skill; type: any, auto-marked or written. Questions that need a later unit are left out.
+- **Custom revision.** Any set of tiers (none = any), type, and tags (response skills; a question matches if it has any picked tag), over the whole course, a unit, a section or a skill, optionally including questions that need later units. The setup page shows how many questions match.
+- Within a session no question repeats until the mix runs out, and questions the student has never answered come first.
 
 ### 8.6 Monthly problems (Tier 6)
 - **Two problems per course each month**, both open for the whole month:
@@ -485,7 +529,7 @@ answer:
 
 ### 9.3 Parameterized questions
 - **Runtime templates:** parameter ranges plus constraints. The client instantiates random values and computes the key and checker in JS. Used for simple arithmetic-type items, mostly Tiers 1–2.
-- **Pre-generated variants:** the offline script produces concrete variants (e.g. 20 per template), each SymPy-verified, and ships them. Used wherever parameter choice can break "nice" answers.
+- **Pre-generated variants (the default):** an authoring script takes parameter ranges and constraints and writes concrete variants into the question file (about 8–12 per numeric question), each SymPy-verified, and the build renders every variant's figure. A variant may carry its own figure coordinates (parameters starting with `_`, such as `_A: '1.2, -0.8'` and `_view`, used as `A: [{{_A}}]` in the figure; verify code never receives them), so a figure always matches its numbers. Numeric geometry questions have 5 variants each. Chosen over random values per serve: every served instance is checked before it ships, figures stay accurate, and serving, marking and storage only ever handle a variant number. Revisit if logs show students meeting repeats often.
 - **Mandatory rule for trigonometric simultaneous-equation problems** (collisions, interception, flight direction with wind, relative velocity): always pre-generate, and verify that
   - (a) answers are **small whole numbers**, or the intended exact values;
   - (b) the problem is **solvable on a low-power CAS calculator**, meaning an old, slow, unreliable CAS with `solve` and graphing. In practice:
@@ -502,6 +546,15 @@ answer:
 - Diagram specs reference question parameters, so diagrams update with parameterized variants. They are LLM-authorable and validated at build time.
 - **Format (implemented):** a fenced ` ```diagram ` block of YAML inside any Markdown (tutorials, stems, solutions, prompts, options). It has a `view` in math coordinates (`[xmin, xmax, ymin, ymax]`, y up), optional `width`, `grid`, `axes`, named `points`, a screen-reader `alt`, and a `draw` list. Element types so far: `point`, `segment` (dashed, equal-length ticks), `vector` (arrowhead), `angle` (arc or right-angle mark), `circle` (radius or through a point), `polygon`, `text` and `north` (bearing arrow). Labels are LaTeX. Colors are theme tokens (`ink`, `accent`, `muted`, `good`, `bad`), so diagrams work in dark mode. Function curves, Argand diagrams, slope fields and 3D views come later.
 - The build parses and renders every diagram, for every question variant, and fails on unknown points, bad numbers or unfilled placeholders.
+
+### 9.6 Word variety (implemented)
+Word problems change their story each time, not just their numbers, so they don't read the same twice.
+- `content/words.yaml` holds named word lists: people's names, aircraft, vessels, river crossers, road vehicles, and matched unit sets (km with km/h, nautical miles with knots, miles with mph). Entries are words, or records with fields (a crosser's `name` and `verb`; a unit set's `distance` and `speed`).
+- A question names a list per slot: `words: { who: person, craft: aircraft, u: units }`, and its text uses `{{who}}`, `{{craft}}`, `{{craft.a}}` ("a"/"an" added), `{{craft.A}}` (capitalized, for a sentence start) and `{{u.speed}}` (a field).
+- **Truly random per serve:** each serve picks an entry for every slot at random, independently of the numeric variant; two slots on the same list never get the same entry. The picks (entry indices) are stored with the serve (attempt, marking job, Challenge state), so a question reads the same when it's marked, resumed or reviewed. The marking server checks picks against the deployed lists before filling the question.
+- **Words never change an answer.** The build fails if a slot appears in an answer key or verify code, and if a list is unknown; numbers stay in the variant. A unit swap only relabels: answers are given in the question's own units.
+- People are referred to by name only, never by pronoun, so any name fits any sentence.
+- Lists grow with content: add a list when a new kind of story needs one (foods, sports, clubs, subjects for combinatorics).
 
 ---
 
@@ -527,7 +580,12 @@ answer:
 - **Nudge to BYO key:** the pending state explains that the free queue may be slow, and offers a one-tap "Add your own key for instant marking".
 - **As built:**
   - The function loads the question, rubric and model solution from the deploy's own content files (never from the request), and needs a Firebase ID token.
-  - Models, best first: Gemini 3.8 Flash, then 3.5 Flash (both at low reasoning effort), then 3.5 Flash-Lite, within a 50 s budget. If every model is over quota, the reply is 429.
+  - **Free marking is Groq only** (`openai/gpt-oss-120b`, medium reasoning effort). Gemini's free tier is kept for reading photos, since a consensus mark used 3 of its ~20 requests a day per model. In testing, Groq gave a correct but messy handwritten proof 0% while Gemini 3.8 Flash gave it 100%; that's the accepted trade-off for free marking (an own key fixes it).
+  - **Marking effort** (Settings slider, stored per marker in the browser): the free marker offers 1 (one Groq run) and 2 (three runs by consensus; the default). With an own key, 1–10 (default 3) pick the model, reasoning effort and number of runs, from `EFFORT_LEVELS` in `packages/content/src/marking.ts`. Settings shows only the number. The slider always shows 1–10; without an own key, 3–10 are shown hatched and the thumb stops at 2.
+  - A step that sorts a transcription into "Answer" and "Rough work" was tried and dropped: on one run it moved steps the proof relied on into rough work. Groq's vision model (Qwen) was also tried as a reader and looped on rough work.
+  - Own-key Gemini marking uses Gemini 3.8 Flash, then 3.5 Flash. Flash-Lite is **not** used for marking: in testing it gave the same proof 100% one time and 20% the next. When the marker is busy, the reply is 429 or 503, and the answer waits in the queue and retries. A late mark beats a wrong one.
+  - **Consensus:** every answer is marked three times in parallel. Each criterion takes the median award, completeness needs a majority, and the feedback comes from the run closest to the median total. If some runs fail, the rest still count.
+  - **Any valid method:** criteria are matched to the equivalent step of the student's own method, and a different method never loses marks. The marker also judges, per part, whether the answer completely and correctly proves what was asked. A part judged so gets **full marks**, set in code. Rough working and abandoned attempts on photographed pages aren't penalized unless the argument depends on them.
   - Points come from the rubric, not the model: awards are clamped to each criterion's maximum and rounded to halves, and missing criteria score 0.
   - Content skills get `freeResponseOutcome(s)`. Each rubric dimension updates its response skill using that dimension's own score.
   - Jobs live in `users/{uid}/markingJobs`. The open app marks one at a time and retries with backoff (15 s, doubling, up to 30 min; Retry-After wins if longer).
@@ -550,6 +608,13 @@ answer:
   - instant marking, with no queue;
   - unlimited monthly-problem submissions;
   - vision-LLM handwriting transcription when the MyScript quota runs out.
+
+### 10.5 Photo answers
+- Written answers can be **photographed**: the Photo button takes a picture with the camera or uploads one.
+- **Several photos** (up to 6 pages of one answer) can be taken one by one with the camera or uploaded together. They show as numbered thumbnails and are read together, in order, as one answer. The reader ignores crossed-out work and straightens rotated pages. Transcription may fall back to Flash-Lite.
+- Each photo is shrunk on the device (longest side 1600 px, JPEG) and sent to **`/api/transcribe`**, or straight to the student's own provider (§10.4). This is a vision model told only to transcribe the handwriting into text with LaTeX maths, marking unreadable parts [illegible].
+- The transcription is added to the answer box, labelled "From photo · check it", for the student to correct before submitting. Marking and appeals then use that text as usual.
+- **Photos are never stored.** `/api/transcribe` uses the same sign-in check as `/api/mark`, accepts one JPEG, PNG or WebP of about 3 MB at most, and reports 429 when over quota.
 
 ---
 
@@ -637,7 +702,12 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 - **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
 - **Definitions:** criteria are declarative in `content/achievements.yaml` (generated from the tables below; the build checks tier counts, secrets and points against them) and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters (first-try streaks, per-tier correct counts, weekly counts, one-off flags) and earned dates live in `users/{uid}/courses/{course}/meta/achievements`.
-- Achievements whose feature doesn't exist yet (daily and monthly problems, free response, discussions, reports, appeals, leaderboards) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
+- Achievements whose feature doesn't exist yet (monthly problems, reports) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
+- **Feature events (Phase 1).** Daily problems, written answers, appeals, discussion posts and the leaderboards feed the same stats:
+  - **Daily:** each solved day is kept (first try or not; a day counts once, whichever year group's problem it was). Full Week and Perfect Week check the Mon–Sun week; Calendar Month every day of the month; Weekend Warrior and Sunday Best count weekend and first-try Sunday solves; the streak achievements use the daily streak. A written daily answer is one submission, so a solve at 60% or more is a first-try solve.
+  - **Written answers:** 100% answers in total and in a row (an appeal that lifts a score to 100% counts toward the total). An appeal from below 60% to 100% earns its achievement.
+  - **Discussions:** each thread posted in counts once (any post or comment). The week-and-discussions achievement needs a perfect week with a post in a thread for each of its days.
+  - **Top of the Month:** checked when the leaderboards open on the last day of a month (Perth): #1 on that course's board, alone, with at least one other student on it.
 - Earning one grants XP (4 × points) and shows a toast.
 - **Tier designs continue the rank ladder:** the Platinum and Diamond achievement tiers deliberately parallel the Platinum and Diamond mastery ranks (§5.4). Their designs are **very similar**:
   - same colors, materials and finish (metallic platinum, faceted diamond);
@@ -793,6 +863,11 @@ Group-wide boards:
 - **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
 - Race personal bests (§14.5).
 
+**Implementation (Phase 1).** Each student has one `publicProfiles/{uid}` document holding everything the boards and profile pages show: display name, XP, activity counters (problems total, today and this week; XP this week and this month, by Perth day, Monday-start week and month), daily streak (current, best, last solved), earned achievement ids and points per course, and per course the course rank and θ, started skills' and response skills' rank and θ, and the roll-up ranks.
+- **Writes:** changes collect in the browser and are saved together 15 seconds after the last one (and when the page is hidden), in one batch with the private counters on `users/{uid}`. A run of answers costs one write, not one per answer. Each course is also refreshed once per tab session when its map opens, so older progress appears. Anonymous test accounts stay off the mirror.
+- **Reads:** the boards and every profile page share one read of the collection, cached for five minutes per tab (memory and sessionStorage); **Refresh** re-reads. Boards are sorted in the browser; ties share a position; a student with nothing on a board isn't listed. The top 100 show, plus the student's own row if lower.
+- Boards now: XP and level (all time, this month, this week), course rank (rank, then score), achievement points, problems done (total, this week, today), daily streak (alive while the last solve was today or yesterday). Monthly, Elo and Race boards arrive with those features.
+
 ### 12.3 Profile page
 A public profile shows:
 - display name, global level and tier badge (§12.4);
@@ -801,6 +876,8 @@ A public profile shows:
 - achievements, earned and secret;
 - Elo per game mode, current and peak (§14.7);
 - leaderboard positions.
+
+Phase 1: `/profile/<uid>` (the name in the header links to your own) shows name, level, tier and XP; problems, daily streak and achievement points; position on every board; per course the course rank, response-skill ranks and the tech tree read-only (under **Tech tree**); and earned achievements, secret ones marked. Elo arrives in Phase 3.
 
 ### 12.4 Global level
 One account-wide **level**, earned with **XP** from almost everything a student does. It scales slowly: an hour gets a new student a few levels, while **level 500+ is reachable by determined students**, roughly 500 hours of activity over an ATAR career. There is no level cap.
@@ -865,7 +942,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
   From Ruby up, the level number and progress bar also take on the tier's material. All motion respects reduced-motion settings. A preview of every tier is at `/dev/tiers`.
 - XP has its own **leaderboard** (§12.2): all time, this month and this week.
 
-**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards. Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
+**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards (§12.2: batched, not per answer). Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
 
 ---
 
@@ -878,9 +955,14 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 - **Spoiler tags:** `||label: hidden text||`, or `||hidden text||` without a label. Hidden text renders as a blurred block that is revealed on click. Hovering (or long-pressing on touch) shows a **tooltip with the author's label** describing what's hidden, e.g. "full solution to (b)" or "hint: consider parity". With no label, the tooltip says "Spoiler". LaTeX inside spoilers is supported.
 - **Anyone** can post and comment. Posts support Markdown and LaTeX.
 
+- **Phase 1 implementation.** `/<course>/discussions` lists threads (most recently active first) plus today's two daily problems (Year 11 and Year 12), and filters by date (a past date shows that day's problems even with no posts yet), year group and text (problem name and every post's text). A thread page shows the problem as served that day (rebuilt from the same seed as the daily page), its solution behind **Solution**, the posts with their comments (one level), and a composer with **Preview**. Authors can delete their own posts.
+- **Storage:** `discussions/{day}:{course}:{year}` holds the post count, last activity and every post's text (for search, capped at 200,000 characters); its `posts` subcollection holds each post and comment (`parent` names the post a comment is on). Posting is one transaction (the post plus the thread's count and text). The thread list and each thread's posts are read once and kept for two minutes; your own posts update the copies without a re-read.
+- **Safety:** posts are students' own writing, so raw HTML shows as typed, links are limited to safe protocols, and the HTML is sanitized (DOMPurify) before KaTeX output is added. KaTeX runs with `trust: false`.
+
 ### 13.2 Moderation
-- A **banned-words list** (slurs etc.) applies to posts, comments and display names, checked client-side and again in Firestore rules or a function.
+- A **banned-words list** of identity-based slurs (race, ethnicity, sexuality, gender identity, disability) and purely sexual terms applies to posts, comments and display names, checked client-side and again in Firestore rules. Profanity and general insults are not banned.
 - No other moderation for now, given the small group.
+- **Phase 1 implementation.** The list is `content/banned-words.txt` (one per line; owner-edited). The content build copies it to `/content/banned-words.json` for the app, and `pnpm moderation` writes it into `firestore.rules` as a `clean()` function (whole words, case-insensitive, plus -s/-es/-ed/-ing); deploy the rules after changing it. The app also undoes common letter swaps (`3` for `e`, `@` for `a`) and spaced-out letters before checking. Posts and comments with a banned word are refused; a display name with one shows as "Student" on the public mirror and is refused at sign-up.
 
 ---
 
@@ -1163,7 +1245,14 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
 - **Learn** opens the skill's tutorial (§3.2): a clean reading view with glossary hovers and links to prerequisite tutorials. It is offered prominently on a student's first visit to a skill, but never required.
 - **Start practicing** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
-- Entry points to the section quiz, unit quiz and Section Challenge.
+- No quiz or Challenge links here: the section quiz, unit quiz and Section Challenge are reached from their nodes on the map.
+- **Tabs: Overview and Questions.** Questions lists every question whose skills include this one (practice, quiz and Challenge pools), easiest first: tier badge, name, type, pool, rating, and "Answered" once seen. A row expands to the stem and worked solution; a practice question has **Practice this**.
+
+### 15.3a Questions page
+- `/<course>/questions` lists every question in the course, from a small `question-index.json` built with the content (id, name, skill(s), section, unit, year, rating, tier, type, response-skill tags, pool, whether it needs a later unit's content). The full question loads only when a row is expanded.
+- **Filter** by search text, tier, type (auto-marked or written), tag, year, unit, section, skill, pool, later units needed, and answered. **Sort** easiest or hardest first, by name, or by tag. **Group** by tier, tag, skill, section or answered; a question with several tags or skills appears in each of their groups.
+- Filters live in the URL, so a view can be bookmarked or shared. "Answered" comes from local progress: no extra reads.
+- A question's name is its `title` field, or else its id turned into words.
 
 ### 15.4 Problem screen
 - **Header:** tier, rating, calculator flag, skill(s).
@@ -1176,7 +1265,30 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 ### 15.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; BYO key per provider (stored locally; test-key button); stylus on/off.
+  - **Display name** (Phase 1): 2–30 characters, no banned words (§13.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name); existing Google accounts are asked once.
+- **Students' own writing** (written answers, previews, history, discussion posts) keeps the line breaks they typed; authored content (questions, tutorials, solutions) uses normal Markdown paragraphs.
 - **Onboarding:** pick course + year, then a short tour of the tree, tiers, ranks and gates, and the 0–100 score. All skills start Unranked.
+
+### 15.4a Wording: points, not marks
+The app says **points** (and **score**) wherever a student sees how an answer was scored: "Written · 5 points", "Score 80%", "Appeal this score". Our rubrics and milestones are not the WACE marking scheme, so the app never calls them marks. The LLM marker writes "points" in its feedback too. ("Marking" for the process, and a student's school "maths mark" in onboarding, keep their usual meaning.)
+
+### 15.4b Answer history and Back
+- Every answer a student gives (practice, quizzes, Challenges, daily, revision) is logged **in the browser only** (localStorage, newest 500 per course): question id, variant and word picks, the answer per part, the attempt each part was solved on, the outcome, and for written answers the marking job. Nothing is read from or written to Firestore for it, so it doesn't follow a student to another device.
+- **Back** on the practice screen steps through earlier answers in that skill (showing when each was answered; Forward and **Current question** return); the current question stays as it was, half-typed answers included.
+- **History** (`/<course>/history`) lists every logged answer by day, filterable by skill, mode and result (60% or more, under 60%, still marking). A row expands to the question as it was served, the answers given (marked right or wrong per part, or with the written score and feedback) and the worked solution. **Clear history** empties it.
+
+### 15.4d The current question stays until answered
+- Practice remembers the question it is showing in each skill (id, variant and word picks; in the browser only). Leaving the page and pressing **Practice** again, or reloading, shows the same question with the same numbers and names. Once it is answered (resolved, given up or submitted for marking), it is forgotten and the next visit serves a new one.
+- If the question has changed or been removed since, a new question is served.
+
+### 15.4c Share a problem
+- **Share** on every question screen (practice, revision, daily, quizzes, Challenges, a shared problem) and on each question in the Questions lists sends a link to **that exact problem**: `/<course>/problem/<question id>?v=<variant>&w=<slot>.<index>,…`. The link carries the numeric variant and word picks, so the person opening it sees the same numbers and names. Nothing is stored; no reads or writes.
+- On phones the system share sheet opens; elsewhere the link is copied ("Link copied").
+- Opening the link shows the problem with its skill, to answer like practice (θ, XP, achievements; written answers are marked as usual; history mode "Shared"). If the question has changed since the link was made (a variant or word list no longer fits), it is served with fresh numbers and names and says so.
+
+### 15.5a Paper first
+- Questions at **Tier 3 and above**, and **every written question**, show a **"Paper first"** label: they are meant to be worked out on paper, then answered on the site.
+- The first time a student meets one, a one-time tip says so (and, for written questions, that the answer can be photographed). "Got it" dismisses it for good in that browser.
 
 ### 15.6 Platform and accessibility
 - Responsive web app, desktop-first but usable on phones and tablets. Stylus input is supported on tablets.
@@ -1193,7 +1305,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 | Native (later) | **Capacitor** wrapping the same build |
 | Math | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
 | Handwriting | MyScript iink (free tier) |
-| Auth | Firebase Auth (Google + email; anonymous for testing deploy previews, kept off public leaderboards) |
+| Auth | Firebase Auth (Google + email; anonymous to try it: 5 questions, then sign up or log in with progress kept (§2.1a); no limit on deploy previews; kept off public leaderboards) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
 | Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
@@ -1217,12 +1329,13 @@ users/{uid}/challengeProgress/{sectId}   Section Challenge progress
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 daily/{yyyy-mm-dd}                       problem id; submissions/{uid}
 monthly/{yyyy-mm}/problems/{course-year} problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
-discussions/{problemKey}/posts/{postId}  body, author, ts; comments/{commentId}
+discussions/{day}:{course}:{year}        post count, last activity, posts' text (search)
+discussions/{key}/posts/{postId}         uid, name, body, at, parent (null, or the post a comment is on)
 hiddenQuestions/{questionId}             reason, ts
 reports/{reportId}                       question id, note, verdict
 ```
 
-Leaderboards query `publicProfiles` directly, which is fine at small-group scale.
+Leaderboards read `publicProfiles` once per tab every five minutes and sort in the browser, which is fine at small-group scale.
 
 ### 16.4 Repository layout (proposed)
 ```
@@ -1252,7 +1365,7 @@ netlify/functions/     mark, report
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions. **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3); daily-problem discussions with spoilers and a banned-words list (§13); share a problem by link (§15.4c). **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |

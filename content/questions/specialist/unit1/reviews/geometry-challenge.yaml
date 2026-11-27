@@ -1,0 +1,508 @@
+# Section Challenge: Geometry (1.1). A fixed sequence, green → yellow → red → black (SPEC §8.4).
+
+- id: spec.geometry.ch.perpendicular-bisects-chord
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1570
+  responseSkills: { reasoning: 1560, proof: 1560, clarity: 1500 }
+  stem: |
+    $AB$ is a chord of a circle with center $O$, and $M$ is the point on $AB$ with $OM \perp AB$. Prove that $M$ is the midpoint of $AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, -1], B: [1.732, -1], M: [0, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: O, to: M }
+      - { type: angle, at: M, from: B, to: O, right: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: M, label: 'M', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: radii, description: "OA = OB (radii)", points: 1, dimension: reasoning }
+          - { id: right, description: "∠OMA = ∠OMB = 90° and OM is common", points: 1, dimension: reasoning }
+          - { id: congruent, description: "Triangles OMA and OMB are congruent (RHS)", points: 1, dimension: proof }
+          - { id: conclude, description: "So AM = BM: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
+
+- id: spec.geometry.ch.exterior-angle-proof
+  pool: challenge
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1580
+  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1510 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral, and side $DC$ is extended beyond $C$ to $E$. Prove that $\angle BCE = \angle BAD$.
+
+    ```diagram
+    view: [-2.45, 3.88, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [0.684, -1.879], C: [1.97, 0.347], D: [-0.684, 1.879], E: [3.43, -0.496], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: C, to: E }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: line, description: "∠BCE = 180° − ∠BCD (angles on a straight line)", points: 1, dimension: reasoning }
+          - { id: cyclic, description: "∠BAD = 180° − ∠BCD (opposite angles of a cyclic quadrilateral)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So ∠BCE = ∠BAD", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $D$, $C$, $E$ lie on a line, so $\angle BCE = 180^\circ - \angle BCD$. Opposite angles of a cyclic quadrilateral add to $180^\circ$, so $\angle BAD = 180^\circ - \angle BCD$. Hence $\angle BCE = \angle BAD$.
+
+- id: spec.geometry.ch.tangent-two-chords
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  rating: 1600
+  responseSkills: { reading: 1560, reasoning: 1570, calculation: 1540, synthesis: 1560 }
+  variants:
+    - { t: 58, a: 54, v: 68, _B: '1.798, 0.877', _A: '-1.389, 1.439' }
+    - { t: 50, a: 60, v: 70, _B: '1.97, 0.347', _A: '-1.286, 1.532' }
+    - { t: 62, a: 48, v: 70, _B: '1.658, 1.118', _A: '-1.286, 1.532' }
+    - { t: 55, a: 65, v: 60, _B: '1.879, 0.684', _A: '-1.732, 1' }
+    - { t: 64, a: 52, v: 64, _B: '1.576, 1.231', _A: '-1.576, 1.231' }
+  stem: |
+    A tangent touches a circle at $T$. Points $A$ and $B$ are on the circle, on opposite sides of the line through $T$ and the center. Chord $TB$ makes an angle of ${{t}}^\circ$ with the tangent, and $\angle ATB = {{a}}^\circ$. Find $\angle TBA$, in degrees.
+
+    ```diagram
+    view: [-3.25, 3.25, -2.45, 2.45]
+    width: 230
+    alt: "Tangent at T; chord TB at 58 degrees to it; angle ATB of 54 degrees; angle TBA unknown"
+    points: { T: [-0, -2], A: [{{_A}}], B: [{{_B}}], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: L, to: R, color: muted }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: A, to: B }
+      - { type: angle, at: T, from: R, to: B, label: '{{t}}^\circ', radius: 26 }
+      - { type: angle, at: T, from: B, to: A, label: '{{a}}^\circ', radius: 22 }
+      - { type: angle, at: B, from: A, to: T, label: '?', radius: 20 }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The tangent is a straight line, so the angle between chord $TA$ and the tangent on $A$'s side is $180^\circ - {{a}}^\circ - {{t}}^\circ = {{v}}^\circ$. By the alternate segment theorem, that equals the angle chord $TA$ subtends at $B$: $\angle TBA = {{v}}^\circ$.
+  verify: |
+    def answers(t, a, v):
+        T, L, R = (0, -2), (-3, -2), (3, -2)
+        B, A = on_circle(270 + 2*t, 2), on_circle(270 - 2*(180 - t - a), 2)
+        assert abs(angle_at(R, T, B) - t) < 1e-9 and abs(angle_at(A, T, B) - a) < 1e-9
+        return {"a": approx(angle_at(T, B, A))}
+
+- id: spec.geometry.ch.tangent-meets-diameter
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  rating: 1640
+  responseSkills: { reasoning: 1610, proof: 1600, clarity: 1560, synthesis: 1590 }
+  stem: |
+    $AB$ is a diameter of a circle with center $O$, and $C$ is a point on the circle. The tangent at $C$ meets line $AB$, extended beyond $B$, at $T$. Prove that $\angle ATC = 90^\circ - 2\angle CAB$.
+
+    ```diagram
+    view: [-2.45, 4.45, -2.45, 2.45]
+    width: 300
+    points: { A: [-2, 0], B: [2, 0], C: [1, 1.732], T: [3.999, 0], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: T }
+      - { type: segment, from: C, to: T }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: O, to: C }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: s }
+      - { type: point, at: C, label: 'C', pos: n }
+      - { type: point, at: T, label: 'T', pos: e }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: center, description: "∠COB = 2∠CAB (angle at the center is twice the angle at the circumference)", points: 2, dimension: reasoning }
+          - { id: tangent, description: "∠OCT = 90° (tangent ⟂ radius)", points: 1, dimension: reasoning }
+          - { id: sum, description: "Angle sum of triangle OCT: ∠CTO = 90° − 2∠CAB, and ∠CTO = ∠ATC", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $\angle CAB = x$. The angle at the center on arc $CB$ is twice the angle at the circumference: $\angle COB = 2x$.
+
+    The tangent at $C$ is perpendicular to the radius, so $\angle OCT = 90^\circ$. In triangle $OCT$, $\angle CTO = 180^\circ - 90^\circ - 2x = 90^\circ - 2x$. Since $T$ lies on line $AB$, $\angle ATC = \angle CTO = 90^\circ - 2\angle CAB$.
+
+- id: spec.geometry.ch.log2-3-irrational
+  pool: challenge
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1690
+  responseSkills: { reasoning: 1670, proof: 1670, clarity: 1620 }
+  stem: |
+    Prove that $\log_2 3$ is irrational.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: assume, description: "Assumes, for contradiction, that log₂3 = p/q with p, q positive integers (it is positive)", points: 1, dimension: proof }
+          - { id: power, description: "Rewrites as 2^(p/q) = 3, so 2^p = 3^q", points: 2, dimension: reasoning }
+          - { id: parity, description: "2^p is even (p ≥ 1) and 3^q is odd: contradiction", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Suppose, for contradiction, that $\log_2 3 = \dfrac{p}{q}$ for integers $p$ and $q$. Since $3 > 1$, $\log_2 3 > 0$, so we can take $p, q$ positive.
+
+    Then $2^{p/q} = 3$, and raising both sides to the power $q$ gives $2^p = 3^q$. The left side is even (as $p \ge 1$) and the right side is odd, which is impossible. So $\log_2 3$ is irrational.
+
+- id: spec.geometry.ch.circle-through-lattice
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  rating: 1720
+  responseSkills: { reading: 1710, reasoning: 1710, calculation: 1690, synthesis: 1700 }
+  variants:
+    - { p: 6, q: 8, h: 10, r: '5', _A: '6, 0', _B: '0, 8', _view: '-1.5, 8, -1.5, 9.5' }
+    - { p: 5, q: 12, h: 13, r: '6.5', _A: '5, 0', _B: '0, 12', _view: '-1.5, 7, -1.5, 13.5' }
+    - { p: 8, q: 15, h: 17, r: '8.5', _A: '8, 0', _B: '0, 15', _view: '-1.5, 10, -1.5, 16.5' }
+    - { p: 9, q: 12, h: 15, r: '7.5', _A: '9, 0', _B: '0, 12', _view: '-1.5, 11, -1.5, 13.5' }
+    - { p: 12, q: 16, h: 20, r: '10', _A: '12, 0', _B: '0, 16', _view: '-1.5, 14, -1.5, 17.5' }
+  stem: |
+    A circle passes through the points $(0, 0)$, $({{p}}, 0)$ and $(0, {{q}})$ on a coordinate grid. Find its radius.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 220
+    axes: true
+    grid: true
+    points: { O: [0, 0], A: [{{_A}}], B: [{{_B}}] }
+    draw:
+      - { type: polygon, points: [O, A, B] }
+      - { type: point, at: O, label: '(0, 0)', pos: sw }
+      - { type: point, at: A, label: '({{p}}, 0)', pos: s }
+      - { type: point, at: B, label: '(0, {{q}})', pos: e }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{r}}' }
+  solution: |
+    The segments from $(0, 0)$ to the other two points lie along the axes, so the angle at $(0, 0)$ is $90^\circ$. By the converse of the angle in a semicircle, the chord joining $({{p}}, 0)$ and $(0, {{q}})$ is a diameter. Its length is $\sqrt{ {{p}}^2 + {{q}}^2 } = {{h}}$, so the radius is {{r}}.
+  verify: |
+    def answers(p, q, h, r):
+        # Circle through (0, 0), (p, 0), (0, q): center (p/2, q/2) from the perpendicular bisectors.
+        cx, cy = Rational(p, 2), Rational(q, 2)
+        return {"a": sqrt(cx ** 2 + cy ** 2)}
+
+- id: spec.geometry.ch.determinant-one-coprime
+  pool: challenge
+  requires: [matrices]
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1740
+  responseSkills: { reasoning: 1730, proof: 1730, clarity: 1680 }
+  stem: |
+    The matrix $\begin{pmatrix} a & b \\ c & d \end{pmatrix}$ has whole-number entries and determinant $ad - bc = 1$. Prove that $a$ and $b$ have no common factor greater than 1.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: assume, description: "Assumes, for contradiction, that a whole number k > 1 divides both a and b", points: 1, dimension: proof }
+          - { id: divides, description: "Then k divides ad and bc, so k divides ad − bc", points: 2, dimension: reasoning }
+          - { id: contra, description: "But ad − bc = 1, and k > 1 can't divide 1: contradiction", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Suppose, for contradiction, that a whole number $k > 1$ divides both $a$ and $b$. Then $k$ divides $ad$ and $bc$, so it divides their difference $ad - bc = 1$. No whole number greater than 1 divides 1, which is a contradiction. So $a$ and $b$ have no common factor greater than 1.
+
+- id: spec.geometry.ch.equal-chords-equidistant
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1760
+  responseSkills: { reasoning: 1650, proof: 1640, clarity: 1600 }
+  stem: |
+    $AB$ and $CD$ are chords of equal length in a circle with center $O$ and radius $r$. Prove that $AB$ and $CD$ are the same distance from $O$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: feet, description: "Drops perpendiculars OM to AB and ON to CD; these bisect the chords, so AM = ½AB = ½CD = CN", points: 2, dimension: reasoning }
+          - { id: pythag, description: "Pythagoras in the right triangles: OM² = r² − AM² and ON² = r² − CN²", points: 1, dimension: reasoning }
+          - { id: conclude, description: "So OM = ON: the chords are equally far from O", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = \tfrac{1}{2}AB = \tfrac{1}{2}CD = CN$.
+
+    In the right triangles $OMA$ and $ONC$, $OA = OC = r$, so $OM^2 = r^2 - AM^2 = r^2 - CN^2 = ON^2$. Hence $OM = ON$.
+
+- id: spec.geometry.ch.tangent-secant-proof
+  pool: challenge
+  skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
+  rating: 1790
+  responseSkills: { reasoning: 1710, proof: 1700, clarity: 1650, synthesis: 1690 }
+  stem: |
+    From a point $M$ outside a circle, a tangent touches the circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. Prove that $MT^2 = MA \times MB$.
+
+    ```diagram
+    view: [-2.45, 4.05, -2.45, 2.45]
+    width: 230
+    points: { M: [3.6, 0], T: [1.111, 1.663], A: [1.954, -0.425], B: [-1.504, -1.318], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: B }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: triangles, description: "Considers triangles MTA and MBT, which share the angle at M", points: 1, dimension: proof }
+          - { id: alt, description: "∠MTA = ∠MBT by the alternate segment theorem", points: 2, dimension: reasoning }
+          - { id: similar, description: "So the triangles are similar: MT/MB = MA/MT", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Rearranges to MT² = MA × MB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Triangles $MTA$ and $MBT$ share the angle at $M$. The angle between tangent $MT$ and chord $TA$ equals the angle in the alternate segment: $\angle MTA = \angle MBT$. So the triangles are similar, and $\dfrac{MT}{MB} = \dfrac{MA}{MT}$, i.e. $MT^2 = MA \times MB$.
+
+- id: spec.geometry.ch.alternate-segment-proof
+  pool: challenge
+  skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-angles] }
+  rating: 1820
+  responseSkills: { reasoning: 1750, proof: 1740, clarity: 1690, synthesis: 1720 }
+  stem: |
+    A tangent touches a circle at $T$, and $S$ is a point on the tangent. $TB$ is a chord, and $\angle STB$ is acute. $A$ is a point on the circle on the other side of $TB$ from $S$. Prove that $\angle STB = \angle TAB$.
+
+    ```diagram
+    view: [-2.65, 2.85, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, 1], B: [1.732, 1], T: [-0, -2], S: [2.4, -2], U: [-2.2, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: U, to: S }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: T, to: A }
+      - { type: segment, from: A, to: B }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: S, label: 'S', pos: s }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: diameter, description: "Draws the diameter TD and states ∠STD = 90° (tangent ⟂ radius)", points: 1, dimension: proof }
+          - { id: semicircle, description: "∠TBD = 90° (angle in a semicircle)", points: 1, dimension: reasoning }
+          - { id: equal, description: "So ∠STB = 90° − ∠BTD = ∠TDB (angle sum of triangle TBD)", points: 2, dimension: reasoning }
+          - { id: arc, description: "∠TDB = ∠TAB (angles on the same arc TB)", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw the diameter $TD$. The tangent is perpendicular to the radius, so $\angle STD = 90^\circ$ and $\angle STB = 90^\circ - \angle BTD$.
+
+    $\angle TBD = 90^\circ$ (angle in a semicircle), so in triangle $TBD$, $\angle TDB = 90^\circ - \angle BTD$. Hence $\angle STB = \angle TDB$.
+
+    $D$ and $A$ are on the same side of $TB$, so $\angle TDB$ and $\angle TAB$ stand on the same arc $TB$ and are equal. So $\angle STB = \angle TAB$.
+
+- id: spec.geometry.ch.bisector-meets-perpendicular
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  rating: 1870
+  responseSkills: { reasoning: 1860, proof: 1850, clarity: 1810, synthesis: 1850 }
+  stem: |
+    $ABC$ is a triangle inscribed in a circle, with $AB \ne AC$. Prove that the bisector of angle $A$ and the perpendicular bisector of $BC$ meet at a point on the circle.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1, 1.732], B: [-1.638, -1.147], C: [1.732, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: meet, description: "Lets the bisector of angle A meet the circle again at M", points: 1, dimension: proof }
+          - { id: chords, description: "∠BAM = ∠MAC, so chords BM and MC are equal (equal angles at the circumference stand on equal chords)", points: 2, dimension: reasoning }
+          - { id: perp, description: "MB = MC puts M on the perpendicular bisector of BC", points: 1, dimension: reasoning }
+          - { id: unique, description: "The two lines are different (AB ≠ AC), so they meet only at M, which is on the circle", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the bisector of angle $A$ meet the circle again at $M$. Then $\angle BAM = \angle MAC$: equal angles at the circumference stand on equal chords, so $MB = MC$. A point equally far from $B$ and $C$ lies on the perpendicular bisector of $BC$, so $M$ is on it.
+
+    Since $AB \ne AC$, the bisector of angle $A$ is not the perpendicular bisector of $BC$, so the two lines meet in exactly one point, $M$, which lies on the circle.
+
+- id: spec.geometry.ch.touching-circles-parallel
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  rating: 1880
+  responseSkills: { reasoning: 1770, proof: 1760, clarity: 1700, synthesis: 1750 }
+  stem: |
+    Two circles touch externally at $T$. A straight line through $T$ meets the first circle again at $A$ and the second circle again at $B$. Prove that the tangent to the first circle at $A$ is parallel to the tangent to the second circle at $B$.
+
+    ```diagram
+    view: [-2.8, 3.6, -2, 2]
+    width: 290
+    points: { P1: [-1.2, 0], P2: [1.6, 0], T: [0, 0], A: [-1.8, -1.039], B: [2.4, 1.386], U1: [-1.021, -1.489], V1: [-2.579, -0.589], U2: [1.621, 1.836], V2: [3.179, 0.936] }
+    draw:
+      - { type: circle, center: P1, radius: 1.2 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: U1, to: V1 }
+      - { type: segment, from: U2, to: V2 }
+      - { type: point, at: T, label: 'T', pos: se }
+      - { type: point, at: A, label: 'A', pos: sw }
+      - { type: point, at: B, label: 'B', pos: ne }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: common, description: "Draws the common tangent at T (it touches both circles there)", points: 1, dimension: proof }
+          - { id: first, description: "In the first circle, the tangents at A and at T make equal angles with chord AT (alternate segment, or equal tangents from where they meet)", points: 1, dimension: reasoning }
+          - { id: second, description: "In the second circle, the tangents at B and at T make equal angles with chord BT", points: 1, dimension: reasoning }
+          - { id: parallel, description: "The two angles at T are vertically opposite, so the tangents at A and B make equal alternate angles with line AB: they are parallel", points: 1, dimension: reasoning }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Draw the common tangent at $T$. In the first circle, the tangent at $A$ and the common tangent both make with chord $AT$ an angle equal to the angle in the alternate segment, so they make equal angles with line $AB$. The same holds in the second circle for the tangent at $B$ and the common tangent, with chord $BT$.
+
+    At $T$, the two angles the common tangent makes with line $AB$ (one on each side of $T$) are vertically opposite, so equal. Hence the tangents at $A$ and $B$ make equal alternate angles with the line $AB$, and so they are parallel.
+
+- id: spec.geometry.ch.common-chord-bisects-tangent
+  pool: challenge
+  skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
+  rating: 1900
+  responseSkills: { reasoning: 1890, proof: 1880, clarity: 1840, synthesis: 1880 }
+  stem: |
+    Two circles meet at $P$ and $Q$. A common tangent touches the first circle at $A$ and the second at $B$. Prove that the line $PQ$ passes through the midpoint of $AB$.
+
+    ```diagram
+    view: [-2.6, 3, -2, 2.4]
+    width: 280
+    points: { P1: [-1, 0], P2: [1.1, 0], A: [-1.186, 1.287], B: [0.871, 1.584], P: [-0.157, 0.99], Q: [-0.157, -0.99] }
+    draw:
+      - { type: circle, center: P1, radius: 1.3 }
+      - { type: circle, center: P2, radius: 1.6 }
+      - { type: segment, from: A, to: B }
+      - { type: point, at: A, label: 'A', pos: nw }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: P, label: 'P', pos: ne }
+      - { type: point, at: Q, label: 'Q', pos: se }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: meet, description: "Lets line PQ meet AB at M (M is outside both circles)", points: 1, dimension: proof }
+          - { id: first, description: "Tangent–secant from M to the first circle: MA² = MP × MQ", points: 1, dimension: reasoning }
+          - { id: second, description: "Tangent–secant from M to the second circle: MB² = MP × MQ", points: 1, dimension: reasoning }
+          - { id: conclude, description: "So MA² = MB², MA = MB: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let line $PQ$ meet $AB$ at $M$. From $M$, $MA$ is a tangent to the first circle and $MPQ$ is a secant of it, so $MA^2 = MP \times MQ$. In the same way, $MB$ is a tangent to the second circle and $MPQ$ is a secant of it, so $MB^2 = MP \times MQ$.
+
+    Hence $MA^2 = MB^2$, so $MA = MB$, and $M$ is the midpoint of $AB$.
+
+- id: spec.geometry.ch.root2-plus-root3
+  pool: challenge
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1930
+  responseSkills: { reasoning: 1920, proof: 1920, clarity: 1870 }
+  stem: |
+    Prove that $\sqrt{2} + \sqrt{3}$ is irrational.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: assume, description: "Assumes, for contradiction, that √2 + √3 = r with r rational", points: 1, dimension: proof }
+          - { id: square, description: "Squares: 5 + 2√6 = r², so √6 = (r² − 5)/2 would be rational", points: 1, dimension: reasoning }
+          - { id: root6, description: "Proves √6 is irrational: √6 = p/q in lowest terms gives p² = 6q², so p is even, p = 2m, 2m² = 3q², so q is even: contradiction", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So the assumption fails: √2 + √3 is irrational", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Suppose, for contradiction, that $\sqrt{2} + \sqrt{3} = r$ with $r$ rational. Squaring, $5 + 2\sqrt{6} = r^2$, so $\sqrt{6} = \dfrac{r^2 - 5}{2}$ would be rational.
+
+    But $\sqrt{6}$ is irrational. If $\sqrt{6} = \dfrac{p}{q}$ in lowest terms, then $p^2 = 6q^2$ is even, so $p$ is even, $p = 2m$. Then $4m^2 = 6q^2$, i.e. $2m^2 = 3q^2$, so $3q^2$ is even and $q$ is even. Both $p$ and $q$ are even, which contradicts lowest terms.
+
+    So $\sqrt{2} + \sqrt{3}$ is irrational.
+
+- id: spec.geometry.ch.ptolemy
+  pool: challenge
+  skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  rating: 1980
+  responseSkills: { reasoning: 1970, proof: 1970, clarity: 1920, synthesis: 1960 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral. Prove that $AC \times BD = AB \times CD + AD \times BC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [0.518, -1.932], C: [1.879, 0.684], D: [-0.845, 1.813], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: construct, description: "Chooses E on diagonal AC with ∠ABE = ∠DBC", points: 1, dimension: proof }
+          - { id: sim1, description: "Triangles ABE and DBC are similar (∠ABE = ∠DBC by construction; ∠BAE = ∠BAC = ∠BDC, same arc BC)", points: 2, dimension: reasoning }
+          - { id: len1, description: "So AE/AB = DC/DB, i.e. AE × BD = AB × CD", points: 1, dimension: reasoning }
+          - { id: sim2, description: "Triangles CBE and DBA are similar (∠CBE = ∠DBA, since adding ∠EBD to both equal angles; ∠BCE = ∠BCA = ∠BDA, same arc AB), giving CE × BD = BC × AD", points: 2, dimension: reasoning }
+          - { id: add, description: "Adds, using AE + CE = AC: AC × BD = AB × CD + AD × BC", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Choose $E$ on $AC$ with $\angle ABE = \angle DBC$.
+
+    Triangles $ABE$ and $DBC$: $\angle ABE = \angle DBC$ by construction, and $\angle BAE = \angle BAC = \angle BDC$ (same arc $BC$). So they are similar, and $\dfrac{AE}{AB} = \dfrac{DC}{DB}$, i.e. $AE \times BD = AB \times CD$.
+
+    Triangles $CBE$ and $DBA$: adding $\angle EBD$ to both sides of $\angle ABE = \angle DBC$ gives $\angle ABD = \angle EBC$. Also $\angle BCE = \angle BCA = \angle BDA$ (same arc $AB$). So they are similar, and $\dfrac{CE}{BC} = \dfrac{AD}{BD}$, i.e. $CE \times BD = BC \times AD$.
+
+    Adding, and using $AE + CE = AC$: $AC \times BD = AB \times CD + AD \times BC$.

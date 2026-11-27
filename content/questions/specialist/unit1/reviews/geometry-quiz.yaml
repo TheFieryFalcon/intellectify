@@ -1,0 +1,560 @@
+# Section quiz pool: Geometry (1.1). Never served in practice (SPEC §8.1a).
+
+- id: spec.geometry.sq.rain-contrapositive
+  pool: section-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1050
+  responseSkills: { reading: 1040 }
+  stem: |
+    Which statement is the contrapositive of "If it rains, then the ground is wet"?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'If the ground is wet, then it rains.' }
+        - { id: b, text: 'If it does not rain, then the ground is not wet.' }
+        - { id: c, text: 'If the ground is not wet, then it does not rain.' }
+        - { id: d, text: 'If it rains, then the ground is not wet.' }
+      answer: { type: mcq, key: c }
+  solution: |
+    The contrapositive of $P \Rightarrow Q$ is "not $Q \Rightarrow$ not $P$": swap the two parts and negate both. (a) is the converse and (b) the inverse.
+  verify: |
+    def answers():
+        return {"a": "c"}
+
+- id: spec.geometry.sq.center-from-38
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1080
+  responseSkills: { reading: 1060, calculation: 1040 }
+  variants:
+    - { x: 32, v: 64, _A: '-1.532, -1.286', _B: '0.484, -1.941' }
+    - { x: 38, v: 76, _A: '-1.532, -1.286', _B: '0.877, -1.798' }
+    - { x: 44, v: 88, _A: '-1.532, -1.286', _B: '1.231, -1.576' }
+    - { x: 51, v: 102, _A: '-1.532, -1.286', _B: '1.576, -1.231' }
+    - { x: 57, v: 114, _A: '-1.532, -1.286', _B: '1.798, -0.877' }
+  stem: |
+    $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle ACB = {{x}}^\circ$. Find $\angle AOB$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    alt: "Angle ACB of 38 degrees at the circumference; angle AOB at the center"
+    points: { A: [{{_A}}], B: [{{_B}}], C: [0, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: O, to: A, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: angle, at: C, from: A, to: B, label: '{{x}}^\circ', radius: 30 }
+      - { type: angle, at: O, from: A, to: B, label: '?', radius: 16 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: O, label: 'O', pos: n }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    The angle at the center is twice the angle at the circumference on the same arc: $\angle AOB = 2 \times {{x}}^\circ = {{v}}^\circ$.
+  verify: |
+    def answers(x, v):
+        A, B, C = on_circle(220), on_circle(220 + 2*x), on_circle(90)
+        assert abs(angle_at(A, C, B) - x) < 1e-9
+        return {"a": approx(angle_at(A, (0, 0), B))}
+
+- id: spec.geometry.sq.tangent-12
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1150
+  responseSkills: { calculation: 1120 }
+  variants:
+    - { r: 5, d: 13, t: 12, _view: '-2.55, 5.75, -2.5, 2.5', _M: '5.2, 0', _T: '0.769, 1.846' }
+    - { r: 6, d: 10, t: 8, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0', _T: '1.2, 1.6' }
+    - { r: 8, d: 17, t: 15, _view: '-2.55, 4.8, -2.5, 2.5', _M: '4.25, 0', _T: '0.941, 1.765' }
+    - { r: 7, d: 25, t: 24, _view: '-2.55, 7.69, -2.5, 2.5', _M: '7.143, 0', _T: '0.56, 1.92' }
+    - { r: 9, d: 15, t: 12, _view: '-2.55, 3.88, -2.5, 2.5', _M: '3.333, 0', _T: '1.2, 1.6' }
+  stem: |
+    A tangent from $M$ touches a circle with center $O$ at $T$. The radius is {{r}} and $OM = {{d}}$. Find $MT$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 280
+    alt: "Radius OT = 5 meets the tangent MT at a right angle; OM = 13"
+    points: { M: [{{_M}}], T: [{{_T}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: O, to: T, label: '{{r}}', color: muted }
+      - { type: segment, from: O, to: M, label: '{{d}}', side: right }
+      - { type: segment, from: M, to: T, label: '?' }
+      - { type: angle, at: T, from: O, to: M, right: true }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: O, label: 'O', pos: w }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{t}}' }
+  solution: |
+    A tangent is perpendicular to the radius at the point of contact, so triangle $OTM$ has a right angle at $T$: $MT = \sqrt{ {{d}}^2 - {{r}}^2 } = {{t}}$.
+  verify: |
+    def answers(r, d, t):
+        M = (d, 0)
+        T = tangent_point_toward((0, 0), r, M, 1)
+        return {"a": approx(dist(M, T))}
+
+- id: spec.geometry.sq.chords-4-9-6
+  pool: section-quiz
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1120
+  responseSkills: { calculation: 1100 }
+  variants:
+    - { ax: 4, xb: 9, cx: 6, p: 36, v: 6, _A: '0.806, 1.83', _B: '1.123, -1.655', _C: '1.942, -0.479', _D: '-0.135, 1.995', _X: '0.903, 0.758' }
+    - { ax: 3, xb: 8, cx: 4, p: 24, v: 6, _A: '1.241, 1.568', _B: '0.669, -1.885', _C: '1.981, -0.278', _D: '-0.258, 1.983', _X: '1.085, 0.627' }
+    - { ax: 5, xb: 6, cx: 3, p: 30, v: 10, _A: '0.938, 1.767', _B: '1.668, -1.103', _C: '1.997, 0.111', _D: '-1.155, 1.633', _X: '1.27, 0.462' }
+    - { ax: 2, xb: 12, cx: 4, p: 24, v: 6, _A: '-0.964, -1.753', _B: '1.997, 0.115', _C: '0.333, -1.972', _D: '-1.851, -0.756', _X: '-0.541, -1.486' }
+    - { ax: 6, xb: 6, cx: 4, p: 36, v: 9, _A: '1.942, -0.479', _B: '-0.135, 1.995', _C: '0.806, 1.83', _D: '1.123, -1.655', _X: '0.903, 0.758' }
+  stem: |
+    Chords $AB$ and $CD$ of a circle meet at $X$. $AX = {{ax}}$, $XB = {{xb}}$ and $CX = {{cx}}$. Find $XD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], X: [{{_X}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: X, label: '{{ax}}' }
+      - { type: segment, from: X, to: B, label: '{{xb}}' }
+      - { type: segment, from: C, to: X, label: '{{cx}}', side: right }
+      - { type: segment, from: X, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Intersecting chords: $AX \times XB = CX \times XD$, so ${{ax}} \times {{xb}} = {{cx}} \times XD$ and $XD = {{v}}$.
+  verify: |
+    def answers(ax, xb, cx, p, v):
+        return {"a": Rational(ax * xb, cx)}
+
+- id: spec.geometry.sq.converse-of-four
+  pool: section-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1300
+  responseSkills: { reading: 1290, reasoning: 1280, calculation: 1250 }
+  stem: |
+    Consider the statement "If a whole number is a multiple of 4, then it is even." Its converse is false. What is the smallest positive counterexample to the converse?
+  parts:
+    - id: a
+      answer: { type: numeric, key: 2 }
+  solution: |
+    The converse is "If a whole number is even, then it is a multiple of 4." A counterexample is even but not a multiple of 4. The smallest positive one is 2.
+  verify: |
+    def answers():
+        return {"a": next(n for n in range(1, 100) if n % 2 == 0 and n % 4 != 0)}
+
+- id: spec.geometry.sq.cyclic-2x-3x
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1290
+  responseSkills: { reading: 1270, calculation: 1270 }
+  variants:
+    - { e1: '2x + 10', e2: '3x - 5', s: 5, rr: 175, v: 35, _A: '-1.879, -0.684', _B: '1, -1.732', _C: '1.532, 1.286', _D: '-1, 1.732' }
+    - { e1: '3x + 5', e2: '2x + 15', s: 5, rr: 160, v: 32, _A: '-1.879, -0.684', _B: '0.313, -1.975', _C: '1.999, -0.07', _D: '-0.313, 1.975' }
+    - { e1: '2x - 10', e2: '4x + 10', s: 6, rr: 180, v: 30, _A: '-1.879, -0.684', _B: '1.732, -1', _C: '-0.347, 1.97', _D: '-1.732, 1' }
+    - { e1: '3x - 15', e2: 'x + 35', s: 4, rr: 160, v: 40, _A: '-1.879, -0.684', _B: '0.174, -1.992', _C: '1.97, -0.347', _D: '-0.174, 1.992' }
+    - { e1: '4x + 10', e2: '2x - 10', s: 6, rr: 180, v: 30, _A: '-1.879, -0.684', _B: '-0.684, -1.879', _C: '1, -1.732', _D: '0.684, 1.879' }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral with $\angle ABC = ({{e1}})^\circ$ and $\angle ADC = ({{e2}})^\circ$. Find $x$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    alt: "Cyclic quadrilateral ABCD; angle B is 2x + 10 degrees and angle D is 3x - 5 degrees"
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: polygon, points: [A, B, C, D] }
+      - { type: angle, at: B, from: C, to: A, label: '({{e1}})^\circ', radius: 20 }
+      - { type: angle, at: D, from: A, to: C, label: '({{e2}})^\circ', radius: 20 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Opposite angles of a cyclic quadrilateral add to $180^\circ$: $({{e1}}) + ({{e2}}) = 180$, so ${{s}}x = {{rr}}$ and $x = {{v}}$.
+  verify: |
+    def answers(e1, e2, s, rr, v):
+        X = symbols("x")
+        f = lambda e: sympify(e.replace("x", "*x").lstrip("*").replace("+ *", "+ ").replace("- *", "- "))
+        return {"a": solve(f(e1) + f(e2) - 180, X)[0]}
+
+- id: spec.geometry.sq.diameter-complement
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1340
+  responseSkills: { reasoning: 1330, proof: 1320, clarity: 1280 }
+  stem: |
+    $AB$ is a diameter of a circle, and $C$ is another point on the circle. Prove that $\angle CAB + \angle CBA = 90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [0.845, 1.813], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: semicircle, description: "∠ACB = 90°, with the reason (angle in a semicircle)", points: 2, dimension: reasoning }
+          - { id: sum, description: "Angle sum of triangle ABC: ∠CAB + ∠CBA = 180° − 90°", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes ∠CAB + ∠CBA = 90°", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $AB$ is a diameter, so $\angle ACB = 90^\circ$ (angle in a semicircle). The angles of triangle $ABC$ add to $180^\circ$, so $\angle CAB + \angle CBA = 180^\circ - 90^\circ = 90^\circ$.
+
+- id: spec.geometry.sq.tangent-chord-center
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1380
+  responseSkills: { reading: 1360, reasoning: 1370, calculation: 1340 }
+  variants:
+    - { t: 52, v: 104, _B: '1.941, 0.484' }
+    - { t: 60, v: 120, _B: '1.732, 1' }
+    - { t: 66, v: 132, _B: '1.486, 1.338' }
+    - { t: 71, v: 142, _B: '1.231, 1.576' }
+    - { t: 78, v: 156, _B: '0.813, 1.827' }
+  stem: |
+    A tangent touches a circle with center $O$ at $T$. Chord $TB$ makes an angle of ${{t}}^\circ$ with the tangent. Find $\angle TOB$, in degrees.
+
+    ```diagram
+    view: [-3.25, 3.25, -2.45, 2.45]
+    width: 230
+    alt: "Tangent at T; chord TB at 71 degrees to it; angle TOB at the center"
+    points: { T: [-0, -2], B: [{{_B}}], L: [-2.8, -2], R: [2.8, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: L, to: R, color: muted }
+      - { type: segment, from: T, to: B }
+      - { type: segment, from: O, to: T, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: angle, at: T, from: R, to: B, label: '{{t}}^\circ', radius: 24 }
+      - { type: angle, at: O, from: T, to: B, label: '?', radius: 16 }
+      - { type: point, at: T, label: 'T', pos: s }
+      - { type: point, at: B, label: 'B', pos: ne }
+      - { type: point, at: O, label: 'O', pos: w }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    By the alternate segment theorem, any angle at the circumference standing on arc $TB$ (in the alternate segment) is ${{t}}^\circ$. The angle at the center on the same arc is twice that: $\angle TOB = {{v}}^\circ$.
+  verify: |
+    def answers(t, v):
+        T, R = (0, -2), (3, -2)
+        B = on_circle(270 + 2*t, 2)
+        assert abs(angle_at(R, T, B) - t) < 1e-9
+        return {"a": approx(angle_at(T, (0, 0), B))}
+
+- id: spec.geometry.sq.tangent-secant-3-9
+  pool: section-quiz
+  skills: { primary: spec.geometry.chord-secant-lengths }
+  rating: 1410
+  responseSkills: { reading: 1390, calculation: 1390 }
+  variants:
+    - { ma: 3, ab: 9, mb: 12, p: 36, v: 6, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 4, ab: 5, mb: 9, p: 36, v: 6, _view: '-2.55, 4.01, -2.5, 2.5', _M: '3.464, 0', _A: '1.796, -0.88', _B: '-0.289, -1.979', _T: '1.155, 1.633' }
+    - { ma: 2, ab: 6, mb: 8, p: 16, v: 4, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 5, ab: 15, mb: 20, p: 100, v: 10, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+    - { ma: 4, ab: 12, mb: 16, p: 64, v: 8, _view: '-2.55, 3.57, -2.5, 2.5', _M: '3.023, 0', _A: '1.961, -0.395', _B: '-1.226, -1.58', _T: '1.323, 1.5' }
+  stem: |
+    From a point $M$ outside a circle, a tangent touches the circle at $T$, and a secant cuts it at $A$ and $B$, with $A$ between $M$ and $B$. $MA = {{ma}}$ and $AB = {{ab}}$. Find $MT$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 230
+    points: { M: [{{_M}}], T: [{{_T}}], A: [{{_A}}], B: [{{_B}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: M, to: T }
+      - { type: segment, from: M, to: A, label: '{{ma}}', side: right }
+      - { type: segment, from: A, to: B, label: '{{ab}}', side: right }
+      - { type: point, at: M, label: 'M', pos: e }
+      - { type: point, at: T, label: 'T', pos: n }
+      - { type: point, at: A, label: 'A', pos: s }
+      - { type: point, at: B, label: 'B', pos: sw }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    Measure from $M$: $MB = {{ma}} + {{ab}} = {{mb}}$. Then $MT^2 = MA \times MB = {{p}}$, so $MT = {{v}}$.
+  verify: |
+    def answers(ma, ab, mb, p, v):
+        import math
+        R, d = 5.0, math.sqrt(25.0 + ma * mb)  # M at distance d from the center of a radius-5 circle
+        M = (d, 0.0)
+        T = tangent_point_toward((0, 0), R, M, 1)
+        return {"a": approx(dist(M, T), 6)}
+
+- id: spec.geometry.sq.exterior-and-opposite
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-problems }
+  rating: 1440
+  responseSkills: { reading: 1420, reasoning: 1430, calculation: 1400 }
+  variants:
+    - { e: 72, b: 95, d: 85, _view: '-2.55, 3.37, -2.5, 2.5', _A: '-1.879, -0.684', _B: '0.939, -1.766', _C: '1.97, 0.347', _D: '0.278, 1.981', _E: '2.815, -0.469' }
+    - { e: 65, b: 100, d: 80, _view: '-2.55, 3.13, -2.5, 2.5', _A: '-1.879, -0.684', _B: '0.845, -1.813', _C: '2, -0', _D: '0.845, 1.813', _E: '2.577, -0.906' }
+    - { e: 80, b: 88, d: 92, _view: '-2.55, 3.53, -2.5, 2.5', _A: '-1.879, -0.684', _B: '1.118, -1.658', _C: '1.827, 0.813', _D: '-0.484, 1.941', _E: '2.983, 0.25' }
+    - { e: 70, b: 110, d: 70, _view: '-2.55, 2.73, -2.5, 2.5', _A: '-1.879, -0.684', _B: '-0, -2', _C: '1.879, -0.684', _D: '1.286, 1.532', _E: '2.176, -1.792' }
+    - { e: 84, b: 76, d: 104, _view: '-2.55, 3.12, -2.5, 2.5', _A: '-1.879, -0.684', _B: '1.439, -1.389', _C: '1.338, 1.486', _D: '-1.118, 1.658', _E: '2.567, 1.4' }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral. Side $DC$ is extended to $E$. $\angle BCE = {{e}}^\circ$ and $\angle ABC = {{b}}^\circ$.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 230
+    alt: "Cyclic quadrilateral ABCD with DC extended to E; angle BCE is 72 degrees and angle ABC is 95 degrees"
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], E: [{{_E}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: polygon, points: [A, B, C, D] }
+      - { type: segment, from: C, to: E, dashed: true }
+      - { type: angle, at: C, from: E, to: B, label: '{{e}}^\circ', radius: 20 }
+      - { type: angle, at: B, from: C, to: A, label: '{{b}}^\circ', radius: 20 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
+  parts:
+    - id: a
+      prompt: Find $\angle BAD$, in degrees.
+      answer: { type: numeric, key: '{{e}}' }
+    - id: b
+      prompt: Find $\angle ADC$, in degrees.
+      answer: { type: numeric, key: '{{d}}' }
+  solution: |
+    (a) An exterior angle of a cyclic quadrilateral equals the interior opposite angle: $\angle BAD = \angle BCE = {{e}}^\circ$.
+
+    (b) Opposite angles add to $180^\circ$: $\angle ADC = 180^\circ - {{b}}^\circ = {{d}}^\circ$.
+  verify: |
+    def answers(e, b, d):
+        # Cyclic quadrilateral with angle A = e and angle B = b; extend DC beyond C to E.
+        for c in range(40, 160, 5):
+            bb, dd = 2*e - c, 2*b - c
+            aa = 360 - bb - c - dd
+            if min(aa, bb, c, dd) >= 30: break
+        A = on_circle(200); B = on_circle(200 + aa); C = on_circle(200 + aa + bb); D = on_circle(200 + aa + bb + c)
+        E = (2*C[0] - D[0], 2*C[1] - D[1])
+        assert abs(angle_at(B, C, E) - e) < 1e-6
+        return {"a": approx(angle_at(B, A, D), 6), "b": approx(angle_at(A, D, C), 6)}
+
+- id: spec.geometry.sq.tangents-minor-arc
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1500
+  responseSkills: { reading: 1480, reasoning: 1490, calculation: 1460 }
+  variants:
+    - { m: 40, h: 70, v: 110, _view: '-2.55, 2.55, -6.35, 2.5', _P: '0, -5.848', _A: '-1.879, -0.684', _B: '1.879, -0.684' }
+    - { m: 48, h: 66, v: 114, _view: '-2.55, 2.55, -5.42, 2.5', _P: '0, -4.917', _A: '-1.827, -0.813', _B: '1.827, -0.813' }
+    - { m: 56, h: 62, v: 118, _view: '-2.55, 2.55, -4.76, 2.5', _P: '0, -4.26', _A: '-1.766, -0.939', _B: '1.766, -0.939' }
+    - { m: 64, h: 58, v: 122, _view: '-2.55, 2.55, -4.27, 2.5', _P: '0, -3.774', _A: '-1.696, -1.06', _B: '1.696, -1.06' }
+    - { m: 72, h: 54, v: 126, _view: '-2.55, 2.55, -3.9, 2.5', _P: '0, -3.403', _A: '-1.618, -1.176', _B: '1.618, -1.176' }
+  stem: |
+    Tangents from $P$ touch a circle at $A$ and $B$, and $\angle APB = {{m}}^\circ$. $C$ is a point on the minor arc $AB$. Find $\angle ACB$, in degrees.
+
+    ```diagram
+    view: [{{_view}}]
+    width: 230
+    alt: "Tangents PA and PB with angle APB of 48 degrees; C on the minor arc AB"
+    points: { P: [{{_P}}], A: [{{_A}}], B: [{{_B}}], C: [-0, -2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: A, to: B, color: muted }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: angle, at: P, from: B, to: A, label: '{{m}}^\circ', radius: 26 }
+      - { type: angle, at: C, from: A, to: B, label: '?', radius: 16 }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $PA = PB$ (tangents from one point), so $\angle PAB = \tfrac{1}{2}(180^\circ - {{m}}^\circ) = {{h}}^\circ$.
+
+    By the alternate segment theorem, ${{h}}^\circ$ is the angle subtended by $AB$ in the segment on the far side, i.e. at a point of the major arc. $C$ is on the minor arc, so $ACB$ and that angle are opposite angles of a cyclic quadrilateral: $\angle ACB = 180^\circ - {{h}}^\circ = {{v}}^\circ$.
+  verify: |
+    def answers(m, h, v):
+        import math
+        P = (0, -2 / math.sin(math.radians(m / 2)))
+        A, B = tangent_point_toward((0, 0), 2, P, -1), tangent_point_toward((0, 0), 2, P, 1)
+        C = on_circle(270, 2)
+        assert abs(angle_at(A, P, B) - m) < 1e-9
+        return {"a": approx(angle_at(A, C, B))}
+
+- id: spec.geometry.sq.base-angle-22
+  pool: section-quiz
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1430
+  responseSkills: { reading: 1410, reasoning: 1420, calculation: 1400 }
+  variants:
+    - { y: 16, y2: 32, c: 148, v: 74, _A: '-1.923, -0.551', _B: '1.923, -0.551' }
+    - { y: 22, y2: 44, c: 136, v: 68, _A: '-1.854, -0.749', _B: '1.854, -0.749' }
+    - { y: 28, y2: 56, c: 124, v: 62, _A: '-1.766, -0.939', _B: '1.766, -0.939' }
+    - { y: 35, y2: 70, c: 110, v: 55, _A: '-1.638, -1.147', _B: '1.638, -1.147' }
+    - { y: 40, y2: 80, c: 100, v: 50, _A: '-1.532, -1.286', _B: '1.532, -1.286' }
+  stem: |
+    $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle OAB = {{y}}^\circ$. Find $\angle ACB$, in degrees.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    alt: "Angle OAB of 22 degrees; angle ACB at the circumference"
+    points: { A: [{{_A}}], B: [{{_B}}], C: [0, 2], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: segment, from: O, to: A, color: muted }
+      - { type: segment, from: O, to: B, color: muted }
+      - { type: angle, at: A, from: B, to: O, label: '{{y}}^\circ', radius: 26 }
+      - { type: angle, at: C, from: A, to: B, label: '?', radius: 26 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: O, label: 'O', pos: n }
+    ```
+  parts:
+    - id: a
+      answer: { type: numeric, key: '{{v}}' }
+  solution: |
+    $OA = OB$ (radii), so $\angle OBA = {{y}}^\circ$ and $\angle AOB = 180^\circ - {{y2}}^\circ = {{c}}^\circ$. The angle at the circumference is half the angle at the center: $\angle ACB = {{v}}^\circ$.
+  verify: |
+    def answers(y, y2, c, v):
+        A, B, C = on_circle(180 + y), on_circle(360 - y), on_circle(90)
+        assert abs(angle_at((0, 0), A, B) - y) < 1e-9
+        return {"a": approx(angle_at(A, C, B))}
+
+- id: spec.geometry.sq.negate-for-every-y
+  pool: section-quiz
+  skills: { primary: spec.geometry.logic }
+  rating: 1450
+  responseSkills: { reading: 1440, reasoning: 1430, precision: 1420 }
+  stem: |
+    Which statement is the negation of "For every real number $x$, there is a real number $y$ with $y > x^2$"?
+  parts:
+    - id: a
+      options:
+        - { id: a, text: 'For every real number $x$, there is a real number $y$ with $y \le x^2$.' }
+        - { id: b, text: 'There is a real number $x$ such that every real number $y$ has $y \le x^2$.' }
+        - { id: c, text: 'There is a real number $x$ and a real number $y$ with $y \le x^2$.' }
+        - { id: d, text: 'For every real number $x$ and every real number $y$, $y < x^2$.' }
+      answer: { type: mcq, key: b }
+  solution: |
+    Negating swaps each quantifier and negates what follows: "for every $x$" becomes "there is an $x$", "there is a $y$ with $y > x^2$" becomes "every $y$ has $y \le x^2$". That is (b).
+  verify: |
+    def answers():
+        return {"a": "b"}
+
+- id: spec.geometry.sq.prime-2p-plus-1
+  pool: section-quiz
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1410
+  responseSkills: { reading: 1400, reasoning: 1400, calculation: 1370 }
+  stem: |
+    Disprove the claim "for every prime $p$, $2p + 1$ is prime" by finding the smallest prime $p$ for which $2p + 1$ is not prime.
+  parts:
+    - id: a
+      answer: { type: numeric, key: 7 }
+  solution: |
+    Try the primes in order: $p = 2$ gives 5, $p = 3$ gives 7, $p = 5$ gives 11, all prime. $p = 7$ gives $15 = 3 \times 5$, which isn't. One counterexample disproves a "for all" claim, so the smallest is $p = 7$.
+  verify: |
+    def answers():
+        return {"a": next(p for p in sympy.primerange(2, 100) if not sympy.isprime(2 * p + 1))}
+
+- id: spec.geometry.sq.odd-square-minus-one
+  pool: section-quiz
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1600
+  responseSkills: { reasoning: 1590, proof: 1590, clarity: 1540 }
+  stem: |
+    Prove that if $n$ is odd, then $n^2 - 1$ is a multiple of 8.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: odd, description: "Writes n = 2k + 1 for an integer k", points: 1, dimension: proof }
+          - { id: factor, description: "Shows n² − 1 = 4k² + 4k = 4k(k + 1)", points: 1, dimension: reasoning }
+          - { id: even, description: "Explains that k(k + 1) is even: one of two consecutive integers is even", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So n² − 1 = 4 × (an even number), a multiple of 8", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $n = 2k + 1$, where $k$ is an integer. Then $n^2 - 1 = 4k^2 + 4k = 4k(k + 1)$.
+
+    $k$ and $k + 1$ are consecutive integers, so one of them is even, and $k(k + 1) = 2m$ for some integer $m$. Then $n^2 - 1 = 8m$, a multiple of 8.
+
+- id: spec.geometry.sq.tangents-major-arc-proof
+  pool: section-quiz
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1640
+  responseSkills: { reasoning: 1630, proof: 1620, clarity: 1580 }
+  stem: |
+    Tangents from $P$ touch a circle at $A$ and $B$. $C$ is a point on the major arc $AB$. Prove that $\angle APB = 180^\circ - 2\angle ACB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -4.45, 2.45]
+    width: 230
+    points: { P: [0, -4], A: [-1.732, -1], B: [1.732, -1], C: [-0.684, 1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: A }
+      - { type: segment, from: P, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: point, at: P, label: 'P', pos: s }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: C, label: 'C', pos: n }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: equal, description: "PA = PB (tangents from one point), so ∠PAB = ∠PBA", points: 1, dimension: reasoning }
+          - { id: alt, description: "Alternate segment theorem: ∠PAB = ∠ACB (and ∠PBA = ∠ACB)", points: 2, dimension: reasoning }
+          - { id: sum, description: "Angle sum of triangle PAB: ∠APB = 180° − 2∠ACB", points: 1, dimension: reasoning }
+          - { id: conclude, description: "States the result with every step justified", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $PA = PB$ (tangents from one point), so triangle $PAB$ is isosceles and $\angle PAB = \angle PBA$.
+
+    The angle between tangent $PA$ and chord $AB$ equals the angle in the alternate segment: $\angle PAB = \angle ACB$. So $\angle PBA = \angle ACB$ too.
+
+    The angles of triangle $PAB$ add to $180^\circ$: $\angle APB = 180^\circ - 2\angle ACB$.

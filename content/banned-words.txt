@@ -1,0 +1,70 @@
+# Banned words (docs/SPEC.md §13.2): identity-based slurs and purely sexual terms only, one per line,
+# lowercase. Profanity and general insults are allowed.
+# Checked in discussion posts, comments and display names, in the app and in Firestore rules.
+# Matching is whole-word (plurals and -ed/-ing included), so "class" never trips "ass".
+# After editing, run `pnpm moderation` to update firestore.rules, then deploy the rules.
+
+# Racial and ethnic slurs
+nigger
+nigga
+coon
+darkie
+jigaboo
+sambo
+golliwog
+porch monkey
+spic
+beaner
+wetback
+chink
+chinaman
+gook
+jap
+slant eye
+kike
+yid
+raghead
+towelhead
+sand nigger
+paki
+abo
+boong
+lubra
+half caste
+gyppo
+pikey
+
+# Homophobic and transphobic slurs
+faggot
+fag
+faggy
+dyke
+lesbo
+tranny
+shemale
+poofter
+homo
+
+# Ableist slurs
+retard
+retarded
+spaz
+spastic
+mongoloid
+sperg
+
+# Purely sexual terms
+whore
+slut
+skank
+dildo
+porn
+cum
+blowjob
+handjob
+jizz
+wank
+masturbate
+nudes
+hentai
+milf

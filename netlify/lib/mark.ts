@@ -1,11 +1,11 @@
 /**
- * POST /api/mark (SPEC §10.2): mark a free-response answer with the owner's Gemini key.
+ * POST /api/mark (SPEC §10.2): mark a free-response answer with the owner's Groq key.
  * The question, rubric and model solution come from this deploy's own content files, never the
  * request, and only signed-in students (Firebase ID token) may use the key.
  */
 import { createRemoteJWKSet, jwtVerify } from "jose";
-import { fillTemplate } from "../../packages/content/src/template";
-import { GEMINI_ENDPOINT, GEMINI_MODELS, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
+import { fillServed, validPicks, type WordLists, type WordPicks } from "../../packages/content/src/template";
+import { GROQ_ENDPOINT, MARKING_MODELS, TRANSCRIBE_MODELS, effortLevel, isRubricMarked, MAX_ANSWER, MAX_ARGUMENT, markWithModels, MarkingError, type Appeal, type MarkResult } from "../../packages/content/src/marking";
 import type { QuestionT } from "../../packages/content/src/schema";
 
 export interface MarkRequest {
@@ -13,24 +13,51 @@ export interface MarkRequest {
   skill: string;
   questionId: string;
   variant: number | null;
+  /** Words picked when it was served (SPEC §9.6), checked against the deployed word lists. */
+  words?: WordPicks | null;
   answers: Record<string, string>;
   appeal?: Appeal;
+  /** Marking effort, 1 (one run) or 2 (three runs, by consensus); default 2. */
+  effort?: number;
 }
 
 export interface Deps {
-  /** The Gemini API key; unset means marking is switched off. */
+  /** The Gemini API key, for reading photos (free tier); unset switches photo answers off. */
   key: string | undefined;
   /** Firebase project whose ID tokens are accepted; null skips the check (local testing only). */
   firebaseProject: string | null;
+  /** Gemini models for reading photos, unless transcribeModels is set. */
   models: string[];
+  /** The Groq key and models that mark every answer; an unset key switches marking off. */
+  groqKey?: string;
+  groqModels?: string[];
+  transcribeModels?: string[];
   fetch: typeof fetch;
   verify?: (token: string) => Promise<string>;
+  /** Read a built content file (path under content/) from disk; null if it isn't bundled. */
+  readContent?: (path: string) => Promise<unknown | null>;
+}
+
+/**
+ * A built content file: from the files bundled with the function, else over HTTP from this deploy.
+ * Disk first, because deploys behind a login (e.g. previews with team SSO) refuse the function's own
+ * HTTP request with a 401.
+ */
+async function loadContent(deps: Deps, origin: string, path: string): Promise<unknown | null> {
+  const local = await deps.readContent?.(path).catch(() => null);
+  if (local != null) return local;
+  const res = await deps.fetch(`${origin}/content/${path}`);
+  if (!res.ok) {
+    console.error(`content ${path}: HTTP ${res.status}`);
+    return null;
+  }
+  return res.json();
 }
 
 const ID = /^[a-z0-9][a-z0-9.-]{0,120}$/;
-const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
+export const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...headers } });
-const fail = (status: number, error: string, headers?: Record<string, string>) => json({ error }, status, headers);
+export const fail = (status: number, error: string, headers?: Record<string, string>) => json({ error }, status, headers);
 
 let jwks: ReturnType<typeof createRemoteJWKSet> | null = null;
 /** Verify a Firebase ID token; returns the uid. */
@@ -39,6 +66,19 @@ export async function verifyFirebaseToken(token: string, project: string): Promi
   const { payload } = await jwtVerify(token, jwks, { issuer: `https://securetoken.google.com/${project}`, audience: project });
   if (!payload.sub) throw new Error("token has no subject");
   return payload.sub;
+}
+
+/** Only signed-in students (a valid Firebase ID token) may use the owner's key. Returns a 401, or null if allowed. */
+export async function authorize(req: Request, deps: Deps): Promise<Response | null> {
+  if (!deps.firebaseProject) return null;
+  const token = req.headers.get("Authorization")?.match(/^Bearer (.+)$/)?.[1];
+  if (!token) return fail(401, "sign in to use marking");
+  try {
+    await (deps.verify ?? ((t) => verifyFirebaseToken(t, deps.firebaseProject!)))(token);
+    return null;
+  } catch {
+    return fail(401, "sign in again to use marking");
+  }
 }
 
 /** Light shape check: the request is untrusted. */
@@ -51,6 +91,7 @@ function parse(body: unknown): MarkRequest | string {
   if (b.variant !== null && !(Number.isInteger(b.variant) && (b.variant as number) >= 0)) return "bad variant";
   if (!b.answers || typeof b.answers !== "object") return "answers missing";
   for (const v of Object.values(b.answers)) if (typeof v !== "string" || v.length > MAX_ANSWER) return `answers must be text of at most ${MAX_ANSWER} characters`;
+  if (b.effort !== undefined && !(b.effort === 1 || b.effort === 2)) return "effort must be 1 or 2";
   if (b.appeal !== undefined) {
     const a = b.appeal as Partial<Appeal>;
     if (typeof a?.argument !== "string" || !a.argument.trim() || a.argument.length > MAX_ARGUMENT) return `appeal argument must be 1–${MAX_ARGUMENT} characters`;
@@ -59,19 +100,29 @@ function parse(body: unknown): MarkRequest | string {
   return b as MarkRequest;
 }
 
+/**
+ * Quiz and Challenge questions (SPEC §8) live in review files, not practice pools: find the skill's
+ * section and unit in the course file, then look in their review pools.
+ */
+async function reviewQuestion(deps: Deps, origin: string, r: MarkRequest): Promise<QuestionT | undefined> {
+  type Course = { units: { number: number; sections: { id: string; skills: { id: string }[] }[] }[] };
+  const course = (await loadContent(deps, origin, `${r.course}/course.json`)) as Course | null;
+  for (const unit of course?.units ?? []) {
+    const section = unit.sections.find((s) => s.skills.some((k) => k.id === r.skill));
+    if (!section) continue;
+    const sec = (await loadContent(deps, origin, `${r.course}/reviews/section-${section.id}.json`)) as { sectionQuiz?: QuestionT[]; challenge?: QuestionT[] } | null;
+    const uni = (await loadContent(deps, origin, `${r.course}/reviews/unit-${unit.number}.json`)) as { unitQuiz?: QuestionT[] } | null;
+    return [...(sec?.sectionQuiz ?? []), ...(sec?.challenge ?? []), ...(uni?.unitQuiz ?? [])].find((x) => x.id === r.questionId);
+  }
+  return undefined;
+}
+
 export async function handleMark(req: Request, deps: Deps): Promise<Response> {
   if (req.method !== "POST") return fail(405, "POST only", { Allow: "POST" });
-  if (!deps.key) return fail(503, "marking is not configured");
+  if (!deps.groqKey) return fail(503, "marking is not configured");
 
-  if (deps.firebaseProject) {
-    const token = req.headers.get("Authorization")?.match(/^Bearer (.+)$/)?.[1];
-    if (!token) return fail(401, "sign in to use marking");
-    try {
-      await (deps.verify ?? ((t) => verifyFirebaseToken(t, deps.firebaseProject!)))(token);
-    } catch {
-      return fail(401, "sign in again to use marking");
-    }
-  }
+  const denied = await authorize(req, deps);
+  if (denied) return denied;
 
   let body: unknown;
   try {
@@ -84,27 +135,35 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
 
   // The question comes from this deploy's content, so the rubric and solution can't be tampered with.
   const origin = new URL(req.url).origin;
-  const res = await deps.fetch(`${origin}/content/${r.course}/questions/${r.skill}.json`);
-  if (!res.ok) return fail(404, "unknown skill");
-  const pool = (await res.json()) as QuestionT[];
-  let q = pool.find((x) => x.id === r.questionId);
+  const pool = (await loadContent(deps, origin, `${r.course}/questions/${r.skill}.json`)) as QuestionT[] | null;
+  if (!pool) return fail(404, "unknown skill");
+  let q = pool.find((x) => x.id === r.questionId) ?? (await reviewQuestion(deps, origin, r));
   if (!q || !isRubricMarked(q)) return fail(404, "unknown free-response question");
-  if (r.variant !== null) {
-    const v = q.variants?.[r.variant];
-    if (!v) return fail(400, "unknown variant");
-    q = fillTemplate(q, v);
+  if (r.variant !== null && !q.variants?.[r.variant]) return fail(400, "unknown variant");
+  let lists: WordLists = {};
+  if (q.words) {
+    const w = (await loadContent(deps, origin, "words.json")) as WordLists | null;
+    if (!w) return fail(503, "marking is unavailable; it will retry", { "Retry-After": "20" });
+    lists = w;
   }
+  if (!validPicks(q.words, r.words ?? null, lists)) return fail(400, "bad words");
+  q = fillServed(q, r.variant, r.words ?? null, lists);
 
+  // Groq marks: fast, rarely busy and free. Gemini's free quota is kept for reading photos.
+  const level = effortLevel("free", r.effort ?? 2);
   try {
     const result: MarkResult = await markWithModels({
       question: q,
       answers: r.answers,
       appeal: r.appeal,
-      endpoint: GEMINI_ENDPOINT,
-      key: deps.key,
-      models: deps.models,
-      reasoningEffort: "low",
+      endpoint: GROQ_ENDPOINT,
+      key: deps.groqKey,
+      models: deps.groqModels ?? level.models,
+      reasoningEffort: "medium",
+      samples: level.runs,
       fetch: deps.fetch,
+      timeout: 25_000,
+      budget: 50_000,
     });
     return json({ result, questionVersion: q.version });
   } catch (e) {
@@ -120,6 +179,18 @@ export async function handleMark(req: Request, deps: Deps): Promise<Response> {
 export const depsFromEnv = (get: (k: string) => string | undefined): Deps => ({
   key: get("GEMINI_API_KEY"),
   firebaseProject: get("MARK_SKIP_AUTH") === "1" ? null : (get("FIREBASE_PROJECT_ID") ?? "intellectify-4357c"),
-  models: get("MARK_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? GEMINI_MODELS,
+  models: MARKING_MODELS,
+  groqKey: get("GROQ_API_KEY"),
+  groqModels: get("GROQ_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean),
+  transcribeModels: get("TRANSCRIBE_MODELS")?.split(",").map((s) => s.trim()).filter(Boolean) ?? TRANSCRIBE_MODELS,
   fetch,
+  readContent: async (path) => {
+    const { readFile } = await import("node:fs/promises");
+    const { join } = await import("node:path");
+    try {
+      return JSON.parse(await readFile(join(process.cwd(), "apps/web/build/content", path), "utf8"));
+    } catch {
+      return null;
+    }
+  },
 });

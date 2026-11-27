@@ -54,6 +54,8 @@ export class AchievementsStore {
       this.earned = { ...this.earned, ...Object.fromEntries(newly.map((a) => [a.id, now])) };
       achievementToasts.push(...newly);
       if (profile) await profile.grant(newly.reduce((t, a) => t + XP.achievement(a.points), 0));
+      const ids = Object.keys(this.earned);
+      profile?.publishAchievements(this.course.id, ids, this.defs.filter((a) => ids.includes(a.id)).reduce((t, a) => t + a.points, 0));
     }
     await this.backend.saveAchievements(this.user.uid, this.course.id, { stats: this.snap(), earned: $state.snapshot(this.earned) }).catch(() => {});
     return newly;
@@ -62,13 +64,19 @@ export class AchievementsStore {
   /** A plain copy of the stats (snapshot widens tuple types, so cast back). */
   private snap = () => $state.snapshot(this.stats) as AchievementStats;
 
-  async question(e: QuestionEvent, store: CourseProgressStore, profile: ProfileStore | null) {
+  /** `then` applies a further event in the same save (e.g. a written answer's mark). */
+  async question(e: QuestionEvent, store: CourseProgressStore, profile: ProfileStore | null, then: (s: AchievementStats) => AchievementStats = (x) => x) {
     await this.load();
-    return this.settle(onQuestion(this.snap(), e), store, profile);
+    return this.settle(then(onQuestion(this.snap(), e)), store, profile);
   }
   async quiz(e: Parameters<typeof onQuiz>[1], store: CourseProgressStore, profile: ProfileStore | null) {
     await this.load();
     return this.settle(onQuiz(this.snap(), e), store, profile);
+  }
+  /** Any other event (daily, marked, appeal, post, flag): `update` turns the old stats into new ones. */
+  async event(update: (s: AchievementStats) => AchievementStats, store: CourseProgressStore, profile: ProfileStore | null) {
+    await this.load();
+    return this.settle(update(this.snap()), store, profile);
   }
   async challenge(e: Parameters<typeof onChallenge>[1], store: CourseProgressStore, profile: ProfileStore | null) {
     await this.load();

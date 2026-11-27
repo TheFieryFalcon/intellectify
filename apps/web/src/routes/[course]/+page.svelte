@@ -3,13 +3,37 @@
   import RankDot from "$lib/components/RankDot.svelte";
   import SkillTable from "$lib/components/SkillTable.svelte";
   import TechTree from "$lib/components/TechTree.svelte";
+  import CourseLinks from "$lib/components/CourseLinks.svelte";
   import { computeRollups } from "$lib/practice";
   import { RANK_LABEL } from "$lib/ranks";
-  import { courseProgress } from "$lib/session.svelte";
+  import { courseProgress, session } from "$lib/session.svelte";
+  import { achievementsFor } from "$lib/achievements.svelte";
+  import { profileFor } from "$lib/profile.svelte";
 
   let { data } = $props();
   const store = $derived(courseProgress(data.course.id));
   const rollups = $derived(store ? computeRollups(data.course, store.progress) : null);
+  // Best Section Challenge result per section, for the map.
+  const achievements = $derived(achievementsFor(session.backend, session.user, data.course));
+  $effect(() => void achievements?.load());
+  // Refresh this course on the public mirror once per tab session (SPEC §12.2), so progress made before
+  // leaderboards existed, or on another device, shows without waiting for the next answer.
+  const profile = $derived(profileFor(session.backend, session.user));
+  $effect(() => {
+    if (!store?.loaded || !profile?.loaded || !achievements?.loaded) return;
+    const flag = `intellectify:published:${data.course.id}`;
+    try {
+      if (sessionStorage.getItem(flag)) return;
+      sessionStorage.setItem(flag, "1");
+    } catch {
+      return;
+    }
+    if (!Object.keys(store.progress.skills).length && !Object.keys(achievements.earned).length) return;
+    profile.publishCourse(data.course, store.progress);
+    const ids = Object.keys(achievements.earned);
+    profile.publishAchievements(data.course.id, ids, achievements.defs.filter((a) => ids.includes(a.id)).reduce((t, a) => t + a.points, 0));
+  });
+  const challengeBest = $derived(Object.fromEntries(Object.entries(achievements?.stats.challenges ?? {}).map(([k, v]) => [k, v.best])));
 
   const VIEW_KEY = "intellectify:view";
   let view = $state<"tree" | "table">(readView());
@@ -48,11 +72,13 @@
     {#each ["small", "medium", "large", "cornerstone"] as size (size)}<span class="size"><span class="shape {size}" aria-hidden="true"></span>{size}</span>{/each}
   </div>
 
+  <CourseLinks course={data.course.id} />
+
   {#if store?.error}<p class="error" role="alert">{store.error}</p>{/if}
   {#if !store || !store.loaded || !rollups}
     <p class="muted">Loading your progress…</p>
   {:else if view === "tree"}
-    <TechTree course={data.course} progress={store.progress} {rollups} />
+    <TechTree course={data.course} progress={store.progress} {rollups} {challengeBest} />
   {:else}
     <SkillTable course={data.course} progress={store.progress} />
   {/if}
@@ -76,4 +102,10 @@
   .shape.large { width: 8px; height: 8px; border-radius: 1.5px; transform: rotate(45deg); margin: 0 1px; }
   .shape.cornerstone { width: 11px; height: 11px; border-radius: 2px; transform: rotate(45deg); margin: 0 2px; }
   .error { color: var(--bad); }
+  /* Phones: the view links sit in one row under the title, starting at the left gutter. */
+  @media (max-width: 640px) {
+    .head { align-items: center; gap: 8px; }
+    .ach { margin-left: 0; padding-bottom: 2px; }
+    .key { gap: 6px 12px; }
+  }
 </style>

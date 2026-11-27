@@ -11,6 +11,8 @@ const q = (over: Partial<QuestionT> = {}): QuestionT => ({
   rating: 1500,
   responseSkills: { calculation: 1450 },
   requiresCalculator: false,
+  pool: "practice",
+  requires: [],
   stem: "Find it.",
   parts: [
     { id: "a", marks: 2, answer: { type: "numeric", key: 1 } },
@@ -21,6 +23,7 @@ const q = (over: Partial<QuestionT> = {}): QuestionT => ({
 });
 
 const course: CourseBundle = {
+  schedules: [],
   id: "c",
   name: "C",
   versions: [],
@@ -65,6 +68,20 @@ describe("scoreQuestion", () => {
   });
 });
 
+describe("word variety (SPEC §9.6)", () => {
+  it("fills picked words, keeps them with the serve, and never repeats an entry within a question", async () => {
+    const { fillServed, pickWords, validPicks } = await import("@intellectify/content/template");
+    const lists = { person: ["Adam", "Priya"], aircraft: ["plane", "air ambulance"], units: [{ name: "km", speed: "km/h" }] };
+    const slots = { a: "person", b: "person", craft: "aircraft", u: "units" };
+    const picks = pickWords(slots, lists, () => 0.99)!;
+    expect(picks.a).not.toBe(picks.b);
+    expect(validPicks(slots, picks, lists)).toBe(true);
+    expect(validPicks(slots, { ...picks, a: 2 }, lists)).toBe(false);
+    const q = fillServed({ stem: "{{a}} and {{b}} board {{craft.a}} at {{u.speed}}. {{craft.A}} it is.", words: slots }, null, { a: 0, b: 1, craft: 1, u: 0 }, lists);
+    expect(q.stem).toBe("Adam and Priya board an air ambulance at km/h. An air ambulance it is.");
+  });
+});
+
 describe("serveQuestion", () => {
   it("serves free-response questions, unless asked for auto-marked only", () => {
     const fr = q({ id: "fr", parts: [{ id: "a", marks: 1, rubric: { criteria: [{ id: "c", description: "d", points: 1, dimension: "proof" }] } }] });
@@ -106,5 +123,31 @@ describe("scoreMarked and reviseMarked", () => {
     expect(revised.changes.skills["spec.a.one"]!.theta).toBeCloseTo(direct.changes.skills["spec.a.one"]!.theta, 6);
     expect(revised.changes.responseSkills.proof!.theta).toBeCloseTo(direct.changes.responseSkills.proof!.theta, 6);
     expect(revised.changes.skills["spec.a.one"]!.resolved).toBe(1);
+  });
+});
+
+describe("per-part ratings", () => {
+  const two = (bRating?: number) =>
+    q({
+      id: "pp",
+      rating: 1810,
+      skills: { primary: "spec.a.one", secondary: [] },
+      parts: [
+        { id: "a", marks: 5, answer: { type: "numeric", key: "1" } },
+        { id: "b", marks: 2, rating: bRating, answer: { type: "numeric", key: "2" } },
+      ],
+    } as Partial<QuestionT>);
+  it("an easy part answered right never makes the question count as easier than its hardest part", () => {
+    const solved = [{ id: "a", marks: 5, solvedOn: 1 }, { id: "b", marks: 2, solvedOn: 1 }];
+    const easy = scoreQuestion(emptyProgress(), two(1300), solved);
+    expect(easy.tier).toBe(5);
+    // The hard part still counts toward the Tier 5 gate; the easy part toward Tier 2.
+    expect(easy.primary.after.gates[5]).toBe(1);
+    expect(easy.primary.after.gates[2]).toBe(1);
+  });
+  it("each part uses its own tier's attempt credit", () => {
+    // Tier 5 allows 5 attempts; a Tier 2 part allows 2. Solving (b) on attempt 2 earns Tier 2's second-attempt credit.
+    const r = scoreQuestion(emptyProgress(), two(1300), [{ id: "a", marks: 5, solvedOn: 1 }, { id: "b", marks: 2, solvedOn: 2 }]);
+    expect(r.outcome).toBeCloseTo((5 * 1 + 2 * 0.3) / 7);
   });
 });

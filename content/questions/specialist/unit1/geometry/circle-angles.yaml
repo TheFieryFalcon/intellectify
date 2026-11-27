@@ -5,16 +5,18 @@
   rating: 1040
   responseSkills: {calculation: 1030, reading: 1040}
   variants:
-  - {x: 35}
-  - {x: 48}
-  - {x: 62}
+    - { x: 26, _A: '-0.877, -1.798', _B: '0.877, -1.798', _C: '-0.174, 1.992' }
+    - { x: 36, _A: '-1.176, -1.618', _B: '1.176, -1.618', _C: '-0.174, 1.992' }
+    - { x: 46, _A: '-1.439, -1.389', _B: '1.439, -1.389', _C: '-0.174, 1.992' }
+    - { x: 60, _A: '-1.732, -1', _B: '1.732, -1', _C: '-0.174, 1.992' }
+    - { x: 70, _A: '-1.879, -0.684', _B: '1.879, -0.684', _C: '-0.174, 1.992' }
   stem: |
     $A$, $B$ and $C$ lie on a circle with center $O$, and $\angle ACB = {{x}}^\circ$. Find $\angle AOB$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.732, -1], B: [1.732, -1], C: [-0.174, 1.992], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: O, to: A, color: muted }
@@ -40,21 +42,24 @@
         C = on_circle(90)
         assert abs(angle_at(A, C, B) - x) < 1e-9
         return {"a": approx(angle_at(A, (0, 0), B))}
+
 - id: spec.geometry.circle-angles.circumference-from-center
   skills: {primary: spec.geometry.circle-angles}
   rating: 1070
   responseSkills: {calculation: 1060, reading: 1060}
   variants:
-  - {c: 100}
-  - {c: 136}
-  - {c: 84}
+    - { c: 60, _A: '-1, -1.732', _B: '1, -1.732', _C: '-0.174, 1.992' }
+    - { c: 82, _A: '-1.312, -1.509', _B: '1.312, -1.509', _C: '-0.174, 1.992' }
+    - { c: 102, _A: '-1.554, -1.259', _B: '1.554, -1.259', _C: '-0.174, 1.992' }
+    - { c: 134, _A: '-1.841, -0.781', _B: '1.841, -0.781', _C: '-0.174, 1.992' }
+    - { c: 156, _A: '-1.956, -0.416', _B: '1.956, -0.416', _C: '-0.174, 1.992' }
   stem: |
     $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle AOB = {{c}}^\circ$. Find $\angle ACB$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.732, -1], B: [1.732, -1], C: [-0.174, 1.992], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: O, to: A, color: muted }
@@ -78,20 +83,24 @@
     def answers(c):
         A, B, C = on_circle(270 - c/2), on_circle(270 + c/2), on_circle(90)
         return {"a": approx(angle_at(A, C, B))}
+
 - id: spec.geometry.circle-angles.semicircle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1100
   responseSkills: {calculation: 1090, reading: 1090}
   variants:
-  - {x: 32}
-  - {x: 47}
+    - { x: 20, _C: '1.532, 1.286' }
+    - { x: 30, _C: '1, 1.732' }
+    - { x: 40, _C: '0.347, 1.97' }
+    - { x: 54, _C: '-0.618, 1.902' }
+    - { x: 64, _C: '-1.231, 1.576' }
   stem: |
     $AB$ is a diameter of a circle, $C$ is on the circle, and $\angle CAB = {{x}}^\circ$. Find $\angle ABC$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-2, 0], B: [2, 0], C: [-1, 1.732], O: [0, 0] }
+    points: { A: [-2, 0], B: [2, 0], C: [{{_C}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B }
@@ -115,20 +124,24 @@
         C = on_circle(2 * x)
         assert abs(angle_at(C, A, B) - x) < 1e-9
         return {"a": approx(angle_at(A, B, C))}
+
 - id: spec.geometry.circle-angles.same-arc
   skills: {primary: spec.geometry.circle-angles}
   rating: 1130
   responseSkills: {reading: 1120, calculation: 1080}
   variants:
-  - {x: 41}
-  - {x: 57}
+    - { x: 30, _A: '-1, -1.732', _B: '1, -1.732', _C: '1, 1.732', _D: '-1.286, 1.532' }
+    - { x: 40, _A: '-1.286, -1.532', _B: '1.286, -1.532', _C: '1, 1.732', _D: '-1.286, 1.532' }
+    - { x: 50, _A: '-1.532, -1.286', _B: '1.532, -1.286', _C: '1, 1.732', _D: '-1.286, 1.532' }
+    - { x: 64, _A: '-1.798, -0.877', _B: '1.798, -0.877', _C: '1, 1.732', _D: '-1.286, 1.532' }
+    - { x: 74, _A: '-1.923, -0.551', _B: '1.923, -0.551', _C: '1, 1.732', _D: '-1.286, 1.532' }
   stem: |
     $A$, $B$, $C$ and $D$ lie on a circle, with $C$ and $D$ on the same side of $AB$. $\angle ACB = {{x}}^\circ$. Find $\angle ADB$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.879, -0.684], B: [1.879, -0.684], C: [0.684, 1.879], D: [-1.147, 1.638], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B }
@@ -155,20 +168,24 @@
         C, D = on_circle(60), on_circle(130)
         assert abs(angle_at(A, C, B) - x) < 1e-9
         return {"a": approx(angle_at(A, D, B))}
+
 - id: spec.geometry.circle-angles.cyclic-opposite
   skills: {primary: spec.geometry.circle-angles}
   rating: 1180
   responseSkills: {calculation: 1160, reading: 1170}
   variants:
-  - {x: 74}
-  - {x: 108}
+    - { x: 62, _A: '-2, 0', _B: '0.939, -1.766', _C: '2, 0', _D: '0.939, 1.766' }
+    - { x: 77, _A: '-2, 0', _B: '0.45, -1.949', _C: '2, 0', _D: '0.45, 1.949' }
+    - { x: 91, _A: '-2, 0', _B: '-0.035, -2', _C: '2, 0', _D: '-0.035, 2' }
+    - { x: 113, _A: '-2, 0', _B: '-0.781, -1.841', _C: '2, 0', _D: '-0.781, 1.841' }
+    - { x: 128, _A: '-2, 0', _B: '-1.231, -1.576', _C: '2, 0', _D: '-1.231, 1.576' }
   stem: |
     $ABCD$ is a cyclic quadrilateral with $\angle DAB = {{x}}^\circ$. Find $\angle BCD$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.732, 1], D: [-0.684, 1.879], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: polygon, points: [A, B, C, D] }
@@ -193,20 +210,24 @@
         C = on_circle(0)
         assert abs(angle_at(B, A, D) - x) < 1e-9
         return {"a": approx(angle_at(B, C, D))}
+
 - id: spec.geometry.circle-angles.isosceles-radii
   skills: {primary: spec.geometry.circle-angles}
   rating: 1270
   responseSkills: {reading: 1260, calculation: 1250, reasoning: 1260}
   variants:
-  - {c: 100}
-  - {c: 64}
+    - { c: 40, _A: '-0.684, -1.879', _B: '0.684, -1.879' }
+    - { c: 64, _A: '-1.06, -1.696', _B: '1.06, -1.696' }
+    - { c: 88, _A: '-1.389, -1.439', _B: '1.389, -1.439' }
+    - { c: 126, _A: '-1.782, -0.908', _B: '1.782, -0.908' }
+    - { c: 150, _A: '-1.932, -0.518', _B: '1.932, -0.518' }
   stem: |
     $A$ and $B$ lie on a circle with center $O$, and $\angle AOB = {{c}}^\circ$. Find $\angle OAB$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.532, -1.286], B: [1.532, -1.286], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: O, to: A }
@@ -228,12 +249,19 @@
     def answers(c):
         A, B = on_circle(270 - c/2), on_circle(270 + c/2)
         return {"a": approx(angle_at((0, 0), A, B))}
+
 - id: spec.geometry.circle-angles.cyclic-algebra
   skills: {primary: spec.geometry.circle-angles}
   rating: 1300
   responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
+  variants:
+    - { e1: '2x + 20', e2: '3x + 15', s: 5, r: 145, v: 29 }
+    - { e1: '2x - 15', e2: '3x + 10', s: 5, r: 185, v: 37 }
+    - { e1: '3x - 20', e2: '2x + 20', s: 5, r: 180, v: 36 }
+    - { e1: 'x + 20', e2: '4x - 20', s: 5, r: 180, v: 36 }
+    - { e1: 'x + 30', e2: '4x - 30', s: 5, r: 180, v: 36 }
   stem: |
-    $ABCD$ is a cyclic quadrilateral with $\angle DAB = (2x + 10)^\circ$ and $\angle BCD = (3x - 20)^\circ$. Find $x$.
+    $ABCD$ is a cyclic quadrilateral with $\angle DAB = ({{e1}})^\circ$ and $\angle BCD = ({{e2}})^\circ$. Find $x$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
@@ -242,8 +270,8 @@
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: polygon, points: [A, B, C, D] }
-      - { type: angle, at: A, from: B, to: D, label: '(2x + 10)^\circ', radius: 18 }
-      - { type: angle, at: C, from: D, to: B, label: '(3x - 20)^\circ', radius: 16 }
+      - { type: angle, at: A, from: B, to: D, label: '({{e1}})^\circ', radius: 18 }
+      - { type: angle, at: C, from: D, to: B, label: '({{e2}})^\circ', radius: 16 }
       - { type: point, at: A, label: 'A' }
       - { type: point, at: B, label: 'B' }
       - { type: point, at: C, label: 'C' }
@@ -252,22 +280,45 @@
   parts:
   - id: a
     prompt: $x =$
-    answer: {type: numeric, key: '38'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    Opposite angles add to $180^\circ$: $2x + 10 + 3x - 20 = 180$, so $5x = 190$ and $x = 38$.
+    Opposite angles add to $180^\circ$: $({{e1}}) + ({{e2}}) = 180$, so ${{s}}x = {{r}}$ and $x = {{v}}$.
   verify: |
-    def answers():
+    def answers(e1, e2, s, r, v):
         x = symbols("x")
-        return {"a": solve(2*x + 10 + 3*x - 20 - 180, x)[0]}
+        return {"a": solve(sympify(e1.replace("x", "*x").lstrip("*")) + sympify(e2.replace("x", "*x").lstrip("*")) - 180, x)[0]}
+
 - id: spec.geometry.circle-angles.exterior-angle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1330
   responseSkills: {reading: 1320, calculation: 1280, reasoning: 1320}
   variants:
-  - {e: 105}
-  - {e: 72}
+    - { e: 60, _A: '-2, 0', _B: '1, -1.732', _C: '2, 0', _D: '1, 1.732', _E: '2.55, 0.953' }
+    - { e: 73, _A: '-2, 0', _B: '0.585, -1.913', _C: '2, 0', _D: '0.585, 1.913', _E: '2.778, 1.052' }
+    - { e: 87, _A: '-2, 0', _B: '0.105, -1.997', _C: '2, 0', _D: '0.105, 1.997', _E: '3.042, 1.098' }
+    - { e: 107, _A: '-2, 0', _B: '-0.585, -1.913', _C: '2, 0', _D: '-0.585, 1.913', _E: '3.422, 1.052' }
+    - { e: 120, _A: '-2, 0', _B: '-1, -1.732', _C: '2, 0', _D: '-1, 1.732', _E: '3.65, 0.953' }
   stem: |
     $ABCD$ is a cyclic quadrilateral. Side $BC$ is extended beyond $C$ to $E$, and $\angle DCE = {{e}}^\circ$. Find $\angle DAB$.
+
+    ```diagram
+    view: [-2.45, 3.13, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], E: [{{_E}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: C, to: E }
+      - { type: angle, at: C, from: E, to: D, label: '{{e}}^\circ', radius: 24 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
   parts:
   - id: a
     prompt: $\angle DAB$ (°)
@@ -283,20 +334,24 @@
         A = on_circle(180)
         assert abs(angle_at(B, C, D) - c) < 1e-9
         return {"a": approx(angle_at(B, A, D))}
+
 - id: spec.geometry.circle-angles.diameter-opposite-side
   skills: {primary: spec.geometry.circle-angles}
   rating: 1350
   responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
   variants:
-  - {x: 25}
-  - {x: 34}
+    - { x: 18, _C: '1.618, 1.176' }
+    - { x: 26, _C: '1.231, 1.576' }
+    - { x: 33, _C: '0.813, 1.827' }
+    - { x: 44, _C: '0.07, 1.999' }
+    - { x: 52, _C: '-0.484, 1.941' }
   stem: |
     $AB$ is a diameter of a circle. $C$ is on the circle with $\angle CAB = {{x}}^\circ$, and $D$ is on the circle on the other side of $AB$. Find $\angle ADC$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-2, 0], B: [2, 0], C: [1.118, 1.658], D: [-0.684, -1.879], O: [0, 0] }
+    points: { A: [-2, 0], B: [2, 0], C: [{{_C}}], D: [-0.684, -1.879], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: A, to: B }
@@ -322,20 +377,24 @@
         C, D = on_circle(2 * x), on_circle(250)
         assert abs(angle_at(C, A, B) - x) < 1e-9
         return {"a": approx(angle_at(A, D, C))}
+
 - id: spec.geometry.circle-angles.minor-arc-angle
   skills: {primary: spec.geometry.circle-angles}
   rating: 1380
   responseSkills: {reading: 1370, calculation: 1360, reasoning: 1370}
   variants:
-  - {c: 110}
-  - {c: 140}
+    - { c: 80, _A: '-1.286, -1.532', _B: '1.286, -1.532' }
+    - { c: 98, _A: '-1.509, -1.312', _B: '1.509, -1.312' }
+    - { c: 116, _A: '-1.696, -1.06', _B: '1.696, -1.06' }
+    - { c: 142, _A: '-1.891, -0.651', _B: '1.891, -0.651' }
+    - { c: 160, _A: '-1.97, -0.347', _B: '1.97, -0.347' }
   stem: |
     $A$, $B$ and $C$ lie on a circle with center $O$, and $C$ is on the **minor** arc $AB$. The angle $\angle AOB = {{c}}^\circ$ (not reflex). Find $\angle ACB$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.732, -1], B: [1.732, -1], C: [-0, -2], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [-0, -2], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: segment, from: O, to: A, color: muted }
@@ -361,12 +420,27 @@
         A, B = on_circle(270 - c/2), on_circle(270 + c/2)
         C = on_circle(270)
         return {"a": approx(angle_at(A, C, B))}
+
 - id: spec.geometry.circle-angles.which-theorem
   skills: {primary: spec.geometry.circle-angles}
   rating: 1340
   responseSkills: {reading: 1330, reasoning: 1330}
   stem: |
     $PQ$ is a diameter of a circle and $R$ is another point on the circle. Which result shows that $\angle PRQ = 90^\circ$?
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { P: [-2, 0], Q: [2, 0], R: [0.845, 1.813], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: P, to: Q }
+      - { type: segment, from: P, to: R }
+      - { type: segment, from: Q, to: R }
+      - { type: point, at: P, label: 'P' }
+      - { type: point, at: Q, label: 'Q' }
+      - { type: point, at: R, label: 'R' }
+    ```
   parts:
   - id: a
     options:
@@ -421,20 +495,26 @@
   skills: {primary: spec.geometry.circle-angles}
   rating: 1450
   responseSkills: {reading: 1440, calculation: 1430, reasoning: 1440}
+  variants:
+    - { p: 22, q: 29, s: 51, b: 129, _A: '-1.732, 1', _B: '2, 0', _C: '1.338, 1.486', _D: '-0.551, 1.923' }
+    - { p: 25, q: 26, s: 51, b: 129, _A: '-1.732, 1', _B: '2, 0', _C: '1.338, 1.486', _D: '-0.347, 1.97' }
+    - { p: 28, q: 24, s: 52, b: 128, _A: '-1.732, 1', _B: '2, 0', _C: '1.389, 1.439', _D: '-0.14, 1.995' }
+    - { p: 33, q: 24, s: 57, b: 123, _A: '-1.732, 1', _B: '2, 0', _C: '1.618, 1.176', _D: '0.209, 1.989' }
+    - { p: 38, q: 28, s: 66, b: 114, _A: '-1.732, 1', _B: '2, 0', _C: '1.902, 0.618', _D: '0.551, 1.923' }
   stem: |
-    $ABCD$ is a cyclic quadrilateral with diagonal $BD$. $\angle ABD = 30^\circ$ and $\angle DBC = 40^\circ$.
+    $ABCD$ is a cyclic quadrilateral with diagonal $BD$. $\angle ABD = {{p}}^\circ$ and $\angle DBC = {{q}}^\circ$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-0.684, -1.879], B: [1.732, -1], C: [1, 1.732], D: [-1.732, 1], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: polygon, points: [A, B, C, D] }
       - { type: segment, from: B, to: D }
       - { type: segment, from: A, to: C, dashed: true, color: muted }
-      - { type: angle, at: B, from: A, to: D, label: '30^\circ', radius: 26 }
-      - { type: angle, at: B, from: D, to: C, label: '40^\circ', radius: 40 }
+      - { type: angle, at: B, from: A, to: D, label: '{{p}}^\circ', radius: 26 }
+      - { type: angle, at: B, from: D, to: C, label: '{{q}}^\circ', radius: 40 }
       - { type: point, at: A, label: 'A' }
       - { type: point, at: B, label: 'B' }
       - { type: point, at: C, label: 'C' }
@@ -443,27 +523,41 @@
   parts:
   - id: a
     prompt: Find $\angle ACD$ (°).
-    answer: {type: numeric, key: '30'}
+    answer: {type: numeric, key: '{{p}}'}
   - id: b
     prompt: Find $\angle ADC$ (°).
-    answer: {type: numeric, key: '110'}
+    answer: {type: numeric, key: '{{b}}'}
   solution: |
-    (a) $\angle ACD$ and $\angle ABD$ stand on the same arc $AD$: $\angle ACD = 30^\circ$.
-    (b) $\angle ABC = 30^\circ + 40^\circ = 70^\circ$, and opposite angles add to $180^\circ$: $\angle ADC = 110^\circ$.
+    (a) $\angle ACD$ and $\angle ABD$ stand on the same arc $AD$: $\angle ACD = {{p}}^\circ$.
+    (b) $\angle ABC = {{p}}^\circ + {{q}}^\circ = {{s}}^\circ$, and opposite angles add to $180^\circ$: $\angle ADC = {{b}}^\circ$.
   verify: |
-    def answers():
-        # Arc AD (not containing B) = 60 at the center; arc DC (not containing B) = 80.
-        B = on_circle(0)
-        A = on_circle(150)
-        D, C = on_circle(150 - 60), on_circle(150 - 60 - 80)
-        assert abs(angle_at(A, B, D) - 30) < 1e-9 and abs(angle_at(D, B, C) - 40) < 1e-9
+    def answers(p, q, s, b):
+        B, A = on_circle(0), on_circle(150)
+        D, C = on_circle(150 - 2*p), on_circle(150 - 2*p - 2*q)
+        assert abs(angle_at(A, B, D) - p) < 1e-9 and abs(angle_at(D, B, C) - q) < 1e-9
         return {"a": approx(angle_at(A, C, D)), "b": approx(angle_at(A, D, C))}
+
 - id: spec.geometry.circle-angles.semicircle-proof
   skills: {primary: spec.geometry.circle-angles}
   rating: 1470
   responseSkills: {reasoning: 1460, proof: 1460, clarity: 1400}
   stem: |
     $AB$ is a diameter of a circle with center $O$, and $C$ is another point on the circle. Without using the angle-at-the-center theorem, prove that $\angle ACB = 90^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-2, 0], B: [2, 0], C: [1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: C }
+      - { type: point, at: O, label: 'O', pos: s }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     rubric:
@@ -479,36 +573,68 @@
   skills: {primary: spec.geometry.circle-angles}
   rating: 1490
   responseSkills: {reading: 1460, calculation: 1470, reasoning: 1480}
+  variants:
+    - { e1: '2x + 30', e2: '2x - 25', v: 40, c1: 110, c2: 55, _A: '-1.638, -1.147', _B: '1.638, -1.147', _C: '0, 2' }
+    - { e1: '3x + 25', e2: '2x - 5', v: 35, c1: 130, c2: 65, _A: '-1.813, -0.845', _B: '1.813, -0.845', _C: '0, 2' }
+    - { e1: '3x + 40', e2: 'x + 30', v: 20, c1: 100, c2: 50, _A: '-1.532, -1.286', _B: '1.532, -1.286', _C: '0, 2' }
+    - { e1: '4x + 10', e2: 'x + 25', v: 20, c1: 90, c2: 45, _A: '-1.414, -1.414', _B: '1.414, -1.414', _C: '0, 2' }
+    - { e1: '5x + 5', e2: 'x + 25', v: 15, c1: 80, c2: 40, _A: '-1.286, -1.532', _B: '1.286, -1.532', _C: '0, 2' }
   stem: |
-    $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle AOB = (3x + 10)^\circ$ and $\angle ACB = (x + 20)^\circ$. Find $x$.
+    $A$, $B$ and $C$ lie on a circle with center $O$, with $C$ on the major arc. $\angle AOB = ({{e1}})^\circ$ and $\angle ACB = ({{e2}})^\circ$. Find $x$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 300
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: O, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: C, to: B }
+      - { type: angle, at: O, from: A, to: B, label: '({{e1}})^\circ', radius: 12 }
+      - { type: angle, at: C, from: A, to: B, label: '({{e2}})^\circ', radius: 58 }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     prompt: $x =$
-    answer: {type: numeric, key: '30'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    The angle at the center is twice the angle at the circumference: $3x + 10 = 2(x + 20)$, so $x = 30$. (Check: $100^\circ$ and $50^\circ$.)
+    The angle at the center is twice the angle at the circumference: ${{e1}} = 2({{e2}})$, so $x = {{v}}$. (Check: ${{c1}}^\circ$ and ${{c2}}^\circ$.)
   verify: |
-    def answers():
+    def answers(e1, e2, v, c1, c2):
         x = symbols("x")
-        return {"a": solve(3*x + 10 - 2*(x + 20), x)[0]}
+        f = lambda e: sympify(e.replace("x", "*x").lstrip("*").replace("+ *", "+ ").replace("- *", "- "))
+        return {"a": solve(f(e1) - 2 * f(e2), x)[0]}
+
 - id: spec.geometry.circle-angles.triangle-center
   skills: {primary: spec.geometry.circle-angles}
   rating: 1500
   responseSkills: {calculation: 1480, reasoning: 1490, synthesis: 1460}
+  variants:
+    - { p: 46, q: 78, a: 92, b: 44, _B: '-1.532, -1.286', _C: '1.338, -1.486', _A: '-0.618, 1.902' }
+    - { p: 56, q: 52, a: 112, b: 34, _B: '-1.532, -1.286', _C: '1.766, -0.939', _A: '0.484, 1.941' }
+    - { p: 58, q: 64, a: 116, b: 32, _B: '-1.532, -1.286', _C: '1.827, -0.813', _A: '-0.484, 1.941' }
+    - { p: 68, q: 64, a: 136, b: 22, _B: '-1.532, -1.286', _C: '1.995, -0.14', _A: '-1.118, 1.658' }
+    - { p: 70, q: 46, a: 140, b: 20, _B: '-1.532, -1.286', _C: '2, -0', _A: '-0.07, 1.999' }
   stem: |
-    Triangle $ABC$ is drawn inside a circle with center $O$, with all three corners on the circle. $\angle BAC = 50^\circ$ and $\angle ABC = 70^\circ$.
+    Triangle $ABC$ is drawn inside a circle with center $O$, with all three corners on the circle. $\angle BAC = {{p}}^\circ$ and $\angle ABC = {{q}}^\circ$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-0.684, 1.879], B: [-1.638, -1.147], C: [1.638, -1.147], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: polygon, points: [A, B, C] }
       - { type: segment, from: O, to: B, color: muted }
       - { type: segment, from: O, to: C, color: muted }
-      - { type: angle, at: A, from: B, to: C, label: '50^\circ', radius: 22 }
-      - { type: angle, at: B, from: C, to: A, label: '70^\circ', radius: 22 }
+      - { type: angle, at: A, from: B, to: C, label: '{{p}}^\circ', radius: 22 }
+      - { type: angle, at: B, from: C, to: A, label: '{{q}}^\circ', radius: 22 }
       - { type: point, at: A, label: 'A' }
       - { type: point, at: B, label: 'B' }
       - { type: point, at: C, label: 'C' }
@@ -517,28 +643,45 @@
   parts:
   - id: a
     prompt: Find $\angle BOC$ (°).
-    answer: {type: numeric, key: '100'}
+    answer: {type: numeric, key: '{{a}}'}
   - id: b
     prompt: Find $\angle OBC$ (°).
-    answer: {type: numeric, key: '40'}
+    answer: {type: numeric, key: '{{b}}'}
   solution: |
-    (a) $\angle BOC = 2\angle BAC = 100^\circ$ (angle at the center; the triangle's angles are all acute, so $O$ and $A$ are on the same side of $BC$).
-    (b) $OB = OC$ (radii): $\angle OBC = \tfrac{1}{2}(180^\circ - 100^\circ) = 40^\circ$.
+    (a) $\angle BOC = 2\angle BAC = {{a}}^\circ$ (angle at the center; the triangle's angles are all acute, so $O$ and $A$ are on the same side of $BC$).
+    (b) $OB = OC$ (radii): $\angle OBC = \tfrac{1}{2}(180^\circ - {{a}}^\circ) = {{b}}^\circ$.
   verify: |
-    def answers():
-        # Central angles: BC = 2*50 = 100, CA = 2*70 = 140, AB = 2*60 = 120.
+    def answers(p, q, a, b):
         B = on_circle(220)
-        C = on_circle(220 + 100)
-        A = on_circle(220 + 100 + 140)
-        assert abs(angle_at(B, A, C) - 50) < 1e-9 and abs(angle_at(A, B, C) - 70) < 1e-9
+        C = on_circle(220 + 2*p)
+        A = on_circle(220 + 2*p + 2*q)
+        assert abs(angle_at(B, A, C) - p) < 1e-9 and abs(angle_at(A, B, C) - q) < 1e-9
         O = (0, 0)
         return {"a": approx(angle_at(B, O, C)), "b": approx(angle_at(O, B, C))}
+
 - id: spec.geometry.circle-angles.cyclic-proof
   skills: {primary: spec.geometry.circle-angles}
   rating: 1530
   responseSkills: {reasoning: 1520, proof: 1520, clarity: 1450}
   stem: |
     Use the angle-at-the-center theorem to prove that the opposite angles of a cyclic quadrilateral add to $180^\circ$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-0.684, 1.879], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -555,6 +698,24 @@
   responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1570}
   stem: |
     Triangle $ABC$ has all three corners on a circle with center $O$, and $\angle BAC = x^\circ$ is acute. Find $\angle OBC$ in terms of $x$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.684, 1.879], B: [-1.532, -1.286], C: [1.532, -1.286], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: O, to: B }
+      - { type: segment, from: O, to: C }
+      - { type: angle, at: A, from: B, to: C, label: 'x^\circ', radius: 22 }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     prompt: $\angle OBC$ (°)
@@ -578,20 +739,26 @@
   skills: {primary: spec.geometry.circle-angles}
   rating: 1620
   responseSkills: {calculation: 1560, reasoning: 1610, synthesis: 1600}
+  variants:
+    - { t: 80, v: 50, _A: '-1.97, -0.347', _B: '0, 2', _C: '1.97, -0.347', _D: '-0, -2' }
+    - { t: 96, v: 42, _A: '-1.989, 0.209', _B: '0, 2', _C: '1.989, 0.209', _D: '-0, -2' }
+    - { t: 112, v: 34, _A: '-1.854, 0.749', _B: '0, 2', _C: '1.854, 0.749', _D: '-0, -2' }
+    - { t: 136, v: 22, _A: '-1.389, 1.439', _B: '0, 2', _C: '1.389, 1.439', _D: '-0, -2' }
+    - { t: 152, v: 14, _A: '-0.939, 1.766', _B: '0, 2', _C: '0.939, 1.766', _D: '-0, -2' }
   stem: |
-    $ABCD$ is a cyclic quadrilateral with $AB = BC$ and $\angle ABC = 110^\circ$. Find $\angle BDC$.
+    $ABCD$ is a cyclic quadrilateral with $AB = BC$ and $\angle ABC = {{t}}^\circ$. Find $\angle BDC$.
 
     ```diagram
     view: [-2.45, 2.45, -2.45, 2.45]
     width: 230
-    points: { A: [-1.879, 0.684], B: [0, 2], C: [1.879, 0.684], D: [-0, -2], O: [0, 0] }
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
     draw:
       - { type: circle, center: O, radius: 2 }
       - { type: polygon, points: [A, B, C, D] }
       - { type: segment, from: B, to: D }
       - { type: segment, from: A, to: B, ticks: 1 }
       - { type: segment, from: B, to: C, ticks: 1 }
-      - { type: angle, at: B, from: C, to: A, label: '110^\circ', radius: 16 }
+      - { type: angle, at: B, from: C, to: A, label: '{{t}}^\circ', radius: 16 }
       - { type: angle, at: D, from: B, to: C, radius: 26 }
       - { type: point, at: A, label: 'A' }
       - { type: point, at: B, label: 'B' }
@@ -601,40 +768,87 @@
   parts:
   - id: a
     prompt: $\angle BDC$ (°)
-    answer: {type: numeric, key: '35'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    Join $AC$. Triangle $ABC$ is isosceles with $AB = BC$, so $\angle BAC = \angle BCA = \tfrac{1}{2}(180^\circ - 110^\circ) = 35^\circ$. $\angle BDC$ and $\angle BAC$ stand on the same arc $BC$: $\angle BDC = 35^\circ$.
+    Join $AC$. Triangle $ABC$ is isosceles with $AB = BC$, so $\angle BAC = \angle BCA = \tfrac{1}{2}(180^\circ - {{t}}^\circ) = {{v}}^\circ$. $\angle BDC$ and $\angle BAC$ stand on the same arc $BC$: $\angle BDC = {{v}}^\circ$.
   verify: |
-    def answers():
+    def answers(t, v):
         B = on_circle(90)
-        A, C = on_circle(90 + 70), on_circle(90 - 70)
+        A, C = on_circle(90 + 180 - t), on_circle(90 - 180 + t)
         D = on_circle(270)
-        assert abs(angle_at(A, B, C) - 110) < 1e-9 and abs(dist(A, B) - dist(B, C)) < 1e-9
+        assert abs(angle_at(A, B, C) - t) < 1e-9 and abs(dist(A, B) - dist(B, C)) < 1e-9
         return {"a": approx(angle_at(B, D, C))}
+
 - id: spec.geometry.circle-angles.bow-tie
   skills: {primary: spec.geometry.circle-angles}
   rating: 1650
   responseSkills: {calculation: 1580, reasoning: 1640, synthesis: 1630}
+  variants:
+    - { p: 30, q: 20, v: 130, _A: '-1.286, 1.532', _B: '-1.732, -1', _C: '-0.684, -1.879', _D: '0.684, 1.879', _X: '-0.994, -0.121' }
+    - { p: 34, q: 26, v: 120, _A: '-1.286, 1.532', _B: '-1.732, -1', _C: '-0.278, -1.981', _D: '0.939, 1.766', _X: '-0.828, -0.064' }
+    - { p: 38, q: 28, v: 114, _A: '-1.286, 1.532', _B: '-1.732, -1', _C: '-0.14, -1.995', _D: '1.176, 1.618', _X: '-0.75, -0.116' }
+    - { p: 40, q: 34, v: 106, _A: '-1.286, 1.532', _B: '-1.732, -1', _C: '0.278, -1.981', _D: '1.286, 1.532', _X: '-0.586, -0.039' }
+    - { p: 52, q: 30, v: 98, _A: '-1.286, 1.532', _B: '-1.732, -1', _C: '-0, -2', _D: '1.798, 0.877', _X: '-0.586, -0.391' }
   stem: |
-    $A$, $B$, $C$ and $D$ lie on a circle in that order. Chords $AC$ and $BD$ meet at $X$. $\angle ABD = 40^\circ$ and $\angle BDC = 25^\circ$. Find $\angle AXB$.
+    $A$, $B$, $C$ and $D$ lie on a circle in that order. Chords $AC$ and $BD$ meet at $X$. $\angle ABD = {{p}}^\circ$ and $\angle BDC = {{q}}^\circ$. Find $\angle AXB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], X: [{{_X}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: B, to: D }
+      - { type: angle, at: B, from: A, to: D, label: '{{p}}^\circ', radius: 22 }
+      - { type: angle, at: D, from: B, to: C, label: '{{q}}^\circ', radius: 26 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: X, label: 'X', pos: e }
+    ```
   parts:
   - id: a
     prompt: $\angle AXB$ (°)
-    answer: {type: numeric, key: '115'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    $\angle BAC = \angle BDC = 25^\circ$ (same arc $BC$). In triangle $AXB$: $\angle AXB = 180^\circ - \angle XAB - \angle XBA = 180^\circ - 25^\circ - 40^\circ = 115^\circ$.
+    $\angle BAC = \angle BDC = {{q}}^\circ$ (same arc $BC$). In triangle $AXB$: $\angle AXB = 180^\circ - \angle XAB - \angle XBA = 180^\circ - {{q}}^\circ - {{p}}^\circ = {{v}}^\circ$.
   verify: |
-    def answers():
-        A, B, C, D = on_circle(0), on_circle(100), on_circle(150), on_circle(280)
-        assert abs(angle_at(A, B, D) - 40) < 1e-9 and abs(angle_at(B, D, C) - 25) < 1e-9
+    def answers(p, q, v):
+        A, B, C, D = on_circle(130), on_circle(210), on_circle(210 + 2*q), on_circle(130 - 2*p)
+        assert abs(angle_at(A, B, D) - p) < 1e-9 and abs(angle_at(B, D, C) - q) < 1e-9
         X = line_meet(A, C, B, D)
         return {"a": approx(angle_at(A, X, B))}
+
 - id: spec.geometry.circle-angles.regular-pentagon
   skills: {primary: spec.geometry.circle-angles}
   rating: 1700
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
   stem: |
     $ABCDE$ is a regular pentagon (all sides and angles equal) with its corners on a circle. Find $\angle CAD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [0, 2], B: [-1.902, 0.618], C: [-1.176, -1.618], D: [1.176, -1.618], E: [1.902, 0.618], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: E }
+      - { type: segment, from: E, to: A }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
   parts:
   - id: a
     prompt: $\angle CAD$ (°)
@@ -650,10 +864,30 @@
   rating: 1710
   responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1700}
   variants:
-  - {a: 30, v: '5'}
-  - {a: 45, v: '5\sqrt{2}'}
+    - { a: 30, r: 4, c: 60, v: '4', how: 'Triangle $OBC$ is isosceles with a $60^\circ$ angle between its equal sides, so it is equilateral: $BC = 4$.', _B: '-1, -1.732', _C: '1, -1.732' }
+    - { a: 30, r: 6, c: 60, v: '6', how: 'Triangle $OBC$ is isosceles with a $60^\circ$ angle between its equal sides, so it is equilateral: $BC = 6$.', _B: '-1, -1.732', _C: '1, -1.732' }
+    - { a: 30, r: 8, c: 60, v: '8', how: 'Triangle $OBC$ is isosceles with a $60^\circ$ angle between its equal sides, so it is equilateral: $BC = 8$.', _B: '-1, -1.732', _C: '1, -1.732' }
+    - { a: 45, r: 9, c: 90, v: '9\sqrt{2}', how: 'Triangle $OBC$ has a right angle at $O$, so by Pythagoras $BC = \sqrt{ 9^2 + 9^2 } = 9\sqrt{2}$.', _B: '-1.414, -1.414', _C: '1.414, -1.414' }
+    - { a: 60, r: 8, c: 120, v: '8\sqrt{3}', how: 'The perpendicular from $O$ to $BC$ bisects $BC$ and $\angle BOC$, giving two right triangles with a $60^\circ$ angle at $O$ and hypotenuse $8$. Each half of $BC$ is $8\sin 60^\circ = \tfrac{ 8\sqrt{3} }{2}$, so $BC = 8\sqrt{3}$.', _B: '-1.732, -1', _C: '1.732, -1' }
   stem: |
-    Triangle $ABC$ has all three corners on a circle of radius 5, and $\angle BAC = {{a}}^\circ$. Find the exact length of $BC$.
+    Triangle $ABC$ has all three corners on a circle of radius {{r}}, and $\angle BAC = {{a}}^\circ$. Find the exact length of $BC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.347, 1.97], B: [{{_B}}], C: [{{_C}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: O, to: B, dashed: true, label: '{{r}}' }
+      - { type: angle, at: A, from: B, to: C, label: '{{a}}^\circ', radius: 34 }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+    ```
   parts:
   - id: a
     prompt: $BC =$
@@ -662,36 +896,84 @@
       key: '{{v}}'
       form: [exact]
   solution: |
-    Let $O$ be the center. $\angle BOC = 2 \times {{a}}^\circ$ (angle at the center), and $OB = OC = 5$. Find $BC$ from isosceles triangle $OBC$: for $30^\circ$ it is equilateral ($\angle BOC = 60^\circ$), so $BC = 5$; for $45^\circ$ it is right-angled ($\angle BOC = 90^\circ$), so $BC = 5\sqrt{2}$ by Pythagoras.
+    Let $O$ be the center. $\angle BOC = 2 \times {{a}}^\circ = {{c}}^\circ$ (angle at the center), and $OB = OC = {{r}}$. {{how}}
   verify: |
-    def answers(a, v):
-        B, C, A = on_circle(270 - a, 5), on_circle(270 + a, 5), on_circle(90, 5)
+    def answers(a, r, c, v, how):
+        B, C, A = on_circle(270 - a, r), on_circle(270 + a, r), on_circle(90, r)
         assert abs(angle_at(B, A, C) - a) < 1e-9
-        return {"a": nsimplify(round(dist(B, C), 12), [sqrt(2)])}
+        return {"a": nsimplify(round(dist(B, C), 12), [sqrt(2), sqrt(3)])}
+
 - id: spec.geometry.circle-angles.equal-chords-quad
   skills: {primary: spec.geometry.circle-angles}
   rating: 1720
   responseSkills: {calculation: 1650, reasoning: 1710, synthesis: 1710}
+  variants:
+    - { t: 100, v: 80, w: 160, _A: '-1.97, 0.347', _B: '0, 2', _C: '1.97, 0.347', _D: '0.684, -1.879' }
+    - { t: 111, v: 69, w: 138, _A: '-1.867, 0.717', _B: '0, 2', _C: '1.867, 0.717', _D: '1.338, -1.486' }
+    - { t: 122, v: 58, w: 116, _A: '-1.696, 1.06', _B: '0, 2', _C: '1.696, 1.06', _D: '1.798, -0.877' }
+    - { t: 139, v: 41, w: 82, _A: '-1.312, 1.509', _B: '0, 2', _C: '1.312, 1.509', _D: '1.981, 0.278' }
+    - { t: 150, v: 30, w: 60, _A: '-1, 1.732', _B: '0, 2', _C: '1, 1.732', _D: '1.732, 1' }
   stem: |
-    $A$, $B$, $C$ and $D$ lie on a circle in that order, with $AB = BC = CD$ and $\angle ABC = 130^\circ$. Find $\angle BAD$.
+    $A$, $B$, $C$ and $D$ lie on a circle in that order, with $AB = BC = CD$ and $\angle ABC = {{t}}^\circ$. Find $\angle BAD$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [{{_A}}], B: [{{_B}}], C: [{{_C}}], D: [{{_D}}], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: B, to: C, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: segment, from: D, to: A }
+      - { type: angle, at: B, from: C, to: A, label: '{{t}}^\circ', radius: 16 }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     prompt: $\angle BAD$ (°)
-    answer: {type: numeric, key: '50'}
+    answer: {type: numeric, key: '{{v}}'}
   solution: |
-    Equal chords cut off equal arcs; let each of arcs $AB$, $BC$, $CD$ be $a^\circ$ at the center. $\angle ABC$ stands on arc $CDA$, which is $360^\circ - 2a$, so $130 = \tfrac{1}{2}(360 - 2a)$ and $a = 50$. $\angle BAD$ stands on arc $BCD = 2a = 100^\circ$, so $\angle BAD = 50^\circ$.
+    Equal chords cut off equal arcs; let each of arcs $AB$, $BC$, $CD$ be $a^\circ$ at the center. $\angle ABC$ stands on arc $CDA$, which is $360^\circ - 2a$, so ${{t}} = \tfrac{1}{2}(360 - 2a)$ and $a = {{v}}$. $\angle BAD$ stands on arc $BCD = 2a = {{w}}^\circ$, so $\angle BAD = {{v}}^\circ$.
   verify: |
-    def answers():
-        a = 50
+    def answers(t, v, w):
+        a = 180 - t
         A, B, C, D = on_circle(0), on_circle(a), on_circle(2*a), on_circle(3*a)
-        assert abs(angle_at(A, B, C) - 130) < 1e-9
+        assert abs(angle_at(A, B, C) - t) < 1e-9 and abs(dist(A, B) - dist(B, C)) < 1e-9 and abs(dist(B, C) - dist(C, D)) < 1e-9
         return {"a": approx(angle_at(B, A, D))}
+
 - id: spec.geometry.circle-angles.dodecagon-diagonals
   skills: {primary: spec.geometry.circle-angles}
   rating: 1750
   responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1750}
   stem: |
     $A_1A_2 \dots A_{12}$ is a regular 12-sided polygon with its corners on a circle. The diagonals $A_1A_5$ and $A_2A_8$ meet at $X$. Find the acute angle between them, $\angle A_1XA_2$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 260
+    points: { A1: [0, 2], A2: [1, 1.732], A3: [1.732, 1], A4: [2, 0], A5: [1.732, -1], A6: [1, -1.732], A7: [0, -2], A8: [-1, -1.732], A9: [-1.732, -1], A10: [-2, -0], A11: [-1.732, 1], A12: [-1, 1.732], X: [0.577, 1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A1, to: A5 }
+      - { type: segment, from: A2, to: A8 }
+      - { type: point, at: A1, label: 'A_{1}' }
+      - { type: point, at: A2, label: 'A_{2}' }
+      - { type: point, at: A3, label: 'A_{3}' }
+      - { type: point, at: A4, label: 'A_{4}' }
+      - { type: point, at: A5, label: 'A_{5}' }
+      - { type: point, at: A6, label: 'A_{6}' }
+      - { type: point, at: A7, label: 'A_{7}' }
+      - { type: point, at: A8, label: 'A_{8}' }
+      - { type: point, at: A9, label: 'A_{9}' }
+      - { type: point, at: A10, label: 'A_{10}' }
+      - { type: point, at: A11, label: 'A_{11}' }
+      - { type: point, at: A12, label: 'A_{12}' }
+      - { type: point, at: X, label: 'X', pos: s }
+    ```
   parts:
   - id: a
     prompt: $\angle A_1XA_2$ (°)
@@ -710,6 +992,22 @@
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1690}
   stem: |
     Two circles meet at $A$ and $B$. $AC$ is a diameter of the first circle and $AD$ is a diameter of the second. Prove that $C$, $B$ and $D$ lie on one straight line.
+
+    ```diagram
+    view: [-3, 3.4, -2.4, 2.3]
+    width: 280
+    points: { A: [-0.2, 1.386], B: [-0.2, -1.386], C: [-1.8, -1.386], D: [2.4, -1.386], P1: [-1, 0], P2: [1.1, 0] }
+    draw:
+      - { type: circle, center: P1, radius: 1.6 }
+      - { type: circle, center: P2, radius: 1.9 }
+      - { type: segment, from: A, to: C }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: A, to: B, dashed: true }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
   parts:
   - id: a
     rubric:
@@ -726,6 +1024,25 @@
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
     Triangle $ABC$ is acute, with all three corners on a circle with center $O$. $D$ is the point on $BC$ with $AD$ perpendicular to $BC$. Prove that $\angle BAD = \angle OAC$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-0.347, 1.97], B: [-1.638, -1.147], C: [1.638, -1.147], D: [-0.347, -1.147], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: A }
+      - { type: segment, from: A, to: D }
+      - { type: segment, from: O, to: A }
+      - { type: angle, at: D, from: C, to: A, right: true }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D', pos: s }
+    ```
   parts:
   - id: a
     rubric:

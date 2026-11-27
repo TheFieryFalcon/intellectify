@@ -3,6 +3,8 @@ import {
   applyOutcome,
   placementTiers,
   reviseOutcome,
+  applyParts,
+  reviseParts,
   autoMarkedOutcome,
   correctAtOrAbove,
   eligibleRank,
@@ -188,6 +190,20 @@ describe("selection", () => {
     expect(["q2", "q3", "q4"]).not.toContain(q!.id);
   });
 
+  it("never repeats a question while an unseen one is within ±150 of the target", () => {
+    const t = targetRating(1500);
+    const band = [
+      { id: "seen-near", rating: Math.round(t) },
+      { id: "new-edge", rating: Math.round(t + 140) },
+      { id: "new-far", rating: Math.round(t + 400) },
+    ];
+    for (let i = 0; i < 200; i++) expect(pickQuestion(band, 1500, { everSeen: new Set(["seen-near"]) })!.id).toBe("new-edge");
+    // Band used up: a repeat near the target beats a new question far away.
+    const used = new Set(["seen-near", "new-edge"]);
+    const picks = Array.from({ length: 500 }, () => pickQuestion(band, 1500, { everSeen: used })!.id);
+    expect(picks.filter((id) => id === "new-far").length).toBeLessThan(10);
+  });
+
   it("returns null for an empty pool", () => {
     expect(pickQuestion([], 1500)).toBeNull();
   });
@@ -245,5 +261,36 @@ describe("reviseOutcome (appeals)", () => {
     const down = reviseOutcome(a, 1450, 0.9, 0).state;
     expect(down.gates).toEqual(newSkillState(3).gates);
     expect(down.theta).toBeLessThan(a.theta);
+  });
+});
+
+describe("per-part ratings", () => {
+  const start = newSkillState(4);
+  it("a single part is exactly applyOutcome", () => {
+    const a = applyParts(start, [{ rating: 1810, outcome: 1, share: 1 }]).state;
+    const b = applyOutcome(start, 1810, 1).state;
+    expect(a.theta).toBeCloseTo(b.theta, 9);
+    expect(a.gates).toEqual(b.gates);
+  });
+  it("parts with one rating match the old mark-weighted update", () => {
+    const a = applyParts(start, [{ rating: 1600, outcome: 1, share: 0.7 }, { rating: 1600, outcome: 0, share: 0.3 }]).state;
+    expect(a.theta).toBeCloseTo(applyOutcome(start, 1600, 0.7).state.theta, 9);
+  });
+  it("adding an easy part you get right never counts as an easier question", () => {
+    const hardOnly = applyParts(start, [{ rating: 1810, outcome: 1, share: 1 }]).state;
+    const withEasy = applyParts(start, [{ rating: 1810, outcome: 1, share: 5 / 7 }, { rating: 1300, outcome: 1, share: 2 / 7 }]).state;
+    // The old single-rating model would have blended the question down to 1664, Tier 4.
+    const blended = applyOutcome(start, Math.round((1810 * 5 + 1300 * 2) / 7), 1).state;
+    expect(withEasy.theta).toBeGreaterThan(start.theta);
+    expect(withEasy.theta).toBeLessThan(hardOnly.theta);
+    expect(withEasy.gates[5]).toBe(1); // the hard part still counts toward the Tier 5 gate
+    expect(blended.gates[5]).toBe(0);
+  });
+  it("an appeal revises part by part, exactly", () => {
+    const parts = (o1: number, o2: number) => [{ rating: 1810, outcome: o1, share: 5 / 7 }, { rating: 1450, outcome: o2, share: 2 / 7 }];
+    const first = applyParts(start, parts(0, 1)).state;
+    const revised = reviseParts(first, parts(0, 1), parts(1, 1)).state;
+    expect(revised.theta).toBeCloseTo(applyParts(start, parts(1, 1)).state.theta, 9);
+    expect(revised.gates).toEqual(applyParts(start, parts(1, 1)).state.gates);
   });
 });

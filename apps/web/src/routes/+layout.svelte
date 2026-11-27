@@ -1,4 +1,6 @@
 <script lang="ts">
+  import AuthGate from "$lib/components/AuthGate.svelte";
+  import { gate } from "$lib/gate.svelte";
   import { achievementToasts } from "$lib/achievements.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
@@ -44,7 +46,7 @@
   });
   // Onboarding: signed-in students give their maths mark once, before anything else (SPEC §5.3).
   $effect(() => {
-    if (profile?.loaded && !profile.profile.placement?.tiers && !publicRoute && !page.url.pathname.startsWith("/onboarding") && !page.url.pathname.startsWith("/dev"))
+    if (profile?.loaded && (!profile.profile.placement?.tiers || (session.user?.google && !profile.profile.nameSet)) && !publicRoute && !page.url.pathname.startsWith("/onboarding") && !page.url.pathname.startsWith("/dev"))
       goto("/onboarding", { replaceState: true });
   });
 </script>
@@ -56,10 +58,11 @@
       <nav>
         <a href="/specialist">Specialist</a>
         {#if marking?.waiting}<a class="marking" href="/specialist/marked" title="Written answers waiting for a mark">Marking {marking.waiting}</a>{/if}
-        <span class="who muted">{session.user.displayName}</span>
-        {#if profile?.loaded}<LevelBadge progress={profile.progress} bar />{/if}
+        <a href="/leaderboards">Leaderboards</a>
+        <a class="who muted" href="/profile/{session.user.uid}">{session.user.displayName}</a>
+        {#if profile?.loaded}<a class="lvl" href="/profile/{session.user.uid}" aria-label="Your profile"><LevelBadge progress={profile.progress} bar /></a>{/if}
         <a class="settings" href="/settings">Settings</a>
-        <button class="btn quiet" onclick={() => session.backend?.signOut()}>Sign out</button>
+        <button class="btn link signout" onclick={() => session.backend?.signOut()}>Sign out</button>
       </nav>
     {/if}
   </div>
@@ -92,6 +95,8 @@
   </div>
 {/if}
 
+{#if gate.open && session.user?.anonymous}<AuthGate />{/if}
+
 <main>
   {#if !session.ready}
     <p class="loading muted">Loading…</p>
@@ -106,7 +111,7 @@
   .brand { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--ink); text-decoration: none; }
   nav { display: flex; align-items: center; gap: 14px; }
   nav a { color: var(--ink); text-decoration: none; font-weight: 500; }
-  .who { font-size: 13px; }
+  nav a.who { font-size: 13px; color: var(--muted); font-weight: 400; }
   nav a.settings { font-size: 13px; color: var(--muted); font-weight: 400; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
@@ -114,6 +119,15 @@
   .toast.marked { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
   .toast.marked a { color: var(--ink); text-decoration: none; }
   nav a.marking { font-size: 13px; color: var(--accent); }
+  nav a.lvl { display: inline-flex; color: var(--ink); }
+  nav .signout { font-size: 13px; }
+  /* Phones: the nav takes its own row under the brand; the name hides (the level badge links to the profile). */
+  @media (max-width: 640px) {
+    .bar { flex-wrap: wrap; row-gap: 4px; padding: 8px 16px; }
+    nav { width: 100%; justify-content: space-between; gap: 10px; font-size: 13px; }
+    nav a.who { display: none; }
+    nav a.lvl :global(.track) { display: none; }
+  }
   .toast .pts { color: var(--accent); font-variant-numeric: tabular-nums; }
   .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 22, 35, 0.18); font-weight: 500; animation: rise 0.25s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }

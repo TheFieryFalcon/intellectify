@@ -79,16 +79,17 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1120
   responseSkills: {reading: 1120, calculation: 1070}
+  words: { who: person, boat: vessel, u: units }
   variants:
     - { s: 10, b: '180', x: 0, y: -10 }
     - { s: 25, b: '270', x: -25, y: 0 }
   stem: |
-    A boat travels at {{s}} km/h on a bearing of ${{b}}^\circ\text{T}$. Write its velocity in the form $a\mathbf{i} + b\mathbf{j}$ ($\mathbf{i}$ east, $\mathbf{j}$ north).
+    {{who}}'s {{boat}} travels at {{s}} {{u.speed}} on a bearing of ${{b}}^\circ\text{T}$. Write its velocity in the form $a\mathbf{i} + b\mathbf{j}$ ($\mathbf{i}$ east, $\mathbf{j}$ north).
   parts:
     - id: a
       answer: { type: vector, key: ['{{x}}', '{{y}}'] }
   solution: |
-    ${{b}}^\circ\text{T}$ points along a compass axis, so all {{s}} km/h is in that direction: ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$.
+    ${{b}}^\circ\text{T}$ points along a compass axis, so all {{s}} {{u.speed}} is in that direction: ${{x}}\mathbf{i} + ({{y}})\mathbf{j}$.
   verify: |
     def answers(s, b, x, y):
         t = rad(int(b))
@@ -98,17 +99,18 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1150
   responseSkills: { calculation: 1130, reading: 1150 }
+  words: { boat: vessel, u: units }
   variants:
     - { h: 8, c: 6, v: 10 }
     - { h: 15, c: 8, v: 17 }
   stem: |
-    A boat points due east and moves through the water at {{h}} km/h. The water flows due north at {{c}} km/h. Find the boat's actual speed.
+    {{boat.A}} points due east and moves through the water at {{h}} {{u.speed}}. The water flows due north at {{c}} {{u.speed}}. Find the {{boat}}'s actual speed.
   parts:
     - id: a
-      prompt: Speed (km/h)
+      prompt: Speed ({{u.speed}})
       answer: { type: numeric, key: '{{v}}' }
   solution: |
-    Ground velocity $= {{h}}\mathbf{i} + {{c}}\mathbf{j}$, with magnitude $\sqrt{ {{h}}^2 + {{c}}^2 } = {{v}}$ km/h.
+    Ground velocity $= {{h}}\mathbf{i} + {{c}}\mathbf{j}$, with magnitude $\sqrt{ {{h}}^2 + {{c}}^2 } = {{v}}$ {{u.speed}}.
   verify: |
     def answers(h, c, v):
         return {"a": sqrt(h**2 + c**2)}
@@ -154,12 +156,13 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1300
   responseSkills: { calculation: 1290, reading: 1290 }
+  words: { who: person, u: units }
   variants:
     - { d: 20, b: '060', k1: '10\sqrt{3}', k2: '10' }
     - { d: 12, b: '135', k1: '6\sqrt{2}', k2: '-6\sqrt{2}' }
     - { d: 8, b: '210', k1: '-4', k2: '-4\sqrt{3}' }
   stem: |
-    A hiker walks {{d}} km on a bearing of ${{b}}^\circ\text{T}$. Write the displacement in the form $a\mathbf{i} + b\mathbf{j}$ ($\mathbf{i}$ east, $\mathbf{j}$ north), with exact values.
+    {{who}} walks {{d}} {{u.distance}} on a bearing of ${{b}}^\circ\text{T}$. Write the displacement in the form $a\mathbf{i} + b\mathbf{j}$ ($\mathbf{i}$ east, $\mathbf{j}$ north), with exact values.
   parts:
     - id: a
       answer: { type: vector, key: ['{{k1}}', '{{k2}}'], form: [exact] }
@@ -174,18 +177,19 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1340 }
+  words: { who: person, craft: aircraft, u: units }
   requiresCalculator: true
   stem: |
-    A plane points due north with an airspeed (speed through the air) of 300 km/h. A wind blows from the west at 50 km/h, so the air moves due east. Find the plane's ground speed, and the bearing of its actual path, each correct to one decimal place.
+    {{who}} flies {{craft.a}} that points due north with an airspeed (speed through the air) of 300 {{u.speed}}. A wind blows from the west at 50 {{u.speed}}, so the air moves due east. Find the {{craft}}'s ground speed, and the bearing of its actual path, each correct to one decimal place.
   parts:
     - id: a
-      prompt: Ground speed (km/h)
+      prompt: Ground speed ({{u.speed}})
       answer: { type: numeric, key: 304.1 }
     - id: b
       prompt: Bearing (°T)
       answer: { type: numeric, key: 9.5 }
   solution: |
-    Ground velocity $= 50\mathbf{i} + 300\mathbf{j}$, so the speed is $\sqrt{50^2 + 300^2} \approx 304.1$ km/h.
+    Ground velocity $= 50\mathbf{i} + 300\mathbf{j}$, so the speed is $\sqrt{50^2 + 300^2} \approx 304.1$ {{u.speed}}.
     The path is east of north by $\tan^{-1}\tfrac{50}{300} \approx 9.5^\circ$: bearing $009.5^\circ\text{T}$.
   verify: |
     def answers():
@@ -284,11 +288,12 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1440
   responseSkills: { calculation: 1420, reading: 1430 }
+  words: { cr: crosser }
   variants:
     - { w: 100, s: 2, c: 1.5, t: 50, d: 75 }
     - { w: 60, s: 1.5, c: 2, t: 40, d: 80 }
   stem: |
-    A river is {{w}} m wide with straight, parallel banks, and flows at {{c}} m/s. A swimmer swims at {{s}} m/s through the water, always pointing straight across. Find how long the crossing takes and how far downstream the swimmer lands.
+    A river is {{w}} m wide with straight, parallel banks, and flows at {{c}} m/s. {{cr.A}} {{cr.verb}} at {{s}} m/s through the water, always pointing straight across. Find how long the crossing takes and how far downstream the {{cr}} lands.
   parts:
     - id: t
       prompt: Time (s)
@@ -297,8 +302,8 @@
       prompt: Distance downstream (m)
       answer: { type: numeric, key: '{{d}}' }
   solution: |
-    The current only moves the swimmer along the river, so it doesn't change the crossing speed of {{s}} m/s: the time is ${{w}} \div {{s}} = {{t}}$ s.
-    In that time the current carries the swimmer ${{c}} \times {{t}} = {{d}}$ m downstream.
+    The current only moves the {{cr}} along the river, so it doesn't change the crossing speed of {{s}} m/s: the time is ${{w}} \div {{s}} = {{t}}$ s.
+    In that time the current carries the {{cr}} ${{c}} \times {{t}} = {{d}}$ m downstream.
   verify: |
     def answers(w, s, c, t, d):
         T = Rational(str(w)) / Rational(str(s))
@@ -352,9 +357,10 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1580
   responseSkills: {calculation: 1540, reasoning: 1560, synthesis: 1560}
+  words: { who: person, craft: aircraft, u: units }
   requiresCalculator: true
   stem: |
-    A town is 400 km due north of an airport. A plane with an airspeed of 250 km/h flies there, with a wind of 70 km/h blowing from the east (so the air moves due west). Find the bearing the plane must point on, correct to one decimal place, and the flight time in minutes.
+    A town is 400 {{u.distance}} due north of an airport. {{who}} flies {{craft.a}} with an airspeed of 250 {{u.speed}} there, with a wind of 70 {{u.speed}} blowing from the east (so the air moves due west). Find the bearing the {{craft}} must point on, correct to one decimal place, and the flight time in minutes.
   parts:
     - id: a
       prompt: Bearing (°T)
@@ -363,7 +369,7 @@
       prompt: Flight time (minutes)
       answer: { type: numeric, key: 100 }
   solution: |
-    The plane must point east of north to cancel the wind, so its velocity through the air is $70\mathbf{i} + v\mathbf{j}$, with magnitude 250. Then $v = \sqrt{250^2 - 70^2} = 240$, and the ground velocity is $240\mathbf{j}$ km/h.
+    The {{craft}} must point east of north to cancel the wind, so its velocity through the air is $70\mathbf{i} + v\mathbf{j}$, with magnitude 250. Then $v = \sqrt{250^2 - 70^2} = 240$, and the ground velocity is $240\mathbf{j}$ {{u.speed}}.
     Bearing: east of north by $\sin^{-1}\tfrac{70}{250} \approx 16.3^\circ$, i.e. $016.3^\circ\text{T}$. Time: $\tfrac{400}{240}$ h $= 100$ minutes.
   verify: |
     def answers():
@@ -399,9 +405,10 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1640
   responseSkills: {reading: 1600, calculation: 1590, reasoning: 1620, synthesis: 1630}
+  words: { who: person }
   requiresCalculator: true
   stem: |
-    A cyclist rides due north at 20 km/h. The wind blows from the east at 15 km/h. Find the speed of the wind as the cyclist feels it (the wind's velocity relative to the cyclist), and the true bearing it seems to come *from*, correct to one decimal place.
+    {{who}} cycles due north at 20 km/h. The wind blows from the east at 15 km/h. Find the speed of the wind as {{who}} feels it (the wind's velocity relative to {{who}}), and the true bearing it seems to come *from*, correct to one decimal place.
   parts:
     - id: a
       prompt: Speed (km/h)
@@ -410,7 +417,7 @@
       prompt: Seems to come from (°T)
       answer: { type: numeric, key: 36.9 }
   solution: |
-    Wind $\mathbf{w} = -15\mathbf{i}$ (moving west); cyclist $\mathbf{c} = 20\mathbf{j}$. Relative to the cyclist: $\mathbf{w} - \mathbf{c} = -15\mathbf{i} - 20\mathbf{j}$, with speed 25 km/h.
+    Wind $\mathbf{w} = -15\mathbf{i}$ (moving west); {{who}} $\mathbf{c} = 20\mathbf{j}$. Relative to {{who}}: $\mathbf{w} - \mathbf{c} = -15\mathbf{i} - 20\mathbf{j}$, with speed 25 km/h.
     That air moves towards the south-west, so it comes from the north-east: east of north by $\tan^{-1}\tfrac{15}{20} \approx 36.9^\circ$, i.e. from $036.9^\circ\text{T}$.
   verify: |
     def answers():
@@ -524,8 +531,9 @@
   skills: { primary: spec.vectors-2d.applications }
   rating: 1760
   responseSkills: {reading: 1700, calculation: 1710, reasoning: 1740, synthesis: 1760}
+  words: { who: person }
   stem: |
-    A cyclist rides due east at 12 km/h, and the wind seems to her to blow from due north. When she speeds up to 24 km/h due east, the wind seems to blow from the north-east. Find the true wind's exact speed, and the true bearing it blows *from*.
+    {{who}} cycles due east at 12 km/h, and the wind seems to {{who}} to blow from due north. When {{who}} speeds up to 24 km/h due east, the wind seems to blow from the north-east. Find the true wind's exact speed, and the true bearing it blows *from*.
   parts:
     - id: a
       prompt: Speed (km/h)
@@ -534,7 +542,7 @@
       prompt: Blows from (°T)
       answer: { type: numeric, key: 315 }
   solution: |
-    Let the true wind be $\mathbf{w} = p\mathbf{i} + q\mathbf{j}$. The wind she feels is $\mathbf{w}$ minus her velocity.
+    Let the true wind be $\mathbf{w} = p\mathbf{i} + q\mathbf{j}$. The wind {{who}} feels is $\mathbf{w}$ minus {{who}}'s velocity.
     At 12 km/h: $(p - 12)\mathbf{i} + q\mathbf{j}$ blows from the north, i.e. points due south, so $p = 12$ (and $q < 0$).
     At 24 km/h: $-12\mathbf{i} + q\mathbf{j}$ blows from the north-east, i.e. points south-west, so $q = -12$.
     $\mathbf{w} = 12\mathbf{i} - 12\mathbf{j}$: speed $12\sqrt{2} \approx 17.0$ km/h, moving south-east, so it blows from the north-west ($315^\circ\text{T}$).
@@ -773,18 +781,19 @@
   skills: {primary: spec.vectors-2d.applications}
   rating: 1650
   responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
+  words: { craft: aircraft, u: units }
   requiresCalculator: true
   stem: |
-    An aircraft must fly 300 km due east in 1.5 hours. A 40 km/h wind blows from the south (the air moves due north). Find the airspeed it needs and the bearing it must point on, each correct to one decimal place.
+    {{craft.A}} must fly 300 {{u.distance}} due east in 1.5 hours. A wind of 40 {{u.speed}} blows from the south (the air moves due north). Find the airspeed it needs and the bearing it must point on, each correct to one decimal place.
   parts:
   - id: a
-    prompt: Airspeed (km/h)
+    prompt: Airspeed ({{u.speed}})
     answer: {type: numeric, key: '204'}
   - id: b
     prompt: Bearing (°T)
     answer: {type: numeric, key: '101.3'}
   solution: |
-    The ground velocity must be $200\mathbf{i}$ km/h. The velocity through the air is the ground velocity minus the wind: $200\mathbf{i} - 40\mathbf{j}$. Its magnitude is $\sqrt{200^2 + 40^2} \approx 204.0$ km/h, and it points south of east by $\tan^{-1}\tfrac{40}{200} \approx 11.3^\circ$: bearing $101.3^\circ\text{T}$.
+    The ground velocity must be $200\mathbf{i}$ {{u.speed}}. The velocity through the air is the ground velocity minus the wind: $200\mathbf{i} - 40\mathbf{j}$. Its magnitude is $\sqrt{200^2 + 40^2} \approx 204.0$ {{u.speed}}, and it points south of east by $\tan^{-1}\tfrac{40}{200} \approx 11.3^\circ$: bearing $101.3^\circ\text{T}$.
   verify: |
     def answers():
         a = Matrix([200, 0]) - Matrix([0, 40])

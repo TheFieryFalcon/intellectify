@@ -3,7 +3,9 @@
   import { page } from "$app/state";
   import { gateCount as gateFor, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { dependentsOf, indexSkills } from "$lib/content";
+  import QuestionList from "$lib/components/QuestionList.svelte";
+  import { dependentsOf, indexSkills, loadQuestionIndex, type QuestionIndexEntry } from "$lib/content";
+  import { answeredIds } from "$lib/practice";
   import { getStartTier, toStored } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { courseProgress } from "$lib/session.svelte";
@@ -28,6 +30,16 @@
   });
 
 
+  /** Overview, or the skill's Questions tab (SPEC §15.3a). */
+  const tab = $derived(page.url.searchParams.get("tab") === "questions" ? "questions" : "overview");
+  let listed = $state<QuestionIndexEntry[]>([]);
+  $effect(() => {
+    const id = entry?.skill.id;
+    if (!id) return;
+    loadQuestionIndex(fetch, data.course.id).then((all) => (listed = all.filter((q) => q.skill === id).sort((a, b) => a.rating - b.rating)));
+  });
+  const answered = $derived(store ? answeredIds(store.progress) : new Set<string>());
+
   const rankOf = (id: string) => (store?.progress.skills[id]?.rank ?? 0) as RankLevel;
 
   async function start() {
@@ -49,6 +61,13 @@
     <a class="back" href="/{data.course.id}">← Unit {entry.unit} · {entry.section.name}</a>
     <h1>{entry.skill.name}</h1>
     <p class="summary">{entry.skill.summary}</p>
+    <nav class="tabs" aria-label="Skill">
+      <a href="?tab=overview" class:on={tab === "overview"} aria-current={tab === "overview" ? "page" : undefined}>Overview</a>
+      <a href="?tab=questions" class:on={tab === "questions"} aria-current={tab === "questions" ? "page" : undefined}>Questions <span class="muted">{listed.length}</span></a>
+    </nav>
+    {#if tab === "questions"}
+      {#if listed.length}<QuestionList course={data.course.id} entries={listed} {answered} />{:else}<p class="muted">No questions yet</p>{/if}
+    {:else}
 
     <div class="status">
       <RankDot {rank} label />
@@ -73,12 +92,6 @@
       </div>
     {/if}
 
-    <nav class="reviews" aria-label="Reviews">
-      <span class="label">Review</span>
-      <a href="/{data.course.id}/quiz/section/{entry.section.id}">Section quiz</a>
-      <a href="/{data.course.id}/quiz/unit/{entry.unit}">Unit {entry.unit} quiz</a>
-      <a href="/{data.course.id}/challenge/{entry.section.id}">Section Challenge</a>
-    </nav>
 
     <dl>
       <dt>Size</dt>
@@ -101,15 +114,15 @@
         </dd>
       {/if}
     </dl>
+    {/if}
   {/if}
 </div>
 
 <style>
   .size { text-transform: capitalize; }
-  .reviews { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 18px 0 4px; font-size: 13px; }
-  .reviews .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-right: 4px; }
-  .reviews a { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; background: var(--surface); }
-  .reviews a:hover { border-color: var(--accent); color: var(--accent); }
+  .tabs { display: flex; gap: 18px; margin: 0 0 16px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .tabs a { padding: 6px 0; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs a.on { color: var(--ink); border-color: var(--accent); }
   .back { font-size: 13px; color: var(--muted); text-decoration: none; }
   .back:hover { color: var(--accent); }
   h1 { font-size: 30px; margin: 6px 0 6px; }

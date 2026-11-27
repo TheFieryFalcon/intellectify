@@ -1,0 +1,150 @@
+# Proof methods: more written proofs (1.1.4, 1.1.5).
+
+- id: spec.geometry.proof-methods.three-consecutive-sum
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1300
+  responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
+  stem: |
+    Prove that the sum of any three consecutive integers is a multiple of 3.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'write', description: "Writes the integers as n − 1, n, n + 1 (or n, n + 1, n + 2)", points: 1, dimension: proof }
+          - { id: 'sum', description: "Sum = 3n (or 3n + 3 = 3(n + 1))", points: 2, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the integers be $n - 1$, $n$, $n + 1$. Their sum is $3n$, a multiple of 3.
+
+- id: spec.geometry.proof-methods.consecutive-squares-odd
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1350
+  responseSkills: { reasoning: 1340, proof: 1340, clarity: 1300 }
+  stem: |
+    Prove that the difference between the squares of two consecutive integers is always odd.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'write', description: "Lets the integers be n and n + 1", points: 1, dimension: proof }
+          - { id: 'expand', description: "(n + 1)² − n² = 2n + 1", points: 2, dimension: reasoning }
+          - { id: 'odd', description: "2n + 1 is odd", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the integers be $n$ and $n + 1$. Then $(n + 1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$, which is odd.
+
+- id: spec.geometry.proof-methods.irrational-sum-counterexample
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1460
+  responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
+  stem: |
+    Disprove: "The sum of two irrational numbers is always irrational."
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'example', description: "Counterexample: √2 and −√2, whose sum is 0", points: 2, dimension: reasoning }
+          - { id: 'check', description: "Checks −√2 is irrational: if −√2 = r were rational, √2 = −r would be rational", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "0 is rational, so the claim is false", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $\sqrt{2}$ is irrational, and so is $-\sqrt{2}$ (if $-\sqrt{2} = r$ were rational, then $\sqrt{2} = -r$ would be rational). Their sum is $0$, which is rational. So the claim is false.
+
+- id: spec.geometry.proof-methods.seven-n-plus-4
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1500
+  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  stem: |
+    Prove that for any integer $n$, $7n + 4$ is even if and only if $n$ is even.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'forward', description: "If n is even, n = 2k: 7n + 4 = 2(7k + 2), even", points: 1, dimension: reasoning }
+          - { id: 'back', description: "If n is odd, n = 2k + 1: 7n + 4 = 2(7k + 5) + 1, odd; so 7n + 4 even forces n even (contrapositive)", points: 2, dimension: reasoning }
+          - { id: 'both', description: "Both directions shown", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    If $n = 2k$ is even, $7n + 4 = 14k + 4 = 2(7k + 2)$ is even.
+
+    If $n = 2k + 1$ is odd, $7n + 4 = 14k + 11 = 2(7k + 5) + 1$ is odd. So (contrapositive) if $7n + 4$ is even, $n$ is not odd, i.e. $n$ is even.
+
+    Both directions hold.
+
+- id: spec.geometry.proof-methods.three-consecutive-product
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1600
+  responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550 }
+  stem: |
+    Prove that the product of any three consecutive integers is a multiple of 6.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'two', description: "Among two consecutive integers one is even, so the product is a multiple of 2", points: 1, dimension: reasoning }
+          - { id: 'three', description: "Among three consecutive integers one is a multiple of 3 (remainders 0, 1, 2 each appear once)", points: 2, dimension: reasoning }
+          - { id: 'six', description: "Divisible by 2 and by 3, which share no factor, so divisible by 6", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let the integers be $n$, $n + 1$, $n + 2$. One of $n$, $n + 1$ is even, so the product is a multiple of 2. The three integers leave different remainders on division by 3, so one of them leaves remainder 0, and the product is a multiple of 3. A number that is a multiple of both 2 and 3 is a multiple of 6.
+
+- id: spec.geometry.proof-methods.square-not-4k-plus-3
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1620
+  responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
+  stem: |
+    Prove that there is no integer $x$ with $x^2 = 4y + 3$ for an integer $y$; that is, no perfect square leaves remainder 3 on division by 4.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'cases', description: "Splits into x even (x = 2k) and x odd (x = 2k + 1)", points: 1, dimension: proof }
+          - { id: 'even', description: "x = 2k: x² = 4k², remainder 0", points: 1, dimension: reasoning }
+          - { id: 'odd', description: "x = 2k + 1: x² = 4(k² + k) + 1, remainder 1", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Squares leave remainder 0 or 1, never 3", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Every integer is even or odd. If $x = 2k$, then $x^2 = 4k^2$ leaves remainder 0 on division by 4. If $x = 2k + 1$, then $x^2 = 4k^2 + 4k + 1 = 4(k^2 + k) + 1$ leaves remainder 1. So a square leaves remainder 0 or 1, never 3.
+
+- id: spec.geometry.proof-methods.rational-times-irrational
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1650
+  responseSkills: { reasoning: 1640, proof: 1640, clarity: 1600 }
+  stem: |
+    Prove that if $a$ is a non-zero rational number and $b$ is irrational, then $ab$ is irrational.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'assume', description: "Assumes, for contradiction, ab = r rational", points: 1, dimension: proof }
+          - { id: 'solve', description: "b = r/a, using a ≠ 0", points: 1, dimension: reasoning }
+          - { id: 'rational', description: "A quotient of rationals (non-zero divisor) is rational, so b would be rational", points: 1, dimension: reasoning }
+          - { id: 'contra', description: "Contradiction with b irrational", points: 1, dimension: proof }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Suppose, for contradiction, that $ab = r$ is rational. Since $a \ne 0$, $b = \dfrac{r}{a}$. With $r = \tfrac{p}{q}$ and $a = \tfrac{s}{t}$ ($s \ne 0$), $b = \dfrac{pt}{qs}$ is rational, contradicting $b$ irrational. So $ab$ is irrational.
+
+- id: spec.geometry.proof-methods.n5-minus-n
+  skills: { primary: spec.geometry.proof-methods }
+  rating: 1800
+  responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750 }
+  stem: |
+    Prove that $n^5 - n$ is a multiple of 5 for every integer $n$.
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: 'factor', description: "Factorizes n⁵ − n = n(n − 1)(n + 1)(n² + 1)", points: 1, dimension: reasoning }
+          - { id: 'cases', description: "Considers the remainder of n on division by 5: 0, 1, 2, 3, 4", points: 1, dimension: proof }
+          - { id: 'easy', description: "Remainder 0, 1 or 4: n, n − 1 or n + 1 is a multiple of 5", points: 1, dimension: reasoning }
+          - { id: 'hard', description: "Remainder 2 or 3: n = 5k ± 2 gives n² + 1 = 25k² ± 20k + 5, a multiple of 5", points: 2, dimension: reasoning }
+          - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $n^5 - n = n(n^4 - 1) = n(n - 1)(n + 1)(n^2 + 1)$. Consider $n$'s remainder on division by 5.
+
+    - Remainder 0: $n$ is a multiple of 5.
+    - Remainder 1: $n - 1$ is a multiple of 5.
+    - Remainder 4: $n + 1$ is a multiple of 5.
+    - Remainder 2 or 3: $n = 5k \pm 2$, so $n^2 + 1 = 25k^2 \pm 20k + 5 = 5(5k^2 \pm 4k + 1)$, a multiple of 5.
+
+    In every case one factor is a multiple of 5, so $n^5 - n$ is too.

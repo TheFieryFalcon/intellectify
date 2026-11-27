@@ -1,13 +1,15 @@
 /**
  * Free-response marking queue (SPEC §10.2). Answers are saved as jobs first, then marked one at a
- * time: by /api/mark (the free, shared Gemini key) or directly by the student's own key (SPEC §10.4).
+ * time: by /api/mark (the free, shared Groq key) or directly by the student's own key (SPEC §10.4).
  * Busy or offline: the job waits and retries with backoff, and resumes on the next visit. A result is
  * applied to θ, ranks, XP and achievements when it lands, using θ as it is then.
  */
 import {
   GEMINI_ENDPOINT,
-  GEMINI_MODELS,
   MARK_SCHEMA,
+  allCriteria,
+  consensus,
+  effortLevel,
   markingMessages,
   markWithModels,
   MarkingError,
@@ -15,11 +17,13 @@ import {
   type Appeal,
   type MarkResult,
 } from "@intellectify/content/marking";
-import { fillTemplate } from "@intellectify/content/template";
+import { addHistory, type HistoryMode } from "./history";
+import { fillServed, type WordPicks } from "@intellectify/content/template";
 import type { Backend, MarkingJob, User } from "./backend";
-import { loadByok, type Byok } from "./byok";
-import { loadCourse, loadQuestions, type QuestionT } from "./content";
+import { loadByok, loadEffort, type Byok } from "./byok";
+import { loadCourse, loadQuestions, loadWords, type QuestionT } from "./content";
 import { achievementsFor } from "./achievements.svelte";
+import { onDaily } from "./achievements";
 import { profileFor } from "./profile.svelte";
 import { recordAppeal, recordMarked } from "./record";
 import { courseProgress } from "./session.svelte";
@@ -36,13 +40,11 @@ export function nextDelay(attempts: number, retryAfterMs = 0): number {
 }
 
 /** The filled question a job was answered on (null if it no longer exists). */
-export async function jobQuestion(job: Pick<MarkingJob, "course" | "skill" | "questionId" | "variant">): Promise<QuestionT | null> {
-  const pool = await loadQuestions(fetch, job.course, job.skill);
+export async function jobQuestion(job: Pick<MarkingJob, "course" | "skill" | "questionId" | "variant" | "words">): Promise<QuestionT | null> {
+  const [pool, lists] = await Promise.all([loadQuestions(fetch, job.course, job.skill), loadWords(fetch)]);
   const q = pool.find((x) => x.id === job.questionId);
-  if (!q) return null;
-  if (job.variant === null) return q;
-  const v = q.variants?.[job.variant];
-  return v ? fillTemplate(q, v) : null;
+  if (!q || (job.variant !== null && !q.variants?.[job.variant])) return null;
+  return fillServed(q, job.variant, job.words ?? null, lists);
 }
 
 class RetryLater extends Error {
@@ -55,26 +57,36 @@ class RetryLater extends Error {
 }
 class GiveUp extends Error {}
 
-/** Mark with the student's own key, straight from the browser. */
+/** Mark with the student's own key, straight from the browser, at their chosen effort (SPEC §10.4). */
 async function markWithOwnKey(byok: Byok, question: QuestionT, answers: Record<string, string>, appeal?: Appeal): Promise<MarkResult> {
+  const level = effortLevel(byok.provider, loadEffort(byok.provider));
   if (byok.provider === "anthropic") {
     const { default: Anthropic } = await import("@anthropic-ai/sdk");
     const client = new Anthropic({ apiKey: byok.key, dangerouslyAllowBrowser: true, maxRetries: 1 });
     const [system, user] = markingMessages(question, answers, appeal);
-    try {
-      const res = await client.beta.messages.create({
-        model: "claude-opus-5-5",
-        max_tokens: 16000,
-        betas: ["server-side-fallback-2026-07-01"],
-        fallbacks: "default",
-        output_config: { effort: "medium", format: { type: "json_schema", schema: MARK_SCHEMA as unknown as Record<string, unknown> } },
-        system: system!.content,
-        messages: [{ role: "user", content: user!.content }],
-      });
+    const model = level.models[0]!;
+    // One run: a refusal is final, a cut-off reply is retried later.
+    const run = async () => {
+      const res = await client.beta.messages
+        .stream({
+          model,
+          max_tokens: 64000,
+          // Haiku has no server-side fallback for refusals.
+          ...(model.includes("haiku") ? {} : { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const }),
+          output_config: { effort: level.effort, format: { type: "json_schema", schema: MARK_SCHEMA as unknown as Record<string, unknown> } },
+          system: system!.content,
+          messages: [{ role: "user", content: user!.content }],
+        })
+        .finalMessage();
       if (res.stop_reason === "refusal") throw new GiveUp("Claude declined to mark this answer.");
       if (res.stop_reason === "max_tokens") throw new RetryLater("Claude's reply was cut off.");
-      const text = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("");
-      return scoreMarking(question, text, res.model);
+      return { reply: JSON.parse(res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("")) as unknown, model: res.model };
+    };
+    try {
+      const settled = await Promise.allSettled(Array.from({ length: level.runs }, run));
+      const ok = settled.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
+      if (!ok.length) throw (settled[0] as PromiseRejectedResult).reason;
+      return scoreMarking(question, consensus(ok.map((o) => o.reply), Object.fromEntries(allCriteria(question).map((c) => [c.id, c.points]))), ok[0]!.model);
     } catch (e) {
       if (e instanceof GiveUp || e instanceof RetryLater) throw e;
       if (e instanceof Anthropic.AuthenticationError || e instanceof Anthropic.PermissionDeniedError) throw new GiveUp("Your Claude key was refused. Check it in Settings.");
@@ -91,8 +103,12 @@ async function markWithOwnKey(byok: Byok, question: QuestionT, answers: Record<s
       appeal,
       endpoint: openai ? "https://api.openai.com/v1/chat/completions" : GEMINI_ENDPOINT,
       key: byok.key,
-      models: openai ? ["gpt-5-mini"] : GEMINI_MODELS,
-      reasoningEffort: "low",
+      models: level.models,
+      reasoningEffort: level.effort as "low" | "medium" | "high",
+      samples: level.runs,
+      // No 60 s function limit in the browser: room for slower models and more runs.
+      timeout: 90_000,
+      budget: 180_000,
     });
   } catch (e) {
     const err = e instanceof MarkingError ? e : new MarkingError((e as Error).message, 503);
@@ -109,7 +125,7 @@ async function markOnServer(backend: Backend, job: MarkingJob, appeal?: Appeal):
     res = await fetch("/api/mark", {
       method: "POST",
       headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, answers: job.answers, appeal }),
+      body: JSON.stringify({ course: job.course, skill: job.skill, questionId: job.questionId, variant: job.variant, words: job.words ?? null, answers: job.answers, appeal, effort: loadEffort("free") }),
     });
   } catch {
     throw new RetryLater("Offline");
@@ -158,7 +174,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; answers: Record<string, string> }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; mode?: HistoryMode; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const job: MarkingJob = {
@@ -168,6 +184,8 @@ export class MarkingQueue {
       questionId: input.question.id,
       questionVersion: input.question.version,
       variant: input.variant,
+      words: input.words ?? null,
+      ...(input.daily ? { daily: input.daily } : {}),
       answers: input.answers,
       createdAt: now,
       status: "pending",
@@ -179,6 +197,19 @@ export class MarkingQueue {
       appeal: null,
     };
     await this.put(job);
+    addHistory({
+      course: input.course,
+      skill: input.skill,
+      questionId: input.question.id,
+      variant: input.variant,
+      words: input.words ?? null,
+      mode: input.mode ?? (input.daily ? "daily" : "practice"),
+      answers: input.question.parts.map((p) => input.answers[p.id] ?? ""),
+      solvedOn: null,
+      outcome: null,
+      jobId: job.id,
+      at: now,
+    });
     this.schedule(0);
     return job;
   }
@@ -191,11 +222,13 @@ export class MarkingQueue {
     this.schedule(0);
   }
 
-  /** Try now (the "Retry" button). */
+  /** Try now (the "Retry now" and "Try again" buttons). */
   retryNow(jobId: string) {
     const job = this.job(jobId);
     if (!job) return;
     if (job.status === "pending") void this.put({ ...job, nextTryAt: Date.now() });
+    // A failed answer (e.g. the server couldn't find the question) gets a fresh start.
+    else if (job.status === "failed") void this.put({ ...job, status: "pending", attempts: 0, nextTryAt: Date.now(), lastError: null });
     else if (job.appeal?.status === "pending") void this.put({ ...job, appeal: { ...job.appeal, nextTryAt: Date.now() } });
     this.schedule(0);
   }
@@ -298,8 +331,20 @@ export class MarkingQueue {
           jobId: job.id,
         });
         await this.put({ ...(this.job(job.id) ?? job), applied: true });
+        // A written daily problem counts as solved at the free-response pass mark (SPEC §6.3, §8.5).
+        if (job.daily && profile) {
+          const day = job.daily.split(":")[0]!;
+          const solved = job.result!.score >= 0.6;
+          await profile.recordDaily(job.daily, day, solved);
+          // A written answer is one submission, so a solve is a first-try solve.
+          await achievementsFor(this.backend, this.user, course)?.event(
+            (s) => onDaily(s, { day, solved, firstTry: solved, streak: profile.profile.daily?.streak ?? 0 }),
+            store,
+            profile,
+          );
+        }
       } else {
-        await recordAppeal({ course, store, profile, question, first: job.result!, second: job.appeal!.result! });
+        await recordAppeal({ course, store, profile, question, first: job.result!, second: job.appeal!.result!, achievements: achievementsFor(this.backend, this.user, course) });
         const cur = this.job(job.id) ?? job;
         await this.put({ ...cur, appeal: { ...cur.appeal!, applied: true } });
       }
