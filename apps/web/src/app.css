@@ -91,3 +91,13 @@ input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; bord
   .filters > input[type="search"], .filters > .wide { grid-column: 1 / -1; }
   .filters > .btn.link { justify-self: start; margin-left: 0 !important; }
 }
+
+/* Phone maths keyboard (SPEC §7.2): each 123 key shows what Shift types, small in its top corner, like the
+   labels printed above calculator keys. MathLive hides these on small screens; we want them there most. */
+.MLK__rows > .MLK__row > div { position: relative; }
+.MLK__rows > .MLK__row > div > aside {
+  display: block !important;
+  position: absolute; top: 2px; right: 3px;
+  font-size: 9px !important; line-height: 1 !important;
+  color: var(--accent) !important; opacity: 0.85; pointer-events: none; white-space: nowrap;
+}

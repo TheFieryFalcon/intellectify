@@ -163,13 +163,14 @@ export const FULL: KeyGroup[] = [
 export const faceOf = (key: Key) => key.face ?? key.insert.replace(/#[0?@]/g, "\\square");
 
 /**
- * Shift keys on the phone keyboard's 123 tab (like a Casio ClassPad): each key's shifted symbol can be
- * chosen in Settings. `null` means Shift types the key itself; "@copy", "@cut", "@paste" and "@undo" are
- * editing commands. Defaults are the ClassPad II shift keys for Specialist (the owner's ClassPad sheet):
- * the Spec column where it has an entry (= solve(, ( [, ) ], x Define f(x)=, y f(x), z 0≤x≤2π, 7 diff(,
- * 8 approx(, 9 cis(, × expand(, − factor(, + combine(), the ClassPad default elsewhere (^ √, 1–3 sin cos
- * tan, 4 eˣ, 5 ln, 6 log base, 0 π, . i, ÷ fraction), and the shifts of ClassPad buttons we don't have
- * moved onto ours that ClassPad doesn't have: (−) ⇒ on ∀, EXP ∞ on e, "," | on n, EXE ans on π.
+ * Shift keys on the phone keyboard's 123 tab (in the spirit of a Casio ClassPad): each key's shifted symbol
+ * can be chosen in Settings. `null` means Shift types the key itself; "@copy", "@cut", "@paste" and "@undo"
+ * are editing commands. Defaults are for writing answers, not computing:
+ * - the ClassPad II's own shifts that produce notation: 1–3 sin cos tan, 4 eˣ, 5 ln, 6 log base, 0 π, . i,
+ *   ÷ fraction, ^ √, ( [, ) ], and (−) ⇒ on ∀;
+ * - its Specialist CAS shifts as the notation they stand for: 7 diff( → d/dx, 8 approx( → ≈, 9 cis, y f(x);
+ * - common answer symbols in memorable pairs elsewhere: + ±, − ∓, = ≠, × ·, z ≤, n ≥, e ∞, x θ, π °,
+ *   i |z|, x² prime, √ nth root, ∫ without limits.
  */
 export interface ShiftSlot {
   id: string;
@@ -181,21 +182,21 @@ export interface ShiftSlot {
   defaultShift: string | null;
 }
 export const SHIFT_SLOTS: ShiftSlot[] = [
-  { id: "x", base: "x", name: "x", defaultShift: "\\operatorname{Define}\\,f\\left(x\\right)=" },
-  { id: "n", base: "n", name: "n", defaultShift: "|" },
-  { id: "7", base: "7", name: "7", defaultShift: "\\operatorname{diff}\\left(#0\\right)" },
-  { id: "8", base: "8", name: "8", defaultShift: "\\operatorname{approx}\\left(#0\\right)" },
+  { id: "x", base: "x", name: "x", defaultShift: "\\theta" },
+  { id: "n", base: "n", name: "n", defaultShift: "\\ge" },
+  { id: "7", base: "7", name: "7", defaultShift: "\\frac{d}{dx}" },
+  { id: "8", base: "8", name: "8", defaultShift: "\\approx" },
   { id: "9", base: "9", name: "9", defaultShift: "\\operatorname{cis}\\left(#0\\right)" },
   { id: "div", base: "\\frac{#@}{#?}", face: "\\div", name: "Divide", defaultShift: "\\frac{#0}{#?}" },
   { id: "e", base: "e", name: "e", defaultShift: "\\infty" },
-  { id: "i", base: "i", name: "i", defaultShift: "\\theta" },
-  { id: "pi", base: "\\pi", name: "Pi", defaultShift: "\\operatorname{ans}" },
+  { id: "i", base: "i", name: "i", defaultShift: "\\left|#0\\right|" },
+  { id: "pi", base: "\\pi", name: "Pi", defaultShift: "^{\\circ}" },
   { id: "y", base: "y", name: "y", defaultShift: "f\\left(x\\right)" },
-  { id: "z", base: "z", name: "z", defaultShift: "0\\le x\\le 2\\pi" },
+  { id: "z", base: "z", name: "z", defaultShift: "\\le" },
   { id: "4", base: "4", name: "4", defaultShift: "e^{#?}" },
   { id: "5", base: "5", name: "5", defaultShift: "\\ln\\left(#0\\right)" },
   { id: "6", base: "6", name: "6", defaultShift: "\\log_{#?}\\left(#0\\right)" },
-  { id: "times", base: "\\times", name: "Times", defaultShift: "\\operatorname{expand}\\left(#0\\right)" },
+  { id: "times", base: "\\times", name: "Times", defaultShift: "\\cdot" },
   { id: "square", base: "#@^2", name: "Squared", defaultShift: "#@'" },
   { id: "power", base: "#@^{#?}", name: "Power", defaultShift: "\\sqrt{#0}" },
   { id: "sqrt", base: "\\sqrt{#0}", name: "Square root", defaultShift: "\\sqrt[#?]{#0}" },
@@ -204,13 +205,13 @@ export const SHIFT_SLOTS: ShiftSlot[] = [
   { id: "1", base: "1", name: "1", defaultShift: "\\sin\\left(#0\\right)" },
   { id: "2", base: "2", name: "2", defaultShift: "\\cos\\left(#0\\right)" },
   { id: "3", base: "3", name: "3", defaultShift: "\\tan\\left(#0\\right)" },
-  { id: "minus", base: "-", name: "Minus", defaultShift: "\\operatorname{factor}\\left(#0\\right)" },
+  { id: "minus", base: "-", name: "Minus", defaultShift: "\\mp" },
   { id: "int", base: "\\int_{#?}^{#?}#0\\,dx", face: "\\int_a^b", name: "Definite integral", defaultShift: "\\int #0\\,dx" },
   { id: "forall", base: "\\forall", name: "For all", defaultShift: "\\Rightarrow" },
   { id: "0", base: "0", name: "0", defaultShift: "\\pi" },
   { id: "dot", base: ".", name: "Point", defaultShift: "i" },
-  { id: "eq", base: "=", name: "Equals", defaultShift: "\\operatorname{solve}\\left(#0\\right)" },
-  { id: "plus", base: "+", name: "Plus", defaultShift: "\\operatorname{combine}\\left(#0\\right)" },
+  { id: "eq", base: "=", name: "Equals", defaultShift: "\\ne" },
+  { id: "plus", base: "+", name: "Plus", defaultShift: "\\pm" },
 ];
 const SHIFT_STORE = "intellectify:shift-keys";
 export type ShiftMap = Record<string, string | null>;
@@ -262,6 +263,26 @@ export function faceForInsert(insert: string): string {
   return key?.face ?? insert.replace(/#@/g, "#?");
 }
 
+/** A key face as plain text for small labels: "\\sin" → "sin", "\\frac{□}{□}" → "a/b". */
+export function plainFace(latex: string): string {
+  const SYM: Record<string, string> = {
+    pi: "π", theta: "θ", infty: "∞", le: "≤", ge: "≥", ne: "≠", pm: "±", mp: "∓", cdot: "·", approx: "≈", Rightarrow: "⇒",
+    times: "×", div: "÷", circ: "°", exists: "∃", forall: "∀", int: "∫", alpha: "α", beta: "β", lambda: "λ", mu: "μ", sigma: "σ",
+  };
+  const special: [RegExp, string][] = [
+    [/^\\frac\{d\}\{dx\}$/, "d/dx"], [/^\\frac\{/, "a/b"], [/^\\sqrt\[/, "ⁿ√"], [/^\\sqrt/, "√"], [/^e\^/, "eˣ"], [/\^\{\\circ\}$/, "°"],
+    [/^#\?'$/, "′"], [/^\\log_/, "log"], [/^\\left\|/, "|z|"], [/^f\\left\(x\\right\)$/, "f(x)"], [/^\\int /, "∫"],
+  ];
+  for (const [re, out] of special) if (re.test(latex)) return out;
+  return latex
+    .replace(/\\operatorname\{(\w+)\}/g, "$1")
+    .replace(/\\(left|right)/g, "")
+    .replace(/\\([a-zA-Z]+)/g, (_, c: string) => SYM[c] ?? c)
+    .replace(/#[0?@]|[{}]/g, "")
+    .replace(/\(\)$/, "")
+    .slice(0, 6);
+}
+
 /** Short glyph labels for the phone keyboard's tabs, where words don't fit. */
 const GLYPH: Record<string, string> = {
   Structures: "□ⁿ",
@@ -284,6 +305,8 @@ export function phoneLayouts(shift: ShiftMap = Object.fromEntries(SHIFT_SLOTS.ma
     for (let i = 0; i < keys.length; i += per) out.push(keys.slice(i, i + per).map(cap));
     return out;
   };
+  /** What Shift types, shown small on the key (like the labels above calculator keys). */
+  const aside = (sh: string) => shiftCommand(sh)?.name ?? plainFace(faceForInsert(sh));
   /** Faces too wide for a key at full size (CAS words, ranges) get MathLive's small keycap text. */
   const long = (face: string) => /\\operatorname\{\w{5,}\}|\\le|\\scriptstyle/.test(face);
   const slot = (id: string) => {
@@ -293,6 +316,7 @@ export function phoneLayouts(shift: ShiftMap = Object.fromEntries(SHIFT_SLOTS.ma
       latex: s.face ?? s.base.replace(/#@/g, "#?"),
       insert: s.base,
       tooltip: s.name,
+      ...(sh ? { aside: aside(sh) } : {}),
       ...(sh ? { shift: shiftCommand(sh) ? { label: `<span class="cmd">${shiftCommand(sh)!.name}</span>`, command: shiftCommand(sh)!.command } : { latex: faceForInsert(sh), insert: sh, ...(long(faceForInsert(sh)) ? { class: "small" } : {}) } } : {}),
     };
   };
