@@ -2,24 +2,87 @@
 # Checked in discussion posts, comments and display names, in the app and in Firestore rules.
 # Matching is whole-word (plurals and -ed/-ing included), so "class" never trips "ass".
 # After editing, run `pnpm moderation` to update firestore.rules, then deploy the rules.
-# Starter list: extend it as needed.
+
+# Racial and ethnic slurs
 nigger
 nigga
-faggot
-fag
-retard
-retarded
-tranny
-spic
-chink
-gook
-kike
-wetback
 coon
+darkie
+jigaboo
+sambo
+golliwog
+porch monkey
+spic
+beaner
+wetback
+chink
+chinaman
+gook
+jap
+slant eye
+kike
+yid
 raghead
 towelhead
+sand nigger
 paki
+abo
+boong
+lubra
+half caste
+gyppo
+pikey
+
+# Homophobic and transphobic slurs
+faggot
+fag
+faggy
 dyke
-cunt
+lesbo
+tranny
+shemale
+poofter
+homo
+
+# Ableist slurs
+retard
+retarded
+spaz
+spastic
+mongoloid
+sperg
+
+# Sexual and abusive terms
+kys
+kill yourself
+rapist
+rape
 whore
 slut
+skank
+cunt
+twat
+pussy
+cock
+cocksucker
+dildo
+porn
+cum
+
+# Strong profanity
+fuck
+fucker
+motherfucker
+fuckwit
+shit
+bullshit
+shithead
+bitch
+bastard
+asshole
+arsehole
+dickhead
+dick
+prick
+wanker
+bollocks
