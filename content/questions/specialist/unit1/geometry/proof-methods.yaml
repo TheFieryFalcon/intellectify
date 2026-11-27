@@ -437,8 +437,9 @@
     Either way the left side is odd, so it can't equal 0. This contradiction shows there is no integer solution.
 - id: spec.geometry.proof-methods.infinitely-many-primes
   skills: {primary: spec.geometry.proof-methods}
-  rating: 1680
-  responseSkills: {reasoning: 1680, proof: 1680, clarity: 1560, synthesis: 1640}
+  rating: 1580
+  bookwork: true
+  responseSkills: {reasoning: 1580, proof: 1580, clarity: 1460, synthesis: 1540}
   stem: |
     Prove by contradiction that there are infinitely many prime numbers.
   parts:

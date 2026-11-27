@@ -539,8 +539,9 @@
 
 - id: spec.geometry.circle-angles.semicircle-proof
   skills: {primary: spec.geometry.circle-angles}
-  rating: 1470
-  responseSkills: {reasoning: 1460, proof: 1460, clarity: 1400}
+  rating: 1370
+  bookwork: true
+  responseSkills: {reasoning: 1360, proof: 1360, clarity: 1300}
   stem: |
     $AB$ is a diameter of a circle with center $O$, and $C$ is another point on the circle. Without using the angle-at-the-center theorem, prove that $\angle ACB = 90^\circ$.
 
@@ -661,8 +662,9 @@
 
 - id: spec.geometry.circle-angles.cyclic-proof
   skills: {primary: spec.geometry.circle-angles}
-  rating: 1530
-  responseSkills: {reasoning: 1520, proof: 1520, clarity: 1450}
+  rating: 1430
+  bookwork: true
+  responseSkills: {reasoning: 1420, proof: 1420, clarity: 1350}
   stem: |
     Use the angle-at-the-center theorem to prove that the opposite angles of a cyclic quadrilateral add to $180^\circ$.
 

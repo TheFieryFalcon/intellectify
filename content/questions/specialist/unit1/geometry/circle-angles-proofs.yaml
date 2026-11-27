@@ -35,8 +35,9 @@
 
 - id: spec.geometry.circle-angles.semicircle-from-center
   skills: { primary: spec.geometry.circle-angles }
-  rating: 1300
-  responseSkills: { reasoning: 1290, clarity: 1250 }
+  rating: 1200
+  bookwork: true
+  responseSkills: { reasoning: 1190, clarity: 1150 }
   stem: |
     Use the theorem "the angle at the center is twice the angle at the circumference" to prove that an angle in a semicircle is $90^\circ$.
 
@@ -98,8 +99,9 @@
 
 - id: spec.geometry.circle-angles.equal-chords-equal-angles
   skills: { primary: spec.geometry.circle-angles }
-  rating: 1380
-  responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
+  rating: 1280
+  bookwork: true
+  responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
   stem: |
     Prove that equal chords of a circle subtend equal angles at the circumference (each angle measured at a point on the major arc of its chord).
 
@@ -137,8 +139,9 @@
 
 - id: spec.geometry.circle-angles.same-segment-proof
   skills: { primary: spec.geometry.circle-angles }
-  rating: 1380
-  responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
+  rating: 1280
+  bookwork: true
+  responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
   stem: |
     $A$, $B$, $C$, $D$ lie on a circle with center $O$, with $C$ and $D$ on the same side of chord $AB$. Use the angle-at-the-center theorem to prove that $\angle ACB = \angle ADB$.
 
@@ -552,8 +555,9 @@
 
 - id: spec.geometry.circle-angles.right-triangle-iff-diameter
   skills: { primary: spec.geometry.circle-angles }
-  rating: 1580
-  responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
+  rating: 1480
+  bookwork: true
+  responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
     $A$, $B$, $C$ lie on a circle. Prove that $\angle ACB = 90^\circ$ if and only if $AB$ is a diameter.
 
@@ -628,8 +632,9 @@
 
 - id: spec.geometry.circle-angles.center-outside-case
   skills: { primary: spec.geometry.circle-angles }
-  rating: 1640
-  responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
+  rating: 1540
+  bookwork: true
+  responseSkills: { reasoning: 1530, proof: 1530, clarity: 1490 }
   stem: |
     $A$, $B$, $C$ lie on a circle with center $O$, and $O$ lies outside angle $ACB$ (with $C$ on the major arc $AB$). Prove that $\angle AOB = 2\angle ACB$.
 
@@ -830,3 +835,39 @@
     Likewise $CQ$ bisects $\angle BCD$, so $QB = QD$, with $Q$ on the arc $BD$ that doesn't contain $C$, i.e. the other arc.
 
     Points equidistant from $B$ and $D$ lie on the perpendicular bisector of $BD$, which passes through the center $O$. That line meets the circle in two points, one on each arc $BD$: these are $P$ and $Q$. So $PQ$ is a chord through $O$, a diameter.
+
+- id: spec.geometry.circle-angles.exterior-angle-proof
+  skills: { primary: spec.geometry.circle-angles }
+  rating: 1480
+  bookwork: true
+  responseSkills: { reasoning: 1470, proof: 1470, clarity: 1410 }
+  stem: |
+    $ABCD$ is a cyclic quadrilateral, and side $DC$ is extended beyond $C$ to $E$. Prove that $\angle BCE = \angle BAD$.
+
+    ```diagram
+    view: [-2.45, 3.88, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [0.684, -1.879], C: [1.97, 0.347], D: [-0.684, 1.879], E: [3.43, -0.496], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: B, to: C }
+      - { type: segment, from: C, to: D }
+      - { type: segment, from: D, to: A }
+      - { type: segment, from: C, to: E }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+      - { type: point, at: E, label: 'E' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: line, description: "∠BCE = 180° − ∠BCD (angles on a straight line)", points: 1, dimension: reasoning }
+          - { id: cyclic, description: "∠BAD = 180° − ∠BCD (opposite angles of a cyclic quadrilateral)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So ∠BCE = ∠BAD", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    $D$, $C$, $E$ lie on a line, so $\angle BCE = 180^\circ - \angle BCD$. Opposite angles of a cyclic quadrilateral add to $180^\circ$, so $\angle BAD = 180^\circ - \angle BCD$. Hence $\angle BCE = \angle BAD$.

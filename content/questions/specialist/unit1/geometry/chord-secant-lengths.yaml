@@ -447,8 +447,9 @@
 
 - id: spec.geometry.chord-secant-lengths.prove-intersecting-chords
   skills: {primary: spec.geometry.chord-secant-lengths}
-  rating: 1480
-  responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
+  rating: 1380
+  bookwork: true
+  responseSkills: {reasoning: 1370, proof: 1370, clarity: 1300}
   stem: |
     Chords $AB$ and $CD$ of a circle meet at $X$. Prove that $AX \times XB = CX \times XD$.
 
@@ -563,8 +564,9 @@
 
 - id: spec.geometry.chord-secant-lengths.prove-tangent-secant
   skills: {primary: spec.geometry.chord-secant-lengths}
-  rating: 1600
-  responseSkills: {reasoning: 1590, proof: 1590, clarity: 1500}
+  rating: 1500
+  bookwork: true
+  responseSkills: {reasoning: 1490, proof: 1490, clarity: 1400}
   stem: |
     From an outside point $M$, a tangent touches a circle at $T$ and a secant cuts it at $A$ and $B$ ($A$ nearer $M$). Prove that $MT^2 = MA \times MB$.
 

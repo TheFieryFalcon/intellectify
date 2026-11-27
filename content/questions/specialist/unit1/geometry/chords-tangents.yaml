@@ -479,8 +479,9 @@
 
 - id: spec.geometry.chords-tangents.prove-equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
-  rating: 1500
-  responseSkills: {reasoning: 1490, proof: 1490, clarity: 1420}
+  rating: 1400
+  bookwork: true
+  responseSkills: {reasoning: 1390, proof: 1390, clarity: 1320}
   stem: |
     Tangents from an outside point $M$ touch a circle with center $O$ at $S$ and $T$. Prove that $MS = MT$.
 
@@ -551,8 +552,9 @@
 
 - id: spec.geometry.chords-tangents.prove-alternate-segment
   skills: {primary: spec.geometry.chords-tangents}
-  rating: 1620
-  responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520, synthesis: 1580}
+  rating: 1520
+  bookwork: true
+  responseSkills: {reasoning: 1510, proof: 1510, clarity: 1420, synthesis: 1480}
   stem: |
     A tangent touches a circle at $T$, and $TB$ is a chord. $A$ is a point on the circle in the alternate segment. Prove that the angle between the tangent and $TB$ equals $\angle TAB$.
 

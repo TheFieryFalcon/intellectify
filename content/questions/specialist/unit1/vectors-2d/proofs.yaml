@@ -132,8 +132,9 @@
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.proofs.diagonals-bisect
   skills: { primary: spec.vectors-2d.proofs }
-  rating: 1420
-  responseSkills: {reasoning: 1410, proof: 1410, clarity: 1350}
+  rating: 1320
+  bookwork: true
+  responseSkills: {reasoning: 1310, proof: 1310, clarity: 1250}
   stem: |
     Use vectors to prove that the diagonals of a parallelogram cut each other in half (they meet at the midpoint of each).
   parts:
@@ -169,8 +170,9 @@
 
 - id: spec.vectors-2d.proofs.perpendicular-diagonals-rhombus
   skills: { primary: spec.vectors-2d.proofs }
-  rating: 1460
-  responseSkills: {reasoning: 1450, proof: 1450, clarity: 1400}
+  rating: 1360
+  bookwork: true
+  responseSkills: {reasoning: 1350, proof: 1350, clarity: 1300}
   stem: |
     Use vectors to prove that if the diagonals of a parallelogram are perpendicular, then the parallelogram is a rhombus.
   parts:
@@ -207,8 +209,9 @@
 
 - id: spec.vectors-2d.proofs.semicircle
   skills: { primary: spec.vectors-2d.proofs }
-  rating: 1510
-  responseSkills: {reasoning: 1500, proof: 1500, clarity: 1420, synthesis: 1480}
+  rating: 1410
+  bookwork: true
+  responseSkills: {reasoning: 1400, proof: 1400, clarity: 1320, synthesis: 1380}
   stem: |
     $AB$ is a diameter of a circle with center $O$, and $P$ is any other point on the circle. Use vectors to prove that angle $APB$ is a right angle.
   parts:

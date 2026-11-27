@@ -108,6 +108,11 @@ export const Question = z.object({
   skills: z.object({ primary: z.string(), secondary: z.array(z.string()).default([]) }),
   /** 1000 (incredibly easy) to 2000 (second-year uni); 2000+ is Tier 6. */
   rating: z.number().int().min(1000).max(2400),
+  /**
+   * Bookwork (SPEC §4): the task is to reproduce a proof the textbook teaches (a syllabus theorem or a standard
+   * worked proof). Its ratings already include the 100-point bookwork discount.
+   */
+  bookwork: z.boolean().optional(),
   /** Difficulty per response skill, for auto-marked questions (SPEC §5.6). */
   responseSkills: z.record(z.number().int().min(1000).max(2400)).default({}),
   requiresCalculator: z.boolean().default(false),

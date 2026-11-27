@@ -410,8 +410,9 @@
 
 - id: spec.vectors-2d.scalar-product.cosine-rule-proof
   skills: { primary: spec.vectors-2d.scalar-product }
-  rating: 1650
-  responseSkills: {reasoning: 1650, proof: 1650, clarity: 1550}
+  rating: 1550
+  bookwork: true
+  responseSkills: {reasoning: 1550, proof: 1550, clarity: 1450}
   stem: |
     In triangle $ABC$, let $\mathbf{b} = \overrightarrow{AC}$ and $\mathbf{c} = \overrightarrow{AB}$, and let $A$ also stand for the angle at corner $A$. Use the scalar product to prove the cosine rule, $|BC|^2 = |\mathbf{b}|^2 + |\mathbf{c}|^2 - 2|\mathbf{b}|\,|\mathbf{c}|\cos A$.
   parts:

@@ -279,8 +279,9 @@
 
 - id: spec.vectors-2d.geometric.midpoint-theorem
   skills: { primary: spec.vectors-2d.geometric }
-  rating: 1520
-  responseSkills: {reasoning: 1500, proof: 1500, clarity: 1450}
+  rating: 1420
+  bookwork: true
+  responseSkills: {reasoning: 1400, proof: 1400, clarity: 1350}
   stem: |
     In triangle $OAB$, $M$ is the midpoint of $OA$ and $N$ is the midpoint of $OB$. Use vectors to prove that $MN$ is parallel to $AB$ and half its length.
   parts:

@@ -32,8 +32,9 @@
 
 - id: spec.geometry.chords-tangents.bisecting-radius-perpendicular
   skills: { primary: spec.geometry.chords-tangents }
-  rating: 1300
-  responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
+  rating: 1200
+  bookwork: true
+  responseSkills: { reasoning: 1190, proof: 1190, clarity: 1150 }
   stem: |
     $AB$ is a chord (not a diameter) of a circle with center $O$, and $M$ is its midpoint. Prove that $OM \perp AB$.
 
@@ -64,8 +65,9 @@
 
 - id: spec.geometry.chords-tangents.perpendicular-bisector-center
   skills: { primary: spec.geometry.chords-tangents }
-  rating: 1350
-  responseSkills: { reasoning: 1340, proof: 1340, clarity: 1300 }
+  rating: 1250
+  bookwork: true
+  responseSkills: { reasoning: 1240, proof: 1240, clarity: 1200 }
   stem: |
     Prove that the perpendicular bisector of any chord of a circle passes through the center.
 
@@ -537,3 +539,72 @@
     $OC \perp DE$ (tangent ⟂ radius), and $\angle DOE = 90^\circ$. In right triangle $DOE$, the altitude $OC$ splits it into triangles $DCO$ and $OCE$, which are similar ($\angle CDO = 90^\circ - \angle DOC = \angle COE$, and both have a right angle at $C$). So $\dfrac{DC}{OC} = \dfrac{OC}{CE}$, i.e. $OC^2 = DC \times CE$.
 
     Equal tangents give $DC = DA$ and $CE = EB$, and $OC = r$. Hence $AD \times BE = r^2$.
+
+- id: spec.geometry.chords-tangents.perpendicular-bisects-chord
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1470
+  bookwork: true
+  responseSkills: { reasoning: 1460, proof: 1460, clarity: 1400 }
+  stem: |
+    $AB$ is a chord of a circle with center $O$, and $M$ is the point on $AB$ with $OM \perp AB$. Prove that $M$ is the midpoint of $AB$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.732, -1], B: [1.732, -1], M: [0, -1], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B }
+      - { type: segment, from: O, to: M }
+      - { type: angle, at: M, from: B, to: O, right: true }
+      - { type: point, at: O, label: 'O', pos: n }
+      - { type: point, at: A, label: 'A', pos: w }
+      - { type: point, at: B, label: 'B', pos: e }
+      - { type: point, at: M, label: 'M', pos: s }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: radii, description: "OA = OB (radii)", points: 1, dimension: reasoning }
+          - { id: right, description: "∠OMA = ∠OMB = 90° and OM is common", points: 1, dimension: reasoning }
+          - { id: congruent, description: "Triangles OMA and OMB are congruent (RHS)", points: 1, dimension: proof }
+          - { id: conclude, description: "So AM = BM: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
+
+- id: spec.geometry.chords-tangents.equal-chords-equidistant
+  skills: { primary: spec.geometry.chords-tangents }
+  rating: 1660
+  bookwork: true
+  responseSkills: { reasoning: 1550, proof: 1540, clarity: 1500 }
+  stem: |
+    $AB$ and $CD$ are chords of equal length in a circle with center $O$ and radius $r$. Prove that $AB$ and $CD$ are the same distance from $O$.
+
+    ```diagram
+    view: [-2.45, 2.45, -2.45, 2.45]
+    width: 230
+    points: { A: [-1.879, -0.684], B: [1, -1.732], C: [1.879, 0.684], D: [-1, 1.732], O: [0, 0] }
+    draw:
+      - { type: circle, center: O, radius: 2 }
+      - { type: segment, from: A, to: B, ticks: 1 }
+      - { type: segment, from: C, to: D, ticks: 1 }
+      - { type: point, at: O, label: 'O', pos: e }
+      - { type: point, at: A, label: 'A' }
+      - { type: point, at: B, label: 'B' }
+      - { type: point, at: C, label: 'C' }
+      - { type: point, at: D, label: 'D' }
+    ```
+  parts:
+    - id: a
+      rubric:
+        criteria:
+          - { id: feet, description: "Drops perpendiculars OM to AB and ON to CD; these bisect the chords, so AM = ½AB = ½CD = CN", points: 2, dimension: reasoning }
+          - { id: pythag, description: "Pythagoras in the right triangles: OM² = r² − AM² and ON² = r² − CN²", points: 1, dimension: reasoning }
+          - { id: conclude, description: "So OM = ON: the chords are equally far from O", points: 1, dimension: proof }
+          - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
+  solution: |
+    Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = \tfrac{1}{2}AB = \tfrac{1}{2}CD = CN$.
+
+    In the right triangles $OMA$ and $ONC$, $OA = OC = r$, so $OM^2 = r^2 - AM^2 = r^2 - CN^2 = ON^2$. Hence $OM = ON$.

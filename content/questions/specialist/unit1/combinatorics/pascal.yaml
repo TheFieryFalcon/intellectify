@@ -124,8 +124,9 @@
 
 - id: spec.combinatorics.pascal.doubling-proof
   skills: { primary: spec.combinatorics.pascal }
-  rating: 1480
-  responseSkills: {reasoning: 1480, proof: 1480, clarity: 1450, precision: 1440}
+  rating: 1380
+  bookwork: true
+  responseSkills: {reasoning: 1380, proof: 1380, clarity: 1350, precision: 1340}
   stem: |
     Use Pascal's rule to explain why the sum of row $n + 1$ of Pascal's triangle is double the sum of row $n$. Hence show that row $n$ sums to $2^n$.
   parts:

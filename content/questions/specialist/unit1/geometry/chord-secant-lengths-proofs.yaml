@@ -68,8 +68,9 @@
 
 - id: spec.geometry.chord-secant-lengths.two-secants-proof
   skills: { primary: spec.geometry.chord-secant-lengths }
-  rating: 1500
-  responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
+  rating: 1400
+  bookwork: true
+  responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
     From a point $M$ outside a circle, one line cuts the circle at $A$ and $B$, and another at $C$ and $D$. Prove that $MA \times MB = MC \times MD$.
 

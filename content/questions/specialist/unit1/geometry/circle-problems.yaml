@@ -543,8 +543,9 @@
 
 - id: spec.geometry.circle-problems.prove-cyclic-converse
   skills: {primary: spec.geometry.circle-problems}
-  rating: 1520
-  responseSkills: {reasoning: 1510, proof: 1510, clarity: 1430, synthesis: 1480}
+  rating: 1420
+  bookwork: true
+  responseSkills: {reasoning: 1410, proof: 1410, clarity: 1330, synthesis: 1380}
   stem: |
     Prove by contradiction: if a quadrilateral $ABCD$ has $\angle B + \angle D = 180^\circ$, then it is cyclic.
 
@@ -578,8 +579,9 @@
     But in triangle $DD'C$, one of $\angle AD'C$ and $\angle ADC$ is an exterior angle and the other an interior angle not next to it, so the exterior angle is larger. They can't be equal: contradiction. So $D$ is on the circle.
 - id: spec.geometry.circle-problems.prove-semicircle-converse
   skills: {primary: spec.geometry.circle-problems}
-  rating: 1480
-  responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400, synthesis: 1440}
+  rating: 1380
+  bookwork: true
+  responseSkills: {reasoning: 1370, proof: 1370, clarity: 1300, synthesis: 1340}
   stem: |
     $\angle APB = 90^\circ$ and $M$ is the midpoint of $AB$. Prove that $MP = MA = MB$, so $P$ lies on the circle with diameter $AB$.
 

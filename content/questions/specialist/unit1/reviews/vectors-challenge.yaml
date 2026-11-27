@@ -145,27 +145,33 @@
 
     Its dot product with $\begin{pmatrix} x \\ y \end{pmatrix}$ is $-yx + xy = 0$, so it is perpendicular to the original vector. Its length is $\sqrt{(-y)^2 + x^2} = \sqrt{x^2 + y^2}$, the same as the original.
 
-- id: spec.vectors-2d.ch.semicircle-by-vectors
+- id: spec.vectors-2d.ch.centroid-squares
   pool: challenge
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
   rating: 1810
-  responseSkills: { reasoning: 1800, proof: 1790, clarity: 1750, synthesis: 1780 }
+  responseSkills: { reasoning: 1790, proof: 1780, clarity: 1740, synthesis: 1790 }
   stem: |
-    $AB$ is a diameter of a circle with center $O$, and $C$ is any other point on the circle. Use vectors to prove that $\angle ACB = 90^\circ$.
+    In triangle $ABC$, the three lines from each corner to the midpoint of the opposite side meet at $G$, the point with position vector $\tfrac{1}{3}(\mathbf{a} + \mathbf{b} + \mathbf{c})$, where $\mathbf{a}$, $\mathbf{b}$, $\mathbf{c}$ are the position vectors of $A$, $B$, $C$. Use vectors to prove that
+    $$GA^2 + GB^2 + GC^2 = \tfrac{1}{3}\left(AB^2 + BC^2 + CA^2\right).$$
   parts:
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Lets OA = a, so OB = −a, and OC = c with |c| = |a| (radii)", points: 1, dimension: proof }
-          - { id: sides, description: "CA = a − c and CB = −a − c", points: 1, dimension: reasoning }
-          - { id: dot, description: "CA · CB = −|a|² + |c|² = 0", points: 2, dimension: reasoning }
+          - { id: setup, description: "Takes vectors from G: u = GA, v = GB, w = GC, and shows u + v + w = 0", points: 1, dimension: proof }
+          - { id: sides, description: "AB² = |v − u|² = |u|² + |v|² − 2u·v, and likewise for BC² and CA²", points: 1, dimension: reasoning }
+          - { id: sum, description: "AB² + BC² + CA² = 2(|u|² + |v|² + |w|²) − 2(u·v + v·w + w·u)", points: 1, dimension: reasoning }
+          - { id: zero, description: "Squares u + v + w = 0 to get u·v + v·w + w·u = −½(|u|² + |v|² + |w|²)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "So AB² + BC² + CA² = 3(GA² + GB² + GC²)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
-    Let $\overrightarrow{OA} = \mathbf{a}$. Then $\overrightarrow{OB} = -\mathbf{a}$, and let $\overrightarrow{OC} = \mathbf{c}$, where $|\mathbf{c}| = |\mathbf{a}|$ (radii).
+    Let $\mathbf{u} = \overrightarrow{GA}$, $\mathbf{v} = \overrightarrow{GB}$ and $\mathbf{w} = \overrightarrow{GC}$, with $\mathbf{g} = \tfrac{1}{3}(\mathbf{a} + \mathbf{b} + \mathbf{c})$. Then
+    $$\mathbf{u} + \mathbf{v} + \mathbf{w} = (\mathbf{a} + \mathbf{b} + \mathbf{c}) - 3\mathbf{g} = \mathbf{0}.$$
 
-    $\overrightarrow{CA} = \mathbf{a} - \mathbf{c}$ and $\overrightarrow{CB} = -\mathbf{a} - \mathbf{c}$, so
-    $$\overrightarrow{CA} \cdot \overrightarrow{CB} = -|\mathbf{a}|^2 - \mathbf{a} \cdot \mathbf{c} + \mathbf{c} \cdot \mathbf{a} + |\mathbf{c}|^2 = |\mathbf{c}|^2 - |\mathbf{a}|^2 = 0.$$
-    So $CA \perp CB$, and $\angle ACB = 90^\circ$.
+    $\overrightarrow{AB} = \mathbf{v} - \mathbf{u}$, so $AB^2 = |\mathbf{v} - \mathbf{u}|^2 = |\mathbf{u}|^2 + |\mathbf{v}|^2 - 2\,\mathbf{u}\cdot\mathbf{v}$. Doing the same for $BC$ and $CA$ and adding,
+    $$AB^2 + BC^2 + CA^2 = 2\left(|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2\right) - 2\left(\mathbf{u}\cdot\mathbf{v} + \mathbf{v}\cdot\mathbf{w} + \mathbf{w}\cdot\mathbf{u}\right).$$
+
+    Squaring $\mathbf{u} + \mathbf{v} + \mathbf{w} = \mathbf{0}$: $|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2 + 2\left(\mathbf{u}\cdot\mathbf{v} + \mathbf{v}\cdot\mathbf{w} + \mathbf{w}\cdot\mathbf{u}\right) = 0$, so the second bracket is $-\tfrac{1}{2}\left(|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2\right)$. Substituting,
+    $$AB^2 + BC^2 + CA^2 = 3\left(|\mathbf{u}|^2 + |\mathbf{v}|^2 + |\mathbf{w}|^2\right) = 3\left(GA^2 + GB^2 + GC^2\right).$$
 
 - id: spec.vectors-2d.ch.closest-approach-3
   pool: challenge

@@ -206,6 +206,7 @@ Every question has an **author-set rating `d`**: 1000 is incredibly easy, 2000 i
 
 - Tiers are displayed as plain numbers ("Tier 1" … "Tier 6").
 - An LLM estimates the rating at generation time, and the owner adjusts it during review.
+- **Bookwork is rated 100 lower.** A question whose whole task is to reproduce a proof the textbook teaches (a syllabus theorem such as "the perpendicular from the center bisects a chord", or a standard worked proof such as the vector proof of the angle in a semicircle) is rated **100 below** what its difficulty would otherwise be: a student who has studied can recall it. The penalty applies to the question, its parts and its rubric dimensions, and the question is marked `bookwork: true`. A proof of the same result by a different, unfamiliar route (e.g. equal tangents from the tangent–secant theorem) is not bookwork.
 - Content mix per skill: at least **10–40 questions** depending on skill size (§3.3), with no maximum. Tiers 1–2 need only a couple of items each, since they are mostly parameterized templates where only the numbers change. The bulk of authored items sit in **Tiers 3–5**. A parameterized template counts as one item.
 
 ---
