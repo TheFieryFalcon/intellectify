@@ -954,7 +954,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 - **Safety:** posts are students' own writing, so raw HTML shows as typed, links are limited to safe protocols, and the HTML is sanitized (DOMPurify) before KaTeX output is added. KaTeX runs with `trust: false`.
 
 ### 13.2 Moderation
-- A **banned-words list** (slurs etc.) applies to posts, comments and display names, checked client-side and again in Firestore rules or a function.
+- A **banned-words list** of identity-based slurs (race, ethnicity, sexuality, gender identity, disability) and purely sexual terms applies to posts, comments and display names, checked client-side and again in Firestore rules. Profanity and general insults are not banned.
 - No other moderation for now, given the small group.
 - **Phase 1 implementation.** The list is `content/banned-words.txt` (one per line; owner-edited). The content build copies it to `/content/banned-words.json` for the app, and `pnpm moderation` writes it into `firestore.rules` as a `clean()` function (whole words, case-insensitive, plus -s/-es/-ed/-ing); deploy the rules after changing it. The app also undoes common letter swaps (`3` for `e`, `@` for `a`) and spaced-out letters before checking. Posts and comments with a banned word are refused; a display name with one shows as "Student" on the public mirror and is refused at sign-up.
 
