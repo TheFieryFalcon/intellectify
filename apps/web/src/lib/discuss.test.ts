@@ -32,6 +32,20 @@ describe("user markdown", () => {
   });
 });
 
+describe("banned words: swapped numbers and symbols", () => {
+  const list = ["slut", "fag", "kike", "porch monkey"];
+  it("catches numbers and symbols swapped in for letters", () => {
+    for (const t of ["what a 5lut", "$lut", "f4g", "k1ke", "porch m0nkey", "p0rch_m0nk3y", "s1ut!", "fa9s", "SLUT"])
+      expect(findBanned(t, list), t).not.toBeNull();
+    expect(findBanned("sluuuut", list)).toBe("slut");
+    expect(findBanned("s.l.u.t", list)).toBe("slut");
+  });
+  it("leaves ordinary maths alone", () => {
+    for (const t of ["x = 5, y = 4", "f(4) = 8", "the 4 slots", "class of 25", "Scunthorpe", "k = 1, e = 3", "fagin", "a $5 fee"])
+      expect(findBanned(t, list), t).toBeNull();
+  });
+});
+
 describe("banned words", () => {
   const list = ["badword", "slur"];
   it("finds whole words after undoing swaps and spacing", () => {

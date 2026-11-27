@@ -3,6 +3,7 @@
 # Checked in discussion posts, comments and display names, in the app and in Firestore rules.
 # Matching is whole-word (plurals and -ed/-ing included), so "class" never trips "ass".
 # After editing, run `pnpm moderation` to update firestore.rules, then deploy the rules.
+# Swapped numbers and symbols (5lut, f4g, $lut) are caught automatically: list plain spellings only.
 
 # Racial and ethnic slurs
 nigger

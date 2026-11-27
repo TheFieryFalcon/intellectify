@@ -2,6 +2,8 @@
  * Banned words (SPEC §13.2): checked here before posting or showing a name, and again in Firestore rules.
  * The list is content/banned-words.txt, built to /content/banned-words.json.
  */
+import { bannedPattern } from "@intellectify/content/moderation";
+
 let words: Promise<string[]> | null = null;
 let loaded: string[] = [];
 export function loadBannedWords(f: typeof fetch = fetch): Promise<string[]> {
@@ -13,22 +15,31 @@ export function loadBannedWords(f: typeof fetch = fetch): Promise<string[]> {
 }
 export const bannedWords = () => loaded;
 
-const LEET: Record<string, string> = { "0": "o", "1": "i", "3": "e", "4": "a", "5": "s", "7": "t", "@": "a", $: "s", "!": "i" };
-/** Lowercase, undo common letter swaps, and join letters spaced or dotted apart ("s.l.u.r"). */
+/** Lowercase, drop accents, and join letters spaced or dotted apart ("s.l.u.r" → "slur"). Swapped-in numbers and symbols are left for the pattern. */
 export function normalize(text: string): string {
   return text
     .toLowerCase()
     .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[013457@$!]/g, (c) => LEET[c] ?? c)
-    .replace(/\b(?:\w[ .\-_*]){2,}\w\b/g, (m) => m.replace(/[ .\-_*]/g, ""));
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/(?<![\w$@!|+#])(?:[\w$@!|+#][ .\-_*]){2,}[\w$@!|+#](?![\w$@!|+#])/g, (m) => m.replace(/[ .\-_*]/g, ""));
 }
 
-/** The first banned word in `text` (whole words, after normalizing), or null. */
+const patterns = new Map<string, RegExp>();
+const patternFor = (w: string) => {
+  if (!patterns.has(w)) patterns.set(w, new RegExp(bannedPattern([w])));
+  return patterns.get(w)!;
+};
+
+/**
+ * The first banned word in `text`, or null. Matches whole words, including spellings with numbers or
+ * symbols swapped in ("5lut", "f4g"), repeated letters and spaced-out letters (the same pattern as the
+ * Firestore rules, plus the spacing).
+ */
 export function findBanned(text: string, list: string[] = loaded): string | null {
   if (!list.length || !text) return null;
-  const norm = normalize(text);
-  for (const w of list) if (new RegExp(`(?<![a-z])${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:s|es|ed|ing)?(?![a-z])`).test(norm)) return w;
+  const plain = text.toLowerCase();
+  const joined = normalize(text);
+  for (const w of list) if (patternFor(w).test(plain) || patternFor(w).test(joined)) return w;
   return null;
 }
 
