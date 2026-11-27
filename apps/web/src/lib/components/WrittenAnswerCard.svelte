@@ -11,6 +11,8 @@
   import MathKeypad from "./MathKeypad.svelte";
   import MathTextEditor from "./MathTextEditor.svelte";
   import { handOffSignals, newSignals, provideSignals } from "$lib/paste";
+  import InkPad from "./InkPad.svelte";
+  import { stylusOn } from "$lib/ink";
   import type { Key } from "$lib/keypad";
   import { isTouch } from "$lib/mathlive";
   import PaperFirst from "./PaperFirst.svelte";
@@ -75,6 +77,13 @@
   const over = $derived(parts.some((p) => (answers[p.id] ?? "").length > MAX_ANSWER));
 
   let sending = $state(false);
+  /** Handwriting (SPEC §7.2): the pad's maths goes into the part it was opened from. */
+  let pad = $state<InkPad>();
+  let inkPart = $state<string | null>(null);
+  const writeIn = (partId: string) => {
+    inkPart = partId;
+    pad?.open();
+  };
   /** Paste detector signals for this answer (SPEC §7.2), shared with its editors. */
   const signals = newSignals();
   provideSignals(signals);
@@ -149,6 +158,12 @@
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 9 H4.5 L6.8 13.5 L10 2.5 H14" /></svg>
                 Maths
               </button>
+              {#if stylusOn()}
+                <button type="button" class="photo btn link" disabled={sending} onclick={() => writeIn(p.id)}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 L3.6 10.4 L10.8 3.2 L12.8 5.2 L5.6 12.4 Z M9.6 4.4 L11.6 6.4" /></svg>
+                  Handwrite
+                </button>
+              {/if}
               <label class="photo btn link">
                 <input type="file" accept="image/*" capture="environment" disabled={reading[p.id] || sending} onchange={(e) => addPhotos(p.id, e)} />
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5.5 H4.6 L5.8 3.8 H10.2 L11.4 5.5 H14 V12.6 H2 Z" /><circle cx="8" cy="8.9" r="2.3" /></svg>
@@ -169,6 +184,7 @@
     {/each}
 
     {#if !submitted && !touch}<MathKeypad oninsert={press} />{/if}
+    {#if !submitted && stylusOn()}<InkPad bind:this={pad} oninsert={(latex) => inkPart && editors[inkPart]?.insert({ insert: latex } as Key)} />{/if}
 
     {#if !submitted}
       <div class="actions">

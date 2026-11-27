@@ -17,6 +17,8 @@
   import PaperTip from "./PaperTip.svelte";
   import { paperFirst } from "$lib/paper.svelte";
   import { handOffSignals, newSignals, provideSignals } from "$lib/paste";
+  import InkPad from "./InkPad.svelte";
+  import { stylusOn } from "$lib/ink";
 
   let { question, onresolve, header = true }: { question: QuestionT; onresolve: (parts: PartResult[], answers: string[]) => void | Promise<void>; header?: boolean } = $props();
 
@@ -48,6 +50,7 @@
 
   /** One keypad per question (computers; phones use the field's own keyboard): it types into the last answer box used. */
   const touch = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches;
+  let pad = $state<InkPad>();
   /** Answer boxes by "part" or "part.feature". */
   let fields = $state<Record<string, MathField | undefined>>({});
   let active = $state("0");
@@ -184,6 +187,10 @@
     {/each}
 
     {#if !resolved && typed && !touch}<MathKeypad oninsert={press} />{/if}
+    {#if !resolved && typed && stylusOn()}
+      <button type="button" class="btn link write" onclick={() => pad?.open()}><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13 L3.6 10.4 L10.8 3.2 L12.8 5.2 L5.6 12.4 Z M9.6 4.4 L11.6 6.4" /></svg> Handwrite</button>
+      <InkPad bind:this={pad} oninsert={(latex) => press({ insert: latex } as Key)} />
+    {/if}
 
     {#if !resolved}
       <div class="actions">
@@ -221,4 +228,6 @@
   .good { color: var(--good); }
   .bad { color: var(--bad); }
   .actions { display: flex; gap: 8px; }
+  .write { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+  .write svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; }
 </style>

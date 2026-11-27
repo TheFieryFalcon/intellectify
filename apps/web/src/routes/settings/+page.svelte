@@ -7,6 +7,7 @@
   import { loadByok, loadEffort, PROVIDER_LABEL, saveByok, saveEffort, testKey, type ByokProvider } from "$lib/byok";
   import { profileFor } from "$lib/profile.svelte";
   import ShiftKeySettings from "$lib/components/ShiftKeySettings.svelte";
+  import { quotaOut, setStylus, stylusOn } from "$lib/ink";
   import { session } from "$lib/session.svelte";
   import { loadBannedWords } from "$lib/moderation";
   import { cleanName, NAME_MAX, nameError } from "$lib/names";
@@ -38,6 +39,10 @@
       renaming = false;
     }
   }
+
+  /** Handwriting pad (SPEC §7.2, §15.5): on unless turned off, per browser. */
+  let stylus = $state(stylusOn());
+  const handwritingOut = quotaOut();
 
   const saved = loadByok();
   let provider = $state<ByokProvider>(saved?.provider ?? "gemini");
@@ -104,6 +109,14 @@
     </section>
   {/if}
   {#if session.user}<ShiftKeySettings {profile} />{/if}
+  <section class="card">
+    <h2>Handwriting</h2>
+    <label class="switch"><input type="checkbox" bind:checked={stylus} onchange={() => setStylus(stylus)} /> Handwriting pad</label>
+    <dl class="facts">
+      <dt>Reader</dt>
+      <dd>{handwritingOut ? "AI (MyScript's free quota is used up this month)" : "MyScript, then AI if it's busy"}</dd>
+    </dl>
+  </section>
   <section class="card">
     <h2>Marking key</h2>
     <dl class="facts">
@@ -185,6 +198,7 @@
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 16px; }
   h2 { margin: 0; font-family: var(--font-body); font-size: 15px; font-weight: 600; }
   .facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0; font-size: 14px; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
   .facts dt { color: var(--muted); }
   .facts dd { margin: 0; }
   form { display: flex; flex-direction: column; gap: 10px; }
