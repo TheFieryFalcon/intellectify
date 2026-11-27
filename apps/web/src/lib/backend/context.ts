@@ -1,5 +1,8 @@
+/** Netlify's build context: "production", "deploy-preview", "branch-deploy", or "dev" locally (vite.config.ts). */
+export const deployContext = typeof __DEPLOY_CONTEXT__ !== "undefined" ? __DEPLOY_CONTEXT__ : "dev";
+
 /**
- * Anonymous sign-in is for testing deploy previews only (their URLs aren't on Firebase's authorized
- * domains, so Google sign-in fails there). Never offered on production or anywhere else.
+ * Anonymous accounts may answer this many questions before they must sign up or log in (SPEC §2.1a).
+ * Deploy previews are for testing, so they have no limit.
  */
-export const anonymousAllowed = typeof __DEPLOY_CONTEXT__ !== "undefined" && __DEPLOY_CONTEXT__ === "deploy-preview";
+export const ANON_QUESTION_LIMIT = deployContext === "deploy-preview" ? Infinity : 5;

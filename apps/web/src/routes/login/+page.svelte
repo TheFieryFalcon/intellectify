@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { anonymousAllowed, firebaseConfigured } from "$lib/backend";
+  import { firebaseConfigured } from "$lib/backend";
   import { session } from "$lib/session.svelte";
   import { findBanned, loadBannedWords } from "$lib/moderation";
 
@@ -60,7 +60,7 @@
     {#if firebaseConfigured}
       {#if mode !== "reset"}
         <button class="btn wide" disabled={busy} onclick={() => run(() => session.backend!.signInWithGoogle())}>Continue with Google</button>
-        {#if anonymousAllowed}<button class="btn wide" disabled={busy} onclick={() => run(() => session.backend!.signInAsGuest())}>Continue anonymously</button>{/if}
+        <button class="btn wide" disabled={busy} onclick={() => run(() => session.backend!.signInAsGuest())}>Continue anonymously</button>
         <div class="or muted">or</div>
       {/if}
 

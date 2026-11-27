@@ -51,6 +51,12 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 
 Sign-in uses **Google** or **email and password** (Firebase Auth, project `intellectify-4357c`), with password reset by email.
 
+### 2.1a Trying it anonymously
+- **Continue anonymously** (Firebase anonymous auth) lets anyone try the site without an account. Anonymous accounts stay off leaderboards; their maths-mark placement is asked once per browser and reused by later anonymous accounts.
+- **Limit: 5 questions.** Once an anonymous account has answered 5 questions (resolved in any mode, or written answers submitted for marking), the next question opens a **Keep your progress** dialog that can't be closed: continue with Google, sign up with email, or log in. Pages without a question (the map, leaderboards, tutorials) stay open. The count is kept in the browser as each answer lands, so a reload doesn't reset it.
+- **Progress comes along.** Signing up (Google or email) adds the login to the anonymous account, so the account and all its data stay as they are. Logging in to an account that already exists (or choosing a Google account that already has one) merges the anonymous progress into it: per skill, the state with more resolved questions wins; XP and problem counts add up; earned achievements combine; written answers and their marks are copied; the account keeps its own placement, daily record and name. The anonymous account's data is left behind, unused. The page then reloads as the permanent account.
+- **Deploy previews have no limit**, for testing (Netlify builds them with `CONTEXT=deploy-preview`).
+
 ---
 
 ## 3. Curriculum structure
@@ -1299,7 +1305,7 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 | Native (later) | **Capacitor** wrapping the same build |
 | Math | MathLive (input), CortexJS Compute Engine (parse/eval), KaTeX (render) |
 | Handwriting | MyScript iink (free tier) |
-| Auth | Firebase Auth (Google + email; anonymous for testing deploy previews only: the option shows only when Netlify builds with `CONTEXT=deploy-preview`, and the backend refuses it elsewhere; kept off public leaderboards; the maths-mark placement is asked once per browser and reused for later anonymous accounts) |
+| Auth | Firebase Auth (Google + email; anonymous to try it: 5 questions, then sign up or log in with progress kept (§2.1a); no limit on deploy previews; kept off public leaderboards) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
 | Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |

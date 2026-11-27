@@ -56,6 +56,12 @@ export function createLocalBackend(): Backend {
     async sendPasswordReset() {
       throw new Error("Email sign-in needs Firebase.");
     },
+    async upgradeWithGoogle() {
+      throw new Error("Accounts need Firebase.");
+    },
+    async upgradeWithEmail() {
+      throw new Error("Accounts need Firebase.");
+    },
     async signInAsGuest() {
       user = { uid: "guest", displayName: "Guest", email: null, local: true };
       write(USER_KEY, user);

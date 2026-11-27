@@ -1,8 +1,12 @@
 import { FirebaseError, initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
   getAuth,
   GoogleAuthProvider,
+  linkWithCredential,
+  linkWithPopup,
+  signInWithCredential,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInAnonymously,
@@ -13,7 +17,7 @@ import {
   type User as FirebaseUser,
 } from "firebase/auth";
 import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
-import { anonymousAllowed } from "./context";
+import { mergeAchievements, mergeProfile, mergeProgress } from "../claim";
 import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type StoredSkillState, type ThreadSummary, type User } from "./types";
 
 export interface FirebaseConfig {
@@ -83,7 +87,32 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     if (u) void setDoc(doc(db, "users", u.uid), { displayName: toUser(u).displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true }).catch(() => {});
   });
 
-  return {
+  /** Everything an anonymous account holds, read while still signed in to it (SPEC §2.1a). */
+  async function exportAccount(uid: string) {
+    const courses = ((await fetch("/content/index.json").then((r) => (r.ok ? r.json() : []))) as { id: string }[]).map((c) => c.id);
+    const [profile, jobs, perCourse] = await Promise.all([
+      api.loadProfile(uid),
+      api.loadMarkingJobs(uid),
+      Promise.all(courses.map(async (c) => ({ c, progress: await api.loadProgress(uid, c), achievements: await api.loadAchievements(uid, c) }))),
+    ]);
+    return { profile, jobs, perCourse };
+  }
+
+  /** Merge an anonymous account's progress into the account now signed in. */
+  async function importInto(uid: string, from: Awaited<ReturnType<typeof exportAccount>>) {
+    const day = new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Perth" }).format(new Date());
+    const merged = mergeProfile(await api.loadProfile(uid), from.profile, day);
+    await setDoc(doc(db, "users", uid), JSON.parse(JSON.stringify({ xp: merged.xp, questionXpAt: merged.questionXpAt, placement: merged.placement, daily: merged.daily, stats: merged.stats })), { merge: true });
+    for (const { c, progress, achievements } of from.perCourse) {
+      const changes = mergeProgress(await api.loadProgress(uid, c), progress);
+      if (Object.keys(changes.skills).length || Object.keys(changes.responseSkills).length) await api.saveResult(uid, c, changes, null);
+      const ach = mergeAchievements(await api.loadAchievements(uid, c), achievements);
+      if (ach && achievements) await api.saveAchievements(uid, c, ach);
+    }
+    for (const job of from.jobs) await api.saveMarkingJob(uid, job);
+  }
+
+  const api: Backend = {
     kind: "firebase",
     onUser(cb) {
       listeners.add(cb);
@@ -113,12 +142,56 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     },
     async signInAsGuest() {
       // Anonymous accounts work on any domain, so deploy previews can be tested without adding them to Firebase.
-      // Deploy previews only: the button isn't shown elsewhere, and this refuses too.
-      if (!anonymousAllowed) throw new Error("Anonymous sign-in is only for deploy previews.");
       await signInAnonymously(auth).catch(friendly);
     },
     async signOut() {
       await signOut(auth);
+    },
+    async upgradeWithGoogle() {
+      const anon = auth.currentUser;
+      if (!anon?.isAnonymous) return false;
+      try {
+        await linkWithPopup(anon, new GoogleAuthProvider());
+        return true;
+      } catch (err) {
+        if (err instanceof FirebaseError && err.code === "auth/credential-already-in-use") {
+          // That Google account already has an Intellectify account: log in to it and bring this progress along.
+          const cred = GoogleAuthProvider.credentialFromError(err);
+          if (!cred) throw new Error("Couldn't sign in with Google. Try again.");
+          const data = await exportAccount(anon.uid);
+          await signInWithCredential(auth, cred);
+          await importInto(auth.currentUser!.uid, data);
+          return true;
+        }
+        friendly(err);
+        return false;
+      }
+    },
+    async upgradeWithEmail(mode, name, email, password) {
+      const anon = auth.currentUser;
+      if (!anon?.isAnonymous) return false;
+      if (mode === "sign-up") {
+        try {
+          await linkWithCredential(anon, EmailAuthProvider.credential(email.trim(), password));
+        } catch (err) {
+          friendly(err);
+          return false;
+        }
+        if (name.trim()) {
+          await updateProfile(anon, { displayName: name.trim() });
+          await setDoc(doc(db, "users", anon.uid), { displayName: name.trim(), nameSet: true }, { merge: true });
+        }
+        return true;
+      }
+      const data = await exportAccount(anon.uid);
+      try {
+        await signInWithEmailAndPassword(auth, email.trim(), password);
+      } catch (err) {
+        friendly(err);
+        return false;
+      }
+      await importInto(auth.currentUser!.uid, data);
+      return true;
     },
     async loadProfile(uid) {
       const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
@@ -239,4 +312,5 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       await batch.commit();
     },
   };
+  return api;
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { checkGate, gateReady } from "$lib/gate.svelte";
   /**
    * One question: stem, parts and answer inputs, with attempts per part (SPEC §15.4).
    * Calls `onresolve` once every part is solved, out of attempts, or given up.
@@ -76,6 +77,14 @@
       parts.map((p) => p.answer || p.choice.join(",")),
     );
   }
+
+  // A new question: anonymous accounts past their limit must sign up or log in first (SPEC §2.1a).
+  let gateChecked = false;
+  $effect(() => {
+    if (gateChecked || !gateReady()) return;
+    gateChecked = true;
+    checkGate();
+  });
 </script>
 
 <article class="question">

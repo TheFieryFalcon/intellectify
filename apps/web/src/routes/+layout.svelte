@@ -1,4 +1,6 @@
 <script lang="ts">
+  import AuthGate from "$lib/components/AuthGate.svelte";
+  import { gate } from "$lib/gate.svelte";
   import { achievementToasts } from "$lib/achievements.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
@@ -92,6 +94,8 @@
     <span>Level {profile.levelUp.level}</span>
   </div>
 {/if}
+
+{#if gate.open && session.user?.anonymous}<AuthGate />{/if}
 
 <main>
   {#if !session.ready}

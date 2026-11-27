@@ -212,6 +212,13 @@ export interface Backend {
   /** Local mode only: the single browser-local guest. */
   signInAsGuest(): Promise<void>;
   signOut(): Promise<void>;
+  /**
+   * Anonymous accounts only (SPEC §2.1a): keep the progress by adding a login to this account, or, if
+   * that login already has an account, by logging in to it and merging this progress in. Resolves true
+   * once signed in to the permanent account (false if the student cancelled).
+   */
+  upgradeWithGoogle(): Promise<boolean>;
+  upgradeWithEmail(mode: "sign-up" | "sign-in", name: string, email: string, password: string): Promise<boolean>;
 
   loadProfile(uid: string): Promise<Profile>;
   /** Save the onboarding placement. */

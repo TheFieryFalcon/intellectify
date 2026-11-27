@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { checkGate, gateReady } from "$lib/gate.svelte";
   /**
    * A free-response question (SPEC §6.3): one written answer per rubric part, one submission.
    * Mathematics goes between $…$; the preview renders it as the marker will read it.
@@ -72,6 +73,14 @@
     await onsubmit(Object.fromEntries(parts.map((p) => [p.id, answers[p.id]!.trim()])));
     sending = false;
   }
+
+  // A new question: anonymous accounts past their limit must sign up or log in first (SPEC §2.1a).
+  let gateChecked = false;
+  $effect(() => {
+    if (gateChecked || !gateReady()) return;
+    gateChecked = true;
+    checkGate();
+  });
 </script>
 
 <article class="question">

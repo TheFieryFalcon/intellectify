@@ -11,6 +11,15 @@ import { setStartTiers } from "./practice";
 export const perthDay = (d = new Date()) => new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Perth" }).format(d);
 
 const ANON_PLACEMENT = "intellectify:anon-placement";
+const anonCountKey = (uid: string) => `intellectify:anon-count:${uid}`;
+/** Questions this anonymous account has answered, as counted in this browser. */
+export const anonCount = (uid: string): number => {
+  try {
+    return Number(localStorage.getItem(anonCountKey(uid))) || 0;
+  } catch {
+    return 0;
+  }
+};
 const readAnonPlacement = (): Placement | null => {
   try {
     const p = JSON.parse(localStorage.getItem(ANON_PLACEMENT) ?? "null") as Placement | null;
@@ -104,6 +113,14 @@ export class ProfileStore {
   /** One more problem done (any mode). */
   countProblem() {
     this.profile = { ...this.profile, stats: addProblem(this.profile.stats, perthDay()) };
+    // The anonymous limit (SPEC §2.1a) can't wait for the batched save: count it here at once.
+    if (this.user.anonymous) {
+      try {
+        localStorage.setItem(anonCountKey(this.user.uid), String(anonCount(this.user.uid) + 1));
+      } catch {
+        /* storage blocked: the saved stats still count */
+      }
+    }
     this.schedule();
   }
 
