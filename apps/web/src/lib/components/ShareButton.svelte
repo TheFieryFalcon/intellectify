@@ -31,12 +31,11 @@
 </script>
 
 <span class="share">
-  <button type="button" class="btn quiet" onclick={share} title="Send a link to this exact problem">Share</button>
+  <button type="button" class="btn link" onclick={share} title="Send a link to this exact problem">Share</button>
   {#if note}<span class="note" role="status">{note}</span>{/if}
 </span>
 
 <style>
   .share { display: inline-flex; align-items: center; gap: 8px; }
-  .btn { padding: 4px 10px; font-size: 13px; }
   .note { font-size: 12px; color: var(--good); }
 </style>

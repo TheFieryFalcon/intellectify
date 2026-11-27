@@ -70,7 +70,7 @@
   <p class="crumbs"><a href="/{data.course.id}">{data.course.name}</a></p>
   <h1>Discussions</h1>
 
-  <div class="controls">
+  <div class="controls filters">
     <input class="search" type="search" placeholder="Search problems and posts" value={get("q")} oninput={(e) => set("q", e.currentTarget.value)} aria-label="Search" />
     <label>Date <input type="date" max={today} value={get("date")} onchange={(e) => set("date", e.currentTarget.value)} /></label>
     <label>Year <select value={get("year")} onchange={(e) => set("year", e.currentTarget.value)}><option value="">All</option><option value="11">11</option><option value="12">12</option></select></label>

@@ -43,7 +43,7 @@
 <ul class="qlist">
   {#each entries as e (e.id)}
     <li class:open={open === e.id}>
-      <button class="row" onclick={() => toggle(e)} aria-expanded={open === e.id}>
+      <button class="row" class:two={!!skillName} onclick={() => toggle(e)} aria-expanded={open === e.id}>
         <span class="tier t{e.tier}">T{e.tier}</span>
         <span class="title">{e.title}</span>
         {#if skillName}<span class="skill muted">{skillName(e.skill)}</span>{/if}
@@ -88,6 +88,12 @@
   .skill { grid-column: 2; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .meta { font-size: 12px; text-align: right; }
   .rating { font-size: 12px; font-variant-numeric: tabular-nums; min-width: 3.5ch; text-align: right; }
+  .row .tier { grid-column: 1; grid-row: 1; }
+  .row .title { grid-column: 2; grid-row: 1; }
+  .row .meta { grid-column: 3; grid-row: 1; }
+  .row .rating { grid-column: 4; grid-row: 1; }
+  .row .skill { grid-row: 2; }
+  .row.two .meta, .row.two .rating { grid-row: 1 / 3; }
   .done { color: var(--good); }
   .tier { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: var(--region); color: var(--muted); font-variant-numeric: tabular-nums; }
   .tier.t3, .tier.t4 { color: var(--accent); }
@@ -99,5 +105,11 @@
   .pid { color: var(--muted); }
   .row-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   h3 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 16px 0 6px; }
-  @media (max-width: 560px) { .row { grid-template-columns: auto minmax(0, 1fr) auto; } .meta { grid-column: 2 / 4; text-align: left; } }
+  @media (max-width: 560px) {
+    .row { grid-template-columns: auto minmax(0, 1fr) auto; }
+    .row .rating, .row.two .rating { grid-column: 3; grid-row: 1; }
+    .row .skill { grid-column: 2 / 4; grid-row: 2; }
+    .row .meta { grid-column: 2 / 4; grid-row: 2; text-align: left; }
+    .row.two .meta { grid-column: 2 / 4; grid-row: 3; }
+  }
 </style>

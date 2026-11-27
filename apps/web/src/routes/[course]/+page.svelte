@@ -102,4 +102,10 @@
   .shape.large { width: 8px; height: 8px; border-radius: 1.5px; transform: rotate(45deg); margin: 0 1px; }
   .shape.cornerstone { width: 11px; height: 11px; border-radius: 2px; transform: rotate(45deg); margin: 0 2px; }
   .error { color: var(--bad); }
+  /* Phones: the view links sit in one row under the title, starting at the left gutter. */
+  @media (max-width: 640px) {
+    .head { align-items: center; gap: 8px; }
+    .ach { margin-left: 0; padding-bottom: 2px; }
+    .key { gap: 6px 12px; }
+  }
 </style>

@@ -91,7 +91,7 @@
   {/if}
 
   {#if failed}
-    <p class="bad">Couldn't load the boards. <button class="btn quiet" onclick={() => load(true)}>Try again</button></p>
+    <p class="bad">Couldn't load the boards. <button class="btn link" onclick={() => load(true)}>Try again</button></p>
   {:else if profiles === null}
     <p class="muted">Loading…</p>
   {:else if !rows.length}

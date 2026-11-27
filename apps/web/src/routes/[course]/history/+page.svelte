@@ -74,11 +74,11 @@
   <h1>History <span class="count muted">{shown.length}</span></h1>
   <p class="muted small">Saved in this browser only</p>
 
-  <div class="controls">
+  <div class="controls filters">
     <label>Skill <select value={get("skill")} onchange={(e) => set("skill", e.currentTarget.value)}><option value="">All</option>{#each [...skills.values()] as k (k.skill.id)}<option value={k.skill.id}>{k.skill.name}</option>{/each}</select></label>
     <label>Mode <select value={get("mode")} onchange={(e) => set("mode", e.currentTarget.value)}><option value="">All</option>{#each MODES as [v, l] (v)}<option value={v}>{l}</option>{/each}</select></label>
     <label>Result <select value={get("result")} onchange={(e) => set("result", e.currentTarget.value)}><option value="">Any</option><option value="right">60% or more</option><option value="wrong">Under 60%</option><option value="pending">Marking</option></select></label>
-    {#if entries.length}<button class="btn quiet clear" onclick={clear}>Clear history</button>{/if}
+    {#if entries.length}<button class="btn link clear" onclick={clear}>Clear history</button>{/if}
   </div>
 
   {#if !shown.length}

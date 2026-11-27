@@ -139,7 +139,7 @@
         <div class="actions"><button class="btn primary" onclick={next}>Next question</button></div>
       </section>
     {/if}
-    {#if !summary && !job}<div class="skip"><button class="btn quiet" onclick={next}>Skip</button></div>{/if}
+    {#if !summary && !job}<div class="skip"><button class="btn link" onclick={next}>Skip</button></div>{/if}
   {/if}
 </div>
 

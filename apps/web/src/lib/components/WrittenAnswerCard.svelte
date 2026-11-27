@@ -121,12 +121,12 @@
               </div>
             {/if}
             <div class="under">
-              <label class="photo btn quiet">
+              <label class="photo btn link">
                 <input type="file" accept="image/*" capture="environment" disabled={reading[p.id] || sending} onchange={(e) => addPhotos(p.id, e)} />
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 5.5 H4.6 L5.8 3.8 H10.2 L11.4 5.5 H14 V12.6 H2 Z" /><circle cx="8" cy="8.9" r="2.3" /></svg>
                 Take photo
               </label>
-              <label class="photo btn quiet">
+              <label class="photo btn link">
                 <input type="file" accept="image/*" multiple disabled={reading[p.id] || sending} onchange={(e) => addPhotos(p.id, e)} />
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11 V3 M4.8 6.2 L8 3 L11.2 6.2 M2.5 10.5 V13 H13.5 V10.5" /></svg>
                 Upload
@@ -161,9 +161,9 @@
   textarea { font: inherit; font-size: 15px; line-height: 1.5; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); resize: vertical; min-height: 140px; }
   textarea:focus { outline: none; border-color: var(--accent); }
   .preview { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: var(--bg); min-height: 60px; }
-  .under { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .under { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
   .count { font-size: 11px; margin-left: auto; }
-  .photo { position: relative; padding: 4px 8px; font-size: 13px; gap: 5px; }
+  .photo { position: relative; gap: 5px; }
   .photo input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .photo svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linejoin: round; }
   .tray { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

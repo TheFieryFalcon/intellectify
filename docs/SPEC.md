@@ -1239,7 +1239,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - Shows rank, score, θ, gate progress per rank, dot points covered, suggested prerequisites (with their ranks, for information only), and recent attempts.
 - **Learn** opens the skill's tutorial (§3.2): a clean reading view with glossary hovers and links to prerequisite tutorials. It is offered prominently on a student's first visit to a skill, but never required.
 - **Start practicing** is the main action. On first visit it offers a tier chooser (default Tier 3). **Drop a tier** is also available here.
-- Entry points to the section quiz, unit quiz and Section Challenge.
+- No quiz or Challenge links here: the section quiz, unit quiz and Section Challenge are reached from their nodes on the map.
 - **Tabs: Overview and Questions.** Questions lists every question whose skills include this one (practice, quiz and Challenge pools), easiest first: tier badge, name, type, pool, rating, and "Answered" once seen. A row expands to the stem and worked solution; a practice question has **Practice this**.
 
 ### 15.3a Questions page

@@ -122,6 +122,8 @@
 
 <style>
   .scroll { overflow-x: auto; padding-bottom: 8px; }
+  /* Phones: the map scrolls edge to edge, so wide units aren't cut off at the gutter. */
+  @media (max-width: 640px) { .scroll { margin: 0 -16px; padding: 0 16px 8px; } }
   .map { position: relative; margin: 0 auto; }
   svg.edges { position: absolute; inset: 0; overflow: visible; }
   .region { fill: var(--region); }

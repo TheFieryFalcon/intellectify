@@ -33,8 +33,9 @@
 </nav>
 
 <style>
-  .links { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
-  .tile { display: flex; flex-direction: column; gap: 2px; min-width: 150px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); text-decoration: none; transition: border-color 0.15s; }
+  .links { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin: 0 0 16px; max-width: 900px; }
+  @media (max-width: 640px) { .links { grid-template-columns: 1fr 1fr; } }
+  .tile { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); text-decoration: none; transition: border-color 0.15s; }
   .tile:hover, .tile:focus-visible { border-color: var(--accent); }
   .title { font-weight: 600; font-size: 14px; }
   .meta { font-size: 12px; color: var(--muted); }

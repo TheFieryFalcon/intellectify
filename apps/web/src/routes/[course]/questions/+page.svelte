@@ -81,7 +81,7 @@
   <p class="crumbs"><a href="/{data.course.id}">{data.course.name}</a></p>
   <h1>Questions <span class="count muted">{filtered.length} of {all.length}</span></h1>
 
-  <div class="controls">
+  <div class="controls filters">
     <input class="search" type="search" placeholder="Search" value={get("q")} oninput={(e) => set("q", e.currentTarget.value)} aria-label="Search questions" />
     <label>Tier <select value={get("tier")} onchange={(e) => set("tier", e.currentTarget.value)}><option value="">All</option>{#each [1, 2, 3, 4, 5, 6] as t (t)}<option value={String(t)}>{t}</option>{/each}</select></label>
     <label>Type <select value={get("kind")} onchange={(e) => set("kind", e.currentTarget.value)}><option value="">All</option><option value="auto">Auto-marked</option><option value="written">Written</option></select></label>
@@ -95,7 +95,7 @@
     <label>Answered <select value={get("answered")} onchange={(e) => set("answered", e.currentTarget.value)}><option value="">Any</option><option value="yes">Yes</option><option value="no">No</option></select></label>
     <label>Sort <select value={get("sort") || "easy"} onchange={(e) => set("sort", e.currentTarget.value)}><option value="easy">Easiest first</option><option value="hard">Hardest first</option><option value="name">Name</option><option value="tag">Tag</option></select></label>
     <label>Group <select value={get("group")} onchange={(e) => set("group", e.currentTarget.value)}><option value="">None</option><option value="tier">Tier</option><option value="tag">Tag</option><option value="skill">Skill</option><option value="section">Section</option><option value="answered">Answered</option></select></label>
-    {#if [...p.keys()].length}<button class="btn quiet" onclick={() => goto("?", { replaceState: true, noScroll: true })}>Clear</button>{/if}
+    {#if [...p.keys()].length}<button class="btn link" onclick={() => goto("?", { replaceState: true, noScroll: true })}>Clear</button>{/if}
   </div>
 
   {#if !all.length}

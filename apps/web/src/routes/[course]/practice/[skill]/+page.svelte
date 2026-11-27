@@ -109,15 +109,15 @@
     <p class="muted">No questions yet</p>
   {:else}
     <div class="history-nav">
-      <button class="btn quiet" disabled={back >= past.length} onclick={() => back++}>← Back</button>
+      <button class="btn link" disabled={back >= past.length} onclick={() => back++}>← Back</button>
       {#if back > 0}
         <span class="muted small">{ago(past[back - 1]!.at)} · {back} of {past.length}</span>
-        <button class="btn quiet" onclick={() => back--}>Forward →</button>
-        <button class="btn quiet" onclick={() => (back = 0)}>Current question</button>
+        <button class="btn link" onclick={() => back--}>Forward →</button>
+        <button class="btn link" onclick={() => (back = 0)}>Current question</button>
       {/if}
       <span class="nav-end">
         {#if back === 0 && served}<ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} />{/if}
-        <a class="muted small" href="/{data.course.id}/history?skill={skillId}">History</a>
+        <a class="btn link" href="/{data.course.id}/history?skill={skillId}">History</a>
       </span>
     </div>
     {#if back > 0}
@@ -170,9 +170,8 @@
 </div>
 
 <style>
-  .history-nav { display: flex; align-items: center; gap: 8px; margin: -4px 0 10px; flex-wrap: wrap; }
-  .history-nav .btn { padding: 4px 10px; font-size: 13px; }
-  .nav-end { margin-left: auto; display: inline-flex; align-items: center; gap: 12px; }
+  .history-nav { display: flex; align-items: center; gap: 6px 16px; margin: -4px 0 10px; flex-wrap: wrap; }
+  .nav-end { margin-left: auto; display: inline-flex; align-items: center; gap: 16px; }
   .small { font-size: 12px; }
   .result.past { margin-top: 0; }
   .crumbs { margin: 0 0 14px; font-size: 13px; color: var(--muted); }

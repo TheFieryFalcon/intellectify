@@ -58,9 +58,9 @@
         {#if marking?.waiting}<a class="marking" href="/specialist/marked" title="Written answers waiting for a mark">Marking {marking.waiting}</a>{/if}
         <a href="/leaderboards">Leaderboards</a>
         <a class="who muted" href="/profile/{session.user.uid}">{session.user.displayName}</a>
-        {#if profile?.loaded}<LevelBadge progress={profile.progress} bar />{/if}
+        {#if profile?.loaded}<a class="lvl" href="/profile/{session.user.uid}" aria-label="Your profile"><LevelBadge progress={profile.progress} bar /></a>{/if}
         <a class="settings" href="/settings">Settings</a>
-        <button class="btn quiet" onclick={() => session.backend?.signOut()}>Sign out</button>
+        <button class="btn link signout" onclick={() => session.backend?.signOut()}>Sign out</button>
       </nav>
     {/if}
   </div>
@@ -115,6 +115,15 @@
   .toast.marked { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
   .toast.marked a { color: var(--ink); text-decoration: none; }
   nav a.marking { font-size: 13px; color: var(--accent); }
+  nav a.lvl { display: inline-flex; color: var(--ink); }
+  nav .signout { font-size: 13px; }
+  /* Phones: the nav takes its own row under the brand; the name hides (the level badge links to the profile). */
+  @media (max-width: 640px) {
+    .bar { flex-wrap: wrap; row-gap: 4px; padding: 8px 16px; }
+    nav { width: 100%; justify-content: space-between; gap: 10px; font-size: 13px; }
+    nav a.who { display: none; }
+    nav a.lvl :global(.track) { display: none; }
+  }
   .toast .pts { color: var(--accent); font-variant-numeric: tabular-nums; }
   .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(15, 22, 35, 0.18); font-weight: 500; animation: rise 0.25s ease-out; }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }

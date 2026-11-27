@@ -62,10 +62,12 @@
           {/each}
         </div>
       </fieldset>
-      <label for="key">API key</label>
-      <div class="keyrow">
-        <input id="key" type={show ? "text" : "password"} autocomplete="off" spellcheck="false" bind:value={key} placeholder={current ? "Replace key" : "Paste key"} />
-        <button type="button" class="btn quiet" onclick={() => (show = !show)}>{show ? "Hide" : "Show"}</button>
+      <div class="field">
+        <label for="key">API key</label>
+        <div class="keyrow">
+          <input id="key" type={show ? "text" : "password"} autocomplete="off" spellcheck="false" bind:value={key} placeholder={current ? "Replace key" : "Paste key"} />
+          <button type="button" class="btn link" onclick={() => (show = !show)}>{show ? "Hide" : "Show"}</button>
+        </div>
       </div>
       <div class="actions">
         <button class="btn primary" disabled={!key.trim()}>Save</button>
@@ -116,7 +118,8 @@
   .provider input { position: absolute; opacity: 0; pointer-events: none; }
   .provider.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
   .provider:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .keyrow { display: flex; gap: 8px; }
+  .keyrow { display: flex; align-items: center; gap: 12px; }
+  .field label { display: block; }
   .keyrow input { flex: 1; min-width: 0; font: inherit; font-family: ui-monospace, monospace; font-size: 13px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
   .actions { display: flex; gap: 8px; }
   .wrap > .card + .card { margin-top: 16px; }

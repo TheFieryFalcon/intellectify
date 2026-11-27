@@ -48,6 +48,11 @@ button { font: inherit; }
 .btn.primary:hover { filter: brightness(1.05); }
 .btn:disabled { opacity: .5; cursor: default; }
 .btn.quiet { border-color: transparent; background: none; color: var(--muted); }
+/* A text button at the edge of a row: no side padding, so its text lines up with the content around it. */
+.btn.link { border: 0; background: none; color: var(--muted); padding: 4px 0; font-size: 13px; font-weight: 500; border-radius: 4px; }
+.btn.link:hover { color: var(--ink); }
+.btn.link:disabled { opacity: .45; }
+.btn.link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .muted { color: var(--muted); }
 .wrap { max-width: 1320px; margin: 0 auto; padding: 24px 16px 56px; }
@@ -70,3 +75,12 @@ input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; bord
 .diagram .da { stroke: var(--muted); stroke-width: 1.3; fill: none; }
 .diagram .dl { width: 100%; height: 100%; display: flex; font-size: 14px; color: var(--ink); line-height: 1; white-space: nowrap; }
 .diagram-error { color: var(--bad); font-size: 12px; white-space: pre-wrap; }
+
+/* Filter rows (Questions, History, Discussions): on phones, a tidy two-column grid with labels above. */
+@media (max-width: 640px) {
+  .filters { display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px 10px !important; align-items: end; }
+  .filters > label { display: flex; flex-direction: column; align-items: stretch !important; gap: 2px !important; min-width: 0; }
+  .filters select, .filters input { width: 100%; max-width: none !important; box-sizing: border-box; }
+  .filters > input[type="search"], .filters > .wide { grid-column: 1 / -1; }
+  .filters > .btn.link { justify-self: start; margin-left: 0 !important; }
+}
