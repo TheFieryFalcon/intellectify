@@ -32,6 +32,10 @@ export interface AchievementStats {
   challenges: Record<string, { best: number; swept: boolean }>;
   /** Since when every course skill has been at Diamond (for Diamond Hands). */
   allDiamondSince: number | null;
+  /** Daily problems solved, by Perth day: "first" if solved first try (SPEC §8.5). */
+  daily: Record<string, "first" | "solved">;
+  /** Discussion threads posted in ("<day>:<course>:<year>"). */
+  discussed: string[];
 }
 
 export const emptyStats = (): AchievementStats => ({
@@ -46,6 +50,8 @@ export const emptyStats = (): AchievementStats => ({
   perfectUnitQuizUnits: [],
   challenges: {},
   allDiamondSince: null,
+  daily: {},
+  discussed: [],
 });
 
 /** Monday-start week key in Perth time, e.g. "2026-11-23". */
@@ -147,6 +153,77 @@ export function onChallenge(prev: AchievementStats, e: { section: string; averag
   const s: AchievementStats = structuredClone(prev);
   const c = s.challenges[e.section] ?? { best: -1, swept: false };
   s.challenges[e.section] = { best: Math.max(c.best, e.average), swept: c.swept || e.allFirstTry };
+  return s;
+}
+
+const addDays = (day: string, n: number) => {
+  const [y, m, d] = day.split("-").map(Number) as [number, number, number];
+  return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
+};
+const weekday = (day: string) => new Date(`${day}T00:00:00Z`).getUTCDay(); // 0 = Sunday
+
+/** Full Week, Perfect Week and the week-with-discussions flag, for the Mon–Sun week holding `day`. */
+function checkWeek(s: AchievementStats, day: string) {
+  const monday = addDays(day, -((weekday(day) + 6) % 7));
+  const days = [0, 1, 2, 3, 4, 5, 6].map((i) => addDays(monday, i));
+  if (days.every((d) => s.daily[d])) s.flags.fullWeek = true;
+  if (days.every((d) => s.daily[d] === "first")) {
+    s.flags.perfectWeek = true;
+    if (days.every((d) => s.discussed.some((k) => k.startsWith(`${d}:`)))) s.flags.perfectWeekDiscussed = true;
+  }
+}
+
+/**
+ * A daily problem resolved (SPEC §8.5). Days count once, whichever year group's problem was solved.
+ * `streak` is the student's current daily streak.
+ */
+export function onDaily(prev: AchievementStats, e: { day: string; solved: boolean; firstTry: boolean; streak: number }): AchievementStats {
+  const s: AchievementStats = structuredClone(prev);
+  s.best.dailyStreak = Math.max(s.best.dailyStreak ?? 0, e.streak);
+  if (!e.solved) return s;
+  const had = s.daily[e.day];
+  const wd = weekday(e.day);
+  if (!had && (wd === 0 || wd === 6)) bump(s, "weekendDaily");
+  if (e.firstTry && had !== "first" && wd === 0) bump(s, "sundayFirstTry");
+  s.daily[e.day] = e.firstTry || had === "first" ? "first" : "solved";
+  s.daily = Object.fromEntries(Object.entries(s.daily).sort(([a], [b]) => a.localeCompare(b)).slice(-400));
+  checkWeek(s, e.day);
+  const month = e.day.slice(0, 7);
+  const [y, m] = month.split("-").map(Number) as [number, number];
+  const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  if ([...Array(days)].every((_, i) => s.daily[`${month}-${String(i + 1).padStart(2, "0")}`])) s.flags.calendarMonth = true;
+  return s;
+}
+
+/** A written answer marked (SPEC §10): 100% answers, in total and in a row. */
+export function onMarked(prev: AchievementStats, e: { score: number }): AchievementStats {
+  const s: AchievementStats = structuredClone(prev);
+  if (e.score >= 1) bump(s, "fr100");
+  streak(s, "fr100Streak", e.score >= 1);
+  return s;
+}
+
+/** An appeal re-marked (SPEC §10.3). */
+export function onAppeal(prev: AchievementStats, e: { before: number; after: number }): AchievementStats {
+  const s: AchievementStats = structuredClone(prev);
+  if (e.before < 1 && e.after >= 1) bump(s, "fr100");
+  if (e.before < 0.6 && e.after >= 1) s.flags.appealTurnaround = true;
+  return s;
+}
+
+/** A post or comment in a discussion thread (SPEC §13). */
+export function onPost(prev: AchievementStats, threadKey: string): AchievementStats {
+  const s: AchievementStats = structuredClone(prev);
+  if (!s.discussed.includes(threadKey)) s.discussed = [...s.discussed, threadKey].slice(-1000);
+  s.counts.discussions = s.discussed.length;
+  checkWeek(s, threadKey.slice(0, 10));
+  return s;
+}
+
+/** Set a one-off flag (e.g. Top of the Month, checked on the leaderboards). */
+export function onFlag(prev: AchievementStats, flag: string): AchievementStats {
+  const s: AchievementStats = structuredClone(prev);
+  s.flags[flag] = true;
   return s;
 }
 

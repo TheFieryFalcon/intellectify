@@ -19,6 +19,7 @@
   import { currentStreak, dailyTarget, dailyTier, yearGroupOf, type YearGroup } from "$lib/daily";
   import { dateOfDay } from "@intellectify/engine";
   import { dailyProblem } from "$lib/dailyProblem";
+  import { onDaily } from "$lib/achievements";
 
   let { data } = $props();
   const store = $derived(courseProgress(data.course.id));
@@ -70,7 +71,13 @@
     if (!store || !served || !profile) return;
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "daily" });
     summary = r.summary;
-    await profile.recordDaily(key, day, r.summary.outcome > 0);
+    const solved = r.summary.outcome > 0;
+    await profile.recordDaily(key, day, solved);
+    await achievements?.event(
+      (s) => onDaily(s, { day, solved, firstTry: solved && parts.every((p) => p.solvedOn === 1), streak: profile.profile.daily?.streak ?? 0 }),
+      store,
+      profile,
+    );
   }
 
   async function submitWritten(answers: Record<string, string>) {

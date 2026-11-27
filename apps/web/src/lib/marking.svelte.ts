@@ -23,6 +23,7 @@ import type { Backend, MarkingJob, User } from "./backend";
 import { loadByok, loadEffort, type Byok } from "./byok";
 import { loadCourse, loadQuestions, loadWords, type QuestionT } from "./content";
 import { achievementsFor } from "./achievements.svelte";
+import { onDaily } from "./achievements";
 import { profileFor } from "./profile.svelte";
 import { recordAppeal, recordMarked } from "./record";
 import { courseProgress } from "./session.svelte";
@@ -331,9 +332,19 @@ export class MarkingQueue {
         });
         await this.put({ ...(this.job(job.id) ?? job), applied: true });
         // A written daily problem counts as solved at the free-response pass mark (SPEC §6.3, §8.5).
-        if (job.daily && profile) await profile.recordDaily(job.daily, job.daily.split(":")[0]!, job.result!.score >= 0.6);
+        if (job.daily && profile) {
+          const day = job.daily.split(":")[0]!;
+          const solved = job.result!.score >= 0.6;
+          await profile.recordDaily(job.daily, day, solved);
+          // A written answer is one submission, so a solve is a first-try solve.
+          await achievementsFor(this.backend, this.user, course)?.event(
+            (s) => onDaily(s, { day, solved, firstTry: solved, streak: profile.profile.daily?.streak ?? 0 }),
+            store,
+            profile,
+          );
+        }
       } else {
-        await recordAppeal({ course, store, profile, question, first: job.result!, second: job.appeal!.result! });
+        await recordAppeal({ course, store, profile, question, first: job.result!, second: job.appeal!.result!, achievements: achievementsFor(this.backend, this.user, course) });
         const cur = this.job(job.id) ?? job;
         await this.put({ ...cur, appeal: { ...cur.appeal!, applied: true } });
       }

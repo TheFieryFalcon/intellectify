@@ -12,6 +12,7 @@ import type { ProfileStore } from "./profile.svelte";
 import type { CourseProgressStore } from "./session.svelte";
 import type { AchievementsStore } from "./achievements.svelte";
 import { addHistory, type HistoryMode } from "./history";
+import { onAppeal, onMarked } from "./achievements";
 
 export async function recordResult(opts: {
   course: CourseBundle;
@@ -156,6 +157,7 @@ export async function recordMarked(opts: {
     },
     store,
     profile,
+    (st) => onMarked(st, { score: opts.mark.score }),
   );
   let xp = 0;
   if (profile) {
@@ -173,6 +175,7 @@ export async function recordAppeal(opts: {
   question: QuestionT;
   first: MarkResult;
   second: MarkResult;
+  achievements?: AchievementsStore | null;
 }): Promise<{ summary: ResultSummary; xp: number }> {
   const { course, store, profile, question } = opts;
   const index = indexSkills(course);
@@ -181,6 +184,7 @@ export async function recordAppeal(opts: {
   const rankXp = rankUpXp(store, result);
   await store.save({ ...result.changes, rollupRanks: computeRollups(course, after).ranks }, null);
   opts.profile?.publishCourse(course, store.progress);
+  await opts.achievements?.event((st) => onAppeal(st, { before: opts.first.score, after: opts.second.score }), store, profile);
   if (profile && rankXp) await profile.grant(rankXp);
   return { summary: result, xp: rankXp };
 }

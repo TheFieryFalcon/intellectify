@@ -9,7 +9,10 @@
   import { loadPosts, noteChange } from "$lib/discussions";
   import { findBanned, loadBannedWords, safeName } from "$lib/moderation";
   import type { Served } from "$lib/practice";
-  import { session } from "$lib/session.svelte";
+  import { courseProgress, session } from "$lib/session.svelte";
+  import { achievementsFor } from "$lib/achievements.svelte";
+  import { onPost } from "$lib/achievements";
+  import { profileFor } from "$lib/profile.svelte";
 
   let { data } = $props();
   const key = $derived(page.params.key!);
@@ -59,6 +62,8 @@
       const post = await session.backend.addPost(user, { key, day: parsed.day, course: parsed.course, year: parsed.year, questionId: served.question.id }, body, parent, safeName(user.displayName));
       posts = [...(posts ?? []), post];
       noteChange(key, posts);
+      const store = courseProgress(data.course.id);
+      if (store) void achievementsFor(session.backend, user, data.course)?.event((s) => onPost(s, key), store, profileFor(session.backend, user));
       return true;
     } catch {
       error = "Couldn't post. Try again.";
