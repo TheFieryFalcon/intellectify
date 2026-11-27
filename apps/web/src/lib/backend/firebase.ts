@@ -34,6 +34,8 @@ const AUTH_MESSAGES: Record<string, string> = {
   "auth/user-not-found": "Wrong email or password.",
   "auth/invalid-email": "That email address isn't valid.",
   "auth/email-already-in-use": "An account with that email already exists. Sign in instead.",
+  "auth/account-exists-with-different-credential": "That email already has an account with a password. Log in with your email instead.",
+  "auth/provider-already-linked": "This account already has that login.",
   "auth/weak-password": "Use a password of at least 6 characters.",
   "auth/missing-password": "Enter your password.",
   "auth/too-many-requests": "Too many attempts. Wait a few minutes and try again.",
