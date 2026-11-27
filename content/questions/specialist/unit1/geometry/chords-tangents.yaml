@@ -1,6 +1,7 @@
 # Chords and the alternate segment (1.1.10, 1.1.11).
 
 - id: spec.geometry.chords-tangents.tangent-radius
+  title: "Tangent Meets Radius at a Right Angle"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangent and radius"
   rating: 1050
@@ -44,6 +45,7 @@
         return {"a": approx(angle_at(T, M, O))}
 
 - id: spec.geometry.chords-tangents.equal-tangents
+  title: "Equal Tangents from a Point"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangents from a point"
   rating: 1080
@@ -84,6 +86,7 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.chords-tangents.alternate-segment
+  title: "Angle in the Alternate Segment"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1120
@@ -127,6 +130,7 @@
         return {"a": approx(angle_at(T, A, B))}
 
 - id: spec.geometry.chords-tangents.equal-chords
+  title: "Equal Chords, Equal Angles at the Center"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Chords and the center"
   rating: 1160
@@ -174,6 +178,7 @@
         return {"a": round(angle_at(C, (0, 0), D))}
 
 - id: spec.geometry.chords-tangents.two-tangents-center
+  title: "Two Tangents and the Angle at the Center"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangents from a point"
   rating: 1280
@@ -219,6 +224,7 @@
         return {"a": approx(angle_at(S, (0, 0), T))}
 
 - id: spec.geometry.chords-tangents.tangent-triangle
+  title: "Isosceles Triangle Formed by Two Tangents"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangents from a point"
   rating: 1310
@@ -260,6 +266,7 @@
         return {"a": approx(angle_at(M, S, T))}
 
 - id: spec.geometry.chords-tangents.tangent-both-sides
+  title: "Chords on Both Sides of a Tangent"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1350
@@ -311,6 +318,7 @@
         return {"a": approx(angle_at(A, T, B)), "b": approx(angle_at(T, A, B)), "c": approx(angle_at(T, B, A))}
 
 - id: spec.geometry.chords-tangents.tangent-length
+  title: "Length of a Tangent from a Point"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangent and radius"
   rating: 1380
@@ -351,6 +359,7 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.chords-tangents.tangent-chord-center
+  title: "Tangent, Chord and Angle at the Center"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1420
@@ -397,6 +406,7 @@
         return {"a": approx(angle_at(O, T, A)), "b": approx(angle_at(T, O, A))}
 
 - id: spec.geometry.chords-tangents.equal-chords-two-step
+  title: "Equal Chords from a Base Angle"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Chords and the center"
   rating: 1450
@@ -445,6 +455,7 @@
         return {"a": round(angle_at(C, (0, 0), D))}
 
 - id: spec.geometry.chords-tangents.diameter-tangent
+  title: "Tangent at the End of a Diameter"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1480
@@ -489,6 +500,7 @@
         return {"a": approx(angle_at(C, B, D))}
 
 - id: spec.geometry.chords-tangents.prove-equal-tangents
+  title: "Proving Tangents from a Point Are Equal"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangents from a point"
   rating: 1400
@@ -521,6 +533,7 @@
   solution: |
     Join $OS$, $OT$ and $OM$. $\angle OSM = \angle OTM = 90^\circ$ (tangent ⟂ radius), $OS = OT$ (radii) and $OM$ is common. So right-angled triangles $OSM$ and $OTM$ are congruent (hypotenuse and one side), and $MS = MT$.
 - id: spec.geometry.chords-tangents.incircle-tangents
+  title: "Where the Inscribed Circle Touches a Side"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangents from a point"
   rating: 1600
@@ -564,6 +577,7 @@
         return {"a": approx(dist(A, (I[0], 0.0)))}
 
 - id: spec.geometry.chords-tangents.prove-alternate-segment
+  title: "Proving the Alternate Segment Theorem"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1520
@@ -600,6 +614,7 @@
   solution: |
     Draw the diameter $TD$ and join $DB$. The tangent is perpendicular to $TD$, so the tangent–chord angle is $90^\circ - \angle BTD$. In triangle $TBD$, $\angle TBD = 90^\circ$ (angle in a semicircle), so $\angle TDB = 90^\circ - \angle BTD$ too. So the tangent–chord angle equals $\angle TDB$, which equals $\angle TAB$ (same arc $TB$).
 - id: spec.geometry.chords-tangents.chord-of-contact
+  title: "Chord Joining Two Points of Contact"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangents from a point"
   rating: 1700
@@ -642,6 +657,7 @@
         return {"a": nsimplify(round(dist(S, T), 9))}
 
 - id: spec.geometry.chords-tangents.common-tangent
+  title: "Common Tangent to Touching Circles"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "Tangent and radius"
   rating: 1730
@@ -686,6 +702,7 @@
         return {"a": approx(dist(A, B))}
 
 - id: spec.geometry.chords-tangents.tangent-secant-angles
+  title: "Angles from a Tangent and an Extended Chord"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1700
@@ -734,6 +751,7 @@
         return {"a": approx(angle_at(A, C, B), 4)}
 
 - id: spec.geometry.chords-tangents.touching-circles-bisect
+  title: "Circles Touching Inside, and an Angle Bisector"
   skills: {primary: spec.geometry.chords-tangents}
   subsection: "The alternate segment theorem"
   rating: 1810

@@ -1,6 +1,7 @@
 # Section Challenge: Geometry (1.1). A fixed sequence, green → yellow → red → black (SPEC §8.4).
 
 - id: spec.geometry.ch.concentric-equal-pieces
+  title: "A Line Through Two Circles with One Center"
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Chords and the center"
@@ -37,6 +38,7 @@
     $B$ lies between $A$ and $M$, and $C$ between $M$ and $D$, so $AB = AM - BM = MD - MC = CD$.
 
 - id: spec.geometry.ch.cyclic-extended-sides
+  title: "Angles Where Opposite Sides Meet"
   pool: challenge
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
@@ -81,6 +83,7 @@
     Adding, $\angle APD + \angle AQB = 180^\circ - 2\alpha = 180^\circ - 2\angle DAB$.
 
 - id: spec.geometry.ch.tangent-two-chords
+  title: "Tangent and Two Chords"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   subsection: "Finding and proving angles"
@@ -126,6 +129,7 @@
         return {"a": approx(angle_at(T, B, A))}
 
 - id: spec.geometry.ch.tangent-meets-diameter
+  title: "Tangent Meeting an Extended Diameter"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   subsection: "Finding and proving angles"
@@ -164,6 +168,7 @@
     The tangent at $C$ is perpendicular to the radius, so $\angle OCT = 90^\circ$. In triangle $OCT$, $\angle CTO = 180^\circ - 90^\circ - 2x = 90^\circ - 2x$. Since $T$ lies on line $AB$, $\angle ATC = \angle CTO = 90^\circ - 2\angle CAB$.
 
 - id: spec.geometry.ch.log2-3-irrational
+  title: "log₂ 3 Is Irrational"
   pool: challenge
   skills: { primary: spec.geometry.proof-methods }
   subsection: "Proof by contradiction"
@@ -185,6 +190,7 @@
     Then $2^{p/q} = 3$, and raising both sides to the power $q$ gives $2^p = 3^q$. The left side is even (as $p \ge 1$) and the right side is odd, which is impossible. So $\log_2 3$ is irrational.
 
 - id: spec.geometry.ch.circle-through-lattice
+  title: "Circle Through Three Grid Points"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   subsection: "Finding and proving lengths"
@@ -223,6 +229,7 @@
         return {"a": sqrt(cx ** 2 + cy ** 2)}
 
 - id: spec.geometry.ch.determinant-one-coprime
+  title: "Determinant 1 Means No Common Factor"
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.geometry.proof-methods }
@@ -243,6 +250,7 @@
     Suppose, for contradiction, that a whole number $k > 1$ divides both $a$ and $b$. Then $k$ divides $ad$ and $bc$, so it divides their difference $ad - bc = 1$. No whole number greater than 1 divides 1, which is a contradiction. So $a$ and $b$ have no common factor greater than 1.
 
 - id: spec.geometry.ch.tangents-meet-distance
+  title: "Where Two Tangents Meet"
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.proof-methods] }
   subsection: "Tangents from a point"
@@ -284,6 +292,7 @@
     $$\frac{OM}{OA} = \frac{OA}{OP} \quad\Rightarrow\quad OP = \frac{OA^2}{OM} = \frac{r^2}{d}.$$
 
 - id: spec.geometry.ch.square-circle-radius
+  title: "Circle Through a Square's Corners and Side"
   pool: challenge
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
   subsection: "Intersecting chords"
@@ -324,6 +333,7 @@
     The diameter is $MS = s + \dfrac{s}{4} = \dfrac{5s}{4}$, so the radius is $\dfrac{5s}{8}$.
 
 - id: spec.geometry.ch.feet-mean-proportional
+  title: "Perpendiculars from a Point on an Arc"
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
   subsection: "The alternate segment theorem"
@@ -375,6 +385,7 @@
     $$\frac{CD}{CF} = \frac{CE}{CD} \quad\Rightarrow\quad CD^2 = CE \times CF.$$
 
 - id: spec.geometry.ch.bisector-meets-perpendicular
+  title: "Angle Bisector and Perpendicular Bisector Meet on the Circle"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   subsection: "Finding and proving angles"
@@ -411,6 +422,7 @@
     Since $AB \ne AC$, the bisector of angle $A$ is not the perpendicular bisector of $BC$, so the two lines meet in exactly one point, $M$, which lies on the circle.
 
 - id: spec.geometry.ch.touching-circles-parallel
+  title: "Parallel Tangents on Touching Circles"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   subsection: "Finding and proving angles"
@@ -448,6 +460,7 @@
     At $T$, the two angles the common tangent makes with line $AB$ (one on each side of $T$) are vertically opposite, so equal. Hence the tangents at $A$ and $B$ make equal alternate angles with the line $AB$, and so they are parallel.
 
 - id: spec.geometry.ch.common-chord-bisects-tangent
+  title: "Common Chord Through the Middle of a Common Tangent"
   pool: challenge
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
   subsection: "Tangent and secant"
@@ -484,6 +497,7 @@
     Hence $MA^2 = MB^2$, so $MA = MB$, and $M$ is the midpoint of $AB$.
 
 - id: spec.geometry.ch.root2-plus-root3
+  title: "√2 + √3 Is Irrational"
   pool: challenge
   skills: { primary: spec.geometry.proof-methods }
   subsection: "Proof by contradiction"
@@ -508,6 +522,7 @@
     So $\sqrt{2} + \sqrt{3}$ is irrational.
 
 - id: spec.geometry.ch.ptolemy
+  title: "Diagonals and Sides of a Cyclic Quadrilateral"
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
   subsection: "Finding and proving lengths"

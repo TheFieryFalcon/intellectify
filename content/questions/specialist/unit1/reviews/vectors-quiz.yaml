@@ -1,6 +1,7 @@
 # Section quiz pool: Vectors in the plane (1.3). Never served in practice (SPEC §8.1a).
 
 - id: spec.vectors-2d.sq.add-components
+  title: "Adding Vectors in Components"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Notation and arithmetic"
@@ -18,6 +19,7 @@
         return {"a": [3 - 1, -2 + 5]}
 
 - id: spec.vectors-2d.sq.length-6-8
+  title: "Length of a Vector"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Magnitude and direction"
@@ -35,6 +37,7 @@
         return {"a": sympy.sqrt(6**2 + 8**2)}
 
 - id: spec.vectors-2d.sq.parallelogram-diagonal
+  title: "Diagonal of a Parallelogram"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.geometric }
   subsection: "Adding and subtracting"
@@ -57,6 +60,7 @@
         return {"a": "b"}
 
 - id: spec.vectors-2d.sq.dot-2-3-4-1
+  title: "Scalar Product in Components"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Calculating the scalar product"
@@ -74,6 +78,7 @@
         return {"a": 2 * 4 + 3 * (-1)}
 
 - id: spec.vectors-2d.sq.unit-5-12
+  title: "Unit Vector in a Given Direction"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Magnitude and direction"
@@ -92,6 +97,7 @@
         return {"a": [5 / n, 12 / n]}
 
 - id: spec.vectors-2d.sq.perp-k
+  title: "Finding k for Perpendicular Vectors"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Perpendicular and parallel vectors"
@@ -110,6 +116,7 @@
         return {"a": sympy.solve(6 * k - 12, k)[0]}
 
 - id: spec.vectors-2d.sq.position-after-4
+  title: "Position After Constant Velocity"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
@@ -127,6 +134,7 @@
         return {"a": [1 + 4 * 3, 2 + 4 * (-1)]}
 
 - id: spec.vectors-2d.sq.scalar-proj-2
+  title: "Scalar Projection"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
@@ -144,6 +152,7 @@
         return {"a": sympy.Rational(2 * 3 + 1 * 4, 5)}
 
 - id: spec.vectors-2d.sq.cos-1-1-1-7
+  title: "Cosine of the Angle Between Two Vectors"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Angle between vectors"
@@ -161,6 +170,7 @@
         return {"a": sympy.Rational(8) / (sympy.sqrt(2) * sympy.sqrt(50))}
 
 - id: spec.vectors-2d.sq.vproj-4-1
+  title: "Vector Projection"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
@@ -179,6 +189,7 @@
         return {"a": [f, 2 * f]}
 
 - id: spec.vectors-2d.sq.plane-240-70
+  title: "Plane's Ground Speed in a Crosswind"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
@@ -196,6 +207,7 @@
         return {"a": sympy.sqrt(240**2 + 70**2)}
 
 - id: spec.vectors-2d.sq.difference-3-5-60
+  title: "Length of a Difference of Vectors"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.geometric }
   subsection: "Magnitudes from the triangle rule"
@@ -213,6 +225,7 @@
         return {"a": sympy.sqrt(9 + 25 - 2 * 3 * 5 * sympy.cos(sympy.pi / 3))}
 
 - id: spec.vectors-2d.sq.collinear-k
+  title: "Three Points on a Line"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Points and parallel vectors"
@@ -231,6 +244,7 @@
         return {"a": sympy.solve(sympy.Eq(3 * (k - 2), 4 * 9), k)[0]}
 
 - id: spec.vectors-2d.sq.square-diagonals
+  title: "Diagonals of a Square by Vectors"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
@@ -255,6 +269,7 @@
     $|\mathbf{a} \pm \mathbf{c}|^2 = |\mathbf{a}|^2 \pm 2\,\mathbf{a} \cdot \mathbf{c} + |\mathbf{c}|^2 = |\mathbf{a}|^2 + |\mathbf{c}|^2$ for both signs, so the diagonals are equal in length.
 
 - id: spec.vectors-2d.sq.dot-from-lengths
+  title: "Scalar Product from Three Lengths"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Magnitudes and the scalar product"
@@ -272,6 +287,7 @@
         return {"a": sympy.Rational(16 - 4 - 9, 2)}
 
 - id: spec.vectors-2d.sq.midpoint-theorem
+  title: "Midpoint Theorem by Vectors"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Triangles and circles"

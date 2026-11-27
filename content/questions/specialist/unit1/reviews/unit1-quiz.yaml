@@ -1,6 +1,7 @@
 # Unit quiz pool: Unit 1. Never served in practice (SPEC §8.1a).
 
 - id: spec.u1.quiz.codes-3-letters
+  title: "Three-Letter Codes"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
@@ -18,6 +19,7 @@
         return {'a': 5 ** 3}
 
 - id: spec.u1.quiz.angle-semicircle
+  title: "Angle in a Semicircle"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
@@ -36,6 +38,7 @@
         return {'a': approx(angle_at(C, B, A), 4)}
 
 - id: spec.u1.quiz.scale-vector
+  title: "Multiplying a Vector by a Number"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Notation and arithmetic"
@@ -53,6 +56,7 @@
         return {'a': [6, -15]}
 
 - id: spec.u1.quiz.factorial-6
+  title: "Finishing Orders in a Race"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Arranging different objects"
@@ -70,6 +74,7 @@
         return {'a': sympy.factorial(6)}
 
 - id: spec.u1.quiz.choose-3-of-10
+  title: "Choosing Elective Subjects"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Choosing a group"
@@ -87,6 +92,7 @@
         return {'a': sympy.binomial(10, 3)}
 
 - id: spec.u1.quiz.contrapositive-square
+  title: "Contrapositive of \"If n² Is Even\""
   pool: unit-quiz
   skills: { primary: spec.geometry.logic }
   subsection: "Implication, converse and contrapositive"
@@ -109,6 +115,7 @@
         return {'a': 'd'}
 
 - id: spec.u1.quiz.dot-perp-check
+  title: "Scalar Product in Components"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Calculating the scalar product"
@@ -126,6 +133,7 @@
         return {'a': 3 * 4 + (-2) * 6}
 
 - id: spec.u1.quiz.tangent-length-8-17
+  title: "Length of a Tangent from a Point"
   pool: unit-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangent and radius"
@@ -143,6 +151,7 @@
         return {'a': sympy.sqrt(17**2 - 8**2)}
 
 - id: spec.u1.quiz.union-three
+  title: "Size of a Union of Three Sets"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   subsection: "Three sets"
@@ -160,6 +169,7 @@
         return {'a': 12 + 10 + 8 - 4 - 3 - 2 + 1}
 
 - id: spec.u1.quiz.vector-ab
+  title: "Vector Between Two Points"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Notation and arithmetic"
@@ -177,6 +187,7 @@
         return {'a': [-2 - 3, 4 + 1]}
 
 - id: spec.u1.quiz.same-arc
+  title: "Angles on the Same Arc"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
@@ -196,6 +207,7 @@
         return {'a': approx(angle_at(A, D, B), 4)}
 
 - id: spec.u1.quiz.pigeon-socks-5
+  title: "Three Socks of the Same Color"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
   subsection: "Guaranteeing a match"
@@ -213,6 +225,7 @@
         return {'a': 2 * 5 + 1}
 
 - id: spec.u1.quiz.vowel-start
+  title: "TRIANGLE Beginning and Ending with a Vowel"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Fixed positions and order"
@@ -231,6 +244,7 @@
         return {'a': sum(1 for p in permutations('TRIANGLE') if p[0] in 'IAE' and p[-1] in 'IAE')}
 
 - id: spec.u1.quiz.secant-5-7
+  title: "Two Secants from a Point"
   pool: unit-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
   subsection: "Two secants from a point"
@@ -249,6 +263,7 @@
         return {'a': md - 4}
 
 - id: spec.u1.quiz.angle-between
+  title: "Angle Between Two Vectors"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Angle between vectors"
@@ -267,6 +282,7 @@
         return {'a': sympy.deg(sympy.acos(c))}
 
 - id: spec.u1.quiz.cyclic-exterior
+  title: "Exterior Angle of a Cyclic Quadrilateral"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Finding and proving angles"
@@ -284,6 +300,7 @@
         return {'a': 81}
 
 - id: spec.u1.quiz.committee-with-chair
+  title: "Committee with a Chair"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Splitting into groups and roles"
@@ -301,6 +318,7 @@
         return {'a': sympy.binomial(9, 4) * 4}
 
 - id: spec.u1.quiz.negate-exists
+  title: "Negating \"There Is an Even Prime over 100\""
   pool: unit-quiz
   skills: { primary: spec.geometry.logic }
   subsection: "Negation"
@@ -323,6 +341,7 @@
         return {'a': 'a'}
 
 - id: spec.u1.quiz.midpoint-vector
+  title: "Point Dividing a Segment in a Ratio"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.geometric }
   subsection: "Points dividing a line"
@@ -345,6 +364,7 @@
         return {'a': 'c'}
 
 - id: spec.u1.quiz.pascal-sum-row
+  title: "Sum of a Row of Pascal's Triangle"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Row sums"
@@ -362,6 +382,7 @@
         return {'a': sum(sympy.binomial(8, k) for k in range(9))}
 
 - id: spec.u1.quiz.odd-times-odd-proof
+  title: "Odd Times Odd Is Odd"
   pool: unit-quiz
   skills: { primary: spec.geometry.proof-methods }
   subsection: "Direct proof"
@@ -381,6 +402,7 @@
     Let the integers be $2a + 1$ and $2b + 1$. Their product is $4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1$, which is one more than an even number, so it is odd.
 
 - id: spec.u1.quiz.relative-velocity
+  title: "Speed of One Car Relative to Another"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Relative velocity"
@@ -398,6 +420,7 @@
         return {'a': sympy.sqrt(20**2 + 15**2)}
 
 - id: spec.u1.quiz.angle-center-tangent
+  title: "Two Tangents and the Angle at the Center"
   pool: unit-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
@@ -415,6 +438,7 @@
         return {'a': 360 - 90 - 90 - 112}
 
 - id: spec.u1.quiz.ie-not-div
+  title: "Integers Divisible by Neither 4 nor 6"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   subsection: "Divisibility"
@@ -432,6 +456,7 @@
         return {'a': sum(1 for n in range(1, 301) if n % 4 and n % 6)}
 
 - id: spec.u1.quiz.circle-chords-cross
+  title: "Angle from Crossing Chords"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   subsection: "Finding and proving angles"
@@ -449,6 +474,7 @@
         return {'a': 70 - 32}
 
 - id: spec.u1.quiz.sum-of-digits-arrangements
+  title: "Even Four-Digit Numbers from Six Digits"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Arranging different objects"
@@ -467,6 +493,7 @@
         return {'a': sum(1 for p in permutations('123456', 4) if int(p[-1]) % 2 == 0)}
 
 - id: spec.u1.quiz.vector-proof-parallelogram
+  title: "Opposite Sides of a Parallelogram by Vectors"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
@@ -486,6 +513,7 @@
     Going around the quadrilateral, $\overrightarrow{AD} = \overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CD}$. Since $\overrightarrow{CD} = -\overrightarrow{DC} = -\overrightarrow{AB}$, the first and last terms cancel, leaving $\overrightarrow{AD} = \overrightarrow{BC}$.
 
 - id: spec.u1.quiz.projection-length-k
+  title: "Finding k from a Scalar Projection"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
@@ -504,6 +532,7 @@
         return {'a': sympy.solve(sympy.Eq((3 * k + 8) / 5, 5), k)[0]}
 
 - id: spec.u1.quiz.tangent-secant-solve
+  title: "Secant Length from a Tangent"
   pool: unit-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
   subsection: "Tangent and secant"
@@ -522,6 +551,7 @@
         return {'a': sympy.solve(sympy.Eq(x * (x + 10), 144), x)[0]}
 
 - id: spec.u1.quiz.grid-paths
+  title: "Grid Paths Through a Given Point"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Paths on a grid"

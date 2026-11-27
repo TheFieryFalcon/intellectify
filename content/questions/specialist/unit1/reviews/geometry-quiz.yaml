@@ -1,6 +1,7 @@
 # Section quiz pool: Geometry (1.1). Never served in practice (SPEC §8.1a).
 
 - id: spec.geometry.sq.rain-contrapositive
+  title: "Contrapositive of \"If It Rains\""
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
   subsection: "Implication, converse and contrapositive"
@@ -23,6 +24,7 @@
         return {"a": "c"}
 
 - id: spec.geometry.sq.center-from-38
+  title: "Angle at the Center from the Circumference"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
@@ -67,6 +69,7 @@
         return {"a": approx(angle_at(A, (0, 0), B))}
 
 - id: spec.geometry.sq.tangent-12
+  title: "Tangent Length by Pythagoras"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangent and radius"
@@ -108,6 +111,7 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.sq.chords-4-9-6
+  title: "Intersecting Chords"
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
   subsection: "Intersecting chords"
@@ -148,6 +152,7 @@
         return {"a": Rational(ax * xb, cx)}
 
 - id: spec.geometry.sq.converse-of-four
+  title: "Counterexample to \"Even Means a Multiple of 4\""
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
   subsection: "Implication, converse and contrapositive"
@@ -165,6 +170,7 @@
         return {"a": next(n for n in range(1, 100) if n % 2 == 0 and n % 4 != 0)}
 
 - id: spec.geometry.sq.cyclic-2x-3x
+  title: "Opposite Angles with an Unknown"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
@@ -206,6 +212,7 @@
         return {"a": solve(f(e1) + f(e2) - 180, X)[0]}
 
 - id: spec.geometry.sq.diameter-complement
+  title: "Angles in a Triangle on a Diameter"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
@@ -239,6 +246,7 @@
     $AB$ is a diameter, so $\angle ACB = 90^\circ$ (angle in a semicircle). The angles of triangle $ABC$ add to $180^\circ$, so $\angle CAB + \angle CBA = 180^\circ - 90^\circ = 90^\circ$.
 
 - id: spec.geometry.sq.tangent-chord-center
+  title: "Tangent–Chord Angle and the Angle at the Center"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "The alternate segment theorem"
@@ -283,6 +291,7 @@
         return {"a": approx(angle_at(T, (0, 0), B))}
 
 - id: spec.geometry.sq.tangent-secant-3-9
+  title: "Tangent Length from a Secant"
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
   subsection: "Tangent and secant"
@@ -325,6 +334,7 @@
         return {"a": approx(dist(M, T), 6)}
 
 - id: spec.geometry.sq.exterior-and-opposite
+  title: "Exterior and Opposite Angles of a Cyclic Quadrilateral"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Finding and proving angles"
@@ -380,6 +390,7 @@
         return {"a": approx(angle_at(B, A, D), 6), "b": approx(angle_at(A, D, C), 6)}
 
 - id: spec.geometry.sq.tangents-minor-arc
+  title: "Two Tangents and a Point on the Minor Arc"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
@@ -430,6 +441,7 @@
         return {"a": approx(angle_at(A, C, B))}
 
 - id: spec.geometry.sq.base-angle-22
+  title: "From a Base Angle to the Circumference"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
@@ -475,6 +487,7 @@
         return {"a": approx(angle_at(A, C, B))}
 
 - id: spec.geometry.sq.negate-for-every-y
+  title: "Negating \"For Every x There Is a y\""
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
   subsection: "Negation"
@@ -497,6 +510,7 @@
         return {"a": "b"}
 
 - id: spec.geometry.sq.prime-2p-plus-1
+  title: "When 2p + 1 Isn't Prime"
   pool: section-quiz
   skills: { primary: spec.geometry.proof-methods }
   subsection: "Counterexamples"
@@ -514,6 +528,7 @@
         return {"a": next(p for p in sympy.primerange(2, 100) if not sympy.isprime(2 * p + 1))}
 
 - id: spec.geometry.sq.odd-square-minus-one
+  title: "Odd Squares Minus 1 Are Multiples of 8"
   pool: section-quiz
   skills: { primary: spec.geometry.proof-methods }
   subsection: "Direct proof"
@@ -536,6 +551,7 @@
     $k$ and $k + 1$ are consecutive integers, so one of them is even, and $k(k + 1) = 2m$ for some integer $m$. Then $n^2 - 1 = 8m$, a multiple of 8.
 
 - id: spec.geometry.sq.tangents-major-arc-proof
+  title: "Two Tangents and the Angle on the Major Arc"
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"

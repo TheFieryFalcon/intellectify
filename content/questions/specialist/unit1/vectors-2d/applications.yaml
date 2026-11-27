@@ -3,6 +3,7 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.applications.speed
+  title: "Speed from a Velocity"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
   rating: 1020
@@ -23,6 +24,7 @@
         return {"a": sqrt(x**2 + y**2)}
 
 - id: spec.vectors-2d.applications.resultant-force
+  title: "Resultant of Three Forces"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Forces, equilibrium and work"
   rating: 1050
@@ -42,6 +44,7 @@
         return {"a": [a1 + b1 + c1, a2 + b2 + c2]}
 
 - id: spec.vectors-2d.applications.position-at-time
+  title: "Position After Moving at Constant Velocity"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
   rating: 1080
@@ -61,6 +64,7 @@
         return {"a": [x + t*u, y + t*w]}
 
 - id: spec.vectors-2d.applications.equilibrium
+  title: "Force That Keeps a Particle in Equilibrium"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Forces, equilibrium and work"
   rating: 1100
@@ -80,6 +84,7 @@
         return {"a": [-(a1 + b1), -(a2 + b2)]}
 
 - id: spec.vectors-2d.applications.bearing-axis
+  title: "Velocity on a Compass Bearing"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
   rating: 1120
@@ -101,6 +106,7 @@
         return {"a": [s*sin(t), s*cos(t)]}
 
 - id: spec.vectors-2d.applications.current-across
+  title: "Crossing a Current"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1150
@@ -123,6 +129,7 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.applications.work
+  title: "Work Done by a Force"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Forces, equilibrium and work"
   rating: 1260
@@ -142,6 +149,7 @@
         return {"a": f1*s1 + f2*s2}
 
 - id: spec.vectors-2d.applications.relative-velocity
+  title: "Velocity of One Car Relative to Another"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Relative velocity"
   rating: 1270
@@ -161,6 +169,7 @@
         return {"a": [a1 - b1, a2 - b2]}
 
 - id: spec.vectors-2d.applications.bearing-components
+  title: "Displacement on a Bearing in Components"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
   rating: 1300
@@ -183,6 +192,7 @@
         return {"a": [d*sin(t), d*cos(t)]}
 
 - id: spec.vectors-2d.applications.plane-crosswind
+  title: "Flying in a Crosswind: Ground Speed and Bearing"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1340
@@ -207,6 +217,7 @@
         return {"a": round(float(g.norm()), 1), "b": round(float(deg(atan2(g[0], g[1]))), 1)}
 
 - id: spec.vectors-2d.applications.two-legs
+  title: "Two Legs of a Yacht Trip"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
   rating: 1380
@@ -231,6 +242,7 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.applications.velocity-from-displacement
+  title: "Velocity of a Drone Between Two Points"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Position and constant velocity"
   rating: 1400
@@ -252,6 +264,7 @@
         return {"a": list(v), "b": v.norm()}
 
 - id: spec.vectors-2d.applications.collide-or-not
+  title: "Will Two Ships Collide?"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Collision and closest approach"
   rating: 1410
@@ -276,6 +289,7 @@
         return {"a": "a" if hit else "c"}
 
 - id: spec.vectors-2d.applications.equilibrium-bearing
+  title: "Balancing Force: Size and Bearing"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Forces, equilibrium and work"
   rating: 1420
@@ -299,6 +313,7 @@
         return {"a": F.norm(), "b": round(float(deg(atan2(F[0], F[1])) % 360), 1)}
 
 - id: spec.vectors-2d.applications.river-crossing
+  title: "Crossing a River Pointing Straight Across"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1440
@@ -325,6 +340,7 @@
         return {"t": T, "d": Rational(str(c)) * T}
 
 - id: spec.vectors-2d.applications.heading-due-north
+  title: "Heading to Travel Due North Against a Current"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1460
@@ -349,6 +365,7 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.applications.intercept-fixed-time
+  title: "Patrol Boat Meeting a Ship at a Set Time"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Collision and closest approach"
   rating: 1550
@@ -371,6 +388,7 @@
         return {"a": list(v), "b": v.norm()}
 
 - id: spec.vectors-2d.applications.plane-due-north
+  title: "Flying Due North in a Crosswind"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1580
@@ -395,6 +413,7 @@
         return {"a": round(float(deg(asin(Rational(70, 250)))), 1), "b": Rational(400) / v * 60}
 
 - id: spec.vectors-2d.applications.closest-approach
+  title: "When Two Ships Are Closest"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Collision and closest approach"
   rating: 1610
@@ -421,6 +440,7 @@
         return {"t": t0, "d": sqrt(d2.subs(t, t0))}
 
 - id: spec.vectors-2d.applications.apparent-wind
+  title: "Wind as a Cyclist Feels It"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Relative velocity"
   rating: 1640
@@ -447,6 +467,7 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.applications.intercept-speed
+  title: "Intercepting a Ship at a Given Speed"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Collision and closest approach"
   rating: 1700
@@ -472,6 +493,7 @@
         return {"t": t0, "v": list(meet / t0)}
 
 - id: spec.vectors-2d.applications.swim-upstream
+  title: "Swimming to a Point Upstream"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1740
@@ -498,6 +520,7 @@
         return {"a": round(float(deg(t0)), 1), "b": round(float(100 / (2*cos(t0))), 1)}
 
 - id: spec.vectors-2d.applications.plane-track
+  title: "Flying a Set Track in a Wind"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1760
@@ -527,6 +550,7 @@
         return {"a": round(float(deg(atan2(pv[0], pv[1]))), 1), "b": 960 / s0}
 
 - id: spec.vectors-2d.applications.two-strings
+  title: "Mass Hanging from Two Strings"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Forces, equilibrium and work"
   rating: 1700
@@ -552,6 +576,7 @@
         return {"a": round(float(s[t1]), 1), "b": s[t2]}
 
 - id: spec.vectors-2d.applications.true-wind
+  title: "Finding the True Wind from Two Speeds"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Relative velocity"
   rating: 1760
@@ -583,6 +608,7 @@
         return {"a": w.norm(), "b": deg(atan2(frm[0], frm[1])) % 360}
 
 - id: spec.vectors-2d.applications.least-drift
+  title: "Least Drift Crossing a Fast River"
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Navigation with wind and current"
   rating: 1790
@@ -609,6 +635,7 @@
         return {"a": round(float(deg(crit)), 1), "b": round(float(drift.subs(th, crit)), 1)}
 
 - id: spec.vectors-2d.applications.resultant-two
+  title: "Resultant of Two Forces"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Forces, equilibrium and work"
   rating: 1070
@@ -629,6 +656,7 @@
     def answers(a1, a2, b1, b2):
         return {"a": [a1 + b1, a2 + b2]}
 - id: spec.vectors-2d.applications.when-reaches
+  title: "When a Particle Reaches a Line"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Position and constant velocity"
   rating: 1150
@@ -650,6 +678,7 @@
         t0 = solve(2 + 3*t - 14, t)[0]
         return {"t": t0, "y": 1 + 4*t0}
 - id: spec.vectors-2d.applications.perpendicular-forces
+  title: "Resultant of Perpendicular Forces"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Forces, equilibrium and work"
   rating: 1290
@@ -669,6 +698,7 @@
     def answers(p, q, v):
         return {"a": sqrt(p**2 + q**2)}
 - id: spec.vectors-2d.applications.relative-speed
+  title: "Speed of One Car Relative to Another"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Relative velocity"
   rating: 1320
@@ -685,6 +715,7 @@
     def answers():
         return {"a": (Matrix([20, 0]) - Matrix([0, 15])).norm()}
 - id: spec.vectors-2d.applications.cross-due-north
+  title: "Boat Traveling Due North Across a Current"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Navigation with wind and current"
   rating: 1360
@@ -704,6 +735,7 @@
     def answers(s, c, v):
         return {"a": sqrt(s**2 - c**2)}
 - id: spec.vectors-2d.applications.work-between-points
+  title: "Work Done Moving Between Two Points"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Forces, equilibrium and work"
   rating: 1390
@@ -720,6 +752,7 @@
     def answers():
         return {"a": Matrix([3, 4]).dot(Matrix([5, 7]) - Matrix([1, 1]))}
 - id: spec.vectors-2d.applications.four-forces
+  title: "Missing Force in Equilibrium"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Forces, equilibrium and work"
   rating: 1420
@@ -738,6 +771,7 @@
         s = Matrix([2, 5]) + Matrix([-7, 1]) + Matrix([3, -2])
         return {"a": list(-s)}
 - id: spec.vectors-2d.applications.plane-south-wind
+  title: "Plane in a North Wind"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Navigation with wind and current"
   rating: 1480
@@ -759,6 +793,7 @@
         g = Matrix([200, -50])
         return {"a": round(float(g.norm()), 1), "b": round(float(deg(atan2(g[0], g[1])) % 360), 1)}
 - id: spec.vectors-2d.applications.find-current
+  title: "Speed of a River's Current"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Navigation with wind and current"
   rating: 1520
@@ -776,6 +811,7 @@
         t = Rational(60, 2)
         return {"a": Rational(45) / t}
 - id: spec.vectors-2d.applications.rain-cyclist
+  title: "Rain as a Cyclist Sees It"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Relative velocity"
   rating: 1560
@@ -797,6 +833,7 @@
         r = Matrix([0, -6]) - Matrix([8, 0])
         return {"a": r.norm(), "b": round(float(deg(atan2(abs(r[0]), abs(r[1])))), 1)}
 - id: spec.vectors-2d.applications.collide-velocity
+  title: "Velocity Needed to Collide"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Collision and closest approach"
   rating: 1600
@@ -815,6 +852,7 @@
         meet = 5 * Matrix([2, 3])
         return {"a": list((meet - Matrix([10, -5])) / 5)}
 - id: spec.vectors-2d.applications.aircraft-airspeed
+  title: "Airspeed and Heading to Arrive on Time"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Navigation with wind and current"
   rating: 1650
@@ -837,6 +875,7 @@
         a = Matrix([200, 0]) - Matrix([0, 40])
         return {"a": round(float(a.norm()), 1), "b": round(float(deg(atan2(a[0], a[1])) % 360), 1)}
 - id: spec.vectors-2d.applications.river-two-ways
+  title: "Crossing a River Two Ways"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Navigation with wind and current"
   rating: 1710
@@ -866,6 +905,7 @@
         across = 5 * cos(th)
         return {"a": Rational(120, 5), "b": 3 * Rational(120, 5), "c": round(float(deg(th)), 1), "d": 120 / across}
 - id: spec.vectors-2d.applications.relative-bearing
+  title: "Relative Velocity of Two Ships with a Bearing"
   skills: {primary: spec.vectors-2d.applications}
   subsection: "Relative velocity"
   rating: 1440

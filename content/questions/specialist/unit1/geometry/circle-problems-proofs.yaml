@@ -1,6 +1,7 @@
 # Converses and circle geometry problems: written proofs (1.1.9).
 
 - id: spec.geometry.circle-problems.two-right-angles-concyclic
+  title: "Two Right Angles on the Same Segment"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1400
@@ -37,6 +38,7 @@
     By the converse of the angle in a semicircle, $\angle ACB = 90^\circ$ means $C$ lies on the circle with diameter $AB$, and $\angle ADB = 90^\circ$ means $D$ lies on that same circle. $A$ and $B$ are on it too, so all four points are concyclic.
 
 - id: spec.geometry.circle-problems.perpendicular-bisectors-meet
+  title: "Perpendicular Bisectors of a Triangle Meet"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1450
@@ -69,6 +71,7 @@
     The sides $AB$ and $BC$ aren't parallel, so their perpendicular bisectors meet at a point $O$. Being on the first gives $OA = OB$, and on the second $OB = OC$. So $OA = OC$, and $O$ is also on the perpendicular bisector of $CA$: all three meet at $O$. Since $OA = OB = OC$, the circle with center $O$ through $A$ passes through $B$ and $C$.
 
 - id: spec.geometry.circle-problems.kite-right-angle-cyclic
+  title: "Kite with a Right Angle Is Cyclic"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1520
@@ -103,6 +106,7 @@
     Triangles $ABC$ and $ADC$ have $AB = AD$, $CB = CD$ and $AC$ common, so they are congruent and $\angle ADC = \angle ABC = 90^\circ$. Then $\angle ABC + \angle ADC = 180^\circ$, so by the converse of the cyclic quadrilateral theorem $ABCD$ is cyclic. In that circle, $\angle ABC = 90^\circ$ is an angle in a semicircle on $AC$, so $AC$ is a diameter.
 
 - id: spec.geometry.circle-problems.isosceles-trapezium-cyclic
+  title: "Isosceles Trapezium Is Cyclic"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1520
@@ -138,6 +142,7 @@
     $AB \parallel DC$, so the co-interior angles at $B$ and $C$ add to $180^\circ$: $\angle CBA + \angle BCD = 180^\circ$. Since $\angle DAB = \angle CBA$, this gives $\angle DAB + \angle BCD = 180^\circ$. Opposite angles add to $180^\circ$, so by the converse of the cyclic quadrilateral theorem, $ABCD$ is cyclic.
 
 - id: spec.geometry.circle-problems.circle-through-bc-antiparallel
+  title: "Circle Through Two Corners of a Triangle"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Finding and proving angles"
   rating: 1520
@@ -173,6 +178,7 @@
     $B$, $D$, $E$, $C$ lie on the circle, so $BDEC$ is a cyclic quadrilateral. $A$, $D$, $B$ are collinear, so $\angle ADE$ is an exterior angle of it at $D$, and equals the interior opposite angle $\angle BCE$. Since $E$ lies on $AC$, $\angle BCE = \angle ACB$. Hence $\angle ADE = \angle ACB$.
 
 - id: spec.geometry.circle-problems.converse-same-arc
+  title: "Equal Angles Put Four Points on a Circle"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   subsection: "Proving points lie on a circle"
   rating: 1560
@@ -209,6 +215,7 @@
     Equal angles $\angle ACB = \angle ADB$, with $C$ and $D$ on the same side of $AB$, mean $A$, $B$, $C$, $D$ are concyclic (converse of angles on the same arc). In that circle, $\angle CAD$ and $\angle CBD$ both stand on arc $CD$, so they are equal.
 
 - id: spec.geometry.circle-problems.tangent-parallel-diagonal
+  title: "Tangent Parallel to a Diagonal"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   subsection: "Finding and proving angles"
   rating: 1580
@@ -245,6 +252,7 @@
     Let $X$ be on the tangent at $A$, on the side of $AB$ away from $D$. By the alternate segment theorem, $\angle XAB = \angle ADB$. Since $AX \parallel BD$, $\angle XAB = \angle ABD$ (alternate angles). So $\angle ADB = \angle ABD$, triangle $ABD$ is isosceles, and $AB = AD$.
 
 - id: spec.geometry.circle-problems.equal-chords-parallel
+  title: "Equal Chords Give Parallel Sides"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   subsection: "Finding and proving angles"
   rating: 1580
@@ -279,6 +287,7 @@
     Equal chords subtend equal angles at the circumference: $\angle ADB$ (on chord $AB$) equals $\angle DBC$ (on chord $CD$). With the points in order $A, B, C, D$, $A$ and $C$ are on opposite sides of $BD$, so these are alternate angles for the lines $AD$ and $BC$ cut by $BD$. Equal alternate angles mean $AD \parallel BC$.
 
 - id: spec.geometry.circle-problems.secant-triangles-similar
+  title: "Similar Triangles from Extended Sides"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
   subsection: "Finding and proving angles"
   rating: 1600
@@ -314,6 +323,7 @@
     $E$, $B$, $A$ are collinear, so $\angle EBC$ is an exterior angle of cyclic quadrilateral $ABCD$, and equals the interior opposite angle $\angle ADC = \angle EDA$. The triangles also share the angle at $E$. Two pairs of equal angles, so triangles $EBC$ and $EDA$ are similar.
 
 - id: spec.geometry.circle-problems.tangent-by-angles
+  title: "Equal Angles and a Product of Lengths"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
   subsection: "Finding and proving angles"
   rating: 1600
@@ -351,6 +361,7 @@
     (In circle terms: $BA$ is tangent to the circle through $A$, $D$, $C$, by the converse of the alternate segment theorem, and this is the tangent–secant theorem.)
 
 - id: spec.geometry.circle-problems.feet-of-altitudes-angle
+  title: "Feet of Two Altitudes"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1640
@@ -389,6 +400,7 @@
     $\angle BEC = \angle BFC = 90^\circ$, so $E$ and $F$ lie on the circle with diameter $BC$, and $B$, $C$, $E$, $F$ are concyclic. In cyclic quadrilateral $BCEF$, $A$, $E$, $C$ are collinear, so $\angle AEF$ is an exterior angle at $E$ and equals the interior opposite angle $\angle FBC = \angle ABC$.
 
 - id: spec.geometry.circle-problems.angle-bisectors-cyclic
+  title: "Angle Bisectors of a Quadrilateral Form a Cyclic One"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1700
@@ -441,6 +453,7 @@
     The angles of $ABCD$ add to $360^\circ$, so $\angle P + \angle R = 360^\circ - \tfrac{1}{2} \times 360^\circ = 180^\circ$. Opposite angles add to $180^\circ$, so $PQRS$ is cyclic.
 
 - id: spec.geometry.circle-problems.tangent-parallel-to-chord
+  title: "Tangent Parallel to a Chord of Another Circle"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   subsection: "Finding and proving angles"
   rating: 1780
@@ -482,6 +495,7 @@
     So $\angle XPA = \angle ACD$. With $P$, $A$, $C$ collinear, these are alternate angles for the lines $PX$ and $CD$, so $CD$ is parallel to the tangent at $P$.
 
 - id: spec.geometry.circle-problems.orthocenter-reflection
+  title: "Reflecting Where the Altitudes Meet"
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Proving points lie on a circle"
   rating: 1820
@@ -525,6 +539,7 @@
     Then in quadrilateral $ABH'C$, $\angle BAC + \angle BH'C = 180^\circ$, so it is cyclic: $H'$ lies on the circle through $A$, $B$, $C$.
 
 - id: spec.geometry.circle-problems.tangents-meet-concyclic
+  title: "Tangents to Two Circles Meeting on a Circle"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
   subsection: "Proving points lie on a circle"
   rating: 1840
@@ -567,6 +582,7 @@
     So in quadrilateral $ATBQ$ (with $T$ and $Q$ on opposite sides of $AB$), the opposite angles at $T$ and $Q$ add to $180^\circ$, and it is cyclic.
 
 - id: spec.geometry.circle-problems.perpendicular-chords-sum
+  title: "Squares of Perpendicular Chord Pieces"
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
   subsection: "Finding and proving lengths"
   rating: 1810

@@ -2,6 +2,7 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.projection.onto-j
+  title: "Scalar Projection onto j"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1060
@@ -21,6 +22,7 @@
         return {"a": Matrix([x, y]).dot(Matrix([0, 1]))}
 
 - id: spec.vectors-2d.projection.onto-i
+  title: "Vector Projection onto i"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1080
@@ -41,6 +43,7 @@
         return {"a": list(a.dot(b) / b.dot(b) * b)}
 
 - id: spec.vectors-2d.projection.which-formula
+  title: "Which Formula Is the Vector Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1120
@@ -59,6 +62,7 @@
     The projection onto $\mathbf{b}$ lies along $\mathbf{b}$, so it is a multiple of $\mathbf{b}$: $\left(\dfrac{\mathbf{a}\cdot\mathbf{b}}{|\mathbf{b}|^2}\right)\mathbf{b}$. Option a is the scalar projection, a number.
 
 - id: spec.vectors-2d.projection.from-angle
+  title: "Scalar Projection from an Angle"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1150
@@ -79,6 +83,7 @@
         return {"a": m*cos(rad(t))}
 
 - id: spec.vectors-2d.projection.scalar-basic
+  title: "Scalar Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1180
@@ -100,6 +105,7 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.projection.scalar-negative
+  title: "A Negative Scalar Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1270
@@ -117,6 +123,7 @@
         return {"a": a.dot(b) / b.norm()}
 
 - id: spec.vectors-2d.projection.vector-basic
+  title: "Vector Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1290
@@ -138,6 +145,7 @@
         return {"a": list(a.dot(b) / b.dot(b) * b)}
 
 - id: spec.vectors-2d.projection.both-ways
+  title: "Projecting Each Vector onto the Other"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1320
@@ -160,6 +168,7 @@
         return {"a": a.dot(b) / b.norm(), "b": a.dot(b) / a.norm()}
 
 - id: spec.vectors-2d.projection.perpendicular-part
+  title: "Splitting a Vector into Parallel and Perpendicular Parts"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1360
@@ -187,6 +196,7 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.projection.unknown-component
+  title: "Finding k from a Scalar Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1410
@@ -208,6 +218,7 @@
         return {"a": solve((3*kk + 8)/5 - s, kk)[0]}
 
 - id: spec.vectors-2d.projection.distance-to-line-origin
+  title: "Distance from a Point to a Line Through the Origin"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1430
@@ -226,6 +237,7 @@
         return {"a": (p - p.dot(b) / b.dot(b) * b).norm()}
 
 - id: spec.vectors-2d.projection.ramp-force
+  title: "Force Along and Across a Ramp"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1460
@@ -249,6 +261,7 @@
         return {"a": s, "b": (F - F.dot(d) / d.dot(d) * d).norm()}
 
 - id: spec.vectors-2d.projection.foot-of-perpendicular
+  title: "Closest Point on a Line"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1490
@@ -269,6 +282,7 @@
         return {"a": list(F)}
 
 - id: spec.vectors-2d.projection.distance-to-line-two-points
+  title: "Distance from a Point to a Line Through Two Points"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1520
@@ -289,6 +303,7 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.projection.two-projections
+  title: "Two Projections and a Length"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1580
@@ -313,6 +328,7 @@
         return {"a": nb, "b": round(float(deg(acos(Rational(d, 4) / nb))), 1)}
 
 - id: spec.vectors-2d.projection.from-projection-and-length
+  title: "Vector from Its Projection and Length"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1600
@@ -336,6 +352,7 @@
         return {"a": list(a)}
 
 - id: spec.vectors-2d.projection.triangle-area
+  title: "Area of a Triangle by Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1620
@@ -358,6 +375,7 @@
         return {"a": simplify(area)}
 
 - id: spec.vectors-2d.projection.altitude
+  title: "Foot of an Altitude and the Area"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1660
@@ -384,6 +402,7 @@
         return {"a": list(D), "b": d.norm() * (D - A).norm() / 2}
 
 - id: spec.vectors-2d.projection.reflection
+  title: "Mirror Image of a Point in a Line"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1690
@@ -406,6 +425,7 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.projection.reverse-projection
+  title: "Projecting the Other Way"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1710
@@ -425,6 +445,7 @@
         return {"a": d / 2**2 * a}
 
 - id: spec.vectors-2d.projection.closest-to-origin
+  title: "Point on a Line Closest to the Origin"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Distance to a line"
   rating: 1730
@@ -447,6 +468,7 @@
         return {"a": list(P)}
 
 - id: spec.vectors-2d.projection.unit-vector-from-projection
+  title: "Unit Vector from a Scalar Projection"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
   rating: 1750
@@ -468,6 +490,7 @@
         return {"a": [s[x], s[y]]}
 
 - id: spec.vectors-2d.projection.onto-sum
+  title: "Projection onto a Sum of Vectors"
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
   rating: 1720

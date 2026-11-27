@@ -18,6 +18,7 @@ const replaceIn = (path: string, from: string | RegExp, to: string) => writeFile
 const fixture = (dir: string, yaml: string) => writeFileSync(join(dir, "questions/specialist/unit1/zz-fixture.yaml"), yaml);
 const projectionQuestion = (key: string, skill = "spec.vectors-2d.projection", responseSkills = "{ calculation: 1250 }") => `
 - id: fixture.vector-projection
+  title: "Fixture Projection"
   skills: { primary: ${skill} }
   subsection: Vector projection
   rating: 1300
@@ -134,5 +135,12 @@ describe("validation catches bad content", () => {
 describe("templates", () => {
   it("fills placeholders through nested values", () => {
     expect(fillTemplate({ s: "{{a}} and {{ b }}", k: ["{{a}}"] }, { a: 1, b: "x" })).toEqual({ s: "1 and x", k: ["1"] });
+  });
+});
+
+describe("question titles", () => {
+  it("every real question has one", () => {
+    const r = buildWith(() => {});
+    expect(r.errors.filter((e) => e.includes("title"))).toEqual([]);
   });
 });

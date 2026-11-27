@@ -35,9 +35,9 @@ export interface QuestionIndexEntry {
   source: string;
 }
 
-/** "pair-together" → "Pair together"; a question's own `title` wins. */
+/** A question's `title` (every question has one; the build checks), else its id in title case. */
 export const questionTitle = (q: Pick<QuestionT, "id"> & { title?: string }) =>
-  q.title ?? q.id.split(".").pop()!.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
+  q.title ?? q.id.split(".").pop()!.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 
 export function buildQuestionIndex(
   course: CourseBundle,

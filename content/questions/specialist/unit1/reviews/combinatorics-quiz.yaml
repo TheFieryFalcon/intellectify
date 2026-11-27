@@ -1,6 +1,7 @@
 # Section quiz pool: Combinatorics (1.2). Never served in practice (SPEC §8.1a).
 
 - id: spec.combinatorics.sq.sandwiches
+  title: "Building Sandwiches"
   pool: section-quiz
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
@@ -18,6 +19,7 @@
         return {"a": 4 * 5 * 3}
 
 - id: spec.combinatorics.sq.trophies
+  title: "Lining Up Trophies"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Arranging different objects"
@@ -35,6 +37,7 @@
         return {"a": sympy.factorial(5)}
 
 - id: spec.combinatorics.sq.nine-two
+  title: "Evaluating a Combination"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Choosing a group"
@@ -52,6 +55,7 @@
         return {"a": sympy.binomial(9, 2)}
 
 - id: spec.combinatorics.sq.union-small
+  title: "Size of a Union"
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   subsection: "Two sets"
@@ -69,6 +73,7 @@
         return {"a": 14 + 9 - 5}
 
 - id: spec.combinatorics.sq.pascal-twelve
+  title: "Combining Two Combinations"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Pascal's rule"
@@ -86,6 +91,7 @@
         return {"a": sympy.binomial(11, 4) + sympy.binomial(11, 5)}
 
 - id: spec.combinatorics.sq.birth-months
+  title: "Students Sharing a Birth Month"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
   subsection: "At least k in one box"
@@ -103,6 +109,7 @@
         return {"a": sympy.ceiling(sympy.Rational(30, 12))}
 
 - id: spec.combinatorics.sq.level
+  title: "Arranging the Letters of LEVEL"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Repeated objects"
@@ -120,6 +127,7 @@
         return {"a": sympy.factorial(5) / (sympy.factorial(2) ** 2)}
 
 - id: spec.combinatorics.sq.two-girls
+  title: "Committee with Exactly Two Girls"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Choosing from categories"
@@ -137,6 +145,7 @@
         return {"a": sympy.binomial(5, 2) * sympy.binomial(7, 2)}
 
 - id: spec.combinatorics.sq.over-5000
+  title: "Numbers over 5000 with Distinct Digits"
   pool: section-quiz
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
@@ -154,6 +163,7 @@
         return {"a": sum(1 for n in range(5001, 10000) if len(set(str(n))) == 4)}
 
 - id: spec.combinatorics.sq.not-together
+  title: "Two People Not Sitting Together"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Objects together or apart"
@@ -172,6 +182,7 @@
         return {"a": sum(1 for p in permutations(range(6)) if abs(p.index(0) - p.index(1)) != 1)}
 
 - id: spec.combinatorics.sq.exactly-one-of
+  title: "Divisible by 3 or 7 but Not Both"
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   subsection: "Divisibility"
@@ -189,6 +200,7 @@
         return {"a": sum(1 for n in range(1, 501) if (n % 3 == 0) != (n % 7 == 0))}
 
 - id: spec.combinatorics.sq.mirror-row
+  title: "Equal Combinations in One Row"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Symmetry"
@@ -207,6 +219,7 @@
         return {"a": sympy.binomial(n, 2)}
 
 - id: spec.combinatorics.sq.lollies
+  title: "Sharing Lollies, at Least One Each"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Sharing identical objects"
@@ -225,6 +238,7 @@
         return {"a": sum(1 for c in product(range(1, 11), repeat=4) if sum(c) == 10)}
 
 - id: spec.combinatorics.sq.consecutive-pair
+  title: "Nine Numbers Include Two Consecutive"
   pool: section-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
   subsection: "Number problems"
@@ -244,6 +258,7 @@
     Split $1, \dots, 16$ into 8 boxes of consecutive pairs: $\{1, 2\}, \{3, 4\}, \dots, \{15, 16\}$. Every number is in exactly one box. Nine numbers in eight boxes put two of them in the same box, and the two numbers in a box differ by 1. So two of the chosen numbers differ by exactly 1.
 
 - id: spec.combinatorics.sq.arrange-aa
+  title: "ARRANGE with the A's Together"
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
   subsection: "Repeated objects"
@@ -262,6 +277,7 @@
         return {"a": sum(1 for p in multiset_permutations(list("ARRANGE")) if "AA" in "".join(p))}
 
 - id: spec.combinatorics.sq.powers-to-1000
+  title: "Squares, Cubes or Fifth Powers up to 1000"
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
   subsection: "Divisibility"

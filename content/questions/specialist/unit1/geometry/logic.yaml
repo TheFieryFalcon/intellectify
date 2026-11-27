@@ -1,6 +1,7 @@
 # Logic and the language of proof (1.1.1, 1.1.3, 1.1.4).
 
 - id: spec.geometry.logic.hypothesis
+  title: "The Hypothesis of a Statement"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1030
@@ -18,6 +19,7 @@
   solution: |
     In "if $P$, then $Q$", the hypothesis is $P$, the part after "if": *it rains*.
 - id: spec.geometry.logic.converse
+  title: "Converse of a Divisibility Statement"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1060
@@ -35,6 +37,7 @@
   solution: |
     The converse swaps hypothesis and conclusion: "If $n$ is even, then $n$ is divisible by 6." (It is false: try $n = 4$.)
 - id: spec.geometry.logic.contrapositive
+  title: "Contrapositive of a Triangle Statement"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1090
@@ -52,6 +55,7 @@
   solution: |
     The contrapositive negates both parts and swaps them: "If a triangle is not isosceles, then it is not equilateral." Like the original, it is true.
 - id: spec.geometry.logic.quantifier-truth
+  title: "Which Quantified Statement Is True"
   skills: {primary: spec.geometry.logic}
   subsection: "For all and there exists"
   rating: 1150
@@ -69,6 +73,7 @@
   solution: |
     (a) no real square is negative. (b) fails at $x = 0$. (c) $x^2 \ge 0$, so $x^2 + 1 \ge 1 > 0$: true. (d) $\sqrt{2}$ isn't an integer.
 - id: spec.geometry.logic.for-all-truth
+  title: "Which \"For All\" Statement Is True"
   skills: {primary: spec.geometry.logic}
   subsection: "For all and there exists"
   rating: 1280
@@ -86,6 +91,7 @@
   solution: |
     (a) fails at $x = \tfrac{1}{2}$. (b) if $x > 1$, multiplying both sides by the positive number $x$ gives $x^2 > x$: true. (c) $x = 0$ and $x = 1$ work. (d) fails at $x = -2$, since $\sqrt{4} = 2$.
 - id: spec.geometry.logic.same-truth-value
+  title: "What Always Agrees with P ⇒ Q"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1320
@@ -103,6 +109,7 @@
   solution: |
     The contrapositive, not $Q \Rightarrow$ not $P$, is always true exactly when $P \Rightarrow Q$ is. The converse (a) and inverse (b) match each other, not the original.
 - id: spec.geometry.logic.negate-all
+  title: "Negating \"All Students Passed\""
   skills: {primary: spec.geometry.logic}
   subsection: "Negation"
   rating: 1370
@@ -120,6 +127,7 @@
   solution: |
     Negating "for all" gives "there exists ... not": at least one student did not pass. "None passed" is much stronger than the negation.
 - id: spec.geometry.logic.negate-nested
+  title: "Negating a Statement with Two Quantifiers"
   skills: {primary: spec.geometry.logic}
   subsection: "Negation"
   rating: 1420
@@ -137,6 +145,7 @@
   solution: |
     Negate one quantifier at a time: "for every $x$" becomes "there is an $x$", "there is an $n$" becomes "every $n$", and $n > x$ becomes $n \le x$.
 - id: spec.geometry.logic.true-equivalence
+  title: "Which Equivalence Is True"
   skills: {primary: spec.geometry.logic}
   subsection: "If and only if"
   rating: 1440
@@ -154,6 +163,7 @@
   solution: |
     (a) fails for $x = -2$. (c) fails for $x = -2$. (d) fails for $a = 1, b = 0$. (b) is true: an even $n = 2k$ gives $n^2 = 4k^2$, even; an odd $n = 2k + 1$ gives $n^2 = 2(2k^2 + 2k) + 1$, odd.
 - id: spec.geometry.logic.converse-counterexample
+  title: "Counterexample to a Converse"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1460
@@ -178,6 +188,7 @@
   solution: |
     The converse is "If $x^2 > 9$, then $x > 3$." A counterexample needs $x^2 > 9$ but $x \le 3$: $x = -4$ gives $16 > 9$ with $-4 \le 3$. ($x = -3$ fails the hypothesis, since $9 \not> 9$.)
 - id: spec.geometry.logic.four-forms-count
+  title: "Statement, Converse, Inverse, Contrapositive"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1480
@@ -200,6 +211,7 @@
                  lambda sh: P(sh) or (not Q(sh)), lambda sh: Q(sh) or (not P(sh))]
         return {"a": sum(all(f(sh) for sh in shapes) for f in forms)}
 - id: spec.geometry.logic.divisible-converse
+  title: "Divisible by 9 and by 3: Statement and Converse"
   skills: {primary: spec.geometry.logic}
   subsection: "Implication, converse and contrapositive"
   rating: 1500
@@ -218,6 +230,7 @@
     If $n = 9k$ for a whole number $k$, then $n = 3(3k)$, which is divisible by 3. So the statement is true.
     The converse is "If a whole number is divisible by 3, then it is divisible by 9." It is false: 6 is divisible by 3 but not by 9.
 - id: spec.geometry.logic.symbols
+  title: "Using ⇒ and ⇔ Correctly"
   skills: {primary: spec.geometry.logic}
   subsection: "If and only if"
   rating: 1600
@@ -235,6 +248,7 @@
   solution: |
     (a) is true but loses $x = -3$. (b) misuses $=$ between statements. (d) is false, since $x = -3$ satisfies the left side. (c) is a correct equivalence: both directions hold.
 - id: spec.geometry.logic.equivalent-form
+  title: "Equivalent Form of an Implication"
   skills: {primary: spec.geometry.logic}
   subsection: "Negation"
   rating: 1720
@@ -253,6 +267,7 @@
     The contrapositive negates and swaps: "If not $R$, then not (not ($P$ and $Q$))", and a double negation cancels, giving "If not $R$, then $P$ and $Q$".
     (b) negates only one side and doesn't swap; (c) is the converse; (d) negates "$P$ and $Q$" wrongly.
 - id: spec.geometry.logic.quadratic-for-all
+  title: "When a Quadratic Is Always Positive"
   skills: {primary: spec.geometry.logic}
   subsection: "For all and there exists"
   rating: 1720
@@ -273,6 +288,7 @@
         good = [k for k in range(-10, 11) if all(x**2 + k*x + 4 > 0 for x in xs + [-k / 2])]
         return {"a": good}
 - id: spec.geometry.logic.consecutive-product
+  title: "Is n² + n Always Even?"
   skills: {primary: spec.geometry.logic}
   subsection: "For all and there exists"
   rating: 1710
@@ -292,6 +308,7 @@
     The negation is "$\exists n \in \mathbb{Z}$ such that $n^2 + n$ is odd".
     $S$ is true: $n^2 + n = n(n + 1)$ is a product of two consecutive integers, and one of any two consecutive integers is even, so the product is even. So the negation is false.
 - id: spec.geometry.logic.negate-bertrand
+  title: "Negating a Statement About Primes"
   skills: {primary: spec.geometry.logic}
   subsection: "Negation"
   rating: 1740

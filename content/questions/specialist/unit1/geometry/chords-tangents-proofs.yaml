@@ -1,6 +1,7 @@
 # Chords and tangents: written proofs (1.1.7, 1.1.8).
 
 - id: spec.geometry.chords-tangents.diameter-tangents-parallel
+  title: "Tangents at the Ends of a Diameter"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangent and radius"
   rating: 1290
@@ -32,6 +33,7 @@
     Let $AB$ be a diameter. The tangent at $A$ is perpendicular to radius $OA$, and the tangent at $B$ is perpendicular to radius $OB$; both radii lie along the line $AB$. So both tangents are perpendicular to $AB$, and two lines perpendicular to the same line are parallel.
 
 - id: spec.geometry.chords-tangents.bisecting-radius-perpendicular
+  title: "Line from the Center to a Chord's Midpoint"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Chords and the center"
   rating: 1200
@@ -66,6 +68,7 @@
     Triangles $OMA$ and $OMB$ have $OA = OB$ (radii), $AM = BM$ and $OM$ common, so they are congruent (SSS) and $\angle OMA = \angle OMB$. These angles lie on the straight line $AB$, so they add to $180^\circ$; each is $90^\circ$. Hence $OM \perp AB$.
 
 - id: spec.geometry.chords-tangents.perpendicular-bisector-center
+  title: "Perpendicular Bisector of a Chord"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Chords and the center"
   rating: 1250
@@ -100,6 +103,7 @@
     Let $AB$ be a chord and $O$ the center. $OA = OB$ (radii), so $O$ is equidistant from $A$ and $B$. Every point equidistant from $A$ and $B$ lies on the perpendicular bisector of $AB$. So the perpendicular bisector passes through $O$.
 
 - id: spec.geometry.chords-tangents.concentric-chord-midpoint
+  title: "Chord Touching an Inner Circle"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Chords and the center"
   rating: 1420
@@ -132,6 +136,7 @@
     $AB$ touches the smaller circle at $T$, so $OT \perp AB$ (tangent ⟂ radius). In the larger circle, $OT$ is then the perpendicular from the center to the chord $AB$, and that perpendicular bisects the chord. So $T$ is the midpoint of $AB$.
 
 - id: spec.geometry.chords-tangents.op-bisects-angles
+  title: "Line to the Center Bisects the Angles"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1440
@@ -167,6 +172,7 @@
     $\angle OAP = \angle OBP = 90^\circ$ (tangent ⟂ radius). Triangles $OAP$ and $OBP$ have these right angles, the common hypotenuse $OP$, and $OA = OB$ (radii), so they are congruent (RHS). Hence $\angle APO = \angle BPO$ and $\angle AOP = \angle BOP$: $OP$ bisects both angles.
 
 - id: spec.geometry.chords-tangents.op-perpendicular-ab
+  title: "Line to the Center Is Perpendicular to the Chord"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1460
@@ -203,6 +209,7 @@
     $PA = PB$ (tangents from one point) and $OA = OB$ (radii). So $P$ and $O$ are both equidistant from $A$ and $B$, and both lie on the perpendicular bisector of $AB$. Two different points determine a line, so $OP$ is that perpendicular bisector, and $OP \perp AB$.
 
 - id: spec.geometry.chords-tangents.isosceles-tangent-parallel
+  title: "Tangent at the Apex of an Isosceles Triangle"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "The alternate segment theorem"
   rating: 1480
@@ -236,6 +243,7 @@
     Let $X$ be a point on the tangent at $A$, on the opposite side of $AB$ from $C$. By the alternate segment theorem, $\angle XAB = \angle ACB$. Since $AB = AC$, $\angle ACB = \angle ABC$. So $\angle XAB = \angle ABC$: these are alternate angles for the lines $AX$ and $BC$ with transversal $AB$, so the tangent is parallel to $BC$.
 
 - id: spec.geometry.chords-tangents.incircle-half-perimeter
+  title: "Inscribed Circle and Half the Perimeter"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1500
@@ -273,6 +281,7 @@
     So $AF + BD + CE$ is half the perimeter.
 
 - id: spec.geometry.chords-tangents.pitot
+  title: "Quadrilateral Around a Circle"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1540
@@ -307,6 +316,7 @@
     Each side touches the circle once. From each corner, the two tangents to the circle are equal: call their lengths $a, b, c, d$ at $A, B, C, D$. Then $AB = a + b$, $BC = b + c$, $CD = c + d$ and $DA = d + a$, so $AB + CD = a + b + c + d = BC + DA$.
 
 - id: spec.geometry.chords-tangents.tangent-chord-half-center
+  title: "Tangent–Chord Angle and the Center"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "The alternate segment theorem"
   rating: 1560
@@ -341,6 +351,7 @@
     The tangent is perpendicular to the radius, so $\angle OTS = 90^\circ$ and $\angle OTB = 90^\circ - \angle STB$. $OT = OB$, so triangle $OTB$ is isosceles with $\angle OBT = \angle OTB$. Hence $\angle TOB = 180^\circ - 2(90^\circ - \angle STB) = 2\angle STB$.
 
 - id: spec.geometry.chords-tangents.touching-centers-collinear
+  title: "Centers of Touching Circles"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangent and radius"
   rating: 1580
@@ -372,6 +383,7 @@
     Let the centers be $O_1$ and $O_2$. The common tangent at $T$ is perpendicular to both radii $O_1T$ and $O_2T$. There is only one line through $T$ perpendicular to the tangent, so $O_1T$ and $O_2T$ both lie along it. Hence $O_1$, $T$, $O_2$ are collinear.
 
 - id: spec.geometry.chords-tangents.triangle-pde-perimeter
+  title: "Perimeter of a Triangle Cut by a Tangent"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1620
@@ -407,6 +419,7 @@
     Tangents from one point are equal: $DA = DC$, $EB = EC$ and $PA = PB$. The perimeter is $PD + DE + EP = PD + DC + CE + EP = (PD + DA) + (EB + EP) = PA + PB = 2PA$.
 
 - id: spec.geometry.chords-tangents.two-circles-tangent-angles
+  title: "Tangents to Two Intersecting Circles"
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
   subsection: "The alternate segment theorem"
   rating: 1660
@@ -446,6 +459,7 @@
     Triangles $ADB$ and $CAB$ therefore have $\angle ADB = \angle CAB$ and $\angle DAB = \angle ACB$, so they are similar, and their third angles are equal: $\angle ABD = \angle ABC$.
 
 - id: spec.geometry.chords-tangents.chord-equals-radius
+  title: "Chord Equal to the Radius"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "The alternate segment theorem"
   rating: 1520
@@ -477,6 +491,7 @@
     $OA = OB$ (radii) $= AB$, so triangle $OAB$ is equilateral and $\angle OAB = 60^\circ$. The tangent at $A$ is perpendicular to $OA$, so the angle between it and $AB$ is $90^\circ - 60^\circ = 30^\circ$ (on the side of $B$).
 
 - id: spec.geometry.chords-tangents.three-tangents-right-angle
+  title: "Three Tangents and a Right Angle"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1720
@@ -516,6 +531,7 @@
     From $D$, the tangents $DA$ and $DC$ give congruent right triangles $OAD$ and $OCD$ (RHS), so $OD$ bisects $\angle AOC$. Likewise $OE$ bisects $\angle COB$. Since $A$, $O$, $B$ are collinear, $\angle AOC + \angle COB = 180^\circ$. Hence $\angle DOE = \tfrac{1}{2}\angle AOC + \tfrac{1}{2}\angle COB = 90^\circ$.
 
 - id: spec.geometry.chords-tangents.three-tangents-product
+  title: "Product of Tangent Lengths on a Diameter"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
   rating: 1780
@@ -557,6 +573,7 @@
     Equal tangents give $DC = DA$ and $CE = EB$, and $OC = r$. Hence $AD \times BE = r^2$.
 
 - id: spec.geometry.chords-tangents.perpendicular-bisects-chord
+  title: "Perpendicular from the Center Bisects a Chord"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Chords and the center"
   rating: 1470
@@ -592,6 +609,7 @@
     In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
 
 - id: spec.geometry.chords-tangents.equal-chords-equidistant
+  title: "Equal Chords Are Equally Far from the Center"
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Chords and the center"
   rating: 1660

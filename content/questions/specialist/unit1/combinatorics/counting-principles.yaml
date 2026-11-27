@@ -2,6 +2,7 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.combinatorics.counting-principles.pin-codes
+  title: "Counting PINs"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1060
@@ -22,6 +23,7 @@
         return {"a": 10**n}
 
 - id: spec.combinatorics.counting-principles.factorial-quotient
+  title: "Simplifying a Quotient of Factorials"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1080
@@ -43,6 +45,7 @@
         return {"a": factorial(n) / factorial(k)}
 
 - id: spec.combinatorics.counting-principles.npr-evaluate
+  title: "Evaluating a Permutation"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1120
@@ -65,6 +68,7 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.combinatorics.counting-principles.club-officers
+  title: "Electing Club Officers"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1300
@@ -86,6 +90,7 @@
         return {"a": n * (n - 1) * (n - 2)}
 
 - id: spec.combinatorics.counting-principles.number-plates
+  title: "Counting Number Plates"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1320
@@ -102,6 +107,7 @@
         return {"a": 26**3 * 10 * 9 * 8}
 
 - id: spec.combinatorics.counting-principles.cafe-or
+  title: "Sandwich or Salad, with a Drink"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Cases and the addition principle"
   rating: 1280
@@ -119,6 +125,7 @@
         return {"a": (5 + 4) * 3}
 
 - id: spec.combinatorics.counting-principles.solve-npr
+  title: "Solving for n in a Permutation"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1360
@@ -142,6 +149,7 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.combinatorics.counting-principles.distinct-digits
+  title: "Four-Digit Numbers with Distinct Digits"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1410
@@ -159,6 +167,7 @@
         return {"a": sum(1 for p in permutations(range(10), 4) if p[0] != 0)}
 
 - id: spec.combinatorics.counting-principles.even-distinct
+  title: "Even Numbers with Distinct Digits"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1480
@@ -181,6 +190,7 @@
         return {"a": sum(1 for p in permutations(range(10), 4) if p[0] != 0 and p[3] % 2 == 0)}
 
 - id: spec.combinatorics.counting-principles.contains-seven
+  title: "Numbers Containing a Given Digit"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Cases and the addition principle"
   rating: 1450
@@ -200,6 +210,7 @@
         return {"a": sum(1 for k in range(1, 1000) if str(d) in str(k))}
 
 - id: spec.combinatorics.counting-principles.npr-equation
+  title: "Solving a Permutation Equation"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1440
@@ -218,6 +229,7 @@
         return {"a": [s for s in solve(x * (x - 1) * (x - 2) - 20 * x, x) if s >= 3][0]}
 
 - id: spec.combinatorics.counting-principles.divisor-count
+  title: "Counting Divisors"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Counting divisors"
   rating: 1510
@@ -238,6 +250,7 @@
         return {"a": divisor_count(n)}
 
 - id: spec.combinatorics.counting-principles.subsets-proof
+  title: "Why a Set Has 2ⁿ Subsets"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1470
@@ -258,6 +271,7 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.combinatorics.counting-principles.square-divisors
+  title: "Divisors That Are Perfect Squares"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Counting divisors"
   rating: 1590
@@ -277,6 +291,7 @@
         return {"a": sum(1 for d in divisors(10**e) if integer_nthroot(d, 2)[1])}
 
 - id: spec.combinatorics.counting-principles.odd-digits
+  title: "Numbers with Only Odd Digits"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1570
@@ -293,6 +308,7 @@
         return {"a": sum(1 for k in range(1, 10000) if all(int(c) % 2 for c in str(k)))}
 
 - id: spec.combinatorics.counting-principles.mixed-code
+  title: "Codes with Both a Letter and a Digit"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1600
@@ -310,6 +326,7 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.combinatorics.counting-principles.sum-of-arrangements
+  title: "Sum of All Arrangements of Four Digits"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1730
@@ -332,6 +349,7 @@
         return {"a": sum(int("".join(map(str, p))) for p in permutations(digits))}
 
 - id: spec.combinatorics.counting-principles.ordered-factor-triples
+  title: "Ordered Triples with a Given Product"
   skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
   subsection: "Counting divisors"
   rating: 1790
@@ -351,6 +369,7 @@
         return {"a": sum(1 for a in divisors(n) for b in divisors(n // a))}
 
 - id: spec.combinatorics.counting-principles.no-adjacent-equal
+  title: "Strings with No Equal Neighbors"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Cases and the addition principle"
   rating: 1760
@@ -376,6 +395,7 @@
         return {"a": count6, "b": 3 * 2**(n - 1)}
 
 - id: spec.combinatorics.counting-principles.three-course-meal
+  title: "Three-Course Meals"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1040
@@ -395,6 +415,7 @@
         return {"a": e * m * d}
 
 - id: spec.combinatorics.counting-principles.vowel-start
+  title: "Three-Letter Words Starting with a Vowel"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1270
@@ -413,6 +434,7 @@
         return {"a": sum(1 for w in permutations(L, 3) if w[0] in "AEIOU")}
 
 - id: spec.combinatorics.counting-principles.palindromes
+  title: "Counting Palindromic Numbers"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1430
@@ -434,6 +456,7 @@
         return {"a": 9 * 10**(half - 1)}
 
 - id: spec.combinatorics.counting-principles.digit-product
+  title: "Three-Digit Numbers with Digit Product 24"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Cases and the addition principle"
   rating: 1700
@@ -451,6 +474,7 @@
         return {"a": sum(1 for n in range(100, 1000) if prod(int(c) for c in str(n)) == 24)}
 
 - id: spec.combinatorics.counting-principles.staircase
+  title: "Climbing Stairs One or Two at a Time"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Cases and the addition principle"
   rating: 1730
@@ -476,6 +500,7 @@
         return {"a": count}
 
 - id: spec.combinatorics.counting-principles.digit-sum-ten
+  title: "Numbers Whose Digits Add to 10"
   skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
   subsection: "Cases and the addition principle"
   rating: 1760
@@ -493,6 +518,7 @@
         return {"a": sum(1 for n in range(1, 1000) if sum(int(c) for c in str(n)) == 10)}
 
 - id: spec.combinatorics.counting-principles.outfits
+  title: "Counting Outfits"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1040
@@ -516,6 +542,7 @@
         return {"a": len(list(product(range(s), range(p), range(h))))}
 
 - id: spec.combinatorics.counting-principles.combo-deal
+  title: "Drink with a Savory or Sweet Snack"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1180
@@ -538,6 +565,7 @@
         return {"a": sum(1 for drink in range(d) for snack in range(s + w))}
 
 - id: spec.combinatorics.counting-principles.locker-code
+  title: "Locker Codes with No Repeated Digit"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1230
@@ -556,6 +584,7 @@
         return {"a": sum(1 for t in permutations(range(10), 3) if t[0] != 0)}
 
 - id: spec.combinatorics.counting-principles.league-fixtures
+  title: "Home-and-Away League Fixtures"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Factorials and nPr"
   rating: 1290
@@ -579,6 +608,7 @@
         return {"a": len(list(permutations(range(n), 2)))}
 
 - id: spec.combinatorics.counting-principles.routes-via-library
+  title: "Walking Routes With or Without the Library"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1330
@@ -601,6 +631,7 @@
         return {"a": a * b + c}
 
 - id: spec.combinatorics.counting-principles.round-trip-no-repeat
+  title: "Round Trip Without Reusing a Path"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1480
@@ -623,6 +654,7 @@
         return {"a": sum(1 for h1, l1, l2, h2 in product(range(a), range(b), range(b), range(a)) if l1 != l2 and h1 != h2)}
 
 - id: spec.combinatorics.counting-principles.password-with-digit
+  title: "Passwords with at Least One Digit"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Cases and the addition principle"
   rating: 1560
@@ -641,6 +673,7 @@
         return {"a": 36**5 - 26**5}
 
 - id: spec.combinatorics.counting-principles.sundae-builder
+  title: "Building a Sundae"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1420
@@ -662,6 +695,7 @@
         return {"a": b * 2**t * (s + 1)}
 
 - id: spec.combinatorics.counting-principles.club-flag
+  title: "Striped Flags with No Touching Colors Equal"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1380
@@ -685,6 +719,7 @@
         return {"a": sum(1 for a, b, c in product(range(k), repeat=3) if a != b and b != c)}
 
 - id: spec.combinatorics.counting-principles.quiz-answer-sheets
+  title: "Filling in a Multiple-Choice Answer Sheet"
   skills: { primary: spec.combinatorics.counting-principles }
   subsection: "Multiplication principle"
   rating: 1150

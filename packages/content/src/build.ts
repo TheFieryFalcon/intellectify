@@ -266,6 +266,10 @@ export function buildContent(contentDir: string): BuildResult {
         if (q.skills.secondary.length && !("synthesis" in q.responseSkills)) errors.push(`${where}: cross-skill questions exercise synthesis`);
         if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
           errors.push(`${where}: a computed answer exercises calculation`);
+        // Every question has a readable title, in title case, that says what it's about (SPEC §15.3a).
+        if (!q.title) errors.push(`${where}: needs a title`);
+        else if (/\{\{/.test(q.title)) errors.push(`${where}: a title can't use variant or word placeholders`);
+        else if (/^[a-z]{2,} [a-z]{2,}/.test(q.title)) errors.push(`${where}: titles are in title case`);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
         // Word variety (SPEC §9.6): known lists, and words never reach an answer or the verify code.
         const firstPicks: WordPicks | null = q.words ? Object.fromEntries(Object.keys(q.words).map((slot) => [slot, 0])) : null;

@@ -1,6 +1,7 @@
 # Angles in circles: written proofs (1.1.6).
 
 - id: spec.geometry.circle-angles.diameter-two-right-angles
+  title: "Angles on Both Sides of a Diameter"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
   rating: 1280
@@ -35,6 +36,7 @@
     $AB$ is a diameter, so $\angle ACB = 90^\circ$ and $\angle ADB = 90^\circ$ (angles in a semicircle). Their sum is $180^\circ$.
 
 - id: spec.geometry.circle-angles.semicircle-from-center
+  title: "Angle in a Semicircle from the Angle at the Center"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
   rating: 1200
@@ -68,6 +70,7 @@
     Let $AB$ be a diameter with center $O$, and $C$ a point on the circle. $A$, $O$, $B$ lie on a straight line, so the angle at the center standing on arc $AB$ is $\angle AOB = 180^\circ$. The angle at the circumference on the same arc is half of this: $\angle ACB = 90^\circ$.
 
 - id: spec.geometry.circle-angles.minor-arc-acute
+  title: "Angle on the Major Arc Is Acute"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
   rating: 1360
@@ -101,6 +104,7 @@
     $C$ is on the major arc, so $\angle ACB$ stands on the minor arc $AB$, and $\angle ACB = \tfrac{1}{2}\angle AOB$. Since $AB$ is not a diameter, the minor arc is less than half the circle, so $\angle AOB < 180^\circ$. Hence $\angle ACB < 90^\circ$: it is acute.
 
 - id: spec.geometry.circle-angles.equal-chords-equal-angles
+  title: "Equal Chords, Equal Angles at the Circumference"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1280
@@ -142,6 +146,7 @@
     An angle at the circumference standing on a chord's minor arc is half the angle at the center on that arc, so the two angles at the circumference are $\tfrac{1}{2}\angle AOB = \tfrac{1}{2}\angle COD$: they are equal.
 
 - id: spec.geometry.circle-angles.same-segment-proof
+  title: "Proving Angles in the Same Segment Are Equal"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1280
@@ -178,6 +183,7 @@
     $C$ and $D$ are on the same side of $AB$, so $\angle ACB$ and $\angle ADB$ stand on the same arc $AB$. Each is half the angle at the center on that arc: $\angle ACB = \tfrac{1}{2}\angle AOB = \angle ADB$.
 
 - id: spec.geometry.circle-angles.equal-angles-equal-chords
+  title: "Equal Angles Give Equal Chords"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1400
@@ -215,6 +221,7 @@
     $\angle ABD$ stands on chord $AD$ and $\angle CBD$ on chord $CD$, so $\angle AOD = 2\angle ABD = 2\angle CBD = \angle COD$. Triangles $AOD$ and $COD$ have $OA = OC$, $OD$ common and the angles between them equal, so they are congruent (SAS), and $AD = CD$.
 
 - id: spec.geometry.circle-angles.right-angle-diameter
+  title: "Right Angle in a Cyclic Quadrilateral"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
   rating: 1400
@@ -251,6 +258,7 @@
     $\angle DAB$ stands on arc $BD$, so the angle at the center on that arc is $2 \times 90^\circ = 180^\circ$. A $180^\circ$ angle at $O$ means $B$, $O$, $D$ lie on a straight line, so the chord $BD$ passes through the center: it is a diameter.
 
 - id: spec.geometry.circle-angles.equal-sides-bisects
+  title: "Diagonal Bisecting an Angle of a Cyclic Quadrilateral"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
   rating: 1420
@@ -286,6 +294,7 @@
     $AB$ and $AD$ are equal chords, and equal chords subtend equal angles at the circumference. At $C$, chord $AB$ subtends $\angle ACB$ and chord $AD$ subtends $\angle ACD$, so $\angle ACB = \angle ACD$, and $CA$ bisects $\angle BCD$.
 
 - id: spec.geometry.circle-angles.center-chord-bisects-angle
+  title: "Line to the Center Bisects the Angle Between Equal Chords"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
   rating: 1440
@@ -319,6 +328,7 @@
     In triangles $OAB$ and $OAC$: $OA$ is common, $OB = OC$ (radii) and $AB = AC$ (given). So the triangles are congruent (SSS), and $\angle OAB = \angle OAC$. Hence $AO$ bisects $\angle BAC$.
 
 - id: spec.geometry.circle-angles.obc-acute
+  title: "Angle Between a Side and a Radius"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
   rating: 1450
@@ -354,6 +364,7 @@
     $\angle BAC$ is acute, so it stands on the minor arc $BC$, and $\angle BOC = 2\angle BAC$. $OB = OC$ (radii), so triangle $OBC$ is isosceles with $\angle OBC = \angle OCB = \tfrac{1}{2}(180^\circ - 2\angle BAC) = 90^\circ - \angle BAC$.
 
 - id: spec.geometry.circle-angles.cyclic-trapezium-angles
+  title: "Base Angles of a Cyclic Trapezium"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
   rating: 1450
@@ -388,6 +399,7 @@
     $AB \parallel DC$, so the co-interior angles at $A$ and $D$ add to $180^\circ$: $\angle DAB = 180^\circ - \angle ADC$. $ABCD$ is cyclic, so opposite angles add to $180^\circ$: $\angle ABC = 180^\circ - \angle ADC$. Hence $\angle DAB = \angle ABC$.
 
 - id: spec.geometry.circle-angles.diagonals-similar
+  title: "Similar Triangles from Crossing Diagonals"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1480
@@ -425,6 +437,7 @@
     $\angle BAX = \angle BAC = \angle BDC = \angle CDX$ (angles on the same arc $BC$). $\angle AXB = \angle DXC$ (vertically opposite). Two pairs of equal angles, so triangles $ABX$ and $DCX$ are similar.
 
 - id: spec.geometry.circle-angles.kite-cyclic-right-angles
+  title: "Kite with Its Corners on a Circle"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
   rating: 1480
@@ -459,6 +472,7 @@
     Triangles $ABC$ and $ADC$ have $AB = AD$, $CB = CD$ and $AC$ common, so they are congruent (SSS) and $\angle ABC = \angle ADC$. The kite is cyclic, so these opposite angles add to $180^\circ$. Each is therefore $90^\circ$.
 
 - id: spec.geometry.circle-angles.pentagon-trisect
+  title: "Diagonals Dividing an Angle of a Regular Pentagon"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1500
@@ -497,6 +511,7 @@
     The sides $BC$, $CD$ and $DE$ are equal chords, and equal chords subtend equal angles at the circumference. At $A$ they subtend $\angle BAC$, $\angle CAD$ and $\angle DAE$, so these are equal. Together they make up $\angle BAE$, which is therefore divided into three equal angles.
 
 - id: spec.geometry.circle-angles.diameter-equal-angles
+  title: "Equal Angles at the End of a Diameter"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
   rating: 1500
@@ -534,6 +549,7 @@
     $AD$ is a diameter, so $\angle ABD = \angle ACD = 90^\circ$. Triangles $ABD$ and $ACD$ share the side $AD$, have $\angle BAD = \angle CAD$ and a right angle each, so they are congruent (two angles and a side). Hence $AB = AC$.
 
 - id: spec.geometry.circle-angles.equal-circles-equal-angles
+  title: "Equal Angles in Two Equal Circles"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1560
@@ -570,6 +586,7 @@
     Let the centers be $O_1$ and $O_2$ and the common radius $r$. Triangles $O_1AB$ and $O_2AB$ both have sides $r$, $r$ and $AB$, so they are congruent and $\angle AO_1B = \angle AO_2B$. Each of $\angle ACB$ and $\angle ADB$ stands on the minor arc of its circle, so each is half the center angle: $\angle ACB = \tfrac{1}{2}\angle AO_1B = \tfrac{1}{2}\angle AO_2B = \angle ADB$.
 
 - id: spec.geometry.circle-angles.right-triangle-iff-diameter
+  title: "Right Angle if and Only if a Diameter"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
   rating: 1480
@@ -607,6 +624,7 @@
     Both directions hold.
 
 - id: spec.geometry.circle-angles.chords-crossing-half-sum
+  title: "Angle Between Chords Crossing Inside a Circle"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
   rating: 1620
@@ -649,6 +667,7 @@
     Hence $\angle AXB = \tfrac{1}{2}(\angle AOB + \angle COD)$.
 
 - id: spec.geometry.circle-angles.center-outside-case
+  title: "Angle at the Center When the Center Is Outside"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
   rating: 1540
@@ -690,6 +709,7 @@
     Now $\angle ACB = \angle ACE - \angle BCE$ and $\angle AOB = \angle AOE - \angle BOE$, so $\angle AOB = 2\angle ACE - 2\angle BCE = 2\angle ACB$.
 
 - id: spec.geometry.circle-angles.inside-point-larger-angle
+  title: "A Point Inside Sees a Chord at a Larger Angle"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
   rating: 1660
@@ -730,6 +750,7 @@
     Hence $\angle APB > \angle ACB$.
 
 - id: spec.geometry.circle-angles.secants-half-difference
+  title: "Angle Between Secants from Outside a Circle"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
   rating: 1680
@@ -772,6 +793,7 @@
     Hence $\angle APD = \angle BPD = \tfrac{1}{2}\angle AOD - \tfrac{1}{2}\angle BOC$.
 
 - id: spec.geometry.circle-angles.hexagon-alternate-angles
+  title: "Alternate Angles of a Cyclic Hexagon"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
   rating: 1760
@@ -817,6 +839,7 @@
     Adding, each of $a, \dots, f$ appears exactly twice: $\angle A + \angle C + \angle E = \tfrac{1}{2} \times 2 \times 360^\circ = 360^\circ$.
 
 - id: spec.geometry.circle-angles.opposite-bisectors-diameter
+  title: "Opposite Angle Bisectors Meet the Circle at a Diameter"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
   rating: 1780
@@ -860,6 +883,7 @@
     Points equidistant from $B$ and $D$ lie on the perpendicular bisector of $BD$, which passes through the center $O$. That line meets the circle in two points, one on each arc $BD$: these are $P$ and $Q$. So $PQ$ is a chord through $O$, a diameter.
 
 - id: spec.geometry.circle-angles.exterior-angle-proof
+  title: "Exterior Angle of a Cyclic Quadrilateral"
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Cyclic quadrilaterals"
   rating: 1480

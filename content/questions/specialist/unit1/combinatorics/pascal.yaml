@@ -1,6 +1,7 @@
 # Pascal's triangle identities (1.2.9).
 
 - id: spec.combinatorics.pascal.write-row
+  title: "Writing a Row of Pascal's Triangle"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Pascal's triangle"
   rating: 1080
@@ -17,6 +18,7 @@
         return {"a": [binomial(5, k) for k in range(6)]}
 
 - id: spec.combinatorics.pascal.row-sum
+  title: "Sum of a Row of Pascal's Triangle"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Row sums"
   rating: 1120
@@ -36,6 +38,7 @@
         return {"a": sum(binomial(n, k) for k in range(n + 1))}
 
 - id: spec.combinatorics.pascal.pascal-rule
+  title: "Adding Neighboring Combinations"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Pascal's rule"
   rating: 1310
@@ -54,6 +57,7 @@
     Pascal's rule: choosing $r + 1$ from $n + 1$ objects, a particular object is either chosen ($\binom{n}{r}$) or not ($\binom{n}{r+1}$). So the sum is $\binom{n+1}{r+1}$.
 
 - id: spec.combinatorics.pascal.combine
+  title: "Combining Two Combinations into One"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Pascal's rule"
   rating: 1340
@@ -73,6 +77,7 @@
         return {"a": binomial(n, r) + binomial(n, s)}
 
 - id: spec.combinatorics.pascal.symmetry
+  title: "Two Combinations with the Same Value"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Symmetry"
   rating: 1300
@@ -93,6 +98,7 @@
         return {"a": [k for k in range(n + 1) if k != r and binomial(n, k) == binomial(n, r)][0]}
 
 - id: spec.combinatorics.pascal.solve-symmetry
+  title: "Solving for n by Symmetry"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Symmetry"
   rating: 1400
@@ -113,6 +119,7 @@
         return {"a": [m for m in range(max(a, b), 60) if binomial(m, a) == binomial(m, b)][0]}
 
 - id: spec.combinatorics.pascal.difference
+  title: "Difference of Two Combinations"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Pascal's rule"
   rating: 1450
@@ -130,6 +137,7 @@
         return {"a": [n for n in range(3, 50) if binomial(n + 1, 3) - binomial(n, 3) == 21][0]}
 
 - id: spec.combinatorics.pascal.doubling-proof
+  title: "Why Each Row Sum Doubles"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Row sums"
   rating: 1380
@@ -149,6 +157,7 @@
     Each inner entry of row $n + 1$ is the sum of the two entries above it, and each end 1 comes from the single 1 above it. Adding all of row $n + 1$ therefore uses every entry of row $n$ exactly twice: once for the entry below-left and once for below-right. So each row sums to double the row above. Row 0 sums to 1, so row $n$ sums to $2^n$.
 
 - id: spec.combinatorics.pascal.hockey-stick-value
+  title: "Sum Down a Diagonal of Pascal's Triangle"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Further identities"
   rating: 1520
@@ -165,6 +174,7 @@
         return {"a": sum(binomial(k, 3) for k in range(3, 10))}
 
 - id: spec.combinatorics.pascal.hockey-stick-proof
+  title: "Proving the Diagonal Sum Identity"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Further identities"
   rating: 1620
@@ -186,6 +196,7 @@
     (Counting argument: $\binom{n+1}{r+1}$ counts the $(r+1)$-element subsets of $\{1, \dots, n+1\}$. Sorting them by their largest element $k + 1$ leaves $\binom{k}{r}$ choices for the rest, for $k = r, \dots, n$.)
 
 - id: spec.combinatorics.pascal.vandermonde-value
+  title: "Sum of Products of Combinations"
   skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
   subsection: "Further identities"
   rating: 1590
@@ -202,6 +213,7 @@
         return {"a": sum(binomial(5, k) * binomial(6, 4 - k) for k in range(5))}
 
 - id: spec.combinatorics.pascal.alternating-proof
+  title: "Alternating Sum of a Row Is Zero"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Row sums"
   rating: 1610
@@ -220,6 +232,7 @@
     The sum is (number of even-sized subsets) minus (number of odd-sized subsets) of an $n$-element set. Fix one element, $x$ (this needs $n \ge 1$). Adding $x$ to a subset that doesn't contain it, or removing it from one that does, changes the size by 1 and pairs every subset with exactly one other. So the even-sized and odd-sized subsets pair up exactly, and the sum is 0.
 
 - id: spec.combinatorics.pascal.weighted-sum
+  title: "Weighted Sum of a Row"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Row sums"
   rating: 1780
@@ -243,6 +256,7 @@
         return {"a": sum(k * binomial(6, k) for k in range(7)), "b": n * 2**(n - 1)}
 
 - id: spec.combinatorics.pascal.middle-even
+  title: "The Middle Entry of an Even Row Is Even"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Further identities"
   rating: 1740
@@ -262,6 +276,7 @@
     (Alternatively, split by whether element 1 is chosen: $\binom{2n}{n} = \binom{2n-1}{n-1} + \binom{2n-1}{n}$, and the two terms are equal by symmetry.)
 
 - id: spec.combinatorics.pascal.odd-entries
+  title: "Odd Numbers in Pascal's Triangle"
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Pascal's triangle"
   rating: 1760

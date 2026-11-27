@@ -3,6 +3,7 @@
 
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.proofs.perpendicular-test
+  title: "Showing Two Lines Are Perpendicular"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Setting up a vector proof"
   rating: 1050
@@ -21,6 +22,7 @@
     Non-zero vectors are perpendicular exactly when their scalar product is 0.
 
 - id: spec.vectors-2d.proofs.collinear-test
+  title: "Showing Three Points Are on a Line"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Setting up a vector proof"
   rating: 1080
@@ -39,6 +41,7 @@
     If $\overrightarrow{AC}$ is a multiple of $\overrightarrow{AB}$, the two segments are parallel and share the point $A$, so they lie on one line. (Option d is true for any three points.)
 
 - id: spec.vectors-2d.proofs.midpoint-vector
+  title: "Position Vector of a Midpoint"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Setting up a vector proof"
   rating: 1100
@@ -56,6 +59,7 @@
         return {"a": a + (b - a) / 2}
 
 - id: spec.vectors-2d.proofs.expand-square
+  title: "Expanding the Square of a Length"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Setting up a vector proof"
   rating: 1180
@@ -75,6 +79,7 @@
 
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.proofs.midpoint-quad-reason
+  title: "Why Equal Vectors Give a Parallelogram"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Setting up a vector proof"
   rating: 1300
@@ -93,6 +98,7 @@
     Equal vectors have the same length and direction. A quadrilateral with one pair of opposite sides equal and parallel is a parallelogram.
 
 - id: spec.vectors-2d.proofs.classify-quadrilateral
+  title: "What Kind of Quadrilateral Is It"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Setting up a vector proof"
   rating: 1330
@@ -118,6 +124,7 @@
         return {"a": "c" if (B - A).norm() == (D - A).norm() else "a"}
 
 - id: spec.vectors-2d.proofs.equal-sum-difference
+  title: "Equal Sum and Difference Means Perpendicular"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
   rating: 1360
@@ -138,6 +145,7 @@
 
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.proofs.diagonals-bisect
+  title: "Diagonals of a Parallelogram Bisect Each Other"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
   rating: 1320
@@ -159,6 +167,7 @@
     They are the same point, so the diagonals meet at the midpoint of each.
 
 - id: spec.vectors-2d.proofs.parallelogram-law-numeric
+  title: "Other Diagonal of a Parallelogram"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1440
@@ -178,6 +187,7 @@
         return {"a": sqrt(2*(p**2 + q**2) - d**2)}
 
 - id: spec.vectors-2d.proofs.perpendicular-diagonals-rhombus
+  title: "Perpendicular Diagonals Make a Rhombus"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
   rating: 1360
@@ -199,6 +209,7 @@
     Adjacent sides are equal, and opposite sides of a parallelogram are equal, so all four sides are equal: $OABC$ is a rhombus.
 
 - id: spec.vectors-2d.proofs.equal-diagonals-rectangle
+  title: "Equal Diagonals Make a Rectangle"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
   rating: 1490
@@ -219,6 +230,7 @@
     The angle at $O$ is a right angle. Neighboring angles of a parallelogram add to $180^\circ$, so every angle is a right angle: it is a rectangle.
 
 - id: spec.vectors-2d.proofs.semicircle
+  title: "Angle in a Semicircle by Vectors"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Triangles and circles"
   rating: 1410
@@ -242,6 +254,7 @@
 
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.proofs.rectangle-midpoints
+  title: "Midpoints of a Rectangle Form a Rhombus"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
   rating: 1560
@@ -263,6 +276,7 @@
     Adjacent sides are equal, so $PQRS$ is a rhombus.
 
 - id: spec.vectors-2d.proofs.bisecting-diagonals-converse
+  title: "Bisecting Diagonals Make a Parallelogram"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Parallelograms and rhombuses"
   rating: 1580
@@ -281,6 +295,7 @@
     Rearranging, $\mathbf{b} - \mathbf{a} = \mathbf{c} - \mathbf{d}$, i.e. $\overrightarrow{AB} = \overrightarrow{DC}$. One pair of opposite sides is equal and parallel, so $ABCD$ is a parallelogram.
 
 - id: spec.vectors-2d.proofs.median-length
+  title: "Length of a Median by Vectors"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1630
@@ -301,6 +316,7 @@
     $|\mathbf{v}| = AM$ and $|\mathbf{u}| = BM$, so $AB^2 + AC^2 = 2AM^2 + 2BM^2$.
 
 - id: spec.vectors-2d.proofs.median-length-numeric
+  title: "Length of a Median"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1650
@@ -323,6 +339,7 @@
 
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.proofs.perpendicular-diagonals-sides
+  title: "Perpendicular Diagonals and the Sides"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1720
@@ -345,6 +362,7 @@
     The diagonals are perpendicular, so $(\mathbf{c} - \mathbf{a})\cdot(\mathbf{d} - \mathbf{b}) = 0$, and the difference is 0.
 
 - id: spec.vectors-2d.proofs.altitudes-meet
+  title: "The Three Altitudes Meet"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Triangles and circles"
   rating: 1740
@@ -366,6 +384,7 @@
     So $\mathbf{c}\cdot\mathbf{a} = \mathbf{c}\cdot\mathbf{b}$, i.e. $\mathbf{c}\cdot(\mathbf{b} - \mathbf{a}) = 0$: $HC$ is perpendicular to $AB$. The line from $C$ at right angles to $AB$ therefore passes through $H$ too.
 
 - id: spec.vectors-2d.proofs.quadrilateral-midpoints-diagonals
+  title: "Sides, Diagonals and the Midpoints of the Diagonals"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1780
@@ -389,6 +408,7 @@
     $|\mathbf{b} + \mathbf{d}|^2 + |\mathbf{a} + \mathbf{c}|^2 = S + 2\,\mathbf{b}\cdot\mathbf{d} + 2\,\mathbf{a}\cdot\mathbf{c}$, which cancels the $\mathbf{a}\cdot\mathbf{c}$ and $\mathbf{b}\cdot\mathbf{d}$ terms. What remains is $2S - 2(\mathbf{a}\cdot\mathbf{b} + \mathbf{a}\cdot\mathbf{d} + \mathbf{c}\cdot\mathbf{b} + \mathbf{c}\cdot\mathbf{d})$, equal to the left side.
 
 - id: spec.vectors-2d.proofs.rectangle-point
+  title: "A Point and the Corners of a Rectangle"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1730
