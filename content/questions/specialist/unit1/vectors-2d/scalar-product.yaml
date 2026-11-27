@@ -719,7 +719,7 @@
         return {"a": deg(acos(simplify(u.dot(v) / (u.norm()*v.norm()))))}
 
 - id: spec.vectors-2d.scalar-product.perpendicular-combination-angle
-  title: "Angle from Perpendicular Combinations"
+  title: "Scalar Product and Angle from Perpendicular Combinations"
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Perpendicular and parallel vectors"
   rating: 1580

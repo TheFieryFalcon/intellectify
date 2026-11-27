@@ -167,7 +167,7 @@
     They are the same point, so the diagonals meet at the midpoint of each.
 
 - id: spec.vectors-2d.proofs.parallelogram-law-numeric
-  title: "Other Diagonal of a Parallelogram"
+  title: "Other Diagonal from the Sides and One Diagonal"
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Lengths and the parallelogram law"
   rating: 1440

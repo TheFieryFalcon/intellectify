@@ -24,7 +24,7 @@
         return {"a": "c"}
 
 - id: spec.geometry.sq.center-from-38
-  title: "Angle at the Center from the Circumference"
+  title: "Angle at the Center from the Circumference (Quiz)"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"
@@ -111,7 +111,7 @@
         return {"a": approx(dist(M, T))}
 
 - id: spec.geometry.sq.chords-4-9-6
-  title: "Intersecting Chords"
+  title: "Intersecting Chords (Quiz)"
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
   subsection: "Intersecting chords"
@@ -441,7 +441,7 @@
         return {"a": approx(angle_at(A, C, B))}
 
 - id: spec.geometry.sq.base-angle-22
-  title: "From a Base Angle to the Circumference"
+  title: "From a Base Angle to the Circumference (Quiz)"
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle at the center"

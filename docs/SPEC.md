@@ -1248,7 +1248,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Filter** by search text, tier, type (auto-marked or written), tag, year, unit, section, skill, subsection, pool, later units needed, and answered. **Sort** easiest or hardest first, by name, or by tag. **Group** by tier, tag, skill, subsection (in curriculum order), section or answered; a question with several tags or skills appears in each of their groups.
 - The subsection filter lists the chosen skill's subsections, or every skill's grouped by skill; choosing another skill clears it. Each row shows its subsection. A skill's Questions tab has the same subsection filter.
 - Filters live in the URL, so a view can be bookmarked or shared. "Answered" comes from local progress: no extra reads.
-- **Every question has a `title`** (the build requires one): a short name in title case that says what the question is about ("Grid Paths That Stay Below the Diagonal", "Tangent Meets Radius at a Right Angle"), describing the situation rather than the method, and never naming a number or word that changes between variants or word picks.
+- **Every question has a `title`** (the build requires one): a short name in title case that says what the question is about ("Grid Paths That Stay Below the Diagonal", "Tangent Meets Radius at a Right Angle"), describing the situation rather than the method, and never naming a number or word that changes between variants or word picks. Titles are unique in a course: a quiz-pool question that would share a practice question's name adds **(Quiz)**, e.g. "Angle in a Semicircle (Quiz)".
 
 ### 15.4 Problem screen
 - **Header:** tier, rating, calculator flag, skill(s).

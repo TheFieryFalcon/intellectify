@@ -37,7 +37,7 @@
         return {"a": sympy.sqrt(6**2 + 8**2)}
 
 - id: spec.vectors-2d.sq.parallelogram-diagonal
-  title: "Diagonal of a Parallelogram"
+  title: "Diagonal of a Parallelogram (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.geometric }
   subsection: "Adding and subtracting"
@@ -60,7 +60,7 @@
         return {"a": "b"}
 
 - id: spec.vectors-2d.sq.dot-2-3-4-1
-  title: "Scalar Product in Components"
+  title: "Scalar Product in Components (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Calculating the scalar product"
@@ -78,7 +78,7 @@
         return {"a": 2 * 4 + 3 * (-1)}
 
 - id: spec.vectors-2d.sq.unit-5-12
-  title: "Unit Vector in a Given Direction"
+  title: "Unit Vector in a Given Direction (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Magnitude and direction"
@@ -97,7 +97,7 @@
         return {"a": [5 / n, 12 / n]}
 
 - id: spec.vectors-2d.sq.perp-k
-  title: "Finding k for Perpendicular Vectors"
+  title: "Finding k for Perpendicular Vectors (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Perpendicular and parallel vectors"
@@ -134,7 +134,7 @@
         return {"a": [1 + 4 * 3, 2 + 4 * (-1)]}
 
 - id: spec.vectors-2d.sq.scalar-proj-2
-  title: "Scalar Projection"
+  title: "Scalar Projection (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"
@@ -170,7 +170,7 @@
         return {"a": sympy.Rational(8) / (sympy.sqrt(2) * sympy.sqrt(50))}
 
 - id: spec.vectors-2d.sq.vproj-4-1
-  title: "Vector Projection"
+  title: "Vector Projection (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Vector projection"
@@ -225,7 +225,7 @@
         return {"a": sympy.sqrt(9 + 25 - 2 * 3 * 5 * sympy.cos(sympy.pi / 3))}
 
 - id: spec.vectors-2d.sq.collinear-k
-  title: "Three Points on a Line"
+  title: "Three Points on a Line (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
   subsection: "Points and parallel vectors"
@@ -287,7 +287,7 @@
         return {"a": sympy.Rational(16 - 4 - 9, 2)}
 
 - id: spec.vectors-2d.sq.midpoint-theorem
-  title: "Midpoint Theorem by Vectors"
+  title: "Midpoint Theorem by Vectors (Quiz)"
   pool: section-quiz
   skills: { primary: spec.vectors-2d.proofs }
   subsection: "Triangles and circles"

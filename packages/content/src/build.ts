@@ -232,6 +232,8 @@ export function buildContent(contentDir: string): BuildResult {
     const unitReviews: Record<number, UnitReviews<QuestionT>> = {};
     const qDir = join(contentDir, "questions", courseId);
     const qIds = new Set<string>();
+    /** Titles already used in this course, so two questions never share a name (SPEC §15.3a). */
+    const titleOwner = new Map<string, string>();
     let files: string[] = [];
     try {
       files = listYaml(qDir);
@@ -270,6 +272,8 @@ export function buildContent(contentDir: string): BuildResult {
         if (!q.title) errors.push(`${where}: needs a title`);
         else if (/\{\{/.test(q.title)) errors.push(`${where}: a title can't use variant or word placeholders`);
         else if (/^[a-z]{2,} [a-z]{2,}/.test(q.title)) errors.push(`${where}: titles are in title case`);
+        else if (titleOwner.has(q.title)) errors.push(`${where}: title "${q.title}" is already used by ${titleOwner.get(q.title)}; a quiz-pool twin of a practice question adds " (Quiz)"`);
+        else titleOwner.set(q.title, q.id);
         if (tierOf(q.rating) === 6 && !q.parts.every((p) => p.rubric)) warnings.push(`${where}: Tier 6 questions are normally milestone-marked free response`);
         // Word variety (SPEC §9.6): known lists, and words never reach an answer or the verify code.
         const firstPicks: WordPicks | null = q.words ? Object.fromEntries(Object.keys(q.words).map((slot) => [slot, 0])) : null;

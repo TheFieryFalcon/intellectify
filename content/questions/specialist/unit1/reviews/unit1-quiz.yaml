@@ -19,7 +19,7 @@
         return {'a': 5 ** 3}
 
 - id: spec.u1.quiz.angle-semicircle
-  title: "Angle in a Semicircle"
+  title: "Angle in a Semicircle (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angle in a semicircle"
@@ -115,7 +115,7 @@
         return {'a': 'd'}
 
 - id: spec.u1.quiz.dot-perp-check
-  title: "Scalar Product in Components"
+  title: "Scalar Product of Two Vectors (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Calculating the scalar product"
@@ -133,7 +133,7 @@
         return {'a': 3 * 4 + (-2) * 6}
 
 - id: spec.u1.quiz.tangent-length-8-17
-  title: "Length of a Tangent from a Point"
+  title: "Length of a Tangent from a Point (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangent and radius"
@@ -187,7 +187,7 @@
         return {'a': [-2 - 3, 4 + 1]}
 
 - id: spec.u1.quiz.same-arc
-  title: "Angles on the Same Arc"
+  title: "Angles on the Same Arc (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-angles }
   subsection: "Angles on the same arc"
@@ -244,7 +244,7 @@
         return {'a': sum(1 for p in permutations('TRIANGLE') if p[0] in 'IAE' and p[-1] in 'IAE')}
 
 - id: spec.u1.quiz.secant-5-7
-  title: "Two Secants from a Point"
+  title: "Two Secants from a Point (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
   subsection: "Two secants from a point"
@@ -263,7 +263,7 @@
         return {'a': md - 4}
 
 - id: spec.u1.quiz.angle-between
-  title: "Angle Between Two Vectors"
+  title: "Angle Between Two Vectors (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
   subsection: "Angle between vectors"
@@ -282,7 +282,7 @@
         return {'a': sympy.deg(sympy.acos(c))}
 
 - id: spec.u1.quiz.cyclic-exterior
-  title: "Exterior Angle of a Cyclic Quadrilateral"
+  title: "Exterior Angle of a Cyclic Quadrilateral (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-problems }
   subsection: "Finding and proving angles"
@@ -341,7 +341,7 @@
         return {'a': 'a'}
 
 - id: spec.u1.quiz.midpoint-vector
-  title: "Point Dividing a Segment in a Ratio"
+  title: "Point Dividing a Segment in a Ratio (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.geometric }
   subsection: "Points dividing a line"
@@ -364,7 +364,7 @@
         return {'a': 'c'}
 
 - id: spec.u1.quiz.pascal-sum-row
-  title: "Sum of a Row of Pascal's Triangle"
+  title: "Sum of a Row of Pascal's Triangle (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.combinatorics.pascal }
   subsection: "Row sums"
@@ -402,7 +402,7 @@
     Let the integers be $2a + 1$ and $2b + 1$. Their product is $4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1$, which is one more than an even number, so it is odd.
 
 - id: spec.u1.quiz.relative-velocity
-  title: "Speed of One Car Relative to Another"
+  title: "Speed of One Car Relative to Another (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.applications }
   subsection: "Relative velocity"
@@ -420,7 +420,7 @@
         return {'a': sympy.sqrt(20**2 + 15**2)}
 
 - id: spec.u1.quiz.angle-center-tangent
-  title: "Two Tangents and the Angle at the Center"
+  title: "Two Tangents and the Angle at the Center (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.chords-tangents }
   subsection: "Tangents from a point"
@@ -456,7 +456,7 @@
         return {'a': sum(1 for n in range(1, 301) if n % 4 and n % 6)}
 
 - id: spec.u1.quiz.circle-chords-cross
-  title: "Angle from Crossing Chords"
+  title: "Angle from Crossing Chords (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
   subsection: "Finding and proving angles"
@@ -513,7 +513,7 @@
     Going around the quadrilateral, $\overrightarrow{AD} = \overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CD}$. Since $\overrightarrow{CD} = -\overrightarrow{DC} = -\overrightarrow{AB}$, the first and last terms cancel, leaving $\overrightarrow{AD} = \overrightarrow{BC}$.
 
 - id: spec.u1.quiz.projection-length-k
-  title: "Finding k from a Scalar Projection"
+  title: "Finding k from a Scalar Projection (Quiz)"
   pool: unit-quiz
   skills: { primary: spec.vectors-2d.projection }
   subsection: "Scalar projection"

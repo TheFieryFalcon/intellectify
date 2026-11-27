@@ -37,7 +37,7 @@
         return {"a": sympy.factorial(5)}
 
 - id: spec.combinatorics.sq.nine-two
-  title: "Evaluating a Combination"
+  title: "Evaluating a Combination (Quiz)"
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
   subsection: "Choosing a group"
