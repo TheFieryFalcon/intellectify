@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ShareButton from "$lib/components/ShareButton.svelte";
   /**
    * A revision session (SPEC §8.6): questions one after another from the chosen mix, for as long as the
    * student likes. Normal attempt rules; answers update θ, XP and achievements like practice.
@@ -111,7 +112,10 @@
     <p class="muted">No questions match</p>
   {:else}
     {@const q = served.question}
-    <p class="skill muted">{skills.get(q.skills.primary)?.skill.name ?? q.skills.primary}</p>
+    <div class="skill-row">
+      <span class="skill muted">{skills.get(q.skills.primary)?.skill.name ?? q.skills.primary}</span>
+      <ShareButton course={data.course.id} question={q} variant={served.variant} words={served.words} />
+    </div>
     {#key round}
       {#if isRubricMarked(q)}
         <WrittenAnswerCard question={q} onsubmit={submitWritten} submitted={jobId !== null} />
@@ -147,7 +151,8 @@
   .facts div { display: flex; flex-direction: column; }
   dt { font-size: 11px; color: var(--muted); }
   dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .skill { font-size: 12px; margin: 0 0 6px; }
+  .skill-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 6px; }
+  .skill { font-size: 12px; }
   .card { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
   .status { font-weight: 600; margin: 0 0 8px; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }

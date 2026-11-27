@@ -4,7 +4,7 @@
  */
 import type { WordPicks } from "@intellectify/content/template";
 
-export type HistoryMode = "practice" | "quiz" | "challenge" | "daily" | "revision";
+export type HistoryMode = "practice" | "quiz" | "challenge" | "daily" | "revision" | "shared";
 
 export interface HistoryEntry {
   id: string;

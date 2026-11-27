@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ShareButton from "$lib/components/ShareButton.svelte";
   const MODE = "challenge" as const;
   /** Section Challenge: Tier 4–5 problems across a section, untimed and resumable (SPEC §8.4). */
   import { page } from "$app/state";
@@ -201,6 +202,7 @@
         <button class="btn quiet" onclick={skip}>Skip</button>
       </div>
     {/if}
+    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
     {#key shown}
       {#if isRubricMarked(current.question)}
         <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />
@@ -256,4 +258,5 @@
   .num { font-variant-numeric: tabular-nums; }
   .actions { display: flex; gap: 8px; margin-top: 14px; }
   .link { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; }
+  .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>

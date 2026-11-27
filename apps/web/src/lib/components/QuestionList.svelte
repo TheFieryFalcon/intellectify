@@ -4,8 +4,9 @@
    * click away. Used by a skill's Questions tab and the course's Questions page.
    */
   import Markdown from "./Markdown.svelte";
+  import ShareButton from "./ShareButton.svelte";
   import { loadIndexedQuestion, loadWords, wordLists, type QuestionIndexEntry, type QuestionT } from "$lib/content";
-  import { fillServed, pickWords } from "@intellectify/content/template";
+  import { fillServed, pickWords, type WordPicks } from "@intellectify/content/template";
 
   let {
     course,
@@ -17,6 +18,8 @@
   let open = $state<string | null>(null);
   let shown = $state<QuestionT | null>(null);
   let loading = $state(false);
+  let shownVariant = $state<number | null>(null);
+  let shownWords = $state<WordPicks | null>(null);
 
   async function toggle(e: QuestionIndexEntry) {
     if (open === e.id) {
@@ -28,7 +31,9 @@
     loading = true;
     const [q] = await Promise.all([loadIndexedQuestion(fetch, course, e), loadWords(fetch)]);
     // The first variant, with the first word of each list: a stable version to read.
-    shown = q ? fillServed(q, q.variants?.length ? 0 : null, pickWords(q.words, wordLists(), () => 0), wordLists()) : null;
+    shownVariant = q?.variants?.length ? 0 : null;
+    shownWords = q ? pickWords(q.words, wordLists(), () => 0) : null;
+    shown = q ? fillServed(q, shownVariant, shownWords, wordLists()) : null;
     loading = false;
   }
 
@@ -62,7 +67,10 @@
             {/each}
             <h3>Solution</h3>
             <Markdown text={shown.solution} />
-            {#if e.pool === "practice"}<p><a class="btn" href="/{course}/practice/{e.skill}?q={e.id}">Practice this</a></p>{/if}
+            <p class="row-actions">
+              {#if e.pool === "practice"}<a class="btn" href="/{course}/practice/{e.skill}?q={e.id}">Practice this</a>{/if}
+              <ShareButton {course} question={shown} variant={shownVariant} words={shownWords} />
+            </p>
           {/if}
         </div>
       {/if}
@@ -89,6 +97,7 @@
   .tag { font-size: 11px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
   .part { margin: 6px 0; }
   .pid { color: var(--muted); }
+  .row-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   h3 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 16px 0 6px; }
   @media (max-width: 560px) { .row { grid-template-columns: auto minmax(0, 1fr) auto; } .meta { grid-column: 2 / 4; text-align: left; } }
 </style>

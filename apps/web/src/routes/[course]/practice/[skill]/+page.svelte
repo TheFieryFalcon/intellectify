@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ShareButton from "$lib/components/ShareButton.svelte";
   import { page } from "$app/state";
   import type { RankLevel } from "@intellectify/engine";
   import Markdown from "$lib/components/Markdown.svelte";
@@ -114,7 +115,10 @@
         <button class="btn quiet" onclick={() => back--}>Forward →</button>
         <button class="btn quiet" onclick={() => (back = 0)}>Current question</button>
       {/if}
-      <a class="history-link muted small" href="/{data.course.id}/history?skill={skillId}">History</a>
+      <span class="nav-end">
+        {#if back === 0 && served}<ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} />{/if}
+        <a class="muted small" href="/{data.course.id}/history?skill={skillId}">History</a>
+      </span>
     </div>
     {#if back > 0}
       {#key past[back - 1]!.id}<section class="result past"><PastAnswer entry={past[back - 1]!} /></section>{/key}
@@ -168,7 +172,7 @@
 <style>
   .history-nav { display: flex; align-items: center; gap: 8px; margin: -4px 0 10px; flex-wrap: wrap; }
   .history-nav .btn { padding: 4px 10px; font-size: 13px; }
-  .history-link { margin-left: auto; }
+  .nav-end { margin-left: auto; display: inline-flex; align-items: center; gap: 12px; }
   .small { font-size: 12px; }
   .result.past { margin-top: 0; }
   .crumbs { margin: 0 0 14px; font-size: 13px; color: var(--muted); }

@@ -27,7 +27,7 @@
     goto(`?${next}`, { replaceState: true, keepFocus: true, noScroll: true });
   }
 
-  const MODES: [HistoryMode, string][] = [["practice", "Practice"], ["quiz", "Quiz"], ["challenge", "Challenge"], ["daily", "Daily"], ["revision", "Revision"]];
+  const MODES: [HistoryMode, string][] = [["practice", "Practice"], ["quiz", "Quiz"], ["challenge", "Challenge"], ["daily", "Daily"], ["revision", "Revision"], ["shared", "Shared"]];
   const modeLabel = (m: HistoryMode) => MODES.find(([v]) => v === m)?.[1] ?? m;
 
   /** 0–1 for a resolved answer; null while a written answer waits for marking. */
