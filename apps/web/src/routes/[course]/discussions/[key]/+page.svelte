@@ -64,6 +64,8 @@
       noteChange(key, posts);
       const store = courseProgress(data.course.id);
       if (store) void achievementsFor(session.backend, user, data.course)?.event((s) => onPost(s, key), store, profileFor(session.backend, user));
+      // A solution (not a comment) earns XP, at most 3 a day (SPEC §12.4).
+      if (!parent) void profileFor(session.backend, user)?.grantPost();
       return true;
     } catch {
       error = "Couldn't post. Try again.";

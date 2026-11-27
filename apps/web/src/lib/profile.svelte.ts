@@ -260,6 +260,31 @@ export class ProfileStore {
     return bonus;
   }
 
+  /** XP for a marked written answer (SPEC §12.4: 24 × tier × rubric score), with the 30-day repeat rule. */
+  async grantWritten(questionId: string, tier: number, score: number): Promise<number> {
+    const last = this.profile.questionXpAt[questionId];
+    const amount = last && Date.now() - last < XP_REPEAT_WINDOW_MS ? 0 : XP.freeResponse(tier, score);
+    await this.grant(amount, { questionId });
+    return amount;
+  }
+
+  /** XP for reading a skill's tutorial, the first time only (SPEC §12.4). */
+  async grantTutorial(course: string, skill: string): Promise<number> {
+    const key = `tutorial:${course}:${skill}`;
+    if (!this.loaded || this.profile.questionXpAt[key]) return 0;
+    await this.grant(XP.tutorialFirstRead, { questionId: key });
+    return XP.tutorialFirstRead;
+  }
+
+  /** XP for a discussion post or comment (SPEC §12.4: 20, at most 3 a Perth day). */
+  async grantPost(): Promise<number> {
+    const day = perthDay();
+    const n = [1, 2, 3].find((i) => !this.profile.questionXpAt[`post:${day}:${i}`]);
+    if (!this.loaded || !n) return 0;
+    await this.grant(XP.discussionPost, { questionId: `post:${day}:${n}` });
+    return XP.discussionPost;
+  }
+
   /** XP for a resolved question, applying the 30-day repeat rule. Returns the amount granted. */
   async grantQuestion(questionId: string, tier: number, outcome: number): Promise<number> {
     const last = this.profile.questionXpAt[questionId];

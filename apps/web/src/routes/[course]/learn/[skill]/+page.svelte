@@ -3,6 +3,8 @@
   import Markdown from "$lib/components/Markdown.svelte";
   import ReportButton from "$lib/components/ReportButton.svelte";
   import { indexSkills, loadTutorial, type TutorialT } from "$lib/content";
+  import { profileFor } from "$lib/profile.svelte";
+  import { session } from "$lib/session.svelte";
 
   let { data } = $props();
   const index = $derived(indexSkills(data.course));
@@ -13,6 +15,24 @@
     const id = page.params.skill;
     tutorial = undefined;
     loadTutorial(fetch, data.course.id, id).then((t) => (tutorial = t));
+  });
+
+  // Reaching the end of a tutorial counts as reading it: 40 XP the first time per skill (SPEC §12.4).
+  const profile = $derived(profileFor(session.backend, session.user));
+  let end = $state<HTMLElement | null>(null);
+  let earned = $state(0);
+  $effect(() => {
+    const el = end;
+    const p = profile;
+    const skill = page.params.skill;
+    if (!el || !p?.loaded || !skill) return;
+    const seen = new IntersectionObserver(async ([e]) => {
+      if (!e?.isIntersecting) return;
+      seen.disconnect();
+      earned = await p.grantTutorial(data.course.id, skill);
+    });
+    seen.observe(el);
+    return () => seen.disconnect();
   });
 </script>
 
@@ -38,7 +58,8 @@
       {/if}
       <Markdown text={tutorial.markdown} />
     </article>
-    <p class="end">
+    <p class="end" bind:this={end}>
+      {#if earned}<span class="xp">+{earned} XP</span>{/if}
       <a class="btn primary" href="/{data.course.id}/practice/{page.params.skill}">Practice this skill</a>
       <ReportButton course={data.course.id} tutorial={page.params.skill!} />
     </p>
@@ -64,5 +85,6 @@
   article :global(blockquote) { margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; }
   article :global(table) { border-collapse: collapse; margin: 10px 0; }
   article :global(th), article :global(td) { border: 1px solid var(--line); padding: 6px 10px; }
+  .xp { color: var(--accent); font-weight: 600; font-size: 14px; }
   .end { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 </style>

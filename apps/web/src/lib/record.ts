@@ -161,7 +161,7 @@ export async function recordMarked(opts: {
   );
   let xp = 0;
   if (profile) {
-    xp = (await profile.grantQuestion(question.id, tierOf(question.rating), result.outcome)) + rankXp;
+    xp = (await profile.grantWritten(question.id, tierOf(question.rating), opts.mark.score)) + rankXp;
     if (rankXp) await profile.grant(rankXp);
   }
   return { summary: result, xp };

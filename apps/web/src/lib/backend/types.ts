@@ -53,7 +53,10 @@ export const emptyProgress = (): CourseProgress => ({ skills: {}, responseSkills
 export interface Profile {
   /** Total XP, never decreasing. */
   xp: number;
-  /** When each question last earned XP (key: question ID), for the 30-day repeat rule. */
+  /**
+   * When each question last earned XP (key: question ID), for the 30-day repeat rule. One-off grants use
+   * keys here too: `tutorial:<course>:<skill>` (first read) and `post:<day>:<n>` (discussion posts, 3 a day).
+   */
   questionXpAt: Record<string, number>;
   /** Perth date (YYYY-MM-DD) of the last first-visit bonus. */
   lastVisitDay: string | null;

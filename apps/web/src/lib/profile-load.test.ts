@@ -72,3 +72,22 @@ describe("saving from an out-of-date tab", () => {
     expect(stats).toMatchObject({ problems: 2, dayProblems: 2, weekXp: 244, monthXp: 244 });
   });
 });
+
+describe("one-off XP", () => {
+  it("pays a tutorial once, discussion posts three times a day, and written answers by tier and score", async () => {
+    const { emptyProfile } = await import("./backend/types");
+    const backend = {
+      loadProfile: vi.fn().mockResolvedValue({ ...emptyProfile(), lastVisitDay: "2999-01-01" }),
+      grantXp: vi.fn().mockResolvedValue(undefined),
+      savePublic: vi.fn().mockResolvedValue(undefined),
+    } as unknown as Backend;
+    const store = new ProfileStore(backend, user);
+    await store.load();
+    expect(await store.grantTutorial("specialist", "spec.combinatorics.pascal")).toBe(40);
+    expect(await store.grantTutorial("specialist", "spec.combinatorics.pascal")).toBe(0);
+    expect([await store.grantPost(), await store.grantPost(), await store.grantPost(), await store.grantPost()]).toEqual([20, 20, 20, 0]);
+    expect(await store.grantWritten("proof-1", 3, 1)).toBe(72);
+    expect(await store.grantWritten("proof-1", 3, 1)).toBe(0);
+    expect(await store.grantWritten("proof-2", 4, 0.5)).toBe(48);
+  });
+});
