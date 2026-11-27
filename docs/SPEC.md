@@ -1271,6 +1271,10 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 - **Back** on the practice screen steps through earlier answers in that skill (showing when each was answered; Forward and **Current question** return); the current question stays as it was, half-typed answers included.
 - **History** (`/<course>/history`) lists every logged answer by day, filterable by skill, mode and result (60% or more, under 60%, still marking). A row expands to the question as it was served, the answers given (marked right or wrong per part, or with the written score and feedback) and the worked solution. **Clear history** empties it.
 
+### 15.4d The current question stays until answered
+- Practice remembers the question it is showing in each skill (id, variant and word picks; in the browser only). Leaving the page and pressing **Practice** again, or reloading, shows the same question with the same numbers and names. Once it is answered (resolved, given up or submitted for marking), it is forgotten and the next visit serves a new one.
+- If the question has changed or been removed since, a new question is served.
+
 ### 15.4c Share a problem
 - **Share** on every question screen (practice, revision, daily, quizzes, Challenges, a shared problem) and on each question in the Questions lists sends a link to **that exact problem**: `/<course>/problem/<question id>?v=<variant>&w=<slot>.<index>,…`. The link carries the numeric variant and word picks, so the person opening it sees the same numbers and names. Nothing is stored; no reads or writes.
 - On phones the system share sheet opens; elsewhere the link is copied ("Link copied").

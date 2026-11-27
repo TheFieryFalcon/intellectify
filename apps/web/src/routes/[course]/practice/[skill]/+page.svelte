@@ -9,8 +9,8 @@
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
   import RankDot from "$lib/components/RankDot.svelte";
-  import { indexSkills, loadQuestions, loadWords, type QuestionT } from "$lib/content";
-  import { getStartTier, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
+  import { indexSkills, loadQuestions, loadWords, wordLists, type QuestionT } from "$lib/content";
+  import { getStartTier, reserve, serveQuestion, stateOrNew, type PartResult, type ResultSummary, type Served } from "$lib/practice";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { recordResult } from "$lib/record";
   import { serve } from "$lib/review";
@@ -19,6 +19,8 @@
   import { courseProgress, session } from "$lib/session.svelte";
   import PastAnswer from "$lib/components/PastAnswer.svelte";
   import { listHistory, type HistoryEntry } from "$lib/history";
+  import { loadCurrent, saveCurrent } from "$lib/current";
+  import { validPicks } from "@intellectify/content/template";
 
   let { data } = $props();
   const skillId = $derived(page.params.skill);
@@ -59,8 +61,14 @@
       // A link to one question (?q=<id>) serves it first; practice then carries on as usual.
       const wanted = page.url.searchParams.get("q");
       const q = wanted ? qs.find((x) => x.id === wanted) : undefined;
-      if (q) {
-        served = serve(q);
+      // Otherwise the question left unanswered here last time comes back, numbers and words included.
+      const kept = loadCurrent(data.course.id, skillId);
+      const keptQ = !q && kept ? qs.find((x) => x.id === kept.id) : undefined;
+      const keptOk =
+        keptQ && kept && (keptQ.variants?.length ? kept.variant !== null && kept.variant < keptQ.variants.length : kept.variant === null) && validPicks(keptQ.words, kept.words, wordLists());
+      if (q || keptOk) {
+        served = q ? serve(q) : reserve(keptQ!, kept!.variant, kept!.words);
+        remember();
         snapshot();
         summary = null;
         jobId = null;
@@ -77,18 +85,25 @@
     // Written answers still waiting to be marked count as seen (SPEC §5.4): don't serve them again meanwhile.
     const waiting = new Set((marking?.jobs ?? []).filter((j) => j.status === "pending").map((j) => j.questionId));
     served = serveQuestion(pool, stateOrNew(store.progress, skillId, getStartTier(data.course.id)), waiting);
+    remember();
     snapshot();
     round++;
   }
+
+  /** Keep the served question until it's answered (SPEC §15.4d); forget it once it is. */
+  const remember = () => saveCurrent(data.course.id, skillId, served ? { id: served.question.id, variant: served.variant, words: served.words } : null);
+  const forget = () => saveCurrent(data.course.id, skillId, null);
 
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !served) return;
     const j = await marking.submit({ course: data.course.id, skill: skillId, question: served.question, variant: served.variant, words: served.words, answers });
     jobId = j.id;
+    forget();
   }
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !served) return;
+    forget();
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements });
     summary = r.summary;
     xpGained = r.xp;
