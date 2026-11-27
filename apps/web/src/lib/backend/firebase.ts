@@ -16,9 +16,9 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, updateDoc, where, writeBatch } from "firebase/firestore";
 import { mergeAchievements, mergeProfile, mergeProgress } from "../claim";
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type StoredSkillState, type ThreadSummary, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type Report, type StoredSkillState, type ThreadSummary, type User } from "./types";
 
 export interface FirebaseConfig {
   apiKey: string;
@@ -256,6 +256,23 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
         if (prev) tx.set(threadRef, { ...prev, posts: Math.max(0, prev.posts - 1), text: prev.text.replace(`\n${post.body}`, "") });
         tx.delete(doc(db, "discussions", key, "posts", post.id));
       });
+    },
+    async addReport(u, r) {
+      await addDoc(collection(db, "reports"), JSON.parse(JSON.stringify({ ...r, uid: u.uid, name: u.displayName, at: Date.now(), status: "open" })));
+    },
+    async confirmedReports(uid, course) {
+      const snap = await getDocs(query(collection(db, "reports"), where("uid", "==", uid), where("course", "==", course), where("status", "==", "confirmed")));
+      return snap.docs.map((d) => ({ ...(d.data() as Omit<Report, "id">), id: d.id }));
+    },
+    async isAdmin() {
+      return !!auth.currentUser && (await auth.currentUser.getIdTokenResult()).claims.admin === true;
+    },
+    async listReports() {
+      const snap = await getDocs(query(collection(db, "reports"), orderBy("at", "desc"), limit(500)));
+      return snap.docs.map((d) => ({ ...(d.data() as Omit<Report, "id">), id: d.id }));
+    },
+    async setReportStatus(id, status) {
+      await updateDoc(doc(db, "reports", id), { status });
     },
     async listPublic() {
       const snap = await getDocs(query(collection(db, "publicProfiles"), limit(1000)));

@@ -9,6 +9,7 @@
   import WrittenAnswerCard from "$lib/components/WrittenAnswerCard.svelte";
   import MarkView from "$lib/components/MarkView.svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   import { isRubricMarked } from "@intellectify/content/marking";
   import { markingFor } from "$lib/marking.svelte";
   import { indexSkills, loadIndexedQuestion, loadQuestionIndex, loadWords, wordLists, type QuestionIndexEntry } from "$lib/content";
@@ -73,7 +74,7 @@
   </p>
   <div class="head">
     <h1>{entry?.title ?? "Shared problem"}</h1>
-    {#if served}<ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} />{/if}
+    {#if served}<span class="tools"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span>{/if}
   </div>
   {#if changed && served}<p class="muted small">This question has changed since the link was made, so its numbers or names may differ</p>{/if}
 

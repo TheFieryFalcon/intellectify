@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
   import Markdown from "$lib/components/Markdown.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   import { indexSkills, loadTutorial, type TutorialT } from "$lib/content";
 
   let { data } = $props();
@@ -37,7 +38,10 @@
       {/if}
       <Markdown text={tutorial.markdown} />
     </article>
-    <p class="end"><a class="btn primary" href="/{data.course.id}/practice/{page.params.skill}">Practice this skill</a></p>
+    <p class="end">
+      <a class="btn primary" href="/{data.course.id}/practice/{page.params.skill}">Practice this skill</a>
+      <ReportButton course={data.course.id} tutorial={page.params.skill!} />
+    </p>
   {/if}
 </div>
 
@@ -60,5 +64,5 @@
   article :global(blockquote) { margin: 12px 0; padding: 8px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; }
   article :global(table) { border-collapse: collapse; margin: 10px 0; }
   article :global(th), article :global(td) { border: 1px solid var(--line); padding: 6px 10px; }
-  .end { margin-top: 28px; }
+  .end { margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 </style>

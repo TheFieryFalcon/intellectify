@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   const MODE = "quiz" as const;
   /** Section quiz (8) and unit quiz (15): a fixed tier mix across the skills (SPEC §8.2, §8.3). */
   import { page } from "$app/state";
@@ -162,7 +163,7 @@
       <span class="num">{index + 1} / {quiz.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * (index + (resolved ? 1 : 0))) / quiz.length}%"></span></div>
-    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
+    <div class="share-row"><span class="tools"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /><ReportButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></span></div>
     {#key index}
       {#if isRubricMarked(current.question)}
         <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />

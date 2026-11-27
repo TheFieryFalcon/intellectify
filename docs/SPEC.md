@@ -302,7 +302,6 @@ In a rubric, a deductive step ("so ∠XAC = ∠XDB") is a Reasoning criterion, a
 - **No repeats near the student's level (implemented):** while any unseen question lies within **±150** of `d*` (`noRepeatBand`), only unseen questions in that band are served. Once the band is used up, repeats are allowed, avoiding the last 20 questions; a repeat near `d*` is preferred over a new question far from it. A repeat comes with a freshly picked variant and words (§9.3, §9.6), so it rarely reads the same.
 - "Seen" means answered (the last 200 per skill are stored), plus written answers still waiting in the marking queue.
 - **Drop a tier** (§5.3) shifts `d*` down into the band one tier below θ's current band.
-- Hidden questions (reported, §11.5) are excluded.
 
 ---
 
@@ -316,7 +315,7 @@ In a rubric, a deductive step ("so ∠XAC = ∠XDB") is a Reasoning criterion, a
 5. Once resolved (correct, out of attempts, or **Give up**, which gives outcome 0), the student sees:
    - the **full worked solution**;
    - Δθ, the new score, any rank change and achievements earned;
-   - a **Report issue** button.
+   - **Report error** (§11.5), which is also there before resolving.
 
 ### 6.2 Attempts and credit (auto-marked)
 Only the **final outcome** counts, so there is one θ update per question. Wrong attempts before a success don't update θ.
@@ -660,24 +659,25 @@ Language rules for every question and solution:
 
 ### 11.3 Verification (all must pass before merge)
 1. **CAS verification:** run each question's SymPy `verify` code. It must reproduce every answer key, and every pre-generated variant. Any mismatch fails the build, and so does a question with computed answers but no `verify` code. Geometry answers are measured from a figure built from coordinates (helpers in `scripts/verify_geometry.py`), not re-derived from the theorem being tested.
-2. **Multi-model cross-check:** **Gemini** (owner's key) solves the question independently. Disagreement with the key flags the question.
-3. **Constraint checks:** schema validation, form-rule sanity, diagram spec validity, and the trig simultaneous-equation constraints (§9.3).
-4. **Owner review** in git/PR, with flagged items highlighted.
+2. **Constraint checks:** schema validation, form-rule sanity, diagram spec validity, and the trig simultaneous-equation constraints (§9.3).
+3. **Owner review** in git/PR.
+
+There is **no second-model cross-check** (another model solving every question independently): there isn't the quota for it. Student error reports (§11.5) catch what SymPy and review miss.
 
 Tutorials (§3.2) go through the same pipeline:
 - `scripts/generate-tutorial --skill <id>` drafts one from the syllabus dot points, the suggested prerequisites' glossary terms and the style rules in §3.2.
 - Every worked example has SymPy verification of its final answers.
-- Gemini cross-checks the examples and flags any undefined technical term.
 - The owner reviews each tutorial, with a deliberate pass for concision.
 
 ### 11.4 Build
 `npm run build:content` validates everything and emits static JSON bundles (per course, per skill) deployed with the site to the Netlify CDN. This costs no Firestore reads.
 
-### 11.5 Student reports (automatic, no manual queue)
-1. **Report issue** calls the Netlify function `/api/report` with the question ID, variant/params, and the student's note.
-2. The function **re-verifies automatically**: Gemini re-solves, and the stored verification result plus key are compared.
-3. **If they disagree:** the question is added to a Firestore `hiddenQuestions` list, so clients exclude it immediately. A **GitHub issue** is opened automatically on this repo with all the details, and the owner fixes it in a PR.
-4. **If they agree:** the report is logged, and the question is auto-hidden once it collects N independent reports.
+### 11.5 Error reports (implemented)
+1. **Report error** sits next to Share on every question (practice, quizzes, Challenges, daily, revision, shared problems, the Questions page) and at the end of every tutorial. It opens a dialog with one field, *What's wrong?* (up to 2,000 characters).
+2. The report goes straight to Firestore `reports/{id}`: course, question or tutorial ID, the exact variant and words the student saw, the question's tier, the note, the student's name and uid, and status `open`. Rules let students create their own reports and read them back, nothing else.
+3. **The owner reviews** at `/admin/reports` (linked from Settings for the owner's account, which carries the Firebase `admin` custom claim). Each report links to the exact problem it describes (a share link, §15.4c) or the tutorial. **Confirm** or **Dismiss**; either can be reopened.
+4. Fixes ship in the next content release; nothing is hidden automatically. No server function, model call or GitHub token is involved.
+5. **Rewards:** the next time a reporter opens the course (once per session), each newly confirmed report earns 50 XP and counts toward Spot the Flaw (P18) and, on a Tier 5 or 6 question, Counterexample (D21).
 
 ---
 
@@ -702,7 +702,7 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 - **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
 - **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
 - **Definitions:** criteria are declarative in `content/achievements.yaml` (generated from the tables below; the build checks tier counts, secrets and points against them) and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters (first-try streaks, per-tier correct counts, weekly counts, one-off flags) and earned dates live in `users/{uid}/courses/{course}/meta/achievements`.
-- Achievements whose feature doesn't exist yet (monthly problems, reports) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
+- Achievements whose feature doesn't exist yet (monthly problems) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
 - **Feature events (Phase 1).** Daily problems, written answers, appeals, discussion posts and the leaderboards feed the same stats:
   - **Daily:** each solved day is kept (first try or not; a day counts once, whichever year group's problem it was). Full Week and Perfect Week check the Mon–Sun week; Calendar Month every day of the month; Weekend Warrior and Sunday Best count weekend and first-try Sunday solves; the streak achievements use the daily streak. A written daily answer is one submission, so a solve at 60% or more is a first-try solve.
   - **Written answers:** 100% answers in total and in a row (an appeal that lifts a score to 100% counts toward the total). An appeal from below 60% to 100% earns its achievement.
@@ -742,7 +742,7 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | P15 | All-Rounder | Every response skill at Silver+ |
 | P16 | Wordsmith | Gold in both Clarity of expression and Precision of language |
 | P17 | First Milestone | Score at least one milestone on a monthly Tier 6 problem |
-| P18 | Spot the Flaw | Submit a report that auto-reverification confirms (question hidden) |
+| P18 | Spot the Flaw | Report an error that gets confirmed |
 | P19 | Comeback | Regain a rank previously lost under the buffer rule |
 | P20 | Synthesist | 10 cross-skill problems correct |
 | P21 | Broad Base | Gold in at least one skill in every section of a unit |
@@ -920,7 +920,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 | Play a 1v1 minigame (Divide, Draft, Exam Board) | 50, plus 30 for a win |
 | Play a Race game | 20, plus 10 for a win |
 | Post a solution in a discussion | 20 (max 3 a day) |
-| A report confirmed by auto-reverification | 50 |
+| An error report confirmed by the owner (§11.5) | 50 |
 | First visit of the day | 20 |
 
 **Rules.**
@@ -988,7 +988,7 @@ Competitive play has one main mode, **Frontline** (2–6 players, territory and 
   - Auto-marked questions only. Free-response is too slow to mark live.
   - The lobby sets the syllabus scope (section, unit or course) and, for Frontline, the map.
   - Questions are drawn from that scope at the tier each action needs, preferring ones no player in the game has seen.
-  - Questions answered in a game count as seen for practice selection too (§5.7), and questions hidden after a confirmed report are excluded (§11.5).
+  - Questions answered in a game count as seen for practice selection too (§5.7).
   - Competitive play needs deep pools, which is why it comes after Specialist Units 1–4 have full content.
 - **Live and correspondence play.**
   - Frontline, Divide, Draft and Exam Board can be played **live** (round timers) or by **correspondence** (one round per day).
@@ -1258,7 +1258,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Header:** tier, rating, calculator flag, skill(s).
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Submit**, **Give up**.
-- **After resolving:** worked solution; Δθ and score change; rank and achievement toasts; Report issue; Next.
+- **After resolving:** worked solution; Δθ and score change; rank and achievement toasts; Next. **Share** and **Report error** sit above the question.
 - A small **Tutorial** link opens the skill's tutorial in a side panel (bottom sheet on phones) without leaving the question.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
@@ -1308,7 +1308,7 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 | Auth | Firebase Auth (Google + email; anonymous to try it: 5 questions, then sign up or log in with progress kept (§2.1a); no limit on deploy previews; kept off public leaderboards) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
-| Server functions | **Netlify Functions**: `/api/mark`, `/api/report` (hold the Gemini key and GitHub token as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
+| Server functions | **Netlify Functions**: `/api/mark`, `/api/transcribe` (hold the marking keys as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
 | Offline tooling | Node/TS scripts + Python (SymPy) for verification |
 
 ### 16.2 Client-side logic
@@ -1331,8 +1331,7 @@ daily/{yyyy-mm-dd}                       problem id; submissions/{uid}
 monthly/{yyyy-mm}/problems/{course-year} problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
 discussions/{day}:{course}:{year}        post count, last activity, posts' text (search)
 discussions/{key}/posts/{postId}         uid, name, body, at, parent (null, or the post a comment is on)
-hiddenQuestions/{questionId}             reason, ts
-reports/{reportId}                       question id, note, verdict
+reports/{reportId}                       uid, name, course, kind, target, variant, words, tier, note, at, status
 ```
 
 Leaderboards read `publicProfiles` once per tab every five minutes and sort in the browser, which is fine at small-group scale.
@@ -1349,12 +1348,12 @@ content/questions/     <course>/<unit>/<section>/<skill>/*.yaml
 content/tutorials/     <course>/<skillId>.md (one per skill) + glossary built from them
 content/achievements.yaml
 scripts/               ingest-syllabus, generate, verify (SymPy), build-content
-netlify/functions/     mark, report
+netlify/functions/     mark, transcribe
 ```
 
 ### 16.5 Free-tier budget notes
 - Firestore Spark: 50k reads / 20k writes per day. That's comfortable for a small group, because content is served from the CDN, not Firestore.
-- Netlify free plan: 300 credits a month. Each production deploy costs 15, so merging to `main` is the release step and doc-only changes skip the build (`netlify.toml`). Functions (marking, reports, Phase 3 game rounds) use a small amount of compute credit.
+- Netlify free plan: 300 credits a month. Each production deploy costs 15, so merging to `main` is the release step and doc-only changes skip the build (`netlify.toml`). Functions (marking, Phase 3 game rounds) use a small amount of compute credit.
 - Gemini free tier: rate-limited, so the client retry queue absorbs bursts.
 - MyScript: shared monthly quota, with a keyboard fallback when it runs out.
 
@@ -1366,7 +1365,7 @@ netlify/functions/     mark, report
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
 | 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.3); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3); daily-problem discussions with spoilers and a banned-words list (§13); share a problem by link (§15.4c). **Owner tests before continuing.** |
-| 2: Specialist Units 2–4 | Tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
+| 2: Specialist Units 2–4 | Error reports (§11.5); tutorials and questions for the remaining units; school calendar file; first monthly Tier 6 problems (Year 11 and Year 12) |
 | 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |
 | 5: Chemistry, Physics | Science-specific answer types (see §18) + content |

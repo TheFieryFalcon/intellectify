@@ -4,7 +4,7 @@
  */
 import type { AchievementT } from "@intellectify/content";
 import { XP } from "@intellectify/engine";
-import { emptyStats, evaluate, onChallenge, onQuestion, onQuiz, type AchievementStats, type QuestionEvent } from "./achievements";
+import { emptyStats, evaluate, onChallenge, onQuestion, onQuiz, onReports, type AchievementStats, type QuestionEvent } from "./achievements";
 import type { Backend, User } from "./backend";
 import type { CourseBundle } from "./content";
 import { computeRollups } from "./practice";
@@ -77,6 +77,15 @@ export class AchievementsStore {
   async event(update: (s: AchievementStats) => AchievementStats, store: CourseProgressStore, profile: ProfileStore | null) {
     await this.load();
     return this.settle(update(this.snap()), store, profile);
+  }
+  /** Newly confirmed error reports earn XP (once each) and their achievements. Checked once per session. */
+  async syncReports(store: CourseProgressStore, profile: ProfileStore | null) {
+    await this.load();
+    const confirmed = await this.backend.confirmedReports(this.user.uid, this.course.id).catch(() => null);
+    const fresh = confirmed ? confirmed.length - (this.stats.counts.reports ?? 0) : 0;
+    if (!confirmed || fresh <= 0) return;
+    if (profile) await profile.grant(fresh * XP.confirmedReport);
+    await this.settle(onReports(this.snap(), confirmed), store, profile);
   }
   async challenge(e: Parameters<typeof onChallenge>[1], store: CourseProgressStore, profile: ProfileStore | null) {
     await this.load();

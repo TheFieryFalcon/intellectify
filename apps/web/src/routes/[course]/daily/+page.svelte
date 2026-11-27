@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   /**
    * Daily problem (SPEC §8.5): one per year group per day, the same for everyone, targeting the block the
    * year group has just learnt, at the day's tier. Normal attempt rules; it updates θ like any problem.
@@ -121,7 +122,7 @@
       <Markdown text={served.question.solution} />
     </section>
   {:else}
-    <div class="share-row"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></div>
+    <div class="share-row"><span class="tools"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span></div>
     {#if isRubricMarked(served.question)}
       <WrittenAnswerCard question={served.question} onsubmit={submitWritten} submitted={jobId !== null} />
     {:else}

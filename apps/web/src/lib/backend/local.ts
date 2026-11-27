@@ -1,4 +1,4 @@
-import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Post, type Profile, type PublicProfile, type ThreadSummary, type User } from "./types";
+import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Post, type Profile, type PublicProfile, type Report, type ThreadSummary, type User } from "./types";
 
 /**
  * Local backend: a single guest user whose progress lives in this browser's localStorage.
@@ -12,6 +12,7 @@ const achievementsKey = (uid: string, course: string) => `intellectify:achieveme
 const markingKey = (uid: string) => `intellectify:marking:${uid}`;
 const THREADS_KEY = "intellectify:discuss:threads";
 const postsKey = (key: string) => `intellectify:discuss:posts:${key}`;
+const REPORTS_KEY = "intellectify:reports";
 const PUBLIC_PREFIX = "intellectify:public:";
 const publicKey = (uid: string) => `${PUBLIC_PREFIX}${uid}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
@@ -106,6 +107,23 @@ export function createLocalBackend(): Backend {
       write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), stats });
       const prev = read<Partial<PublicProfile>>(publicKey(u.uid), {});
       write(publicKey(u.uid), { ...prev, ...pub, courses: { ...prev.courses, ...pub.courses }, achievements: { ...prev.achievements, ...pub.achievements } });
+    },
+    async addReport(u, r) {
+      const report: Report = { ...r, id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, uid: u.uid, name: u.displayName, at: Date.now(), status: "open" };
+      write(REPORTS_KEY, [report, ...read<Report[]>(REPORTS_KEY, [])]);
+    },
+    async confirmedReports(uid, course) {
+      return read<Report[]>(REPORTS_KEY, []).filter((r) => r.uid === uid && r.course === course && r.status === "confirmed");
+    },
+    // The local guest reviews its own reports, so the review page can be tried without Firebase.
+    async isAdmin() {
+      return true;
+    },
+    async listReports() {
+      return read<Report[]>(REPORTS_KEY, []);
+    },
+    async setReportStatus(id, status) {
+      write(REPORTS_KEY, read<Report[]>(REPORTS_KEY, []).map((r) => (r.id === id ? { ...r, status } : r)));
     },
     async listThreads() {
       return Object.values(read<Record<string, ThreadSummary>>(THREADS_KEY, {})).sort((a, b) => b.updatedAt - a.updatedAt);

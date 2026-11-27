@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   import { page } from "$app/state";
   import type { RankLevel } from "@intellectify/engine";
   import Markdown from "$lib/components/Markdown.svelte";
@@ -131,7 +132,7 @@
         <button class="btn link" onclick={() => (back = 0)}>Current question</button>
       {/if}
       <span class="nav-end">
-        {#if back === 0 && served}<ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} />{/if}
+        {#if back === 0 && served}<span class="tools"><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span>{/if}
         <a class="btn link" href="/{data.course.id}/history?skill={skillId}">History</a>
       </span>
     </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   const MODE = "challenge" as const;
   /** Section Challenge: Tier 4–5 problems across a section, untimed and resumable (SPEC §8.4). */
   import { page } from "$app/state";
@@ -202,7 +203,7 @@
         <button class="btn quiet" onclick={skip}>Skip</button>
       </div>
     {/if}
-    <div class="share-row"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></div>
+    <div class="share-row"><span class="tools"><ShareButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /><ReportButton course={data.course.id} question={current.question} variant={current.variant} words={current.words} /></span></div>
     {#key shown}
       {#if isRubricMarked(current.question)}
         <WrittenAnswerCard question={current.question} onsubmit={submitWritten} submitted={resolved} />

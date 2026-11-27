@@ -12,6 +12,9 @@
 
   /** Display name (SPEC §12.3): shown on leaderboards, profiles and discussions. */
   const profile = $derived(profileFor(session.backend, session.user));
+  /** The owner's account (the `admin` claim) gets a link to the error reports. */
+  let admin = $state(false);
+  $effect(() => void session.backend?.isAdmin().then((a) => (admin = a)).catch(() => {}));
   let name = $state(session.user?.displayName ?? "");
   let banned = $state<string[]>([]);
   $effect(() => void loadBannedWords().then((w) => (banned = w)));
@@ -70,6 +73,7 @@
 
 <div class="wrap narrow">
   <h1>Settings</h1>
+  {#if admin}<p class="admin"><a href="/admin/reports">Error reports</a></p>{/if}
   {#if session.user}
     <section class="card">
       <h2>Profile</h2>
@@ -186,6 +190,7 @@
   .keyrow input#key { flex: 1; min-width: 0; font: inherit; font-family: ui-monospace, monospace; font-size: 13px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
   .actions { display: flex; gap: 8px; }
   .wrap > .card + .card { margin-top: 16px; }
+  .admin { margin: -8px 0 16px; font-size: 14px; }
   .effort { display: flex; align-items: flex-start; gap: 14px; }
   .slider { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   /* Track: chosen (accent), available (track), locked without an own key (hatched). */

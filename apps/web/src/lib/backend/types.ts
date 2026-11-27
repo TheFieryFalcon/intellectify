@@ -201,6 +201,26 @@ export interface Post {
   parent: string | null;
 }
 
+/** An error report on a question or tutorial (SPEC §11.5). The owner confirms or dismisses it. */
+export interface Report {
+  id: string;
+  uid: string;
+  name: string;
+  course: string;
+  kind: "question" | "tutorial";
+  /** Question ID, or the skill ID for a tutorial. */
+  target: string;
+  /** The exact variant and words the student saw (questions only). */
+  variant: number | null;
+  words: Record<string, number> | null;
+  /** The question's highest tier (questions only), for Counterexample (D21). */
+  tier: number | null;
+  note: string;
+  at: number;
+  status: "open" | "confirmed" | "dismissed";
+}
+export type NewReport = Omit<Report, "id" | "uid" | "name" | "at" | "status">;
+
 export interface Backend {
   readonly kind: "firebase" | "local";
   /** Subscribe to sign-in changes; returns an unsubscribe function. */
@@ -244,6 +264,16 @@ export interface Backend {
   addPost(user: User, thread: Pick<ThreadSummary, "key" | "day" | "course" | "year" | "questionId">, body: string, parent: string | null, name: string): Promise<Post>;
   /** Delete one of your own posts. */
   deletePost(key: string, post: Post): Promise<void>;
+
+  /** Report an error in a question or tutorial (SPEC §11.5). */
+  addReport(user: User, report: NewReport): Promise<void>;
+  /** This student's confirmed reports in one course, for achievements and XP. */
+  confirmedReports(uid: string, course: string): Promise<Report[]>;
+  /** The owner's review page: true when this account has the `admin` claim. */
+  isAdmin(): Promise<boolean>;
+  /** Every report, newest first (admin only). */
+  listReports(): Promise<Report[]>;
+  setReportStatus(id: string, status: Report["status"]): Promise<void>;
 
   loadProgress(uid: string, course: string): Promise<CourseProgress>;
   /** Save changed states (and the attempt, if any) in one write batch. */

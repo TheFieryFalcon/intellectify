@@ -5,6 +5,7 @@
    */
   import Markdown from "./Markdown.svelte";
   import ShareButton from "./ShareButton.svelte";
+  import ReportButton from "./ReportButton.svelte";
   import { loadIndexedQuestion, loadWords, wordLists, type QuestionIndexEntry, type QuestionT } from "$lib/content";
   import { fillServed, pickWords, type WordPicks } from "@intellectify/content/template";
 
@@ -69,7 +70,7 @@
             <Markdown text={shown.solution} />
             <p class="row-actions">
               {#if e.pool === "practice"}<a class="btn" href="/{course}/practice/{e.skill}?q={e.id}">Practice this</a>{/if}
-              <ShareButton {course} question={shown} variant={shownVariant} words={shownWords} />
+              <span class="tools"><ShareButton {course} question={shown} variant={shownVariant} words={shownWords} /><ReportButton {course} question={shown} variant={shownVariant} words={shownWords} /></span>
             </p>
           {/if}
         </div>

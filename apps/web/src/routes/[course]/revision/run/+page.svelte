@@ -1,5 +1,6 @@
 <script lang="ts">
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import ReportButton from "$lib/components/ReportButton.svelte";
   /**
    * A revision session (SPEC §8.6): questions one after another from the chosen mix, for as long as the
    * student likes. Normal attempt rules; answers update θ, XP and achievements like practice.
@@ -114,7 +115,7 @@
     {@const q = served.question}
     <div class="skill-row">
       <span class="skill muted">{skills.get(q.skills.primary)?.skill.name ?? q.skills.primary}</span>
-      <ShareButton course={data.course.id} question={q} variant={served.variant} words={served.words} />
+      <span class="tools"><ShareButton course={data.course.id} question={q} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={q} variant={served.variant} words={served.words} /></span>
     </div>
     {#key round}
       {#if isRubricMarked(q)}

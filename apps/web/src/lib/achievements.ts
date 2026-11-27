@@ -220,6 +220,17 @@ export function onPost(prev: AchievementStats, threadKey: string): AchievementSt
   return s;
 }
 
+/**
+ * The student's confirmed error reports in this course (SPEC §11.5): Spot the Flaw (P18) and, on a
+ * Tier 5 or 6 question, Counterexample (D21). Counts only grow, so a dismissed report never takes one away.
+ */
+export function onReports(prev: AchievementStats, confirmed: { tier: number | null }[]): AchievementStats {
+  const s: AchievementStats = structuredClone(prev);
+  s.counts.reports = Math.max(s.counts.reports ?? 0, confirmed.length);
+  s.counts.hardReports = Math.max(s.counts.hardReports ?? 0, confirmed.filter((r) => (r.tier ?? 0) >= 5).length);
+  return s;
+}
+
 /** Set a one-off flag (e.g. Top of the Month, checked on the leaderboards). */
 export function onFlag(prev: AchievementStats, flag: string): AchievementStats {
   const s: AchievementStats = structuredClone(prev);
