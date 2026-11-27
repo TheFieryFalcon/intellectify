@@ -4,6 +4,7 @@
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1570
   responseSkills: { reading: 1560, calculation: 1540 }
   stem: |
@@ -23,6 +24,7 @@
 - id: spec.vectors-2d.ch.quarter-turn
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.components] }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1600
   responseSkills: { reading: 1580, calculation: 1570, reasoning: 1590, synthesis: 1580 }
   stem: |
@@ -40,6 +42,7 @@
 - id: spec.vectors-2d.ch.sum-equals-difference
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1630
   responseSkills: { reasoning: 1620, calculation: 1600 }
   stem: |
@@ -58,6 +61,7 @@
 - id: spec.vectors-2d.ch.distance-to-line
   pool: challenge
   skills: { primary: spec.vectors-2d.projection, secondary: [spec.vectors-2d.geometric] }
+  subsection: "Distance to a line"
   rating: 1660
   responseSkills: { reading: 1640, calculation: 1640, reasoning: 1650, synthesis: 1640 }
   stem: |
@@ -76,6 +80,7 @@
 - id: spec.vectors-2d.ch.forces-5-8-7
   pool: challenge
   skills: { primary: spec.vectors-2d.applications, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Forces, equilibrium and work"
   rating: 1690
   responseSkills: { reading: 1670, calculation: 1670, reasoning: 1680, synthesis: 1670 }
   stem: |
@@ -93,6 +98,7 @@
 - id: spec.vectors-2d.ch.two-a-minus-three-b
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1720
   responseSkills: { calculation: 1700, reasoning: 1710 }
   stem: |
@@ -109,6 +115,7 @@
 - id: spec.vectors-2d.ch.unit-sum-root3
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1750
   responseSkills: { calculation: 1730, reasoning: 1740 }
   stem: |
@@ -126,6 +133,7 @@
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Setting up a vector proof"
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1760, clarity: 1720, synthesis: 1750 }
   stem: |
@@ -148,6 +156,7 @@
 - id: spec.vectors-2d.ch.centroid-squares
   pool: challenge
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Triangles and circles"
   rating: 1810
   responseSkills: { reasoning: 1790, proof: 1780, clarity: 1740, synthesis: 1790 }
   stem: |
@@ -176,6 +185,7 @@
 - id: spec.vectors-2d.ch.closest-approach-3
   pool: challenge
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Collision and closest approach"
   rating: 1840
   responseSkills: { reading: 1830, calculation: 1820, reasoning: 1830 }
   stem: |
@@ -195,6 +205,7 @@
 - id: spec.vectors-2d.ch.max-3x-4y
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.components] }
+  subsection: "Magnitudes and the scalar product"
   rating: 1870
   responseSkills: { reasoning: 1860, calculation: 1840, synthesis: 1850 }
   stem: |
@@ -213,6 +224,7 @@
 - id: spec.vectors-2d.ch.dot-forces-equality
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1880
   responseSkills: { reasoning: 1870, calculation: 1850 }
   stem: |
@@ -232,6 +244,7 @@
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.vectors-2d.components, secondary: [spec.vectors-2d.geometric] }
+  subsection: "Notation and arithmetic"
   rating: 1890
   responseSkills: { reading: 1880, calculation: 1870, reasoning: 1880, synthesis: 1870 }
   stem: |
@@ -248,6 +261,7 @@
 - id: spec.vectors-2d.ch.altitudes-concurrent
   pool: challenge
   skills: { primary: spec.vectors-2d.proofs, secondary: [spec.vectors-2d.scalar-product] }
+  subsection: "Triangles and circles"
   rating: 1920
   responseSkills: { reasoning: 1910, proof: 1910, clarity: 1860, synthesis: 1900 }
   stem: |
@@ -271,6 +285,7 @@
 - id: spec.vectors-2d.ch.dot-bound
   pool: challenge
   skills: { primary: spec.vectors-2d.scalar-product, secondary: [spec.vectors-2d.proofs] }
+  subsection: "Magnitudes and the scalar product"
   rating: 1975
   responseSkills: { reasoning: 1960, proof: 1960, clarity: 1910, synthesis: 1950 }
   stem: |

@@ -3,6 +3,7 @@
 - id: spec.geometry.sq.rain-contrapositive
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1050
   responseSkills: { reading: 1040 }
   stem: |
@@ -24,6 +25,7 @@
 - id: spec.geometry.sq.center-from-38
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1080
   responseSkills: { reading: 1060, calculation: 1040 }
   variants:
@@ -67,6 +69,7 @@
 - id: spec.geometry.sq.tangent-12
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1150
   responseSkills: { calculation: 1120 }
   variants:
@@ -107,6 +110,7 @@
 - id: spec.geometry.sq.chords-4-9-6
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1120
   responseSkills: { calculation: 1100 }
   variants:
@@ -146,6 +150,7 @@
 - id: spec.geometry.sq.converse-of-four
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1300
   responseSkills: { reading: 1290, reasoning: 1280, calculation: 1250 }
   stem: |
@@ -162,6 +167,7 @@
 - id: spec.geometry.sq.cyclic-2x-3x
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1290
   responseSkills: { reading: 1270, calculation: 1270 }
   variants:
@@ -202,6 +208,7 @@
 - id: spec.geometry.sq.diameter-complement
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1340
   responseSkills: { reasoning: 1330, proof: 1320, clarity: 1280 }
   stem: |
@@ -234,6 +241,7 @@
 - id: spec.geometry.sq.tangent-chord-center
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1380
   responseSkills: { reading: 1360, reasoning: 1370, calculation: 1340 }
   variants:
@@ -277,6 +285,7 @@
 - id: spec.geometry.sq.tangent-secant-3-9
   pool: section-quiz
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1410
   responseSkills: { reading: 1390, calculation: 1390 }
   variants:
@@ -318,6 +327,7 @@
 - id: spec.geometry.sq.exterior-and-opposite
   pool: section-quiz
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Finding and proving angles"
   rating: 1440
   responseSkills: { reading: 1420, reasoning: 1430, calculation: 1400 }
   variants:
@@ -372,6 +382,7 @@
 - id: spec.geometry.sq.tangents-minor-arc
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1500
   responseSkills: { reading: 1480, reasoning: 1490, calculation: 1460 }
   variants:
@@ -421,6 +432,7 @@
 - id: spec.geometry.sq.base-angle-22
   pool: section-quiz
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1430
   responseSkills: { reading: 1410, reasoning: 1420, calculation: 1400 }
   variants:
@@ -465,6 +477,7 @@
 - id: spec.geometry.sq.negate-for-every-y
   pool: section-quiz
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1450
   responseSkills: { reading: 1440, reasoning: 1430, precision: 1420 }
   stem: |
@@ -486,6 +499,7 @@
 - id: spec.geometry.sq.prime-2p-plus-1
   pool: section-quiz
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Counterexamples"
   rating: 1410
   responseSkills: { reading: 1400, reasoning: 1400, calculation: 1370 }
   stem: |
@@ -502,6 +516,7 @@
 - id: spec.geometry.sq.odd-square-minus-one
   pool: section-quiz
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Direct proof"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1540 }
   stem: |
@@ -523,6 +538,7 @@
 - id: spec.geometry.sq.tangents-major-arc-proof
   pool: section-quiz
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1620, clarity: 1580 }
   stem: |

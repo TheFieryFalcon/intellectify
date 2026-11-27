@@ -3,6 +3,7 @@
 - id: spec.geometry.ch.concentric-equal-pieces
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1570
   responseSkills: { reasoning: 1560, proof: 1550, clarity: 1500 }
   stem: |
@@ -38,6 +39,7 @@
 - id: spec.geometry.ch.cyclic-extended-sides
   pool: challenge
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1590
   responseSkills: { reasoning: 1580, proof: 1570, clarity: 1510 }
   stem: |
@@ -81,6 +83,7 @@
 - id: spec.geometry.ch.tangent-two-chords
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1600
   responseSkills: { reading: 1560, reasoning: 1570, calculation: 1540, synthesis: 1560 }
   variants:
@@ -125,6 +128,7 @@
 - id: spec.geometry.ch.tangent-meets-diameter
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1640
   responseSkills: { reasoning: 1610, proof: 1600, clarity: 1560, synthesis: 1590 }
   stem: |
@@ -162,6 +166,7 @@
 - id: spec.geometry.ch.log2-3-irrational
   pool: challenge
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1690
   responseSkills: { reasoning: 1670, proof: 1670, clarity: 1620 }
   stem: |
@@ -182,6 +187,7 @@
 - id: spec.geometry.ch.circle-through-lattice
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Finding and proving lengths"
   rating: 1720
   responseSkills: { reading: 1710, reasoning: 1710, calculation: 1690, synthesis: 1700 }
   variants:
@@ -220,6 +226,7 @@
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1740
   responseSkills: { reasoning: 1730, proof: 1730, clarity: 1680 }
   stem: |
@@ -238,6 +245,7 @@
 - id: spec.geometry.ch.tangents-meet-distance
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.proof-methods] }
+  subsection: "Tangents from a point"
   rating: 1750
   responseSkills: { reasoning: 1700, proof: 1690, clarity: 1620, synthesis: 1680 }
   stem: |
@@ -278,6 +286,7 @@
 - id: spec.geometry.ch.square-circle-radius
   pool: challenge
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Intersecting chords"
   rating: 1780
   responseSkills: { reasoning: 1720, proof: 1710, clarity: 1640, synthesis: 1720 }
   stem: |
@@ -317,6 +326,7 @@
 - id: spec.geometry.ch.feet-mean-proportional
   pool: challenge
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
+  subsection: "The alternate segment theorem"
   rating: 1830
   responseSkills: { reasoning: 1760, proof: 1750, clarity: 1680, synthesis: 1780 }
   stem: |
@@ -367,6 +377,7 @@
 - id: spec.geometry.ch.bisector-meets-perpendicular
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Finding and proving angles"
   rating: 1870
   responseSkills: { reasoning: 1860, proof: 1850, clarity: 1810, synthesis: 1850 }
   stem: |
@@ -402,6 +413,7 @@
 - id: spec.geometry.ch.touching-circles-parallel
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1880
   responseSkills: { reasoning: 1770, proof: 1760, clarity: 1700, synthesis: 1750 }
   stem: |
@@ -438,6 +450,7 @@
 - id: spec.geometry.ch.common-chord-bisects-tangent
   pool: challenge
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Tangent and secant"
   rating: 1900
   responseSkills: { reasoning: 1890, proof: 1880, clarity: 1840, synthesis: 1880 }
   stem: |
@@ -473,6 +486,7 @@
 - id: spec.geometry.ch.root2-plus-root3
   pool: challenge
   skills: { primary: spec.geometry.proof-methods }
+  subsection: "Proof by contradiction"
   rating: 1930
   responseSkills: { reasoning: 1920, proof: 1920, clarity: 1870 }
   stem: |
@@ -496,6 +510,7 @@
 - id: spec.geometry.ch.ptolemy
   pool: challenge
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  subsection: "Finding and proving lengths"
   rating: 1980
   responseSkills: { reasoning: 1970, proof: 1970, clarity: 1920, synthesis: 1960 }
   stem: |

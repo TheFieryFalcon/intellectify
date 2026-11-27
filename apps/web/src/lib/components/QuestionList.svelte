@@ -47,9 +47,9 @@
       <button class="row" class:two={!!skillName} onclick={() => toggle(e)} aria-expanded={open === e.id}>
         <span class="tier t{e.tier}">T{e.tier}</span>
         <span class="title">{e.title}</span>
-        {#if skillName}<span class="skill muted">{skillName(e.skill)}</span>{/if}
+        {#if skillName}<span class="skill muted">{skillName(e.skill)}{e.subsection ? ` · ${e.subsection}` : ""}</span>{/if}
         <span class="meta muted">
-          {e.kind === "written" ? "Written" : e.answerTypes.join(", ")}
+          {!skillName && e.subsection ? `${e.subsection} · ` : ""}{e.kind === "written" ? "Written" : e.answerTypes.join(", ")}
           {#if POOL[e.pool]} · {POOL[e.pool]}{/if}
           {#if e.later} · Later unit{/if}
           {#if answered.has(e.id)} · <span class="done">Answered</span>{/if}

@@ -2,6 +2,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-radius
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangent and radius"
   rating: 1050
   responseSkills: {calculation: 1040, reading: 1040}
   variants:
@@ -44,6 +45,7 @@
 
 - id: spec.geometry.chords-tangents.equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangents from a point"
   rating: 1080
   responseSkills: {reading: 1080, calculation: 1030}
   variants:
@@ -83,6 +85,7 @@
 
 - id: spec.geometry.chords-tangents.alternate-segment
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1120
   responseSkills: {reading: 1110, calculation: 1080}
   variants:
@@ -125,6 +128,7 @@
 
 - id: spec.geometry.chords-tangents.equal-chords
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Chords and the center"
   rating: 1160
   responseSkills: {reading: 1150, calculation: 1110}
   variants:
@@ -171,6 +175,7 @@
 
 - id: spec.geometry.chords-tangents.two-tangents-center
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangents from a point"
   rating: 1280
   responseSkills: {reading: 1260, calculation: 1260, reasoning: 1270}
   variants:
@@ -215,6 +220,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-triangle
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangents from a point"
   rating: 1310
   responseSkills: {reading: 1290, calculation: 1290, reasoning: 1300}
   variants:
@@ -255,6 +261,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-both-sides
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1350
   responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
   variants:
@@ -305,6 +312,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-length
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangent and radius"
   rating: 1380
   responseSkills: {reading: 1350, calculation: 1370, reasoning: 1370}
   variants:
@@ -344,6 +352,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-chord-center
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1420
   responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1390}
   variants:
@@ -389,6 +398,7 @@
 
 - id: spec.geometry.chords-tangents.equal-chords-two-step
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Chords and the center"
   rating: 1450
   responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   variants:
@@ -436,6 +446,7 @@
 
 - id: spec.geometry.chords-tangents.diameter-tangent
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1480
   responseSkills: {calculation: 1430, reasoning: 1470, synthesis: 1460}
   variants:
@@ -479,6 +490,7 @@
 
 - id: spec.geometry.chords-tangents.prove-equal-tangents
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangents from a point"
   rating: 1400
   bookwork: true
   responseSkills: {reasoning: 1390, proof: 1390, clarity: 1320}
@@ -510,6 +522,7 @@
     Join $OS$, $OT$ and $OM$. $\angle OSM = \angle OTM = 90^\circ$ (tangent ⟂ radius), $OS = OT$ (radii) and $OM$ is common. So right-angled triangles $OSM$ and $OTM$ are congruent (hypotenuse and one side), and $MS = MT$.
 - id: spec.geometry.chords-tangents.incircle-tangents
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangents from a point"
   rating: 1600
   responseSkills: {calculation: 1550, reasoning: 1590, synthesis: 1590}
   variants:
@@ -552,6 +565,7 @@
 
 - id: spec.geometry.chords-tangents.prove-alternate-segment
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1520
   bookwork: true
   responseSkills: {reasoning: 1510, proof: 1510, clarity: 1420, synthesis: 1480}
@@ -587,6 +601,7 @@
     Draw the diameter $TD$ and join $DB$. The tangent is perpendicular to $TD$, so the tangent–chord angle is $90^\circ - \angle BTD$. In triangle $TBD$, $\angle TBD = 90^\circ$ (angle in a semicircle), so $\angle TDB = 90^\circ - \angle BTD$ too. So the tangent–chord angle equals $\angle TDB$, which equals $\angle TAB$ (same arc $TB$).
 - id: spec.geometry.chords-tangents.chord-of-contact
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangents from a point"
   rating: 1700
   responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1690}
   variants:
@@ -628,6 +643,7 @@
 
 - id: spec.geometry.chords-tangents.common-tangent
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "Tangent and radius"
   rating: 1730
   responseSkills: {calculation: 1670, reasoning: 1720, synthesis: 1720}
   variants:
@@ -671,6 +687,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-secant-angles
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1700
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
   variants:
@@ -718,6 +735,7 @@
 
 - id: spec.geometry.chords-tangents.touching-circles-bisect
   skills: {primary: spec.geometry.chords-tangents}
+  subsection: "The alternate segment theorem"
   rating: 1810
   responseSkills: {reasoning: 1810, proof: 1810, clarity: 1680, synthesis: 1790}
   stem: |

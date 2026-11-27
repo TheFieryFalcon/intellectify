@@ -21,6 +21,8 @@ export interface BundleSkill {
   reviewDotPoints: string[];
   prereqs: string[];
   external: { course: string; version: string; dotPoints: string[]; note: string }[];
+  /** Named points within the skill (SPEC §3), in the order the curriculum lists them. */
+  subsections: string[];
   /** Weight in roll-ups: number of dot points (including review dot points it covers). */
   weight: number;
   questionCount: number;
@@ -129,6 +131,8 @@ export function buildContent(contentDir: string): BuildResult {
     const sectionPlace = new Map<string, { unit: number; year: number }>();
     const prereqsOf = new Map<string, string[]>();
     const reviewFor = new Map<string, string[]>();
+    /** Skill ID → its subsections (SPEC §3). */
+    const subsectionsOf = new Map<string, string[]>();
     for (const v of versions) {
       for (const u of v.units) {
         for (const s of u.sections) {
@@ -140,6 +144,9 @@ export function buildContent(contentDir: string): BuildResult {
             skillUnit.set(k.id, u.number);
             skillSection.set(k.id, s.id);
             prereqsOf.set(k.id, k.prereqs);
+            subsectionsOf.set(k.id, k.subsections);
+            if (new Set(k.subsections).size !== k.subsections.length) errors.push(`${k.id}: duplicate subsection`);
+            for (const n of k.subsections) if (/^\d+(\.\d+)*$/.test(n.trim())) errors.push(`${k.id}: subsection "${n}" should be named in words, not by number`);
             covered.push(...k.dotPoints);
           }
           for (const r of s.reviewDotPoints) {
@@ -199,6 +206,10 @@ export function buildContent(contentDir: string): BuildResult {
         if (qIds.has(q.id)) errors.push(`${where}: duplicate question ID`);
         qIds.add(q.id);
         for (const s of [q.skills.primary, ...q.skills.secondary]) if (!skillUnit.has(s)) errors.push(`${where}: unknown skill ${s}`);
+        // Every question names one of its primary skill's subsections (SPEC §3).
+        const subs = subsectionsOf.get(q.skills.primary) ?? [];
+        if (!q.subsection) errors.push(`${where}: no subsection${subs.length ? ` (one of: ${subs.join("; ")})` : ` (${q.skills.primary} lists none yet)`}`);
+        else if (!subs.includes(q.subsection)) errors.push(`${where}: subsection "${q.subsection}" isn't one of ${q.skills.primary}'s (${subs.join("; ") || "none listed"})`);
         for (const r of Object.keys(q.responseSkills)) if (!rsIds.has(r)) errors.push(`${where}: unknown response skill ${r}`);
         // Response-skill tagging rules (SPEC §5.6).
         if (!Object.keys(q.responseSkills).length) errors.push(`${where}: no response skills`);
@@ -323,6 +334,7 @@ export function buildContent(contentDir: string): BuildResult {
               const tier5 = qs.filter((q) => tierOf(q.rating) === 5).length;
               if (qs.length && qs.length < rules.minQuestions) warnings.push(`${k.id} (${k.size}): ${qs.length} questions; needs at least ${rules.minQuestions}`);
               if (qs.length && tier5 < rules.minTier5) warnings.push(`${k.id} (${k.size}): ${tier5} Tier 5 questions; needs at least ${rules.minTier5}`);
+              for (const n of k.subsections) if (qs.length && !qs.some((q) => q.subsection === n)) warnings.push(`${k.id}: no practice questions in subsection "${n}"`);
               return {
                 id: k.id,
                 name: k.name,
@@ -332,6 +344,7 @@ export function buildContent(contentDir: string): BuildResult {
                 reviewDotPoints: review,
                 prereqs: k.prereqs,
                 external: k.external,
+                subsections: k.subsections,
                 weight: k.dotPoints.length + review.length,
                 questionCount: questions[k.id]?.length ?? 0,
                 hasTutorial: tutorials.has(k.id),

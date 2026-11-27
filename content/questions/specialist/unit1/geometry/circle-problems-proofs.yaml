@@ -2,6 +2,7 @@
 
 - id: spec.geometry.circle-problems.two-right-angles-concyclic
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1400
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
@@ -37,6 +38,7 @@
 
 - id: spec.geometry.circle-problems.perpendicular-bisectors-meet
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1450
   responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
   stem: |
@@ -68,6 +70,7 @@
 
 - id: spec.geometry.circle-problems.kite-right-angle-cyclic
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -101,6 +104,7 @@
 
 - id: spec.geometry.circle-problems.isosceles-trapezium-cyclic
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -135,6 +139,7 @@
 
 - id: spec.geometry.circle-problems.circle-through-bc-antiparallel
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Finding and proving angles"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -169,6 +174,7 @@
 
 - id: spec.geometry.circle-problems.converse-same-arc
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Proving points lie on a circle"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510, synthesis: 1540 }
   stem: |
@@ -204,6 +210,7 @@
 
 - id: spec.geometry.circle-problems.tangent-parallel-diagonal
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1580
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530, synthesis: 1560 }
   stem: |
@@ -239,6 +246,7 @@
 
 - id: spec.geometry.circle-problems.equal-chords-parallel
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.circle-angles] }
+  subsection: "Finding and proving angles"
   rating: 1580
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530, synthesis: 1560 }
   stem: |
@@ -272,6 +280,7 @@
 
 - id: spec.geometry.circle-problems.secant-triangles-similar
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  subsection: "Finding and proving angles"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550, synthesis: 1580 }
   stem: |
@@ -306,6 +315,7 @@
 
 - id: spec.geometry.circle-problems.tangent-by-angles
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  subsection: "Finding and proving angles"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550, synthesis: 1580 }
   stem: |
@@ -342,6 +352,7 @@
 
 - id: spec.geometry.circle-problems.feet-of-altitudes-angle
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
@@ -379,6 +390,7 @@
 
 - id: spec.geometry.circle-problems.angle-bisectors-cyclic
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1700
   responseSkills: { reasoning: 1690, proof: 1690, clarity: 1650 }
   stem: |
@@ -430,6 +442,7 @@
 
 - id: spec.geometry.circle-problems.tangent-parallel-to-chord
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Finding and proving angles"
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730, synthesis: 1760 }
   stem: |
@@ -470,6 +483,7 @@
 
 - id: spec.geometry.circle-problems.orthocenter-reflection
   skills: { primary: spec.geometry.circle-problems }
+  subsection: "Proving points lie on a circle"
   rating: 1820
   responseSkills: { reasoning: 1810, proof: 1810, clarity: 1770 }
   stem: |
@@ -512,6 +526,7 @@
 
 - id: spec.geometry.circle-problems.tangents-meet-concyclic
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chords-tangents] }
+  subsection: "Proving points lie on a circle"
   rating: 1840
   responseSkills: { reasoning: 1830, proof: 1830, clarity: 1790, synthesis: 1820 }
   stem: |
@@ -553,6 +568,7 @@
 
 - id: spec.geometry.circle-problems.perpendicular-chords-sum
   skills: { primary: spec.geometry.circle-problems, secondary: [spec.geometry.chord-secant-lengths] }
+  subsection: "Finding and proving lengths"
   rating: 1810
   responseSkills: { reading: 1780, reasoning: 1800, proof: 1800, clarity: 1760, synthesis: 1790 }
   stem: |

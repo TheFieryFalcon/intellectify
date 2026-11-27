@@ -33,6 +33,7 @@ units:
             name: Logic and the language of proof
             summary: Implication, converse, inverse, contrapositive, negation and equivalence; the symbols ⇒ and ⇔; quantifiers ∀ and ∃.
             size: small
+            subsections: ["Implication, converse and contrapositive", "Negation", "For all and there exists", "If and only if"]
             dotPoints: ["1.1.1", "1.1.3", "1.1.4"]
             prereqs: []
 
@@ -40,6 +41,7 @@ units:
             name: Contradiction and counterexamples
             summary: Proof by contradiction; using examples to illustrate and counterexamples to disprove.
             size: cornerstone
+            subsections: ["Counterexamples", "Direct proof", "Proof by cases", "Proof by contrapositive", "Proof by contradiction"]
             dotPoints: ["1.1.2", "1.1.5"]
             prereqs: [spec.geometry.logic]
 
@@ -47,6 +49,7 @@ units:
             name: Angles in circles
             summary: Prove and use the angle-in-a-semicircle, center-vs-circumference, same-arc and cyclic-quadrilateral theorems.
             size: large
+            subsections: ["Angle at the center", "Angle in a semicircle", "Angles on the same arc", "Cyclic quadrilaterals"]
             dotPoints: ["1.1.6", "1.1.7", "1.1.8", "1.1.9"]
             prereqs: [spec.geometry.logic]
 
@@ -54,6 +57,7 @@ units:
             name: Chords and the alternate segment
             summary: Equal chords and equal angles at the center (and conversely); the alternate segment theorem.
             size: medium
+            subsections: ["Chords and the center", "Tangent and radius", "Tangents from a point", "The alternate segment theorem"]
             dotPoints: ["1.1.10", "1.1.11"]
             prereqs: [spec.geometry.circle-angles]
 
@@ -61,6 +65,7 @@ units:
             name: Intersecting chords, secants and tangents
             summary: Products of chord segments; the tangent–secant relation TM² = AM × BM.
             size: medium
+            subsections: ["Intersecting chords", "Two secants from a point", "Tangent and secant"]
             dotPoints: ["1.1.12", "1.1.13"]
             prereqs: [spec.geometry.circle-angles]
 
@@ -68,6 +73,7 @@ units:
             name: Converses and circle geometry problems
             summary: Suitable converses of the circle results; finding unknown angles and lengths and proving further results by combining them.
             size: cornerstone
+            subsections: ["Proving points lie on a circle", "Finding and proving angles", "Finding and proving lengths"]
             dotPoints: ["1.1.14", "1.1.15"]
             prereqs: [spec.geometry.chords-tangents, spec.geometry.chord-secant-lengths, spec.geometry.proof-methods]
 
@@ -82,6 +88,7 @@ units:
             name: Counting principles
             summary: Multiplication and addition principles; factorial notation and nPr.
             size: small
+            subsections: ["Multiplication principle", "Cases and the addition principle", "Factorials and nPr", "Counting divisors"]
             dotPoints: ["1.2.2", "1.2.3"]
             prereqs: []
 
@@ -89,6 +96,7 @@ units:
             name: Permutations with restrictions
             summary: Ordered arrangements, including restrictions and repeated objects.
             size: cornerstone
+            subsections: ["Arranging different objects", "Repeated objects", "Objects together or apart", "Fixed positions and order", "Arrangements in a circle"]
             dotPoints: ["1.2.1", "1.2.4"]
             prereqs: [spec.combinatorics.counting-principles]
 
@@ -96,6 +104,7 @@ units:
             name: Combinations
             summary: Unordered selections and the notation nCr.
             size: cornerstone
+            subsections: ["Choosing a group", "Choosing from categories", "Who must or mustn't be chosen", "Splitting into groups and roles", "Paths on a grid", "Counting shapes", "Sharing identical objects", "Counting by a clever choice"]
             dotPoints: ["1.2.7", "1.2.8"]
             prereqs: [spec.combinatorics.counting-principles]
             external:
@@ -105,6 +114,7 @@ units:
             name: Pascal's triangle identities
             summary: Derive and use simple identities associated with Pascal's triangle.
             size: small
+            subsections: ["Pascal's triangle", "Pascal's rule", "Symmetry", "Row sums", "Further identities"]
             dotPoints: ["1.2.9"]
             prereqs: [spec.combinatorics.combinations]
             external:
@@ -114,6 +124,7 @@ units:
             name: Inclusion–exclusion
             summary: Counting the union of two and three sets.
             size: medium
+            subsections: ["Two sets", "Three sets", "Divisibility", "Arrangements with conditions"]
             dotPoints: ["1.2.5"]
             prereqs: [spec.combinatorics.counting-principles]
             external:
@@ -123,6 +134,7 @@ units:
             name: The pigeonhole principle
             summary: Solve problems and prove results with the pigeonhole principle.
             size: medium
+            subsections: ["Guaranteeing a match", "At least k in one box", "Number problems", "Points, handshakes and colorings"]
             dotPoints: ["1.2.6"]
             prereqs: [spec.combinatorics.counting-principles, spec.geometry.proof-methods]
 
@@ -137,6 +149,7 @@ units:
             name: Vectors as directed line segments
             summary: Displacement and velocity as vectors; magnitude and direction; scalar multiples; triangle and parallelogram rules.
             size: small
+            subsections: ["Vectors and scalars", "Adding and subtracting", "Magnitudes from the triangle rule", "Points dividing a line"]
             dotPoints: ["1.3.1", "1.3.2", "1.3.3", "1.3.4"]
             prereqs: []
             external:
@@ -146,6 +159,7 @@ units:
             name: Component form
             summary: Ordered-pair and column notation; unit vectors i and j; addition, subtraction and scalar multiplication in components.
             size: small
+            subsections: ["Notation and arithmetic", "Magnitude and direction", "Points and parallel vectors"]
             dotPoints: ["1.3.5", "1.3.6", "1.3.7", "1.3.8", "1.3.9"]
             prereqs: [spec.vectors-2d.geometric]
 
@@ -153,6 +167,7 @@ units:
             name: The scalar product
             summary: Define and apply the dot product in component form; test for parallel and perpendicular vectors.
             size: cornerstone
+            subsections: ["Calculating the scalar product", "Angle between vectors", "Perpendicular and parallel vectors", "Magnitudes and the scalar product"]
             dotPoints: ["1.3.10", "1.3.11", "1.3.12"]
             prereqs: [spec.vectors-2d.components]
 
@@ -160,6 +175,7 @@ units:
             name: Projections
             summary: Scalar and vector projections of one vector onto another.
             size: medium
+            subsections: ["Scalar projection", "Vector projection", "Distance to a line"]
             dotPoints: ["1.3.13"]
             prereqs: [spec.vectors-2d.scalar-product]
 
@@ -167,6 +183,7 @@ units:
             name: Displacement, force and velocity
             summary: Applied problems, including resultant forces, relative velocity, and navigation with wind or current.
             size: cornerstone
+            subsections: ["Forces, equilibrium and work", "Position and constant velocity", "Navigation with wind and current", "Relative velocity", "Collision and closest approach"]
             dotPoints: ["1.3.14"]
             prereqs: [spec.vectors-2d.components, spec.vectors-2d.scalar-product]
             external:
@@ -176,6 +193,7 @@ units:
             name: Geometric proofs with vectors
             summary: Rhombus diagonals, the midpoint parallelogram and the parallelogram law, proved with vectors.
             size: medium
+            subsections: ["Setting up a vector proof", "Parallelograms and rhombuses", "Triangles and circles", "Lengths and the parallelogram law"]
             dotPoints: ["1.3.15", "1.3.16", "1.3.17"]
             prereqs: [spec.vectors-2d.scalar-product, spec.geometry.proof-methods]
 

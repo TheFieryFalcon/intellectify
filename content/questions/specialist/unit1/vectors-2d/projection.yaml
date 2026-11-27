@@ -3,6 +3,7 @@
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.projection.onto-j
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1060
   responseSkills: {reading: 1060, calculation: 1010}
   variants:
@@ -21,6 +22,7 @@
 
 - id: spec.vectors-2d.projection.onto-i
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1080
   responseSkills: {reading: 1080, calculation: 1030}
   variants:
@@ -40,6 +42,7 @@
 
 - id: spec.vectors-2d.projection.which-formula
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1120
   responseSkills: { reading: 1120 }
   stem: |
@@ -57,6 +60,7 @@
 
 - id: spec.vectors-2d.projection.from-angle
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1150
   responseSkills: { calculation: 1140 }
   variants:
@@ -76,6 +80,7 @@
 
 - id: spec.vectors-2d.projection.scalar-basic
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1180
   responseSkills: { calculation: 1170 }
   variants:
@@ -96,6 +101,7 @@
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.projection.scalar-negative
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1270
   responseSkills: { calculation: 1260 }
   stem: |
@@ -112,6 +118,7 @@
 
 - id: spec.vectors-2d.projection.vector-basic
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1290
   responseSkills: { calculation: 1280 }
   variants:
@@ -132,6 +139,7 @@
 
 - id: spec.vectors-2d.projection.both-ways
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1320
   responseSkills: { calculation: 1300, reading: 1310 }
   stem: |
@@ -153,6 +161,7 @@
 
 - id: spec.vectors-2d.projection.perpendicular-part
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1360
   responseSkills: { calculation: 1340, reading: 1340 }
   variants:
@@ -179,6 +188,7 @@
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.projection.unknown-component
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1410
   responseSkills: { calculation: 1400, reading: 1390 }
   variants:
@@ -199,6 +209,7 @@
 
 - id: spec.vectors-2d.projection.distance-to-line-origin
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1430
   responseSkills: { calculation: 1410, synthesis: 1400 }
   stem: |
@@ -216,6 +227,7 @@
 
 - id: spec.vectors-2d.projection.ramp-force
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1460
   responseSkills: { calculation: 1440, reading: 1430 }
   stem: |
@@ -238,6 +250,7 @@
 
 - id: spec.vectors-2d.projection.foot-of-perpendicular
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1490
   responseSkills: { calculation: 1460, synthesis: 1460 }
   stem: |
@@ -257,6 +270,7 @@
 
 - id: spec.vectors-2d.projection.distance-to-line-two-points
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1520
   responseSkills: { calculation: 1490, synthesis: 1490 }
   stem: |
@@ -276,6 +290,7 @@
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.projection.two-projections
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1580
   responseSkills: {calculation: 1530, reasoning: 1560, synthesis: 1570}
   requiresCalculator: true
@@ -299,6 +314,7 @@
 
 - id: spec.vectors-2d.projection.from-projection-and-length
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1600
   responseSkills: {calculation: 1540, reasoning: 1580, synthesis: 1590}
   stem: |
@@ -321,6 +337,7 @@
 
 - id: spec.vectors-2d.projection.triangle-area
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1620
   responseSkills: {calculation: 1560, reasoning: 1600, synthesis: 1610}
   stem: |
@@ -342,6 +359,7 @@
 
 - id: spec.vectors-2d.projection.altitude
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1660
   responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1640}
   stem: |
@@ -367,6 +385,7 @@
 
 - id: spec.vectors-2d.projection.reflection
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1690
   responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1690}
   stem: |
@@ -388,6 +407,7 @@
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.projection.reverse-projection
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1710
   responseSkills: {reading: 1650, calculation: 1660, reasoning: 1690, synthesis: 1710}
   stem: |
@@ -406,6 +426,7 @@
 
 - id: spec.vectors-2d.projection.closest-to-origin
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Distance to a line"
   rating: 1730
   responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1720}
   stem: |
@@ -427,6 +448,7 @@
 
 - id: spec.vectors-2d.projection.unit-vector-from-projection
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1750
   responseSkills: {calculation: 1680, reasoning: 1730, synthesis: 1750}
   stem: |
@@ -447,6 +469,7 @@
 
 - id: spec.vectors-2d.projection.onto-sum
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1720
   responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1720}
   stem: |

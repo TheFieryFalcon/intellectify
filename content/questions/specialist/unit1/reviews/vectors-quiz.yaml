@@ -3,6 +3,7 @@
 - id: spec.vectors-2d.sq.add-components
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Notation and arithmetic"
   rating: 1050
   responseSkills: { calculation: 1030 }
   stem: |
@@ -19,6 +20,7 @@
 - id: spec.vectors-2d.sq.length-6-8
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1080
   responseSkills: { calculation: 1060 }
   stem: |
@@ -35,6 +37,7 @@
 - id: spec.vectors-2d.sq.parallelogram-diagonal
   pool: section-quiz
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Adding and subtracting"
   rating: 1120
   responseSkills: { reading: 1100, reasoning: 1090 }
   stem: |
@@ -56,6 +59,7 @@
 - id: spec.vectors-2d.sq.dot-2-3-4-1
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1150
   responseSkills: { calculation: 1130 }
   stem: |
@@ -72,6 +76,7 @@
 - id: spec.vectors-2d.sq.unit-5-12
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Magnitude and direction"
   rating: 1290
   responseSkills: { calculation: 1270 }
   stem: |
@@ -89,6 +94,7 @@
 - id: spec.vectors-2d.sq.perp-k
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1320
   responseSkills: { calculation: 1300, reasoning: 1300 }
   stem: |
@@ -106,6 +112,7 @@
 - id: spec.vectors-2d.sq.position-after-4
   pool: section-quiz
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1350
   responseSkills: { reading: 1330, calculation: 1320 }
   stem: |
@@ -122,6 +129,7 @@
 - id: spec.vectors-2d.sq.scalar-proj-2
   pool: section-quiz
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Scalar projection"
   rating: 1380
   responseSkills: { calculation: 1360 }
   stem: |
@@ -138,6 +146,7 @@
 - id: spec.vectors-2d.sq.cos-1-1-1-7
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1420
   responseSkills: { calculation: 1400 }
   stem: |
@@ -154,6 +163,7 @@
 - id: spec.vectors-2d.sq.vproj-4-1
   pool: section-quiz
   skills: { primary: spec.vectors-2d.projection }
+  subsection: "Vector projection"
   rating: 1450
   responseSkills: { calculation: 1430 }
   stem: |
@@ -171,6 +181,7 @@
 - id: spec.vectors-2d.sq.plane-240-70
   pool: section-quiz
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1480
   responseSkills: { reading: 1460, calculation: 1460 }
   stem: |
@@ -187,6 +198,7 @@
 - id: spec.vectors-2d.sq.difference-3-5-60
   pool: section-quiz
   skills: { primary: spec.vectors-2d.geometric }
+  subsection: "Magnitudes from the triangle rule"
   rating: 1430
   responseSkills: { calculation: 1410, reasoning: 1410 }
   stem: |
@@ -203,6 +215,7 @@
 - id: spec.vectors-2d.sq.collinear-k
   pool: section-quiz
   skills: { primary: spec.vectors-2d.components }
+  subsection: "Points and parallel vectors"
   rating: 1440
   responseSkills: { reading: 1420, calculation: 1420, reasoning: 1420 }
   stem: |
@@ -220,6 +233,7 @@
 - id: spec.vectors-2d.sq.square-diagonals
   pool: section-quiz
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1440 }
   stem: |
@@ -243,6 +257,7 @@
 - id: spec.vectors-2d.sq.dot-from-lengths
   pool: section-quiz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1600
   responseSkills: { calculation: 1580, reasoning: 1590 }
   stem: |
@@ -259,6 +274,7 @@
 - id: spec.vectors-2d.sq.midpoint-theorem
   pool: section-quiz
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Triangles and circles"
   rating: 1550
   bookwork: true
   responseSkills: { reasoning: 1540, proof: 1540, clarity: 1490 }

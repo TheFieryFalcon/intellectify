@@ -2,6 +2,7 @@
 
 - id: spec.geometry.circle-angles.center-from-circumference
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1040
   responseSkills: {calculation: 1030, reading: 1040}
   variants:
@@ -45,6 +46,7 @@
 
 - id: spec.geometry.circle-angles.circumference-from-center
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1070
   responseSkills: {calculation: 1060, reading: 1060}
   variants:
@@ -86,6 +88,7 @@
 
 - id: spec.geometry.circle-angles.semicircle
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle in a semicircle"
   rating: 1100
   responseSkills: {calculation: 1090, reading: 1090}
   variants:
@@ -127,6 +130,7 @@
 
 - id: spec.geometry.circle-angles.same-arc
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angles on the same arc"
   rating: 1130
   responseSkills: {reading: 1120, calculation: 1080}
   variants:
@@ -171,6 +175,7 @@
 
 - id: spec.geometry.circle-angles.cyclic-opposite
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Cyclic quadrilaterals"
   rating: 1180
   responseSkills: {calculation: 1160, reading: 1170}
   variants:
@@ -213,6 +218,7 @@
 
 - id: spec.geometry.circle-angles.isosceles-radii
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1270
   responseSkills: {reading: 1260, calculation: 1250, reasoning: 1260}
   variants:
@@ -252,6 +258,7 @@
 
 - id: spec.geometry.circle-angles.cyclic-algebra
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Cyclic quadrilaterals"
   rating: 1300
   responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
   variants:
@@ -290,6 +297,7 @@
 
 - id: spec.geometry.circle-angles.exterior-angle
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Cyclic quadrilaterals"
   rating: 1330
   responseSkills: {reading: 1320, calculation: 1280, reasoning: 1320}
   variants:
@@ -337,6 +345,7 @@
 
 - id: spec.geometry.circle-angles.diameter-opposite-side
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle in a semicircle"
   rating: 1350
   responseSkills: {reading: 1340, calculation: 1330, reasoning: 1340}
   variants:
@@ -380,6 +389,7 @@
 
 - id: spec.geometry.circle-angles.minor-arc-angle
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1380
   responseSkills: {reading: 1370, calculation: 1360, reasoning: 1370}
   variants:
@@ -423,6 +433,7 @@
 
 - id: spec.geometry.circle-angles.which-theorem
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle in a semicircle"
   rating: 1340
   responseSkills: {reading: 1330, reasoning: 1330}
   stem: |
@@ -453,6 +464,7 @@
     $\angle PRQ$ stands on the diameter $PQ$, so it is an angle in a semicircle.
 - id: spec.geometry.circle-angles.base-angle-to-circumference
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1420
   responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1390}
   variants:
@@ -493,6 +505,7 @@
         return {"a": approx(angle_at(A, C, B))}
 - id: spec.geometry.circle-angles.diagonal-angles
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angles on the same arc"
   rating: 1450
   responseSkills: {reading: 1440, calculation: 1430, reasoning: 1440}
   variants:
@@ -539,6 +552,7 @@
 
 - id: spec.geometry.circle-angles.semicircle-proof
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle in a semicircle"
   rating: 1370
   bookwork: true
   responseSkills: {reasoning: 1360, proof: 1360, clarity: 1300}
@@ -572,6 +586,7 @@
     The angles of triangle $ABC$ add to $180^\circ$: $a + (a + b) + b = 180^\circ$, so $a + b = 90^\circ$. That is, $\angle ACB = 90^\circ$.
 - id: spec.geometry.circle-angles.center-algebra
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1490
   responseSkills: {reading: 1460, calculation: 1470, reasoning: 1480}
   variants:
@@ -614,6 +629,7 @@
 
 - id: spec.geometry.circle-angles.triangle-center
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1500
   responseSkills: {calculation: 1480, reasoning: 1490, synthesis: 1460}
   variants:
@@ -662,6 +678,7 @@
 
 - id: spec.geometry.circle-angles.cyclic-proof
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Cyclic quadrilaterals"
   rating: 1430
   bookwork: true
   responseSkills: {reasoning: 1420, proof: 1420, clarity: 1350}
@@ -696,6 +713,7 @@
     Let $ABCD$ be cyclic with center $O$. Join $OB$ and $OD$. $\angle A$ stands on arc $BCD$ and $\angle C$ on arc $BAD$. The angles at the center on these arcs are $2\angle A$ and $2\angle C$, and together they make a full turn: $2\angle A + 2\angle C = 360^\circ$. So $\angle A + \angle C = 180^\circ$, and likewise $\angle B + \angle D = 180^\circ$.
 - id: spec.geometry.circle-angles.obc-general
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1580
   responseSkills: {calculation: 1520, reasoning: 1570, synthesis: 1570}
   stem: |
@@ -739,6 +757,7 @@
         return {"a": 90 - x}
 - id: spec.geometry.circle-angles.equal-sides-angle
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Cyclic quadrilaterals"
   rating: 1620
   responseSkills: {calculation: 1560, reasoning: 1610, synthesis: 1600}
   variants:
@@ -783,6 +802,7 @@
 
 - id: spec.geometry.circle-angles.bow-tie
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angles on the same arc"
   rating: 1650
   responseSkills: {calculation: 1580, reasoning: 1640, synthesis: 1630}
   variants:
@@ -827,6 +847,7 @@
 
 - id: spec.geometry.circle-angles.regular-pentagon
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angles on the same arc"
   rating: 1700
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1690}
   stem: |
@@ -863,6 +884,7 @@
         return {"a": approx(angle_at(C, A, D))}
 - id: spec.geometry.circle-angles.chord-from-angle
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1710
   responseSkills: {calculation: 1650, reasoning: 1700, synthesis: 1700}
   variants:
@@ -907,6 +929,7 @@
 
 - id: spec.geometry.circle-angles.equal-chords-quad
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angles on the same arc"
   rating: 1720
   responseSkills: {calculation: 1650, reasoning: 1710, synthesis: 1710}
   variants:
@@ -949,6 +972,7 @@
 
 - id: spec.geometry.circle-angles.dodecagon-diagonals
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angles on the same arc"
   rating: 1750
   responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1750}
   stem: |
@@ -990,6 +1014,7 @@
         return {"a": approx(angle_at(V[1], X, V[2]))}
 - id: spec.geometry.circle-angles.two-diameters-collinear
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle in a semicircle"
   rating: 1710
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1690}
   stem: |
@@ -1022,6 +1047,7 @@
     Join $AB$. $AC$ is a diameter of the first circle and $B$ is on it, so $\angle ABC = 90^\circ$ (angle in a semicircle). Likewise $\angle ABD = 90^\circ$ in the second circle. $C$ and $D$ are on opposite sides of $AB$, so $\angle CBD = 90^\circ + 90^\circ = 180^\circ$: $C$, $B$ and $D$ are collinear.
 - id: spec.geometry.circle-angles.altitude-center
   skills: {primary: spec.geometry.circle-angles}
+  subsection: "Angle at the center"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |

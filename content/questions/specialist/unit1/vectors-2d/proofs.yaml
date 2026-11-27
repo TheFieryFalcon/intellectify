@@ -4,6 +4,7 @@
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.proofs.perpendicular-test
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Setting up a vector proof"
   rating: 1050
   responseSkills: { reading: 1050 }
   stem: |
@@ -21,6 +22,7 @@
 
 - id: spec.vectors-2d.proofs.collinear-test
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Setting up a vector proof"
   rating: 1080
   responseSkills: { reading: 1080 }
   stem: |
@@ -38,6 +40,7 @@
 
 - id: spec.vectors-2d.proofs.midpoint-vector
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Setting up a vector proof"
   rating: 1100
   responseSkills: {reading: 1100, calculation: 1050}
   stem: |
@@ -54,6 +57,7 @@
 
 - id: spec.vectors-2d.proofs.expand-square
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Setting up a vector proof"
   rating: 1180
   responseSkills: { reading: 1170, calculation: 1150 }
   stem: |
@@ -72,6 +76,7 @@
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.proofs.midpoint-quad-reason
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Setting up a vector proof"
   rating: 1300
   responseSkills: {reading: 1300, reasoning: 1280, proof: 1280}
   stem: |
@@ -89,6 +94,7 @@
 
 - id: spec.vectors-2d.proofs.classify-quadrilateral
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Setting up a vector proof"
   rating: 1330
   responseSkills: {reading: 1320, calculation: 1310, reasoning: 1310}
   variants:
@@ -113,6 +119,7 @@
 
 - id: spec.vectors-2d.proofs.equal-sum-difference
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1360
   responseSkills: {reasoning: 1350, proof: 1350, clarity: 1300}
   stem: |
@@ -132,6 +139,7 @@
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.proofs.diagonals-bisect
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1320
   bookwork: true
   responseSkills: {reasoning: 1310, proof: 1310, clarity: 1250}
@@ -152,6 +160,7 @@
 
 - id: spec.vectors-2d.proofs.parallelogram-law-numeric
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Lengths and the parallelogram law"
   rating: 1440
   responseSkills: {calculation: 1420, reasoning: 1420, synthesis: 1420}
   variants:
@@ -170,6 +179,7 @@
 
 - id: spec.vectors-2d.proofs.perpendicular-diagonals-rhombus
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1360
   bookwork: true
   responseSkills: {reasoning: 1350, proof: 1350, clarity: 1300}
@@ -190,6 +200,7 @@
 
 - id: spec.vectors-2d.proofs.equal-diagonals-rectangle
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1490
   responseSkills: {reasoning: 1480, proof: 1480, clarity: 1420}
   stem: |
@@ -209,6 +220,7 @@
 
 - id: spec.vectors-2d.proofs.semicircle
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Triangles and circles"
   rating: 1410
   bookwork: true
   responseSkills: {reasoning: 1400, proof: 1400, clarity: 1320, synthesis: 1380}
@@ -231,6 +243,7 @@
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.proofs.rectangle-midpoints
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1560
   responseSkills: {reasoning: 1550, proof: 1550, clarity: 1450, synthesis: 1520}
   stem: |
@@ -251,6 +264,7 @@
 
 - id: spec.vectors-2d.proofs.bisecting-diagonals-converse
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Parallelograms and rhombuses"
   rating: 1580
   responseSkills: {reasoning: 1570, proof: 1570, clarity: 1480}
   stem: |
@@ -268,6 +282,7 @@
 
 - id: spec.vectors-2d.proofs.median-length
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Lengths and the parallelogram law"
   rating: 1630
   responseSkills: {reasoning: 1620, proof: 1620, clarity: 1500, synthesis: 1600}
   stem: |
@@ -287,6 +302,7 @@
 
 - id: spec.vectors-2d.proofs.median-length-numeric
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Lengths and the parallelogram law"
   rating: 1650
   responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
   stem: |
@@ -308,6 +324,7 @@
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.proofs.perpendicular-diagonals-sides
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Lengths and the parallelogram law"
   rating: 1720
   responseSkills: {reasoning: 1720, proof: 1720, clarity: 1600, synthesis: 1700}
   stem: |
@@ -329,6 +346,7 @@
 
 - id: spec.vectors-2d.proofs.altitudes-meet
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Triangles and circles"
   rating: 1740
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1720}
   stem: |
@@ -349,6 +367,7 @@
 
 - id: spec.vectors-2d.proofs.quadrilateral-midpoints-diagonals
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Lengths and the parallelogram law"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1650, synthesis: 1760}
   stem: |
@@ -371,6 +390,7 @@
 
 - id: spec.vectors-2d.proofs.rectangle-point
   skills: { primary: spec.vectors-2d.proofs }
+  subsection: "Lengths and the parallelogram law"
   rating: 1730
   responseSkills: {reasoning: 1730, proof: 1730, clarity: 1600, synthesis: 1700}
   stem: |

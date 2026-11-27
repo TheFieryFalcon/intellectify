@@ -2,6 +2,7 @@
 
 - id: spec.geometry.logic.square-converse-rhombus
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1260
   responseSkills: { reasoning: 1250, clarity: 1210, precision: 1210 }
   stem: |
@@ -19,6 +20,7 @@
 
 - id: spec.geometry.logic.contrapositive-x-squared
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1280
   responseSkills: { reasoning: 1270, clarity: 1230, precision: 1230 }
   stem: |
@@ -37,6 +39,7 @@
 
 - id: spec.geometry.logic.square-at-least-x
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1300
   responseSkills: { reasoning: 1290, proof: 1290, clarity: 1250 }
   stem: |
@@ -54,6 +57,7 @@
 
 - id: spec.geometry.logic.no-square-negative
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1320
   responseSkills: { reasoning: 1310, proof: 1310, clarity: 1270, precision: 1270 }
   stem: |
@@ -71,6 +75,7 @@
 
 - id: spec.geometry.logic.prime-odd-fix
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1350
   responseSkills: { reasoning: 1340, clarity: 1300, precision: 1300 }
   stem: |
@@ -90,6 +95,7 @@
 
 - id: spec.geometry.logic.abs-less-3-iff
   skills: { primary: spec.geometry.logic }
+  subsection: "If and only if"
   rating: 1380
   responseSkills: { reasoning: 1370, proof: 1370, clarity: 1330 }
   stem: |
@@ -113,6 +119,7 @@
 
 - id: spec.geometry.logic.negate-every-student
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1400
   responseSkills: { reasoning: 1390, clarity: 1350, precision: 1350 }
   stem: |
@@ -132,6 +139,7 @@
 
 - id: spec.geometry.logic.de-morgan-cases
   skills: { primary: spec.geometry.logic }
+  subsection: "Negation"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -157,6 +165,7 @@
 
 - id: spec.geometry.logic.contrapositive-same-truth
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1440
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
   stem: |
@@ -179,6 +188,7 @@
 
 - id: spec.geometry.logic.n-squared-n-1-claim
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -196,6 +206,7 @@
 
 - id: spec.geometry.logic.quantifier-order
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1480
   responseSkills: { reasoning: 1470, clarity: 1430, precision: 1430 }
   stem: |
@@ -221,6 +232,7 @@
 
 - id: spec.geometry.logic.not-every-rectangle
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1500
   responseSkills: { reasoning: 1490, clarity: 1450, precision: 1450 }
   stem: |
@@ -237,6 +249,7 @@
 
 - id: spec.geometry.logic.rational-plus-irrational
   skills: { primary: spec.geometry.logic, secondary: [spec.geometry.proof-methods] }
+  subsection: "Implication, converse and contrapositive"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510, synthesis: 1540 }
   stem: |
@@ -255,6 +268,7 @@
 
 - id: spec.geometry.logic.product-even-contrapositive
   skills: { primary: spec.geometry.logic, secondary: [spec.geometry.proof-methods] }
+  subsection: "Implication, converse and contrapositive"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550, precision: 1550, synthesis: 1580 }
   stem: |
@@ -274,6 +288,7 @@
 
 - id: spec.geometry.logic.squares-order
   skills: { primary: spec.geometry.logic }
+  subsection: "For all and there exists"
   rating: 1650
   responseSkills: { reasoning: 1640, proof: 1640, clarity: 1600 }
   stem: |
@@ -294,6 +309,7 @@
 
 - id: spec.geometry.logic.chain-implications
   skills: { primary: spec.geometry.logic }
+  subsection: "Implication, converse and contrapositive"
   rating: 1720
   responseSkills: { reasoning: 1710, clarity: 1670 }
   stem: |
@@ -313,6 +329,7 @@
 
 - id: spec.geometry.logic.quadratic-between
   skills: { primary: spec.geometry.logic }
+  subsection: "If and only if"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750 }
   stem: |

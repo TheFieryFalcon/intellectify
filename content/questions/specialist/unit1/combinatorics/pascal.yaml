@@ -2,6 +2,7 @@
 
 - id: spec.combinatorics.pascal.write-row
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's triangle"
   rating: 1080
   responseSkills: { calculation: 1080 }
   stem: |
@@ -17,6 +18,7 @@
 
 - id: spec.combinatorics.pascal.row-sum
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Row sums"
   rating: 1120
   responseSkills: { calculation: 1100 }
   variants:
@@ -35,6 +37,7 @@
 
 - id: spec.combinatorics.pascal.pascal-rule
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's rule"
   rating: 1310
   responseSkills: { reading: 1300 }
   stem: |
@@ -52,6 +55,7 @@
 
 - id: spec.combinatorics.pascal.combine
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's rule"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1330 }
   variants:
@@ -70,6 +74,7 @@
 
 - id: spec.combinatorics.pascal.symmetry
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Symmetry"
   rating: 1300
   responseSkills: {reading: 1300, calculation: 1250}
   variants:
@@ -89,6 +94,7 @@
 
 - id: spec.combinatorics.pascal.solve-symmetry
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Symmetry"
   rating: 1400
   responseSkills: {reading: 1400, calculation: 1350, reasoning: 1380}
   variants:
@@ -108,6 +114,7 @@
 
 - id: spec.combinatorics.pascal.difference
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's rule"
   rating: 1450
   responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1430}
   stem: |
@@ -124,6 +131,7 @@
 
 - id: spec.combinatorics.pascal.doubling-proof
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Row sums"
   rating: 1380
   bookwork: true
   responseSkills: {reasoning: 1380, proof: 1380, clarity: 1350, precision: 1340}
@@ -142,6 +150,7 @@
 
 - id: spec.combinatorics.pascal.hockey-stick-value
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Further identities"
   rating: 1520
   responseSkills: {calculation: 1450, reasoning: 1500, synthesis: 1500}
   stem: |
@@ -157,6 +166,7 @@
 
 - id: spec.combinatorics.pascal.hockey-stick-proof
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Further identities"
   rating: 1620
   responseSkills: {reasoning: 1620, proof: 1620, clarity: 1580}
   stem: |
@@ -177,6 +187,7 @@
 
 - id: spec.combinatorics.pascal.vandermonde-value
   skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  subsection: "Further identities"
   rating: 1590
   responseSkills: {calculation: 1500, reasoning: 1570, synthesis: 1580}
   stem: |
@@ -192,6 +203,7 @@
 
 - id: spec.combinatorics.pascal.alternating-proof
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Row sums"
   rating: 1610
   responseSkills: {reasoning: 1610, proof: 1610, precision: 1570, synthesis: 1580}
   stem: |
@@ -209,6 +221,7 @@
 
 - id: spec.combinatorics.pascal.weighted-sum
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Row sums"
   rating: 1780
   responseSkills: {calculation: 1730, reasoning: 1760, proof: 1700, synthesis: 1780}
   stem: |
@@ -231,6 +244,7 @@
 
 - id: spec.combinatorics.pascal.middle-even
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Further identities"
   rating: 1740
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1680, precision: 1700}
   stem: |
@@ -249,6 +263,7 @@
 
 - id: spec.combinatorics.pascal.odd-entries
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's triangle"
   rating: 1760
   responseSkills: {reading: 1650, calculation: 1710, reasoning: 1740, synthesis: 1760}
   stem: |

@@ -2,6 +2,7 @@
 
 - id: spec.geometry.circle-problems.which-cyclic
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1080
   responseSkills: {reading: 1070}
   stem: |
@@ -23,6 +24,7 @@
         return {"a": good[0] if len(good) == 1 else "ambiguous"}
 - id: spec.geometry.circle-problems.right-angle-on-circle
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1110
   responseSkills: {reading: 1100, calculation: 1080}
   variants:
@@ -66,6 +68,7 @@
 
 - id: spec.geometry.circle-problems.equal-angles-concyclic
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1150
   responseSkills: {reading: 1140}
   stem: |
@@ -100,6 +103,7 @@
     $AB$ subtends equal angles at $C$ and $D$ on the same side, so by the converse of angles on the same arc, the four points are concyclic.
 - id: spec.geometry.circle-problems.cyclic-exterior
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1200
   responseSkills: {reading: 1190, calculation: 1150}
   variants:
@@ -137,6 +141,7 @@
     The interior angle at $C$ is $180^\circ - {{e}}^\circ$, so $\angle DAB + \angle BCD = 180^\circ$. By the converse of the cyclic quadrilateral theorem, $ABCD$ is cyclic.
 - id: spec.geometry.circle-problems.triangle-from-center-angles
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1300
   responseSkills: {reading: 1280, calculation: 1290, reasoning: 1290}
   variants:
@@ -184,6 +189,7 @@
 
 - id: spec.geometry.circle-problems.tangent-cyclic
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1320
   responseSkills: {reading: 1310, calculation: 1300, reasoning: 1310}
   variants:
@@ -234,6 +240,7 @@
 
 - id: spec.geometry.circle-problems.cyclic-four-angles
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1350
   responseSkills: {reading: 1330, calculation: 1340, reasoning: 1340}
   variants:
@@ -278,6 +285,7 @@
 
 - id: spec.geometry.circle-problems.find-x-if-cyclic
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1380
   responseSkills: {reading: 1360, calculation: 1370, reasoning: 1370}
   variants:
@@ -324,6 +332,7 @@
 
 - id: spec.geometry.circle-problems.parallelogram-cyclic
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1440
   responseSkills: {reasoning: 1430, proof: 1430, clarity: 1370}
   stem: |
@@ -356,6 +365,7 @@
     In parallelogram $ABCD$, $\angle A = \angle C$. It is cyclic, so $\angle A + \angle C = 180^\circ$. So $\angle A = \angle C = 90^\circ$, and likewise $\angle B = \angle D = 90^\circ$: it is a rectangle.
 - id: spec.geometry.circle-problems.tangents-major-arc
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1420
   responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1400}
   variants:
@@ -400,6 +410,7 @@
 
 - id: spec.geometry.circle-problems.chords-cross-angle
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1450
   responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   variants:
@@ -444,6 +455,7 @@
 
 - id: spec.geometry.circle-problems.isosceles-trapezium
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1460
   responseSkills: {reading: 1440, calculation: 1440, reasoning: 1450}
   variants:
@@ -497,6 +509,7 @@
 
 - id: spec.geometry.circle-problems.kite-tangents-area
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving lengths"
   rating: 1450
   responseSkills: {calculation: 1430, reasoning: 1440, synthesis: 1420}
   variants:
@@ -543,6 +556,7 @@
 
 - id: spec.geometry.circle-problems.prove-cyclic-converse
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1420
   bookwork: true
   responseSkills: {reasoning: 1410, proof: 1410, clarity: 1330, synthesis: 1380}
@@ -579,6 +593,7 @@
     But in triangle $DD'C$, one of $\angle AD'C$ and $\angle ADC$ is an exterior angle and the other an interior angle not next to it, so the exterior angle is larger. They can't be equal: contradiction. So $D$ is on the circle.
 - id: spec.geometry.circle-problems.prove-semicircle-converse
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1380
   bookwork: true
   responseSkills: {reasoning: 1370, proof: 1370, clarity: 1300, synthesis: 1340}
@@ -612,6 +627,7 @@
     Complete the rectangle $APBQ$ (draw lines through $A$ and $B$ parallel to $PB$ and $PA$). A rectangle's diagonals are equal and bisect each other, so $M$, the midpoint of $AB$, is also the midpoint of $PQ$, and $MP = \tfrac{1}{2}PQ = \tfrac{1}{2}AB = MA = MB$. So $P$ is on the circle with center $M$ and diameter $AB$.
 - id: spec.geometry.circle-problems.diameter-two-points
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1580
   responseSkills: {calculation: 1540, reasoning: 1570, synthesis: 1570}
   variants:
@@ -656,6 +672,7 @@
 
 - id: spec.geometry.circle-problems.altitudes-concyclic
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1600
   responseSkills: {proof: 1590, synthesis: 1570, clarity: 1500}
   stem: |
@@ -690,6 +707,7 @@
     $\angle BEC = 90^\circ$ and $\angle BFC = 90^\circ$. By the converse of the angle in a semicircle, both $E$ and $F$ lie on the circle with diameter $BC$. So $B$, $C$, $E$ and $F$ are concyclic.
 - id: spec.geometry.circle-problems.isosceles-circumradius
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving lengths"
   rating: 1650
   responseSkills: {calculation: 1600, reasoning: 1640, synthesis: 1640}
   variants:
@@ -728,6 +746,7 @@
 
 - id: spec.geometry.circle-problems.parallel-chords
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1620
   responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520}
   stem: |
@@ -760,6 +779,7 @@
     Join $BC$. $\angle ABC = \angle BCD$ (alternate angles, $AB \parallel CD$). $\angle ABC$ stands on chord $AC$ and $\angle BCD$ on chord $BD$. Equal angles at the circumference stand on equal arcs, so they subtend equal angles at the center, and equal angles at the center mean equal chords: $AC = BD$.
 - id: spec.geometry.circle-problems.hypotenuse-midpoint
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Proving points lie on a circle"
   rating: 1580
   responseSkills: {reasoning: 1570, proof: 1570, clarity: 1490, synthesis: 1530}
   stem: |
@@ -794,6 +814,7 @@
     $\angle ACB = 90^\circ$, so $C$ lies on the circle with diameter $AB$ (converse of the angle in a semicircle). Its center is $M$ and its radius is $\tfrac{1}{2}AB$, and $MC$ is a radius. So $MC = \tfrac{1}{2}AB$.
 - id: spec.geometry.circle-problems.perpendicular-diagonals-radius
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving lengths"
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   variants:
@@ -849,6 +870,7 @@
 
 - id: spec.geometry.circle-problems.bisector-equal-chords
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1700
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1680}
   stem: |
@@ -885,6 +907,7 @@
     $\angle BAD = \angle DAC$. Also $\angle DCB = \angle DAB$ (same arc $DB$) and $\angle DBC = \angle DAC$ (same arc $DC$). So $\angle DCB = \angle DBC$, triangle $DBC$ is isosceles, and $DB = DC$.
 - id: spec.geometry.circle-problems.constant-angle
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
@@ -917,6 +940,7 @@
     As the line turns, $A$ moves around the first circle but $\angle QAP$ always stands on the fixed chord $PQ$, so it is constant (angles on the same arc). Likewise $\angle QBP$ is constant in the second circle. In triangle $AQB$, $\angle AQB = 180^\circ - \angle QAB - \angle QBA$, which is therefore constant.
 - id: spec.geometry.circle-problems.extended-sides
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving angles"
   rating: 1760
   responseSkills: {calculation: 1700, reasoning: 1750, synthesis: 1760}
   variants:
@@ -969,6 +993,7 @@
 
 - id: spec.geometry.circle-problems.square-center-circle
   skills: {primary: spec.geometry.circle-problems}
+  subsection: "Finding and proving lengths"
   rating: 1700
   responseSkills: {calculation: 1640, reasoning: 1690, synthesis: 1700}
   variants:

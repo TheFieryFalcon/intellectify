@@ -20,6 +20,11 @@ export const Skill = z.object({
   dotPoints: z.array(dotPoint).min(1),
   prereqs: z.array(z.string()).default([]),
   external: z.array(ExternalPrereq).default([]),
+  /**
+   * Subsections (SPEC §3): the specific points the skill covers, named in words ("Pascal's rule"), never by
+   * dot-point number. Every question in the skill is tagged with one.
+   */
+  subsections: z.array(z.string().min(1).max(60)).default([]),
 });
 
 export const Section = z.object({
@@ -106,6 +111,8 @@ export const Question = z.object({
   version: z.number().int().positive().default(1),
   status: z.enum(["draft", "reviewed"]).default("draft"),
   skills: z.object({ primary: z.string(), secondary: z.array(z.string()).default([]) }),
+  /** One of the primary skill's subsections (SPEC §3). */
+  subsection: z.string().min(1).optional(),
   /** 1000 (incredibly easy) to 2000 (second-year uni); 2000+ is Tier 6. */
   rating: z.number().int().min(1000).max(2400),
   /**

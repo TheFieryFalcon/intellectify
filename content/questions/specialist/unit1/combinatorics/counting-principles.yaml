@@ -3,6 +3,7 @@
 # ─────────────── Tier 1 ───────────────
 - id: spec.combinatorics.counting-principles.pin-codes
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1060
   responseSkills: { calculation: 1050 }
   variants:
@@ -22,6 +23,7 @@
 
 - id: spec.combinatorics.counting-principles.factorial-quotient
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1080
   responseSkills: { calculation: 1080 }
   variants:
@@ -42,6 +44,7 @@
 
 - id: spec.combinatorics.counting-principles.npr-evaluate
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1120
   responseSkills: { calculation: 1100 }
   variants:
@@ -63,6 +66,7 @@
 # ─────────────── Tier 2 ───────────────
 - id: spec.combinatorics.counting-principles.club-officers
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1300
   responseSkills: { calculation: 1250, reading: 1300 }
   words: { club: club }
@@ -83,6 +87,7 @@
 
 - id: spec.combinatorics.counting-principles.number-plates
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1320
   responseSkills: { calculation: 1300, reading: 1320 }
   stem: |
@@ -98,6 +103,7 @@
 
 - id: spec.combinatorics.counting-principles.cafe-or
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1280
   responseSkills: { reading: 1300, calculation: 1250 }
   words: { who: person, shop: shop }
@@ -114,6 +120,7 @@
 
 - id: spec.combinatorics.counting-principles.solve-npr
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1360
   responseSkills: { calculation: 1350 }
   variants:
@@ -136,6 +143,7 @@
 # ─────────────── Tier 3 ───────────────
 - id: spec.combinatorics.counting-principles.distinct-digits
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1410
   responseSkills: {reading: 1400, calculation: 1380, reasoning: 1390}
   stem: |
@@ -152,6 +160,7 @@
 
 - id: spec.combinatorics.counting-principles.even-distinct
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1480
   responseSkills: {reading: 1450, calculation: 1450, reasoning: 1460}
   stem: |
@@ -173,6 +182,7 @@
 
 - id: spec.combinatorics.counting-principles.contains-seven
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1450
   responseSkills: {reading: 1450, calculation: 1420, reasoning: 1430}
   variants:
@@ -191,6 +201,7 @@
 
 - id: spec.combinatorics.counting-principles.npr-equation
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1440
   responseSkills: {calculation: 1450, reasoning: 1420}
   stem: |
@@ -208,6 +219,7 @@
 
 - id: spec.combinatorics.counting-principles.divisor-count
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Counting divisors"
   rating: 1510
   responseSkills: {calculation: 1450, reasoning: 1490, synthesis: 1500}
   variants:
@@ -227,6 +239,7 @@
 
 - id: spec.combinatorics.counting-principles.subsets-proof
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1470
   responseSkills: {reasoning: 1450, proof: 1450, clarity: 1450, precision: 1410}
   stem: |
@@ -246,6 +259,7 @@
 # ─────────────── Tier 4 ───────────────
 - id: spec.combinatorics.counting-principles.square-divisors
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Counting divisors"
   rating: 1590
   responseSkills: {calculation: 1500, reasoning: 1570, synthesis: 1580}
   variants:
@@ -264,6 +278,7 @@
 
 - id: spec.combinatorics.counting-principles.odd-digits
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1570
   responseSkills: {reading: 1550, calculation: 1500, reasoning: 1550}
   stem: |
@@ -279,6 +294,7 @@
 
 - id: spec.combinatorics.counting-principles.mixed-code
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1600
   responseSkills: {calculation: 1550, reasoning: 1580, synthesis: 1580}
   stem: |
@@ -295,6 +311,7 @@
 # ─────────────── Tier 5 ───────────────
 - id: spec.combinatorics.counting-principles.sum-of-arrangements
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1730
   responseSkills: {calculation: 1600, reasoning: 1710, synthesis: 1720}
   variants:
@@ -316,6 +333,7 @@
 
 - id: spec.combinatorics.counting-principles.ordered-factor-triples
   skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  subsection: "Counting divisors"
   rating: 1790
   responseSkills: {calculation: 1600, reasoning: 1770, synthesis: 1780}
   stem: |
@@ -334,6 +352,7 @@
 
 - id: spec.combinatorics.counting-principles.no-adjacent-equal
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1760
   responseSkills: {calculation: 1710, reasoning: 1740, proof: 1700, synthesis: 1750}
   stem: |
@@ -358,6 +377,7 @@
 
 - id: spec.combinatorics.counting-principles.three-course-meal
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1040
   responseSkills: { calculation: 1030, reading: 1040 }
   variants:
@@ -376,6 +396,7 @@
 
 - id: spec.combinatorics.counting-principles.vowel-start
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1270
   responseSkills: {reading: 1270, calculation: 1250, reasoning: 1250}
   stem: |
@@ -393,6 +414,7 @@
 
 - id: spec.combinatorics.counting-principles.palindromes
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1430
   responseSkills: {calculation: 1400, reasoning: 1410, synthesis: 1420}
   variants:
@@ -413,6 +435,7 @@
 
 - id: spec.combinatorics.counting-principles.digit-product
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1700
   responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1690}
   stem: |
@@ -429,6 +452,7 @@
 
 - id: spec.combinatorics.counting-principles.staircase
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1730
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1730}
   variants:
@@ -453,6 +477,7 @@
 
 - id: spec.combinatorics.counting-principles.digit-sum-ten
   skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  subsection: "Cases and the addition principle"
   rating: 1760
   responseSkills: {calculation: 1680, reasoning: 1740, synthesis: 1760}
   stem: |
@@ -469,6 +494,7 @@
 
 - id: spec.combinatorics.counting-principles.outfits
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1040
   responseSkills: { reading: 1040, calculation: 1000 }
   words: { who: person }
@@ -491,6 +517,7 @@
 
 - id: spec.combinatorics.counting-principles.combo-deal
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1180
   responseSkills: { reading: 1180, calculation: 1130 }
   words: { shop: shop }
@@ -512,6 +539,7 @@
 
 - id: spec.combinatorics.counting-principles.locker-code
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1230
   responseSkills: { reading: 1230, calculation: 1180 }
   words: { who: person }
@@ -529,6 +557,7 @@
 
 - id: spec.combinatorics.counting-principles.league-fixtures
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1290
   responseSkills: { reading: 1290, calculation: 1250 }
   words: { sport: sport }
@@ -551,6 +580,7 @@
 
 - id: spec.combinatorics.counting-principles.routes-via-library
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1330
   responseSkills: { reading: 1330, calculation: 1280 }
   words: { who: person, venue: venue }
@@ -572,6 +602,7 @@
 
 - id: spec.combinatorics.counting-principles.round-trip-no-repeat
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1480
   responseSkills: { reading: 1470, calculation: 1430, reasoning: 1460 }
   words: { who: person, venue: venue }
@@ -593,6 +624,7 @@
 
 - id: spec.combinatorics.counting-principles.password-with-digit
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1560
   responseSkills: { reading: 1550, calculation: 1520, reasoning: 1540 }
   requiresCalculator: true
@@ -610,6 +642,7 @@
 
 - id: spec.combinatorics.counting-principles.sundae-builder
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1420
   responseSkills: { reading: 1420, calculation: 1380, reasoning: 1400 }
   words: { shop: shop }
@@ -630,6 +663,7 @@
 
 - id: spec.combinatorics.counting-principles.club-flag
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1380
   responseSkills: { reading: 1380, calculation: 1340 }
   words: { club: club }
@@ -652,6 +686,7 @@
 
 - id: spec.combinatorics.counting-principles.quiz-answer-sheets
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1150
   responseSkills: { reading: 1150, calculation: 1100 }
   words: { subject: subject }

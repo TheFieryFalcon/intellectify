@@ -19,6 +19,7 @@ const fixture = (dir: string, yaml: string) => writeFileSync(join(dir, "question
 const projectionQuestion = (key: string, skill = "spec.vectors-2d.projection", responseSkills = "{ calculation: 1250 }") => `
 - id: fixture.vector-projection
   skills: { primary: ${skill} }
+  subsection: Vector projection
   rating: 1300
   responseSkills: ${responseSkills}
   stem: Find the vector projection of $4\\mathbf{i} + 2\\mathbf{j}$ onto $3\\mathbf{i} + 4\\mathbf{j}$.
@@ -85,6 +86,13 @@ describe("validation catches bad content", () => {
     expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{}"))).errors.join("\n")).toMatch(/no response skills/);
     expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{ reading: 1250 }"))).errors.join("\n")).toMatch(/computed answer exercises calculation/);
     expect(buildWith((d) => fixture(d, projectionQuestion(key, undefined, "{ calculation: 1250, guessing: 1200 }"))).errors.join("\n")).toMatch(/unknown response skill guessing/);
+  });
+
+  it("every question names one of its skill's subsections", () => {
+    const key = "['\\frac{12}{5}', '\\frac{16}{5}']";
+    const errs = (yaml: string) => buildWith((d) => fixture(d, yaml)).errors.join("\n");
+    expect(errs(projectionQuestion(key).replace("  subsection: Vector projection\n", ""))).toMatch(/no subsection \(one of: Scalar projection; Vector projection; Distance to a line\)/);
+    expect(errs(projectionQuestion(key).replace("subsection: Vector projection", "subsection: Projections"))).toMatch(/subsection "Projections" isn't one of/);
   });
 
   it("routes review-pool questions out of practice, and keeps Challenges at Tier 4–5", () => {

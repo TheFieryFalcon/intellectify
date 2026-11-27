@@ -2,6 +2,7 @@
 
 - id: spec.geometry.chord-secant-lengths.intersecting-chords
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1050
   responseSkills: {calculation: 1040, reading: 1040}
   variants:
@@ -46,6 +47,7 @@
 
 - id: spec.geometry.chord-secant-lengths.tangent-secant
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1080
   responseSkills: {calculation: 1070, reading: 1070}
   variants:
@@ -88,6 +90,7 @@
 
 - id: spec.geometry.chord-secant-lengths.two-secants
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1120
   responseSkills: {calculation: 1110, reading: 1100}
   variants:
@@ -144,6 +147,7 @@
         return {"a": approx(near_far(lo)[1], 6)}
 - id: spec.geometry.chord-secant-lengths.which-equation
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1160
   responseSkills: {reading: 1150}
   stem: |
@@ -174,6 +178,7 @@
     The tangent–secant result measures every length from $M$: $MT^2 = MA \times MB$.
 - id: spec.geometry.chord-secant-lengths.secant-with-chord
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1270
   responseSkills: {reading: 1270, calculation: 1260, reasoning: 1260}
   variants:
@@ -215,6 +220,7 @@
 
 - id: spec.geometry.chord-secant-lengths.chords-algebra
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1300
   responseSkills: {reading: 1270, calculation: 1290, reasoning: 1290}
   variants:
@@ -255,6 +261,7 @@
 
 - id: spec.geometry.chord-secant-lengths.perpendicular-to-diameter
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1330
   responseSkills: {calculation: 1310, reasoning: 1320, synthesis: 1300}
   variants:
@@ -297,6 +304,7 @@
 
 - id: spec.geometry.chord-secant-lengths.find-chord-from-tangent
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1370
   responseSkills: {reading: 1350, calculation: 1350, reasoning: 1360}
   variants:
@@ -358,6 +366,7 @@
 
 - id: spec.geometry.chord-secant-lengths.point-inside
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1440
   responseSkills: {calculation: 1420, reasoning: 1430, synthesis: 1420}
   variants:
@@ -407,6 +416,7 @@
 
 - id: spec.geometry.chord-secant-lengths.chords-two-solutions
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1450
   responseSkills: {reading: 1420, calculation: 1440, reasoning: 1440}
   variants:
@@ -447,6 +457,7 @@
 
 - id: spec.geometry.chord-secant-lengths.prove-intersecting-chords
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1380
   bookwork: true
   responseSkills: {reasoning: 1370, proof: 1370, clarity: 1300}
@@ -479,6 +490,7 @@
     Join $AC$ and $BD$. $\angle CAB = \angle CDB$ (same arc $CB$) and $\angle AXC = \angle DXB$ (vertically opposite). So triangles $AXC$ and $DXB$ are similar, and $\dfrac{AX}{DX} = \dfrac{CX}{BX}$. Cross-multiplying: $AX \times XB = CX \times XD$.
 - id: spec.geometry.chord-secant-lengths.two-secants-algebra
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1500
   responseSkills: {reading: 1470, calculation: 1480, reasoning: 1490}
   variants:
@@ -519,6 +531,7 @@
 
 - id: spec.geometry.chord-secant-lengths.through-center
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Two secants from a point"
   rating: 1550
   responseSkills: {calculation: 1530, reasoning: 1540, synthesis: 1520}
   variants:
@@ -564,6 +577,7 @@
 
 - id: spec.geometry.chord-secant-lengths.prove-tangent-secant
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1500
   bookwork: true
   responseSkills: {reasoning: 1490, proof: 1490, clarity: 1400}
@@ -595,6 +609,7 @@
     Join $TA$ and $TB$. By the alternate segment theorem, $\angle MTA = \angle TBA = \angle MBT$. The angle at $M$ is common. So triangles $MTA$ and $MBT$ are similar, and $\dfrac{MT}{MB} = \dfrac{MA}{MT}$, giving $MT^2 = MA \times MB$.
 - id: spec.geometry.chord-secant-lengths.tangent-radius
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1610
   responseSkills: {calculation: 1590, reasoning: 1600, synthesis: 1580}
   variants:
@@ -640,6 +655,7 @@
 
 - id: spec.geometry.chord-secant-lengths.arch
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1640
   responseSkills: {calculation: 1580, reasoning: 1630, synthesis: 1630}
   variants:
@@ -689,6 +705,7 @@
 
 - id: spec.geometry.chord-secant-lengths.perpendicular-chords-radius
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1680
   responseSkills: {calculation: 1620, reasoning: 1670, synthesis: 1670}
   variants:
@@ -740,6 +757,7 @@
 
 - id: spec.geometry.chord-secant-lengths.circle-through-square
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1710, synthesis: 1720}
   variants:
@@ -780,6 +798,7 @@
 
 - id: spec.geometry.chord-secant-lengths.radical-axis-bisects
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1740
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1720}
   stem: |
@@ -812,6 +831,7 @@
     Let $PQ$ extended meet $AB$ at $N$. From $N$, line $NA$ is a tangent to the first circle and $NPQ$ is a secant, so $NA^2 = NP \times NQ$. Likewise $NB^2 = NP \times NQ$ for the second circle. So $NA^2 = NB^2$ and $NA = NB$: $N$ is the midpoint of $AB$.
 - id: spec.geometry.chord-secant-lengths.converse-concyclic
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Intersecting chords"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1760}
   stem: |
@@ -844,6 +864,7 @@
     Segment $BC$ subtends equal angles at $A$ and $D$, which are on the same side of $BC$. By the converse of angles on the same arc, $A$, $B$, $C$ and $D$ are concyclic.
 - id: spec.geometry.chord-secant-lengths.harmonic-quadrilateral
   skills: {primary: spec.geometry.chord-secant-lengths}
+  subsection: "Tangent and secant"
   rating: 1790
   responseSkills: {reasoning: 1790, proof: 1790, clarity: 1680, synthesis: 1780}
   stem: |

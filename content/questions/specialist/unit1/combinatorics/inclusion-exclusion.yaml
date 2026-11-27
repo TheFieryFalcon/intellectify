@@ -2,6 +2,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.two-set-formula
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1050
   responseSkills: { calculation: 1050 }
   variants:
@@ -20,6 +21,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.neither
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1280
   responseSkills: { reading: 1280, calculation: 1250 }
   words: { sp1: sport, sp2: sport }
@@ -39,6 +41,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.div-2-or-3
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1330 }
   variants:
@@ -57,6 +60,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.three-languages
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1440
   responseSkills: {reading: 1440, calculation: 1400, reasoning: 1420}
   stem: |
@@ -88,6 +92,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.divisible-3-5-7
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1480
   responseSkills: {reading: 1450, calculation: 1450, reasoning: 1460}
   variants:
@@ -106,6 +111,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.coprime-to-30
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1470
   responseSkills: {calculation: 1450, reasoning: 1450, synthesis: 1450}
   stem: |
@@ -121,6 +127,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.find-triple
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1450
   responseSkills: {reading: 1440, calculation: 1420, reasoning: 1430}
   stem: |
@@ -137,6 +144,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.squares-or-cubes
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1560
   responseSkills: {calculation: 1500, reasoning: 1540, synthesis: 1550}
   variants:
@@ -155,6 +163,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.not-in-place
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  subsection: "Arrangements with conditions"
   rating: 1600
   responseSkills: {calculation: 1520, reasoning: 1580, synthesis: 1600}
   stem: |
@@ -171,6 +180,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.every-letter
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Arrangements with conditions"
   rating: 1620
   responseSkills: {calculation: 1550, reasoning: 1600, synthesis: 1620}
   variants:
@@ -190,6 +200,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.three-set-proof
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1700
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1650}
   stem: |
@@ -216,6 +227,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.coprime-to-210
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1740
   responseSkills: {calculation: 1600, reasoning: 1720, synthesis: 1740}
   stem: |
@@ -235,6 +247,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.letters-envelopes
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.permutations] }
+  subsection: "Arrangements with conditions"
   rating: 1770
   responseSkills: {calculation: 1650, reasoning: 1750, synthesis: 1770}
   stem: |
@@ -251,6 +264,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.only-a
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1080
   responseSkills: { reading: 1080, calculation: 1060 }
   variants:
@@ -269,6 +283,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.two-divisors
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1160
   responseSkills: { calculation: 1150, reading: 1140 }
   variants:
@@ -287,6 +302,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.find-overlap
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1320
   responseSkills: { reading: 1310, calculation: 1280 }
   variants:
@@ -306,6 +322,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.not-a-power
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1720
   responseSkills: {calculation: 1680, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -326,6 +343,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.two-clubs-neither
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1250
   responseSkills: { reading: 1250, calculation: 1200 }
   words: { c1: club, c2: club }
@@ -347,6 +365,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.subjects-both
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1320
   responseSkills: { reading: 1320, calculation: 1280 }
   words: { s1: subject, s2: subject }
@@ -367,6 +386,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.three-sports-none
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1520
   responseSkills: { reading: 1510, calculation: 1490, reasoning: 1500 }
   words: { sp1: sport, sp2: sport, sp3: sport }
@@ -386,6 +406,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.three-sports-exactly-one
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Three sets"
   rating: 1620
   responseSkills: { reading: 1610, calculation: 1590, reasoning: 1610 }
   words: { sp1: sport, sp2: sport, sp3: sport }
@@ -408,6 +429,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.coat-mixup
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Arrangements with conditions"
   rating: 1680
   responseSkills: { reading: 1660, calculation: 1650, reasoning: 1670 }
   words: { who: person, venue: venue }
@@ -428,6 +450,7 @@
 
 - id: spec.combinatorics.inclusion-exclusion.snack-survey
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1400
   responseSkills: { reading: 1400, calculation: 1360 }
   words: { f1: snack, f2: snack }

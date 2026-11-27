@@ -2,6 +2,7 @@
 
 - id: spec.geometry.proof-methods.disprove-needs
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1030
   responseSkills: {reading: 1030}
   stem: |
@@ -18,6 +19,7 @@
     One case where it fails is enough to show that "for all" is false.
 - id: spec.geometry.proof-methods.odd-not-prime
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1060
   responseSkills: {reading: 1050, calculation: 1030}
   stem: |
@@ -32,6 +34,7 @@
         return {"a": next(n for n in range(3, 100, 2) if not isprime(n))}
 - id: spec.geometry.proof-methods.square-bigger
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1080
   responseSkills: {reading: 1070, calculation: 1050}
   stem: |
@@ -48,6 +51,7 @@
     $\left(\tfrac{1}{2}\right)^2 = \tfrac{1}{4}$, which is smaller than $\tfrac{1}{2}$. The others all have squares bigger than themselves ($(-3)^2 = 9 > -3$).
 - id: spec.geometry.proof-methods.first-line
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1120
   responseSkills: {reading: 1110, proof: 1100}
   stem: |
@@ -64,6 +68,7 @@
     A proof by contradiction starts by assuming the exact opposite of what is to be proved: that a largest even number exists.
 - id: spec.geometry.proof-methods.examples-prove
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1150
   responseSkills: {reading: 1140}
   stem: |
@@ -80,6 +85,7 @@
     One example shows that something exists. "For all" and "no $x$" statements are about every case, so one example can't prove them.
 - id: spec.geometry.proof-methods.quadratic-prime
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1260
   responseSkills: {reading: 1240, calculation: 1250, reasoning: 1250}
   stem: |
@@ -94,6 +100,7 @@
         return {"a": next(n for n in range(200) if not isprime(n*n - n + 11))}
 - id: spec.geometry.proof-methods.squares-equal
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1290
   responseSkills: {reading: 1280, reasoning: 1280}
   stem: |
@@ -110,6 +117,7 @@
     A counterexample needs the hypothesis true and the conclusion false: $2^2 = (-2)^2$ but $2 \ne -2$. $(1, 2)$ doesn't satisfy the hypothesis.
 - id: spec.geometry.proof-methods.powers-of-two
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1300
   responseSkills: {reading: 1260, calculation: 1290, reasoning: 1290}
   stem: |
@@ -124,6 +132,7 @@
         return {"a": next(n for n in range(50) if not 2**n > n**2)}
 - id: spec.geometry.proof-methods.two-squares
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1320
   responseSkills: {reading: 1300, calculation: 1300, reasoning: 1310}
   stem: |
@@ -139,6 +148,7 @@
         return {"a": next(n for n in range(1, 500) if not any(n - s in sq for s in sq if s <= n))}
 - id: spec.geometry.proof-methods.not-valid-method
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Direct proof"
   rating: 1340
   responseSkills: {reading: 1330, reasoning: 1330, proof: 1300}
   stem: |
@@ -155,6 +165,7 @@
     (d) proves the converse, $Q \Rightarrow P$, which is a different statement. (a) is direct, (b) proves the contrapositive, and (c) is contradiction.
 - id: spec.geometry.proof-methods.largest-multiple-of-7
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1370
   responseSkills: {reasoning: 1360, proof: 1360, clarity: 1300}
   stem: |
@@ -171,6 +182,7 @@
     Suppose, for contradiction, that there is a largest multiple of 7, $N = 7k$. Then $N + 7 = 7(k + 1)$ is also a multiple of 7, and it is larger than $N$. This contradicts $N$ being the largest, so there is no largest multiple of 7.
 - id: spec.geometry.proof-methods.assume-what
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1380
   responseSkills: {reading: 1370, reasoning: 1370, precision: 1350}
   stem: |
@@ -187,6 +199,7 @@
     Contradiction for $P \Rightarrow Q$ assumes $P$ and not $Q$: $n$ is odd but $n^2$ is not odd.
 - id: spec.geometry.proof-methods.even-sum-impossible
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1410
   responseSkills: {reasoning: 1400, proof: 1400, clarity: 1350}
   stem: |
@@ -203,6 +216,7 @@
     Suppose integers $x$, $y$ satisfy $4x + 6y = 1$. The left side is $2(2x + 3y)$, which is even, but 1 is odd. This is impossible, so no such integers exist.
 - id: spec.geometry.proof-methods.contrapositive-odd
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contrapositive"
   rating: 1420
   responseSkills: {reasoning: 1410, proof: 1410, clarity: 1360}
   stem: |
@@ -219,6 +233,7 @@
     Prove the contrapositive: if $n$ is even, then $5n + 3$ is odd. If $n = 2k$, then $5n + 3 = 10k + 3 = 2(5k + 1) + 1$, which is odd. So the original statement is true.
 - id: spec.geometry.proof-methods.two-obtuse
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1440
   responseSkills: {reasoning: 1430, proof: 1430, clarity: 1370}
   stem: |
@@ -235,6 +250,7 @@
     Suppose a triangle has two obtuse angles. Each is more than $90^\circ$, so together they are more than $180^\circ$. With the third angle (which is positive), the total exceeds $180^\circ$. But the angles of a triangle add to exactly $180^\circ$, a contradiction.
 - id: spec.geometry.proof-methods.assume-negation
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1400
   responseSkills: {reading: 1400, reasoning: 1390, precision: 1380}
   stem: |
@@ -251,6 +267,7 @@
     The negation of "for every $x > 0$, A" is "for some $x > 0$, not A". So assume equality holds for at least one $x > 0$. (Squaring then gives $x + 1 = x + 2\sqrt{x} + 1$, so $\sqrt{x} = 0$, contradicting $x > 0$.)
 - id: spec.geometry.proof-methods.different-primes
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1460
   responseSkills: {reading: 1440, calculation: 1430, reasoning: 1450}
   stem: |
@@ -266,6 +283,7 @@
         return {"a": next(n for n in range(6, 200, 2) if not any(n - p in ps and n - p != p for p in ps if p < n))}
 - id: spec.geometry.proof-methods.no-smallest-positive
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1450
   responseSkills: {reasoning: 1440, proof: 1440, clarity: 1380}
   stem: |
@@ -282,6 +300,7 @@
     Suppose $r$ is the smallest positive real number. Then $\tfrac{r}{2}$ is a real number with $0 < \tfrac{r}{2} < r$, so it is positive and smaller than $r$. This contradicts $r$ being the smallest, so there is no smallest positive real number.
 - id: spec.geometry.proof-methods.sum-at-least-20
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contrapositive"
   rating: 1430
   responseSkills: {reasoning: 1420, proof: 1420, clarity: 1360}
   stem: |
@@ -298,6 +317,7 @@
     Contrapositive: if $a < 10$ and $b < 10$, then $a + b < 20$, which is clear by adding the inequalities. So if $a + b \ge 20$, then $a \ge 10$ or $b \ge 10$. (Note the negation of "$a \ge 10$ or $b \ge 10$" is "$a < 10$ and $b < 10$".)
 - id: spec.geometry.proof-methods.factorial-vs-power
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1500
   responseSkills: {calculation: 1480, reasoning: 1490, synthesis: 1450}
   requiresCalculator: true
@@ -313,6 +333,7 @@
         return {"a": next(n for n in range(1, 100) if not factorial(n) < 10**n)}
 - id: spec.geometry.proof-methods.square-multiple-of-3
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contrapositive"
   rating: 1480
   responseSkills: {reasoning: 1470, proof: 1470, clarity: 1400}
   stem: |
@@ -333,6 +354,7 @@
     Either way $n^2$ leaves remainder 1, so it isn't a multiple of 3.
 - id: spec.geometry.proof-methods.three-squares
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1450
   responseSkills: {reading: 1420, calculation: 1430, reasoning: 1440}
   stem: |
@@ -349,6 +371,7 @@
         return {"a": next(n for n in range(1, 500) if not ok(n))}
 - id: spec.geometry.proof-methods.difference-of-squares-2
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1560
   responseSkills: {reasoning: 1550, proof: 1550, clarity: 1450, synthesis: 1520}
   stem: |
@@ -365,6 +388,7 @@
     Suppose $x^2 - y^2 = 2$, so $(x - y)(x + y) = 2$. The factors differ by $2y$, an even number, so they are both even or both odd. If both are odd, the product is odd; if both are even, it is a multiple of 4. Neither can equal 2, a contradiction.
 - id: spec.geometry.proof-methods.n-squared-plus-1-by-3
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by cases"
   rating: 1580
   responseSkills: {reasoning: 1570, proof: 1570, clarity: 1480}
   stem: |
@@ -381,6 +405,7 @@
     Every integer is $3k$, $3k + 1$ or $3k + 2$. Their squares are $9k^2$, $3(3k^2 + 2k) + 1$ and $3(3k^2 + 4k + 1) + 1$, which leave remainder 0, 1 and 1. So $n^2 + 1$ leaves remainder 1 or 2 and is never a multiple of 3.
 - id: spec.geometry.proof-methods.mersenne
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1560
   responseSkills: {reading: 1520, calculation: 1540, reasoning: 1550}
   requiresCalculator: true
@@ -396,6 +421,7 @@
         return {"a": next(p for p in range(2, 100) if isprime(p) and not isprime(2**p - 1))}
 - id: spec.geometry.proof-methods.divides-product
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1600
   responseSkills: {reading: 1590, reasoning: 1590, synthesis: 1550}
   stem: |
@@ -417,6 +443,7 @@
         return {"a": good[0]}
 - id: spec.geometry.proof-methods.odd-coefficients
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1650
   responseSkills: {reasoning: 1640, proof: 1640, clarity: 1520, synthesis: 1600}
   stem: |
@@ -437,6 +464,7 @@
     Either way the left side is odd, so it can't equal 0. This contradiction shows there is no integer solution.
 - id: spec.geometry.proof-methods.infinitely-many-primes
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1580
   bookwork: true
   responseSkills: {reasoning: 1580, proof: 1580, clarity: 1460, synthesis: 1540}
@@ -455,6 +483,7 @@
     Suppose there are only finitely many primes, $p_1, p_2, \dots, p_k$. Let $N = p_1p_2\cdots p_k + 1$. Dividing $N$ by any $p_i$ leaves remainder 1, so no $p_i$ divides $N$. But $N > 1$, so it has at least one prime factor, which must be on our list. This is a contradiction, so there are infinitely many primes.
 - id: spec.geometry.proof-methods.one-perpendicular
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1620
   responseSkills: {reasoning: 1610, proof: 1610, clarity: 1520}
   stem: |
@@ -471,6 +500,7 @@
     Suppose two different lines through $P$ are perpendicular to $\ell$, meeting it at $A$ and $B$. Since the lines are different, $A \ne B$, and $PAB$ is a triangle with right angles at both $A$ and $B$. Its angles would add to more than $180^\circ$, which is impossible.
 - id: spec.geometry.proof-methods.euler-polynomial
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1570
   responseSkills: {calculation: 1550, reasoning: 1560, synthesis: 1530}
   requiresCalculator: true
@@ -486,6 +516,7 @@
         return {"a": next(n for n in range(500) if not isprime(n*n - 79*n + 1601))}
 - id: spec.geometry.proof-methods.fermat-numbers
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1700
   responseSkills: {reading: 1660, calculation: 1680, reasoning: 1690}
   requiresCalculator: true
@@ -501,6 +532,7 @@
         return {"a": next(n for n in range(10) if not isprime(2**(2**n) + 1))}
 - id: spec.geometry.proof-methods.sum-of-two-squares-4k3
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by cases"
   rating: 1710
   responseSkills: {reasoning: 1700, proof: 1700, clarity: 1600, synthesis: 1680}
   stem: |
@@ -517,6 +549,7 @@
     An even number squared is $(2k)^2 = 4k^2$, remainder 0. An odd number squared is $(2k + 1)^2 = 4(k^2 + k) + 1$, remainder 1. So a sum of two squares leaves remainder $0 + 0$, $0 + 1$ or $1 + 1$: that is, 0, 1 or 2, never 3.
 - id: spec.geometry.proof-methods.pythagorean-even
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by cases"
   rating: 1740
   responseSkills: {reasoning: 1740, proof: 1740, clarity: 1620, synthesis: 1700}
   stem: |
@@ -533,6 +566,7 @@
     Suppose $a$ and $b$ are both odd. Odd squares leave remainder 1 on division by 4, so $a^2 + b^2$ leaves remainder 2. But any square, including $c^2$, leaves remainder 0 or 1. So $a^2 + b^2 \ne c^2$, a contradiction. Hence at least one of $a$, $b$ is even.
 - id: spec.geometry.proof-methods.cubic-no-rational
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1760
   responseSkills: {proof: 1760, synthesis: 1720, clarity: 1640}
   stem: |
@@ -554,6 +588,7 @@
     The left side is always odd, so it can't be 0. So there is no rational solution.
 - id: spec.geometry.proof-methods.no-a-squared-3b-squared
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1660, synthesis: 1750}
   stem: |
@@ -571,6 +606,7 @@
     Suppose there are solutions, and take the one with the smallest positive $a$. $a^2 = 3b^2$ is a multiple of 3, so $a = 3m$. Then $9m^2 = 3b^2$, so $b^2 = 3m^2$, which makes $b$ a multiple of 3 too, say $b = 3n$. Then $(3m)^2 = 3(3n)^2$ gives $m^2 = 3n^2$: a solution with $m < a$. This contradicts $a$ being the smallest, so no solution exists.
 - id: spec.geometry.proof-methods.integer-polynomial
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1790
   responseSkills: {reasoning: 1790, proof: 1790, clarity: 1660, synthesis: 1770}
   stem: |
@@ -587,6 +623,7 @@
     Suppose such a polynomial exists. Then $p(3) - p(1) = \sum_k c_k\left(3^k - 1^k\right)$. Each $3^k$ is odd, so each $3^k - 1$ is even, and the whole sum is even. But $p(3) - p(1) = 5 - 2 = 3$ is odd. This contradiction shows no such polynomial exists.
 - id: spec.geometry.proof-methods.primes-4k-plus-3
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contradiction"
   rating: 1830
   responseSkills: {reasoning: 1830, proof: 1830, clarity: 1700, synthesis: 1800}
   stem: |
@@ -606,6 +643,7 @@
     But each $p_i$ divides $4p_1\cdots p_k$, so it leaves remainder $p_i - 1$ when dividing $N$, and doesn't divide $N$. So $q$ isn't on the list, a contradiction. There are infinitely many such primes.
 - id: spec.geometry.proof-methods.rhombus-counterexample
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1240
   responseSkills: {reading: 1230}
   stem: |
@@ -622,6 +660,7 @@
     A counterexample must have four equal sides (the hypothesis) but not be a square. A rhombus with $60^\circ$ angles does exactly that. A rectangle with sides 2 and 5, and a kite, don't have four equal sides.
 - id: spec.geometry.proof-methods.n2-n-1
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Counterexamples"
   rating: 1310
   responseSkills: {reading: 1280, calculation: 1300, reasoning: 1300}
   stem: |
@@ -636,6 +675,7 @@
         return {"a": next(n for n in range(1, 100) if not isprime(n*n + n + 1))}
 - id: spec.geometry.proof-methods.cube-even
   skills: {primary: spec.geometry.proof-methods}
+  subsection: "Proof by contrapositive"
   rating: 1520
   responseSkills: {reasoning: 1510, proof: 1510, clarity: 1440}
   stem: |

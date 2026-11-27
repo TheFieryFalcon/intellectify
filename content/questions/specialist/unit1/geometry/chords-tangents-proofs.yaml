@@ -2,6 +2,7 @@
 
 - id: spec.geometry.chords-tangents.diameter-tangents-parallel
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1290
   responseSkills: { reasoning: 1280, proof: 1280, clarity: 1240 }
   stem: |
@@ -32,6 +33,7 @@
 
 - id: spec.geometry.chords-tangents.bisecting-radius-perpendicular
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1200
   bookwork: true
   responseSkills: { reasoning: 1190, proof: 1190, clarity: 1150 }
@@ -65,6 +67,7 @@
 
 - id: spec.geometry.chords-tangents.perpendicular-bisector-center
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1250
   bookwork: true
   responseSkills: { reasoning: 1240, proof: 1240, clarity: 1200 }
@@ -98,6 +101,7 @@
 
 - id: spec.geometry.chords-tangents.concentric-chord-midpoint
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -129,6 +133,7 @@
 
 - id: spec.geometry.chords-tangents.op-bisects-angles
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1440
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
   stem: |
@@ -163,6 +168,7 @@
 
 - id: spec.geometry.chords-tangents.op-perpendicular-ab
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -198,6 +204,7 @@
 
 - id: spec.geometry.chords-tangents.isosceles-tangent-parallel
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1480
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
@@ -230,6 +237,7 @@
 
 - id: spec.geometry.chords-tangents.incircle-half-perimeter
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -266,6 +274,7 @@
 
 - id: spec.geometry.chords-tangents.pitot
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1540
   responseSkills: { reasoning: 1530, proof: 1530, clarity: 1490 }
   stem: |
@@ -299,6 +308,7 @@
 
 - id: spec.geometry.chords-tangents.tangent-chord-half-center
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1560
   responseSkills: { reasoning: 1550, clarity: 1510 }
   stem: |
@@ -332,6 +342,7 @@
 
 - id: spec.geometry.chords-tangents.touching-centers-collinear
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangent and radius"
   rating: 1580
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
   stem: |
@@ -362,6 +373,7 @@
 
 - id: spec.geometry.chords-tangents.triangle-pde-perimeter
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1620
   responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
   stem: |
@@ -396,6 +408,7 @@
 
 - id: spec.geometry.chords-tangents.two-circles-tangent-angles
   skills: { primary: spec.geometry.chords-tangents, secondary: [spec.geometry.circle-problems] }
+  subsection: "The alternate segment theorem"
   rating: 1660
   responseSkills: { reasoning: 1650, proof: 1650, clarity: 1610, synthesis: 1640 }
   stem: |
@@ -434,6 +447,7 @@
 
 - id: spec.geometry.chords-tangents.chord-equals-radius
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "The alternate segment theorem"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -464,6 +478,7 @@
 
 - id: spec.geometry.chords-tangents.three-tangents-right-angle
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1720
   responseSkills: { reasoning: 1710, proof: 1710, clarity: 1670 }
   stem: |
@@ -502,6 +517,7 @@
 
 - id: spec.geometry.chords-tangents.three-tangents-product
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Tangents from a point"
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730 }
   stem: |
@@ -542,6 +558,7 @@
 
 - id: spec.geometry.chords-tangents.perpendicular-bisects-chord
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1470
   bookwork: true
   responseSkills: { reasoning: 1460, proof: 1460, clarity: 1400 }
@@ -576,6 +593,7 @@
 
 - id: spec.geometry.chords-tangents.equal-chords-equidistant
   skills: { primary: spec.geometry.chords-tangents }
+  subsection: "Chords and the center"
   rating: 1660
   bookwork: true
   responseSkills: { reasoning: 1550, proof: 1540, clarity: 1500 }

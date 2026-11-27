@@ -4,6 +4,7 @@
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1580
   responseSkills: { reading: 1570, calculation: 1550, reasoning: 1570 }
   stem: |
@@ -28,6 +29,7 @@
 - id: spec.combinatorics.ch.spaced-ones
   pool: challenge
   skills: { primary: spec.combinatorics.combinations, secondary: [spec.combinatorics.permutations] }
+  subsection: "Counting by a clever choice"
   rating: 1620
   responseSkills: { reading: 1600, calculation: 1590, reasoning: 1610, synthesis: 1600 }
   stem: |
@@ -45,6 +47,7 @@
 - id: spec.combinatorics.ch.round-robin
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles, secondary: [spec.combinatorics.combinations] }
+  subsection: "Cases and the addition principle"
   rating: 1660
   responseSkills: { reading: 1640, calculation: 1630, reasoning: 1650, synthesis: 1640 }
   stem: |
@@ -69,6 +72,7 @@
   pool: challenge
   requires: [matrices]
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1720
   responseSkills: { reading: 1710, calculation: 1690, reasoning: 1710 }
   stem: |
@@ -95,6 +99,7 @@
 - id: spec.combinatorics.ch.matrix-every-column
   pool: challenge
   skills: { primary: spec.combinatorics.inclusion-exclusion, secondary: [spec.combinatorics.counting-principles] }
+  subsection: "Arrangements with conditions"
   rating: 1760
   responseSkills: { reading: 1750, calculation: 1730, reasoning: 1750, synthesis: 1740 }
   stem: |
@@ -116,6 +121,7 @@
 - id: spec.combinatorics.ch.four-consecutive-24
   pool: challenge
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Counting by a clever choice"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1740 }
   stem: |
@@ -136,6 +142,7 @@
 - id: spec.combinatorics.ch.domino-tilings
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1870
   responseSkills: { reading: 1850, calculation: 1840, reasoning: 1860 }
   stem: |
@@ -157,6 +164,7 @@
 - id: spec.combinatorics.ch.colored-rectangle
   pool: challenge
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.combinatorics.combinations] }
+  subsection: "Points, handshakes and colorings"
   rating: 1890
   responseSkills: { reasoning: 1880, proof: 1880, clarity: 1830, synthesis: 1870 }
   stem: |
@@ -178,6 +186,7 @@
 - id: spec.combinatorics.ch.no-three-alike
   pool: challenge
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Cases and the addition principle"
   rating: 1920
   responseSkills: { reading: 1900, calculation: 1900, reasoning: 1910 }
   stem: |
@@ -197,6 +206,7 @@
 - id: spec.combinatorics.ch.central-divisible
   pool: challenge
   skills: { primary: spec.combinatorics.pascal, secondary: [spec.combinatorics.combinations] }
+  subsection: "Further identities"
   rating: 1975
   responseSkills: { reasoning: 1960, proof: 1960, clarity: 1900, synthesis: 1950 }
   stem: |

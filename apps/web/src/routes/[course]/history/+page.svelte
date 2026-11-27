@@ -3,6 +3,8 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import PastAnswer from "$lib/components/PastAnswer.svelte";
+  import SubsectionSelect from "$lib/components/SubsectionSelect.svelte";
+  import { inSubsection, subKey } from "$lib/subsections";
   import { indexSkills, loadQuestionIndex, type QuestionIndexEntry } from "$lib/content";
   import { clearHistory, listHistory, type HistoryEntry, type HistoryMode } from "$lib/history";
   import { markingFor } from "$lib/marking.svelte";
@@ -27,6 +29,17 @@
     goto(`?${next}`, { replaceState: true, keepFocus: true, noScroll: true });
   }
 
+  /** Subsections with an answer here, so the filter never offers an empty one. */
+  const answeredSubs = $derived(new Set(entries.map((e) => subKey(e.skill, titles.get(e.questionId)?.subsection ?? ""))));
+  /** A new skill clears a subsection from another skill. */
+  function setSkill(v: string) {
+    const next = new URLSearchParams(page.url.searchParams);
+    if (v) next.set("skill", v);
+    else next.delete("skill");
+    if (v && !get("sub").startsWith(`${v}/`)) next.delete("sub");
+    goto(`?${next}`, { replaceState: true, keepFocus: true, noScroll: true });
+  }
+
   const MODES: [HistoryMode, string][] = [["practice", "Practice"], ["quiz", "Quiz"], ["challenge", "Challenge"], ["daily", "Daily"], ["revision", "Revision"], ["shared", "Shared"]];
   const modeLabel = (m: HistoryMode) => MODES.find(([v]) => v === m)?.[1] ?? m;
 
@@ -43,6 +56,7 @@
       const o = outcomeOf(e);
       return (
         (!get("skill") || e.skill === get("skill")) &&
+        (!get("sub") || inSubsection({ skill: e.skill, subsection: titles.get(e.questionId)?.subsection ?? "" }, get("sub"))) &&
         (!get("mode") || e.mode === get("mode")) &&
         (!get("result") || (get("result") === "right" ? o !== null && o >= 0.6 : get("result") === "wrong" ? o !== null && o < 0.6 : o === null))
       );
@@ -75,7 +89,8 @@
   <p class="muted small">Saved in this browser only</p>
 
   <div class="controls filters">
-    <label>Skill <select value={get("skill")} onchange={(e) => set("skill", e.currentTarget.value)}><option value="">All</option>{#each [...skills.values()] as k (k.skill.id)}<option value={k.skill.id}>{k.skill.name}</option>{/each}</select></label>
+    <label>Skill <select value={get("skill")} onchange={(e) => setSkill(e.currentTarget.value)}><option value="">All</option>{#each [...skills.values()] as k (k.skill.id)}<option value={k.skill.id}>{k.skill.name}</option>{/each}</select></label>
+    <label>Subsection <SubsectionSelect course={data.course} value={get("sub")} skill={get("skill")} only={answeredSubs} onchange={(v) => set("sub", v)} /></label>
     <label>Mode <select value={get("mode")} onchange={(e) => set("mode", e.currentTarget.value)}><option value="">All</option>{#each MODES as [v, l] (v)}<option value={v}>{l}</option>{/each}</select></label>
     <label>Result <select value={get("result")} onchange={(e) => set("result", e.currentTarget.value)}><option value="">Any</option><option value="right">60% or more</option><option value="wrong">Under 60%</option><option value="pending">Marking</option></select></label>
     {#if entries.length}<button class="btn link clear" onclick={clear}>Clear history</button>{/if}

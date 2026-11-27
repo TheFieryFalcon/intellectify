@@ -3,6 +3,7 @@
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.scalar-product.components
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1030
   responseSkills: { calculation: 1030 }
   variants:
@@ -22,6 +23,7 @@
 
 - id: spec.vectors-2d.scalar-product.self-dot
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1060
   responseSkills: { calculation: 1060 }
   variants:
@@ -40,6 +42,7 @@
 
 - id: spec.vectors-2d.scalar-product.from-angle
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1080
   responseSkills: { calculation: 1080 }
   variants:
@@ -59,6 +62,7 @@
 
 - id: spec.vectors-2d.scalar-product.which-perpendicular
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1110
   responseSkills: { calculation: 1100, reading: 1100 }
   stem: |
@@ -76,6 +80,7 @@
 
 - id: spec.vectors-2d.scalar-product.sign
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1150
   responseSkills: { reading: 1150 }
   stem: |
@@ -93,6 +98,7 @@
 
 - id: spec.vectors-2d.scalar-product.perpendicular-simple
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1200
   responseSkills: { calculation: 1190 }
   variants:
@@ -114,6 +120,7 @@
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.scalar-product.parallel-or-perpendicular
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1260
   responseSkills: { reading: 1250, calculation: 1220 }
   variants:
@@ -141,6 +148,7 @@
 
 - id: spec.vectors-2d.scalar-product.angle-1dp
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1280
   responseSkills: { calculation: 1280 }
   requiresCalculator: true
@@ -162,6 +170,7 @@
 
 - id: spec.vectors-2d.scalar-product.angle-exact
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1310
   responseSkills: { calculation: 1300 }
   variants:
@@ -183,6 +192,7 @@
 
 - id: spec.vectors-2d.scalar-product.unit-perpendicular
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1320 }
   variants:
@@ -203,6 +213,7 @@
 
 - id: spec.vectors-2d.scalar-product.expand
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1360
   responseSkills: { calculation: 1340, reading: 1330 }
   variants:
@@ -221,6 +232,7 @@
 
 - id: spec.vectors-2d.scalar-product.perpendicular-quadratic
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1390
   responseSkills: { calculation: 1380 }
   stem: |
@@ -238,6 +250,7 @@
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.scalar-product.right-angle-corner
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1410
   responseSkills: { calculation: 1390, reading: 1400 }
   stem: |
@@ -261,6 +274,7 @@
 
 - id: spec.vectors-2d.scalar-product.perpendicular-given-length
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1420
   responseSkills: { calculation: 1400, synthesis: 1400 }
   stem: |
@@ -279,6 +293,7 @@
 
 - id: spec.vectors-2d.scalar-product.magnitude-combination
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1440
   responseSkills: { calculation: 1420, reading: 1420 }
   variants:
@@ -299,6 +314,7 @@
 
 - id: spec.vectors-2d.scalar-product.triangle-angle
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1450
   responseSkills: { calculation: 1430, reading: 1420 }
   requiresCalculator: true
@@ -319,6 +335,7 @@
 
 - id: spec.vectors-2d.scalar-product.difference-of-squares
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1470
   responseSkills: {reasoning: 1460, proof: 1460, clarity: 1400}
   stem: |
@@ -338,6 +355,7 @@
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.scalar-product.given-dot-and-length
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1560
   responseSkills: {calculation: 1540, reasoning: 1540, synthesis: 1520}
   stem: |
@@ -356,6 +374,7 @@
 
 - id: spec.vectors-2d.scalar-product.difference-from-sum
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1590
   responseSkills: {calculation: 1560, reasoning: 1570, synthesis: 1570}
   stem: |
@@ -374,6 +393,7 @@
 
 - id: spec.vectors-2d.scalar-product.angle-45-check
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1610
   responseSkills: {calculation: 1580, reasoning: 1590, synthesis: 1600}
   stem: |
@@ -392,6 +412,7 @@
 
 - id: spec.vectors-2d.scalar-product.perpendicular-combination
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1630
   responseSkills: {calculation: 1580, reasoning: 1610, synthesis: 1620}
   stem: |
@@ -410,6 +431,7 @@
 
 - id: spec.vectors-2d.scalar-product.cosine-rule-proof
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1550
   bookwork: true
   responseSkills: {reasoning: 1550, proof: 1550, clarity: 1450}
@@ -431,6 +453,7 @@
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.scalar-product.angle-60-quadratic
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1700
   responseSkills: {calculation: 1680, reasoning: 1680, synthesis: 1680}
   stem: |
@@ -448,6 +471,7 @@
 
 - id: spec.vectors-2d.scalar-product.minimize
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1720
   responseSkills: {calculation: 1660, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -471,6 +495,7 @@
 
 - id: spec.vectors-2d.scalar-product.closed-triangle
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1750
   responseSkills: {calculation: 1680, reasoning: 1730, synthesis: 1750}
   stem: |
@@ -492,6 +517,7 @@
 
 - id: spec.vectors-2d.scalar-product.unit-vectors
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1040
   responseSkills: { calculation: 1040, reading: 1030 }
   stem: |
@@ -512,6 +538,7 @@
 
 - id: spec.vectors-2d.scalar-product.same-or-opposite
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1130
   responseSkills: { reading: 1120, calculation: 1100 }
   variants:
@@ -531,6 +558,7 @@
 
 - id: spec.vectors-2d.scalar-product.distribute
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1260
   responseSkills: { calculation: 1250 }
   variants:
@@ -551,6 +579,7 @@
 
 - id: spec.vectors-2d.scalar-product.given-value
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1320
   responseSkills: { calculation: 1310 }
   variants:
@@ -571,6 +600,7 @@
 
 - id: spec.vectors-2d.scalar-product.angle-type
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1380
   responseSkills: { calculation: 1360, reading: 1370 }
   variants:
@@ -595,6 +625,7 @@
 
 - id: spec.vectors-2d.scalar-product.from-sum-length
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1440
   responseSkills: { calculation: 1420, reading: 1420 }
   stem: |
@@ -616,6 +647,7 @@
 
 - id: spec.vectors-2d.scalar-product.rectangle-diagonals
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1460
   responseSkills: { calculation: 1440, synthesis: 1420 }
   requiresCalculator: true
@@ -636,6 +668,7 @@
 
 - id: spec.vectors-2d.scalar-product.angle-in-triangle-exact
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1430
   responseSkills: { calculation: 1410, reading: 1410 }
   stem: |
@@ -654,6 +687,7 @@
 
 - id: spec.vectors-2d.scalar-product.perpendicular-combination-angle
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1580
   responseSkills: {calculation: 1560, reasoning: 1560, synthesis: 1550}
   requiresCalculator: true
@@ -677,6 +711,7 @@
 
 - id: spec.vectors-2d.scalar-product.rotated-axes
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Calculating the scalar product"
   rating: 1630
   responseSkills: {calculation: 1580, reasoning: 1610, synthesis: 1620}
   stem: |
@@ -701,6 +736,7 @@
 
 - id: spec.vectors-2d.scalar-product.angle-45-length
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1710
   responseSkills: {calculation: 1660, reasoning: 1690, synthesis: 1700}
   stem: |
@@ -720,6 +756,7 @@
 
 - id: spec.vectors-2d.scalar-product.obtuse-range
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Angle between vectors"
   rating: 1720
   responseSkills: {reading: 1700, reasoning: 1700, synthesis: 1710}
   stem: |
@@ -747,6 +784,7 @@
 
 - id: spec.vectors-2d.scalar-product.right-angle-on-axis
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Perpendicular and parallel vectors"
   rating: 1730
   responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1720}
   stem: |
@@ -765,6 +803,7 @@
 
 - id: spec.vectors-2d.scalar-product.cauchy-schwarz
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1750
   responseSkills: {reasoning: 1750, proof: 1750, clarity: 1620, synthesis: 1700}
   stem: |
@@ -788,6 +827,7 @@
 
 - id: spec.vectors-2d.scalar-product.three-unit-vectors
   skills: { primary: spec.vectors-2d.scalar-product }
+  subsection: "Magnitudes and the scalar product"
   rating: 1820
   responseSkills: {calculation: 1770, reasoning: 1800, proof: 1760, synthesis: 1820}
   stem: |

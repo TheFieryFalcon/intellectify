@@ -69,6 +69,7 @@ Course (e.g. Mathematics Specialist)
 ```
 
 - **Skills are clustered dot points.** Each skill lists the syllabus content descriptors it covers, e.g. `["1.1.3", "1.1.4"]`.
+- **Subsections (implemented).** Each skill also lists its **subsections**: the specific points it covers, named in words ("Pascal's rule", "Relative velocity"), never by dot-point number. Usually 3–8 per skill, in teaching order, in the curriculum file (`subsections:`). **Every question names exactly one** subsection of its primary skill (`subsection:`); the build rejects a question without one, a name the skill doesn't list, or a subsection named by a number, and warns when a subsection has no practice questions. Subsections are a filter everywhere questions are filtered (§8.5a, §15.3a, §15.4b); they don't affect θ, ranks or selection.
 - **Prerequisites form a DAG.** Each skill has a home in the hierarchy but may list prerequisite skills anywhere, **including in other courses**. For example, Specialist integration techniques depend on Methods calculus skills, even before Methods is launched. Prerequisites are **suggestions, not requirements**:
   - They are drawn as edges in the tree and listed on the skill page as "Suggested first".
   - Every skill can be opened and practiced at any time, whatever the student's ranks elsewhere. There are no locks, no gates and no warnings.
@@ -427,8 +428,8 @@ An endless adaptive stream for one skill (§5.7).
 
 ### 8.5a Revision
 Reached from the **Revision** tile above the map (outside the skill tree). Questions come from every pool (practice, quizzes, Challenges) through the question index (§15.3a). Normal attempt rules; answers update θ, XP and achievements like practice, and written answers are marked as usual. A session runs until the student stops, showing questions done and the average score; **Skip** moves on without recording anything.
-- **Exam revision.** **Easy**: Tiers 2 and 3. **Hard**: Tiers 3 and 4. A fair coin picks the tier of each question (the other tier if one runs dry), so the mix is half and half. Scope: the whole course, a unit, a section or a skill; type: any, auto-marked or written. Questions that need a later unit are left out.
-- **Custom revision.** Any set of tiers (none = any), type, and tags (response skills; a question matches if it has any picked tag), over the whole course, a unit, a section or a skill, optionally including questions that need later units. The setup page shows how many questions match.
+- **Exam revision.** **Easy**: Tiers 2 and 3. **Hard**: Tiers 3 and 4. A fair coin picks the tier of each question (the other tier if one runs dry), so the mix is half and half. Scope: the whole course, a unit, a section, a skill or one of its subsections (§3); type: any, auto-marked or written. Questions that need a later unit are left out.
+- **Custom revision.** Any set of tiers (none = any), type, and tags (response skills; a question matches if it has any picked tag), over the whole course, a unit, a section, a skill or one of its subsections, optionally including questions that need later units. The setup page shows how many questions match.
 - Within a session no question repeats until the mix runs out, and questions the student has never answered come first.
 
 ### 8.6 Monthly problems (Tier 6)
@@ -1250,8 +1251,9 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Tabs: Overview and Questions.** Questions lists every question whose skills include this one (practice, quiz and Challenge pools), easiest first: tier badge, name, type, pool, rating, and "Answered" once seen. A row expands to the stem and worked solution; a practice question has **Practice this**.
 
 ### 15.3a Questions page
-- `/<course>/questions` lists every question in the course, from a small `question-index.json` built with the content (id, name, skill(s), section, unit, year, rating, tier, type, response-skill tags, pool, whether it needs a later unit's content). The full question loads only when a row is expanded.
-- **Filter** by search text, tier, type (auto-marked or written), tag, year, unit, section, skill, pool, later units needed, and answered. **Sort** easiest or hardest first, by name, or by tag. **Group** by tier, tag, skill, section or answered; a question with several tags or skills appears in each of their groups.
+- `/<course>/questions` lists every question in the course, from a small `question-index.json` built with the content (id, name, skill(s), subsection, section, unit, year, rating, tier, type, response-skill tags, pool, whether it needs a later unit's content). The full question loads only when a row is expanded.
+- **Filter** by search text, tier, type (auto-marked or written), tag, year, unit, section, skill, subsection, pool, later units needed, and answered. **Sort** easiest or hardest first, by name, or by tag. **Group** by tier, tag, skill, subsection (in curriculum order), section or answered; a question with several tags or skills appears in each of their groups.
+- The subsection filter lists the chosen skill's subsections, or every skill's grouped by skill; choosing another skill clears it. Each row shows its subsection. A skill's Questions tab has the same subsection filter.
 - Filters live in the URL, so a view can be bookmarked or shared. "Answered" comes from local progress: no extra reads.
 - A question's name is its `title` field, or else its id turned into words.
 
@@ -1276,7 +1278,7 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 ### 15.4b Answer history and Back
 - Every answer a student gives (practice, quizzes, Challenges, daily, revision) is logged **in the browser only** (localStorage, newest 500 per course): question id, variant and word picks, the answer per part, the attempt each part was solved on, the outcome, and for written answers the marking job. Nothing is read from or written to Firestore for it, so it doesn't follow a student to another device.
 - **Back** on the practice screen steps through earlier answers in that skill (showing when each was answered; Forward and **Current question** return); the current question stays as it was, half-typed answers included.
-- **History** (`/<course>/history`) lists every logged answer by day, filterable by skill, mode and result (60% or more, under 60%, still marking). A row expands to the question as it was served, the answers given (marked right or wrong per part, or with the written score and feedback) and the worked solution. **Clear history** empties it.
+- **History** (`/<course>/history`) lists every logged answer by day, filterable by skill, subsection, mode and result (60% or more, under 60%, still marking). A row expands to the question as it was served, the answers given (marked right or wrong per part, or with the written score and feedback) and the worked solution. **Clear history** empties it.
 
 ### 15.4d The current question stays until answered
 - Practice remembers the question it is showing in each skill (id, variant and word picks; in the browser only). Leaving the page and pressing **Practice** again, or reloading, shows the same question with the same numbers and names. Once it is answered (resolved, given up or submitted for marking), it is forgotten and the next visit serves a new one.

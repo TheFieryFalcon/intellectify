@@ -3,7 +3,7 @@ import type { QuestionIndexEntry } from "./content";
 import { candidates, parseScope, pickNext, specFromParams, specToParams, type RevisionSpec } from "./revision";
 
 const q = (id: string, tier: number, extra: Partial<QuestionIndexEntry> = {}): QuestionIndexEntry => ({
-  id, title: id, skill: "a", skills: ["a"], section: "s1", unit: 1, year: 11, rating: 1000, tier, kind: "auto",
+  id, title: id, skill: "a", skills: ["a"], subsection: "One", section: "s1", unit: 1, year: 11, rating: 1000, tier, kind: "auto",
   answerTypes: ["numeric"], tags: ["calculation"], pool: "practice", later: false, calculator: false, variants: 0, source: "x", ...extra,
 });
 const exam = (level: "easy" | "hard"): RevisionSpec => specFromParams(new URLSearchParams({ mode: "exam", level }));
@@ -13,6 +13,8 @@ describe("revision", () => {
     expect(parseScope("unit:2")).toEqual({ kind: "unit", unit: 2 });
     expect(parseScope("section:spec.geo:x")).toEqual({ kind: "section", id: "spec.geo:x" });
     expect(parseScope("nonsense")).toEqual({ kind: "course" });
+    expect(parseScope("sub:spec.combinatorics.pascal/Pascal's rule")).toEqual({ kind: "subsection", skill: "spec.combinatorics.pascal", name: "Pascal's rule" });
+    expect(parseScope("sub:nothing")).toEqual({ kind: "course" });
     const s = specFromParams(new URLSearchParams("mode=custom&scope=skill:a&tier=4,2&kind=written&tag=proof&later=1"));
     expect(specFromParams(specToParams(s))).toEqual(s);
   });
@@ -31,6 +33,13 @@ describe("revision", () => {
     expect(candidates(ix, spec("tier=2&later=1")).map((e) => e.id)).toEqual(["a", "b", "d"]);
     expect(candidates(ix, spec("kind=written")).map((e) => e.id)).toEqual(["c"]);
     expect(candidates(ix, spec("tag=proof")).map((e) => e.id)).toEqual(["c"]);
+  });
+
+  it("narrows to a subsection of a skill", () => {
+    const ix = [q("a", 2), q("b", 2, { subsection: "Two" }), q("c", 2, { skill: "z", skills: ["z"] })];
+    const spec = specFromParams(new URLSearchParams("mode=custom&scope=sub:a/Two"));
+    expect(candidates(ix, spec).map((e) => e.id)).toEqual(["b"]);
+    expect(specFromParams(specToParams(spec))).toEqual(spec);
   });
 
   it("exam picks are about half of each tier", () => {

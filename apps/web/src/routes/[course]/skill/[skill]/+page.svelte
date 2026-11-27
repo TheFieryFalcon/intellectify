@@ -4,6 +4,8 @@
   import { gateCount as gateFor, newSkillState, RANK_FLOOR, type RankLevel, type Tier } from "@intellectify/engine";
   import RankDot from "$lib/components/RankDot.svelte";
   import QuestionList from "$lib/components/QuestionList.svelte";
+  import SubsectionSelect from "$lib/components/SubsectionSelect.svelte";
+  import { inSubsection, subKey } from "$lib/subsections";
   import { dependentsOf, indexSkills, loadQuestionIndex, type QuestionIndexEntry } from "$lib/content";
   import { answeredIds } from "$lib/practice";
   import { getStartTier, toStored } from "$lib/practice";
@@ -39,6 +41,15 @@
     loadQuestionIndex(fetch, data.course.id).then((all) => (listed = all.filter((q) => q.skill === id).sort((a, b) => a.rating - b.rating)));
   });
   const answered = $derived(store ? answeredIds(store.progress) : new Set<string>());
+  /** The Questions tab's subsection filter, kept in the URL. */
+  const sub = $derived(page.url.searchParams.get("sub") ?? "");
+  const shownQs = $derived(listed.filter((q) => inSubsection(q, sub)));
+  function setSub(v: string) {
+    const next = new URLSearchParams(page.url.searchParams);
+    if (v) next.set("sub", v);
+    else next.delete("sub");
+    goto(`?${next}`, { replaceState: true, keepFocus: true, noScroll: true });
+  }
 
   const rankOf = (id: string) => (store?.progress.skills[id]?.rank ?? 0) as RankLevel;
 
@@ -66,7 +77,12 @@
       <a href="?tab=questions" class:on={tab === "questions"} aria-current={tab === "questions" ? "page" : undefined}>Questions <span class="muted">{listed.length}</span></a>
     </nav>
     {#if tab === "questions"}
-      {#if listed.length}<QuestionList course={data.course.id} entries={listed} {answered} />{:else}<p class="muted">No questions yet</p>{/if}
+      {#if listed.length}
+        {#if entry.skill.subsections.length > 1}
+          <label class="subfilter">Subsection <SubsectionSelect course={data.course} value={sub} skill={entry.skill.id} only={new Set(listed.map((q) => subKey(q.skill, q.subsection)))} onchange={setSub} /></label>
+        {/if}
+        <QuestionList course={data.course.id} entries={shownQs} {answered} />
+      {:else}<p class="muted">No questions yet</p>{/if}
     {:else}
 
     <div class="status">
@@ -138,4 +154,5 @@
   .links a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; }
   .links a:hover { color: var(--accent); }
   @media (max-width: 520px) { dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 10px; } }
+  .subfilter { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 13px; color: var(--muted); }
 </style>

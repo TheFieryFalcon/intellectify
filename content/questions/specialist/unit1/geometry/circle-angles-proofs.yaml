@@ -2,6 +2,7 @@
 
 - id: spec.geometry.circle-angles.diameter-two-right-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1280
   responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
   stem: |
@@ -35,6 +36,7 @@
 
 - id: spec.geometry.circle-angles.semicircle-from-center
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1200
   bookwork: true
   responseSkills: { reasoning: 1190, clarity: 1150 }
@@ -67,6 +69,7 @@
 
 - id: spec.geometry.circle-angles.minor-arc-acute
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1360
   responseSkills: { reasoning: 1350, proof: 1350, clarity: 1310 }
   stem: |
@@ -99,6 +102,7 @@
 
 - id: spec.geometry.circle-angles.equal-chords-equal-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1280
   bookwork: true
   responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
@@ -139,6 +143,7 @@
 
 - id: spec.geometry.circle-angles.same-segment-proof
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1280
   bookwork: true
   responseSkills: { reasoning: 1270, proof: 1270, clarity: 1230 }
@@ -174,6 +179,7 @@
 
 - id: spec.geometry.circle-angles.equal-angles-equal-chords
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1400
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
@@ -210,6 +216,7 @@
 
 - id: spec.geometry.circle-angles.right-angle-diameter
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1400
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
   stem: |
@@ -245,6 +252,7 @@
 
 - id: spec.geometry.circle-angles.equal-sides-bisects
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -279,6 +287,7 @@
 
 - id: spec.geometry.circle-angles.center-chord-bisects-angle
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1440
   responseSkills: { reasoning: 1430, proof: 1430, clarity: 1390 }
   stem: |
@@ -311,6 +320,7 @@
 
 - id: spec.geometry.circle-angles.obc-acute
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1450
   responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
   stem: |
@@ -345,6 +355,7 @@
 
 - id: spec.geometry.circle-angles.cyclic-trapezium-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1450
   responseSkills: { reasoning: 1440, proof: 1440, clarity: 1400 }
   stem: |
@@ -378,6 +389,7 @@
 
 - id: spec.geometry.circle-angles.diagonals-similar
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1480
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
@@ -414,6 +426,7 @@
 
 - id: spec.geometry.circle-angles.kite-cyclic-right-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1480
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
@@ -447,6 +460,7 @@
 
 - id: spec.geometry.circle-angles.pentagon-trisect
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -484,6 +498,7 @@
 
 - id: spec.geometry.circle-angles.diameter-equal-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -520,6 +535,7 @@
 
 - id: spec.geometry.circle-angles.equal-circles-equal-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
   stem: |
@@ -555,6 +571,7 @@
 
 - id: spec.geometry.circle-angles.right-triangle-iff-diameter
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle in a semicircle"
   rating: 1480
   bookwork: true
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
@@ -591,6 +608,7 @@
 
 - id: spec.geometry.circle-angles.chords-crossing-half-sum
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1620
   responseSkills: { reasoning: 1610, proof: 1610, clarity: 1570 }
   stem: |
@@ -632,6 +650,7 @@
 
 - id: spec.geometry.circle-angles.center-outside-case
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1540
   bookwork: true
   responseSkills: { reasoning: 1530, proof: 1530, clarity: 1490 }
@@ -672,6 +691,7 @@
 
 - id: spec.geometry.circle-angles.inside-point-larger-angle
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angles on the same arc"
   rating: 1660
   responseSkills: { reasoning: 1650, proof: 1650, clarity: 1610 }
   stem: |
@@ -711,6 +731,7 @@
 
 - id: spec.geometry.circle-angles.secants-half-difference
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Angle at the center"
   rating: 1680
   responseSkills: { reasoning: 1670, proof: 1670, clarity: 1630 }
   stem: |
@@ -752,6 +773,7 @@
 
 - id: spec.geometry.circle-angles.hexagon-alternate-angles
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1760
   responseSkills: { reasoning: 1750, proof: 1750, clarity: 1710 }
   stem: |
@@ -796,6 +818,7 @@
 
 - id: spec.geometry.circle-angles.opposite-bisectors-diameter
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1780
   responseSkills: { reasoning: 1770, proof: 1770, clarity: 1730 }
   stem: |
@@ -838,6 +861,7 @@
 
 - id: spec.geometry.circle-angles.exterior-angle-proof
   skills: { primary: spec.geometry.circle-angles }
+  subsection: "Cyclic quadrilaterals"
   rating: 1480
   bookwork: true
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1410 }

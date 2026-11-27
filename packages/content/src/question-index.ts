@@ -13,6 +13,8 @@ export interface QuestionIndexEntry {
   /** Primary skill, and every tagged skill. */
   skill: string;
   skills: string[];
+  /** The point within the primary skill, in words (SPEC §3). */
+  subsection: string;
   section: string;
   unit: number;
   year: number;
@@ -52,6 +54,7 @@ export function buildQuestionIndex(
       title: questionTitle(q),
       skill: q.skills.primary,
       skills: [q.skills.primary, ...q.skills.secondary],
+      subsection: q.subsection ?? "",
       ...at,
       rating: q.rating,
       tier: tierOf(q.rating),

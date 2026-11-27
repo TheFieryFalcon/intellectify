@@ -33,6 +33,7 @@
     if (s.kind === "unit") return `Unit ${s.unit}`;
     if (s.kind === "section") return data.course.units.flatMap((u) => u.sections).find((x) => x.id === s.id)?.name ?? s.id;
     if (s.kind === "skill") return skills.get(s.id)?.skill.name ?? s.id;
+    if (s.kind === "subsection") return `${skills.get(s.skill)?.skill.name ?? s.skill} · ${s.name}`;
     return "Whole course";
   });
   const title = $derived(spec.mode === "exam" ? `Exam revision · ${spec.level === "hard" ? "Hard" : "Easy"}` : "Custom revision");

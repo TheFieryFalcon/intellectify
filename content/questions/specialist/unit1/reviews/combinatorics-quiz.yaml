@@ -3,6 +3,7 @@
 - id: spec.combinatorics.sq.sandwiches
   pool: section-quiz
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Multiplication principle"
   rating: 1060
   responseSkills: { reading: 1050, calculation: 1040 }
   stem: |
@@ -19,6 +20,7 @@
 - id: spec.combinatorics.sq.trophies
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Arranging different objects"
   rating: 1080
   responseSkills: { calculation: 1060 }
   stem: |
@@ -35,6 +37,7 @@
 - id: spec.combinatorics.sq.nine-two
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing a group"
   rating: 1110
   responseSkills: { calculation: 1100 }
   stem: |
@@ -51,6 +54,7 @@
 - id: spec.combinatorics.sq.union-small
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Two sets"
   rating: 1150
   responseSkills: { calculation: 1130 }
   stem: |
@@ -67,6 +71,7 @@
 - id: spec.combinatorics.sq.pascal-twelve
   pool: section-quiz
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Pascal's rule"
   rating: 1300
   responseSkills: { reasoning: 1290, calculation: 1280 }
   stem: |
@@ -83,6 +88,7 @@
 - id: spec.combinatorics.sq.birth-months
   pool: section-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "At least k in one box"
   rating: 1320
   responseSkills: { reading: 1300, reasoning: 1310, calculation: 1270 }
   stem: |
@@ -99,6 +105,7 @@
 - id: spec.combinatorics.sq.level
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1290
   responseSkills: { calculation: 1270 }
   stem: |
@@ -115,6 +122,7 @@
 - id: spec.combinatorics.sq.two-girls
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Choosing from categories"
   rating: 1350
   responseSkills: { reading: 1330, calculation: 1320 }
   stem: |
@@ -131,6 +139,7 @@
 - id: spec.combinatorics.sq.over-5000
   pool: section-quiz
   skills: { primary: spec.combinatorics.counting-principles }
+  subsection: "Factorials and nPr"
   rating: 1420
   responseSkills: { reading: 1400, calculation: 1400, reasoning: 1410 }
   stem: |
@@ -147,6 +156,7 @@
 - id: spec.combinatorics.sq.not-together
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Objects together or apart"
   rating: 1430
   responseSkills: { calculation: 1410, reasoning: 1420 }
   stem: |
@@ -164,6 +174,7 @@
 - id: spec.combinatorics.sq.exactly-one-of
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1500
   responseSkills: { reading: 1480, calculation: 1480, reasoning: 1490 }
   stem: |
@@ -180,6 +191,7 @@
 - id: spec.combinatorics.sq.mirror-row
   pool: section-quiz
   skills: { primary: spec.combinatorics.pascal }
+  subsection: "Symmetry"
   rating: 1420
   responseSkills: { reasoning: 1410, calculation: 1390 }
   stem: |
@@ -197,6 +209,7 @@
 - id: spec.combinatorics.sq.lollies
   pool: section-quiz
   skills: { primary: spec.combinatorics.combinations }
+  subsection: "Sharing identical objects"
   rating: 1490
   responseSkills: { reading: 1470, calculation: 1460, reasoning: 1480 }
   stem: |
@@ -214,6 +227,7 @@
 - id: spec.combinatorics.sq.consecutive-pair
   pool: section-quiz
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1470
   responseSkills: { reasoning: 1460, proof: 1460, clarity: 1400 }
   stem: |
@@ -232,6 +246,7 @@
 - id: spec.combinatorics.sq.arrange-aa
   pool: section-quiz
   skills: { primary: spec.combinatorics.permutations }
+  subsection: "Repeated objects"
   rating: 1580
   responseSkills: { reading: 1550, calculation: 1560, reasoning: 1570 }
   stem: |
@@ -249,6 +264,7 @@
 - id: spec.combinatorics.sq.powers-to-1000
   pool: section-quiz
   skills: { primary: spec.combinatorics.inclusion-exclusion }
+  subsection: "Divisibility"
   rating: 1650
   responseSkills: { reading: 1620, calculation: 1630, reasoning: 1640 }
   stem: |

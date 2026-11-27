@@ -2,6 +2,7 @@
 
 - id: spec.geometry.chord-secant-lengths.equal-parts-equal-chords
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1330
   responseSkills: { reasoning: 1320, proof: 1320, clarity: 1280 }
   stem: |
@@ -36,6 +37,7 @@
 
 - id: spec.geometry.chord-secant-lengths.tangents-equal-by-power
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1420
   responseSkills: { reasoning: 1410, proof: 1410, clarity: 1370 }
   stem: |
@@ -68,6 +70,7 @@
 
 - id: spec.geometry.chord-secant-lengths.two-secants-proof
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Two secants from a point"
   rating: 1400
   bookwork: true
   responseSkills: { reasoning: 1390, proof: 1390, clarity: 1350 }
@@ -103,6 +106,7 @@
 
 - id: spec.geometry.chord-secant-lengths.perpendicular-chord-diameter
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1500
   responseSkills: { reasoning: 1490, proof: 1490, clarity: 1450 }
   stem: |
@@ -136,6 +140,7 @@
 
 - id: spec.geometry.chord-secant-lengths.power-inside
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1600
   responseSkills: { reasoning: 1590, proof: 1590, clarity: 1550 }
   stem: |
@@ -168,6 +173,7 @@
 
 - id: spec.geometry.chord-secant-lengths.power-outside
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Two secants from a point"
   rating: 1520
   responseSkills: { reasoning: 1510, proof: 1510, clarity: 1470 }
   stem: |
@@ -200,6 +206,7 @@
 
 - id: spec.geometry.chord-secant-lengths.tangent-by-pythagoras
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
   stem: |
@@ -233,6 +240,7 @@
 
 - id: spec.geometry.chord-secant-lengths.radius-from-tangent
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1550
   responseSkills: { reasoning: 1540, proof: 1540, clarity: 1500 }
   stem: |
@@ -265,6 +273,7 @@
 
 - id: spec.geometry.chord-secant-lengths.tangent-between
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Tangent and secant"
   rating: 1460
   responseSkills: { reasoning: 1450, proof: 1450, clarity: 1410 }
   stem: |
@@ -296,6 +305,7 @@
 
 - id: spec.geometry.chord-secant-lengths.bisecting-chords-diameters
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1480
   responseSkills: { reasoning: 1470, proof: 1470, clarity: 1430 }
   stem: |
@@ -330,6 +340,7 @@
 
 - id: spec.geometry.chord-secant-lengths.am-gm-circle
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-problems] }
+  subsection: "Intersecting chords"
   rating: 1680
   responseSkills: { reasoning: 1670, proof: 1670, clarity: 1630, synthesis: 1660 }
   stem: |
@@ -350,6 +361,7 @@
 
 - id: spec.geometry.chord-secant-lengths.altitude-mean-proportional
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
@@ -384,6 +396,7 @@
 
 - id: spec.geometry.chord-secant-lengths.equal-chords-split
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1640
   responseSkills: { reasoning: 1630, proof: 1630, clarity: 1590 }
   stem: |
@@ -419,6 +432,7 @@
 
 - id: spec.geometry.chord-secant-lengths.half-chord-bound
   skills: { primary: spec.geometry.chord-secant-lengths }
+  subsection: "Intersecting chords"
   rating: 1580
   responseSkills: { reasoning: 1570, proof: 1570, clarity: 1530 }
   stem: |
@@ -452,6 +466,7 @@
 
 - id: spec.geometry.chord-secant-lengths.concyclic-by-power
   skills: { primary: spec.geometry.chord-secant-lengths, secondary: [spec.geometry.circle-problems] }
+  subsection: "Two secants from a point"
   rating: 1800
   responseSkills: { reasoning: 1790, proof: 1790, clarity: 1750, synthesis: 1780 }
   stem: |

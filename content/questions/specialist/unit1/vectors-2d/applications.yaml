@@ -4,6 +4,7 @@
 # ─────────────── Tier 1 ───────────────
 - id: spec.vectors-2d.applications.speed
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1020
   responseSkills: { calculation: 1020 }
   variants:
@@ -23,6 +24,7 @@
 
 - id: spec.vectors-2d.applications.resultant-force
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Forces, equilibrium and work"
   rating: 1050
   responseSkills: { calculation: 1050 }
   variants:
@@ -41,6 +43,7 @@
 
 - id: spec.vectors-2d.applications.position-at-time
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1080
   responseSkills: { calculation: 1070, reading: 1070 }
   variants:
@@ -59,6 +62,7 @@
 
 - id: spec.vectors-2d.applications.equilibrium
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Forces, equilibrium and work"
   rating: 1100
   responseSkills: { calculation: 1090, reading: 1100 }
   variants:
@@ -77,6 +81,7 @@
 
 - id: spec.vectors-2d.applications.bearing-axis
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1120
   responseSkills: {reading: 1120, calculation: 1070}
   words: { who: person, boat: vessel, u: units }
@@ -97,6 +102,7 @@
 
 - id: spec.vectors-2d.applications.current-across
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1150
   responseSkills: { calculation: 1130, reading: 1150 }
   words: { boat: vessel, u: units }
@@ -118,6 +124,7 @@
 # ─────────────── Tier 2 ───────────────
 - id: spec.vectors-2d.applications.work
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Forces, equilibrium and work"
   rating: 1260
   responseSkills: { calculation: 1250 }
   variants:
@@ -136,6 +143,7 @@
 
 - id: spec.vectors-2d.applications.relative-velocity
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Relative velocity"
   rating: 1270
   responseSkills: { calculation: 1250, reading: 1270 }
   variants:
@@ -154,6 +162,7 @@
 
 - id: spec.vectors-2d.applications.bearing-components
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1300
   responseSkills: { calculation: 1290, reading: 1290 }
   words: { who: person, u: units }
@@ -175,6 +184,7 @@
 
 - id: spec.vectors-2d.applications.plane-crosswind
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1340
   responseSkills: { calculation: 1320, reading: 1340 }
   words: { who: person, craft: aircraft, u: units }
@@ -198,6 +208,7 @@
 
 - id: spec.vectors-2d.applications.two-legs
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1380
   responseSkills: { calculation: 1360, reading: 1360 }
   stem: |
@@ -221,6 +232,7 @@
 # ─────────────── Tier 3 ───────────────
 - id: spec.vectors-2d.applications.velocity-from-displacement
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Position and constant velocity"
   rating: 1400
   responseSkills: { calculation: 1380, reading: 1390 }
   stem: |
@@ -241,6 +253,7 @@
 
 - id: spec.vectors-2d.applications.collide-or-not
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Collision and closest approach"
   rating: 1410
   responseSkills: { reading: 1400, calculation: 1380 }
   stem: |
@@ -264,6 +277,7 @@
 
 - id: spec.vectors-2d.applications.equilibrium-bearing
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Forces, equilibrium and work"
   rating: 1420
   responseSkills: { calculation: 1400, reading: 1410 }
   requiresCalculator: true
@@ -286,6 +300,7 @@
 
 - id: spec.vectors-2d.applications.river-crossing
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1440
   responseSkills: { calculation: 1420, reading: 1430 }
   words: { cr: crosser }
@@ -311,6 +326,7 @@
 
 - id: spec.vectors-2d.applications.heading-due-north
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1460
   responseSkills: { calculation: 1440, synthesis: 1420 }
   requiresCalculator: true
@@ -334,6 +350,7 @@
 # ─────────────── Tier 4 ───────────────
 - id: spec.vectors-2d.applications.intercept-fixed-time
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Collision and closest approach"
   rating: 1550
   responseSkills: {calculation: 1500, reasoning: 1530, synthesis: 1530}
   stem: |
@@ -355,6 +372,7 @@
 
 - id: spec.vectors-2d.applications.plane-due-north
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1580
   responseSkills: {calculation: 1540, reasoning: 1560, synthesis: 1560}
   words: { who: person, craft: aircraft, u: units }
@@ -378,6 +396,7 @@
 
 - id: spec.vectors-2d.applications.closest-approach
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Collision and closest approach"
   rating: 1610
   responseSkills: {calculation: 1560, reasoning: 1590, synthesis: 1600}
   stem: |
@@ -403,6 +422,7 @@
 
 - id: spec.vectors-2d.applications.apparent-wind
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Relative velocity"
   rating: 1640
   responseSkills: {reading: 1600, calculation: 1590, reasoning: 1620, synthesis: 1630}
   words: { who: person }
@@ -428,6 +448,7 @@
 # ─────────────── Tier 5 ───────────────
 - id: spec.vectors-2d.applications.intercept-speed
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Collision and closest approach"
   rating: 1700
   responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1700}
   stem: |
@@ -452,6 +473,7 @@
 
 - id: spec.vectors-2d.applications.swim-upstream
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1740
   responseSkills: {calculation: 1680, reasoning: 1720, synthesis: 1740}
   requiresCalculator: true
@@ -477,6 +499,7 @@
 
 - id: spec.vectors-2d.applications.plane-track
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1760
   responseSkills: {calculation: 1700, reasoning: 1740, synthesis: 1760}
   requiresCalculator: true
@@ -505,6 +528,7 @@
 
 - id: spec.vectors-2d.applications.two-strings
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Forces, equilibrium and work"
   rating: 1700
   responseSkills: {calculation: 1650, reasoning: 1680, synthesis: 1690}
   requiresCalculator: true
@@ -529,6 +553,7 @@
 
 - id: spec.vectors-2d.applications.true-wind
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Relative velocity"
   rating: 1760
   responseSkills: {reading: 1700, calculation: 1710, reasoning: 1740, synthesis: 1760}
   words: { who: person }
@@ -559,6 +584,7 @@
 
 - id: spec.vectors-2d.applications.least-drift
   skills: { primary: spec.vectors-2d.applications }
+  subsection: "Navigation with wind and current"
   rating: 1790
   responseSkills: {calculation: 1700, reasoning: 1770, synthesis: 1790}
   requiresCalculator: true
@@ -584,6 +610,7 @@
 
 - id: spec.vectors-2d.applications.resultant-two
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Forces, equilibrium and work"
   rating: 1070
   responseSkills: {calculation: 1060}
   variants:
@@ -603,6 +630,7 @@
         return {"a": [a1 + b1, a2 + b2]}
 - id: spec.vectors-2d.applications.when-reaches
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Position and constant velocity"
   rating: 1150
   responseSkills: {calculation: 1140, reading: 1130}
   stem: |
@@ -623,6 +651,7 @@
         return {"t": t0, "y": 1 + 4*t0}
 - id: spec.vectors-2d.applications.perpendicular-forces
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Forces, equilibrium and work"
   rating: 1290
   responseSkills: {calculation: 1280}
   variants:
@@ -641,6 +670,7 @@
         return {"a": sqrt(p**2 + q**2)}
 - id: spec.vectors-2d.applications.relative-speed
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Relative velocity"
   rating: 1320
   responseSkills: {calculation: 1300, reading: 1310}
   stem: |
@@ -656,6 +686,7 @@
         return {"a": (Matrix([20, 0]) - Matrix([0, 15])).norm()}
 - id: spec.vectors-2d.applications.cross-due-north
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Navigation with wind and current"
   rating: 1360
   responseSkills: {calculation: 1340, synthesis: 1330}
   variants:
@@ -674,6 +705,7 @@
         return {"a": sqrt(s**2 - c**2)}
 - id: spec.vectors-2d.applications.work-between-points
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Forces, equilibrium and work"
   rating: 1390
   responseSkills: {calculation: 1370, reading: 1370}
   stem: |
@@ -689,6 +721,7 @@
         return {"a": Matrix([3, 4]).dot(Matrix([5, 7]) - Matrix([1, 1]))}
 - id: spec.vectors-2d.applications.four-forces
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Forces, equilibrium and work"
   rating: 1420
   responseSkills: {calculation: 1400, reading: 1400}
   stem: |
@@ -706,6 +739,7 @@
         return {"a": list(-s)}
 - id: spec.vectors-2d.applications.plane-south-wind
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Navigation with wind and current"
   rating: 1480
   responseSkills: {calculation: 1460, reading: 1460}
   requiresCalculator: true
@@ -726,6 +760,7 @@
         return {"a": round(float(g.norm()), 1), "b": round(float(deg(atan2(g[0], g[1])) % 360), 1)}
 - id: spec.vectors-2d.applications.find-current
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Navigation with wind and current"
   rating: 1520
   responseSkills: {calculation: 1500, synthesis: 1490}
   stem: |
@@ -742,6 +777,7 @@
         return {"a": Rational(45) / t}
 - id: spec.vectors-2d.applications.rain-cyclist
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Relative velocity"
   rating: 1560
   responseSkills: {calculation: 1540, reasoning: 1540, synthesis: 1530}
   requiresCalculator: true
@@ -762,6 +798,7 @@
         return {"a": r.norm(), "b": round(float(deg(atan2(abs(r[0]), abs(r[1])))), 1)}
 - id: spec.vectors-2d.applications.collide-velocity
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Collision and closest approach"
   rating: 1600
   responseSkills: {calculation: 1550, reasoning: 1580, synthesis: 1590}
   stem: |
@@ -779,6 +816,7 @@
         return {"a": list((meet - Matrix([10, -5])) / 5)}
 - id: spec.vectors-2d.applications.aircraft-airspeed
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Navigation with wind and current"
   rating: 1650
   responseSkills: {calculation: 1600, reasoning: 1630, synthesis: 1640}
   words: { craft: aircraft, u: units }
@@ -800,6 +838,7 @@
         return {"a": round(float(a.norm()), 1), "b": round(float(deg(atan2(a[0], a[1])) % 360), 1)}
 - id: spec.vectors-2d.applications.river-two-ways
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Navigation with wind and current"
   rating: 1710
   responseSkills: {calculation: 1650, reasoning: 1690, synthesis: 1700}
   requiresCalculator: true
@@ -828,6 +867,7 @@
         return {"a": Rational(120, 5), "b": 3 * Rational(120, 5), "c": round(float(deg(th)), 1), "d": 120 / across}
 - id: spec.vectors-2d.applications.relative-bearing
   skills: {primary: spec.vectors-2d.applications}
+  subsection: "Relative velocity"
   rating: 1440
   responseSkills: {calculation: 1420, reading: 1420}
   requiresCalculator: true

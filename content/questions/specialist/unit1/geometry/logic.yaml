@@ -2,6 +2,7 @@
 
 - id: spec.geometry.logic.hypothesis
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1030
   responseSkills: {reading: 1030}
   stem: |
@@ -18,6 +19,7 @@
     In "if $P$, then $Q$", the hypothesis is $P$, the part after "if": *it rains*.
 - id: spec.geometry.logic.converse
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1060
   responseSkills: {reading: 1060}
   stem: |
@@ -34,6 +36,7 @@
     The converse swaps hypothesis and conclusion: "If $n$ is even, then $n$ is divisible by 6." (It is false: try $n = 4$.)
 - id: spec.geometry.logic.contrapositive
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1090
   responseSkills: {reading: 1090}
   stem: |
@@ -50,6 +53,7 @@
     The contrapositive negates both parts and swaps them: "If a triangle is not isosceles, then it is not equilateral." Like the original, it is true.
 - id: spec.geometry.logic.quantifier-truth
   skills: {primary: spec.geometry.logic}
+  subsection: "For all and there exists"
   rating: 1150
   responseSkills: {reading: 1140}
   stem: |
@@ -66,6 +70,7 @@
     (a) no real square is negative. (b) fails at $x = 0$. (c) $x^2 \ge 0$, so $x^2 + 1 \ge 1 > 0$: true. (d) $\sqrt{2}$ isn't an integer.
 - id: spec.geometry.logic.for-all-truth
   skills: {primary: spec.geometry.logic}
+  subsection: "For all and there exists"
   rating: 1280
   responseSkills: {reading: 1270, calculation: 1200, reasoning: 1270}
   stem: |
@@ -82,6 +87,7 @@
     (a) fails at $x = \tfrac{1}{2}$. (b) if $x > 1$, multiplying both sides by the positive number $x$ gives $x^2 > x$: true. (c) $x = 0$ and $x = 1$ work. (d) fails at $x = -2$, since $\sqrt{4} = 2$.
 - id: spec.geometry.logic.same-truth-value
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1320
   responseSkills: {reading: 1310, reasoning: 1310}
   stem: |
@@ -98,6 +104,7 @@
     The contrapositive, not $Q \Rightarrow$ not $P$, is always true exactly when $P \Rightarrow Q$ is. The converse (a) and inverse (b) match each other, not the original.
 - id: spec.geometry.logic.negate-all
   skills: {primary: spec.geometry.logic}
+  subsection: "Negation"
   rating: 1370
   responseSkills: {reading: 1360, reasoning: 1360}
   stem: |
@@ -114,6 +121,7 @@
     Negating "for all" gives "there exists ... not": at least one student did not pass. "None passed" is much stronger than the negation.
 - id: spec.geometry.logic.negate-nested
   skills: {primary: spec.geometry.logic}
+  subsection: "Negation"
   rating: 1420
   responseSkills: {reading: 1410, reasoning: 1410}
   stem: |
@@ -130,6 +138,7 @@
     Negate one quantifier at a time: "for every $x$" becomes "there is an $x$", "there is an $n$" becomes "every $n$", and $n > x$ becomes $n \le x$.
 - id: spec.geometry.logic.true-equivalence
   skills: {primary: spec.geometry.logic}
+  subsection: "If and only if"
   rating: 1440
   responseSkills: {reading: 1420, calculation: 1350, reasoning: 1430}
   stem: |
@@ -146,6 +155,7 @@
     (a) fails for $x = -2$. (c) fails for $x = -2$. (d) fails for $a = 1, b = 0$. (b) is true: an even $n = 2k$ gives $n^2 = 4k^2$, even; an odd $n = 2k + 1$ gives $n^2 = 2(2k^2 + 2k) + 1$, odd.
 - id: spec.geometry.logic.converse-counterexample
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1460
   responseSkills: {reading: 1440, calculation: 1380, reasoning: 1450}
   stem: |
@@ -169,6 +179,7 @@
     The converse is "If $x^2 > 9$, then $x > 3$." A counterexample needs $x^2 > 9$ but $x \le 3$: $x = -4$ gives $16 > 9$ with $-4 \le 3$. ($x = -3$ fails the hypothesis, since $9 \not> 9$.)
 - id: spec.geometry.logic.four-forms-count
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1480
   responseSkills: {reading: 1480, calculation: 1430, reasoning: 1470, synthesis: 1420}
   stem: |
@@ -190,6 +201,7 @@
         return {"a": sum(all(f(sh) for sh in shapes) for f in forms)}
 - id: spec.geometry.logic.divisible-converse
   skills: {primary: spec.geometry.logic}
+  subsection: "Implication, converse and contrapositive"
   rating: 1500
   responseSkills: {reasoning: 1480, proof: 1480, clarity: 1450, precision: 1440}
   stem: |
@@ -207,6 +219,7 @@
     The converse is "If a whole number is divisible by 3, then it is divisible by 9." It is false: 6 is divisible by 3 but not by 9.
 - id: spec.geometry.logic.symbols
   skills: {primary: spec.geometry.logic}
+  subsection: "If and only if"
   rating: 1600
   responseSkills: {reading: 1550, reasoning: 1590, precision: 1600}
   stem: |
@@ -223,6 +236,7 @@
     (a) is true but loses $x = -3$. (b) misuses $=$ between statements. (d) is false, since $x = -3$ satisfies the left side. (c) is a correct equivalence: both directions hold.
 - id: spec.geometry.logic.equivalent-form
   skills: {primary: spec.geometry.logic}
+  subsection: "Negation"
   rating: 1720
   responseSkills: {reading: 1720, reasoning: 1710, synthesis: 1680}
   stem: |
@@ -240,6 +254,7 @@
     (b) negates only one side and doesn't swap; (c) is the converse; (d) negates "$P$ and $Q$" wrongly.
 - id: spec.geometry.logic.quadratic-for-all
   skills: {primary: spec.geometry.logic}
+  subsection: "For all and there exists"
   rating: 1720
   responseSkills: {calculation: 1680, reasoning: 1710, synthesis: 1700}
   stem: |
@@ -259,6 +274,7 @@
         return {"a": good}
 - id: spec.geometry.logic.consecutive-product
   skills: {primary: spec.geometry.logic}
+  subsection: "For all and there exists"
   rating: 1710
   responseSkills: {reasoning: 1700, clarity: 1600, precision: 1650}
   stem: |
@@ -277,6 +293,7 @@
     $S$ is true: $n^2 + n = n(n + 1)$ is a product of two consecutive integers, and one of any two consecutive integers is even, so the product is even. So the negation is false.
 - id: spec.geometry.logic.negate-bertrand
   skills: {primary: spec.geometry.logic}
+  subsection: "Negation"
   rating: 1740
   responseSkills: {reading: 1700, reasoning: 1730, precision: 1740}
   stem: |

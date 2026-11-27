@@ -2,6 +2,7 @@
 
 - id: spec.combinatorics.pigeonhole.socks
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1100
   responseSkills: {reading: 1100, calculation: 1050}
   words: { who: person }
@@ -21,6 +22,7 @@
 
 - id: spec.combinatorics.pigeonhole.months
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1320
   responseSkills: {reading: 1320, calculation: 1280, reasoning: 1310}
   stem: |
@@ -44,6 +46,7 @@
 
 - id: spec.combinatorics.pigeonhole.sum-to-21
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1500
   responseSkills: {reading: 1480, calculation: 1450, reasoning: 1490, proof: 1480}
   stem: |
@@ -64,6 +67,7 @@
 
 - id: spec.combinatorics.pigeonhole.difference-by-4
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1430
   responseSkills: {reasoning: 1430, proof: 1430, clarity: 1400}
   stem: |
@@ -81,6 +85,7 @@
 
 - id: spec.combinatorics.pigeonhole.points-in-square
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Points, handshakes and colorings"
   rating: 1520
   responseSkills: {reasoning: 1500, proof: 1500, clarity: 1460, synthesis: 1480}
   stem: |
@@ -98,6 +103,7 @@
 
 - id: spec.combinatorics.pigeonhole.two-coprime
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1600
   responseSkills: {reasoning: 1600, proof: 1600, synthesis: 1580}
   stem: |
@@ -114,6 +120,7 @@
 
 - id: spec.combinatorics.pigeonhole.divides-in-20
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
+  subsection: "Number problems"
   rating: 1640
   responseSkills: {calculation: 1590, reasoning: 1630, proof: 1600, synthesis: 1640}
   stem: |
@@ -134,6 +141,7 @@
 
 - id: spec.combinatorics.pigeonhole.equilateral-triangle
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.geometry.circle-problems] }
+  subsection: "Points, handshakes and colorings"
   rating: 1660
   responseSkills: {reasoning: 1650, proof: 1650, clarity: 1610, synthesis: 1640}
   stem: |
@@ -151,6 +159,7 @@
 
 - id: spec.combinatorics.pigeonhole.friends-strangers
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Points, handshakes and colorings"
   rating: 1690
   responseSkills: {reasoning: 1690, proof: 1690, clarity: 1640}
   stem: |
@@ -168,6 +177,7 @@
 
 - id: spec.combinatorics.pigeonhole.sum-or-difference-10
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1760
   responseSkills: {reasoning: 1760, proof: 1760, synthesis: 1750}
   stem: |
@@ -184,6 +194,7 @@
 
 - id: spec.combinatorics.pigeonhole.three-sum-to-3
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1790
   responseSkills: {reasoning: 1790, proof: 1790, synthesis: 1760}
   stem: |
@@ -200,6 +211,7 @@
 
 - id: spec.combinatorics.pigeonhole.divisor-pair-100
   skills: { primary: spec.combinatorics.pigeonhole, secondary: [spec.real-complex.number-proofs] }
+  subsection: "Number problems"
   rating: 1770
   responseSkills: {calculation: 1720, reasoning: 1760, proof: 1700, synthesis: 1770}
   stem: |
@@ -220,6 +232,7 @@
 
 - id: spec.combinatorics.pigeonhole.shared-birthday
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1060
   responseSkills: {reading: 1060, calculation: 1010}
   stem: |
@@ -235,6 +248,7 @@
 
 - id: spec.combinatorics.pigeonhole.thirteen-cards
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "At least k in one box"
   rating: 1180
   responseSkills: { reading: 1170, calculation: 1120 }
   stem: |
@@ -251,6 +265,7 @@
 
 - id: spec.combinatorics.pigeonhole.same-suit
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1300
   responseSkills: {reading: 1290, calculation: 1260, reasoning: 1290}
   variants:
@@ -269,6 +284,7 @@
 
 - id: spec.combinatorics.pigeonhole.same-remainder
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1340
   responseSkills: {reading: 1330, calculation: 1290, reasoning: 1330, synthesis: 1300}
   variants:
@@ -287,6 +303,7 @@
 
 - id: spec.combinatorics.pigeonhole.equal-subset-sums
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1780
   responseSkills: {reasoning: 1780, proof: 1780, clarity: 1650, synthesis: 1760}
   stem: |
@@ -306,6 +323,7 @@
 
 - id: spec.combinatorics.pigeonhole.fruit-bag
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1180
   responseSkills: { reading: 1180, calculation: 1130 }
   words: { who: person, f1: snack, f2: snack, f3: snack }
@@ -327,6 +345,7 @@
 
 - id: spec.combinatorics.pigeonhole.one-color-pair
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1340
   responseSkills: { reading: 1340, calculation: 1290, reasoning: 1330 }
   words: { who: person, c1: color, c2: color }
@@ -347,6 +366,7 @@
 
 - id: spec.combinatorics.pigeonhole.marble-bag
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1480
   responseSkills: { reading: 1470, calculation: 1440, reasoning: 1470 }
   words: { c1: color, c2: color, c3: color }
@@ -373,6 +393,7 @@
 
 - id: spec.combinatorics.pigeonhole.same-mark
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1300
   responseSkills: { reading: 1300, calculation: 1260, reasoning: 1290 }
   words: { subject: subject }
@@ -395,6 +416,7 @@
 
 - id: spec.combinatorics.pigeonhole.club-shirts
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "At least k in one box"
   rating: 1380
   responseSkills: { reading: 1370, calculation: 1340, reasoning: 1370 }
   words: { club: club }
@@ -417,6 +439,7 @@
 
 - id: spec.combinatorics.pigeonhole.two-initials
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1280
   responseSkills: { reading: 1280, reasoning: 1250 }
   stem: |
@@ -436,6 +459,7 @@
 
 - id: spec.combinatorics.pigeonhole.glove-pairs
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Guaranteeing a match"
   rating: 1440
   responseSkills: { reading: 1440, calculation: 1390, reasoning: 1430 }
   words: { who: person }
@@ -460,6 +484,7 @@
 
 - id: spec.combinatorics.pigeonhole.birthday-trio
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "At least k in one box"
   rating: 1350
   responseSkills: { reading: 1350, calculation: 1300 }
   words: { venue: venue }
@@ -476,6 +501,7 @@
 
 - id: spec.combinatorics.pigeonhole.round-robin-wins
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Points, handshakes and colorings"
   rating: 1620
   responseSkills: { reading: 1610, reasoning: 1610 }
   words: { sport: sport }
@@ -499,6 +525,7 @@
 
 - id: spec.combinatorics.pigeonhole.party-handshakes
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Points, handshakes and colorings"
   rating: 1560
   responseSkills: { reasoning: 1550, proof: 1550, clarity: 1510 }
   words: { who: person }
@@ -517,6 +544,7 @@
 
 - id: spec.combinatorics.pigeonhole.snack-streak
   skills: { primary: spec.combinatorics.pigeonhole }
+  subsection: "Number problems"
   rating: 1770
   responseSkills: { reasoning: 1760, proof: 1760, synthesis: 1740, clarity: 1720 }
   words: { who: person, f: snack }
