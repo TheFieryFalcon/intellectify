@@ -14,6 +14,8 @@ export interface User {
   anonymous?: boolean;
   /** Signed in with Google: the name came from Google, so onboarding asks for one. */
   google?: boolean;
+  /** When the account was created (ms), shown on the profile page as "Joined". */
+  joined?: number;
 }
 
 /** A skill's stored state: the engine's state plus selection history. */
@@ -97,6 +99,8 @@ export interface PublicProfile {
   achievements: Record<string, { ids: string[]; points: number }>;
   courses: Record<string, PublicCourse>;
   updatedAt: number;
+  /** When the account was created (ms). */
+  joined?: number;
 }
 
 export interface DailyRecord {

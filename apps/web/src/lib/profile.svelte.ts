@@ -124,6 +124,7 @@ export class ProfileStore {
         achievements,
         courses,
         updatedAt: Date.now(),
+        ...(this.user.joined ? { joined: this.user.joined } : {}),
       });
     } catch {
       // Keep the changes for the next try.

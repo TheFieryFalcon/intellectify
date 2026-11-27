@@ -16,7 +16,7 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, updateDoc, where, writeBatch } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, updateDoc, where, writeBatch } from "firebase/firestore";
 import { mergeAchievements, mergeProfile, mergeProgress } from "../claim";
 import { OWNER_UIDS } from "./context";
 import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type Report, type StoredSkillState, type ThreadSummary, type User } from "./types";
@@ -81,6 +81,7 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     local: false,
     anonymous: u.isAnonymous,
     google: u.providerData.some((p) => p.providerId === "google.com"),
+    joined: u.metadata.creationTime ? Date.parse(u.metadata.creationTime) || undefined : undefined,
   });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
@@ -197,7 +198,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       return true;
     },
     async loadProfile(uid) {
-      const d = (await getDoc(doc(db, "users", uid))).data() ?? {};
+      // From the server only: a cached copy can be partial (e.g. just the "last seen" fields written at
+      // sign-in), and treating it as the whole profile once reset a student's data. Offline → it throws.
+      const d = (await getDocFromServer(doc(db, "users", uid))).data() ?? {};
       return { ...emptyProfile(), ...(d as Partial<Profile>) };
     },
     async saveShiftKeys(uid, keys) {
@@ -288,14 +291,14 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
         .map((p) => ({ displayName: "Student", stats: null, daily: null, achievements: {}, courses: {}, updatedAt: 0, ...p }) as PublicProfile);
     },
     async loadAchievements(uid, course) {
-      const d = await getDoc(doc(courseDoc(uid, course), "meta", "achievements"));
+      const d = await getDocFromServer(doc(courseDoc(uid, course), "meta", "achievements"));
       return d.exists() ? (d.data() as AchievementRecord) : null;
     },
     async saveAchievements(uid, course, record) {
       await setDoc(doc(courseDoc(uid, course), "meta", "achievements"), record);
     },
     async loadMarkingJobs(uid) {
-      const snap = await getDocs(query(collection(db, "users", uid, "markingJobs"), orderBy("createdAt", "desc"), limit(100)));
+      const snap = await getDocsFromServer(query(collection(db, "users", uid, "markingJobs"), orderBy("createdAt", "desc"), limit(100)));
       return snap.docs.map((d) => d.data() as MarkingJob);
     },
     async saveMarkingJob(uid, job) {
@@ -306,7 +309,7 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       return auth.currentUser ? auth.currentUser.getIdToken() : null;
     },
     async loadChallenge(uid, course, section) {
-      const d = await getDoc(doc(courseDoc(uid, course), "challenges", section));
+      const d = await getDocFromServer(doc(courseDoc(uid, course), "challenges", section));
       return d.exists() ? (d.data() as ChallengeState) : null;
     },
     async saveChallenge(uid, course, section, state) {
@@ -318,9 +321,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       const progress = emptyProgress();
       const base = courseDoc(uid, course);
       const [meta, skills, rs] = await Promise.all([
-        getDoc(base),
-        getDocs(collection(base, "skillStates")),
-        getDocs(collection(base, "responseSkillStates")),
+        getDocFromServer(base),
+        getDocsFromServer(collection(base, "skillStates")),
+        getDocsFromServer(collection(base, "responseSkillStates")),
       ]);
       progress.rollupRanks = (meta.data()?.rollupRanks as typeof progress.rollupRanks) ?? {};
       skills.forEach((d) => (progress.skills[d.id] = d.data() as StoredSkillState));

@@ -64,7 +64,7 @@ export function createLocalBackend(): Backend {
       throw new Error("Accounts need Firebase.");
     },
     async signInAsGuest() {
-      user = { uid: "guest", displayName: "Guest", email: null, local: true };
+      user = { uid: "guest", displayName: "Guest", email: null, local: true, joined: Date.now() };
       write(USER_KEY, user);
       emit();
     },
