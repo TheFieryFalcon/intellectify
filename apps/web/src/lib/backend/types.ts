@@ -269,7 +269,7 @@ export interface Backend {
   addReport(user: User, report: NewReport): Promise<void>;
   /** This student's confirmed reports in one course, for achievements and XP. */
   confirmedReports(uid: string, course: string): Promise<Report[]>;
-  /** The owner's review page: true when this account has the `admin` claim. */
+  /** The owner's review page: true for the owner's account (or one with the `admin` claim). */
   isAdmin(): Promise<boolean>;
   /** Every report, newest first (admin only). */
   listReports(): Promise<Report[]>;

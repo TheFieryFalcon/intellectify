@@ -675,7 +675,7 @@ Tutorials (§3.2) go through the same pipeline:
 ### 11.5 Error reports (implemented)
 1. **Report error** sits next to Share on every question (practice, quizzes, Challenges, daily, revision, shared problems, the Questions page) and at the end of every tutorial. It opens a dialog with one field, *What's wrong?* (up to 2,000 characters).
 2. The report goes straight to Firestore `reports/{id}`: course, question or tutorial ID, the exact variant and words the student saw, the question's tier, the note, the student's name and uid, and status `open`. Rules let students create their own reports and read them back, nothing else.
-3. **The owner reviews** at `/admin/reports` (linked from Settings for the owner's account, which carries the Firebase `admin` custom claim). Each report links to the exact problem it describes (a share link, §15.4c) or the tutorial. **Confirm** or **Dismiss**; either can be reopened.
+3. **The owner reviews** at `/admin/reports` (linked from Settings for the owner's account, named by its uid in `firestore.rules` and `OWNER_UIDS`; an `admin` custom claim also works, for moderators later). Each report links to the exact problem it describes (a share link, §15.4c) or the tutorial. **Confirm** or **Dismiss**; either can be reopened.
 4. Fixes ship in the next content release; nothing is hidden automatically. No server function, model call or GitHub token is involved.
 5. **Rewards:** the next time a reporter opens the course (once per session), each newly confirmed report earns 50 XP and counts toward Spot the Flaw (P18) and, on a Tier 5 or 6 question, Counterexample (D21).
 

@@ -18,6 +18,7 @@ import {
 } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, updateDoc, where, writeBatch } from "firebase/firestore";
 import { mergeAchievements, mergeProfile, mergeProgress } from "../claim";
+import { OWNER_UIDS } from "./context";
 import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type Report, type StoredSkillState, type ThreadSummary, type User } from "./types";
 
 export interface FirebaseConfig {
@@ -265,7 +266,8 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       return snap.docs.map((d) => ({ ...(d.data() as Omit<Report, "id">), id: d.id }));
     },
     async isAdmin() {
-      return !!auth.currentUser && (await auth.currentUser.getIdTokenResult()).claims.admin === true;
+      const u = auth.currentUser;
+      return !!u && (OWNER_UIDS.includes(u.uid) || (await u.getIdTokenResult()).claims.admin === true);
     },
     async listReports() {
       const snap = await getDocs(query(collection(db, "reports"), orderBy("at", "desc"), limit(500)));
