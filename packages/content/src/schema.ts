@@ -65,6 +65,7 @@ const formRule = z.enum([
   "polar",
   "exponential",
   "constant-of-integration",
+  "single-integral",
 ]);
 const varSpec = z.object({
   domain: z.tuple([z.number(), z.number()]).optional(),
@@ -72,6 +73,7 @@ const varSpec = z.object({
   complex: z.boolean().optional(),
 });
 const vars = z.record(varSpec).optional();
+const element = z.enum(["expression", "equation", "point"]);
 const common = { form: z.array(formRule).optional(), tolerance: z.number().positive().optional() };
 
 export const AnswerSpec = z.discriminatedUnion("type", [
@@ -80,8 +82,19 @@ export const AnswerSpec = z.discriminatedUnion("type", [
   z.object({ type: z.literal("equation"), key: z.string(), vars, samples: z.number().int().positive().optional(), ...common }),
   z.object({ type: z.literal("vector"), key: z.array(z.string()).min(2).max(3), vars, ...common }),
   z.object({ type: z.literal("matrix"), key: z.array(z.array(z.string()).min(1)).min(1), vars, ...common }),
-  z.object({ type: z.literal("set"), key: z.array(z.string()).min(1), vars, element: z.enum(["expression", "equation"]).optional(), ...common }),
-  z.object({ type: z.literal("list"), key: z.array(z.string()).min(1), vars, element: z.enum(["expression", "equation"]).optional(), ...common }),
+  z.object({ type: z.literal("set"), key: z.array(z.string()).min(1), vars, element: element.optional(), ...common }),
+  z.object({ type: z.literal("list"), key: z.array(z.string()).min(1), vars, element: element.optional(), ...common }),
+  /** A set of reals: interval notation or inequalities in `variable` (SPEC §7.1). */
+  z.object({ type: z.literal("interval"), key: z.string(), variable: z.string().optional(), notation: z.enum(["interval", "inequality"]).optional(), ...common }),
+  /** A complex number: value plus form; polar and exponential answers need r > 0 and −π < θ ≤ π unless `principal: false`. */
+  z.object({ type: z.literal("complex"), key: z.string(), principal: z.boolean().optional(), ...common }),
+  /** Feature entry (SPEC §7.1): a graph's features, each a set of equations, points or values; an empty key is "None". */
+  z.object({
+    type: z.literal("features"),
+    features: z
+      .array(z.object({ id: z.string(), label: z.string(), element, key: z.array(z.string()), vars, tolerance: z.number().positive().optional() }))
+      .min(1),
+  }),
   z.object({ type: z.literal("mcq"), key: z.string() }),
   z.object({ type: z.literal("multi-select"), key: z.array(z.string()).min(1) }),
 ]);

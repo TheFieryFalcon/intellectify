@@ -60,11 +60,11 @@ for (const line of lines) {
   const spec = { ...part.answer, form: undefined } as AnswerSpec;
   let given: string | string[];
   if (line.kind === "choice") given = String(line.value);
-  else if (line.kind === "list") given = spec.type === "vector" ? `\\left(${(line.value as string[]).join(",")}\\right)` : (line.value as string[]).join(",");
+  else if (line.kind === "list") given = spec.type === "vector" ? `\\left(${(line.value as string[]).join(",")}\\right)` : (line.value as string[]).join(spec.type === "features" ? "\n" : ",");
   else given = String(line.value);
   try {
     const verdict = checkAnswer(spec, given);
-    if (!verdict.correct) errors.push(`${where} part ${part.id}: SymPy says ${JSON.stringify(given)}, which doesn't match the key ${JSON.stringify(part.answer.key)} (${verdict.message})`);
+    if (!verdict.correct) errors.push(`${where} part ${part.id}: SymPy says ${JSON.stringify(given)}, which doesn't match the key ${JSON.stringify("key" in part.answer ? part.answer.key : part.answer.features.map((f) => f.key))} (${verdict.message})`);
   } catch (err) {
     errors.push(`${where} part ${part.id}: couldn't compare (${(err as Error).message})`);
   }

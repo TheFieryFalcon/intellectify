@@ -169,3 +169,78 @@ describe("multiple choice", () => {
     expect(ok({ type: "multi-select", key: ["a", "c"] }, ["a"])).toBe(false);
   });
 });
+
+describe("intervals", () => {
+  const spec: AnswerSpec = { type: "interval", key: "(-\\infty, 2] \\cup (3, 5)" };
+  it("accepts interval notation, MathLive fences and inequalities", () => {
+    expect(ok(spec, "(-\\infty,2]\\cup(3,5)")).toBe(true);
+    expect(ok(spec, "\\left(3,5\\right)\\cup\\left(-\\infty,2\\right]")).toBe(true);
+    expect(ok(spec, "x\\le2\\text{ or }3<x<5")).toBe(true);
+    expect(ok(spec, "(-\\infty,2)\\cup(3,5)")).toBe(false);
+    expect(ok(spec, "(-\\infty,2]\\cup[3,5)")).toBe(false);
+  });
+  it("merges touching pieces and reads ℝ and ∅", () => {
+    expect(ok({ type: "interval", key: "[1, 4]" }, "[1,2)\\cup[2,4]")).toBe(true);
+    expect(ok({ type: "interval", key: "\\mathbb{R}" }, "(-\\infty,\\infty)")).toBe(true);
+    expect(ok({ type: "interval", key: "\\varnothing" }, "\\emptyset")).toBe(true);
+  });
+  it("evaluates endpoints and explains bad intervals", () => {
+    expect(ok({ type: "interval", key: "[-\\frac{\\pi}{2}, \\frac{\\pi}{2}]" }, "[-\\frac{\\pi}{2},\\frac{\\pi}{2}]")).toBe(true);
+    expect(checkAnswer(spec, "(-\\infty,2]\\cup(5,3)")).toMatchObject({ reason: "unreadable" });
+    expect(checkAnswer(spec, "[-\\infty,2]")).toMatchObject({ message: "∞ is never included: use a round bracket." });
+  });
+  it("can require one notation", () => {
+    expect(reason({ ...spec, notation: "interval" }, "x\\le2\\text{ or }3<x<5")).toBe("form");
+    expect(ok({ type: "interval", key: "[-2, 3)", variable: "t", notation: "inequality" }, "-2\\le t<3")).toBe(true);
+  });
+});
+
+describe("complex type", () => {
+  it("checks the value and the form", () => {
+    const spec: AnswerSpec = { type: "complex", key: "1+\\sqrt{3}i", form: ["polar"] };
+    expect(ok(spec, "2\\operatorname{cis}\\left(\\frac{\\pi}{3}\\right)")).toBe(true);
+    expect(reason(spec, "1+\\sqrt{3}i")).toBe("form");
+  });
+  it("needs a positive modulus and the principal argument", () => {
+    const spec: AnswerSpec = { type: "complex", key: "-1-\\sqrt{3}i", form: ["polar"] };
+    expect(ok(spec, "2\\operatorname{cis}\\left(-\\frac{2\\pi}{3}\\right)")).toBe(true);
+    expect(checkAnswer(spec, "2\\operatorname{cis}\\left(\\frac{4\\pi}{3}\\right)")).toMatchObject({ message: "Use the principal argument, −π < θ ≤ π." });
+    expect(checkAnswer(spec, "-2\\operatorname{cis}\\left(\\frac{\\pi}{3}\\right)")).toMatchObject({ message: "The modulus r must be positive." });
+    expect(ok({ type: "complex", key: "-2", form: ["exponential"] }, "2e^{i\\pi}")).toBe(true);
+    expect(ok({ ...spec, principal: false }, "2\\operatorname{cis}\\left(\\frac{4\\pi}{3}\\right)")).toBe(true);
+  });
+});
+
+describe("feature entry", () => {
+  const spec: AnswerSpec = {
+    type: "features",
+    features: [
+      { id: "va", label: "Vertical asymptotes", element: "equation", key: ["x=1", "x=-1"] },
+      { id: "ha", label: "Horizontal asymptote", element: "equation", key: ["y=0"] },
+      { id: "yi", label: "y-intercept", element: "point", key: ["(0,-1)"] },
+      { id: "tp", label: "Turning points", element: "point", key: [] },
+    ],
+  };
+  it("checks every feature, in any order, with None for an empty one", () => {
+    expect(ok(spec, ["x=-1, x=1", "y=0", "(0,-1)", "none"])).toBe(true);
+    expect(ok(spec, "x=-1, x=1\ny=0\n(0,-1)\n\\text{none}")).toBe(true);
+    expect(ok(spec, ["x=1", "y=0", "(0,-1)", "none"])).toBe(false);
+    expect(ok(spec, ["x=-1, x=1", "y=0", "(0,-1)", "(0,-1)"])).toBe(false);
+    expect(ok(spec, ["x=-1, x=1", "none", "(0,-1)", "none"])).toBe(false);
+  });
+  it("matches sets of points", async () => {
+    const { checkFeatures } = await import("../src/index.js");
+    const f = { id: "x", label: "x-intercepts", element: "point" as const, key: ["(-2, 0)", "(2, 0)"] };
+    expect(checkFeatures([f], ["(2,0),(-2,0)"])).toEqual([true]);
+    expect(checkFeatures([f], ["(2,0)"])).toEqual([false]);
+  });
+});
+
+describe("integrals", () => {
+  it("evaluates definite integrals and checks single-integral form", () => {
+    const spec: AnswerSpec = { type: "expression", key: "\\int_{0}^{2} x^2+1\\,dx", form: ["single-integral"] };
+    expect(ok(spec, "\\int_0^2(x^2+1)dx")).toBe(true);
+    expect(ok(spec, "\\int_0^1 x^2+1\\,dx+\\int_1^2 x^2+1\\,dx")).toBe(false);
+    expect(ok({ type: "numeric", key: "\\frac{14}{3}" }, "\\int_0^2 x^2+1\\,dx")).toBe(true);
+  });
+});

@@ -35,6 +35,10 @@
         .split(",")
         .map((id) => part.options?.find((o) => o.id === id)?.text ?? id)
         .join("; ");
+    if (part.answer?.type === "features") {
+      const lines = given.split("\n");
+      return part.answer.features.map((f, j) => `${f.label}: ${lines[j] === "none" || !lines[j] ? "None" : "$" + lines[j] + "$"}`).join("  \n");
+    }
     return "$" + given + "$";
   }
 </script>

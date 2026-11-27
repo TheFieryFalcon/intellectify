@@ -398,6 +398,11 @@ function keyAsLatex(spec: Exclude<QuestionT["parts"][number]["answer"], undefine
     case "set":
     case "list":
       return spec.key.join(",");
+    case "interval":
+    case "complex":
+      return spec.key;
+    case "features":
+      return spec.features.map((f) => (f.key.length ? f.key.join(",") : "none")).join("\n");
     default:
       return "";
   }
