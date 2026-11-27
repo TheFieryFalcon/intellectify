@@ -262,6 +262,11 @@ export interface Backend {
   setDisplayName(user: User, name: string): Promise<void>;
   /** Add XP to the profile. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
+  /**
+   * Record name, email and "last seen" on the profile. Called only after the profile has loaded: written at
+   * sign-in, the same moment as the load, it let Firestore answer the load with just these few fields.
+   */
+  markSeen(user: User): Promise<void>;
   /** Save the daily-problem record. */
   saveDaily(user: User, daily: DailyRecord): Promise<void>;
   /**

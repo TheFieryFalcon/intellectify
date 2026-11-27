@@ -85,11 +85,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
   });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
-  onAuthStateChanged(auth, (u) => {
-    emit(u);
-    // Keep a small profile document (name, email, last seen) for profiles and leaderboards.
-    if (u) void setDoc(doc(db, "users", u.uid), { displayName: toUser(u).displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true }).catch(() => {});
-  });
+  // Emit only once Firebase knows who is signed in: before that, currentUser is null even for a signed-in
+  // student, and treating that as "signed out" sent them to the login page mid-load.
+  onAuthStateChanged(auth, (u) => emit(u));
 
   /** Everything an anonymous account holds, read while still signed in to it (SPEC §2.1a). */
   async function exportAccount(uid: string) {
@@ -120,7 +118,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     kind: "firebase",
     onUser(cb) {
       listeners.add(cb);
-      if (auth.currentUser !== undefined) cb(auth.currentUser ? toUser(auth.currentUser) : null);
+      void auth.authStateReady().then(() => {
+        if (listeners.has(cb)) cb(auth.currentUser ? toUser(auth.currentUser) : null);
+      });
       return () => listeners.delete(cb);
     },
     async signInWithGoogle() {
@@ -225,6 +225,10 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       if (grant.visitDay) own.lastVisitDay = grant.visitDay;
       batch.set(doc(db, "users", u.uid), own, { merge: true });
       await batch.commit();
+    },
+    async markSeen(u) {
+      // Keep a small profile document (name, email, last seen) for profiles and leaderboards.
+      await setDoc(doc(db, "users", u.uid), { displayName: u.displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true });
     },
     async saveDaily(u, daily) {
       await setDoc(doc(db, "users", u.uid), { daily }, { merge: true });

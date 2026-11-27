@@ -103,6 +103,9 @@ export function createLocalBackend(): Backend {
       if (grant.visitDay) p.lastVisitDay = grant.visitDay;
       write(profileKey(u.uid), p);
     },
+    async markSeen() {
+      /* nothing to record in local mode */
+    },
     async saveDaily(u, daily) {
       write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), daily });
     },
