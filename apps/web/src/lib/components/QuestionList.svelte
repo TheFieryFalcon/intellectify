@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * A list of questions (SPEC §15.3a): tier, name, type and tags, with the question and its solution a
+   * A list of questions (SPEC §16.3a): tier, name, type and tags, with the question and its solution a
    * click away. Used by a skill's Questions tab and the course's Questions page.
    */
   import Markdown from "./Markdown.svelte";

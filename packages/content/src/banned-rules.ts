@@ -1,5 +1,5 @@
 /**
- * Write content/banned-words.txt into firestore.rules (SPEC §13.2), between the BANNED-WORDS markers,
+ * Write content/banned-words.txt into firestore.rules (SPEC §14.2), between the BANNED-WORDS markers,
  * using the same pattern as the app (src/moderation.ts).
  *   pnpm moderation
  */

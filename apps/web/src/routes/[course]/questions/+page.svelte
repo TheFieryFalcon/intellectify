@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Every question in the course (SPEC §15.3a): filter, sort and group, with solutions a click away.
+   * Every question in the course (SPEC §16.3a): filter, sort and group, with solutions a click away.
    * Filters live in the URL, so a view can be bookmarked or shared.
    */
   import { goto } from "$app/navigation";

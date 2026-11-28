@@ -211,7 +211,7 @@ export function onAppeal(prev: AchievementStats, e: { before: number; after: num
   return s;
 }
 
-/** A post or comment in a discussion thread (SPEC §13). */
+/** A post or comment in a discussion thread (SPEC §14). */
 export function onPost(prev: AchievementStats, threadKey: string): AchievementStats {
   const s: AchievementStats = structuredClone(prev);
   if (!s.discussed.includes(threadKey)) s.discussed = [...s.discussed, threadKey].slice(-1000);

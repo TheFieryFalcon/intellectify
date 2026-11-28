@@ -1,7 +1,7 @@
 <script lang="ts">
   import { checkGate, gateReady } from "$lib/gate.svelte";
   /**
-   * One question: stem, parts and answer inputs, with attempts per part (SPEC §15.4).
+   * One question: stem, parts and answer inputs, with attempts per part (SPEC §16.4).
    * Calls `onresolve` once every part is solved, out of attempts, or given up.
    */
   import { maxAttempts, tierOf } from "@intellectify/engine";

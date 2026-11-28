@@ -40,7 +40,7 @@
     }
   }
 
-  /** Handwriting pad (SPEC §7.2, §15.5): on unless turned off, per browser. */
+  /** Handwriting pad (SPEC §7.2, §16.5): on unless turned off, per browser. */
   let stylus = $state(stylusOn());
   const handwritingOut = quotaOut();
 

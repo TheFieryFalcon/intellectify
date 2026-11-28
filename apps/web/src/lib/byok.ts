@@ -52,7 +52,7 @@ export function saveEffort(p: MarkProvider, level: number) {
 }
 
 /**
- * Check a key with the provider's cheapest call, listing models (SPEC §15.5: test-key button). Nothing
+ * Check a key with the provider's cheapest call, listing models (SPEC §16.5: test-key button). Nothing
  * is marked and nothing is charged. Returns "ok", "refused" (bad key) or "unreachable".
  */
 export async function testKey(byok: Byok): Promise<"ok" | "refused" | "unreachable"> {

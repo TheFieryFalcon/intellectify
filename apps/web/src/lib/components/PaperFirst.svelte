@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** The "Paper first" label (SPEC §15.4). */
+  /** The "Paper first" label (SPEC §16.4). */
 </script>
 
 <span class="paper" title="Work it out on paper, then enter your answer here">

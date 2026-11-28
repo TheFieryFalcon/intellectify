@@ -29,7 +29,7 @@ Questions run from pure retrieval (Tier 1) to problems significantly harder than
 - Spaced repetition, rating decay, retention mechanics. Once earned, a rating only changes through further practice.
 - Hints. The design follows Alcumus: no hints, and the full worked solution is shown after the question is resolved.
 - Recommendations ("what to do next"). The student always chooses.
-- Native mobile apps. These come only after all four courses are done (see §17).
+- Native mobile apps. These come only after all four courses are done (see §18).
 - Mathematics Applications. It is not planned.
 - Empirical difficulty calibration from attempt data. Question ratings are author-set for now.
 - Privacy hardening of LLM calls. Not a concern for the current small, known group; revisit before any wider release.
@@ -69,7 +69,7 @@ Course (e.g. Mathematics Specialist)
 ```
 
 - **Skills are clustered dot points.** Each skill lists the syllabus content descriptors it covers, e.g. `["1.1.3", "1.1.4"]`.
-- **Subsections (implemented).** Each skill also lists its **subsections**: the specific points it covers, named in words ("Pascal's rule", "Relative velocity"), never by dot-point number. Usually 3–8 per skill, in teaching order, in the curriculum file (`subsections:`). **Every question names exactly one** subsection of its primary skill (`subsection:`); the build rejects a question without one, a name the skill doesn't list, or a subsection named by a number, and warns when a subsection has no practice questions. Subsections are a filter everywhere questions are filtered (§8.5a, §15.3a, §15.4b); they don't affect θ, ranks or selection.
+- **Subsections (implemented).** Each skill also lists its **subsections**: the specific points it covers, named in words ("Pascal's rule", "Relative velocity"), never by dot-point number. Usually 3–8 per skill, in teaching order, in the curriculum file (`subsections:`). **Every question names exactly one** subsection of its primary skill (`subsection:`); the build rejects a question without one, a name the skill doesn't list, or a subsection named by a number, and warns when a subsection has no practice questions. Subsections are a filter everywhere questions are filtered (§8.5a, §16.3a, §16.4b); they don't affect θ, ranks or selection.
 - **Prerequisites form a DAG.** Each skill has a home in the hierarchy but may list prerequisite skills anywhere, **including in other courses**. For example, Specialist integration techniques depend on Methods calculus skills, even before Methods is launched. Prerequisites are **suggestions, not requirements**:
   - They are drawn as edges in the tree and listed on the skill page as "Suggested first".
   - Every skill can be opened and practiced at any time, whatever the student's ranks elsewhere. There are no locks, no gates and no warnings.
@@ -133,7 +133,7 @@ Every skill has a tutorial. Together the tutorials do the job of a very good WA 
 - Length budget: about **250–700 words of prose** per tutorial, not counting worked examples, formulas and diagrams. The build warns above 700 and fails above 1000.
 - Prefer a formula, a table or a diagram over a paragraph when it says the same thing.
 - Don't re-teach a suggested prerequisite. Link to that skill's tutorial instead.
-- **No metadata in the body** (§15.1). The tutorial page shows the skill's dot points and prerequisites as a metadata row built from the curriculum; the Markdown starts at "Key ideas". The build rejects anything before it.
+- **No metadata in the body** (§16.1). The tutorial page shows the skill's dot points and prerequisites as a metadata row built from the curriculum; the Markdown starts at "Key ideas". The build rejects anything before it.
 
 **Every technical term is explained**
 - Each technical term or symbol is defined at first use: **bold** term, then a one-line plain-English definition, plus notation if any (e.g. **permutation**: an ordered arrangement; ${}^nP_r$).
@@ -386,7 +386,7 @@ An endless adaptive stream for one skill (§5.7).
 ### 8.3 Unit quiz
 - **15 questions**, fixed mix: 2×T1, 4×T2, 6×T3, 3×T4, drawn across the unit.
 - Both quiz mixes are **config-driven**. Questions are spread round-robin across the skills, falling back to the nearest tier when a tier runs short, and served easiest first. After each question the solution is shown.
-- Section quiz, unit quiz and Section Challenge are reached from the map, not from skill pages (§15.3). Each section's quiz (a checklist tile) and Challenge (a summit tile, showing the best result) sit at the foot of the section. Each unit's quiz (a star badge) sits below the unit.
+- Section quiz, unit quiz and Section Challenge are reached from the map, not from skill pages (§16.3). Each section's quiz (a checklist tile) and Challenge (a summit tile, showing the best result) sit at the foot of the section. Each unit's quiz (a star badge) sits below the unit.
 
 ### 8.4 Section Challenge
 - A **fixed, authored sequence of 10–15 problems** per section; the count scales with section size (its dot points, clamped to 10–15). There is no pool and no random picking: every student meets the same problems in the same order.
@@ -417,11 +417,11 @@ An endless adaptive stream for one skill (§5.7).
 - **One per year group (implemented):** a Year 11 and a Year 12 problem each day, each targeting **the block its year group has just learnt**. Course outlines live in `content/schedules/<course>-y<yearGroup>-<year>.yaml` as blocks of school weeks ("T2 W2" to "T2 W4") and dot points; the build maps dot points to skills and checks them. The school week for a Perth date comes from the calendar files (§8.6), or for a year without one, from the WA rule (Term 1 from the Monday of 1–4 Feb, else the Wednesday of 31 Jan–3 Feb; 10-week terms with 2-week breaks; Early Easter makes Term 1 nine weeks and Term 2 eleven; engine `calendar.ts`, ported from the owner's Connectify). The target is the latest block that has started; in the holidays, the last one before them; in January, the end of the previous year. If that block has no questions yet, the nearest earlier block with questions stands in (labeled "latest with questions"). A year group without an outline revises everything that has questions. A year without its own outline reuses the latest one.
 - The pick is deterministic from the Perth date, course and year group (seeded hash), so it's the same for everyone with no server; its variant and words are seeded the same way. If the day's tier has no question in the target, the nearest tier stands in (lower first). Students default to their year group (from onboarding) and can switch.
 - Normal attempt rules for its tier. It updates θ like any other problem.
-- It has a **discussion thread** that is open the whole time (§13.1). The thread isn't linked from the problem screen; students find it through Discussions.
+- It has a **discussion thread** that is open the whole time (§14.1). The thread isn't linked from the problem screen; students find it through Discussions.
 - A **daily streak** (consecutive days solved) feeds a leaderboard. A daily problem is solved with any credit on an auto-marked question, or at the 60% pass mark on a written one (when its mark arrives). One attempt per day per year group; afterwards the page shows the question and solution. The streak lives on the profile and is mirrored to the public profile (`dailyStreak`, `dailyBest`).
 
 ### 8.5a Revision
-Reached from the **Revision** tile above the map (outside the skill tree). Questions come from every pool (practice, quizzes, Challenges) through the question index (§15.3a). Normal attempt rules; answers update θ, XP and achievements like practice, and written answers are marked as usual. A session runs until the student stops, showing questions done and the average score; **Skip** moves on without recording anything.
+Reached from the **Revision** tile above the map (outside the skill tree). Questions come from every pool (practice, quizzes, Challenges) through the question index (§16.3a). Normal attempt rules; answers update θ, XP and achievements like practice, and written answers are marked as usual. A session runs until the student stops, showing questions done and the average score; **Skip** moves on without recording anything.
 - **Exam revision.** **Easy**: Tiers 2 and 3. **Hard**: Tiers 3 and 4. A fair coin picks the tier of each question (the other tier if one runs dry), so the mix is half and half. Scope: the whole course, a unit, a section, a skill or one of its subsections (§3); type: any, auto-marked or written. Questions that need a later unit are left out.
 - **Custom revision.** Any set of tiers (none = any), type, and tags (response skills; a question matches if it has any picked tag), over the whole course, a unit, a section, a skill or one of its subsections, optionally including questions that need later units. The setup page shows how many questions match.
 - Within a session no question repeats until the mix runs out, and questions the student has never answered come first.
@@ -670,7 +670,7 @@ Tutorials (§3.1) are reviewed by the owner, with a deliberate pass for concisio
 ### 11.4 Error reports (implemented)
 1. **Report error** sits next to Share on every question (practice, quizzes, Challenges, daily, revision, shared problems, the Questions page) and at the end of every tutorial. It opens a dialog with one field, *What's wrong?* (up to 2,000 characters).
 2. The report goes straight to Firestore `reports/{id}`: course, question or tutorial ID, the exact variant and words the student saw, the question's tier, the note, the student's name and uid, and status `open`. Rules let students create their own reports and read them back, nothing else.
-3. **The owner reviews** at `/admin/reports` (linked from Settings for the owner's account, named by its uid in `firestore.rules` and `OWNER_UIDS`; an `admin` custom claim also works, for moderators later). Each report links to the exact problem it describes (a share link, §15.4c) or the tutorial. **Confirm** or **Dismiss**; either can be reopened.
+3. **The owner reviews** at `/admin/reports` (linked from Settings for the owner's account, named by its uid in `firestore.rules` and `OWNER_UIDS`; an `admin` custom claim also works, for moderators later). Each report links to the exact problem it describes (a share link, §16.4c) or the tutorial. **Confirm** or **Dismiss**; either can be reopened.
 4. Fixes ship in the next content release; nothing is hidden automatically. No server function, model call or GitHub token is involved.
 5. **Rewards:** the next time a reporter opens the course (once per session), each newly confirmed report earns 50 XP and counts toward Spot the Flaw (P18) and, on a Tier 5 or 6 question, Counterexample (D21).
 
@@ -855,8 +855,9 @@ Group-wide boards:
 - monthly Tier 6 scores, per course and year group;
 - problems done: total, this week, today;
 - **XP and global level** (§12.4): all time, this month and this week;
-- **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
-- Race personal bests (§14.5).
+- **Elo per game mode** (§15.7): Frontline, Divide, Draft, Exam Board and Race;
+- Race personal bests (§15.5);
+- cards collected (§13.7).
 
 **Implementation (Phase 1).** Each student has one `publicProfiles/{uid}` document holding everything the boards and profile pages show: display name, XP, activity counters (problems total, today and this week; XP this week and this month, by Perth day, Monday-start week and month), daily streak (current, best, last solved), earned achievement ids and points per course, and per course the course rank and θ, started skills' and response skills' rank and θ, and the roll-up ranks.
 - **Writes:** changes collect in the browser and are saved together 15 seconds after the last one (and when the page is hidden), in one batch with the private counters on `users/{uid}`. A run of answers costs one write, not one per answer. Each course is also refreshed once per tab session when its map opens, so older progress appears. Anonymous test accounts stay off the mirror.
@@ -869,7 +870,7 @@ A public profile shows:
 - course ranks, plus the tech tree as a read-only view;
 - response-skill ranks;
 - achievements, earned and secret;
-- Elo per game mode, current and peak (§14.7);
+- Elo per game mode, current and peak (§15.7);
 - leaderboard positions.
 
 Phase 1: `/profile/<uid>` (the name in the header links to your own) shows name, level, tier and XP; problems, daily streak and achievement points; position on every board; per course the course rank, response-skill ranks and the tech tree read-only (under **Tech tree**); and earned achievements, secret ones marked. Elo arrives in Phase 3.
@@ -937,13 +938,320 @@ One account-wide **level**, earned with **XP** from almost everything a student 
   From Ruby up, the level number and progress bar also take on the tier's material. All motion respects reduced-motion settings. A preview of every tier is at `/dev/tiers`.
 - XP has its own **leaderboard** (§12.2): all time, this month and this week.
 
-**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards (§12.2: batched, not per answer). Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
+**Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards (§12.2: batched, not per answer). Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§19). Competitive XP is awarded by Netlify Functions.
 
 ---
 
-## 13. Social
+## 13. Lemmas, theorems and packs (planned)
 
-### 13.1 Solution discussions
+A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it (plus passive **Research** from institutes) and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
+
+**Rules** (all follow from §1.2 and §12.4)
+- **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, starts slow and grows into a real alternative. Around 200 hours in, a day of Research earns about what an hour of practice does. By 400 hours a day of it is worth about 30 hours of practice, and Conjectures keep it growing long after that. Practice also speeds Research up directly, through the **Time Warp**.
+- **Never touches learning.** Nothing bought, won or collected changes θ, ranks, gates, marking or question selection, and nothing gives hints.
+- **Nothing decays, expires or needs collecting.** Research has no cap and no collect button, so being away never loses anything and coming back at a set time never gains anything. There are no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it.
+- **Nothing steers the student.** No upgrade pays more for one skill, section or unit than another.
+- **No real money.** Lemmas, packs and cosmetics are never sold, and can't be traded or cashed out.
+- **Can be hidden.** **Settings › Show rewards** off hides Lemma counts, pack prompts and the result-panel line. Earnings still accrue.
+
+### 13.1 Lemmas (∴)
+- **Base:** each XP award also pays the same number of Lemmas, before multipliers: Lemmas = (XP + flat bonuses) × source multiplier × global multiplier.
+- **Shown** next to the level badge in the header and as **+48 ∴** in the result panel (§6.1). The icon is labeled "Lemmas" for screen readers.
+- **SI notation, never scientific notation:**
+  - Below 1,000, amounts show in full: **850 ∴**, "850 lemmas".
+  - From 1,000 up they take an SI prefix, with three significant figures: **100 kilolemmas**, **4.56 megalemmas**, **12.3 gigalemmas**.
+  - Where space is tight (header, result panel, buttons), the short form is used: **100 k∴**, **4.56 M∴**.
+  - Prefixes run kilo (k, 10³), mega (M), giga (G), tera (T), peta (P), exa (E), zetta (Z), yotta (Y), ronna (R), quetta (Q, 10³⁰). Past that the number keeps growing in quettalemmas.
+
+### 13.2 Theorems (the upgrade tree)
+Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × growth^n**. They form a small dependency graph (the *proof tree*), drawn like the tech tree; a theorem unlocks once its prerequisites are proven.
+
+| Theorem | Boosts | Per level | Base cost | Growth | Requires |
+|---|---|---|---|---|---|
+| Successor Function | Resolved questions | +2 ∴ flat per question | 50 | 1.15 | — |
+| Distributive Law | Quiz, unit quiz and Challenge bonuses | +10% | 200 | 1.15 | Successor Function 5 |
+| Geometric Series | Daily problem | +1% × (1 + r + r² + … + r^(k−1)), r = 0.95, k = days solved ever (approaches +20%) | 300 | 1.15 | Successor Function 5 |
+| Intermediate Value Theorem | Rank-ups (skills and response skills) | +15% | 400 | 1.15 | Distributive Law 3 |
+| Euler's Identity | Achievements | +15% | 500 | 1.15 | Intermediate Value Theorem 3 |
+| Binomial Theorem | Games (Phase 3; "Not available yet" until then) | +10% | 500 | 1.15 | Distributive Law 3 |
+| Harmonic Series | All active sources | +0.5% × Hₙ, n = questions resolved ever | 1,000 | 1.2 | Geometric Series 5 |
+| Pigeonhole Principle | Duplicate cards | +25% Lemmas per duplicate | 300 | 1.15 | — |
+| Law of Large Numbers | Packs | Diamond pity guarantee comes 2 packs sooner (max level 5) | 2,000 | 2 | Pigeonhole Principle 5 |
+| Golden Ratio | All sources | +6.18% | 5,000 | φ ≈ 1.618 | Harmonic Series 10 |
+| Recurrence Relation | Research | +10% | 1,000 | 1.3 | Pigeonhole Principle 3 |
+
+- Geometric Series and Harmonic Series grow with **counts that only go up** (days solved, questions resolved), so their bonuses never fall back.
+- Each theorem's card shows its statement in one line of maths (e.g. Hₙ = 1 + ½ + ⅓ + … + 1/n), as flavor and as a tiny bit of learning.
+
+### 13.3 Research (passive)
+Research comes from **institutes**: one per era, bought with Lemmas and staffed by that era's cards. Like theorems, the (n + 1)th copy of an institute costs **base × 1.15ⁿ**. Each institute unlocks once one of the one before it is built.
+
+| Institute | Era | Base cost | Output per copy (∴/day) |
+|---|---|---|---|
+| Academy | Antiquity | 2 k | 2.5 |
+| House of Wisdom | Golden Age | 30 k | 20 |
+| Observatory | Renaissance | 450 k | 160 |
+| Learned Society | Enlightenment | 6.75 M | 1.28 k |
+| Polytechnic | Steam Age | 101 M | 10.2 k |
+| Research Institute | Machine Age | 1.52 G | 81.9 k |
+| Particle Accelerator | Space Age | 22.8 G | 655 k |
+
+- **Cards staff their era's institute.** Each collected card adds to that institute's output: Silver +2%, Gold +5%, Platinum +10%, Diamond +25%. A foil card doubles its own boost. A complete set roughly triples its institute's output. An institute whose era isn't released yet works unboosted.
+- **Time Warp.** Every 600 XP earned (about one active hour of practice) instantly credits **12 hours of Research** at the current rate.
+  - It inherits XP's repeat rules and daily caps, so it rewards practice and can't be farmed.
+  - Over a day, Research comes to about (1 + ½ × hours played) days' worth. Students who practice more keep pace in active hours, not just in calendar time.
+  - Shown as a meter on the Lemmas page: **Time Warp · 420 / 600 XP**.
+- **Other boosts:** Conjectures (below), Recurrence Relation, Golden Ratio, corollaries and Axioms all apply to Research. The question-specific theorems (Successor Function, Harmonic Series and so on) don't.
+- **Calibration targets** for the early and middle game, for a typical student who plays about 0.75 hours a day (500 hours over two years, §12.4).
+  - **Ratio:** one day of Research, Time Warp included, ÷ one active hour of practice.
+  - **The simulated student** saves for whatever adds the most Lemmas per Lemma spent. The model is `scripts/economy_sim.py`: run it to print these tables, or with `fit` to refit the Axiom thresholds after changing a value.
+  - **Included:** Axioms, Conjectures and the Time Warp.
+
+  | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms | Conjectures |
+  |---|---|---|---|---|---|
+  | 100 | 5.88 k | 382 | 0.07 | 4 | 0 |
+  | 200 | 9.18 k | 10.8 k | 1.2 | 6 | 0 |
+  | 300 | 14.6 k | 69.9 k | 4.8 | 8 | 0 |
+  | 400 | 21.3 k | 653 k | 31 | 10 | 0 |
+  | 500 | 31.5 k | 17.0 M | 540 | 13 | 1 |
+  | 600 | 73.9 k | 21.5 T | 290 million | 16 | 7 |
+  | 700 | 139 k | 366 T | 2.6 billion | 18 | 9 |
+
+  - **Early game:** practice is how Lemmas are earned.
+  - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
+  - **From about 400 hours:** a day of Research equals about 30 hours of practice, so Lemmas stop being a constraint.
+  - **From about 450 hours:** Conjectures take over. Each one multiplies Research by 2.5 and helps pay for the next, so growth compounds through the large cardinals.
+- **The end goal: Rank-into-Rank after 1.5 years of 1.5 hours a day** (about 820 active hours). The Axiom thresholds are fitted to that student's curve. Every hour figure in this section counts **active hours** (time spent practicing); Research also accrues by calendar day.
+
+  | Play per day | Rank-into-Rank (active hours) | Calendar time |
+  |---|---|---|
+  | 45 minutes | about 655 | 2.4 years |
+  | 1.5 hours | about 820 | 1.5 years |
+  | 3 hours | about 980 | 0.9 years |
+
+  Playing more gets there sooner on the calendar but takes more active hours, because there are fewer days for Research to run. The Time Warp keeps that gap small.
+- **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
+- **Shown** as a chip on the Lemmas page: **Research · 10.8 k∴/day**.
+
+### 13.4 Conjectures (the long-term Research boost)
+Conjectures are famous problems that the student's institutes "prove", one at a time, in order.
+- **Cost:** each is bought with Lemmas. The first costs **50 M**, and each one after costs **10×** the last.
+- **Effect:** each proven Conjecture **multiplies Research by 2.5**, permanently. The multipliers stack (×2.5, ×6.25, ×15.6, …).
+- **Why the numbers work:** costs grow 10× while Research grows only 2.5×, so each Conjecture takes longer to reach than the one before. Growth compounds without running away, and the large cardinals arrive spread out rather than all at once.
+- **Shown:** the Conjectures list shows every entry with its cost, its statement in one plain line, and when and by whom it was really proved. Proven ones carry a **Proved** chip.
+- **The last two are still open problems.** In Intellectify, Research can settle them; in the real world, nobody has. They're the very end of the ladder, after Rank-into-Rank: at 1.5 hours a day, about 1,300 and 2,000 active hours.
+
+| # | Conjecture | Cost | Statement | Really proved |
+|---|---|---|---|---|
+| 1 | Bertrand's Postulate | 50 M | For every n > 1 there's a prime between n and 2n | 1852, Chebyshev |
+| 2 | Prime Number Theorem | 500 M | The number of primes up to x is about x / ln x | 1896, Hadamard and de la Vallée Poussin |
+| 3 | Weil Conjectures | 5 G | Counting solutions of polynomial equations over finite fields obeys a Riemann Hypothesis of its own | 1960–1974, Dwork, Grothendieck and Deligne |
+| 4 | Four Color Theorem | 50 G | Every map can be colored with four colors so no neighbors match | 1976, Appel and Haken |
+| 5 | Mordell Conjecture | 500 G | A curve of genus 2 or more has only finitely many rational points | 1983, Faltings |
+| 6 | Fermat's Last Theorem | 5 T | aⁿ + bⁿ = cⁿ has no positive whole-number solutions for n > 2 | 1994, Wiles (with Taylor) |
+| 7 | Kepler Conjecture | 50 T | No packing of equal spheres is denser than the grocer's stack | 1998, Hales |
+| 8 | Catalan's Conjecture | 500 T | 8 and 9 are the only consecutive perfect powers | 2002, Mihăilescu |
+| 9 | Poincaré Conjecture | 5 P | Every simply connected, closed 3-manifold is a 3-sphere | 2003, Perelman |
+| 10 | Weak Goldbach Conjecture | 50 P | Every odd number greater than 5 is a sum of three primes | 2013, Helfgott |
+| 11 | Riemann Hypothesis | 500 P | Every nontrivial zero of ζ(s) has real part ½ | Open |
+| 12 | P versus NP | 5 E | Is every problem whose answer can be checked quickly also quick to solve? | Open |
+
+### 13.5 Corollaries (free, automatic, permanent)
+Corollaries follow from what a student has already done. They are added together into one global factor.
+- Each achievement earned: +(points ÷ 10)%, so +1% for Platinum and +150% for Antimatter.
+- Each level tier reached (§12.4): +5%.
+- Each completed era set (below): +10%.
+
+### 13.6 Axioms (milestones)
+Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. Spending never takes one away, and nothing resets.
+- **Each Axiom gives:** +5% to all sources (practice and Research) permanently, plus **its own cosmetic**, which can't be bought or found in packs.
+- **Some Axioms also give a title** (see Titles).
+- **Spacing:**
+  - **Fitted to a curve:** thresholds follow the growth curve of a student who plays 1.5 hours a day, so that Rank-into-Rank arrives after 1.5 years.
+  - **The nine ZFC axioms** (10 k to 15 M) spread over the first 400 or so active hours, starting with an early taste about 14 hours in.
+  - **The nine large cardinals** (30 M to 7 P) then arrive about every 30–65 active hours, up to Rank-into-Rank at about 820. Conjectures carry students through them.
+- **Display:** the Lemmas page shows the next Axiom and its progress, e.g. **Union · 640 k / 1 M**.
+- **Statements:** each Axiom's card shows its statement in one plain line, as flavor and a glimpse of set theory.
+- **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 655).
+
+| # | Axiom | At | ≈ Hours | Statement | Cosmetic | Title |
+|---|---|---|---|---|---|---|
+| 1 | Extensionality | 10 k | 14 | Sets with the same elements are equal | **Venn** banner: two circles slide together and become one | — |
+| 2 | Regularity | 30 k | 26 | Every nonempty set has an element disjoint from it, so there's no endless ∈-descent | **Well-Founded** node theme: the tech tree stands on a drawn ground line, with roots under the first skills | — |
+| 3 | Specification | 100 k | 50 | Any definable property carves a subset out of a set | **Set-Builder** keypad skin: keys framed like { x ∣ … }, with a fine sieve texture | — |
+| 4 | Pairing | 300 k | 100 | For any a and b, {a, b} is a set | **Pair** celebration: two sparks spiral together into one | — |
+| 5 | Union | 700 k | 150 | The members of a set's members form a set | **Union** banner: many small sets drift together into one | — |
+| 6 | Replacement | 1.5 M | 215 | The image of a set under a definable function is a set | **Image** celebration: each symbol of the answer maps, one to one, onto a star | — |
+| 7 | Infinity | 3 M | 265 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
+| 8 | Power Set | 7 M | 330 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
+| 9 | Choice | 15 M | 405 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
+| 10 | Inaccessible | 30 M | 455 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
+| 11 | Mahlo | 70 M | 515 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
+| 12 | Weakly Compact | 100 M | 545 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
+| 13 | Measurable | 300 M | 590 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
+| 14 | Strong | 1.5 G | 640 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
+| 15 | Woodin | 50 G | 685 | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
+| 16 | Supercompact | 150 T | 730 | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
+| 17 | Huge | 3 P | 785 | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
+| 18 | Rank-into-Rank | 7 P | 820 | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
+
+### 13.7 Packs and cards
+Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 5 cards from one era.
+
+**Eras.** A person sits in the era of their major work, not their birth.
+
+| Pack | Years | Diamond (proposed) | Other example cards |
+|---|---|---|---|
+| Antiquity Pack | to 500 | Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes | Thales, Zeno of Elea, Democritus, Hippocrates, Eratosthenes, Ptolemy, Diophantus, Hypatia |
+| Golden Age Pack | 500–1400 | Brahmagupta, al-Khwarizmi, Ibn Sina (Avicenna), Fibonacci, Thomas Aquinas | Ibn al-Haytham, Omar Khayyam, Ibn Rushd, Maimonides, William of Ockham |
+| Renaissance Pack | 1400–1650 | Leonardo da Vinci, Copernicus, Galileo, Descartes | Machiavelli, Montaigne, Cardano, Vesalius, Napier, Francis Bacon, Kepler, Fermat |
+| Enlightenment Pack | 1650–1800 | Newton, Leibniz, Euler, Kant | Pascal, Huygens, Hooke, Boyle, Hobbes, Spinoza, Locke, the Bernoullis, Émilie du Châtelet, Hume, Voltaire, Rousseau, Adam Smith, Lagrange, Laplace, Lavoisier |
+| Steam Age Pack | 1800–1880 | Gauss, Darwin, Maxwell, Pasteur, Marx | Fourier, Sophie Germain, Cauchy, Galois, Faraday, Babbage, Ada Lovelace, Boole, Riemann, Hegel, Schopenhauer, Kierkegaard, Mill, Mendel, Florence Nightingale |
+| Machine Age Pack | 1880–1945 | Einstein, Marie Curie, Nietzsche, Freud, Turing | Cantor, Poincaré, Hilbert, Frege, Planck, Rutherford, Bohr, Heisenberg, Schrödinger, Noether, Ramanujan, Russell, Wittgenstein, Gödel, Tesla, Fleming, Florey |
+| Space Age Pack | 1945 on | Feynman, Hawking, Sartre, Deleuze | von Neumann, Shannon, Crick, Rosalind Franklin, Chien-Shiung Wu, Grace Hopper, Erdős, Nash, Grothendieck, Mandelbrot, Conway, Mirzakhani, Simone de Beauvoir, Foucault, Derrida, Popper, Kuhn, Carl Sagan |
+
+**Content rules**
+- Cards live in `content/cards/<era>.yaml`, with: id, name, born and died, era, fields (Mathematics, Physics, Chemistry, Biology, Astronomy, Computing, Medicine, Psychology, Philosophy, …), rarity, portrait (public domain or an original illustration, with its source and license), blurb, related skill ids (optional), and sources.
+- **Only people who have died.** Every set mixes mathematics, science and philosophy.
+- **Notability first.** Every card is someone notable in their own right. No one is added to balance a set by region or any other quota.
+- **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§16.1). Facts cite a source. Quotes are used only when a source shows the person actually said them.
+- **Related skills** show as chips (e.g. Euler → the skill on complex exponential form). These are data, not a suggestion of what to practice.
+- **Set size:** about 24 cards.
+- **Rarity** (the owner's judgment):
+  - **Diamond:** profoundly transformed their field *and* is extremely famous (Einstein, Feynman, Turing, Nietzsche, Deleuze, Maxwell). There's no quota; the count per set follows from who qualifies, usually 3–6.
+  - **Platinum:** transformed their field, and is well known to anyone who studies it.
+  - **Gold:** made a major contribution that lasted.
+  - **Silver:** did notable work that is still taught or cited.
+- **Build checks:** dates, era ranges, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and sources.
+- **Launch:** start with three eras (Antiquity, Enlightenment, Machine Age). The others show as "Not available yet" until their sets are written.
+
+**Getting packs.** Unopened packs have no era. The student picks the era when opening one (any released era).
+
+| Source | Packs |
+|---|---|
+| Reaching a level tier (§12.4), in proportion to the XP since the previous tier (Bronze = 1) | Bronze 1 · Silver 2 · Gold 3 · Platinum 8 · Diamond 12 · Ruby 15 · Tanzanite 40 · Vibranium 54 · Solarium 67 · Antimatter 226 |
+| Finishing a Section Challenge | 1 |
+| Achievement | Platinum 1 · Diamond 2 · Ruby 3 · Tanzanite 5 · Vibranium 8 · Solarium 12 · Antimatter 20 |
+| A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
+| Buy with Lemmas | 1,000 ∴ each, a fixed price |
+
+**Opening**
+- **Odds per card:**
+  - Slots 1–4: Silver 72%, Gold 20%, Platinum 6.5%, Diamond 1.5%.
+  - Slot 5: Gold 70%, Platinum 24%, Diamond 6%.
+  
+  The odds table is always shown on the pack screen.
+- **Pity:** a Diamond is guaranteed by the 25th pack of an era without one (Law of Large Numbers shortens this). The counter is shown, e.g. "Diamond in ≤ 12".
+- **No duplicate Diamonds** until every Diamond in that era has been collected; the roll picks among the missing ones instead.
+- **Duplicates** turn into Lemmas: Silver 20, Gold 60, Platinum 200, Diamond 600 (× Pigeonhole Principle).
+- **Foil:** 1 card in 25 has a foil finish in its rarity's material. A foil copy of a card already held upgrades that card's finish instead of converting.
+- **Rolls are fixed in advance:** each pack's cards come from a seeded hash of the uid, the era and that era's packs-opened count, so reloading can't re-roll a pack. This runs on the client like the rest of practice (§19, risk 4).
+
+**Collection page.** One shelf per era. Uncollected cards show as silhouettes with their name, rarity and fields; the portrait, dates and blurb appear once collected. Completing an era set unlocks that era's **profile frame** (which can't be bought) and its corollary. A profile can **showcase** up to 3 cards.
+
+### 13.8 Cosmetics (Lemma shop)
+Bought at fixed prices, and cosmetic only.
+- **Keypad skins** for the on-screen keypad (§7.2).
+- **Answer celebrations** for correct answers and rank-ups.
+- **Profile banners.**
+- **Tech-tree node themes.**
+
+Frames come only from era sets, Axiom cosmetics only from Axioms, and titles only from achievements and Axioms.
+
+### 13.9 Titles
+- **Every Tanzanite, Vibranium, Solarium and Antimatter achievement unlocks one unique title, and so do six Axioms** (Infinity, Choice, Inaccessible, Measurable, Huge, Rank-into-Rank). Titles can't be bought or dropped, so a title always means its feat.
+- A title unlocks the first time its achievement is earned in any course.
+- **Shown:** one equipped title under the name on profiles, in lobbies and on leaderboards.
+- **Tooltip:** the achievement's name and tier, or the Axiom's name. Secret criteria stay hidden (§12.1).
+- **Data:** in `content/achievements.yaml`, each achievement from Tanzanite up has a `title`. The build checks that every one has a title, that titles are unique, and that no lower tier has one.
+- **Styles:**
+  - **Tanzanite and Vibranium:** text in the tier's color and material, with its gem glyph. These don't move.
+  - **Solarium and Antimatter:** each title has its **own animated effect**, built on the tier visuals of §12.4 (Solarium radiant and gold, Antimatter a void with an iridescent rim).
+  - **Axiom titles:** ink serif small caps with a silver ∈ glyph. Inductive, Well-Ordered, Inaccessible and Measurable don't move.
+    - **Huge** animates: the letters slowly swell a little and settle.
+    - **Edge of Consistency** animates: the title holds a smaller copy of itself, which holds another, zooming in endlessly.
+- **Effects, in practice:**
+  - They run in CSS and SVG only, the title stays real, selectable text, and contrast passes WCAG AA.
+  - On leaderboard rows the effect plays only on hover or focus, so long lists stay calm and cheap. It plays in full on profiles, in lobbies and in the achievement's full-screen celebration.
+  - Reduced motion shows a still frame.
+  - A preview of every title is at `/dev/titles`.
+
+**Tanzanite**
+
+| # | Achievement | Title | Why |
+|---|---|---|---|
+| T1 | Bedrock II | Keystone | The stone that holds the arch up |
+| T2 | Diamond Unit | Unit Vector | A unit, at full magnitude |
+| T3 | Frontier Hundred | Boundary Point | In topology the boundary is also called the frontier |
+| T4 | Hundred Straight | Straightedge | Euclid's tool for drawing straight lines |
+| T5 | Tier Six | Sixth Sense | Tier 6 |
+| T6 | Half-Year | Solstice | 182 days is solstice to solstice |
+| T7 | Unit Sweep | Exhaustive | The method of exhaustion: leave nothing out |
+| T8 | Diamond Mind | Polymath | Every response skill |
+| T9 | Year Diamond | Twin Prime | Two units, both Diamond |
+| T10 | Perfect Year | Perfect Number | Two perfect Unit Quizzes |
+| T11 | Grand Prover | Proofwright | A maker of proofs |
+| T12 | Top of the Month | Supremum | The least upper bound |
+| T13 | 🔒 Grandmaster Opening | Steep Gradient | Diamond in almost no time |
+| T14 | 🔒 Contrapositive | Non Sequitur | Mastery that doesn't follow from its prerequisites |
+| T15 | 🔒 Fractal | Self-Similar | The same rank at every scale |
+| T16 | 🔒 Show Your Working | Worked Example | A solution posted every day |
+
+**Vibranium**
+
+| # | Achievement | Title | Why |
+|---|---|---|---|
+| V1 | Course Diamond | Closure | The whole course, closed |
+| V2 | Ten Thousand | Myriad | Greek for ten thousand |
+| V3 | Frontier Five Hundred | Cartographer | Has mapped the frontier |
+| V4 | Triple Six | Honeycomb | Hexagons divide the plane most efficiently (Hales' honeycomb theorem) |
+| V5 | Orbit | Revolutionary | One full revolution of the Sun |
+| V6 | Two Hundred Straight | Geodesic | The straightest possible path |
+| V7 | Challenge Master | Universal | ∀ Challenges |
+| V8 | Diamond Everywhere | Everywhere Dense | Diamond in every neighborhood of the tree |
+| V9 | 🔒 Flawless Frontier | Measure Zero | Errors: a set of measure zero |
+| V10 | 🔒 Lone Wolf | Unique Solution | The only one who solved it |
+| V11 | 🔒 QED | Tombstone | The ∎ that ends a proof |
+| V12 | 🔒 Unblemished | No Remainder | A hundred questions, divided cleanly |
+| V13 | 🔒 Speed of Thought | Instantaneous | The instantaneous rate of change |
+
+**Solarium** (animated)
+
+| # | Achievement | Title | Effect |
+|---|---|---|---|
+| S1 | Six Suns | Helios | Six small suns orbit the title on a hexagonal path |
+| S2 | Five Hundred Straight | Infinite Ray | A thin beam of light runs through the letters and on past the end, never coming back; a new one starts every few seconds |
+| S3 | Total Mastery | Totality | The title sits in front of a total eclipse: a corona flares around it, with beads of light at its edges |
+| S4 | 🔒 Diamond Hands | Fixed Point | Sun rays turn slowly around a fixed dot beside the title, which stays perfectly still |
+| S5 | 🔒 One Shot | Unit Impulse | A single sharp spike of light (a Dirac delta) rises from the baseline and lights every letter for an instant, then is gone |
+
+**Antimatter** (animated)
+
+| # | Achievement | Title | Effect |
+|---|---|---|---|
+| A1 | Annihilation | Annihilator | Void-black letters with an iridescent rim; a particle and an antiparticle appear at either end, meet in the middle and annihilate in a white flash. (In algebra, an annihilator is the set of elements that send everything to zero.) |
+| A2 | 🔒 Event Horizon | Singularity | The letters bend around a black core at the title's center, as if gravitationally lensed, with a faint accretion ring |
+| A3 | 🔒 Annus Mirabilis | Mirabilis | The letters are windows onto deep space: a starfield drifts inside them and a comet crosses once per cycle |
+
+### 13.10 Storage
+- `users/{uid}/meta/economy` holds:
+  - `lemmasEarned` and `lemmasSpent` (Axioms follow from `lemmasEarned`, so they aren't stored);
+  - `researchCreditedAt`, written as server time (the rules require `request.time`);
+  - theorem levels, institutes built and Conjectures proven;
+  - unopened packs, packs opened per era and pity counters per era;
+  - cards (id → count, foil);
+  - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase.
+- **Balance** = `lemmasEarned − lemmasSpent`.
+- **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§17.2). A purchase raises `lemmasSpent`, so every counter only goes up.
+- **Saving:** changes are saved in the same batched write as XP and the public mirror (§12.2).
+- **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame and showcase, and the number of cards collected. This feeds a **Cards collected** board (§12.2).
+- **Logic:** formulas (earn rates, Research, Conjectures, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, institute, Conjecture, Axiom (thresholds, cosmetics, titles), pack and shop values live in `content/economy.yaml`.
+
+---
+
+## 14. Social
+
+### 14.1 Solution discussions
 - Discussions exist **only for daily and monthly problems**, and each thread is **open and visible the whole time**, including while the problem is live.
 - **Not pushed at students:** problem screens, results and notifications never link to or preview discussions. Students reach them only through the **Discussions** page, which has search by date, problem and text.
 - **Spoilers rely on good faith.** There is no automated spoiler blocking.
@@ -954,30 +1262,30 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 - **Storage:** `discussions/{day}:{course}:{year}` holds the post count, last activity and every post's text (for search, capped at 200,000 characters); its `posts` subcollection holds each post and comment (`parent` names the post a comment is on). Posting is one transaction (the post plus the thread's count and text). The thread list and each thread's posts are read once and kept for two minutes; your own posts update the copies without a re-read.
 - **Safety:** posts are students' own writing, so raw HTML shows as typed, links are limited to safe protocols, and the HTML is sanitized (DOMPurify) before KaTeX output is added. KaTeX runs with `trust: false`.
 
-### 13.2 Moderation
+### 14.2 Moderation
 - A **banned-words list** of identity-based slurs (race, ethnicity, sexuality, gender identity, disability) and purely sexual terms applies to posts, comments and display names, checked client-side and again in Firestore rules. Profanity and general insults are not banned.
 - No other moderation for now, given the small group.
 - **Phase 1 implementation.** The list is `content/banned-words.txt` (one per line; owner-edited). The content build copies it to `/content/banned-words.json` for the app, and `pnpm moderation` writes it into `firestore.rules` as a `clean()` function (whole words, case-insensitive, plus -s/-es/-ed/-ing); deploy the rules after changing it. Matching catches **swapped numbers and symbols** (`5lut`, `f4g`, `s1ut`, `$lut`: a→4 @, b→8, e→3, g→6 9, h→#, i→1 ! | l, l→1 | i, o→0, s→5 $, t→7 +, z→2), repeated letters (`sluuut`) and, in the app, spaced-out letters (`s.l.u.t`). The same pattern (`packages/content/src/moderation.ts`) runs in the app and in the Firestore rules. A word can't start with a swapped-in digit unless a real letter follows, so plain numbers never match (checked against every number below 100,000 and all course text). Posts and comments with a banned word are refused; a display name with one shows as "Student" on the public mirror and is refused at sign-up.
 
 ---
 
-## 14. Competitive play (Phase 3)
+## 15. Competitive play (Phase 3)
 
 Competitive play has one main mode, **Frontline** (2–6 players, territory and capture the flag), and four secondary 1v1 minigames: **Divide**, **Draft**, **Exam Board** and **Race**.
 
-### 14.1 Principles
+### 15.1 Principles
 - **Depth over speed.** Every mode except Race has:
   - a fixed number of questions per player, not a fixed time;
   - a time limit per round or a time bank, never a reward for answering first;
   - simultaneous rounds wherever possible.
 
-  Race is the deliberate exception: a short fluency drill at Tiers 1–2 only (§14.5).
+  Race is the deliberate exception: a short fluency drill at Tiers 1–2 only (§15.5).
 - **Difficulty is a choice, never a dominant one.** Each mode balances tiers through risk, exposure, durability, time cost or position, so no tier is automatically best.
 - **Answers count as practice.**
   - Every competitive answer updates the skill's θ, gates and response skills like normal practice.
   - Competitive questions allow **one attempt**: correct counts as a first-try solve, wrong as outcome 0.
   - The worked solution is shown when the game ends, not mid-game.
-- **Every player has an Elo rating for every game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race. These ratings are separate from skill θ and never touch mastery ranks.
+- **Every player has an Elo rating for every game mode** (§15.7): Frontline, Divide, Draft, Exam Board and Race. These ratings are separate from skill θ and never touch mastery ranks.
 - **Question pool.**
   - Competitive modes draw from **the same question pool as normal practice**. There is no separate competitive bank, so every question written serves both.
   - Auto-marked questions only. Free-response is too slow to mark live.
@@ -990,7 +1298,7 @@ Competitive play has one main mode, **Frontline** (2–6 players, territory and 
   - Race is live only.
 - **Lobbies:** private games joined by invite link or code. No public matchmaking for now.
 
-### 14.2 Frontline: maps and setup
+### 15.2 Frontline: maps and setup
 A territory and capture-the-flag strategy game for 2–6 players, inspired by territorial.io and openfront.io. Players command troops on a fixed hex map to take territory, raid enemy headquarters and carry flags home.
 
 **Maps.** There are exactly three, each hand-designed, fixed and balanced, so map knowledge is part of the skill.
@@ -1033,9 +1341,9 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 - Their Claim, Fortify and Rally questions come from their own loadout.
 - Assault questions come from the defender's loadout.
 
-**Optional handicap:** Rally payouts scaled to each player's own rating, so every tier has equal expected value (§14.1).
+**Optional handicap:** Rally payouts scaled to each player's own rating, so every tier has equal expected value (§15.1).
 
-### 14.3 Frontline: rounds and actions
+### 15.3 Frontline: rounds and actions
 **Rounds.**
 - Rounds are simultaneous and **2 minutes** long (tunable; Tier 4-heavy play may need 2.5).
 - During a round each player acts whenever they like. All orders resolve together at the end of the round.
@@ -1059,11 +1367,11 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 - An attacker must answer **the same question** correctly to break the lock. A lock is literally "solve what I solved".
   - If the question is a parameterized template, the attacker gets the same variant.
 - If the attacker fails, the attack bounces: the attacker loses half the attacking troops and the defender loses none.
-- **Failed attempts wear a lock down.** An attacker who has failed a lock has seen its question, so a siege gets easier over time. No answer or solution is revealed mid-game (§14.1), so the attacker still has to work it out. The defender can **re-fortify** to replace the question with a fresh one at the hex's tier, which costs their round's action.
+- **Failed attempts wear a lock down.** An attacker who has failed a lock has seen its question, so a siege gets easier over time. No answer or solution is revealed mid-game (§15.1), so the attacker still has to work it out. The defender can **re-fortify** to replace the question with a fresh one at the hex's tier, which costs their round's action.
 - A lock lasts until it is broken or replaced. A broken lock is gone, and the captured hex starts unlocked.
 
 **Combat** (all values tunable).
-- Attack strength = troops × assault multiplier × (1 + streak bonus) (§14.4).
+- Attack strength = troops × assault multiplier × (1 + streak bonus) (§15.4).
 - Defense strength = troops × (1 + terrain defense bonus).
 - **If attack beats defense:**
   - the hex is captured;
@@ -1080,7 +1388,7 @@ A territory and capture-the-flag strategy game for 2–6 players, inspired by te
 4. Income from territory.
 5. Relic points.
 
-### 14.4 Frontline: snowballing, flags and scoring
+### 15.4 Frontline: snowballing, flags and scoring
 **Snowballing is intended and available to everyone.** These engines compound:
 - **Territory:** more hexes produce more troops, which take more hexes.
 - **Command:** extra moves for larger empires.
@@ -1125,10 +1433,10 @@ The leader feeds everyone else's snowball, which keeps the game swingy and gives
 | Territory | +1 per 3 hexes |
 | Leader bounty | +2 per successful assault on the leader |
 
-Final placement updates every player's Frontline Elo (§14.7). Ties in placement are broken by banked flags, then territory.
+Final placement updates every player's Frontline Elo (§15.7). Ties in placement are broken by banked flags, then territory.
 
-### 14.5 1v1 minigames
-Each minigame has its own Elo (§14.7), updated after every game. Except for Race, each uses a time bank per player (chess clock). Points are each question's tier unless stated otherwise.
+### 15.5 1v1 minigames
+Each minigame has its own Elo (§15.7), updated after every game. Except for Race, each uses a time bank per player (chess clock). Points are each question's tier unless stated otherwise.
 
 **Divide** (fair division, about 12–16 min).
 - **Each round** (2 rounds):
@@ -1174,10 +1482,10 @@ Each minigame has its own Elo (§14.7), updated after every game. Except for Rac
 - **Ratings and records:** head-to-head games update Race Elo; solo ghost runs don't. Race also keeps personal bests.
 - **Why speed is allowed here:** Race is the one place where speed matters, deliberately limited to retrieval-level questions, as a warm-up and fluency drill.
 
-### 14.6 Architecture for competitive play
+### 15.6 Architecture for competitive play
 - **Server-checked.** In games, answers are checked and recorded by Netlify Functions, which also resolve every round, so the game state can't be edited by a client.
   - Because competitive questions share the practice pool, their answer keys are in the public content bundle. A determined player could look one up mid-game.
-  - This is accepted for a small group, like the client-side trust risk (§18). If it becomes a problem, the fix is to move all answer keys server-side.
+  - This is accepted for a small group, like the client-side trust risk (§19). If it becomes a problem, the fix is to move all answer keys server-side.
 - **Functions:**
   - **create/join game**;
   - **submit answer:** checked on the server, recording the outcome;
@@ -1187,10 +1495,10 @@ Each minigame has its own Elo (§14.7), updated after every game. Except for Rac
   - `games/{gameId}/orders/{uid_round}`: each player's orders, written by that player and validated by the resolver;
   - only functions write game state.
 - **Live updates:** clients follow game documents with real-time listeners.
-- **Netlify credits:** functions use a small amount of compute, well within the free plan's credits (§16.5). No extra production deploys are needed.
-- **Balance tooling:** an offline script runs bot simulations of Frontline maps (§14.2).
+- **Netlify credits:** functions use a small amount of compute, well within the free plan's credits (§17.5). No extra production deploys are needed.
+- **Balance tooling:** an offline script runs bot simulations of Frontline maps (§15.2).
 
-### 14.7 Elo ratings
+### 15.7 Elo ratings
 Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft, Exam Board and Race. Every completed game is rated, live or correspondence.
 
 **Parameters** (tunable):
@@ -1208,14 +1516,14 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 
 **Display and storage:**
 - Elo shows next to names in lobbies, on profiles (current and peak, per mode) and on per-mode leaderboards (§12.2).
-- Ratings live in `users/{uid}/ratings/{mode}` (rating, games played, peak, provisional) and are written only by Netlify Functions, never by clients (§14.6).
-- Elo is shared across all courses for now. If course scope turns out to matter, ratings could be split per course later (§18).
+- Ratings live in `users/{uid}/ratings/{mode}` (rating, games played, peak, provisional) and are written only by Netlify Functions, never by clients (§15.6).
+- Elo is shared across all courses for now. If course scope turns out to matter, ratings could be split per course later (§19).
 
 ---
 
-## 15. UI / UX
+## 16. UI / UX
 
-### 15.1 Visual identity
+### 16.1 Visual identity
 - **Spelling:** all product copy, content (tutorials, questions, solutions, skill names) and code use standard **American** spelling (practice, color, center, factored, modeling). Mathematical notation still follows WACE conventions (§3.1).
 - **Copy is minimal:** labels over sentences, no explanatory filler on screens; show a number or a status rather than describe it.
 - **Non-learning information is data, not sentences.** Design rule, applied everywhere (screens, tutorials, questions, emails): metadata such as dot points, prerequisites, counts, dates, statuses and modes is shown as a bare label, list or chip, never wrapped in a sentence. Write "1.2.2, 1.2.3", not "Dot points 1.2.2 and 1.2.3."; "Local mode · saved in this browser", not "Local mode: progress is saved in this browser."; "No questions yet" with no full stop. Full sentences are reserved for learning content: explanations, worked solutions and feedback.
@@ -1223,7 +1531,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - Rank colors are the main accent: Unranked gray, Bronze, Silver, Gold, Platinum, Diamond.
 - Typography is tuned for math: KaTeX output, and math fields at matching sizes.
 
-### 15.2 Home = the tech tree
+### 16.2 Home = the tech tree
 - After login, the student lands **directly on the course tech tree**. A course switcher sits at the top.
 - **Vertical tech tree** (strategy-game style). The draft preview is at https://claude.ai/artifact/VhcVGyVCy3CTTMBeRBUmth.
   - **One map per course:** Year 11 sits above Year 12, and units are stacked top to bottom.
@@ -1236,21 +1544,21 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Table view toggle:** a sortable table of Unit / Section / Skill with rank, score, θ, gate progress (e.g. "Silver 2/3") and question counts.
 - The daily problem (tier, streak, solved) and Revision, Questions and leaderboard links are tiles above the map; the monthly problem joins them when it ships.
 
-### 15.3 Skill page
+### 16.3 Skill page
 - Shows rank, score, θ, what the next rank needs, **every rank's floor and gate progress** (e.g. "Gold · θ 1400 · 2/3 at Tier 3+", earned ranks ticked), size, dot points covered, suggested prerequisites (with their ranks, for information only), leads to, and the **last five answers** in the skill from this browser's history (date, question, score), linking to History.
 - **Learn** opens the skill's tutorial (§3.1): a clean reading view with glossary hovers and links to prerequisite tutorials. On a student's first visit to a skill (never practiced) it is the main button, ahead of Practice, but never required.
 - **Practice** is the main action otherwise. There is no tier chooser: the starting tier comes from onboarding (§5.3). **Drop a tier** is the "Easier questions" switch.
 - No quiz or Challenge links here: the section quiz, unit quiz and Section Challenge are reached from their nodes on the map.
 - **Tabs: Overview and Questions.** Questions lists every question whose skills include this one (practice, quiz and Challenge pools), easiest first: tier badge, name, type, pool, rating, and "Answered" once seen. A row expands to the stem and worked solution; a practice question has **Practice this**.
 
-### 15.3a Questions page
+### 16.3a Questions page
 - `/<course>/questions` lists every question in the course, from a small `question-index.json` built with the content (id, name, skill(s), subsection, section, unit, year, rating, tier, type, response-skill tags, pool, whether it needs a later unit's content). The full question loads only when a row is expanded.
 - **Filter** by search text, tier, type (auto-marked or written), tag, year, unit, section, skill, subsection, pool, later units needed, and answered. **Sort** easiest or hardest first, by name, or by tag. **Group** by tier, tag, skill, subsection (in curriculum order), section or answered; a question with several tags or skills appears in each of their groups.
 - The subsection filter lists the chosen skill's subsections, or every skill's grouped by skill; choosing another skill clears it. Each row shows its subsection. A skill's Questions tab has the same subsection filter.
 - Filters live in the URL, so a view can be bookmarked or shared. "Answered" comes from local progress: no extra reads.
 - **Every question has a `title`** (the build requires one): a short name in title case that says what the question is about ("Grid Paths That Stay Below the Diagonal", "Tangent Meets Radius at a Right Angle"), describing the situation rather than the method, and never naming a number or word that changes between variants or word picks. Titles are unique in a course: a quiz-pool question that would share a practice question's name adds **(Quiz)**, e.g. "Angle in a Semicircle (Quiz)".
 
-### 15.4 Problem screen
+### 16.4 Problem screen
 - **Header:** tier, rating, calculator flag, skill(s).
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Check**, **Give up** (written answers: **Submit for marking**).
@@ -1258,44 +1566,44 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Tutorial (implemented)** opens the question's skill tutorial in a side panel (a bottom sheet on phones) that doesn't block the question, so the student can read and answer at once; × or Escape closes it.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
-### 15.4a Wording: points, not marks
+### 16.4a Wording: points, not marks
 The app says **points** (and **score**) wherever a student sees how an answer was scored: "Written · 5 points", "Score 80%", "Appeal this score". Our rubrics and milestones are not the WACE marking scheme, so the app never calls them marks. The LLM marker writes "points" in its feedback too. ("Marking" for the process, and a student's school "maths mark" in onboarding, keep their usual meaning.)
 
-### 15.4b Answer history and Back
+### 16.4b Answer history and Back
 - Every answer a student gives (practice, quizzes, Challenges, daily, revision) is logged **in the browser only** (localStorage, newest 500 per course): question id, variant and word picks, the answer per part, the attempt each part was solved on, the outcome, and for written answers the marking job. Nothing is read from or written to Firestore for it, so it doesn't follow a student to another device.
 - **Previous**, under the question on the practice screen, steps through earlier answers in that skill (showing when each was answered; **Next** and **Current question** return); the current question stays as it was, half-typed answers included. (**← Back** at the top returns to the map.)
 - **History** (`/<course>/history`) lists every logged answer by day, filterable by skill, subsection, mode and result (60% or more, under 60%, still marking). A row expands to the question as it was served, the answers given (marked right or wrong per part, or with the written score and feedback) and the worked solution. **Clear history** empties it.
 
-### 15.4c Share a problem
+### 16.4c Share a problem
 - **Share** on every question screen (practice, revision, daily, quizzes, Challenges, a shared problem) and on each question in the Questions lists sends a link to **that exact problem**: `/<course>/problem/<question id>?v=<variant>&w=<slot>.<index>,…`. The link carries the numeric variant and word picks, so the person opening it sees the same numbers and names. Nothing is stored; no reads or writes.
 - On phones the system share sheet opens; elsewhere the link is copied ("Link copied").
 - Opening the link shows the problem with its skill, to answer like practice (θ, XP, achievements; written answers are marked as usual; history mode "Shared"). If the question has changed since the link was made (a variant or word list no longer fits), it is served with fresh numbers and names and says so.
 
-### 15.4d The current question stays until answered
+### 16.4d The current question stays until answered
 - Practice remembers the question it is showing in each skill (id, variant and word picks; in the browser only). Leaving the page and pressing **Practice** again, or reloading, shows the same question with the same numbers and names. Once it is answered (resolved, given up or submitted for marking), it is forgotten and the next visit serves a new one.
 - If the question has changed or been removed since, a new question is served.
 
-### 15.5 Other screens
+### 16.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
 - **Settings:** display name; Shift keys (§7.2); handwriting pad on/off (§7.2); BYO key per provider (stored locally) with **Test key**, which lists the provider's models (nothing marked or charged) and says "Key works", "refused this key" or "Couldn't reach"; marking effort.
-  - **Display name** (Phase 1): 2–30 characters, no banned words (§13.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name) as its own first step, before the maths mark; existing Google accounts are asked once.
+  - **Display name** (Phase 1): 2–30 characters, no banned words (§14.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name) as its own first step, before the maths mark; existing Google accounts are asked once.
 - **Students' own writing** (written answers, previews, history, discussion posts) keeps the line breaks they typed; authored content (questions, tutorials, solutions) uses normal Markdown paragraphs.
 - **Onboarding:** the display name (Google sign-ups), then the most recent maths mark and where it's from (which sets the year group and the starting tier, §5.3), then a **four-step tour**: the map (colors and shapes), tiers (bands), ranks (floors and gates) and the 0–100 score; **Skip** goes straight to the map. Specialist is the only course for now, so there's no course choice yet. All skills start Unranked.
 
-### 15.5a Paper first
+### 16.5a Paper first
 - Questions at **Tier 3 and above**, and **every written question**, show a **"Paper first"** label: they are meant to be worked out on paper, then answered on the site.
 - The first time a student meets one, a one-time tip says so (and, for written questions, that the answer can be photographed). "Got it" dismisses it for good in that browser.
 
-### 15.6 Platform and accessibility
+### 16.6 Platform and accessibility
 - Responsive web app, desktop-first but usable on phones and tablets. Stylus input is supported on tablets.
 - Keyboard-navigable; color is never the only rank signal (labels and icons too).
 - **Accessible maths (implemented):** screen readers hear every answer field through MathLive's live region; **Ctrl+Alt+S** reads a field's maths aloud with the browser's own voice; KaTeX output includes MathML.
 
 ---
 
-## 16. Architecture
+## 17. Architecture
 
-### 16.1 Stack
+### 17.1 Stack
 | Layer | Choice |
 |---|---|
 | Frontend | **SvelteKit** (TypeScript), static adapter |
@@ -1305,23 +1613,24 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 | Auth | Firebase Auth (Google + email; anonymous to try it: 5 questions, then sign up or log in with progress kept (§2.1a); no limit on deploy previews; kept off public leaderboards) |
 | Database | Cloud Firestore (Spark free plan) |
 | Hosting | **Netlify** (static site + CDN for content bundles) |
-| Server functions | **Netlify Functions**: `/api/mark`, `/api/transcribe`, `/api/ink` (hold the marking, photo and handwriting keys as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§14.6) |
+| Server functions | **Netlify Functions**: `/api/mark`, `/api/transcribe`, `/api/ink` (hold the marking, photo and handwriting keys as env vars); Phase 3 adds game creation, server-side answer checking and round resolution (§15.6) |
 | Offline tooling | Node/TS scripts + Python (SymPy) for verification |
 
-### 16.2 Client-side logic
-- **Saved progress is never overwritten by a failed or stale load (implemented).** Progress that is later saved back (profile, course progress, achievements, Challenge progress, marking jobs) is read **from the server only**, never Firestore's local cache: at sign-in the app writes the "last seen" fields, which leaves a partial copy of the profile in the cache, and a cached read on a slow connection once returned that partial copy as the whole profile, resetting a student. Loading retries twice (after 0.6 s and 1.8 s; a read straight after switching from an anonymous session to a real account can go out with the old sign-in and be refused). If it still fails, that session saves nothing (no XP, daily record, public mirror, counters, skill states or achievements), skips onboarding, and a banner says so with the error code and a Reload button. XP is saved by increment; the daily record, the activity counters and the public mirror are saved whole, so before saving them the app reads the latest saved profile and keeps the newer daily record, the higher XP and, per period, the newer or larger counters: an out-of-date tab or device never lowers them. Two more guards: **Firestore rules refuse any write that lowers XP** on `users/{uid}` or `publicProfiles/{uid}` (the whole batch fails, so the counters saved with it are kept too), and the app **checks for a new deploy every minute** and loads it at the next page change, so a tab never keeps running an old version.
+### 17.2 Client-side logic
+- **Saved progress is never overwritten by a failed or stale load (implemented).** Progress that is later saved back (profile, course progress, achievements, Challenge progress, marking jobs) is read **from the server only**, never Firestore's local cache: at sign-in the app writes the "last seen" fields, which leaves a partial copy of the profile in the cache, and a cached read on a slow connection once returned that partial copy as the whole profile, resetting a student. Loading retries twice (after 0.6 s and 1.8 s; a read straight after switching from an anonymous session to a real account can go out with the old sign-in and be refused). If it still fails, that session saves nothing (no XP, daily record, public mirror, counters, skill states or achievements), skips onboarding, and a banner says so with the error code and a Reload button. XP is saved by increment; the daily record, the activity counters and the public mirror are saved whole, so before saving them the app reads the latest saved profile and keeps the newer daily record, the higher XP and, per period, the newer or larger counters: an out-of-date tab or device never lowers them. **Sign-in writes nothing until the profile has loaded:** the "last seen" name and email are saved only after the load, because written at sign-in, at the same moment, they let Firestore answer the load with just those few fields (it reran onboarding and granted a second visit bonus). The app also waits for Firebase to restore the session before deciding whether anyone is signed in, and a profile that looks new (no maths mark, never visited) is read once more, 1.5 s later, before it is believed. Two more guards: **Firestore rules refuse any write that lowers XP** on `users/{uid}` or `publicProfiles/{uid}` (the whole batch fails, so the counters saved with it are kept too), and the app **checks for a new deploy every minute** and loads it at the next page change, so a tab never keeps running an old version.
 Answer checking, θ updates, rank, gate and roll-up computation, question selection and achievement evaluation all run **on the client**. Results are then synced to Firestore. Firestore security rules ensure a user can only write their own documents.
 
-### 16.3 Firestore data model (sketch)
+### 17.3 Firestore data model (sketch)
 ```
 users/{uid}                                              profile, settings, course enrollments, total XP (§12.4)
-users/{uid}/ratings/{mode}                               Elo per game mode, written by functions only (§14.7)
+users/{uid}/ratings/{mode}                               Elo per game mode, written by functions only (§15.7)
 users/{uid}/courses/{course}                             rolled-up ranks (for the hidden buffer)
 users/{uid}/courses/{course}/skillStates/{skillId}       θ, rank, gateCounts[1..6], seen ids, counts
 users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
 users/{uid}/courses/{course}/attempts/{attemptId}        question id/version/variant, answers, outcome, Δθ, ts
 users/{uid}/courses/{course}/challenges/{sectionId}      Section Challenge progress
 users/{uid}/courses/{course}/meta/achievements           achievement counters and earned dates (§12.1)
+users/{uid}/meta/economy                                 Lemmas earned/spent, theorems, institutes, Conjectures, packs, cards, cosmetics, titles (§13.10)
 users/{uid}/markingJobs/{jobId}          pending/complete, provider, result, effect, appeal, paste signals
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 monthly/{yyyy-mm}/problems/{course-year} (with monthly problems) problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
@@ -1332,10 +1641,10 @@ reports/{reportId}                       uid, name, course, kind, target, varian
 
 Leaderboards read `publicProfiles` once per tab every five minutes and sort in the browser, which is fine at small-group scale. The daily problem needs no documents: it's picked from the date (§8.5), and the solved days live in the profile's daily record.
 
-### 16.4 Repository layout
+### 17.4 Repository layout
 ```
 apps/web/              SvelteKit app
-packages/engine/       rating, selection, ranks, roll-up, level, school calendar (pure TS, unit-tested)
+packages/engine/       rating, selection, ranks, roll-up, level, economy, school calendar (pure TS, unit-tested)
 packages/checker/      answer checkers, intervals, form rules
 packages/content/      content schema and build, diagrams (spec → SVG), marking prompts, verify runner
 content/curriculum/    <course>/course.yaml + <version>.yaml
@@ -1344,12 +1653,13 @@ content/questions/     <course>/<unit>/<section>/<skill>.yaml
 content/tutorials/     <course>/<skillId>.md (one per skill) + glossary built from them
 content/schedules/     course outlines by school week (§8.5)
 content/calendar/      <year>.yaml: term dates, semesters, exam periods (§8.6)
-content/achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
-scripts/               SymPy verification (verify_questions.py, verify_geometry.py)
+content/cards/          <era>.yaml: collectible cards by era (§13.7)
+content/economy.yaml, achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
+scripts/               SymPy verification (verify_questions.py, verify_geometry.py); Lemma economy simulation (economy_sim.py, §13.3)
 netlify/functions/     mark, transcribe, ink
 ```
 
-### 16.5 Free-tier budget notes
+### 17.5 Free-tier budget notes
 - Firestore Spark: 50k reads / 20k writes per day. That's comfortable for a small group, because content is served from the CDN, not Firestore.
 - Netlify free plan: 300 credits a month. Each production deploy costs 15, so merging to `main` is the release step and doc-only changes skip the build (`netlify.toml`). Functions (marking, Phase 3 game rounds) use a small amount of compute credit.
 - Groq free tier (marking) and Gemini free tier (photos and the handwriting fallback): rate-limited, so the client retry queue absorbs bursts.
@@ -1357,21 +1667,21 @@ netlify/functions/     mark, transcribe, ink
 
 ---
 
-## 17. Phasing
+## 18. Phasing
 
 | Phase | Deliverable |
 |---|---|
 | 0: Framework | Repo scaffold, engine + checker packages with tests, content schema + build, auth, tech tree + table view, problem screen, Firestore sync |
-| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.2); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§15.3–15.3a); local answer history and Back (§15.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3); daily-problem discussions with spoilers and a banned-words list (§13); share a problem by link (§15.4c). **Owner tests before continuing.** |
+| 1: Specialist Unit 1 (full depth) | Curriculum for all of Specialist; Unit 1 tutorials (one per skill) and questions at full depth (per skill size, §3.2); glossary; LLM marking; quizzes; Section Challenges; daily problem; achievements; global level and XP; leaderboards; discussions; word variety in word problems (§9.6); no repeats near the student's level (§5.7); Questions tab and page (§16.3–16.3a); local answer history and Back (§16.4b); Exam and Custom Revision (§8.5a); leaderboards and profiles (§12.2–12.3); daily-problem discussions with spoilers and a banned-words list (§14); share a problem by link (§16.4c). **Owner tests before continuing.** |
 | 2: Specialist Units 2–4 | Error reports (§11.4), school calendar files, all answer formats, handwriting, paste detector (done); tutorials and questions for the remaining units; first monthly Tier 6 problems (Year 11 and Year 12) |
-| 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§14) |
+| 3: Competitive play | Frontline (three maps, spawn draft, server-resolved rounds), the 1v1 minigames Divide, Draft, Exam Board and Race, Elo ratings for every mode, server-side answer checking for competitive questions (§15) |
 | 4: Methods | New curriculum + content; cross-course prerequisites become live links |
-| 5: Chemistry, Physics | Science-specific answer types (see §18) + content |
+| 5: Chemistry, Physics | Science-specific answer types (see §19) + content |
 | 6: Native apps | Capacitor iOS/Android builds |
 
 ---
 
-## 18. Open questions, risks and decisions
+## 19. Open questions, risks and decisions
 
 **Resolved**
 - *Drop a tier:* non-destructive selection shift (§5.3, §5.7). Rank loss only happens through the hidden per-rank buffer (§5.4).
@@ -1385,16 +1695,19 @@ netlify/functions/     mark, transcribe, ink
 1. **Free-tier fragility:** Gemini and MyScript free tiers can change or vanish. Mitigations are the BYO key and keyboard fallback.
 2. **Same-model appeals:** these can still be swayed by a persuasive wrong argument despite the strict prompt. Monitor appeal outcomes.
 3. **Syllabus changes:** the Methods review may resurface. Each change is handled by hand when it arrives (§3).
-4. **Client-side trust:** practice ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up. Competitive games are checked and resolved on the server, but their questions share the public practice pool, so answer keys can still be looked up (§14.6).
+4. **Client-side trust:** practice ratings and leaderboards can be spoofed by a determined user. This is accepted for a small group; revisit if the platform opens up. Competitive games are checked and resolved on the server, but their questions share the public practice pool, so answer keys can still be looked up (§15.6).
 
 **To tune in Phase 3 playtesting**
-- Frontline: round length, troop yields, multipliers, combat losses, streak cap, leader bounty and edge-collapse timing (§14.3, §14.4).
-- Frontline map balance: spawn values, checked by bot simulation, then live win rates (§14.2).
-- Minigame lengths, Race lockout and bonus values (§14.5).
-- Elo K-factors and provisional period (§14.7); whether Elo should be split per course.
+- Frontline: round length, troop yields, multipliers, combat losses, streak cap, leader bounty and edge-collapse timing (§15.3, §15.4).
+- Frontline map balance: spawn values, checked by bot simulation, then live win rates (§15.2).
+- Minigame lengths, Race lockout and bonus values (§15.5).
+- Elo K-factors and provisional period (§15.7); whether Elo should be split per course.
 
 **To tune in Phase 1**
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
+
+**To tune when the economy ships**
+- Lemma rates, institute and Conjecture costs and outputs, and the Time Warp (against the calibration targets in §13.3, including Rank-into-Rank after 1.5 years of 1.5 hours a day), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity and shop prices (§13), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.

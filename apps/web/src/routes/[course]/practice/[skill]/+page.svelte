@@ -41,7 +41,7 @@
   let round = $state(0);
   const question = $derived(served?.question ?? null);
 
-  /** Back (SPEC §15.4b): earlier answers in this skill, from local history, newest first. 0 = the current question. */
+  /** Back (SPEC §16.4b): earlier answers in this skill, from local history, newest first. 0 = the current question. */
   let past = $state<HistoryEntry[]>([]);
   let back = $state(0);
   const snapshot = () => {
@@ -90,7 +90,7 @@
     round++;
   }
 
-  /** Keep the served question until it's answered (SPEC §15.4d); forget it once it is. */
+  /** Keep the served question until it's answered (SPEC §16.4d); forget it once it is. */
   const remember = () => saveCurrent(data.course.id, skillId, served ? { id: served.question.id, variant: served.variant, words: served.words } : null);
   const forget = () => saveCurrent(data.course.id, skillId, null);
 
@@ -164,7 +164,7 @@
       </section>
     {/if}
     </div>
-    <!-- Earlier answers in this skill (SPEC §15.4b), under the question. -->
+    <!-- Earlier answers in this skill (SPEC §16.4b), under the question. -->
     {#if past.length}
       <nav class="history-nav steps" aria-label="Earlier answers">
         <button class="btn link" disabled={back >= past.length} onclick={() => back++}>← Previous</button>

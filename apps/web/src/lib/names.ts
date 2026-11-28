@@ -1,4 +1,4 @@
-/** Display names (SPEC §12.3): 2–30 characters, no banned words (§13.2). Returns an error, or null if fine. */
+/** Display names (SPEC §12.3): 2–30 characters, no banned words (§14.2). Returns an error, or null if fine. */
 import { findBanned } from "./moderation";
 
 export const NAME_MAX = 30;

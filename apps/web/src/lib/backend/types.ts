@@ -90,7 +90,7 @@ export interface PublicCourse {
 
 /**
  * The public mirror of a student (publicProfiles/{uid}): everything leaderboards and profile pages show,
- * in one document, so a board costs one read per student (SPEC §12.2–12.3, §16.3).
+ * in one document, so a board costs one read per student (SPEC §12.2–12.3, §17.3).
  */
 export interface PublicProfile {
   uid: string;
@@ -190,7 +190,7 @@ export interface MarkingJob {
   } | null;
 }
 
-/** A discussion thread for one daily problem (SPEC §13.1): key "<day>:<course>:<year group>". */
+/** A discussion thread for one daily problem (SPEC §14.1): key "<day>:<course>:<year group>". */
 export interface ThreadSummary {
   key: string;
   day: string;
@@ -262,6 +262,11 @@ export interface Backend {
   setDisplayName(user: User, name: string): Promise<void>;
   /** Add XP to the profile. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
+  /**
+   * Record name, email and "last seen" on the profile. Called only after the profile has loaded: written at
+   * sign-in, the same moment as the load, it let Firestore answer the load with just these few fields.
+   */
+  markSeen(user: User): Promise<void>;
   /** Save the daily-problem record. */
   saveDaily(user: User, daily: DailyRecord): Promise<void>;
   /**
@@ -272,7 +277,7 @@ export interface Backend {
   /** Every public profile, for leaderboards and profile pages. */
   listPublic(): Promise<PublicProfile[]>;
 
-  /** Discussion threads with posts, most recently active first (SPEC §13). */
+  /** Discussion threads with posts, most recently active first (SPEC §14). */
   listThreads(): Promise<ThreadSummary[]>;
   loadPosts(key: string): Promise<Post[]>;
   /** Add a post or comment, creating the thread on its first post. */

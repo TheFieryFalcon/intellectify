@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** One daily problem's discussion (SPEC §13.1): the problem, posts with comments, and a composer. */
+  /** One daily problem's discussion (SPEC §14.1): the problem, posts with comments, and a composer. */
   import { page } from "$app/state";
   import { dateOfDay } from "@intellectify/engine";
   import Markdown from "$lib/components/Markdown.svelte";

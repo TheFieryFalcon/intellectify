@@ -41,7 +41,7 @@ for (const { course, questions, sectionReviews, unitReviews, tutorials } of bund
 }
 writeFileSync(join(outDir, "achievements.json"), JSON.stringify(achievements));
 writeFileSync(join(outDir, "words.json"), JSON.stringify(words));
-// Banned words (SPEC §13.2): the same list firestore.rules checks (see scripts/banned-rules.mjs).
+// Banned words (SPEC §14.2): the same list firestore.rules checks (see scripts/banned-rules.mjs).
 const bannedFile = join(contentDir, "banned-words.txt");
 const banned = existsSync(bannedFile)
   ? readFileSync(bannedFile, "utf8").split("\n").map((l) => l.trim().toLowerCase()).filter((l) => l && !l.startsWith("#"))

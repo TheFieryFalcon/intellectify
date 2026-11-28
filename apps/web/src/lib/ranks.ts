@@ -23,7 +23,7 @@ const rawScore = (theta: number) => 100 * pCorrect(theta, CONFIG.scoreAnchor);
 
 /**
  * Progress through the current rank's band toward the next floor (Diamond: toward θ 2000),
- * measured in score, not θ (SPEC §15.2), so the ring matches the number in the node.
+ * measured in score, not θ (SPEC §16.2), so the ring matches the number in the node.
  */
 export function progress(r: RankLevel, theta: number | null): number {
   if (theta === null || r === 0) return 0;

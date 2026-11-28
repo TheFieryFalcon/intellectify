@@ -78,6 +78,8 @@ export class ProfileStore {
   private pendingAchievements: Record<string, { ids: string[]; points: number }> = {};
   private timer: ReturnType<typeof setTimeout> | null = null;
   static readonly PUBLISH_DELAY_MS = 15_000;
+  /** How long to wait before re-reading a profile that looks new. */
+  static readonly CONFIRM_NEW_MS = 1500;
 
   private schedule() {
     this.dirty = true;
@@ -162,7 +164,15 @@ export class ProfileStore {
 
   async load() {
     try {
-      this.profile = await withRetry(() => this.backend.loadProfile(this.user.uid));
+      let loaded = await withRetry(() => this.backend.loadProfile(this.user.uid));
+      // Looks new (no maths mark, never visited)? Read once more before believing it: treating a real
+      // student as new reruns onboarding and grants a second visit bonus.
+      if (!loaded.placement?.tiers || !loaded.lastVisitDay) {
+        await new Promise((r) => setTimeout(r, ProfileStore.CONFIRM_NEW_MS));
+        const again = await this.backend.loadProfile(this.user.uid).catch(() => null);
+        if (again && (again.placement?.tiers || again.lastVisitDay || again.xp > loaded.xp)) loaded = again;
+      }
+      this.profile = loaded;
     } catch (err) {
       this.loadError = (err as { code?: string }).code ?? (err as Error).message ?? null;
       // Not "a new student": the saved profile just didn't load. Save nothing this session, so nothing
@@ -187,6 +197,8 @@ export class ProfileStore {
     this.loaded = true;
     const today = perthDay();
     if (this.profile.lastVisitDay !== today) await this.grant(XP.firstVisitOfDay, { visitDay: today });
+    // Only now that the profile has loaded: name, email and last seen.
+    void this.backend.markSeen(this.user).catch(() => {});
   }
 
   /** Add XP, update the level immediately, and persist. */

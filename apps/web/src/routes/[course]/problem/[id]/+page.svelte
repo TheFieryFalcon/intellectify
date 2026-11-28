@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * A shared problem (SPEC §15.4c): exactly the question, numbers and words in the link. Answering it counts
+   * A shared problem (SPEC §16.4c): exactly the question, numbers and words in the link. Answering it counts
    * like practice (θ, XP, achievements); written answers are marked as usual.
    */
   import { page } from "$app/state";

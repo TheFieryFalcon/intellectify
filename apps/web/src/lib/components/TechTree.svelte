@@ -138,7 +138,7 @@
 
   .node { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; text-decoration: none; color: var(--ink); transition: opacity 0.15s; }
   .map.focus .node:not(.lit) { opacity: 0.3; }
-  /* Shape by skill size (SPEC §15.2): small circle, medium circle, small diamond (large), large diamond (cornerstone). */
+  /* Shape by skill size (SPEC §16.2): small circle, medium circle, small diamond (large), large diamond (cornerstone). */
   .shape { display: grid; place-items: center; }
   .ring { --side: 44px; width: var(--side); height: var(--side); border-radius: 50%; padding: 3px; background: conic-gradient(var(--next) calc(var(--p) * 1turn), var(--track) 0); box-shadow: 0 0 0 3px var(--region); transition: transform 0.15s; }
   .disc { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--region); background: linear-gradient(160deg, var(--hi) -30%, var(--r) 55%); color: #fff; font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; }
