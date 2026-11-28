@@ -1004,7 +1004,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 
   - **Early game:** practice is how Lemmas are earned.
   - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
-  - **From about 400 hours:** a day of Research equals two weeks of practice, so Lemmas stop being a constraint.
+  - **From about 400 hours:** a day of Research equals about 14 hours of practice (nearly three weeks at a typical pace), so Lemmas stop being a constraint.
   - **Later:** the last three institutes are a long tail for the Antimatter-level students past 1,000 hours.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
 - **Shown** as a chip on the Lemmas page: **Research · 9,242 ∴/day**.
