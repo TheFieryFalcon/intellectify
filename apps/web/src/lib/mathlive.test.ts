@@ -10,7 +10,10 @@ describe("keypad keys and what's typed before them", () => {
   it("vector arrows, hats and bars take the letters before the caret", () => {
     for (const name of ["Vector (arrow)", "Vector between points", "Unit vector", "Vector (bold)", "Vector (tilde under)", "Line segment", "Arc"]) expect(takesPrevious(key(name)), name).toBe("letters");
   });
-  it("other keys go in at the caret", () => {
-    for (const name of ["Fraction", "Square root", "Brackets", "Pi", "Sine", "Absolute value"]) expect(takesPrevious(key(name)), name).toBeNull();
+  it("keys with one empty box take the term before the caret", () => {
+    for (const name of ["Square root", "Brackets", "Sine", "Natural log", "Absolute value", "e to the power", "Integral", "Determinant"]) expect(takesPrevious(key(name)), name).toBe("term");
+  });
+  it("keys with no box or several go in at the caret", () => {
+    for (const name of ["Fraction", "nth root", "Choose", "Log base", "Definite integral", "Pi", "Degrees", "Column vector"]) expect(takesPrevious(key(name)), name).toBeNull();
   });
 });

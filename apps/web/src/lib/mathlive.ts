@@ -73,14 +73,37 @@ const PRIME = /^#@'$/;
 /** Keys that decorate letters: vector arrows, hats, bars, bold. They take the letters just before the caret. */
 const ACCENT = /^\\(?:vec|hat|bar|overline|overrightarrow|overleftrightarrow|dot|ddot|mathbf|tilde|underset\{\\sim\}|overset\{\\frown\})\{#0\}$/;
 
+/** Keys with exactly one empty box (√□, sin(□), |□|, (□), eˣ…): the term just typed goes in the box. */
+const oneBox = (latex: string) => (latex.match(/#[0?@]/g) ?? []).length === 1 && !SCRIPT.test(latex) && !PRIME.test(latex) && !ACCENT.test(latex);
+
 /**
  * How a key takes what was typed just before it, so words can become maths first:
- * "term" — x² squares the term before it; "letters" — a vector arrow goes over the letters before it.
+ * "term" — x² squares the term before it, √ and sin go round it; "letters" — a vector arrow goes over the
+ * letters before it.
  */
 export function takesPrevious(latex: string): "term" | "letters" | null {
-  if (SCRIPT.test(latex) || PRIME.test(latex)) return "term";
+  if (SCRIPT.test(latex) || PRIME.test(latex) || oneBox(latex)) return "term";
   if (ACCENT.test(latex)) return "letters";
   return null;
+}
+
+/**
+ * The first atom of the term just before the caret: back to the nearest operator, relation, comma, space
+ * or open bracket, keeping bracketed groups whole ("2x", "3(x+1)", a vector, a fraction). None at the start
+ * of a box or just after an operator.
+ */
+function termStart(prev: Atom | undefined): Atom | undefined {
+  let first: Atom | undefined;
+  let depth = 0;
+  for (let a = prev; a && a.type !== "first" && a.mode !== "text"; a = a.leftSibling) {
+    if (a.type === "mclose") depth++;
+    else if (a.type === "mopen") {
+      if (depth === 0) break;
+      depth--;
+    } else if (depth === 0 && /^(mbin|mrel|mpunct|space|spacing)$/.test(a.type ?? "")) break;
+    first = a;
+  }
+  return first;
 }
 
 /** Atoms that can't carry a power: nothing (start of a box), operators, relations, commas, open brackets, spaces. */
@@ -95,6 +118,8 @@ const arrowFor = (latex: string, letters: number) => (letters === 1 ? latex : la
  * - x² and other powers, subscripts and primes attach to the term just typed, whatever it is (a vector,
  *   a bracket, a letter); a fraction or something already raised to a power is bracketed first;
  * - a vector arrow, hat or bar goes over the letters just typed ("AB" then arrow gives AB with an arrow);
+ * - a key with one empty box (√□, sin(□), |□|, (□), e^□…) puts the term just typed in the box
+ *   ("2x" then √ gives √(2x));
  * - otherwise the key goes in at the caret with empty boxes to fill in.
  */
 export function applyKey(el: MathfieldEl, latex: string) {
@@ -131,6 +156,13 @@ export function applyKey(el: MathfieldEl, latex: string) {
     }
     if (first?.leftSibling) model.setSelection(model.offsetOf(first.leftSibling), model.position);
     return insertLatex(el, arrowFor(latex, letters));
+  }
+  if (oneBox(latex)) {
+    const first = termStart(prev);
+    if (first?.leftSibling) {
+      model.setSelection(model.offsetOf(first.leftSibling), model.position);
+      return insertLatex(el, latex.replace(/#[0?@]/, "#0"));
+    }
   }
   insertLatex(el, latex.replace(/#@/g, "#?"));
 }
