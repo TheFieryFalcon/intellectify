@@ -383,7 +383,11 @@ cards:
     work: -370
     fields: [Mathematics, Astronomy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/eudoxus.webp
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
     related: [spec.integration.areas]
     blurb: >-
       Gave a theory of ratios that handles irrational lengths, and the method of exhaustion for finding
