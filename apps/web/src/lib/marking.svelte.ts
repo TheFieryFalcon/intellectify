@@ -335,15 +335,15 @@ export class MarkingQueue {
           mark: job.result!,
           jobId: job.id,
         });
-        // A written daily problem counts as solved only at full marks (SPEC §8.5).
-        let dailyXp = 0;
-        if (job.daily && profile) dailyXp = await profile.recordDaily(job.daily, job.daily.split(":")[0]!, dailySolved(job.result!.score), tierOf(question.rating));
+        // A written daily problem counts as solved only at full marks, and not once its solution was shown (SPEC §8.5).
+        const daily = job.daily && profile ? await profile.recordDaily(job.daily, job.daily.split(":")[0]!, dailySolved(job.result!.score), tierOf(question.rating)) : null;
+        const dailyXp = daily?.bonus ?? 0;
         const p = r.summary.primary;
         const effect = { xp: r.xp + dailyXp, outcome: r.summary.outcome, theta: p.after.theta, deltaTheta: p.deltaTheta, rankBefore: p.rankBefore, rankAfter: p.rankAfter };
         await this.put({ ...(this.job(job.id) ?? job), applied: true, effect });
         if (job.daily && profile) {
           const day = job.daily.split(":")[0]!;
-          const solved = dailySolved(job.result!.score);
+          const solved = daily?.solved ?? false;
           // A written answer is one submission, so a solve is first-try unless an earlier attempt at today's problem came first.
           await achievementsFor(this.backend, this.user, course)?.event(
             (s) => onDaily(s, { day, solved, firstTry: solved && job.dailyFirst !== false, streak: profile.profile.daily?.streak ?? 0 }),

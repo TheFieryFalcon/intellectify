@@ -1,7 +1,7 @@
 import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
 import { withRetry } from "./retry";
 import { shiftOverrides, storeShiftOverrides, type ShiftMap } from "./keypad";
-import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type Placement, type Profile, type PublicCourse, type User } from "./backend";
+import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type DailyState, type Placement, type Profile, type PublicCourse, type User } from "./backend";
 import { addProblem, addXp, mergeStats, roll } from "./activity";
 import type { CourseBundle } from "./content";
 import { publicCourse } from "./public";
@@ -235,15 +235,16 @@ export class ProfileStore {
     await this.backend.setPlacement(this.user.uid, placement);
   }
 
-  /** Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break today's entry. */
-  /** Returns the daily bonus XP granted (SPEC §12.4: 30 + 10 × tier on the first solve of each day's problem). */
-  async recordDaily(key: string, day: string, solved: boolean, tier = 0): Promise<number> {
-    if (this.failed) return 0;
-    // The daily record is saved whole: start from the latest saved one, not this tab's copy.
-    const latest = await this.backend.loadProfile(this.user.uid).catch(() => null);
-    if (latest) this.profile = { ...this.profile, daily: newerDaily(this.profile.daily, latest.daily) };
-    const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
-    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return 0;
+  /**
+   * Record a daily problem (SPEC §8.5): solving extends the streak; trying without solving doesn't break
+   * today's entry; after the solution was revealed nothing counts. `bonus` is the daily bonus XP granted
+   * (SPEC §12.4: 30 + 10 × tier on the first solve of each day's problem); `solved` whether it counted as a solve.
+   */
+  async recordDaily(key: string, day: string, solved: boolean, tier = 0): Promise<{ bonus: number; solved: boolean }> {
+    if (this.failed) return { bonus: 0, solved: false };
+    const prev = await this.latestDaily();
+    if (prev.done[key] === "revealed") return { bonus: 0, solved: false };
+    if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return { bonus: 0, solved };
     const streak = solved ? nextStreak(prev, day) : prev.streak;
     const recent = Object.entries({ ...prev.done, [key]: solved ? "solved" : "tried" }).slice(-40);
     const daily: DailyRecord = { lastSolved: solved ? day : prev.lastSolved, streak, best: Math.max(prev.best, streak), done: Object.fromEntries(recent) as DailyRecord["done"] };
@@ -254,10 +255,36 @@ export class ProfileStore {
     } catch {
       // Saved locally in the store; a failed save is retried with the next daily problem.
     }
-    if (!solved || !tier) return 0;
+    if (!solved || !tier) return { bonus: 0, solved };
     const bonus = XP.daily(tier);
     await this.grant(bonus);
-    return bonus;
+    return { bonus, solved };
+  }
+
+  /**
+   * The solution of a daily problem was shown before it was solved (SPEC §8.5): that day's problem can no
+   * longer count as solved. Does nothing once it's solved.
+   */
+  async revealDaily(key: string): Promise<void> {
+    if (this.failed) return;
+    const prev = await this.latestDaily();
+    if (prev.done[key] === "solved" || prev.done[key] === "revealed") return;
+    const recent = Object.entries({ ...prev.done, [key]: "revealed" }).slice(-40);
+    const daily: DailyRecord = { ...prev, done: Object.fromEntries(recent) as DailyRecord["done"] };
+    this.profile = { ...this.profile, daily };
+    this.schedule();
+    try {
+      await this.backend.saveDaily(this.user, daily);
+    } catch {
+      // Saved locally in the store; a failed save is retried with the next daily problem.
+    }
+  }
+
+  /** The daily record is saved whole: start from the latest saved one, not this tab's copy. */
+  private async latestDaily(): Promise<DailyRecord> {
+    const latest = await this.backend.loadProfile(this.user.uid).catch(() => null);
+    if (latest) this.profile = { ...this.profile, daily: newerDaily(this.profile.daily, latest.daily) };
+    return this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
   }
 
   /**
@@ -301,7 +328,11 @@ export class ProfileStore {
 function newerDaily(a: DailyRecord | null, b: DailyRecord | null): DailyRecord | null {
   if (!a || !b) return a ?? b;
   const later = (b.lastSolved ?? "") > (a.lastSolved ?? "") ? b : a;
-  const done = Object.fromEntries(Object.entries({ ...b.done, ...a.done }).slice(-40)) as DailyRecord["done"];
+  // Per problem the stronger state wins: solved, then revealed (a solve no longer counts), then tried.
+  const rank = (s: DailyState | undefined) => (s === "solved" ? 3 : s === "revealed" ? 2 : s === "tried" ? 1 : 0);
+  const merged: DailyRecord["done"] = { ...b.done, ...a.done };
+  for (const [k, v] of Object.entries(b.done)) if (rank(v) > rank(merged[k])) merged[k] = v;
+  const done = Object.fromEntries(Object.entries(merged).slice(-40)) as DailyRecord["done"];
   return { ...later, best: Math.max(a.best, b.best), done };
 }
 

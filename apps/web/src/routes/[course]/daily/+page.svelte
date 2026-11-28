@@ -58,6 +58,15 @@
   let attempt = $state(0);
   let showSolution = $state(false);
   const solvedNow = $derived(summary ? dailySolved(summary.outcome) : !!job?.result && dailySolved(job.result.score));
+  const revealed = $derived(done === "revealed");
+  /** The solution shows once solved (this attempt or earlier, after an attempt), once revealed, or on request. */
+  const solutionVisible = $derived(showSolution || revealed || (solvedNow && !revealed) || (done === "solved" && (!!summary || !!job)));
+
+  /** Show the solution. Before a solve this ends the day's chance to solve it (SPEC §8.5). */
+  async function reveal() {
+    showSolution = true;
+    if (profile && done !== "solved") await profile.revealDaily(key);
+  }
   /** A written answer can be tried again once its mark is in (or it can't be marked). */
   const canRetry = $derived(!!summary || (!!job && job.status !== "pending"));
 
@@ -99,9 +108,9 @@
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "daily" });
     summary = r.summary;
     xpGained = r.xp;
-    const solved = dailySolved(r.summary.outcome);
-    const bonus = await profile.recordDaily(key, day, solved, tierOf(served.question.rating));
-    dailyBonus = bonus;
+    const d = await profile.recordDaily(key, day, dailySolved(r.summary.outcome), tierOf(served.question.rating));
+    dailyBonus = d.bonus;
+    const solved = d.solved;
     await achievements?.event(
       (s) => onDaily(s, { day, solved, firstTry: solved && first, streak: profile.profile.daily?.streak ?? 0 }),
       store,
@@ -143,7 +152,7 @@
   {:else if !served}
     <p class="muted">No daily problem for Year {year} yet</p>
   {:else}
-    {#if done && !summary && !job}<p class="status">{done === "solved" ? "Solved today. Try it again if you like." : "Tried today. Have another go."}</p>{/if}
+    {#if done && !summary && !job}<p class="status">{done === "solved" ? "Solved today. Try it again if you like." : done === "revealed" ? "Solution shown: today's problem can't count as solved now, but you can still practise it." : "Tried today. Have another go."}</p>{/if}
     <div class="share-row"><span class="tools"><TutorialButton course={data.course} skill={served.question.skills.primary} /><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span></div>
     {#key attempt}
       {#if isRubricMarked(served.question)}
@@ -156,20 +165,24 @@
       <section class="card">
         {#if job && marking}<MarkView {job} queue={marking} />{/if}
         {#if summary}
-          <p class="status">{solvedNow ? "Solved" : "Not solved yet: a daily problem needs 100%"}{#if dailyBonus} · daily bonus +{dailyBonus} XP{/if}</p>
+          <p class="status">{solvedNow && revealed ? "100%, but the solution was shown, so it doesn't count today" : solvedNow ? "Solved" : "Not solved yet: a daily problem needs 100%"}{#if dailyBonus} · daily bonus +{dailyBonus} XP{/if}</p>
           <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
         {/if}
-        {#if canRetry || solvedNow}
-          <div class="actions">
-            {#if canRetry}<button type="button" class="btn primary" onclick={tryAgain}>Try again</button>{/if}
-            {#if !solvedNow && !showSolution}<button type="button" class="btn" onclick={() => (showSolution = true)}>Show solution</button>{/if}
-          </div>
-        {/if}
-        {#if solvedNow || showSolution}
-          <h2>Solution</h2>
-          <Markdown text={served.question.solution} />
+        {#if canRetry}
+          <div class="actions"><button type="button" class="btn primary" onclick={tryAgain}>Try again</button></div>
         {/if}
       </section>
+    {/if}
+    {#if solutionVisible}
+      <section class="card">
+        <h2 class="first">Solution</h2>
+        <Markdown text={served.question.solution} />
+      </section>
+    {:else}
+      <div class="actions">
+        <button type="button" class="btn" onclick={reveal}>Show solution</button>
+        {#if done !== "solved"}<span class="muted note">Today's problem can't count as solved after you see it.</span>{/if}
+      </div>
     {/if}
   {/if}
 </div>
@@ -189,6 +202,8 @@
   .card { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
   .status { margin: 0 0 10px; font-weight: 600; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .actions { display: flex; gap: 8px 12px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  .note { font-size: 13px; }
+  h2.first { margin-top: 0; }
   .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>
