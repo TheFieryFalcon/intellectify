@@ -942,12 +942,12 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 
 ### 12.5 Lemmas, theorems and packs (planned)
 
-A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
+A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it (plus a slow passive trickle from the card collection) and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
 
 **Rules** (all follow from §1.2 and §12.4)
-- **Earned by doing.** Every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow.
+- **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, is deliberately slow: even a complete collection earns about an hour of practice's worth a day.
 - **Never touches learning.** Nothing bought, won or collected changes θ, ranks, gates, marking or question selection, and nothing gives hints.
-- **Nothing decays, expires or runs on a timer.** There's no idle income, no "while you were away", no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it.
+- **Nothing decays, expires or needs collecting.** Research has no cap and no collect button, so being away never loses anything and coming back at a set time never gains anything. There are no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it.
 - **Nothing steers the student.** No upgrade pays more for one skill, section or unit than another.
 - **No real money.** Lemmas, packs and cosmetics are never sold, and can't be traded or cashed out.
 - **Can be hidden.** **Settings › Show rewards** off hides Lemma counts, pack prompts and the result-panel line. Earnings still accrue.
@@ -971,9 +971,22 @@ Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × gro
 | Pigeonhole Principle | Duplicate cards | +25% Lemmas per duplicate | 300 | 1.15 | — |
 | Law of Large Numbers | Packs | Diamond pity guarantee comes 2 packs sooner (max level 5) | 2,000 | 2 | Pigeonhole Principle 5 |
 | Golden Ratio | All sources | +6.18% | 5,000 | φ ≈ 1.618 | Harmonic Series 10 |
+| Recurrence Relation | Research | +10% (max level 10) | 1,000 | 1.3 | Pigeonhole Principle 3 |
 
 - Geometric Series and Harmonic Series grow with **counts that only go up** (days solved, questions resolved), so their bonuses never fall back.
 - Each theorem's card shows its statement in one line of maths (e.g. Hₙ = 1 + ½ + ⅓ + … + 1/n), as flavor and as a tiny bit of learning.
+
+#### Research (passive)
+- **Every collected card keeps researching.** It pays a small number of Lemmas a day, whether or not the student is on the site.
+- **Rate per card per day:** Silver 1 · Gold 2 · Platinum 4 · Diamond 10. Foil cards pay the same as plain ones.
+- **Scale:**
+  - A new student's first few cards pay a handful a day.
+  - A full era set pays about 80 a day.
+  - The whole collection pays about 600 a day, roughly an hour of practice.
+- **Boosts:** only Recurrence Relation (aₙ₊₁ = aₙ + c). Corollaries, Axioms and the other theorems don't apply, so practice always earns far more.
+- **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
+- **Formalize** doesn't touch Research, because cards are kept.
+- **Shown** as a chip on the Lemmas page: **Research · 82 ∴/day**.
 
 #### Corollaries (free, automatic, permanent)
 Corollaries follow from what a student has already done. They are added together into one global factor.
@@ -993,23 +1006,29 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 
 **Eras.** A person sits in the era of their major work, not their birth.
 
-| Pack | Years | Example cards |
-|---|---|---|
-| Antiquity Pack | to 500 | Thales, Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes, Eratosthenes, Liu Hui, Hypatia, Aryabhata |
-| Golden Age Pack | 500–1400 | Brahmagupta, al-Khwarizmi, Ibn al-Haytham, Ibn Sina, al-Biruni, Omar Khayyam, Bhaskara II, Shen Kuo, Fibonacci, Thomas Aquinas, Madhava |
-| Renaissance Pack | 1400–1650 | Leonardo da Vinci, Copernicus, Cardano, Vesalius, Napier, Francis Bacon, Kepler, Galileo, Descartes, Fermat |
-| Enlightenment Pack | 1650–1800 | Pascal, Huygens, Newton, Leibniz, Seki Takakazu, Spinoza, Locke, the Bernoullis, Émilie du Châtelet, Euler, Maria Agnesi, Hume, Kant, Lagrange, Lavoisier |
-| Steam Age Pack | 1800–1880 | Gauss, Fourier, Sophie Germain, Cauchy, Abel, Galois, Faraday, Mary Somerville, Babbage, Ada Lovelace, Boole, Hamilton, Darwin, Riemann, Maxwell, Mendel, Florence Nightingale, Mill |
-| Machine Age Pack | 1880–1945 | Cantor, Kovalevskaya, Frege, Nietzsche, Poincaré, Hilbert, Marie Curie, Planck, Rutherford, Lawrence Bragg, Einstein, Noether, Ramanujan, Bohr, Meitner, Russell, Wittgenstein, Gödel, Turing, Howard Florey |
-| Space Age Pack | 1945 on | von Neumann, Shannon, Grace Hopper, Ruby Payne-Scott, Rosalind Franklin, Chien-Shiung Wu, Feynman, Erdős, Nash, Simone de Beauvoir, Popper, Kuhn, Grothendieck, Katherine Johnson, Mandelbrot, Conway, Hawking, Mirzakhani |
+| Pack | Years | Diamond (proposed) | Other example cards |
+|---|---|---|---|
+| Antiquity Pack | to 500 | Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes | Thales, Zeno of Elea, Democritus, Hippocrates, Eratosthenes, Ptolemy, Diophantus, Hypatia |
+| Golden Age Pack | 500–1400 | al-Khwarizmi, Fibonacci, Thomas Aquinas | Brahmagupta, Ibn al-Haytham, Ibn Sina, Omar Khayyam, Ibn Rushd, Maimonides, William of Ockham |
+| Renaissance Pack | 1400–1650 | Leonardo da Vinci, Copernicus, Galileo, Descartes | Machiavelli, Montaigne, Cardano, Vesalius, Napier, Francis Bacon, Kepler, Fermat |
+| Enlightenment Pack | 1650–1800 | Newton, Leibniz, Euler, Kant | Pascal, Huygens, Hooke, Boyle, Hobbes, Spinoza, Locke, the Bernoullis, Émilie du Châtelet, Hume, Voltaire, Rousseau, Adam Smith, Lagrange, Laplace, Lavoisier |
+| Steam Age Pack | 1800–1880 | Gauss, Darwin, Maxwell, Pasteur, Marx | Fourier, Sophie Germain, Cauchy, Galois, Faraday, Babbage, Ada Lovelace, Boole, Riemann, Hegel, Schopenhauer, Kierkegaard, Mill, Mendel, Florence Nightingale |
+| Machine Age Pack | 1880–1945 | Einstein, Marie Curie, Nietzsche, Freud, Turing | Cantor, Poincaré, Hilbert, Frege, Planck, Rutherford, Bohr, Heisenberg, Schrödinger, Noether, Ramanujan, Russell, Wittgenstein, Gödel, Tesla, Fleming, Florey |
+| Space Age Pack | 1945 on | Feynman, Hawking, Sartre, Deleuze | von Neumann, Shannon, Crick, Rosalind Franklin, Chien-Shiung Wu, Grace Hopper, Erdős, Nash, Grothendieck, Mandelbrot, Conway, Mirzakhani, Simone de Beauvoir, Foucault, Derrida, Popper, Kuhn, Carl Sagan |
 
 **Content rules**
-- Cards live in `content/cards/<era>.yaml`, with: id, name, born and died, era, fields (Mathematics, Physics, Chemistry, Biology, Astronomy, Computing, Medicine, Philosophy, …), rarity, portrait (public domain or an original illustration, with its source and license), blurb, related skill ids (optional), and sources.
-- **Only people who have died.** Every set mixes mathematics, science and philosophy, and draws on several regions of the world, women included wherever history records them.
+- Cards live in `content/cards/<era>.yaml`, with: id, name, born and died, era, fields (Mathematics, Physics, Chemistry, Biology, Astronomy, Computing, Medicine, Psychology, Philosophy, …), rarity, portrait (public domain or an original illustration, with its source and license), blurb, related skill ids (optional), and sources.
+- **Only people who have died.** Every set mixes mathematics, science and philosophy.
+- **Notability first.** Every card is someone notable in their own right. No one is added to balance a set by region or any other quota.
 - **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§15.1). Facts cite a source. Quotes are used only when a source shows the person actually said them.
 - **Related skills** show as chips (e.g. Euler → the skill on complex exponential form). These are data, not a suggestion of what to practice.
-- **Set size:** 24 cards (3 Diamond, 5 Platinum, 7 Gold, 9 Silver). Rarity reflects lasting influence on the field, as judged by the owner.
-- **Build checks:** dates, era ranges, rarity counts, blurb length, portrait license and sources.
+- **Set size:** about 24 cards.
+- **Rarity** (the owner's judgment):
+  - **Diamond:** profoundly transformed their field *and* is extremely famous (Einstein, Feynman, Turing, Nietzsche, Deleuze, Maxwell). There's no quota; the count per set follows from who qualifies, usually 3–6.
+  - **Platinum:** transformed their field, and is well known to anyone who studies it.
+  - **Gold:** made a major contribution that lasted.
+  - **Silver:** did notable work that is still taught or cited.
+- **Build checks:** dates, era ranges, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and sources.
 - **Launch:** start with three eras (Antiquity, Enlightenment, Machine Age). The others show as "Not available yet" until their sets are written.
 
 **Getting packs.** Unopened packs have no era. The student picks the era when opening one (any released era).
@@ -1121,6 +1140,7 @@ Frames come only from era sets, and titles only from achievements.
 #### Storage
 - `users/{uid}/meta/economy` holds:
   - `lemmasEarned`, `lemmasSpent` and `earnedAtFormalize`;
+  - `researchCreditedAt`, written as server time (the rules require `request.time`);
   - `axioms` and theorem levels;
   - unopened packs, packs opened per era and pity counters per era;
   - cards (id → count, foil);
@@ -1129,7 +1149,7 @@ Frames come only from era sets, and titles only from achievements.
 - **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent`, `axioms` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§16.2). A purchase raises `lemmasSpent`, and Formalize sets `lemmasSpent` to `lemmasEarned`, so every counter still only goes up.
 - **Saving:** changes are saved in the same batched write as XP and the public mirror (§12.2).
 - **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame and showcase, and the number of cards collected. This feeds a **Cards collected** board (§12.2).
-- **Logic:** formulas (earn rates, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, pack and shop values live in `content/economy.yaml`.
+- **Logic:** formulas (earn rates, Research, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, pack and shop values live in `content/economy.yaml`.
 
 ---
 
@@ -1591,7 +1611,7 @@ netlify/functions/     mark, transcribe, ink
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **To tune when the economy ships**
-- Lemma rates, theorem costs and effects, corollary sizes, the Formalize threshold, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
+- Lemma rates, Research rates, theorem costs and effects, corollary sizes, the Formalize threshold, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
