@@ -945,7 +945,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it (plus a slow passive trickle from the card collection) and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
 
 **Rules** (all follow from §1.2 and §12.4)
-- **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, is deliberately slow: even a complete collection earns about an hour of practice's worth a day.
+- **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, starts slow and grows into a real alternative. Around 200 hours in, a day of Research earns about what an hour of practice does. By 400 hours it earns so much that Lemmas stop being a constraint.
 - **Never touches learning.** Nothing bought, won or collected changes θ, ranks, gates, marking or question selection, and nothing gives hints.
 - **Nothing decays, expires or needs collecting.** Research has no cap and no collect button, so being away never loses anything and coming back at a set time never gains anything. There are no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it.
 - **Nothing steers the student.** No upgrade pays more for one skill, section or unit than another.
@@ -967,26 +967,47 @@ Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × gro
 | Intermediate Value Theorem | Rank-ups (skills and response skills) | +15% | 400 | 1.15 | Distributive Law 3 |
 | Euler's Identity | Achievements | +15% | 500 | 1.15 | Intermediate Value Theorem 3 |
 | Binomial Theorem | Games (Phase 3; "Not available yet" until then) | +10% | 500 | 1.15 | Distributive Law 3 |
-| Harmonic Series | All sources | +0.5% × Hₙ, n = questions resolved ever | 1,000 | 1.2 | Geometric Series 5 |
+| Harmonic Series | All active sources | +0.5% × Hₙ, n = questions resolved ever | 1,000 | 1.2 | Geometric Series 5 |
 | Pigeonhole Principle | Duplicate cards | +25% Lemmas per duplicate | 300 | 1.15 | — |
 | Law of Large Numbers | Packs | Diamond pity guarantee comes 2 packs sooner (max level 5) | 2,000 | 2 | Pigeonhole Principle 5 |
 | Golden Ratio | All sources | +6.18% | 5,000 | φ ≈ 1.618 | Harmonic Series 10 |
-| Recurrence Relation | Research | +10% (max level 10) | 1,000 | 1.3 | Pigeonhole Principle 3 |
+| Recurrence Relation | Research | +10% | 1,000 | 1.3 | Pigeonhole Principle 3 |
 
 - Geometric Series and Harmonic Series grow with **counts that only go up** (days solved, questions resolved), so their bonuses never fall back.
 - Each theorem's card shows its statement in one line of maths (e.g. Hₙ = 1 + ½ + ⅓ + … + 1/n), as flavor and as a tiny bit of learning.
 
 #### Research (passive)
-- **Every collected card keeps researching.** It pays a small number of Lemmas a day, whether or not the student is on the site.
-- **Rate per card per day:** Silver 1 · Gold 2 · Platinum 4 · Diamond 10. Foil cards pay the same as plain ones.
-- **Scale:**
-  - A new student's first few cards pay a handful a day.
-  - A full era set pays about 80 a day.
-  - The whole collection pays about 600 a day, roughly an hour of practice.
-- **Boosts:** only Recurrence Relation (aₙ₊₁ = aₙ + c). Corollaries, Axioms and the other theorems don't apply, so practice always earns far more.
+Research comes from **institutes**: one per era, bought with Lemmas and staffed by that era's cards. Like theorems, the (n + 1)th copy of an institute costs **base × 1.15ⁿ**. Each institute unlocks once 10 of the one before it are built.
+
+| Institute | Era | Base cost | Output per copy (∴/day) |
+|---|---|---|---|
+| Academy | Antiquity | 2,000 | 5 |
+| House of Wisdom | Golden Age | 24,000 | 50 |
+| Observatory | Renaissance | 288,000 | 500 |
+| Learned Society | Enlightenment | 3.46 × 10⁶ | 5,000 |
+| Polytechnic | Steam Age | 4.15 × 10⁷ | 50,000 |
+| Research Institute | Machine Age | 4.98 × 10⁸ | 500,000 |
+| Particle Accelerator | Space Age | 5.97 × 10⁹ | 5,000,000 |
+
+- **Cards staff their era's institute.** Each collected card adds to that institute's output: Silver +2%, Gold +5%, Platinum +10%, Diamond +25%. A foil card doubles its own boost. A complete set roughly triples its institute's output. An institute whose era isn't released yet works unboosted.
+- **Other boosts:** Recurrence Relation, Golden Ratio, corollaries and Axioms all apply to Research. The question-specific theorems (Successor Function, Harmonic Series and so on) don't.
+- **Calibration targets**, for a student who never formalizes and plays about 0.75 hours a day (500 hours over two years, §12.4). The ratio is one day of Research ÷ one hour of practice. The simulation spends greedily on whatever adds the most Lemmas per Lemma spent.
+
+  | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio |
+  |---|---|---|---|
+  | 50 | 2,300 | 140 | 0.06 |
+  | 100 | 4,000 | 560 | 0.14 |
+  | 200 | 7,800 | 9,200 | 1.2 |
+  | 300 | 13,000 | 33,000 | 2.5 |
+  | 400 | 21,000 | 300,000 | 14 |
+  | 500 | 33,000 | 1.3 × 10⁶ | 40 |
+
+  - **Early game:** practice is how Lemmas are earned.
+  - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
+  - **From about 400 hours:** a day of Research equals two weeks of practice, so Lemmas stop being a constraint.
+  - **Later:** the last three institutes are a long tail for the Antimatter-level students past 1,000 hours.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
-- **Formalize** doesn't touch Research, because cards are kept.
-- **Shown** as a chip on the Lemmas page: **Research · 82 ∴/day**.
+- **Shown** as a chip on the Lemmas page: **Research · 9,242 ∴/day**.
 
 #### Corollaries (free, automatic, permanent)
 Corollaries follow from what a student has already done. They are added together into one global factor.
@@ -997,7 +1018,7 @@ Corollaries follow from what a student has already done. They are added together
 #### Axioms (optional prestige)
 - **Formalize** becomes available once 100,000 Lemmas have been earned since the last Formalize (or ever, the first time).
 - It grants **⌊√(E ÷ 100,000)⌋ Axioms**, where E is the Lemmas earned since the last Formalize. Each Axiom is **+10% to all sources, permanently**.
-- **It resets:** theorem levels and the Lemma balance. **It keeps everything else:** XP, Axioms, corollaries, cards, unopened packs, cosmetics and titles.
+- **It resets:** theorem levels and the Lemma balance. **It keeps everything else:** XP, Axioms, corollaries, institutes (so Research carries on), cards, unopened packs, cosmetics and titles.
 - It is **always voluntary.** There's no forced reset at term end, and the confirmation lists exactly what resets.
 - **Naming:** the first nine Axioms take the ZFC axioms' names in order (Extensionality, Regularity, Specification, Pairing, Union, Replacement, Infinity, Power Set, Choice). The next nine take large-cardinal names (Inaccessible, Mahlo, Weakly Compact, Measurable, Strong, Woodin, Supercompact, Huge, Rank-into-Rank). From then on they're numbered (Axiom 19, …).
 
@@ -1141,7 +1162,7 @@ Frames come only from era sets, and titles only from achievements.
 - `users/{uid}/meta/economy` holds:
   - `lemmasEarned`, `lemmasSpent` and `earnedAtFormalize`;
   - `researchCreditedAt`, written as server time (the rules require `request.time`);
-  - `axioms` and theorem levels;
+  - `axioms`, theorem levels and institutes built;
   - unopened packs, packs opened per era and pity counters per era;
   - cards (id → count, foil);
   - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase.
@@ -1611,7 +1632,7 @@ netlify/functions/     mark, transcribe, ink
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **To tune when the economy ships**
-- Lemma rates, Research rates, theorem costs and effects, corollary sizes, the Formalize threshold, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
+- Lemma rates, institute costs and outputs (against the calibration targets in §12.5), theorem costs and effects, corollary sizes, the Formalize threshold, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
