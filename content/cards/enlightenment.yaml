@@ -4,6 +4,7 @@ cards:
   # ── Diamond ─────────────────────────────────────────────
   - id: newton
     name: Isaac Newton
+    wikidata: Q935
     born: 1643
     died: 1727
     work: 1687
@@ -18,6 +19,7 @@ cards:
 
   - id: leibniz
     name: Gottfried Wilhelm Leibniz
+    wikidata: Q9047
     born: 1646
     died: 1716
     work: 1684
@@ -32,6 +34,7 @@ cards:
 
   - id: euler
     name: Leonhard Euler
+    wikidata: Q7604
     born: 1707
     died: 1783
     work: 1748
@@ -45,6 +48,7 @@ cards:
 
   - id: kant
     name: Immanuel Kant
+    wikidata: Q9312
     born: 1724
     died: 1804
     work: 1781
@@ -58,6 +62,7 @@ cards:
   # ── Platinum ────────────────────────────────────────────
   - id: pascal
     name: Blaise Pascal
+    wikidata: Q1290
     born: 1623
     died: 1662
     work: 1654
@@ -71,6 +76,7 @@ cards:
 
   - id: locke
     name: John Locke
+    wikidata: Q9353
     born: 1632
     died: 1704
     work: 1689
@@ -84,6 +90,7 @@ cards:
 
   - id: spinoza
     name: Baruch Spinoza
+    wikidata: Q35802
     born: 1632
     died: 1677
     work: 1677
@@ -96,6 +103,7 @@ cards:
 
   - id: hume
     name: David Hume
+    wikidata: Q37160
     born: 1711
     died: 1776
     work: 1739
@@ -108,6 +116,7 @@ cards:
 
   - id: lagrange
     name: Joseph-Louis Lagrange
+    wikidata: Q80222
     born: 1736
     died: 1813
     work: 1788
@@ -120,6 +129,7 @@ cards:
 
   - id: laplace
     name: Pierre-Simon Laplace
+    wikidata: Q44481
     born: 1749
     died: 1827
     work: 1799
@@ -133,6 +143,7 @@ cards:
 
   - id: lavoisier
     name: Antoine Lavoisier
+    wikidata: Q39607
     born: 1743
     died: 1794
     work: 1789
@@ -146,6 +157,7 @@ cards:
   # ── Gold ────────────────────────────────────────────────
   - id: hobbes
     name: Thomas Hobbes
+    wikidata: Q37621
     born: 1588
     died: 1679
     work: 1651
@@ -158,6 +170,7 @@ cards:
 
   - id: huygens
     name: Christiaan Huygens
+    wikidata: Q39599
     born: 1629
     died: 1695
     work: 1673
@@ -170,6 +183,7 @@ cards:
 
   - id: boyle
     name: Robert Boyle
+    wikidata: Q43393
     born: 1627
     died: 1691
     work: 1662
@@ -182,6 +196,7 @@ cards:
 
   - id: linnaeus
     name: Carl Linnaeus
+    wikidata: Q1043
     born: 1707
     died: 1778
     work: 1753
@@ -194,6 +209,7 @@ cards:
 
   - id: rousseau
     name: Jean-Jacques Rousseau
+    wikidata: Q6527
     born: 1712
     died: 1778
     work: 1762
@@ -206,6 +222,7 @@ cards:
 
   - id: adam-smith
     name: Adam Smith
+    wikidata: Q9381
     born: 1723
     died: 1790
     work: 1776
@@ -218,6 +235,7 @@ cards:
 
   - id: edward-jenner
     name: Edward Jenner
+    wikidata: Q40852
     born: 1749
     died: 1823
     work: 1796
@@ -231,6 +249,7 @@ cards:
   # ── Silver ──────────────────────────────────────────────
   - id: hooke
     name: Robert Hooke
+    wikidata: Q46830
     born: 1635
     died: 1703
     work: 1665
@@ -244,6 +263,7 @@ cards:
 
   - id: leeuwenhoek
     name: Antonie van Leeuwenhoek
+    wikidata: Q43522
     born: 1632
     died: 1723
     work: 1676
@@ -256,6 +276,7 @@ cards:
 
   - id: jacob-bernoulli
     name: Jacob Bernoulli
+    wikidata: Q122392
     born: 1655
     died: 1705
     work: 1690
@@ -269,6 +290,7 @@ cards:
 
   - id: de-moivre
     name: Abraham de Moivre
+    wikidata: Q200397
     born: 1667
     died: 1754
     work: 1730
@@ -282,6 +304,7 @@ cards:
 
   - id: emilie-du-chatelet
     name: Émilie du Châtelet
+    wikidata: Q7286
     born: 1706
     died: 1749
     work: 1749
@@ -294,6 +317,7 @@ cards:
 
   - id: voltaire
     name: Voltaire
+    wikidata: Q9068
     born: 1694
     died: 1778
     work: 1759
@@ -306,6 +330,7 @@ cards:
 
   - id: benjamin-franklin
     name: Benjamin Franklin
+    wikidata: Q34969
     born: 1706
     died: 1790
     work: 1752

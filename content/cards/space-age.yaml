@@ -4,6 +4,7 @@ cards:
   # ── Diamond ───────────────────────────────────────────
   - id: hawking
     name: Stephen Hawking
+    wikidata: Q17714
     born: 1942
     died: 2018
     work: 1974
@@ -17,6 +18,7 @@ cards:
 
   - id: deleuze
     name: Gilles Deleuze
+    wikidata: Q184226
     born: 1925
     died: 1995
     work: 1968
@@ -30,6 +32,7 @@ cards:
 
   - id: noam-chomsky
     name: Noam Chomsky
+    wikidata: Q9049
     born: 1928
     work: 1957
     fields: [Linguistics, Philosophy, Psychology]
@@ -42,6 +45,7 @@ cards:
 
   - id: foucault
     name: Michel Foucault
+    wikidata: Q44272
     born: 1926
     died: 1984
     work: 1975
@@ -55,6 +59,7 @@ cards:
   # ── Platinum ──────────────────────────────────────────
   - id: grothendieck
     name: Alexander Grothendieck
+    wikidata: Q77141
     born: 1928
     died: 2014
     work: 1960
@@ -67,6 +72,7 @@ cards:
 
   - id: roger-penrose
     name: Roger Penrose
+    wikidata: Q193803
     born: 1931
     work: 1965
     fields: [Mathematics, Physics]
@@ -79,6 +85,7 @@ cards:
 
   - id: andrew-wiles
     name: Andrew Wiles
+    wikidata: Q184433
     born: 1953
     work: 1994
     fields: [Mathematics]
@@ -92,6 +99,7 @@ cards:
 
   - id: tim-berners-lee
     name: Tim Berners-Lee
+    wikidata: Q80
     born: 1955
     work: 1989
     fields: [Computing]
@@ -103,6 +111,7 @@ cards:
 
   - id: kuhn
     name: Thomas Kuhn
+    wikidata: Q184980
     born: 1922
     died: 1996
     work: 1962
@@ -115,6 +124,7 @@ cards:
 
   - id: derrida
     name: Jacques Derrida
+    wikidata: Q130631
     born: 1930
     died: 2004
     work: 1967
@@ -128,6 +138,7 @@ cards:
   # ── Gold ──────────────────────────────────────────────
   - id: chien-shiung-wu
     name: Chien-Shiung Wu
+    wikidata: Q450317
     born: 1912
     died: 1997
     work: 1957
@@ -140,6 +151,7 @@ cards:
 
   - id: mandelbrot
     name: Benoit Mandelbrot
+    wikidata: Q101740
     born: 1924
     died: 2010
     work: 1982
@@ -153,6 +165,7 @@ cards:
 
   - id: erdos
     name: Paul Erdős
+    wikidata: Q173746
     born: 1913
     died: 1996
     work: 1959
@@ -167,6 +180,7 @@ cards:
 
   - id: hannah-arendt
     name: Hannah Arendt
+    wikidata: Q60025
     born: 1906
     died: 1975
     work: 1963
@@ -180,6 +194,7 @@ cards:
 
   - id: john-rawls
     name: John Rawls
+    wikidata: Q172544
     born: 1921
     died: 2002
     work: 1971
@@ -192,6 +207,7 @@ cards:
 
   - id: daniel-kahneman
     name: Daniel Kahneman
+    wikidata: Q233950
     born: 1934
     died: 2024
     work: 1979
@@ -205,6 +221,7 @@ cards:
 
   - id: terence-tao
     name: Terence Tao
+    wikidata: Q295981
     born: 1975
     work: 2004
     fields: [Mathematics]
@@ -217,6 +234,7 @@ cards:
 
   - id: grigori-perelman
     name: Grigori Perelman
+    wikidata: Q117346
     born: 1966
     work: 2003
     fields: [Mathematics]
@@ -228,6 +246,7 @@ cards:
 
   - id: rachel-carson
     name: Rachel Carson
+    wikidata: Q100948
     born: 1907
     died: 1964
     work: 1962
@@ -241,6 +260,7 @@ cards:
 
   - id: lyotard
     name: Jean-François Lyotard
+    wikidata: Q193257
     born: 1924
     died: 1998
     work: 1979
@@ -255,6 +275,7 @@ cards:
   # ── Silver ────────────────────────────────────────────
   - id: grace-hopper
     name: Grace Hopper
+    wikidata: Q11641
     born: 1906
     died: 1992
     work: 1959
@@ -267,6 +288,7 @@ cards:
 
   - id: dorothy-hodgkin
     name: Dorothy Hodgkin
+    wikidata: Q7487
     born: 1910
     died: 1994
     work: 1956
@@ -279,6 +301,7 @@ cards:
 
   - id: jonas-salk
     name: Jonas Salk
+    wikidata: Q200101
     born: 1914
     died: 1995
     work: 1955
@@ -291,6 +314,7 @@ cards:
 
   - id: peter-higgs
     name: Peter Higgs
+    wikidata: Q192112
     born: 1929
     died: 2024
     work: 1964
@@ -303,6 +327,7 @@ cards:
 
   - id: john-conway
     name: John Horton Conway
+    wikidata: Q268961
     born: 1937
     died: 2020
     work: 1970
@@ -315,6 +340,7 @@ cards:
 
   - id: maryam-mirzakhani
     name: Maryam Mirzakhani
+    wikidata: Q1771279
     born: 1977
     died: 2017
     work: 2014
@@ -327,6 +353,7 @@ cards:
 
   - id: carl-sagan
     name: Carl Sagan
+    wikidata: Q410
     born: 1934
     died: 1996
     work: 1980
@@ -339,6 +366,7 @@ cards:
 
   - id: jane-goodall
     name: Jane Goodall
+    wikidata: Q184746
     born: 1934
     died: 2025
     work: 1960

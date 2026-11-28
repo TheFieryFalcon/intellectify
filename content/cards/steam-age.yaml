@@ -4,6 +4,7 @@ cards:
   # ── Diamond ─────────────────────────────────────────────
   - id: gauss
     name: Carl Friedrich Gauss
+    wikidata: Q6722
     born: 1777
     died: 1855
     work: 1801
@@ -18,6 +19,7 @@ cards:
 
   - id: darwin
     name: Charles Darwin
+    wikidata: Q1035
     born: 1809
     died: 1882
     work: 1859
@@ -31,6 +33,7 @@ cards:
 
   - id: maxwell
     name: James Clerk Maxwell
+    wikidata: Q9095
     born: 1831
     died: 1879
     work: 1865
@@ -44,6 +47,7 @@ cards:
 
   - id: pasteur
     name: Louis Pasteur
+    wikidata: Q529
     born: 1822
     died: 1895
     work: 1862
@@ -56,6 +60,7 @@ cards:
 
   - id: marx
     name: Karl Marx
+    wikidata: Q9061
     born: 1818
     died: 1883
     work: 1867
@@ -69,6 +74,7 @@ cards:
   # ── Platinum ────────────────────────────────────────────
   - id: faraday
     name: Michael Faraday
+    wikidata: Q8750
     born: 1791
     died: 1867
     work: 1831
@@ -82,6 +88,7 @@ cards:
 
   - id: cauchy
     name: Augustin-Louis Cauchy
+    wikidata: Q8814
     born: 1789
     died: 1857
     work: 1821
@@ -95,6 +102,7 @@ cards:
 
   - id: galois
     name: Évariste Galois
+    wikidata: Q7091
     born: 1811
     died: 1832
     work: 1832
@@ -108,6 +116,7 @@ cards:
 
   - id: riemann
     name: Bernhard Riemann
+    wikidata: Q42299
     born: 1826
     died: 1866
     work: 1854
@@ -121,6 +130,7 @@ cards:
 
   - id: mendel
     name: Gregor Mendel
+    wikidata: Q37970
     born: 1822
     died: 1884
     work: 1866
@@ -133,6 +143,7 @@ cards:
 
   - id: hegel
     name: Georg Wilhelm Friedrich Hegel
+    wikidata: Q9235
     born: 1770
     died: 1831
     work: 1807
@@ -145,6 +156,7 @@ cards:
 
   - id: mendeleev
     name: Dmitri Mendeleev
+    wikidata: Q9106
     born: 1834
     died: 1907
     work: 1869
@@ -158,6 +170,7 @@ cards:
   # ── Gold ────────────────────────────────────────────────
   - id: fourier
     name: Joseph Fourier
+    wikidata: Q8772
     born: 1768
     died: 1830
     work: 1822
@@ -171,6 +184,7 @@ cards:
 
   - id: dalton
     name: John Dalton
+    wikidata: Q41284
     born: 1766
     died: 1844
     work: 1808
@@ -183,6 +197,7 @@ cards:
 
   - id: hamilton
     name: William Rowan Hamilton
+    wikidata: Q11887
     born: 1805
     died: 1865
     work: 1843
@@ -196,6 +211,7 @@ cards:
 
   - id: boole
     name: George Boole
+    wikidata: Q134661
     born: 1815
     died: 1864
     work: 1854
@@ -209,6 +225,7 @@ cards:
 
   - id: mill
     name: John Stuart Mill
+    wikidata: Q50020
     born: 1806
     died: 1873
     work: 1859
@@ -221,6 +238,7 @@ cards:
 
   - id: kierkegaard
     name: Søren Kierkegaard
+    wikidata: Q6512
     born: 1813
     died: 1855
     work: 1843
@@ -233,6 +251,7 @@ cards:
 
   - id: schopenhauer
     name: Arthur Schopenhauer
+    wikidata: Q38193
     born: 1788
     died: 1860
     work: 1818
@@ -247,6 +266,7 @@ cards:
   # ── Silver ──────────────────────────────────────────────
   - id: sophie-germain
     name: Sophie Germain
+    wikidata: Q7103
     born: 1776
     died: 1831
     work: 1816
@@ -260,6 +280,7 @@ cards:
 
   - id: abel
     name: Niels Henrik Abel
+    wikidata: Q124115
     born: 1802
     died: 1829
     work: 1824
@@ -273,6 +294,7 @@ cards:
 
   - id: lobachevsky
     name: Nikolai Lobachevsky
+    wikidata: Q129199
     born: 1792
     died: 1856
     work: 1829
@@ -285,6 +307,7 @@ cards:
 
   - id: babbage
     name: Charles Babbage
+    wikidata: Q46633
     born: 1791
     died: 1871
     work: 1837
@@ -297,6 +320,7 @@ cards:
 
   - id: ada-lovelace
     name: Ada Lovelace
+    wikidata: Q7259
     born: 1815
     died: 1852
     work: 1843
@@ -310,6 +334,7 @@ cards:
 
   - id: florence-nightingale
     name: Florence Nightingale
+    wikidata: Q37103
     born: 1820
     died: 1910
     work: 1858
@@ -322,6 +347,7 @@ cards:
 
   - id: joseph-lister
     name: Joseph Lister
+    wikidata: Q155768
     born: 1827
     died: 1912
     work: 1867

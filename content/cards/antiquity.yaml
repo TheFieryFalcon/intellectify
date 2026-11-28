@@ -4,6 +4,7 @@ cards:
   # ── Diamond ─────────────────────────────────────────────
   - id: pythagoras
     name: Pythagoras
+    wikidata: Q10261
     born: -570
     died: -495
     circa: [born, died]
@@ -19,6 +20,7 @@ cards:
 
   - id: socrates
     name: Socrates
+    wikidata: Q913
     born: -470
     died: -399
     circa: [born]
@@ -33,6 +35,7 @@ cards:
 
   - id: plato
     name: Plato
+    wikidata: Q859
     born: -428
     died: -348
     circa: [born, died]
@@ -47,6 +50,7 @@ cards:
 
   - id: aristotle
     name: Aristotle
+    wikidata: Q868
     born: -384
     died: -322
     work: -340
@@ -61,6 +65,7 @@ cards:
 
   - id: euclid
     name: Euclid
+    wikidata: Q8747
     flourished: -300
     work: -300
     fields: [Mathematics]
@@ -74,6 +79,7 @@ cards:
 
   - id: archimedes
     name: Archimedes
+    wikidata: Q8739
     born: -287
     died: -212
     circa: [born]
@@ -90,6 +96,7 @@ cards:
   # ── Platinum ────────────────────────────────────────────
   - id: thales
     name: Thales of Miletus
+    wikidata: Q36303
     born: -624
     died: -546
     circa: [born, died]
@@ -104,6 +111,7 @@ cards:
 
   - id: confucius
     name: Confucius
+    wikidata: Q4604
     born: -551
     died: -479
     work: -500
@@ -117,6 +125,7 @@ cards:
 
   - id: hippocrates
     name: Hippocrates of Kos
+    wikidata: Q5264
     born: -460
     died: -370
     circa: [born, died]
@@ -131,6 +140,7 @@ cards:
 
   - id: eratosthenes
     name: Eratosthenes
+    wikidata: Q43182
     born: -276
     died: -194
     circa: [born, died]
@@ -144,6 +154,7 @@ cards:
 
   - id: ptolemy
     name: Claudius Ptolemy
+    wikidata: Q34943
     born: 100
     died: 170
     circa: [born, died]
@@ -159,6 +170,7 @@ cards:
 
   - id: galen
     name: Galen
+    wikidata: Q8778
     born: 129
     died: 216
     circa: [died]
@@ -173,6 +185,7 @@ cards:
 
   - id: diophantus
     name: Diophantus of Alexandria
+    wikidata: Q178217
     flourished: 250
     work: 250
     fields: [Mathematics]
@@ -186,6 +199,7 @@ cards:
   # ── Gold ────────────────────────────────────────────────
   - id: democritus
     name: Democritus
+    wikidata: Q41980
     born: -460
     died: -370
     circa: [born, died]
@@ -199,6 +213,7 @@ cards:
 
   - id: zeno-of-elea
     name: Zeno of Elea
+    wikidata: Q132157
     born: -490
     died: -430
     circa: [born, died]
@@ -212,6 +227,7 @@ cards:
 
   - id: epicurus
     name: Epicurus
+    wikidata: Q43216
     born: -341
     died: -270
     work: -300
@@ -224,6 +240,7 @@ cards:
 
   - id: apollonius
     name: Apollonius of Perga
+    wikidata: Q180109
     born: -240
     died: -190
     circa: [born, died]
@@ -237,6 +254,7 @@ cards:
 
   - id: hipparchus
     name: Hipparchus
+    wikidata: Q159905
     born: -190
     died: -120
     circa: [born, died]
@@ -250,6 +268,7 @@ cards:
 
   - id: aryabhata
     name: Aryabhata
+    wikidata: Q11359
     born: 476
     died: 550
     work: 499
@@ -263,6 +282,7 @@ cards:
   # ── Silver ──────────────────────────────────────────────
   - id: heraclitus
     name: Heraclitus
+    wikidata: Q41155
     born: -535
     died: -475
     circa: [born, died]
@@ -276,6 +296,7 @@ cards:
 
   - id: eudoxus
     name: Eudoxus of Cnidus
+    wikidata: Q185150
     born: -408
     died: -355
     circa: [born, died]
@@ -290,6 +311,7 @@ cards:
 
   - id: aristarchus
     name: Aristarchus of Samos
+    wikidata: Q140188
     born: -310
     died: -230
     circa: [born, died]
@@ -303,6 +325,7 @@ cards:
 
   - id: hero-of-alexandria
     name: Hero of Alexandria
+    wikidata: Q161853
     born: 10
     died: 70
     circa: [born, died]
@@ -316,6 +339,7 @@ cards:
 
   - id: liu-hui
     name: Liu Hui
+    wikidata: Q316304
     flourished: 263
     work: 263
     fields: [Mathematics]
@@ -327,6 +351,7 @@ cards:
 
   - id: hypatia
     name: Hypatia
+    wikidata: Q11903
     born: 355
     died: 415
     circa: [born]

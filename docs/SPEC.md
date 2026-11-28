@@ -1239,7 +1239,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
   - **Platinum:** transformed their field, and is well known to anyone who studies it.
   - **Gold:** made a major contribution that lasted.
   - **Silver:** did notable work that is still taught or cited.
-- **Portraits** are public domain, CC0, **CC BY** or **CC BY-SA**, or an original illustration. Each keeps its file, source, author and license.
+- **Portraits** are public domain, CC0, **CC BY** or **CC BY-SA**, or an original illustration. Each keeps its file, source, author and license. Commons' **No restrictions** tag counts as public domain and its **Attribution** tag as CC BY.
   - **Credit:** a CC BY or CC BY-SA portrait shows its author, license and source link in the card's detail view (§13.11). The duotone is a modified version ("Adapted"), and a CC BY-SA portrait's WebP is shared under the same license.
   - **Finding them:** `scripts/find_portraits.py` matches each card to its Wikidata person, takes the portrait Wikidata lists, reads its license on Wikimedia Commons, and sorts the cards into ready, credit, check (a photo of a bust, statue, coin or stamp, or a public-domain claim on a recent photo) and illustrate. Its report is `content/cards/portraits.md`.
   - **Illustrations** fill the gaps, mostly people with no known likeness, in one style that suits the duotone. They aren't AI-generated likenesses of real people.

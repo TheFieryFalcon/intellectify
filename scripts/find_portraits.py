@@ -11,7 +11,7 @@ For each card in content/cards:
        credit      CC BY or CC BY-SA: usable, with the author and license shown on the card
        check       usable license, but a person should confirm it (a photo of a bust, statue, coin
                    or stamp, where the photographer or issuer may hold rights; or a public-domain
-                   claim on a photo of someone working after 1925)
+                   claim on a photo of someone working after 1925, unless it's a US government work)
        illustrate  no image, or a license the spec doesn't allow: needs an original illustration
        unmatched   no Wikidata match: add the card's `wikidata` id by hand and run again
 
@@ -90,6 +90,7 @@ class Result:
     card: dict
     era: str
     qid: str | None = None
+    label: str | None = None  # the matched Wikidata item's English name
     status: str = "unmatched"
     file: str | None = None
     license: str | None = None
@@ -104,7 +105,7 @@ class Result:
 def entities(qids: list[str]) -> dict:
     out = {}
     for i in range(0, len(qids), 50):
-        out.update(api(WIKIDATA, action="wbgetentities", ids="|".join(qids[i:i + 50]), props="claims")["entities"])
+        out.update(api(WIKIDATA, action="wbgetentities", ids="|".join(qids[i:i + 50]), props="claims|labels", languages="en")["entities"])
     return out
 
 
@@ -126,7 +127,7 @@ def birth_ok(entity: dict, card: dict) -> bool:
         t = v["time"]
         years.append((int(t[:t.index("-", 1)]), v.get("precision", 9)))
     if not years:
-        return True
+        return False  # can't confirm it's the same person; add the card's `wikidata` id by hand
     loose = "born" in (card.get("circa") or []) or born < 1000
     for year, precision in years:
         tolerance = 100 if precision < 9 else 30 if loose else 3
@@ -144,34 +145,55 @@ def title_variants(name: str) -> list[str]:
     return out
 
 
-def find_qid(card: dict) -> str | None:
-    if card.get("wikidata"):
-        return card["wikidata"]
-    candidates: list[str] = []
-    for title in title_variants(card["name"]):
-        pages = api(WIKIPEDIA, action="query", titles=title, redirects=1, prop="pageprops", ppprop="wikibase_item")
-        for page in pages["query"]["pages"].values():
-            qid = page.get("pageprops", {}).get("wikibase_item")
-            if qid and qid not in candidates:
-                candidates.append(qid)
-    for title in title_variants(card["name"])[:2]:
-        for hit in api(WIKIDATA, action="wbsearchentities", search=title, language="en", type="item", limit=5)["search"]:
-            if hit["id"] not in candidates:
-                candidates.append(hit["id"])
-    found = entities(candidates) if candidates else {}
-    for qid in candidates:
-        if qid in found and birth_ok(found[qid], card):
-            return qid
-    return None
+def wikipedia_qids(titles: list[str]) -> dict[str, str]:
+    """English Wikipedia title → Wikidata id, following redirects, 50 titles a request."""
+    out: dict[str, str] = {}
+    titles = list(dict.fromkeys(titles))
+    for i in range(0, len(titles), 50):
+        batch = titles[i:i + 50]
+        q = api(WIKIPEDIA, action="query", titles="|".join(batch), redirects=1, prop="pageprops", ppprop="wikibase_item")["query"]
+        step = {n["from"]: n["to"] for n in q.get("normalized", [])}
+        hop = {r["from"]: r["to"] for r in q.get("redirects", [])}
+        final = {p["title"]: p.get("pageprops", {}).get("wikibase_item") for p in q["pages"].values()}
+        for t in batch:
+            u = step.get(t, t)
+            u = hop.get(u, u)
+            if final.get(u):
+                out[t] = final[u]
+    return out
+
+
+def resolve(results: list[Result], cache: dict) -> None:
+    """Set each result's qid: the card's own, else a verified Wikipedia or Wikidata-search match."""
+    todo = [r for r in results if not r.card.get("wikidata")]
+    for r in results:
+        if r.card.get("wikidata"):
+            r.qid = r.card["wikidata"]
+    titles = wikipedia_qids([t for r in todo for t in title_variants(r.card["name"])])
+    candidates = {id(r): [titles[t] for t in title_variants(r.card["name"]) if t in titles] for r in todo}
+    cache.update(entities(sorted({q for qs in candidates.values() for q in qs} - cache.keys())))
+    for r in todo:
+        r.qid = next((q for q in candidates[id(r)] if q in cache and birth_ok(cache[q], r.card)), None)
+    for r in (r for r in todo if not r.qid):  # fall back to a search, one card at a time
+        hits = [h["id"] for t in title_variants(r.card["name"])[:2]
+                for h in api(WIKIDATA, action="wbsearchentities", search=t, language="en", type="item", limit=5)["search"]]
+        cache.update(entities(sorted(set(hits) - cache.keys())))
+        r.qid = next((q for q in hits if q in cache and birth_ok(cache[q], r.card)), None)
+    cache.update(entities(sorted({r.qid for r in results if r.qid} - cache.keys())))
+    for r in results:
+        if r.qid:
+            r.label = cache[r.qid].get("labels", {}).get("en", {}).get("value")
 
 
 # ── Commons ─────────────────────────────────────────────────────────────────
 
 def license_kind(short: str, code: str) -> str | None:
-    """public-domain, cc-by, cc-by-sa, or None for anything the spec doesn't allow."""
+    """public-domain, cc-by, cc-by-sa, attribution, or None for anything the spec doesn't allow."""
     s, c = short.lower(), code.lower()
-    if c in ("pd", "cc0") or "public domain" in s or s.startswith("cc0") or c.startswith("cc-zero"):
+    if c in ("pd", "cc0") or "public domain" in s or s.startswith("cc0") or c.startswith("cc-zero") or s == "no restrictions":
         return "public-domain"
+    if s == "attribution":  # Commons' {{Attribution}}: free use with credit, like CC BY
+        return "attribution"
     if re.search(r"\b(nc|nd)\b", s) or re.search(r"-(nc|nd)\b", c):
         return None
     if c.startswith("cc-by-sa") or s.startswith("cc by-sa"):
@@ -181,54 +203,89 @@ def license_kind(short: str, code: str) -> str | None:
     return None
 
 
-def commons_file(filename: str) -> dict | None:
-    pages = api(COMMONS, action="query", titles="File:" + filename, prop="imageinfo|categories",
-                iiprop="url|extmetadata", iiurlwidth=1200, cllimit="max")["query"]["pages"]
-    page = next(iter(pages.values()))
-    if "imageinfo" not in page:
-        return None
-    info = page["imageinfo"][0]
-    meta = {k: v.get("value") for k, v in info.get("extmetadata", {}).items()}
-    return {
-        "file": filename,
-        "url": info["descriptionurl"],
-        "thumb": info.get("thumburl") or info["url"],
-        "short": plain(meta.get("LicenseShortName")),
-        "code": plain(meta.get("License")),
-        "author": plain(meta.get("Artist")) or plain(meta.get("Credit")),
-        "description": plain(meta.get("ImageDescription")),
-        "categories": [c["title"].removeprefix("Category:") for c in page.get("categories", [])],
-    }
+def commons_files(filenames: list[str]) -> dict[str, dict]:
+    """License, author, categories and a 1200 px thumbnail for each file, 25 files a request."""
+    out: dict[str, dict] = {}
+    names = list(dict.fromkeys(filenames))
+    for i in range(0, len(names), 25):
+        batch = names[i:i + 25]
+        params = dict(action="query", titles="|".join("File:" + f for f in batch), prop="imageinfo|categories",
+                      iiprop="url|extmetadata", iiurlwidth=1200, cllimit="max")
+        pages: dict[str, dict] = {}
+        step: dict[str, str] = {}
+        while True:  # categories can spill into continuation requests
+            q = api(COMMONS, **params)
+            step.update({n["from"]: n["to"] for n in q["query"].get("normalized", [])})
+            for page in q["query"]["pages"].values():
+                merged = pages.setdefault(page["title"], {"categories": []})
+                merged["categories"] += page.get("categories", [])
+                if "imageinfo" in page:
+                    merged["imageinfo"] = page["imageinfo"]
+            if "continue" not in q:
+                break
+            params.update(q["continue"])
+        for f in batch:
+            page = pages.get(step.get("File:" + f, "File:" + f))
+            if not page or "imageinfo" not in page:
+                continue
+            info = page["imageinfo"][0]
+            meta = {k: v.get("value") for k, v in info.get("extmetadata", {}).items()}
+            out[f] = {
+                "file": f,
+                "url": info["descriptionurl"],
+                "thumb": info.get("thumburl") or info["url"],
+                "short": plain(meta.get("LicenseShortName")),
+                "code": plain(meta.get("License")),
+                "author": plain(meta.get("Artist")) or plain(meta.get("Credit")),
+                "description": plain(meta.get("ImageDescription")),
+                "categories": [c["title"].removeprefix("Category:") for c in page["categories"]],
+            }
+    return out
 
 
-def judge(result: Result, files: list[str]) -> None:
-    card = result.card
-    if not files:
-        result.status = "illustrate"
-        result.notes.append("no image on Wikidata")
-        return
-    rejected = []
-    for filename in files[:3]:
-        info = commons_file(filename)
-        if not info:
-            continue
-        kind = license_kind(info["short"], info["code"])
-        if kind is None:
-            rejected.append(f"{filename} ({info['short'] or 'unknown license'})")
-            continue
-        result.file, result.url, result.thumb = info["file"], info["url"], info["thumb"]
-        result.license, result.author = info["short"] or kind, info["author"]
-        text = " ".join([info["file"], info["description"], *info["categories"]]).lower()
-        hits = sorted({w for w in CHECK_WORDS if re.search(rf"\b{w}s?\b", text)})
-        if hits:
-            result.notes.append("photo of a " + "/".join(hits) + ": confirm the photo's own license")
-        if kind == "public-domain" and (card.get("work") or 0) > 1925:
-            pd = [c for c in info["categories"] if "PD" in c or "ublic domain" in c]
-            result.notes.append("public domain claimed for a recent photo: confirm" + (f" ({'; '.join(pd[:3])})" if pd else ""))
-        result.status = "check" if result.notes else "credit" if kind.startswith("cc-by") else "ready"
-        return
-    result.status = "illustrate"
-    result.notes.append("no allowed license: " + "; ".join(rejected) if rejected else "image missing on Commons")
+def judge(result: Result, info: dict | None) -> bool:
+    """Sort a result by one candidate image. False if the image can't be used (try the next one)."""
+    if info is None:
+        result.notes.append("image missing on Commons")
+        return False
+    kind = license_kind(info["short"], info["code"])
+    if kind is None:
+        result.notes.append(f"{info['file']}: {info['short'] or 'unknown license'}")
+        return False
+    result.notes = []
+    result.file, result.url, result.thumb = info["file"], info["url"], info["thumb"]
+    result.license, result.author = info["short"] or kind, info["author"]
+    text = " ".join([info["file"], info["description"], *info["categories"]]).lower()
+    hits = sorted({w for w in CHECK_WORDS if re.search(rf"\b{w}s?\b", text)})
+    if hits:
+        result.notes.append("photo of a " + "/".join(hits) + ": confirm the photo's own license")
+    if kind == "attribution":
+        result.notes.append("Commons 'Attribution' license: free with credit, like CC BY; confirm the author")
+    pd = [c for c in info["categories"] if "PD" in c or "ublic domain" in c]
+    us_government = any(re.search(r"NASA|USGov|US ?Government|United States government|"
+                                  r"PD US (FWS|Navy|Army|Air Force|Marines|Military|NIH|NOAA|DOE|NPS|Congress|LoC)", c)
+                        for c in pd)
+    if kind == "public-domain" and (result.card.get("work") or 0) > 1925 and not us_government:
+        result.notes.append("public domain claimed for a recent photo: confirm" + (f" ({'; '.join(pd[:3])})" if pd else ""))
+    result.status = "check" if result.notes else "credit" if kind.startswith("cc-by") else "ready"
+    return True
+
+
+def find_images(results: list[Result], cache: dict) -> None:
+    """Try each matched card's Wikidata images in order, a batch of first choices, then second, then third."""
+    queue = {id(r): claim_values(cache[r.qid], "P18")[:3] for r in results if r.qid}
+    for r in results:
+        if r.qid:
+            r.status = "illustrate"
+            if not queue[id(r)]:
+                r.notes.append("no image on Wikidata")
+    for round_ in range(3):
+        pending = [r for r in results if r.qid and r.status == "illustrate" and len(queue[id(r)]) > round_]
+        if not pending:
+            break
+        infos = commons_files([queue[id(r)][round_] for r in pending])
+        for r in pending:
+            judge(r, infos.get(queue[id(r)][round_]))
 
 
 # ── Output ──────────────────────────────────────────────────────────────────
@@ -303,7 +360,8 @@ def report(results: list[Result]) -> str:
         rs = [r for r in results if r.era == era]
         out += ["", f"## {era}", "", "| Card | Status | License | Author | Image | Notes |", "|---|---|---|---|---|---|"]
         for r in sorted(rs, key=lambda r: (STATUSES.index(r.status), r.card["name"])):
-            who = f"[{r.card['name']}](https://www.wikidata.org/wiki/{r.qid})" if r.qid else r.card["name"]
+            seen_as = r.label if r.label and r.label != r.card["name"] else ""
+            who = r.card["name"] + (f" ([{seen_as or r.qid}](https://www.wikidata.org/wiki/{r.qid}))" if r.qid else "")
             image = f"[{cell(r.file, 50)}]({r.url})" if r.url else ""
             out.append(f"| {who} | {label[r.status]} | {cell(r.license, 30)} | {cell(r.author, 60)} | {image} | {cell('; '.join(r.notes), 160)} |")
     return "\n".join(out) + "\n"
@@ -323,12 +381,14 @@ def main(argv: list[str]) -> int:
             if only is None or card["id"] in only:
                 results.append(Result(card, era))
 
-    for i, r in enumerate(results, 1):
-        r.qid = find_qid(r.card)
-        if r.qid:
-            entity = entities([r.qid])[r.qid]
-            judge(r, claim_values(entity, "P18"))
-        print(f"[{i}/{len(results)}] {r.card['id']}: {r.status}" + (f" ({r.license})" if r.license else ""), file=sys.stderr)
+    cache: dict = {}
+    print(f"Matching {len(results)} cards on Wikidata…", file=sys.stderr)
+    resolve(results, cache)
+    print("Reading portrait licenses on Commons…", file=sys.stderr)
+    find_images(results, cache)
+    for r in results:
+        if only is not None:
+            print(f"{r.card['id']}: {r.status}" + (f" ({r.license})" if r.license else "") + (f" — {'; '.join(r.notes)}" if r.notes else ""), file=sys.stderr)
 
     if args.write_ids:
         print(f"Saved {write_ids(results)} Wikidata ids", file=sys.stderr)

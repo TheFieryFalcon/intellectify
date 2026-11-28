@@ -4,6 +4,7 @@ cards:
   # ── Diamond ─────────────────────────────────────────────
   - id: leonardo-da-vinci
     name: Leonardo da Vinci
+    wikidata: Q762
     born: 1452
     died: 1519
     work: 1490
@@ -17,6 +18,7 @@ cards:
 
   - id: copernicus
     name: Nicolaus Copernicus
+    wikidata: Q619
     born: 1473
     died: 1543
     work: 1543
@@ -29,6 +31,7 @@ cards:
 
   - id: galileo
     name: Galileo Galilei
+    wikidata: Q307
     born: 1564
     died: 1642
     work: 1610
@@ -43,6 +46,7 @@ cards:
 
   - id: descartes
     name: René Descartes
+    wikidata: Q9191
     born: 1596
     died: 1650
     work: 1637
@@ -57,6 +61,7 @@ cards:
   # ── Platinum ────────────────────────────────────────────
   - id: kepler
     name: Johannes Kepler
+    wikidata: Q8963
     born: 1571
     died: 1630
     work: 1609
@@ -69,6 +74,7 @@ cards:
 
   - id: fermat
     name: Pierre de Fermat
+    wikidata: Q75655
     born: 1607
     died: 1665
     work: 1637
@@ -83,6 +89,7 @@ cards:
 
   - id: francis-bacon
     name: Francis Bacon
+    wikidata: Q37388
     born: 1561
     died: 1626
     work: 1620
@@ -95,6 +102,7 @@ cards:
 
   - id: machiavelli
     name: Niccolò Machiavelli
+    wikidata: Q1399
     born: 1469
     died: 1527
     work: 1513
@@ -107,6 +115,7 @@ cards:
 
   - id: vesalius
     name: Andreas Vesalius
+    wikidata: Q170267
     born: 1514
     died: 1564
     work: 1543
@@ -119,6 +128,7 @@ cards:
 
   - id: william-harvey
     name: William Harvey
+    wikidata: Q93128
     born: 1578
     died: 1657
     work: 1628
@@ -132,6 +142,7 @@ cards:
   # ── Gold ────────────────────────────────────────────────
   - id: tycho-brahe
     name: Tycho Brahe
+    wikidata: Q36620
     born: 1546
     died: 1601
     work: 1588
@@ -144,6 +155,7 @@ cards:
 
   - id: cardano
     name: Gerolamo Cardano
+    wikidata: Q184530
     born: 1501
     died: 1576
     work: 1545
@@ -158,6 +170,7 @@ cards:
 
   - id: viete
     name: François Viète
+    wikidata: Q188623
     born: 1540
     died: 1603
     work: 1591
@@ -171,6 +184,7 @@ cards:
 
   - id: napier
     name: John Napier
+    wikidata: Q159592
     born: 1550
     died: 1617
     work: 1614
@@ -183,6 +197,7 @@ cards:
 
   - id: montaigne
     name: Michel de Montaigne
+    wikidata: Q41568
     born: 1533
     died: 1592
     work: 1580
@@ -195,6 +210,7 @@ cards:
 
   - id: erasmus
     name: Desiderius Erasmus
+    wikidata: Q43499
     born: 1466
     died: 1536
     circa: [born]
@@ -208,6 +224,7 @@ cards:
 
   - id: paracelsus
     name: Paracelsus
+    wikidata: Q83428
     born: 1493
     died: 1541
     circa: [born]
@@ -222,6 +239,7 @@ cards:
   # ── Silver ──────────────────────────────────────────────
   - id: regiomontanus
     name: Regiomontanus
+    wikidata: Q76365
     born: 1436
     died: 1476
     work: 1464
@@ -234,6 +252,7 @@ cards:
 
   - id: tartaglia
     name: Niccolò Tartaglia
+    wikidata: Q201543
     born: 1499
     died: 1557
     circa: [born]
@@ -248,6 +267,7 @@ cards:
 
   - id: bombelli
     name: Rafael Bombelli
+    wikidata: Q358547
     born: 1526
     died: 1572
     work: 1572
@@ -261,6 +281,7 @@ cards:
 
   - id: stevin
     name: Simon Stevin
+    wikidata: Q23696
     born: 1548
     died: 1620
     work: 1585
@@ -274,6 +295,7 @@ cards:
 
   - id: william-gilbert
     name: William Gilbert
+    wikidata: Q192706
     born: 1544
     died: 1603
     work: 1600
@@ -286,6 +308,7 @@ cards:
 
   - id: giordano-bruno
     name: Giordano Bruno
+    wikidata: Q36330
     born: 1548
     died: 1600
     work: 1584
@@ -298,6 +321,7 @@ cards:
 
   - id: mersenne
     name: Marin Mersenne
+    wikidata: Q188663
     born: 1588
     died: 1648
     work: 1636

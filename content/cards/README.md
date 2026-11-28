@@ -5,7 +5,7 @@ One file per era set. Check them with `python3 scripts/verify_cards.py`.
 Portraits: `python3 scripts/find_portraits.py` looks each card up on Wikidata and Wikimedia Commons and
 writes `portraits.md`, sorting cards into ready (public domain), credit (CC BY or CC BY-SA), check
 and illustrate. Allowed licenses: `Public domain`, `CC0`, `CC BY 4.0` (any version), `CC BY-SA 4.0`
-(any version), or `Original illustration`.
+(any version), `No restrictions` and `Attribution` (Commons' own tags), or `Original illustration`.
 
 ```yaml
 era: antiquity            # must match the file name

@@ -4,6 +4,7 @@ cards:
   # ── Diamond ───────────────────────────────────────────
   - id: einstein
     name: Albert Einstein
+    wikidata: Q937
     born: 1879
     died: 1955
     work: 1905
@@ -17,6 +18,7 @@ cards:
 
   - id: marie-curie
     name: Marie Curie
+    wikidata: Q7186
     born: 1867
     died: 1934
     work: 1898
@@ -29,6 +31,7 @@ cards:
 
   - id: nietzsche
     name: Friedrich Nietzsche
+    wikidata: Q9358
     born: 1844
     died: 1900
     work: 1883
@@ -42,6 +45,7 @@ cards:
 
   - id: freud
     name: Sigmund Freud
+    wikidata: Q9215
     born: 1856
     died: 1939
     work: 1899
@@ -54,6 +58,7 @@ cards:
 
   - id: turing
     name: Alan Turing
+    wikidata: Q7251
     born: 1912
     died: 1954
     work: 1936
@@ -67,6 +72,7 @@ cards:
 
   - id: feynman
     name: Richard Feynman
+    wikidata: Q39246
     born: 1918
     died: 1988
     work: 1948
@@ -80,6 +86,7 @@ cards:
 
   - id: sartre
     name: Jean-Paul Sartre
+    wikidata: Q9364
     born: 1905
     died: 1980
     work: 1943
@@ -94,6 +101,7 @@ cards:
   # ── Platinum ──────────────────────────────────────────
   - id: cantor
     name: Georg Cantor
+    wikidata: Q76420
     born: 1845
     died: 1918
     work: 1883
@@ -107,6 +115,7 @@ cards:
 
   - id: poincare
     name: Henri Poincaré
+    wikidata: Q81082
     born: 1854
     died: 1912
     work: 1895
@@ -119,6 +128,7 @@ cards:
 
   - id: hilbert
     name: David Hilbert
+    wikidata: Q41585
     born: 1862
     died: 1943
     work: 1899
@@ -133,6 +143,7 @@ cards:
 
   - id: planck
     name: Max Planck
+    wikidata: Q9021
     born: 1858
     died: 1947
     work: 1900
@@ -145,6 +156,7 @@ cards:
 
   - id: rutherford
     name: Ernest Rutherford
+    wikidata: Q9123
     born: 1871
     died: 1937
     work: 1911
@@ -157,6 +169,7 @@ cards:
 
   - id: bohr
     name: Niels Bohr
+    wikidata: Q7085
     born: 1885
     died: 1962
     work: 1913
@@ -169,6 +182,7 @@ cards:
 
   - id: heisenberg
     name: Werner Heisenberg
+    wikidata: Q40904
     born: 1901
     died: 1976
     work: 1925
@@ -181,6 +195,7 @@ cards:
 
   - id: godel
     name: Kurt Gödel
+    wikidata: Q41390
     born: 1906
     died: 1978
     work: 1931
@@ -194,6 +209,7 @@ cards:
 
   - id: von-neumann
     name: John von Neumann
+    wikidata: Q17455
     born: 1903
     died: 1957
     work: 1945
@@ -206,6 +222,7 @@ cards:
 
   - id: crick
     name: Francis Crick
+    wikidata: Q123280
     born: 1916
     died: 2004
     work: 1953
@@ -219,6 +236,7 @@ cards:
   # ── Gold ──────────────────────────────────────────────
   - id: schrodinger
     name: Erwin Schrödinger
+    wikidata: Q9130
     born: 1887
     died: 1961
     work: 1926
@@ -231,6 +249,7 @@ cards:
 
   - id: noether
     name: Emmy Noether
+    wikidata: Q7099
     born: 1882
     died: 1935
     work: 1918
@@ -243,6 +262,7 @@ cards:
 
   - id: ramanujan
     name: Srinivasa Ramanujan
+    wikidata: Q83163
     born: 1887
     died: 1920
     work: 1914
@@ -255,6 +275,7 @@ cards:
 
   - id: russell
     name: Bertrand Russell
+    wikidata: Q33760
     born: 1872
     died: 1970
     work: 1910
@@ -269,6 +290,7 @@ cards:
 
   - id: wittgenstein
     name: Ludwig Wittgenstein
+    wikidata: Q9391
     born: 1889
     died: 1951
     work: 1921
@@ -281,6 +303,7 @@ cards:
 
   - id: shannon
     name: Claude Shannon
+    wikidata: Q92760
     born: 1916
     died: 2001
     work: 1948
@@ -293,6 +316,7 @@ cards:
 
   - id: popper
     name: Karl Popper
+    wikidata: Q81244
     born: 1902
     died: 1994
     work: 1934
@@ -305,6 +329,7 @@ cards:
 
   - id: simone-de-beauvoir
     name: Simone de Beauvoir
+    wikidata: Q7197
     born: 1908
     died: 1986
     work: 1949
@@ -318,6 +343,7 @@ cards:
   # ── Silver ────────────────────────────────────────────
   - id: frege
     name: Gottlob Frege
+    wikidata: Q60028
     born: 1848
     died: 1925
     work: 1884
@@ -331,6 +357,7 @@ cards:
 
   - id: fleming
     name: Alexander Fleming
+    wikidata: Q37064
     born: 1881
     died: 1955
     work: 1928
@@ -343,6 +370,7 @@ cards:
 
   - id: tesla
     name: Nikola Tesla
+    wikidata: Q9036
     born: 1856
     died: 1943
     work: 1888
@@ -355,6 +383,7 @@ cards:
 
   - id: dirac
     name: Paul Dirac
+    wikidata: Q47480
     born: 1902
     died: 1984
     work: 1928
@@ -367,6 +396,7 @@ cards:
 
   - id: rosalind-franklin
     name: Rosalind Franklin
+    wikidata: Q7474
     born: 1920
     died: 1958
     work: 1952
@@ -379,6 +409,7 @@ cards:
 
   - id: john-nash
     name: John Nash
+    wikidata: Q128736
     born: 1928
     died: 2015
     work: 1950
