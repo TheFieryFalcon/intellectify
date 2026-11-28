@@ -655,6 +655,7 @@ Emphasis by tier:
 Language rules for every question and solution:
 - **Only taught terms.** Use vocabulary from the syllabus up to that skill (and the glossary built from tutorials, §3.1).
 - **No untaught jargon.** Describe any other concept in plain English inside the question, without naming it. For example, write "the point where the three lines from each corner to the midpoint of the opposite side meet", not "the centroid".
+- **Only taught facts.** A question may rely only on facts from the syllabus up to that skill, its tutorials, and the core of Years 7–10 (angles at a point and on parallel lines, angle sums, congruence and similarity tests, Pythagoras, isosceles triangles, parallelograms). Any other fact, however familiar to a mathematician (e.g. an isosceles trapezium's base angles are equal, an angle bisector splits the opposite side in the ratio of the sides), is either stated in the stem or proved in the solution in a line or two from taught facts, so a student who doesn't know it can still find it. Difficulty comes from insight, never from recall of an obscure result.
 - **Templates for routine setups.** Questions whose setup is routine use parameterized variants. For example, a "no two identical letters adjacent" arrangement question uses a list of words (MISSISSIPPI, GENERATED, METASTASIS, …), with each variant's answer computed and verified by the generator.
 
 ### 11.2 Verification (all must pass before merge)

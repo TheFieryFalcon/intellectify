@@ -615,7 +615,7 @@
     - id: a
       answer: { type: vector, key: ['8', '-1'] }
   solution: |
-    Two unit vectors form a rhombus, and a rhombus's diagonal bisects its angle. So add the unit vectors: $\tfrac{1}{5}(3\mathbf{i} + 4\mathbf{j}) + \tfrac{1}{13}(5\mathbf{i} - 12\mathbf{j}) = \tfrac{1}{65}(64\mathbf{i} - 8\mathbf{j}) = \tfrac{8}{65}(8\mathbf{i} - \mathbf{j})$.
+    Adding two vectors of equal length gives one that bisects the angle between them: they make a parallelogram with all four sides equal, and its diagonal splits it into two triangles with the same three side lengths (congruent, SSS), so the two angles at the start are equal. So add the unit vectors: $\tfrac{1}{5}(3\mathbf{i} + 4\mathbf{j}) + \tfrac{1}{13}(5\mathbf{i} - 12\mathbf{j}) = \tfrac{1}{65}(64\mathbf{i} - 8\mathbf{j}) = \tfrac{8}{65}(8\mathbf{i} - \mathbf{j})$.
     $8\mathbf{i} - \mathbf{j}$ points the same way and already has magnitude $\sqrt{65}$.
   verify: |
     def answers():

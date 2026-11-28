@@ -477,7 +477,7 @@
     - { t: 76, v: 104, _C: '3.516, 1.941', _D: '0.484, 1.941' }
     - { t: 82, v: 98, _C: '3.722, 1.981', _D: '0.278, 1.981' }
   stem: |
-    $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = {{t}}^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
+    $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = {{t}}^\circ$. Because the slanted sides are equal, the angles at $A$ and $B$ are equal too: $\angle ABC = {{t}}^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
 
     ```diagram
     view: [-2.45, 4.45, -2.45, 2.45]
@@ -505,7 +505,7 @@
     - {id: b, text: Not cyclic}
     answer: {type: mcq, key: a}
   solution: |
-    In an isosceles trapezium the base angles are equal: $\angle ABC = {{t}}^\circ$. Co-interior angles between the parallel sides add to $180^\circ$: $\angle BCD = 180^\circ - {{t}}^\circ = {{v}}^\circ$. So $\angle DAB + \angle BCD = 180^\circ$, and $ABCD$ is cyclic.
+    $\angle ABC = {{t}}^\circ$ (given). Co-interior angles between the parallel sides add to $180^\circ$: $\angle BCD = 180^\circ - {{t}}^\circ = {{v}}^\circ$. So $\angle DAB + \angle BCD = 180^\circ$, and $ABCD$ is cyclic.
   verify: |
     def answers(t, v):
         import math
