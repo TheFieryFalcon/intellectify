@@ -145,6 +145,7 @@ def ink_wash(gray: np.ndarray, enlarged: float) -> Image.Image:
     if (g > 190).mean() > LINE_ART_PAPER:
         ink = line_art(g)
     else:
+        g = cv2.medianBlur(g, 5)  # removes craquelure and print grain, keeps edges
         g = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 5)).apply(g)
         g = cv2.bilateralFilter(g, 7, 40, 7)
         ink = np.array(INK_BANDS)[np.digitize(1 - g / 255.0, BAND_EDGES)]
@@ -162,8 +163,8 @@ def line_art(g: np.ndarray) -> np.ndarray:
     paper, dark strokes become solid ink with soft edges, and only mid-dark shading keeps a tint.
     """
     d = 1 - cv2.GaussianBlur(g, (0, 0), 0.8).astype(float) / 255
-    lines = np.clip((d - 0.42) / 0.12, 0, 1)            # strokes: solid ink, antialiased
-    shade = np.clip((d - 0.22) / 0.08, 0, 1) * 0.35     # shading: a single light tint
+    lines = np.clip((d - 0.55) / 0.12, 0, 1)            # strokes: solid ink, antialiased
+    shade = np.clip((d - 0.22) / 0.08, 0, 1) * 0.35     # shading and mid tones (skin): a light tint
     return np.maximum(lines, shade)
 
 
