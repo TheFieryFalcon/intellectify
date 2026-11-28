@@ -1243,7 +1243,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
   - **Credit:** a CC BY or CC BY-SA portrait shows its author, license and source link in the card's detail view (§13.11). The duotone is a modified version ("Adapted"), and a CC BY-SA portrait's WebP is shared under the same license.
   - **Finding them:** `scripts/find_portraits.py` matches each card to its Wikidata person, takes the portrait Wikidata lists, reads its license on Wikimedia Commons, and sorts the cards into ready, credit, check (a photo of a bust, statue, coin or stamp, or a public-domain claim on a recent photo) and illustrate. Its report is `content/cards/portraits.md`.
   - **Owner decisions** live in `content/cards/portraits/overrides.yaml`: a different Commons file for a card, an image the owner supplies, and the checks the owner has done, each tied to the exact file so a new image is checked again.
-  - **Processing:** `scripts/process_portraits.py` downloads each chosen image at a standard Wikimedia thumbnail width, crops it to the card's 4:5 window, applies the ink duotone, saves `content/cards/portraits/<id>.webp` (480 × 600) and fills in the card's `portrait` field. Cards still waiting on a check are skipped.
+  - **Processing:** `scripts/process_portraits.py` downloads each chosen image at a standard Wikimedia thumbnail width, finds the face (OpenCV, or a position set by hand in the overrides), applies the ink wash (§13.11), saves `content/cards/portraits/<id>.webp` and fills in the card's `portrait` field. Cards still waiting on a check are skipped, and faces it can't find are listed for a hand-set position.
   - **Illustrations** fill the gaps, mostly people with no known likeness, in one style that suits the duotone. They aren't AI-generated likenesses of real people.
 - **Build checks** (`scripts/verify_cards.py`): dates, era ranges by major work, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and related skill ids.
 - **Launch:** all seven eras together. Every set is drafted; portraits are being sourced.
@@ -1466,7 +1466,10 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - Screen readers hear each reveal ("Euler · Platinum · New"); face-down cards are buttons ("Card 3 of 5").
 
 #### Cards
-- **Portraits** are processed offline into **one ink duotone** (ink on the paper tone), so a set looks coherent whatever the source. They're stored as WebP next to the card YAML, and the source, author and license are kept (§13.7).
+- **Portraits** are processed offline into **one ink-wash style**, so a set looks coherent whatever the source (painting, photo, bust, stamp or sketch):
+  - **Framing:** the face at a fixed size and eye line, the image always filling the card, inside an oval that fades into the paper.
+  - **Tone:** contrast evened out, four flat bands of ink on the paper tone, and inked edges.
+  - **Stored** as 480 × 600 WebP next to the card YAML, with the source, author and license kept (§13.7).
 - **Face:** portrait, name and rarity. **Detail view** (click a card anywhere): the enlarged card plus dates, era, field chips, blurb, related-skill chips (links to the skill page), copies owned, foil, which slot it's in, and the portrait credit in small type (author, license and source link; required for CC BY and CC BY-SA, shown for every portrait).
 - **Rarity frames in archive materials:** Silver is pewter, Gold is gilt leaf, Platinum is engraved steel, Diamond is cut crystal over vellum. The rarity is also written on the frame, so color is never the only signal.
 - **Foil:** a holographic sheen that follows the pointer, or a finger dragged across the card on touch. Device motion is never used, so no permission is ever asked. Reduced motion shows a still gilt rim.

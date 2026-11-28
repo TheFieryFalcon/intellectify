@@ -61,3 +61,9 @@ checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
   von-neumann: "JohnvonNeumann-LosAlamos.jpg"
   wittgenstein: "Ludwig Wittgenstein.jpg"
   zeno-of-elea: "Portretbuste van Zeno van Elea Paradigmata graphices variorum artificum (serietitel), RP-P-1907-4495.jpg"
+
+# Where the face is, for images the detector misses or gets wrong:
+# card id → [center x, center y, face width], as fractions of the image's width and height.
+focus:
+  hawking: [0.38, 0.17, 0.24]
+  thabit-ibn-qurra: [0.45, 0.31, 0.34]

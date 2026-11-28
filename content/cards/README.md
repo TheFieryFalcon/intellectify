@@ -7,8 +7,10 @@ writes `portraits.md`, sorting cards into ready (public domain), credit (CC BY o
 and illustrate. Allowed licenses: `Public domain`, `CC0`, `CC BY 4.0` (any version), `CC BY-SA 4.0`
 (any version), `No restrictions` and `Attribution` (Commons' own tags), or `Original illustration`.
 Owner decisions (another Commons file, a supplied image, checks done) go in
-`portraits/overrides.yaml`. Then `python3 scripts/process_portraits.py` makes the duotone WebPs in
-`portraits/` and fills in each card's `portrait` field.
+`portraits/overrides.yaml`, along with face positions the detector misses (`focus`). Then
+`python3 scripts/process_portraits.py` makes the ink-wash WebPs in `portraits/` and fills in each
+card's `portrait` field (`--offline` reuses the last run's choices; `--sheet FILE.png` saves a
+contact sheet). It needs OpenCV 4: `pip install opencv-python-headless==4.10.0.84`.
 
 ```yaml
 era: antiquity            # must match the file name

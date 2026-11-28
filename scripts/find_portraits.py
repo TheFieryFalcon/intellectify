@@ -285,7 +285,7 @@ def judge(result: Result, info: dict | None) -> bool:
 
 def load_overrides() -> dict:
     data = yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}
-    return {k: data.get(k) or {} for k in ("commons", "local", "checked")}
+    return {k: data.get(k) or {} for k in ("commons", "local", "checked", "focus")}
 
 
 def find_images(results: list[Result], cache: dict) -> None:
