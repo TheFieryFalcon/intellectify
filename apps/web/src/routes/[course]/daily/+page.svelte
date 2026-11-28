@@ -175,15 +175,16 @@
     {/if}
     {#if solutionVisible}
       <section class="card">
-        <h2 class="first">Solution</h2>
-        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"}{#if dailyBonus}, daily bonus +{dailyBonus} XP{/if}</p>
-        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
-        <h2>Solution</h2>
+        {#if summary}
+          <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"}{#if dailyBonus}, daily bonus +{dailyBonus} XP{/if}</p>
+          <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
+          <h2>Solution</h2>
+        {:else}
+          <h2 class="first">Solution</h2>
+        {/if}
         <Markdown text={served.question.solution} />
       </section>
     {:else}
-      <div class="actions">
-        <button type="button" class="btn" onclick={reveal}>Show solution</button>
         {#if done !== "solved"}<span class="muted note">Today's problem can't count as solved after you see it.</span>{/if}
       </div>
     {/if}
