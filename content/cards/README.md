@@ -2,6 +2,11 @@
 
 One file per era set. Check them with `python3 scripts/verify_cards.py`.
 
+Portraits: `python3 scripts/find_portraits.py` looks each card up on Wikidata and Wikimedia Commons and
+writes `portraits.md`, sorting cards into ready (public domain), credit (CC BY or CC BY-SA), check
+and illustrate. Allowed licenses: `Public domain`, `CC0`, `CC BY 4.0` (any version), `CC BY-SA 4.0`
+(any version), or `Original illustration`.
+
 ```yaml
 era: antiquity            # must match the file name
 cards:
@@ -14,7 +19,8 @@ cards:
     work: -250            # year of their major work: it picks the era
     fields: [Mathematics, Physics, Engineering]
     rarity: diamond       # diamond, platinum, gold or silver
-    portrait: null        # { file, source, license } once processed (§13.11)
+    wikidata: Q8739       # optional; scripts/find_portraits.py --write-ids fills it in
+    portrait: null        # { file, source, author, license } once processed (§13.11)
     related: [spec.integration.volumes]   # skill ids (optional)
     blurb: >-
       At most two sentences on what they did and why it mattered.

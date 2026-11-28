@@ -1226,7 +1226,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 | Space Age Pack | 1955 on | Stephen Hawking, Gilles Deleuze, Noam Chomsky, Michel Foucault | Alexander Grothendieck, Roger Penrose, Andrew Wiles, Tim Berners-Lee, Thomas Kuhn, Jacques Derrida | Chien-Shiung Wu, Benoit Mandelbrot, Paul Erdős, Hannah Arendt, John Rawls, Daniel Kahneman, Terence Tao, Grigori Perelman, Rachel Carson, Jean-François Lyotard | Grace Hopper, Dorothy Hodgkin, Jonas Salk, Peter Higgs, John Horton Conway, Maryam Mirzakhani, Carl Sagan, Jane Goodall |
 
 **Content rules**
-- Cards live in `content/cards/<era>.yaml` (format in `content/cards/README.md`), with: id, name, born and died (or the year they flourished, when neither is known; approximate dates are marked), the year of their **major work** (which picks the era), fields (Mathematics, Statistics, Computing, Physics, Astronomy, Chemistry, Biology, Medicine, Psychology, Philosophy, Economics, History, Geography, Engineering, Art), rarity, portrait (public domain or an original illustration, with its source and license), blurb, and related skill ids (optional).
+- Cards live in `content/cards/<era>.yaml` (format in `content/cards/README.md`), with: id, name, born and died (or the year they flourished, when neither is known; approximate dates are marked), the year of their **major work** (which picks the era), fields (Mathematics, Statistics, Computing, Physics, Astronomy, Chemistry, Biology, Medicine, Psychology, Philosophy, Economics, History, Geography, Engineering, Art), rarity, Wikidata id (optional), portrait (see Portraits below), blurb, and related skill ids (optional).
 - **Living people are allowed.** Every set mixes mathematics, science and philosophy.
 - **Notability first.** Every card is someone notable in their own right. No one is added to balance a set by region or any other quota.
 - **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§16.1). Quotes are used only when the person is known to have actually said them.
@@ -1239,8 +1239,12 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
   - **Platinum:** transformed their field, and is well known to anyone who studies it.
   - **Gold:** made a major contribution that lasted.
   - **Silver:** did notable work that is still taught or cited.
+- **Portraits** are public domain, CC0, **CC BY** or **CC BY-SA**, or an original illustration. Each keeps its file, source, author and license.
+  - **Credit:** a CC BY or CC BY-SA portrait shows its author, license and source link in the card's detail view (§13.11). The duotone is a modified version ("Adapted"), and a CC BY-SA portrait's WebP is shared under the same license.
+  - **Finding them:** `scripts/find_portraits.py` matches each card to its Wikidata person, takes the portrait Wikidata lists, reads its license on Wikimedia Commons, and sorts the cards into ready, credit, check (a photo of a bust, statue, coin or stamp, or a public-domain claim on a recent photo) and illustrate. Its report is `content/cards/portraits.md`.
+  - **Illustrations** fill the gaps, mostly people with no known likeness, in one style that suits the duotone. They aren't AI-generated likenesses of real people.
 - **Build checks** (`scripts/verify_cards.py`): dates, era ranges by major work, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and related skill ids.
-- **Launch:** all seven eras together. Every set is drafted; portraits are still to be sourced.
+- **Launch:** all seven eras together. Every set is drafted; portraits are being sourced.
 
 **Era unlocks.** Antiquity packs are available from the start. Each later era's packs unlock with the **first copy of the previous era's institute** (Golden Age packs with the first Academy, Renaissance packs with the first House of Wisdom, and so on), which is also when that era's own institute unlocks (§13.3). Locked eras show as sealed packs with the bare-label condition, e.g. **Build an Academy**.
 
@@ -1460,8 +1464,8 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - Screen readers hear each reveal ("Euler · Platinum · New"); face-down cards are buttons ("Card 3 of 5").
 
 #### Cards
-- **Portraits** are processed offline into **one ink duotone** (ink on the paper tone), so a set looks coherent whatever the source. They're stored as WebP next to the card YAML, and the source and license are kept (§13.7).
-- **Face:** portrait, name and rarity. **Detail view** (click a card anywhere): the enlarged card plus dates, era, field chips, blurb, related-skill chips (links to the skill page), copies owned, foil, and which slot it's in.
+- **Portraits** are processed offline into **one ink duotone** (ink on the paper tone), so a set looks coherent whatever the source. They're stored as WebP next to the card YAML, and the source, author and license are kept (§13.7).
+- **Face:** portrait, name and rarity. **Detail view** (click a card anywhere): the enlarged card plus dates, era, field chips, blurb, related-skill chips (links to the skill page), copies owned, foil, which slot it's in, and the portrait credit in small type (author, license and source link; required for CC BY and CC BY-SA, shown for every portrait).
 - **Rarity frames in archive materials:** Silver is pewter, Gold is gilt leaf, Platinum is engraved steel, Diamond is cut crystal over vellum. The rarity is also written on the frame, so color is never the only signal.
 - **Foil:** a holographic sheen that follows the pointer, or a finger dragged across the card on touch. Device motion is never used, so no permission is ever asked. Reduced motion shows a still gilt rim.
 - **Sizes:** a 5:7 card, about 96 px wide in grids, 180 px in the reveal and 320 px in the detail view.

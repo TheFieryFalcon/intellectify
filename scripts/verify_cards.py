@@ -7,7 +7,9 @@ Errors (exit code 1):
     (living people have no `died`);
   - fewer than 3 Diamonds or 4 cards of any other rarity in a set;
   - a blurb longer than two sentences or MAX_BLURB characters;
-  - a portrait without its file, source and license;
+  - a portrait without its file, source, author and license, or with a license other than
+    public domain, CC0, CC BY, CC BY-SA or an original illustration;
+  - a malformed `wikidata` id;
   - a `related` id that isn't a skill in any course under content/curriculum.
 
 Warnings (printed, exit code 0):
@@ -47,6 +49,8 @@ FIELDS = {
     "Medicine", "Psychology", "Linguistics", "Philosophy", "Economics", "History", "Geography", "Engineering", "Art",
 }
 REQUIRED = ("id", "name", "work", "fields", "rarity", "portrait", "blurb")
+# Public domain, CC0, CC BY and CC BY-SA (any version), or the project's own illustration.
+PORTRAIT_LICENSE = re.compile(r"^(Public domain|CC0( 1\.0)?|CC BY(-SA)? [1-4]\.0( [A-Za-z-]+)?|Original illustration)$")
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 # A sentence ends at . ! or ? followed by a space and a capital letter or digit, or at the end.
 SENTENCE_END = re.compile(r"[.!?](?=\s+[A-Z0-9ÉÖ]|\s*$)")
@@ -164,8 +168,12 @@ def main(root: str = "content") -> int:
             portrait = card.get("portrait")
             if portrait is None:
                 no_portrait += 1
-            elif not all(portrait.get(k) for k in ("file", "source", "license")):
-                errors.append(f"{at}: portrait needs file, source and license")
+            elif not all(portrait.get(k) for k in ("file", "source", "author", "license")):
+                errors.append(f"{at}: portrait needs file, source, author and license")
+            elif not PORTRAIT_LICENSE.match(str(portrait["license"])):
+                errors.append(f"{at}: portrait license '{portrait['license']}' isn't allowed (§13.7)")
+            if "wikidata" in card and not re.match(r"^Q[1-9][0-9]*$", str(card["wikidata"])):
+                errors.append(f"{at}: wikidata '{card['wikidata']}' isn't a Wikidata item id")
 
             related = card.get("related") or []
             for sid in related:
