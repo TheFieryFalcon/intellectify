@@ -1705,7 +1705,7 @@ netlify/functions/     mark, transcribe, ink
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **To tune when the economy ships**
-- Lemma rates, institute and Conjecture costs and outputs (against the calibration targets in §12.5), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
+- Lemma rates, institute and Conjecture costs and outputs, and the Time Warp (against the calibration targets in §12.5, including Rank-into-Rank after 1.5 years of 1.5 hours a day), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
