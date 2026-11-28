@@ -3,9 +3,17 @@
 
 # Use this Commons file instead of the one Wikidata lists.
 commons:
-  al-kindi: Stamp IQ 1962 6f.jpg  # 1962 Iraqi stamp; Wikidata lists no image
   boole: Portrait of George Boole.png
   madhava: Sangamagrama-Madhava-c1340-c1425-This-is-a-digital-image-of-Madhava-drawn-up-with.ppm.png
+  pythagoras: "Pythagoras. Line engraving by B. Barloccini after C. C. Perk Wellcome V0004820.jpg"
+  aristarchus: "Depiction of Aristarchus at the NKUA on May 22, 2022.jpg"
+  ibn-rushd: "Ibn Rushd, Sayr mulhimah min al-Sharq wa-al-Gharb.png"
+  boethius: "Fl Boetio (Flavio Boezio) - Studiolo di Federico da Montefeltro.jpg"
+  al-kindi: "Al-Kindi.jpg"
+  leonardo-da-vinci: "DaVinciSelfPort.jpg"
+  napier: "John Napier.JPG"
+  vesalius: "Esme de Boulonois, portret van Andreas Vesalius (1514-1564), medicus, 17de eeuw, papier, kopergravure, SMU.1989.0055.00, Het Stadsmus.jpg"
+  emilie-du-chatelet: "Okänd - Gabrielle-Émilie Le Tonnelier de Breteuil (1706–1749), Marquise du Châtelet - NMDrh 796 - Nationalmuseum.jpg"
 
 # Images supplied by the owner, in portraits/source/.
 local:
@@ -34,7 +42,6 @@ local:
 checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
   adam-smith: "AdamSmith.jpg"
   al-khwarizmi: "Madrid - Ciudad Universitaria, Monumento a Muhammad al-Juarismi (cropped).jpg"
-  al-kindi: "Stamp IQ 1962 6f.jpg"
   andrew-wiles: "Andrew wiles1-3.jpg"
   aristotle: "Aristotle Altemps Inv8575.jpg"
   aryabhata: "2064 aryabhata-crp.jpg"
@@ -51,7 +58,6 @@ checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
   hippocrates: "Hippocrates rubens.jpg"
   huygens: "Christiaan-huygens4.jpg"
   ibn-khaldun: "Bust of Ibn Khaldun (Casbah of Bejaia, Algeria).jpg"
-  ibn-rushd: "Statue of Averroes in Córdoba, Spain.jpg"
   john-rawls: "John Rawls (1971 photo portrait).jpg"
   jonas-salk: "Jonas Salk candid.jpg"
   kepler: "Johannes Kepler by Hans von Aachen.jpg"
@@ -76,31 +82,29 @@ checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
 # Where the face is, for images the detector misses or gets wrong:
 # card id → [center x, center y, face width], as fractions of the image's width and height.
 focus:
-  al-kindi: [0.42, 0.42, 0.20]
   al-razi: [0.41, 0.31, 0.26]
-  aristarchus: [0.16, 0.15, 0.12]
   archimedes: [0.75, 0.37, 0.21]
-  boethius: [0.45, 0.42, 0.30]           # a manuscript initial: frame the whole scene
   brahmagupta: [0.49, 0.50, 0.12]
   confucius: [0.52, 0.25, 0.20]
   derrida: [0.41, 0.22, 0.12]
   euclid: [0.55, 0.16, 0.22]
   fleming: [0.32, 0.22, 0.15]
   hawking: [0.38, 0.17, 0.24]
-  ibn-rushd: [0.30, 0.25, 0.13]
   john-conway: [0.66, 0.52, 0.50]
   kuhn: [0.36, 0.33, 0.36]
-  leonardo-da-vinci: [0.42, 0.36, 0.50]
   liu-hui: [0.48, 0.21, 0.10]
   lyotard: [0.48, 0.34, 0.40]
-  napier: [0.54, 0.16, 0.14]
-  nicole-oresme: [0.36, 0.40, 0.25]     # a manuscript scene: frame the figure at the desk
   noether: [0.36, 0.20, 0.17]
   ptolemy: [0.52, 0.29, 0.26]
-  pythagoras: [0.52, 0.36, 0.38]
   rosalind-franklin: [0.52, 0.27, 0.32]
   thabit-ibn-qurra: [0.45, 0.31, 0.34]
   thomas-aquinas: [0.41, 0.26, 0.22]
+  nicole-oresme: [0.27, 0.29, 0.07]
 
 # Images that aren't portraits: these cards go back to needing an illustration.
 reject: {}
+
+
+# Cards whose face is small in a big original: fetch a 1920 or 1280 px thumbnail.
+hires:
+  - nicole-oresme
