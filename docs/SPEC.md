@@ -954,7 +954,12 @@ A second, **spendable** layer on top of XP. XP measures lifetime effort and neve
 
 #### Lemmas (∴)
 - **Base:** each XP award also pays the same number of Lemmas, before multipliers: Lemmas = (XP + flat bonuses) × source multiplier × global multiplier.
-- **Shown** as **∴ 12,345** next to the level badge in the header, and as **+48 ∴** in the result panel (§6.1). Totals from 1,000,000 up use scientific notation (**∴ 1.23 × 10⁶**). The icon is labeled "Lemmas" for screen readers.
+- **Shown** next to the level badge in the header and as **+48 ∴** in the result panel (§6.1). The icon is labeled "Lemmas" for screen readers.
+- **SI notation, never scientific notation:**
+  - Below 1,000, amounts show in full: **850 ∴**, "850 lemmas".
+  - From 1,000 up they take an SI prefix, with three significant figures: **100 kilolemmas**, **4.56 megalemmas**, **12.3 gigalemmas**.
+  - Where space is tight (header, result panel, buttons), the short form is used: **100 k∴**, **4.56 M∴**.
+  - Prefixes run kilo (k, 10³), mega (M), giga (G), tera (T), peta (P), exa (E), zetta (Z), yotta (Y), ronna (R), quetta (Q, 10³⁰). Past that the number keeps growing in quettalemmas.
 
 #### Theorems (the upgrade tree)
 Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × growth^n**. They form a small dependency graph (the *proof tree*), drawn like the tech tree; a theorem unlocks once its prerequisites are proven.
@@ -981,33 +986,33 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 
 | Institute | Era | Base cost | Output per copy (∴/day) |
 |---|---|---|---|
-| Academy | Antiquity | 2,000 | 5 |
-| House of Wisdom | Golden Age | 24,000 | 50 |
-| Observatory | Renaissance | 288,000 | 500 |
-| Learned Society | Enlightenment | 3.46 × 10⁶ | 5,000 |
-| Polytechnic | Steam Age | 4.15 × 10⁷ | 50,000 |
-| Research Institute | Machine Age | 4.98 × 10⁸ | 500,000 |
-| Particle Accelerator | Space Age | 5.97 × 10⁹ | 5,000,000 |
+| Academy | Antiquity | 2 k | 5 |
+| House of Wisdom | Golden Age | 24 k | 50 |
+| Observatory | Renaissance | 288 k | 500 |
+| Learned Society | Enlightenment | 3.46 M | 5 k |
+| Polytechnic | Steam Age | 41.5 M | 50 k |
+| Research Institute | Machine Age | 498 M | 500 k |
+| Particle Accelerator | Space Age | 5.97 G | 5 M |
 
 - **Cards staff their era's institute.** Each collected card adds to that institute's output: Silver +2%, Gold +5%, Platinum +10%, Diamond +25%. A foil card doubles its own boost. A complete set roughly triples its institute's output. An institute whose era isn't released yet works unboosted.
 - **Other boosts:** Recurrence Relation, Golden Ratio, corollaries and Axioms all apply to Research. The question-specific theorems (Successor Function, Harmonic Series and so on) don't.
-- **Calibration targets**, for a student who never formalizes and plays about 0.75 hours a day (500 hours over two years, §12.4). The ratio is one day of Research ÷ one hour of practice. The simulation spends greedily on whatever adds the most Lemmas per Lemma spent.
+- **Calibration targets**, for a student who plays about 0.75 hours a day (500 hours over two years, §12.4). The ratio is one day of Research ÷ one hour of practice. The simulation spends greedily on whatever adds the most Lemmas per Lemma spent, and includes Axioms (below).
 
-  | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio |
-  |---|---|---|---|
-  | 50 | 2,300 | 140 | 0.06 |
-  | 100 | 4,000 | 560 | 0.14 |
-  | 200 | 7,800 | 9,200 | 1.2 |
-  | 300 | 13,000 | 33,000 | 2.5 |
-  | 400 | 21,000 | 300,000 | 14 |
-  | 500 | 33,000 | 1.3 × 10⁶ | 40 |
+  | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms |
+  |---|---|---|---|---|
+  | 50 | 2.32 k | 152 | 0.07 | 0 |
+  | 100 | 4.38 k | 709 | 0.16 | 1 |
+  | 200 | 10.8 k | 16.0 k | 1.5 | 3 |
+  | 300 | 20.5 k | 87.1 k | 4.3 | 4 |
+  | 400 | 43.2 k | 1.20 M | 28 | 6 |
+  | 500 | 96.1 k | 259 M | 2,700 | 9 |
 
   - **Early game:** practice is how Lemmas are earned.
   - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
-  - **From about 400 hours:** a day of Research equals about 14 hours of practice (nearly three weeks at a typical pace), so Lemmas stop being a constraint.
-  - **Later:** the last three institutes are a long tail for the Antimatter-level students past 1,000 hours.
+  - **From about 400 hours:** a day of Research equals about 28 hours of practice (over a month at a typical pace), so Lemmas stop being a constraint.
+  - **Later:** the last institutes and Axioms are a long tail for students past 500 hours.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
-- **Shown** as a chip on the Lemmas page: **Research · 9,242 ∴/day**.
+- **Shown** as a chip on the Lemmas page: **Research · 16.0 k∴/day**.
 
 #### Corollaries (free, automatic, permanent)
 Corollaries follow from what a student has already done. They are added together into one global factor.
@@ -1015,12 +1020,38 @@ Corollaries follow from what a student has already done. They are added together
 - Each level tier reached (§12.4): +5%.
 - Each completed era set (below): +10%.
 
-#### Axioms (optional prestige)
-- **Formalize** becomes available once 100,000 Lemmas have been earned since the last Formalize (or ever, the first time).
-- It grants **⌊√(E ÷ 100,000)⌋ Axioms**, where E is the Lemmas earned since the last Formalize. Each Axiom is **+10% to all sources, permanently**.
-- **It resets:** theorem levels and the Lemma balance. **It keeps everything else:** XP, Axioms, corollaries, institutes (so Research carries on), cards, unopened packs, cosmetics and titles.
-- It is **always voluntary.** There's no forced reset at term end, and the confirmation lists exactly what resets.
-- **Naming:** the first nine Axioms take the ZFC axioms' names in order (Extensionality, Regularity, Specification, Pairing, Union, Replacement, Infinity, Power Set, Choice). The next nine take large-cardinal names (Inaccessible, Mahlo, Weakly Compact, Measurable, Strong, Woodin, Supercompact, Huge, Rank-into-Rank). From then on they're numbered (Axiom 19, …).
+#### Axioms (milestones)
+Axioms are **milestones of lifetime Lemmas earned**, starting at 100 kilolemmas. Spending never takes one away, and nothing resets.
+- **Each Axiom gives:** +10% to all sources (practice and Research) permanently, plus **its own cosmetic**, which can't be bought or found in packs.
+- **Some Axioms also give a title** (see Titles).
+- **Spacing:**
+  - **The nine ZFC axioms** come at every half-step of a power of ten (100 k, 300 k, 1 M, …, 1 G) and cover a career up to about Solarium.
+  - **The nine large cardinals** come at every power of ten from 10 G to 1 E. They're the long tail.
+  - **The last four** are, like the Antimatter achievements, possibly never earned.
+- **Display:** the Lemmas page shows the next Axiom and its progress, e.g. **Union · 6.4 M / 10 M**.
+- **Statements:** each Axiom's card shows its statement in one plain line, as flavor and a glimpse of set theory.
+- **The "≈ Hours" column** is the simulation's estimate (same assumptions as Research).
+
+| # | Axiom | At | ≈ Hours | Statement | Cosmetic | Title |
+|---|---|---|---|---|---|---|
+| 1 | Extensionality | 100 k | 75 | Sets with the same elements are equal | **Venn** banner: two circles slide together and become one | — |
+| 2 | Regularity | 300 k | 125 | Every nonempty set has an element disjoint from it, so there's no endless ∈-descent | **Well-Founded** node theme: the tech tree stands on a drawn ground line, with roots under the first skills | — |
+| 3 | Specification | 1 M | 175 | Any definable property carves a subset out of a set | **Set-Builder** keypad skin: keys framed like { x ∣ … }, with a fine sieve texture | — |
+| 4 | Pairing | 3 M | 250 | For any a and b, {a, b} is a set | **Pair** celebration: two sparks spiral together into one | — |
+| 5 | Union | 10 M | 325 | The members of a set's members form a set | **Union** banner: many small sets drift together into one | — |
+| 6 | Replacement | 30 M | 375 | The image of a set under a definable function is a set | **Image** celebration: each symbol of the answer maps, one to one, onto a star | — |
+| 7 | Infinity | 100 M | 425 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
+| 8 | Power Set | 300 M | 450 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
+| 9 | Choice | 1 G | 475 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
+| 10 | Inaccessible | 10 G | 525 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
+| 11 | Mahlo | 100 G | 575 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
+| 12 | Weakly Compact | 1 T | 600 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
+| 13 | Measurable | 10 T | 675 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
+| 14 | Strong | 100 T | 950 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
+| 15 | Woodin | 1 P | — | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
+| 16 | Supercompact | 10 P | — | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
+| 17 | Huge | 100 P | — | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
+| 18 | Rank-into-Rank | 1 E | — | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
 
 #### Packs and cards
 Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 5 cards from one era.
@@ -1077,23 +1108,26 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 **Collection page.** One shelf per era. Uncollected cards show as silhouettes with their name, rarity and fields; the portrait, dates and blurb appear once collected. Completing an era set unlocks that era's **profile frame** (which can't be bought) and its corollary. A profile can **showcase** up to 3 cards.
 
 #### Cosmetics (Lemma shop)
-Bought at fixed prices, and cosmetic only. They are never reset by Formalize.
+Bought at fixed prices, and cosmetic only.
 - **Keypad skins** for the on-screen keypad (§7.2).
 - **Answer celebrations** for correct answers and rank-ups.
 - **Profile banners.**
 - **Tech-tree node themes.**
 
-Frames come only from era sets, and titles only from achievements.
+Frames come only from era sets, Axiom cosmetics only from Axioms, and titles only from achievements and Axioms.
 
 #### Titles
-- **Every Tanzanite, Vibranium, Solarium and Antimatter achievement unlocks one unique title.** Titles can't be bought or dropped, so a title always means its feat.
+- **Every Tanzanite, Vibranium, Solarium and Antimatter achievement unlocks one unique title, and so do six Axioms** (Infinity, Choice, Inaccessible, Measurable, Huge, Rank-into-Rank). Titles can't be bought or dropped, so a title always means its feat.
 - A title unlocks the first time its achievement is earned in any course.
 - **Shown:** one equipped title under the name on profiles, in lobbies and on leaderboards.
-- **Tooltip:** the achievement's name and tier. Secret criteria stay hidden (§12.1).
+- **Tooltip:** the achievement's name and tier, or the Axiom's name. Secret criteria stay hidden (§12.1).
 - **Data:** in `content/achievements.yaml`, each achievement from Tanzanite up has a `title`. The build checks that every one has a title, that titles are unique, and that no lower tier has one.
 - **Styles:**
   - **Tanzanite and Vibranium:** text in the tier's color and material, with its gem glyph. These don't move.
   - **Solarium and Antimatter:** each title has its **own animated effect**, built on the tier visuals of §12.4 (Solarium radiant and gold, Antimatter a void with an iridescent rim).
+  - **Axiom titles:** ink serif small caps with a silver ∈ glyph. Inductive, Well-Ordered, Inaccessible and Measurable don't move.
+    - **Huge** animates: the letters slowly swell a little and settle.
+    - **Edge of Consistency** animates: the title holds a smaller copy of itself, which holds another, zooming in endlessly.
 - **Effects, in practice:**
   - They run in CSS and SVG only, the title stays real, selectable text, and contrast passes WCAG AA.
   - On leaderboard rows the effect plays only on hover or focus, so long lists stay calm and cheap. It plays in full on profiles, in lobbies and in the achievement's full-screen celebration.
@@ -1159,17 +1193,17 @@ Frames come only from era sets, and titles only from achievements.
 
 #### Storage
 - `users/{uid}/meta/economy` holds:
-  - `lemmasEarned`, `lemmasSpent` and `earnedAtFormalize`;
+  - `lemmasEarned` and `lemmasSpent` (Axioms follow from `lemmasEarned`, so they aren't stored);
   - `researchCreditedAt`, written as server time (the rules require `request.time`);
-  - `axioms`, theorem levels and institutes built;
+  - theorem levels and institutes built;
   - unopened packs, packs opened per era and pity counters per era;
   - cards (id → count, foil);
   - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase.
 - **Balance** = `lemmasEarned − lemmasSpent`.
-- **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent`, `axioms` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§16.2). A purchase raises `lemmasSpent`, and Formalize sets `lemmasSpent` to `lemmasEarned`, so every counter still only goes up.
+- **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§16.2). A purchase raises `lemmasSpent`, so every counter only goes up.
 - **Saving:** changes are saved in the same batched write as XP and the public mirror (§12.2).
 - **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame and showcase, and the number of cards collected. This feeds a **Cards collected** board (§12.2).
-- **Logic:** formulas (earn rates, Research, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, pack and shop values live in `content/economy.yaml`.
+- **Logic:** formulas (earn rates, Research, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, institute, Axiom (thresholds, cosmetics, titles), pack and shop values live in `content/economy.yaml`.
 
 ---
 
@@ -1554,7 +1588,7 @@ users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
 users/{uid}/courses/{course}/attempts/{attemptId}        question id/version/variant, answers, outcome, Δθ, ts
 users/{uid}/courses/{course}/challenges/{sectionId}      Section Challenge progress
 users/{uid}/courses/{course}/meta/achievements           achievement counters and earned dates (§12.1)
-users/{uid}/meta/economy                                 Lemmas earned/spent, theorems, Axioms, packs, cards, cosmetics, titles (§12.5)
+users/{uid}/meta/economy                                 Lemmas earned/spent, theorems, institutes, packs, cards, cosmetics, titles (§12.5)
 users/{uid}/markingJobs/{jobId}          pending/complete, provider, result, effect, appeal, paste signals
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 monthly/{yyyy-mm}/problems/{course-year} (with monthly problems) problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
@@ -1631,7 +1665,7 @@ netlify/functions/     mark, transcribe, ink
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **To tune when the economy ships**
-- Lemma rates, institute costs and outputs (against the calibration targets in §12.5), theorem costs and effects, corollary sizes, the Formalize threshold, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
+- Lemma rates, institute costs and outputs (against the calibration targets in §12.5), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
