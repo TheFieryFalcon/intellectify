@@ -144,7 +144,10 @@
       finishing = true;
       ch = { ...ch, finishedAt: Date.now() };
       await save(ch);
-      if (profile) await profile.grant(XP.sectionChallenge);
+      if (profile) {
+        await profile.grant(XP.sectionChallenge, {}, "quiz");
+        profile.economy.onChallenge();
+      }
       finishing = false;
     }
   }

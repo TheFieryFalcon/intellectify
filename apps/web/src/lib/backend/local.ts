@@ -1,3 +1,4 @@
+import { emptyEconomy, type EconomyState } from "@intellectify/engine";
 import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type CourseProgress, type MarkingJob, type Post, type Profile, type PublicProfile, type Report, type ThreadSummary, type User } from "./types";
 
 /**
@@ -15,6 +16,7 @@ const postsKey = (key: string) => `intellectify:discuss:posts:${key}`;
 const REPORTS_KEY = "intellectify:reports";
 const PUBLIC_PREFIX = "intellectify:public:";
 const publicKey = (uid: string) => `${PUBLIC_PREFIX}${uid}`;
+const economyKey = (uid: string) => `intellectify:economy:${uid}`;
 const challengeKey = (uid: string, course: string, section: string) => `intellectify:challenge:${uid}:${course}:${section}`;
 
 const read = <T>(key: string, fallback: T): T => {
@@ -109,10 +111,28 @@ export function createLocalBackend(): Backend {
     async saveDaily(u, daily) {
       write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), daily });
     },
-    async savePublic(u, stats, pub) {
+    async savePublic(u, stats, pub, economy) {
       write(profileKey(u.uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(u.uid), {}), stats });
+      if (economy) {
+        const prev = { ...emptyEconomy(), ...read<Partial<EconomyState>>(economyKey(u.uid), {}) };
+        write(economyKey(u.uid), { ...prev, ...economy.fields, researchCreditedAt: prev.researchCreditedAt, lemmasEarned: prev.lemmasEarned + economy.earned, lemmasSpent: prev.lemmasSpent + economy.spent });
+      }
       const prev = read<Partial<PublicProfile>>(publicKey(u.uid), {});
       write(publicKey(u.uid), { ...prev, ...pub, courses: { ...prev.courses, ...pub.courses }, achievements: { ...prev.achievements, ...pub.achievements } });
+    },
+    async saveSettings(uid, settings) {
+      write(profileKey(uid), { ...emptyProfile(), ...read<Partial<Profile>>(profileKey(uid), {}), ...settings });
+    },
+    async loadEconomy(uid) {
+      const e = read<Partial<EconomyState> | null>(economyKey(uid), null);
+      return e ? { ...emptyEconomy(), ...e } : null;
+    },
+    async creditResearch(uid, credit) {
+      const saved = { ...emptyEconomy(), ...read<Partial<EconomyState>>(economyKey(uid), {}) };
+      const r = credit(saved, Date.now());
+      const next = { ...saved, lemmasEarned: saved.lemmasEarned + r.lemmas, researchHours: saved.researchHours + r.hours, researchCreditedAt: r.creditedAt };
+      write(economyKey(uid), next);
+      return next;
     },
     async addReport(u, r) {
       const report: Report = { ...r, id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, uid: u.uid, name: u.displayName, at: Date.now(), status: "open" };

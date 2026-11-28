@@ -1,4 +1,6 @@
-import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LevelTier } from "@intellectify/engine";
+import { levelProgress, XP, XP_REPEAT_WINDOW_MS, type LemmaSource, type LevelTier } from "@intellectify/engine";
+import { EconomyStore } from "./economy.svelte";
+import { celebrate, toast } from "./celebrations.svelte";
 import { withRetry } from "./retry";
 import { shiftOverrides, storeShiftOverrides, type ShiftMap } from "./keypad";
 import { emptyProfile, type Backend, type CourseProgress, type DailyRecord, type Placement, type Profile, type PublicCourse, type User } from "./backend";
@@ -56,11 +58,14 @@ export class ProfileStore {
   /** Set when a grant crosses a level boundary; the layout shows it as a toast. */
   levelUp = $state<LevelUp | null>(null);
   progress = $derived(levelProgress(this.profile.xp));
+  /** The Lemma economy (SPEC §13): it earns alongside every XP grant and saves with the batched write. */
+  readonly economy: EconomyStore;
 
   constructor(
     private readonly backend: Backend,
     private user: User,
   ) {
+    this.economy = new EconomyStore(backend, user, this);
     // Save the public mirror before the page goes away (a debounced save may be waiting).
     if (typeof document !== "undefined") {
       const now = () => void this.flush();
@@ -85,6 +90,11 @@ export class ProfileStore {
     this.dirty = true;
     if (this.timer) clearTimeout(this.timer);
     this.timer = setTimeout(() => void this.flush(), ProfileStore.PUBLISH_DELAY_MS);
+  }
+
+  /** The economy changed: save it with the next batched write. */
+  touch() {
+    this.schedule();
   }
 
   /** Save counters and the public mirror now, if anything changed. */
@@ -115,8 +125,15 @@ export class ProfileStore {
       return;
     }
     const d = this.profile.daily;
+    let economy: Awaited<ReturnType<EconomyStore["takeSave"]>> = null;
+    try {
+      economy = await this.economy.takeSave();
+    } catch {
+      // The saved economy couldn't be read: it waits for the next save.
+    }
     try {
       const banned = await loadBannedWords();
+      const eco = this.economy.publicMirror();
       await this.backend.savePublic(this.user, $state.snapshot(this.profile.stats), {
         uid: this.user.uid,
         displayName: safeName(this.user.displayName, banned),
@@ -127,8 +144,10 @@ export class ProfileStore {
         courses,
         updatedAt: Date.now(),
         ...(this.user.joined ? { joined: this.user.joined } : {}),
-      });
+        ...(eco ? { economy: eco } : {}),
+      }, economy);
     } catch {
+      if (economy) this.economy.restoreSave(economy);
       // Keep the changes for the next try.
       this.pendingCourses = { ...courses, ...this.pendingCourses };
       this.pendingAchievements = { ...achievements, ...this.pendingAchievements };
@@ -178,6 +197,7 @@ export class ProfileStore {
       // Not "a new student": the saved profile just didn't load. Save nothing this session, so nothing
       // real is overwritten, and say so (layout banner); a reload tries again.
       this.failed = true;
+      this.economy.failed = true;
       this.loaded = true;
       return;
     }
@@ -199,10 +219,17 @@ export class ProfileStore {
     if (this.profile.lastVisitDay !== today) await this.grant(XP.firstVisitOfDay, { visitDay: today });
     // Only now that the profile has loaded: name, email and last seen.
     void this.backend.markSeen(this.user).catch(() => {});
+    void this.economy.load();
   }
 
-  /** Add XP, update the level immediately, and persist. */
-  async grant(amount: number, extra: { questionId?: string; visitDay?: string } = {}) {
+  /** Settings › Show rewards (SPEC §13). */
+  async setShowRewards(on: boolean) {
+    this.profile = { ...this.profile, showRewards: on };
+    await this.backend.saveSettings(this.user.uid, { showRewards: on });
+  }
+
+  /** Add XP (and its Lemmas, SPEC §13.1), update the level immediately, and persist. */
+  async grant(amount: number, extra: { questionId?: string; visitDay?: string } = {}, source: LemmaSource = "other") {
     if (this.failed || (amount <= 0 && !extra.visitDay)) return;
     const before = levelProgress(this.profile.xp);
     this.profile = {
@@ -214,7 +241,15 @@ export class ProfileStore {
     };
     this.schedule();
     const after = levelProgress(this.profile.xp);
-    if (after.level > before.level) this.levelUp = { level: after.level, tier: after.tier, newTier: after.tier.key !== before.tier.key };
+    if (amount > 0) this.economy.award(source, amount);
+    if (after.level > before.level) {
+      const newTier = after.tier.key !== before.tier.key;
+      this.levelUp = { level: after.level, tier: after.tier, newTier };
+      if (newTier) {
+        celebrate({ kind: "tier", level: after.level, tier: after.tier });
+        this.economy.onTier(after.tier.key);
+      } else toast({ kind: "levelUp", level: after.level, tier: after.tier });
+    }
     try {
       await this.backend.grantXp(this.user, { amount, ...extra });
     } catch {
@@ -257,9 +292,11 @@ export class ProfileStore {
     const prev: DailyRecord = this.profile.daily ?? { lastSolved: null, streak: 0, best: 0, done: {} };
     if (prev.done[key] === "solved" || (!solved && prev.done[key] === "tried")) return 0;
     const streak = solved ? nextStreak(prev, day) : prev.streak;
+    const firstOfDay = solved && prev.lastSolved !== day && !Object.entries(prev.done).some(([k, v]) => v === "solved" && k.startsWith(`${day}:`));
     const recent = Object.entries({ ...prev.done, [key]: solved ? "solved" : "tried" }).slice(-40);
     const daily: DailyRecord = { lastSolved: solved ? day : prev.lastSolved, streak, best: Math.max(prev.best, streak), done: Object.fromEntries(recent) as DailyRecord["done"] };
     this.profile = { ...this.profile, daily };
+    if (solved) this.economy.onDailySolved(firstOfDay, fullWeek(daily, day));
     this.schedule();
     try {
       await this.backend.saveDaily(this.user, daily);
@@ -268,7 +305,7 @@ export class ProfileStore {
     }
     if (!solved || !tier) return 0;
     const bonus = XP.daily(tier);
-    await this.grant(bonus);
+    await this.grant(bonus, {}, "daily");
     return bonus;
   }
 
@@ -279,7 +316,7 @@ export class ProfileStore {
   async grantWritten(questionId: string, tier: number, score: number): Promise<number> {
     const full = XP.freeResponse(tier, score);
     const amount = this.profile.questionXpAt[questionId] ? Math.round(full * WRITTEN_REPEAT_RATE) : full;
-    await this.grant(amount, { questionId });
+    await this.grant(amount, { questionId }, "question");
     return amount;
   }
 
@@ -304,7 +341,7 @@ export class ProfileStore {
   async grantQuestion(questionId: string, tier: number, outcome: number): Promise<number> {
     const last = this.profile.questionXpAt[questionId];
     const amount = last && Date.now() - last < XP_REPEAT_WINDOW_MS ? 0 : XP.question(tier, outcome);
-    await this.grant(amount, { questionId });
+    await this.grant(amount, { questionId }, "question");
     return amount;
   }
 }
@@ -315,6 +352,15 @@ function newerDaily(a: DailyRecord | null, b: DailyRecord | null): DailyRecord |
   const later = (b.lastSolved ?? "") > (a.lastSolved ?? "") ? b : a;
   const done = Object.fromEntries(Object.entries({ ...b.done, ...a.done }).slice(-40)) as DailyRecord["done"];
   return { ...later, best: Math.max(a.best, b.best), done };
+}
+
+/** The Monday of `day`'s Mon–Sun week when every day of it has a solved daily problem (a Full Week, P8). */
+export function fullWeek(daily: DailyRecord, day: string): string | null {
+  const at = new Date(`${day}T00:00:00Z`);
+  const monday = new Date(at.getTime() - ((at.getUTCDay() + 6) % 7) * 86_400_000);
+  const days = Array.from({ length: 7 }, (_, i) => new Date(monday.getTime() + i * 86_400_000).toISOString().slice(0, 10));
+  const solved = new Set(Object.entries(daily.done).filter(([, v]) => v === "solved").map(([k]) => k.split(":")[0]));
+  return days.every((d) => solved.has(d)) ? days[0]! : null;
 }
 
 /** A repeated written answer earns this share of its XP (SPEC §12.4). */
@@ -330,3 +376,6 @@ export function profileFor(backend: Backend | null, user: User | null): ProfileS
   }
   return current.store;
 }
+
+/** The signed-in student's economy, if a profile store exists. */
+export const currentEconomy = (): EconomyStore | null => current?.store.economy ?? null;

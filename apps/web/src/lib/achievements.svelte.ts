@@ -11,6 +11,8 @@ import type { CourseBundle } from "./content";
 import { computeRollups } from "./practice";
 import type { ProfileStore } from "./profile.svelte";
 import type { CourseProgressStore } from "./session.svelte";
+import { toast } from "./celebrations.svelte";
+import { currentEconomy } from "./profile.svelte";
 
 let defsPromise: Promise<AchievementT[]> | null = null;
 export const loadAchievementDefs = (f: typeof fetch = fetch) => (defsPromise ??= f("/content/achievements.json").then((r) => (r.ok ? r.json() : [])));
@@ -53,6 +55,7 @@ export class AchievementsStore {
       this.earned = rec.earned ?? {};
     }
     this.loaded = true;
+    this.syncEconomy();
   }
 
   private async settle(stats: AchievementStats, store: CourseProgressStore, profile: ProfileStore | null) {
@@ -63,12 +66,21 @@ export class AchievementsStore {
     if (newly.length) {
       this.earned = { ...this.earned, ...Object.fromEntries(newly.map((a) => [a.id, now])) };
       achievementToasts.push(...newly);
-      if (profile) await profile.grant(newly.reduce((t, a) => t + XP.achievement(a.points), 0));
+      for (const a of newly) toast({ kind: "achievement", achievement: a });
+      this.syncEconomy();
+      if (profile) await profile.grant(newly.reduce((t, a) => t + XP.achievement(a.points), 0), {}, "achievement");
       const ids = Object.keys(this.earned);
       profile?.publishAchievements(this.course.id, ids, this.defs.filter((a) => ids.includes(a.id)).reduce((t, a) => t + a.points, 0));
     }
     await this.backend.saveAchievements(this.user.uid, this.course.id, { stats: this.snap(), earned: $state.snapshot(this.earned) }).catch(() => {});
     return newly;
+  }
+
+  /** Earned achievements feed the economy: the corollary, titles and their packs (SPEC §13.5, §13.7, §13.9). */
+  private syncEconomy() {
+    if (this.failed) return;
+    const earned = this.defs.filter((d) => d.id in this.earned);
+    currentEconomy()?.onAchievements(this.course.id, earned);
   }
 
   /** A plain copy of the stats (snapshot widens tuple types, so cast back). */

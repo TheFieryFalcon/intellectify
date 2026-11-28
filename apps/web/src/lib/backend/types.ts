@@ -1,5 +1,5 @@
 import type { WordPicks } from "@intellectify/content/template";
-import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
+import type { EconomyState, Equipped, MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
 import type { MarkResult } from "@intellectify/content/marking";
 import type { ActivityStats } from "../activity";
 export type { ActivityStats };
@@ -70,6 +70,8 @@ export interface Profile {
   nameSet?: boolean;
   /** Phone keyboard Shift keys the student changed from the defaults (SPEC §7.2); null = Shift types the key. */
   shiftKeys?: Record<string, string | null>;
+  /** Settings › Show rewards (SPEC §13): false hides the whole Lemma economy for this student. */
+  showRewards?: boolean;
 }
 
 /** A skill's rank and θ (null until resolved), as shown to other students. */
@@ -104,6 +106,23 @@ export interface PublicProfile {
   updatedAt: number;
   /** When the account was created (ms). */
   joined?: number;
+  /** The Lemma economy's public side (SPEC §13.10): what's equipped, the collection, and two board values. */
+  economy?: PublicEconomy;
+}
+
+export interface PublicEconomy {
+  equipped: Pick<Equipped, "title" | "frame" | "banner" | "nameOrnament" | "showcase">;
+  /** Collected card ids: 1 for a foil, 0 otherwise. */
+  cards: Record<string, 0 | 1>;
+  lemmasEarned: number;
+  axiomsProven: number;
+}
+
+/** One batched save of users/{uid}/meta/economy: everything but the two counters, which move by increments. */
+export interface EconomySave {
+  fields: Omit<EconomyState, "lemmasEarned" | "lemmasSpent" | "researchCreditedAt">;
+  earned: number;
+  spent: number;
 }
 
 export interface DailyRecord {
@@ -273,7 +292,18 @@ export interface Backend {
    * Save the activity counters and the public mirror together (one batch). Called at most every few
    * seconds, not per answer. Anonymous accounts keep their counters but stay off the public mirror.
    */
-  savePublic(user: User, stats: ActivityStats | null, pub: PublicProfile): Promise<void>;
+  savePublic(user: User, stats: ActivityStats | null, pub: PublicProfile, economy?: EconomySave | null): Promise<void>;
+  /** Save profile settings (Show rewards). */
+  saveSettings(uid: string, settings: Pick<Profile, "showRewards">): Promise<void>;
+
+  /** The Lemma economy (SPEC §13.10), from the server only; null before the first save. */
+  loadEconomy(uid: string): Promise<EconomyState | null>;
+  /**
+   * Credit Research (SPEC §13.3) in one transaction, using the server's clock: `credit` gets the saved
+   * state and the server time (ms) and returns the Lemmas to add and where crediting moves to.
+   * Returns the saved state afterwards.
+   */
+  creditResearch(uid: string, credit: (saved: EconomyState, now: number) => { lemmas: number; hours: number; creditedAt: number }): Promise<EconomyState>;
   /** Every public profile, for leaderboards and profile pages. */
   listPublic(): Promise<PublicProfile[]>;
 

@@ -112,7 +112,7 @@
     }
     done = true;
     const bonus = scope === "unit" ? XP.unitQuiz : XP.sectionQuiz;
-    if (profile) await profile.grant(bonus);
+    if (profile) await profile.grant(bonus, {}, "quiz");
     xp += bonus;
   }
 
