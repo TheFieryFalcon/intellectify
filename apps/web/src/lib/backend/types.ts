@@ -164,6 +164,8 @@ export interface MarkingJob {
   words?: WordPicks | null;
   /** Set for a daily problem (SPEC §8.5): "<day>:<course>:<year group>", so the mark can extend the streak. */
   daily?: string | null;
+  /** For a daily problem: no earlier attempt at it that day (SPEC §8.5), so a solve counts as first-try. Missing means true. */
+  dailyFirst?: boolean;
   answers: Record<string, string>;
   createdAt: number;
   /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */

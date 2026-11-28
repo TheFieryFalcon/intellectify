@@ -5,6 +5,8 @@
   /**
    * Daily problem (SPEC §8.5): one per year group per day, the same for everyone, targeting the block the
    * year group has just learnt, at the day's tier. Normal attempt rules; it updates θ like any problem.
+   * It can be tried again as often as the student likes, so it counts as solved only at 100%: the first
+   * solve extends the streak and earns the bonus, and the solution stays behind a button until then.
    */
   import { page } from "$app/state";
   import Markdown from "$lib/components/Markdown.svelte";
@@ -20,7 +22,7 @@
   import { perthDay, profileFor } from "$lib/profile.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
   import { courseProgress, session } from "$lib/session.svelte";
-  import { currentStreak, dailyTarget, dailyTier, yearGroupOf, type YearGroup } from "$lib/daily";
+  import { currentStreak, dailySolved, dailyTarget, dailyTier, yearGroupOf, type YearGroup } from "$lib/daily";
   import { dateOfDay, tierOf } from "@intellectify/engine";
   import { dailyProblem } from "$lib/dailyProblem";
   import { onDaily } from "$lib/achievements";
@@ -52,6 +54,21 @@
   let dailyBonus = $state(0);
   let jobId = $state<string | null>(null);
   const job = $derived(jobId && marking ? marking.job(jobId) : null);
+  /** Bumped by "Try again" to serve the same question afresh. */
+  let attempt = $state(0);
+  let showSolution = $state(false);
+  const solvedNow = $derived(summary ? dailySolved(summary.outcome) : !!job?.result && dailySolved(job.result.score));
+  /** A written answer can be tried again once its mark is in (or it can't be marked). */
+  const canRetry = $derived(!!summary || (!!job && job.status !== "pending"));
+
+  function tryAgain() {
+    summary = null;
+    jobId = null;
+    xpGained = 0;
+    dailyBonus = 0;
+    showSolution = false;
+    attempt++;
+  }
 
   // The day's question: the same seed everywhere picks the same question, variant and words.
   let loadedFor = "";
@@ -64,6 +81,7 @@
     served = null;
     summary = null;
     jobId = null;
+    showSolution = false;
     if (!t) {
       loading = false;
       return;
@@ -76,14 +94,16 @@
 
   async function resolve(parts: PartResult[], answers: string[]) {
     if (!store || !served || !profile) return;
+    // First try only if nothing was recorded for today's problem before this attempt.
+    const first = !profile.profile.daily?.done[key];
     const r = await recordResult({ course: data.course, store, profile, served, parts, answers, achievements, mode: "daily" });
     summary = r.summary;
     xpGained = r.xp;
-    const solved = r.summary.outcome > 0;
+    const solved = dailySolved(r.summary.outcome);
     const bonus = await profile.recordDaily(key, day, solved, tierOf(served.question.rating));
     dailyBonus = bonus;
     await achievements?.event(
-      (s) => onDaily(s, { day, solved, firstTry: solved && parts.every((p) => p.solvedOn === 1), streak: profile.profile.daily?.streak ?? 0 }),
+      (s) => onDaily(s, { day, solved, firstTry: solved && first, streak: profile.profile.daily?.streak ?? 0 }),
       store,
       profile,
     );
@@ -91,7 +111,8 @@
 
   async function submitWritten(answers: Record<string, string>) {
     if (!marking || !served || !profile) return;
-    const j = await marking.submit({ course: data.course.id, skill: served.question.skills.primary, question: served.question, variant: served.variant, words: served.words, daily: key, answers });
+    const dailyFirst = !profile.profile.daily?.done[key];
+    const j = await marking.submit({ course: data.course.id, skill: served.question.skills.primary, question: served.question, variant: served.variant, words: served.words, daily: key, dailyFirst, answers });
     jobId = j.id;
     await profile.recordDaily(key, day, false);
   }
@@ -121,33 +142,33 @@
     <p class="muted">Loading…</p>
   {:else if !served}
     <p class="muted">No daily problem for Year {year} yet</p>
-  {:else if done && !summary && !job}
-    <section class="card">
-      <p class="status">{done === "solved" ? "Solved today" : "Tried today"}</p>
-      <Markdown text={served.question.stem} />
-      <h2>Solution</h2>
-      <Markdown text={served.question.solution} />
-    </section>
   {:else}
+    {#if done && !summary && !job}<p class="status">{done === "solved" ? "Solved today. Try it again if you like." : "Tried today. Have another go."}</p>{/if}
     <div class="share-row"><span class="tools"><TutorialButton course={data.course} skill={served.question.skills.primary} /><ShareButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /><ReportButton course={data.course.id} question={served.question} variant={served.variant} words={served.words} /></span></div>
-    {#if isRubricMarked(served.question)}
-      <WrittenAnswerCard question={served.question} onsubmit={submitWritten} submitted={jobId !== null} />
-    {:else}
-      <QuestionCard question={served.question} onresolve={resolve} />
-    {/if}
-    {#if job && marking}
+    {#key attempt}
+      {#if isRubricMarked(served.question)}
+        <WrittenAnswerCard question={served.question} onsubmit={submitWritten} submitted={jobId !== null} />
+      {:else}
+        <QuestionCard question={served.question} onresolve={resolve} />
+      {/if}
+    {/key}
+    {#if (job && marking) || summary}
       <section class="card">
-        <MarkView {job} queue={marking} />
-        <h2>Solution</h2>
-        <Markdown text={served.question.solution} />
-      </section>
-    {/if}
-    {#if summary}
-      <section class="card">
-        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"}{#if dailyBonus} · daily bonus +{dailyBonus} XP{/if}</p>
-        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
-        <h2>Solution</h2>
-        <Markdown text={served.question.solution} />
+        {#if job && marking}<MarkView {job} queue={marking} />{/if}
+        {#if summary}
+          <p class="status">{solvedNow ? "Solved" : "Not solved yet: a daily problem needs 100%"}{#if dailyBonus} · daily bonus +{dailyBonus} XP{/if}</p>
+          <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
+        {/if}
+        {#if canRetry || solvedNow}
+          <div class="actions">
+            {#if canRetry}<button type="button" class="btn primary" onclick={tryAgain}>Try again</button>{/if}
+            {#if !solvedNow && !showSolution}<button type="button" class="btn" onclick={() => (showSolution = true)}>Show solution</button>{/if}
+          </div>
+        {/if}
+        {#if solvedNow || showSolution}
+          <h2>Solution</h2>
+          <Markdown text={served.question.solution} />
+        {/if}
       </section>
     {/if}
   {/if}
@@ -168,5 +189,6 @@
   .card { margin-top: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
   .status { margin: 0 0 10px; font-weight: 600; }
   h2 { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: var(--muted); margin: 18px 0 8px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
   .share-row { display: flex; justify-content: flex-end; margin: 0 0 6px; }
 </style>

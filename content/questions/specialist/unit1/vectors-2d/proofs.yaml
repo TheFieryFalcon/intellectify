@@ -306,10 +306,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Takes M as origin with MB = u and MC = −u, and MA = v (or an equivalent setup)", points: 1, dimension: reasoning }
-          - { id: sides, description: "AB = u − v and AC = −u − v", points: 1, dimension: reasoning }
-          - { id: expand, description: "Expands |u − v|² + |u + v|² = 2|u|² + 2|v|²", points: 2, dimension: proof }
-          - { id: conclude, description: "Identifies |v| = AM and |u| = BM to finish", points: 1, dimension: clarity }
+          - { id: setup, description: "Chooses vectors to work with (e.g. M as origin with MB = u, MC = −u, MA = v; or AB and AC as base vectors)", points: 1, dimension: reasoning }
+          - { id: sides, description: "Writes the other vectors it needs correctly in terms of them (e.g. AB = u − v and AC = −u − v; or AM = ½(AB + AC) and BM = ½(AC − AB))", points: 1, dimension: reasoning }
+          - { id: expand, description: "Expands the squared lengths with dot products and shows the cross terms cancel (e.g. |u − v|² + |u + v|² = 2|u|² + 2|v|²)", points: 2, dimension: proof }
+          - { id: conclude, description: "Identifies the lengths and states AB² + AC² = 2AM² + 2BM²", points: 1, dimension: clarity }
   solution: |
     Take $M$ as the origin, with $\overrightarrow{MB} = \mathbf{u}$, $\overrightarrow{MC} = -\mathbf{u}$ and $\overrightarrow{MA} = \mathbf{v}$. Then $\overrightarrow{AB} = \mathbf{u} - \mathbf{v}$ and $\overrightarrow{AC} = -\mathbf{u} - \mathbf{v}$.
     $AB^2 + AC^2 = |\mathbf{u} - \mathbf{v}|^2 + |\mathbf{u} + \mathbf{v}|^2 = 2|\mathbf{u}|^2 + 2|\mathbf{v}|^2$, since the $\mathbf{u}\cdot\mathbf{v}$ terms cancel.
