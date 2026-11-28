@@ -1002,7 +1002,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 - **Other boosts:** Conjectures (below), Recurrence Relation, Golden Ratio, corollaries and Axioms all apply to Research. The question-specific theorems (Successor Function, Harmonic Series and so on) don't.
 - **Calibration targets** for the early and middle game, for a typical student who plays about 0.75 hours a day (500 hours over two years, §12.4).
   - **Ratio:** one day of Research, Time Warp included, ÷ one active hour of practice.
-  - **The simulated student** saves for whatever adds the most Lemmas per Lemma spent.
+  - **The simulated student** saves for whatever adds the most Lemmas per Lemma spent. The model is `scripts/economy_sim.py`: run it to print these tables, or with `fit` to refit the Axiom thresholds after changing a value.
   - **Included:** Axioms, Conjectures and the Time Warp.
 
   | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms | Conjectures |
@@ -1653,7 +1653,7 @@ content/schedules/     course outlines by school week (§8.5)
 content/calendar/      <year>.yaml: term dates, semesters, exam periods (§8.6)
 content/cards/          <era>.yaml: collectible cards by era (§12.5)
 content/economy.yaml, achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
-scripts/               SymPy verification (verify_questions.py, verify_geometry.py)
+scripts/               SymPy verification (verify_questions.py, verify_geometry.py); Lemma economy simulation (economy_sim.py, §12.5)
 netlify/functions/     mark, transcribe, ink
 ```
 
