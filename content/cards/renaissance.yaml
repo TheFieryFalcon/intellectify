@@ -12,8 +12,8 @@ cards:
     rarity: diamond
     portrait:
       file: portraits/leonardo-da-vinci.webp
-      source: "https://commons.wikimedia.org/wiki/File:DaVinciSelfPort.jpg"
-      author: "Leonardo da Vinci"
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_Leonardo_da_Vinci_by_Lattanzio_Querena.jpg"
+      author: "Lattanzio Querena"
       license: "Public domain"
     blurb: >-
       Painted the Mona Lisa and The Last Supper, and filled notebooks with machines, anatomy drawn from

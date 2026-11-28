@@ -9,7 +9,6 @@ commons:
   ibn-rushd: "Ibn Rushd, Sayr mulhimah min al-Sharq wa-al-Gharb.png"
   boethius: "Fl Boetio (Flavio Boezio) - Studiolo di Federico da Montefeltro.jpg"
   al-kindi: "Al-Kindi.jpg"
-  leonardo-da-vinci: "DaVinciSelfPort.jpg"
   napier: "John Napier.JPG"
   vesalius: "Esme de Boulonois, portret van Andreas Vesalius (1514-1564), medicus, 17de eeuw, papier, kopergravure, SMU.1989.0055.00, Het Stadsmus.jpg"
   emilie-du-chatelet: "Okänd - Gabrielle-Émilie Le Tonnelier de Breteuil (1706–1749), Marquise du Châtelet - NMDrh 796 - Nationalmuseum.jpg"
@@ -21,6 +20,7 @@ commons:
   kuhn: "Thomas-kuhn-portrait.png"
   archimedes: "Domenico-Fetti Archimedes 1620.jpg"
   confucius: "Konfuzius-1770.jpg"
+  leonardo-da-vinci: "Portrait of Leonardo da Vinci by Lattanzio Querena.jpg"
 
 # Images supplied by the owner, in portraits/source/.
 local:

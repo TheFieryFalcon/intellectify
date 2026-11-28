@@ -304,7 +304,7 @@ def find_images(results: list[Result], cache: dict) -> None:
             r.local = OVERRIDES.parent / "source" / entry["file"]
             r.file, r.url, r.author, r.license = entry["file"], entry["source"], entry["author"], entry["license"]
             kind = license_kind(entry["license"], "")
-            if entry["license"].startswith("Non-free"):  # the owner's decision; verify_cards.py warns about it
+            if entry["license"].startswith("Non-free"):  # the owner's decision
                 kind = "non-free"
             r.status = "ready" if kind == "public-domain" else "credit" if kind else "illustrate"
             r.notes = ["supplied by the owner" + (": NON-FREE, not licensed for reuse" if kind == "non-free" else "")]
