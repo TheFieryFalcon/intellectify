@@ -76,6 +76,7 @@
   - [13.8 Cosmetics (Lemma shop)](#138-cosmetics-lemma-shop)
   - [13.9 Titles](#139-titles)
   - [13.10 Storage](#1310-storage)
+  - [13.11 Screens, layout and motion](#1311-screens-layout-and-motion)
 - [14. Social](#14-social)
   - [14.1 Solution discussions](#141-solution-discussions)
   - [14.2 Moderation](#142-moderation)
@@ -1921,7 +1922,7 @@ content/schedules/     course outlines by school week (§8.5)
 content/calendar/      <year>.yaml: term dates, semesters, exam periods (§8.6)
 content/cards/          <era>.yaml: collectible cards by era (§13.7)
 content/economy.yaml, achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
-scripts/               SymPy verification (verify_questions.py, verify_geometry.py); Lemma economy simulation (economy_sim.py, §13.3)
+scripts/               SymPy verification (verify_questions.py, verify_geometry.py); Lemma economy simulation (economy_sim.py, §13.3); table of contents (spec_toc.py)
 netlify/functions/     mark, transcribe, ink
 ```
 
