@@ -13,8 +13,8 @@ cards:
     rarity: diamond
     portrait:
       file: portraits/brahmagupta.webp
-      source: "https://commons.wikimedia.org/wiki/File:Hindu_astronomer,_19th-century_illustration.jpg"
-      author: "Unknown author Unknown author"
+      source: "Supplied by the project owner"
+      author: "Unknown"
       license: "Public domain"
     related: [spec.real-complex.quadratic-roots]
     blurb: >-

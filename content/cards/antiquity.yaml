@@ -108,7 +108,7 @@ cards:
     rarity: diamond
     portrait:
       file: portraits/archimedes.webp
-      source: "https://commons.wikimedia.org/wiki/File:Retrato_de_un_erudito_(%C2%BFArqu%C3%ADmedes%3F),_por_Domenico_Fetti.jpg"
+      source: "https://commons.wikimedia.org/wiki/File:Domenico-Fetti_Archimedes_1620.jpg"
       author: "Domenico Fetti"
       license: "Public domain"
     related: [spec.integration.volumes]
@@ -147,8 +147,8 @@ cards:
     rarity: platinum
     portrait:
       file: portraits/confucius.webp
-      source: "https://commons.wikimedia.org/wiki/File:Confucius,_fresco_from_a_Western_Han_tomb_of_Dongping_County,_Shandong_province,_China.jpg"
-      author: "Anonymous Chinese painter of the Western Han period"
+      source: "https://commons.wikimedia.org/wiki/File:Konfuzius-1770.jpg"
+      author: "Confucius, gouache on paper, c. 1770 . Encyclopedia Britannica."
       license: "Public domain"
     blurb: >-
       Taught that a good society rests on personal virtue, respect within families and rulers who lead
@@ -404,9 +404,9 @@ cards:
     rarity: silver
     portrait:
       file: portraits/aristarchus.webp
-      source: "https://commons.wikimedia.org/wiki/File:Depiction_of_Aristarchus_at_the_NKUA_on_May_22,_2022.jpg"
-      author: "George E. Koronaios"
-      license: "CC BY-SA 4.0"
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
     blurb: >-
       Proposed that the Earth goes around the Sun, eighteen centuries before Copernicus. He also used
       geometry to estimate the sizes and distances of the Sun and Moon.
