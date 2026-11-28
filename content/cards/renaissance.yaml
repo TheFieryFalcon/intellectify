@@ -341,20 +341,6 @@ cards:
       Found how to solve cubic equations and won a public contest with it, then told Cardano, who
       published it. He also studied the flight of cannonballs and translated Euclid into Italian.
 
-  - id: bombelli
-    name: Rafael Bombelli
-    wikidata: Q358547
-    born: 1526
-    died: 1572
-    work: 1572
-    fields: [Mathematics]
-    rarity: silver
-    portrait: null
-    related: [spec.real-complex.complex-arithmetic]
-    blurb: >-
-      Wrote the first rules for arithmetic with complex numbers. He used them to find real roots of
-      cubics where Cardano's formula passes through square roots of negatives.
-
   - id: stevin
     name: Simon Stevin
     wikidata: Q23696

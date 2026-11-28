@@ -8,6 +8,11 @@ commons:
 
 # Images supplied by the owner, in portraits/source/.
 local:
+  eudoxus:
+    file: eudoxus.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
   yang-hui:
     file: yang-hui.png
     source: Supplied by the project owner
@@ -97,6 +102,4 @@ focus:
   thomas-aquinas: [0.41, 0.26, 0.22]
 
 # Images that aren't portraits: these cards go back to needing an illustration.
-reject:
-  bombelli: a title page of his Algebra; no likeness of him is known
-  eudoxus: a diagram of planetary orbits; no likeness of him is known
+reject: {}

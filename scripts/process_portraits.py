@@ -57,6 +57,7 @@ FACE_C = (0.50 * W, 0.40 * H)                # where the face's center sits
 GUESS = (0.50, 0.30, 0.35)                   # face (center x, center y, width) as fractions, when none is found
 INK_BANDS = (0.0, 0.3, 0.55, 0.8, 1.0)       # ink per tone band, light to dark
 BAND_EDGES = (0.18, 0.38, 0.58, 0.78)        # darkness where each band starts
+LINE_ART_PAPER = 0.55                        # share of near-white pixels that marks a drawing
 QUALITY = 82
 CACHE = fp.ROOT / ".cache" / "portraits"
 MANIFEST = CACHE / "manifest.json"
@@ -115,15 +116,18 @@ def detect_face(gray: np.ndarray) -> tuple[float, float, float] | None:
     return None
 
 
-def frame(gray: np.ndarray, face: tuple[float, float, float]) -> np.ndarray:
-    """Put the face at FACE_W and FACE_C, but always fill the card: no source edge inside the frame."""
+def frame(gray: np.ndarray, face: tuple[float, float, float]) -> tuple[np.ndarray, float]:
+    """Put the face at FACE_W and FACE_C, but always fill the card: no source edge inside the frame.
+
+    Returns the framed image and how much the source was enlarged.
+    """
     cx, cy, size = face
     h, w = gray.shape
     k = max(FACE_W / size, W / w, H / h)
     x0 = min(max(cx - FACE_C[0] / k, 0), w - W / k)
     y0 = min(max(cy - FACE_C[1] / k, 0), h - H / k)
     m = np.array([[k, 0, -x0 * k], [0, k, -y0 * k]])
-    return cv2.warpAffine(gray, m, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+    return cv2.warpAffine(gray, m, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE), k
 
 
 def oval() -> np.ndarray:
@@ -132,16 +136,34 @@ def oval() -> np.ndarray:
     return np.clip((1.0 - d) / 0.12, 0, 1)
 
 
-def ink_wash(gray: np.ndarray) -> Image.Image:
+def ink_wash(gray: np.ndarray, enlarged: float) -> Image.Image:
     lo, hi = np.percentile(gray, (1, 99))
     g = np.clip((gray.astype(float) - lo) / max(hi - lo, 1) * 255, 0, 255).astype(np.uint8)
-    g = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 5)).apply(g)
-    g = cv2.bilateralFilter(g, 7, 40, 7)
-    ink = np.array(INK_BANDS)[np.digitize(1 - g / 255.0, BAND_EDGES)]
-    edges = cv2.GaussianBlur(cv2.Canny(g, 60, 140).astype(float) / 255, (0, 0), 0.6)
-    ink = np.maximum(ink, edges * 0.9) * oval()
+    if enlarged > 1.2:  # smooth away the blockiness of an enlarged small source before banding
+        g = cv2.GaussianBlur(g, (0, 0), 0.45 * enlarged)
+    if (g > 190).mean() > LINE_ART_PAPER:
+        ink = line_art(g)
+    else:
+        g = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 5)).apply(g)
+        g = cv2.bilateralFilter(g, 7, 40, 7)
+        ink = np.array(INK_BANDS)[np.digitize(1 - g / 255.0, BAND_EDGES)]
+        edges = cv2.GaussianBlur(cv2.Canny(g, 60, 140).astype(float) / 255, (0, 0), 0.6)
+        ink = np.maximum(ink, edges * 0.9)
+    ink = ink * oval()
     rgb = PAPER * (1 - ink[..., None]) + INK * ink[..., None]
     return Image.fromarray(rgb.round().astype(np.uint8))
+
+
+def line_art(g: np.ndarray) -> np.ndarray:
+    """Ink for a drawing that is mostly bare paper: a clean ground, smooth solid lines, one light shade.
+
+    Banding a sketch the photo way turns its paper grain into blotches, so here light tones become
+    paper, dark strokes become solid ink with soft edges, and only mid-dark shading keeps a tint.
+    """
+    d = 1 - cv2.GaussianBlur(g, (0, 0), 0.8).astype(float) / 255
+    lines = np.clip((d - 0.42) / 0.12, 0, 1)            # strokes: solid ink, antialiased
+    shade = np.clip((d - 0.22) / 0.08, 0, 1) * 0.35     # shading: a single light tint
+    return np.maximum(lines, shade)
 
 
 def render(r: fp.Result, img: Image.Image, focus: dict) -> tuple[Image.Image, bool]:
@@ -157,7 +179,8 @@ def render(r: fp.Result, img: Image.Image, focus: dict) -> tuple[Image.Image, bo
         if face is None:
             guessed = True
             face = (GUESS[0] * w, GUESS[1] * h, GUESS[2] * w)
-    return ink_wash(frame(gray, face)), guessed
+    framed, enlarged = frame(gray, face)
+    return ink_wash(framed, enlarged), guessed
 
 
 def contact_sheet(ids: list[str], path: Path) -> None:
