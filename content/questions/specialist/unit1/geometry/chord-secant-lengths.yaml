@@ -493,9 +493,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: join, description: Joins AC and BD (or AD and BC), points: 1, dimension: reasoning}
-      - {id: angles, description: ∠CAB = ∠CDB (same arc CB) and ∠AXC = ∠DXB (vertically opposite), points: 2, dimension: reasoning}
-      - {id: similar, description: 'Triangles AXC and DXB are similar, so AX/DX = CX/BX', points: 1, dimension: proof}
+      - {id: join, description: "Sets up a pair of triangles to compare (e.g. joins AC and BD, or AD and BC)", points: 1, dimension: reasoning}
+      - {id: angles, description: "Finds the equal angles (e.g. ∠CAB = ∠CDB, same arc CB, and ∠AXC = ∠DXB, vertically opposite)", points: 2, dimension: reasoning}
+      - {id: similar, description: "Concludes the triangles are similar and uses the ratio of sides (e.g. AX/DX = CX/BX)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Join $AC$ and $BD$. $\angle CAB = \angle CDB$ (same arc $CB$) and $\angle AXC = \angle DXB$ (vertically opposite). So triangles $AXC$ and $DXB$ are similar, and $\dfrac{AX}{DX} = \dfrac{CX}{BX}$. Cross-multiplying: $AX \times XB = CX \times XD$.
@@ -615,9 +615,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: join, description: Joins TA and TB, points: 1, dimension: reasoning}
-      - {id: angles, description: ∠MTA = ∠MBT (alternate segment) and the angle at M is common, points: 2, dimension: reasoning}
-      - {id: similar, description: 'Triangles MTA and MBT are similar, so MT/MB = MA/MT', points: 1, dimension: proof}
+      - {id: join, description: "Sets up a pair of triangles to compare (e.g. joins TA and TB)", points: 1, dimension: reasoning}
+      - {id: angles, description: "Finds the equal angles (e.g. ∠MTA = ∠MBT, alternate segment, and the common angle at M)", points: 2, dimension: reasoning}
+      - {id: similar, description: "Concludes the triangles are similar and uses the ratio of sides (e.g. MT/MB = MA/MT)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Join $TA$ and $TB$. By the alternate segment theorem, $\angle MTA = \angle TBA = \angle MBT$. The angle at $M$ is common. So triangles $MTA$ and $MBT$ are similar, and $\dfrac{MT}{MB} = \dfrac{MA}{MT}$, giving $MT^2 = MA \times MB$.
@@ -841,10 +841,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: meet, description: Lets PQ extended meet AB at N, points: 1, dimension: proof}
-      - {id: power1, description: 'Tangent–secant in the first circle: NA² = NP × NQ', points: 2, dimension: reasoning}
-      - {id: power2, description: 'Tangent–secant in the second circle: NB² = NP × NQ', points: 1, dimension: reasoning}
-      - {id: conclude, description: So NA = NB, points: 1, dimension: reasoning}
+      - {id: meet, description: "Names the point to study (e.g. N, where PQ extended meets AB)", points: 1, dimension: proof}
+      - {id: power1, description: "Relates NA to the common chord (e.g. tangent–secant in the first circle: NA² = NP × NQ)", points: 2, dimension: reasoning}
+      - {id: power2, description: "Relates NB the same way (e.g. tangent–secant in the second circle: NB² = NP × NQ)", points: 1, dimension: reasoning}
+      - {id: conclude, description: "Concludes NA = NB", points: 1, dimension: reasoning}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Let $PQ$ extended meet $AB$ at $N$. From $N$, line $NA$ is a tangent to the first circle and $NPQ$ is a secant, so $NA^2 = NP \times NQ$. Likewise $NB^2 = NP \times NQ$ for the second circle. So $NA^2 = NB^2$ and $NA = NB$: $N$ is the midpoint of $AB$.
@@ -874,10 +874,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: ratio, description: Rewrites as AX/CX = XD/XB, points: 1, dimension: reasoning}
-      - {id: similar, description: 'With ∠AXC = ∠DXB (vertically opposite), triangles AXC and DXB are similar (two sides in ratio, included angle)', points: 2, dimension: reasoning}
-      - {id: angles, description: 'So ∠XAC = ∠XDB, i.e. ∠BAC = ∠BDC', points: 1, dimension: proof}
-      - {id: converse, description: 'AB... segment BC subtends equal angles at A and D on the same side, so the points are concyclic (converse)', points: 1, dimension: synthesis}
+      - {id: ratio, description: "Rewrites the condition as a ratio of sides (e.g. AX/CX = XD/XB)", points: 1, dimension: reasoning}
+      - {id: similar, description: "Shows two triangles are similar (e.g. AXC and DXB: two sides in ratio and the included vertically opposite angle)", points: 2, dimension: reasoning}
+      - {id: angles, description: "Gets equal angles from the similarity (e.g. ∠XAC = ∠XDB, i.e. ∠BAC = ∠BDC)", points: 1, dimension: proof}
+      - {id: converse, description: "Concludes the points are concyclic (e.g. BC subtends equal angles at A and D on the same side: converse of angles on the same arc)", points: 1, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     From $AX \times XB = CX \times XD$, $\dfrac{AX}{CX} = \dfrac{XD}{XB}$. Also $\angle AXC = \angle DXB$ (vertically opposite), so triangles $AXC$ and $DXB$ are similar (two pairs of sides in the same ratio with the included angles equal). Hence $\angle CAX = \angle BDX$, i.e. $\angle CAB = \angle CDB$.
@@ -914,9 +914,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: sim1, description: 'Triangles MSA and MBS are similar (alternate segment, common angle), so SA/SB = MS/MB', points: 2, dimension: reasoning}
-      - {id: sim2, description: Likewise triangles MTA and MBT give TA/TB = MT/MB, points: 1, dimension: reasoning}
-      - {id: equal, description: 'MS = MT (equal tangents), so SA/SB = TA/TB', points: 1, dimension: proof}
+      - {id: sim1, description: "Relates SA/SB to the tangent length (e.g. triangles MSA and MBS similar by alternate segment and common angle, so SA/SB = MS/MB)", points: 2, dimension: reasoning}
+      - {id: sim2, description: "Relates TA/TB the same way (e.g. triangles MTA and MBT give TA/TB = MT/MB)", points: 1, dimension: reasoning}
+      - {id: equal, description: "Links the two (e.g. MS = MT, equal tangents, so SA/SB = TA/TB)", points: 1, dimension: proof}
       - {id: conclude, description: Cross-multiplies to the result, points: 1, dimension: clarity}
   solution: |
     Triangles $MSA$ and $MBS$ share the angle at $M$, and $\angle MSA = \angle MBS$ by the alternate segment theorem. So they are similar, and $\dfrac{SA}{BS} = \dfrac{MS}{MB}$. In the same way, $\dfrac{TA}{BT} = \dfrac{MT}{MB}$.

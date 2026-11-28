@@ -26,8 +26,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'perp', description: "Each tangent is perpendicular to the radius at its point of contact, so both are perpendicular to the diameter", points: 2, dimension: reasoning }
-          - { id: 'parallel', description: "Two lines perpendicular to the same line are parallel", points: 1, dimension: proof }
+          - { id: 'perp', description: "Relates each tangent to the diameter (e.g. tangent ⟂ radius, so both are perpendicular to the diameter)", points: 2, dimension: reasoning }
+          - { id: 'parallel', description: "Concludes the tangents are parallel (e.g. two lines perpendicular to the same line)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $AB$ be a diameter. The tangent at $A$ is perpendicular to radius $OA$, and the tangent at $B$ is perpendicular to radius $OB$; both radii lie along the line $AB$. So both tangents are perpendicular to $AB$, and two lines perpendicular to the same line are parallel.
@@ -60,9 +60,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'congruent', description: "Triangles OMA and OMB: OA = OB, AM = BM, OM common, so congruent (SSS)", points: 2, dimension: reasoning }
-          - { id: 'angles', description: "So ∠OMA = ∠OMB, and they add to 180°", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "Each is 90°: OM ⟂ AB", points: 1, dimension: proof }
+          - { id: 'congruent', description: "Shows two triangles are congruent (e.g. OMA and OMB: OA = OB, AM = BM, OM common, SSS)", points: 2, dimension: reasoning }
+          - { id: 'angles', description: "Gets equal angles at M that add to 180° (e.g. ∠OMA = ∠OMB)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes OM ⟂ AB (e.g. each angle is 90°)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Triangles $OMA$ and $OMB$ have $OA = OB$ (radii), $AM = BM$ and $OM$ common, so they are congruent (SSS) and $\angle OMA = \angle OMB$. These angles lie on the straight line $AB$, so they add to $180^\circ$; each is $90^\circ$. Hence $OM \perp AB$.
@@ -95,8 +95,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'equidistant', description: "The center O is equally far from the chord's endpoints A and B (radii)", points: 2, dimension: reasoning }
-          - { id: 'locus', description: "Points equidistant from A and B lie on the perpendicular bisector of AB", points: 1, dimension: reasoning }
+          - { id: 'equidistant', description: "Shows the center is equally far from A and B (e.g. OA = OB, radii)", points: 2, dimension: reasoning }
+          - { id: 'locus', description: "Links equal distances to the perpendicular bisector (e.g. points equidistant from A and B lie on it)", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "So O is on it", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -128,8 +128,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'perp', description: "AB is a tangent to the smaller circle at T, so OT ⟂ AB", points: 2, dimension: reasoning }
-          - { id: 'bisect', description: "The perpendicular from the center to a chord of the larger circle bisects it", points: 1, dimension: reasoning }
+          - { id: 'perp', description: "Relates OT to AB (e.g. AB is tangent to the small circle at T, so OT ⟂ AB)", points: 2, dimension: reasoning }
+          - { id: 'bisect', description: "Shows T is the midpoint of AB in the larger circle (e.g. the perpendicular from the center to a chord bisects it)", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "So AT = TB", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -164,9 +164,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'right', description: "∠OAP = ∠OBP = 90° (tangent ⟂ radius)", points: 1, dimension: reasoning }
-          - { id: 'congruent', description: "Triangles OAP and OBP: right angles, OP common, OA = OB, so congruent (RHS)", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "So ∠APO = ∠BPO and ∠AOP = ∠BOP", points: 1, dimension: proof }
+          - { id: 'right', description: "Uses the right angles where the tangents touch (e.g. ∠OAP = ∠OBP = 90°, tangent ⟂ radius)", points: 1, dimension: reasoning }
+          - { id: 'congruent', description: "Shows the two triangles are congruent (e.g. OAP and OBP by RHS: OP common, OA = OB)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes the angles are bisected (e.g. ∠APO = ∠BPO and ∠AOP = ∠BOP)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $\angle OAP = \angle OBP = 90^\circ$ (tangent ⟂ radius). Triangles $OAP$ and $OBP$ have these right angles, the common hypotenuse $OP$, and $OA = OB$ (radii), so they are congruent (RHS). Hence $\angle APO = \angle BPO$ and $\angle AOP = \angle BOP$: $OP$ bisects both angles.
@@ -201,9 +201,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'equal', description: "PA = PB (tangents from one point) and OA = OB (radii)", points: 2, dimension: reasoning }
-          - { id: 'bisector', description: "So both P and O are equidistant from A and B, and lie on the perpendicular bisector of AB", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "Hence the line OP is that perpendicular bisector: OP ⟂ AB", points: 1, dimension: proof }
+          - { id: 'equal', description: "Finds two points equally far from A and B (e.g. PA = PB, equal tangents, and OA = OB, radii)", points: 2, dimension: reasoning }
+          - { id: 'bisector', description: "Places them on the perpendicular bisector of AB", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes OP is that bisector, so OP ⟂ AB", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $PA = PB$ (tangents from one point) and $OA = OB$ (radii). So $P$ and $O$ are both equidistant from $A$ and $B$, and both lie on the perpendicular bisector of $AB$. Two different points determine a line, so $OP$ is that perpendicular bisector, and $OP \perp AB$.
@@ -235,9 +235,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'alt', description: "Alternate segment: the angle between the tangent and AB equals ∠ACB", points: 2, dimension: reasoning }
-          - { id: 'isosceles', description: "AB = AC gives ∠ACB = ∠ABC", points: 1, dimension: reasoning }
-          - { id: 'parallel', description: "So the tangent makes with AB the same angle as BC does: equal alternate angles, so the lines are parallel", points: 1, dimension: proof }
+          - { id: 'alt', description: "Relates the tangent to an angle of the triangle (e.g. alternate segment: the angle between the tangent and AB equals ∠ACB)", points: 2, dimension: reasoning }
+          - { id: 'isosceles', description: "Uses the equal sides (e.g. AB = AC gives ∠ACB = ∠ABC)", points: 1, dimension: reasoning }
+          - { id: 'parallel', description: "Concludes the tangent is parallel to BC (e.g. equal alternate angles with AB)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $X$ be a point on the tangent at $A$, on the opposite side of $AB$ from $C$. By the alternate segment theorem, $\angle XAB = \angle ACB$. Since $AB = AC$, $\angle ACB = \angle ABC$. So $\angle XAB = \angle ABC$: these are alternate angles for the lines $AX$ and $BC$ with transversal $AB$, so the tangent is parallel to $BC$.
@@ -271,8 +271,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'equal', description: "Equal tangents: AF = AE, BD = BF, CE = CD", points: 2, dimension: reasoning }
-          - { id: 'perimeter', description: "Perimeter = (AF + FB) + (BD + DC) + (CE + EA) = 2(AF + BD + CE)", points: 1, dimension: reasoning }
+          - { id: 'equal', description: "Finds the equal lengths (e.g. equal tangents: AF = AE, BD = BF, CE = CD)", points: 2, dimension: reasoning }
+          - { id: 'perimeter', description: "Writes the perimeter using them (e.g. (AF + FB) + (BD + DC) + (CE + EA) = 2(AF + BD + CE))", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "So AF + BD + CE is half the perimeter", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -308,9 +308,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'tangents', description: "Each corner is the meeting point of two tangents, which are equal: lengths a, b, c, d from A, B, C, D", points: 2, dimension: reasoning }
-          - { id: 'sides', description: "AB = a + b, BC = b + c, CD = c + d, DA = d + a", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "AB + CD = a + b + c + d = BC + DA", points: 1, dimension: proof }
+          - { id: 'tangents', description: "Finds the equal lengths (e.g. the two tangents from each corner are equal: a, b, c, d from A, B, C, D)", points: 2, dimension: reasoning }
+          - { id: 'sides', description: "Writes the sides using them (e.g. AB = a + b, BC = b + c, CD = c + d, DA = d + a)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes AB + CD = BC + DA (e.g. both are a + b + c + d)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Each side touches the circle once. From each corner, the two tangents to the circle are equal: call their lengths $a, b, c, d$ at $A, B, C, D$. Then $AB = a + b$, $BC = b + c$, $CD = c + d$ and $DA = d + a$, so $AB + CD = a + b + c + d = BC + DA$.
@@ -343,9 +343,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'right', description: "∠OTS = 90°, so ∠OTB = 90° − ∠STB", points: 1, dimension: reasoning }
-          - { id: 'isosceles', description: "OT = OB, so ∠OBT = ∠OTB", points: 1, dimension: reasoning }
-          - { id: 'sum', description: "Angle sum of triangle OTB: ∠TOB = 180° − 2(90° − ∠STB) = 2∠STB", points: 2, dimension: reasoning }
+          - { id: 'right', description: "Uses the tangent's right angle (e.g. ∠OTS = 90°, so ∠OTB = 90° − ∠STB)", points: 1, dimension: reasoning }
+          - { id: 'isosceles', description: "Uses the equal radii (e.g. OT = OB, so ∠OBT = ∠OTB)", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "Concludes ∠TOB = 2∠STB (e.g. angle sum of triangle OTB)", points: 2, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     The tangent is perpendicular to the radius, so $\angle OTS = 90^\circ$ and $\angle OTB = 90^\circ - \angle STB$. $OT = OB$, so triangle $OTB$ is isosceles with $\angle OBT = \angle OTB$. Hence $\angle TOB = 180^\circ - 2(90^\circ - \angle STB) = 2\angle STB$.
@@ -375,9 +375,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'perp', description: "Each radius to T is perpendicular to the common tangent at T", points: 2, dimension: reasoning }
-          - { id: 'one-line', description: "Through T there is only one line perpendicular to the tangent", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So both centers lie on that line, with T", points: 1, dimension: proof }
+          - { id: 'perp', description: "Relates each radius to T to the common tangent (e.g. each is perpendicular to it)", points: 2, dimension: reasoning }
+          - { id: 'one-line', description: "Explains why there is only one such line (e.g. through T there is only one line perpendicular to the tangent)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes both centers and T are collinear", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the centers be $O_1$ and $O_2$. The common tangent at $T$ is perpendicular to both radii $O_1T$ and $O_2T$. There is only one line through $T$ perpendicular to the tangent, so $O_1T$ and $O_2T$ both lie along it. Hence $O_1$, $T$, $O_2$ are collinear.
@@ -411,9 +411,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'equal', description: "Equal tangents: DA = DC and EB = EC", points: 2, dimension: reasoning }
-          - { id: 'sum', description: "Perimeter = PD + DC + CE + EP = PD + DA + EB + EP = PA + PB", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "PA = PB, so the perimeter is 2PA", points: 1, dimension: proof }
+          - { id: 'equal', description: "Finds the equal lengths (e.g. equal tangents: DA = DC and EB = EC)", points: 2, dimension: reasoning }
+          - { id: 'sum', description: "Rewrites the perimeter using them (e.g. PD + DC + CE + EP = PA + PB)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes the perimeter is 2PA (e.g. PA = PB)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Tangents from one point are equal: $DA = DC$, $EB = EC$ and $PA = PB$. The perimeter is $PD + DE + EP = PD + DC + CE + EP = (PD + DA) + (EB + EP) = PA + PB = 2PA$.
@@ -448,10 +448,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'first', description: "In the first circle (through A, B, D), AC is the tangent at A: ∠CAB = ∠ADB (alternate segment)", points: 1, dimension: reasoning }
-          - { id: 'second', description: "In the second circle (through A, B, C), AD is the tangent at A: ∠DAB = ∠ACB", points: 1, dimension: reasoning }
-          - { id: 'similar', description: "So triangles ADB and CAB have two pairs of equal angles and are similar", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "Their third angles are equal: ∠ABD = ∠CBA", points: 1, dimension: proof }
+          - { id: 'first', description: "Relates an angle at A to the first circle (e.g. AC tangent at A: ∠CAB = ∠ADB, alternate segment)", points: 1, dimension: reasoning }
+          - { id: 'second', description: "Relates an angle at A to the second circle (e.g. AD tangent at A: ∠DAB = ∠ACB)", points: 1, dimension: reasoning }
+          - { id: 'similar', description: "Shows two triangles are similar (e.g. ADB and CAB, two pairs of equal angles)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ∠ABD = ∠CBA (e.g. the third angles are equal)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     In the first circle, $AC$ is the tangent at $A$ and $AB$ a chord, so $\angle CAB = \angle ADB$ (alternate segment). In the second circle, $AD$ is the tangent at $A$, so $\angle DAB = \angle ACB$.
@@ -483,9 +483,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'equilateral', description: "OA = OB = AB, so triangle OAB is equilateral and ∠OAB = 60°", points: 2, dimension: reasoning }
-          - { id: 'tangent', description: "The tangent at A is perpendicular to OA", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So the angle between AB and the tangent is 90° − 60° = 30°", points: 1, dimension: proof }
+          - { id: 'equilateral', description: "Finds the angle between AB and the radius (e.g. OA = OB = AB, equilateral, so ∠OAB = 60°)", points: 2, dimension: reasoning }
+          - { id: 'tangent', description: "Uses the tangent's right angle (e.g. the tangent at A is perpendicular to OA)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes the angle is 30° (e.g. 90° − 60°)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $OA = OB$ (radii) $= AB$, so triangle $OAB$ is equilateral and $\angle OAB = 60^\circ$. The tangent at $A$ is perpendicular to $OA$, so the angle between it and $AB$ is $90^\circ - 60^\circ = 30^\circ$ (on the side of $B$).
@@ -522,10 +522,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'bisect-d', description: "OD bisects ∠AOC (congruent triangles OAD, OCD, or tangents from D)", points: 1, dimension: reasoning }
-          - { id: 'bisect-e', description: "OE bisects ∠COB", points: 1, dimension: reasoning }
-          - { id: 'sum', description: "∠AOC + ∠COB = 180° (AB is a straight line)", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So ∠DOE = ½∠AOC + ½∠COB = 90°", points: 2, dimension: proof }
+          - { id: 'bisect-d', description: "Relates ∠DOC to ∠AOC (e.g. OD bisects ∠AOC: congruent triangles OAD, OCD, or tangents from D)", points: 1, dimension: reasoning }
+          - { id: 'bisect-e', description: "Relates ∠COE to ∠COB (e.g. OE bisects ∠COB)", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "Uses the straight line AB (e.g. ∠AOC + ∠COB = 180°)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ∠DOE = 90° (e.g. ½∠AOC + ½∠COB)", points: 2, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     From $D$, the tangents $DA$ and $DC$ give congruent right triangles $OAD$ and $OCD$ (RHS), so $OD$ bisects $\angle AOC$. Likewise $OE$ bisects $\angle COB$. Since $A$, $O$, $B$ are collinear, $\angle AOC + \angle COB = 180^\circ$. Hence $\angle DOE = \tfrac{1}{2}\angle AOC + \tfrac{1}{2}\angle COB = 90^\circ$.
@@ -562,10 +562,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'altitude', description: "OC ⟂ DE (tangent ⟂ radius), so OC is the altitude from the right angle in triangle DOE", points: 1, dimension: reasoning }
-          - { id: 'similar', description: "Triangles DCO and OCE are similar (each similar to DOE), giving OC² = DC × CE", points: 2, dimension: reasoning }
-          - { id: 'tangents', description: "DC = DA and CE = EB (equal tangents)", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So r² = AD × BE", points: 1, dimension: proof }
+          - { id: 'altitude', description: "Identifies OC as the height to DE (e.g. OC ⟂ DE, tangent ⟂ radius)", points: 1, dimension: reasoning }
+          - { id: 'similar', description: "Relates OC to DC and CE (e.g. triangles DCO and OCE similar, giving OC² = DC × CE)", points: 2, dimension: reasoning }
+          - { id: 'tangents', description: "Brings in the equal tangents (e.g. DC = DA and CE = EB)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes r² = AD × BE", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $OC \perp DE$ (tangent ⟂ radius), and $\angle DOE = 90^\circ$. In right triangle $DOE$, the altitude $OC$ splits it into triangles $DCO$ and $OCE$, which are similar ($\angle CDO = 90^\circ - \angle DOC = \angle COE$, and both have a right angle at $C$). So $\dfrac{DC}{OC} = \dfrac{OC}{CE}$, i.e. $OC^2 = DC \times CE$.
@@ -600,10 +600,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: radii, description: "OA = OB (radii)", points: 1, dimension: reasoning }
-          - { id: right, description: "∠OMA = ∠OMB = 90° and OM is common", points: 1, dimension: reasoning }
-          - { id: congruent, description: "Triangles OMA and OMB are congruent (RHS)", points: 1, dimension: proof }
-          - { id: conclude, description: "So AM = BM: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: radii, description: "Uses the equal radii (e.g. OA = OB)", points: 1, dimension: reasoning }
+          - { id: right, description: "Uses the right angles and common side (e.g. ∠OMA = ∠OMB = 90°, OM common)", points: 1, dimension: reasoning }
+          - { id: congruent, description: "Concludes the triangles are congruent (e.g. OMA and OMB by RHS), or uses Pythagoras", points: 1, dimension: proof }
+          - { id: conclude, description: "Concludes AM = BM", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     In triangles $OMA$ and $OMB$: $OA = OB$ (radii), $OM$ is common, and $\angle OMA = \angle OMB = 90^\circ$. So the triangles are congruent (right angle, hypotenuse, side), and $AM = BM$. $M$ is the midpoint of $AB$.
@@ -636,9 +636,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: feet, description: "Drops perpendiculars OM to AB and ON to CD; these bisect the chords, so AM = ½AB = ½CD = CN", points: 2, dimension: reasoning }
-          - { id: pythag, description: "Pythagoras in the right triangles: OM² = r² − AM² and ON² = r² − CN²", points: 1, dimension: reasoning }
-          - { id: conclude, description: "So OM = ON: the chords are equally far from O", points: 1, dimension: proof }
+          - { id: feet, description: "Finds equal lengths from the equal chords (e.g. perpendiculars OM and ON bisect the chords, so AM = ½AB = ½CD = CN)", points: 2, dimension: reasoning }
+          - { id: pythag, description: "Relates the distances to the radius (e.g. Pythagoras: OM² = r² − AM² and ON² = r² − CN²)", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes OM = ON", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $M$ and $N$ be the feet of the perpendiculars from $O$ to $AB$ and $CD$. The perpendicular from the center bisects a chord, so $AM = \tfrac{1}{2}AB = \tfrac{1}{2}CD = CN$.

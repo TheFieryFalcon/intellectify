@@ -80,9 +80,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: boxes, description: "Uses the 4 possible remainders on division by 4 (0, 1, 2, 3) as boxes", points: 2, dimension: reasoning }
-          - { id: php, description: "5 integers in 4 boxes, so two share a remainder", points: 1, dimension: reasoning }
-          - { id: conclude, description: "Same remainder means their difference is a multiple of 4", points: 1, dimension: proof }
+          - { id: boxes, description: "Chooses boxes so that two numbers in one box differ by a multiple of 4 (e.g. the remainders 0, 1, 2, 3 on division by 4)", points: 2, dimension: reasoning }
+          - { id: php, description: "Applies the pigeonhole principle: 5 integers in 4 boxes, so two share a box", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes their difference is a multiple of 4 (e.g. same remainder)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly expressed", points: 1, dimension: clarity }
   solution: |
     Dividing by 4 leaves remainder 0, 1, 2 or 3: 4 boxes. Five integers put two in the same box, say $a = 4p + r$ and $b = 4q + r$. Then $a - b = 4(p - q)$ is divisible by 4.
@@ -99,9 +99,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: split, description: "Divides the square into four 1 × 1 squares", points: 2, dimension: synthesis }
-          - { id: php, description: "Five points in four small squares: two share a small square", points: 1, dimension: reasoning }
-          - { id: diag, description: "The furthest apart two points in a 1 × 1 square can be is the diagonal, √2", points: 1, dimension: proof }
+          - { id: split, description: "Chooses regions so that two points in one region are close (e.g. four 1 × 1 squares)", points: 2, dimension: synthesis }
+          - { id: php, description: "Applies the pigeonhole principle: five points in four regions, so two share one", points: 1, dimension: reasoning }
+          - { id: diag, description: "Bounds the distance within a region (e.g. two points in a 1 × 1 square are at most the diagonal √2 apart)", points: 1, dimension: proof }
           - { id: clear, description: "Clear and complete", points: 1, dimension: clarity }
   solution: |
     Split the square into four $1 \times 1$ squares. Five points put two in the same small square (a point on a shared edge can be assigned to either). Two points in a $1 \times 1$ square are at most the diagonal apart: $\sqrt{1^2 + 1^2} = \sqrt{2}$.
@@ -118,9 +118,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: boxes, description: "Pairs consecutive numbers: {1,2}, {3,4}, …, {2n−1, 2n} — n boxes", points: 2, dimension: synthesis }
-          - { id: php, description: "n + 1 numbers in n boxes: two consecutive numbers are chosen", points: 1, dimension: reasoning }
-          - { id: coprime, description: "Explains why consecutive numbers share no factor > 1 (a common factor would divide their difference, 1)", points: 2, dimension: proof }
+          - { id: boxes, description: "Chooses boxes so that two numbers in one box are coprime (e.g. consecutive pairs {1,2}, {3,4}, …, {2n−1, 2n}: n boxes)", points: 2, dimension: synthesis }
+          - { id: php, description: "Applies the pigeonhole principle: n + 1 numbers in n boxes, so two share a box", points: 1, dimension: reasoning }
+          - { id: coprime, description: "Explains why two numbers in one box are coprime (e.g. a common factor of consecutive numbers would divide their difference, 1)", points: 2, dimension: proof }
   solution: |
     Make $n$ boxes $\{1, 2\}, \{3, 4\}, \dots, \{2n-1, 2n\}$. Choosing $n + 1$ numbers puts two in one box, so two consecutive numbers $k$ and $k + 1$ are chosen. Any common factor of $k$ and $k + 1$ divides their difference, which is 1. So they have no common factor other than 1.
 
@@ -158,9 +158,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: split, description: "Divides the triangle into 9 equilateral triangles of side 1 (lines parallel to the sides at the thirds)", points: 2, dimension: synthesis }
-          - { id: php, description: "Ten points in nine small triangles: two share one", points: 1, dimension: reasoning }
-          - { id: diameter, description: "Two points in an equilateral triangle of side 1 are at most 1 apart (the longest distance is a side)", points: 1, dimension: proof }
+          - { id: split, description: "Chooses regions so that two points in one region are close (e.g. 9 equilateral triangles of side 1, from lines parallel to the sides at the thirds)", points: 2, dimension: synthesis }
+          - { id: php, description: "Applies the pigeonhole principle: ten points in nine regions, so two share one", points: 1, dimension: reasoning }
+          - { id: diameter, description: "Bounds the distance within a region (e.g. two points in an equilateral triangle of side 1 are at most 1 apart)", points: 1, dimension: proof }
           - { id: clear, description: "Clear and complete", points: 1, dimension: clarity }
   solution: |
     Draw lines parallel to each side through the points that split the sides into thirds. This divides the triangle into 9 equilateral triangles of side 1. Ten points put two in the same small triangle, and no two points of a side-1 equilateral triangle are more than 1 apart.
@@ -177,10 +177,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: pick, description: "Picks one person and sorts the other 5 into friends/strangers of that person", points: 1, dimension: reasoning }
-          - { id: php, description: "Pigeonhole: 5 people in 2 groups means one group has at least 3", points: 1, dimension: reasoning }
-          - { id: case, description: "Case analysis on those 3: if any two of them are friends (in the friends case) we get 3 friends; otherwise those 3 are mutual strangers", points: 2, dimension: proof }
-          - { id: symmetric, description: "Handles the strangers case symmetrically", points: 1, dimension: clarity }
+          - { id: pick, description: "Starts from one person and sorts the rest by their relation to that person (e.g. the other 5 into friends and strangers)", points: 1, dimension: reasoning }
+          - { id: php, description: "Applies the pigeonhole principle: 5 people in 2 groups, so one group has at least 3", points: 1, dimension: reasoning }
+          - { id: case, description: "Analyzes those 3 (e.g. in the friends case: if any two are friends, there are 3 friends; otherwise the 3 are mutual strangers)", points: 2, dimension: proof }
+          - { id: symmetric, description: "Handles the other case (e.g. strangers, symmetrically)", points: 1, dimension: clarity }
   solution: |
     Pick a person $P$. Of the other 5, at least 3 are friends of $P$, or at least 3 are strangers to $P$, by pigeonhole with 2 boxes. Suppose 3 are friends of $P$ (the other case is the same with the roles swapped). If any two of those 3 are friends, they and $P$ are 3 mutual friends. If not, those 3 are mutual strangers.
 
@@ -196,9 +196,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: boxes, description: "Groups remainders mod 10 as {0}, {5}, {1,9}, {2,8}, {3,7}, {4,6}: 6 boxes", points: 2, dimension: synthesis }
-          - { id: php, description: "7 integers in 6 boxes: two share a box", points: 1, dimension: reasoning }
-          - { id: cases, description: "Same remainder gives a difference divisible by 10; remainders adding to 10 give a sum divisible by 10 (including the 0 and 5 boxes)", points: 2, dimension: proof }
+          - { id: boxes, description: "Chooses boxes so that two numbers in one box have a sum or difference divisible by 10 (e.g. remainders mod 10 grouped as {0}, {5}, {1,9}, {2,8}, {3,7}, {4,6}: 6 boxes)", points: 2, dimension: synthesis }
+          - { id: php, description: "Applies the pigeonhole principle: 7 integers in 6 boxes, so two share a box", points: 1, dimension: reasoning }
+          - { id: cases, description: "Shows two numbers in one box work (e.g. same remainder: difference divisible by 10; remainders adding to 10: sum divisible by 10; including the 0 and 5 boxes)", points: 2, dimension: proof }
   solution: |
     Sort the integers by remainder when divided by 10, using 6 boxes: $\{0\}, \{5\}, \{1, 9\}, \{2, 8\}, \{3, 7\}, \{4, 6\}$. Seven integers put two in the same box. If their remainders are equal, their difference is divisible by 10. If the remainders are a pair like 3 and 7, they add to 10, so the sum is divisible by 10.
 
@@ -214,9 +214,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: remainders, description: "Considers remainders on division by 3", points: 1, dimension: reasoning }
-          - { id: all-three, description: "Case: all three remainders 0, 1, 2 appear — one of each sums to a multiple of 3", points: 2, dimension: proof }
-          - { id: two-classes, description: "Otherwise at most two remainders appear among 5 numbers, so one appears ≥ 3 times (pigeonhole) and those three sum to 3r", points: 2, dimension: reasoning }
+          - { id: remainders, description: "Sorts the numbers usefully (e.g. by remainder on division by 3)", points: 1, dimension: reasoning }
+          - { id: all-three, description: "Handles the case where three numbers come from different classes (e.g. one each of remainders 0, 1, 2 sums to a multiple of 3)", points: 2, dimension: proof }
+          - { id: two-classes, description: "Handles the other case (e.g. at most two remainders among 5 numbers, so one appears ≥ 3 times by pigeonhole, and those three sum to 3r)", points: 2, dimension: reasoning }
   solution: |
     Look at the remainders when dividing by 3. If all three remainders 0, 1 and 2 appear, take one number with each; their sum has remainder $0 + 1 + 2 = 3$, so it is divisible by 3. Otherwise only two remainders appear among 5 numbers, so one appears at least 3 times. Three numbers with the same remainder $r$ have a sum with remainder $3r$, which is divisible by 3.
 
@@ -329,10 +329,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: count, description: "Counts the non-empty groups (subsets): 2¹⁰ − 1 = 1023", points: 1, dimension: reasoning }
-          - { id: range, description: "Bounds the sums: every group sums to at least 10 and at most 90 + 91 + … + 99 = 945, so at most 936 possible sums", points: 2, dimension: reasoning }
-          - { id: php, description: "More groups than possible sums, so two different groups have equal sums", points: 1, dimension: proof }
-          - { id: disjoint, description: "Removes the numbers the two groups share; both stay non-empty and their sums stay equal", points: 2, dimension: synthesis }
+          - { id: count, description: "Counts the groups (e.g. non-empty subsets: 2¹⁰ − 1 = 1023)", points: 1, dimension: reasoning }
+          - { id: range, description: "Counts the possible sums (e.g. every sum is from 10 to 90 + 91 + … + 99 = 945, so at most 936 values)", points: 2, dimension: reasoning }
+          - { id: php, description: "Applies the pigeonhole principle: more groups than possible sums, so two different groups have equal sums", points: 1, dimension: proof }
+          - { id: disjoint, description: "Makes the two groups disjoint (e.g. removes the shared numbers; both stay non-empty and their sums stay equal)", points: 2, dimension: synthesis }
   solution: |
     There are $2^{10} - 1 = 1023$ non-empty groups. Each sum is at least 10 and at most $90 + 91 + \cdots + 99 = 945$, so there are at most $936$ possible sums.
     $1023 > 936$, so by the pigeonhole principle two different groups $A$ and $B$ have the same sum.
@@ -562,9 +562,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'range', description: "With n guests, each shakes between 0 and n − 1 hands", points: 1, dimension: reasoning }
-          - { id: 'not-both', description: "Explains why 0 and n − 1 can't both occur", points: 2, dimension: proof }
-          - { id: 'php', description: "So n guests share at most n − 1 values, and two guests have the same count", points: 1, dimension: reasoning }
+          - { id: 'range', description: "Finds the possible counts (e.g. with n guests, each shakes 0 to n − 1 hands)", points: 1, dimension: reasoning }
+          - { id: 'not-both', description: "Explains why the counts can't all be different (e.g. 0 and n − 1 can't both occur)", points: 2, dimension: proof }
+          - { id: 'php', description: "Applies the pigeonhole principle: n guests share at most n − 1 values, so two have the same count", points: 1, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Say there are $n$ guests. Each shakes between $0$ and $n - 1$ hands. If someone shook $n - 1$ hands, they shook everyone's, so nobody shook $0$. So $0$ and $n - 1$ can't both occur, and the $n$ counts take at most $n - 1$ different values. By the pigeonhole principle, two guests have the same count.
@@ -582,10 +582,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'sums', description: "Uses running totals s₁ < s₂ < … < s₃₀ = 45 (total eaten by the end of each day)", points: 1, dimension: synthesis }
-          - { id: 'shift', description: "Considers the 60 numbers s₁, …, s₃₀ and s₁ + 14, …, s₃₀ + 14, all from 1 to 59", points: 2, dimension: reasoning }
-          - { id: 'php', description: "Pigeonhole: two are equal, necessarily some s_j = s_i + 14", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So days i + 1 to j contain exactly 14", points: 1, dimension: proof }
+          - { id: 'sums', description: "Sets up quantities that turn a run of days into a difference (e.g. running totals s₁ < s₂ < … < s₃₀ = 45)", points: 1, dimension: synthesis }
+          - { id: 'shift', description: "Sets up enough numbers in a small enough range (e.g. s₁, …, s₃₀ and s₁ + 14, …, s₃₀ + 14: 60 numbers from 1 to 59)", points: 2, dimension: reasoning }
+          - { id: 'php', description: "Applies the pigeonhole principle (e.g. two are equal, necessarily some s_j = s_i + 14)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes some run of days contains exactly 14 (e.g. days i + 1 to j)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $s_k$ be the number eaten by the end of day $k$. Since at least one is eaten each day, $1 \le s_1 < s_2 < \dots < s_{30} = 45$. The numbers $s_1 + 14, \dots, s_{30} + 14$ are also all different, and lie between 15 and 59. So the 60 numbers $s_1, \dots, s_{30}, s_1 + 14, \dots, s_{30} + 14$ all lie between 1 and 59. By the pigeonhole principle two are equal. Two from the same list can't be, so $s_j = s_i + 14$ for some $i < j$. Then on days $i + 1$ to $j$, exactly 14 were eaten.

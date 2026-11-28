@@ -222,9 +222,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: statement, description: 'Shows the statement: 9k = 3(3k), so a multiple of 9 is a multiple of 3', points: 2, dimension: reasoning}
+      - {id: statement, description: "Proves the statement (e.g. 9k = 3(3k), so a multiple of 9 is a multiple of 3)", points: 2, dimension: reasoning}
       - {id: converse, description: 'States the converse correctly: if divisible by 3, then divisible by 9', points: 1, dimension: precision}
-      - {id: counter, description: 'Gives a counterexample, such as 3, 6 or 12, and checks it', points: 1, dimension: proof}
+      - {id: counter, description: "Shows the converse is false with a counterexample, checked (e.g. 3, 6 or 12)", points: 1, dimension: proof}
       - {id: clear, description: Clearly expressed, points: 1, dimension: clarity}
   solution: |
     If $n = 9k$ for a whole number $k$, then $n = 3(3k)$, which is divisible by 3. So the statement is true.
@@ -301,8 +301,8 @@
     rubric:
       criteria:
       - {id: neg, description: 'Writes the negation correctly: ∃n ∈ ℤ such that n² + n is odd (or not even)', points: 2, dimension: precision}
-      - {id: factor, description: 'Writes n² + n = n(n + 1), a product of consecutive integers', points: 1, dimension: reasoning}
-      - {id: even, description: 'Explains that one of n, n + 1 is even, so the product is even', points: 1, dimension: reasoning}
+      - {id: factor, description: "Rewrites n² + n in a form whose parity is clear (e.g. n(n + 1), a product of consecutive integers)", points: 1, dimension: reasoning}
+      - {id: even, description: "Explains why it is always even (e.g. one of n, n + 1 is even)", points: 1, dimension: reasoning}
       - {id: decide, description: Concludes S is true and its negation is false, points: 1, dimension: clarity}
   solution: |
     The negation is "$\exists n \in \mathbb{Z}$ such that $n^2 + n$ is odd".

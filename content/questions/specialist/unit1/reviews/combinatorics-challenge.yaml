@@ -136,9 +136,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: rewrite, description: "Writes the product as n(n + 1)(n + 2)(n + 3) and relates it to C(n + 3, 4) = (n + 3)(n + 2)(n + 1)n / 4!", points: 2, dimension: reasoning }
-          - { id: integer, description: "C(n + 3, 4) counts the groups of 4 from n + 3 objects, so it is a whole number", points: 1, dimension: proof }
-          - { id: conclude, description: "So the product equals 24 × C(n + 3, 4), a multiple of 24", points: 1, dimension: proof }
+          - { id: rewrite, description: "Relates the product to a quantity known to be a whole number (e.g. n(n + 1)(n + 2)(n + 3) = 4! × C(n + 3, 4))", points: 2, dimension: reasoning }
+          - { id: integer, description: "Justifies that quantity is a whole number (e.g. C(n + 3, 4) counts the groups of 4 from n + 3 objects)", points: 1, dimension: proof }
+          - { id: conclude, description: "Concludes the product is a multiple of 24", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the integers be $n, n + 1, n + 2, n + 3$ with $n \ge 1$. Then
@@ -181,10 +181,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: column, description: "In each column, two of its three squares share a color (pigeonhole with 2 colors)", points: 1, dimension: reasoning }
-          - { id: boxes, description: "Labels each column by a pair of rows and the shared color: 3 pairs × 2 colors = 6 boxes", points: 2, dimension: reasoning }
-          - { id: pigeon, description: "7 columns in 6 boxes: two columns have the same label", points: 1, dimension: proof }
-          - { id: corners, description: "Those two columns and that pair of rows give four squares of one color", points: 1, dimension: reasoning }
+          - { id: column, description: "Finds a repeated color within each column (e.g. two of its three squares share a color, by pigeonhole with 2 colors)", points: 1, dimension: reasoning }
+          - { id: boxes, description: "Sets up boxes for the columns (e.g. label each column by a pair of rows and the shared color: 3 × 2 = 6 boxes)", points: 2, dimension: reasoning }
+          - { id: pigeon, description: "Applies the pigeonhole principle: 7 columns in 6 boxes, so two columns have the same label", points: 1, dimension: proof }
+          - { id: corners, description: "Concludes the four corners have one color (e.g. those two columns and that pair of rows)", points: 1, dimension: reasoning }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Each column has 3 squares and only 2 colors, so two of its squares share a color. Label the column by one such pair of rows and their color. There are $\binom{3}{2} = 3$ pairs of rows and 2 colors, so $3 \times 2 = 6$ possible labels.
@@ -225,9 +225,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: relate, description: "Writes C(2n, n + 1) in terms of C(2n, n): C(2n, n + 1) = n/(n + 1) × C(2n, n)", points: 2, dimension: reasoning }
-          - { id: difference, description: "Subtracts: C(2n, n) − C(2n, n + 1) = C(2n, n)/(n + 1)", points: 1, dimension: reasoning }
-          - { id: integer, description: "The left side is a difference of whole numbers, so C(2n, n)/(n + 1) is a whole number", points: 1, dimension: proof }
+          - { id: relate, description: "Relates C(2n, n + 1) to C(2n, n) (e.g. C(2n, n + 1) = n/(n + 1) × C(2n, n))", points: 2, dimension: reasoning }
+          - { id: difference, description: "Produces C(2n, n)/(n + 1) from whole numbers (e.g. C(2n, n) − C(2n, n + 1) = C(2n, n)/(n + 1))", points: 1, dimension: reasoning }
+          - { id: integer, description: "Justifies C(2n, n)/(n + 1) is a whole number (e.g. it is a difference of whole numbers)", points: 1, dimension: proof }
           - { id: conclude, description: "So n + 1 divides C(2n, n)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |

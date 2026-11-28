@@ -591,9 +591,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: radii, description: Draws OC and notes OA = OB = OC (radii), points: 1, dimension: reasoning}
-      - {id: iso, description: 'Two isosceles triangles: ∠OAC = ∠OCA = a and ∠OBC = ∠OCB = b', points: 2, dimension: reasoning}
-      - {id: sum, description: 'Angle sum of triangle ABC: 2a + 2b = 180°, so a + b = 90°', points: 1, dimension: proof}
+      - {id: radii, description: "Makes a construction that brings in equal lengths (e.g. draws OC, with OA = OB = OC radii)", points: 1, dimension: reasoning}
+      - {id: iso, description: "Finds equal angles from it (e.g. isosceles triangles: ∠OAC = ∠OCA = a and ∠OBC = ∠OCB = b)", points: 2, dimension: reasoning}
+      - {id: sum, description: "Concludes ∠ACB = 90° (e.g. angle sum of ABC: 2a + 2b = 180°, so a + b = 90°)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Join $OC$. $OA = OB = OC$ (radii), so triangles $OAC$ and $OBC$ are isosceles: $\angle OAC = \angle OCA = a$ and $\angle OBC = \angle OCB = b$.
@@ -722,9 +722,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: setup, description: Cyclic quadrilateral ABCD with center O; joins OB and OD, points: 1, dimension: reasoning}
-      - {id: double, description: ∠BOD (one side) = 2∠A and the reflex ∠BOD (other side) = 2∠C, points: 2, dimension: reasoning}
-      - {id: sum, description: 'These make a full turn: 2∠A + 2∠C = 360°, so ∠A + ∠C = 180°', points: 1, dimension: proof}
+      - {id: setup, description: "Makes a construction that links the opposite angles (e.g. joins the center O to B and D)", points: 1, dimension: reasoning}
+      - {id: double, description: "Relates each opposite angle to an angle at the center (e.g. ∠BOD = 2∠A on one side and reflex ∠BOD = 2∠C on the other)", points: 2, dimension: reasoning}
+      - {id: sum, description: "Concludes ∠A + ∠C = 180° (e.g. the two center angles make a full turn: 2∠A + 2∠C = 360°)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Let $ABCD$ be cyclic with center $O$. Join $OB$ and $OD$. $\angle A$ stands on arc $BCD$ and $\angle C$ on arc $BAD$. The angles at the center on these arcs are $2\angle A$ and $2\angle C$, and together they make a full turn: $2\angle A + 2\angle C = 360^\circ$. So $\angle A + \angle C = 180^\circ$, and likewise $\angle B + \angle D = 180^\circ$.
@@ -1064,9 +1064,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: right1, description: '∠ABC = 90° (angle in a semicircle, first circle)', points: 2, dimension: reasoning}
-      - {id: right2, description: '∠ABD = 90° (angle in a semicircle, second circle)', points: 1, dimension: proof}
-      - {id: line, description: 'Two right angles at B add to 180°, so CBD is a straight line', points: 2, dimension: synthesis}
+      - {id: right1, description: "Finds the angle at B in the first circle (e.g. ∠ABC = 90°, angle in a semicircle)", points: 2, dimension: reasoning}
+      - {id: right2, description: "Finds the angle at B in the second circle (e.g. ∠ABD = 90°, angle in a semicircle)", points: 1, dimension: proof}
+      - {id: line, description: "Concludes C, B, D are collinear (e.g. the two right angles add to 180°)", points: 2, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Join $AB$. $AC$ is a diameter of the first circle and $B$ is on it, so $\angle ABC = 90^\circ$ (angle in a semicircle). Likewise $\angle ABD = 90^\circ$ in the second circle. $C$ and $D$ are on opposite sides of $AB$, so $\angle CBD = 90^\circ + 90^\circ = 180^\circ$: $C$, $B$ and $D$ are collinear.
@@ -1101,9 +1101,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: bad, description: 'From right triangle ABD: ∠BAD = 90° − ∠ABC', points: 1, dimension: reasoning}
-      - {id: center, description: ∠AOC = 2∠ABC (angle at the center), points: 2, dimension: reasoning}
-      - {id: iso, description: 'OA = OC, so ∠OAC = ½(180° − 2∠ABC) = 90° − ∠ABC', points: 2, dimension: proof}
+      - {id: bad, description: "Finds ∠BAD in terms of ∠ABC (e.g. right triangle ABD: ∠BAD = 90° − ∠ABC)", points: 1, dimension: reasoning}
+      - {id: center, description: "Finds ∠AOC in terms of ∠ABC (e.g. ∠AOC = 2∠ABC, angle at the center)", points: 2, dimension: reasoning}
+      - {id: iso, description: "Finds ∠OAC and matches it to ∠BAD (e.g. OA = OC, so ∠OAC = ½(180° − 2∠ABC) = 90° − ∠ABC)", points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Let $\angle ABC = \beta$. In right-angled triangle $ABD$, $\angle BAD = 90^\circ - \beta$.

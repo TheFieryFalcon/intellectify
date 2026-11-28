@@ -256,10 +256,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: facts, description: "States |a| = |c| and a · c = 0 (equal, perpendicular sides)", points: 1, dimension: proof }
-          - { id: diagonals, description: "Diagonals are a + c and a − c (or c − a)", points: 1, dimension: reasoning }
-          - { id: perp, description: "(a + c) · (a − c) = |a|² − |c|² = 0, so they are perpendicular", points: 1, dimension: reasoning }
-          - { id: equal, description: "|a + c|² = |a|² + 2a · c + |c|² = |a − c|², so they are equal in length", points: 1, dimension: reasoning }
+          - { id: facts, description: "States what makes it a square in vector terms (e.g. sides a and c with |a| = |c| and a · c = 0)", points: 1, dimension: proof }
+          - { id: diagonals, description: "Writes the diagonals in terms of those vectors (e.g. a + c and a − c)", points: 1, dimension: reasoning }
+          - { id: perp, description: "Shows the diagonals are perpendicular (e.g. (a + c) · (a − c) = |a|² − |c|² = 0)", points: 1, dimension: reasoning }
+          - { id: equal, description: "Shows the diagonals are equal in length (e.g. |a + c|² = |a|² + 2a · c + |c|² = |a − c|²)", points: 1, dimension: reasoning }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     In a square, $|\mathbf{a}| = |\mathbf{c}|$ and $\mathbf{a} \cdot \mathbf{c} = 0$. The diagonals are $\overrightarrow{OB} = \mathbf{a} + \mathbf{c}$ and $\overrightarrow{CA} = \mathbf{a} - \mathbf{c}$.
@@ -300,10 +300,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Lets OA = a and OB = b, so OM = ½a and ON = ½b", points: 1, dimension: proof }
-          - { id: mn, description: "MN = ON − OM = ½(b − a)", points: 1, dimension: reasoning }
-          - { id: ab, description: "AB = b − a, so MN = ½ AB", points: 1, dimension: reasoning }
-          - { id: conclude, description: "A vector that is ½ times another is parallel to it and half as long", points: 1, dimension: proof }
+          - { id: setup, description: "Sets up vectors for the triangle and writes the midpoints in terms of them (e.g. OA = a, OB = b, so OM = ½a and ON = ½b)", points: 1, dimension: proof }
+          - { id: mn, description: "Finds MN in terms of those vectors (e.g. MN = ON − OM = ½(b − a))", points: 1, dimension: reasoning }
+          - { id: ab, description: "Relates MN to AB (e.g. AB = b − a, so MN = ½ AB)", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes MN is parallel to AB and half as long (e.g. a vector that is ½ times another)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. Then $\overrightarrow{OM} = \tfrac{1}{2}\mathbf{a}$ and $\overrightarrow{ON} = \tfrac{1}{2}\mathbf{b}$, so $\overrightarrow{MN} = \tfrac{1}{2}\mathbf{b} - \tfrac{1}{2}\mathbf{a} = \tfrac{1}{2}(\mathbf{b} - \mathbf{a}) = \tfrac{1}{2}\overrightarrow{AB}$.
