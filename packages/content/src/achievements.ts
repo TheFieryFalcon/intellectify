@@ -48,6 +48,8 @@ export const Achievement = z.object({
   tier: z.enum(Object.keys(ACHIEVEMENT_TIERS) as [keyof typeof ACHIEVEMENT_TIERS, ...(keyof typeof ACHIEVEMENT_TIERS)[]]),
   points: z.number().int().positive(),
   secret: z.boolean().default(false),
+  /** Tanzanite and up: the unique title it unlocks (SPEC §13.9). */
+  title: z.string().min(1).optional(),
   criterion: z.string().min(1),
   rule: Rule,
 });

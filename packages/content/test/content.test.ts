@@ -144,3 +144,32 @@ describe("question titles", () => {
     expect(r.errors.filter((e) => e.includes("title"))).toEqual([]);
   });
 });
+
+describe("economy content (SPEC §13)", () => {
+  const real = buildContent(contentDir);
+
+  it("loads every era's cards and the economy values", () => {
+    expect(real.economy?.config.theorems).toHaveLength(11);
+    expect(real.economy?.config.axioms.list).toHaveLength(18);
+    expect(new Set(real.economy?.cards.map((c) => c.era)).size).toBe(7);
+  });
+
+  it("gives every Tanzanite-and-up achievement a unique title, and no lower tier one", () => {
+    const high = real.achievements.filter((a) => ["tanzanite", "vibranium", "solarium", "antimatter"].includes(a.tier));
+    expect(high.every((a) => a.title)).toBe(true);
+    expect(new Set(high.map((a) => a.title)).size).toBe(high.length);
+  });
+
+  it("catches a missing title, a duplicate title and a title on a lower tier", () => {
+    const path = (d: string) => join(d, "achievements.yaml");
+    expect(buildWith((d) => replaceIn(path(d), "  title: Keystone\n", "")).errors.join("\n")).toMatch(/T1 \(tanzanite\) needs a title/);
+    expect(buildWith((d) => replaceIn(path(d), "title: Myriad", "title: Keystone")).errors.join("\n")).toMatch(/titles must be unique: Keystone/);
+    expect(buildWith((d) => replaceIn(path(d), "  name: Groundwork\n", "  name: Groundwork\n  title: Bedrock\n")).errors.join("\n")).toMatch(/P1 \(platinum\) can't have a title/);
+  });
+
+  it("catches a card outside its era, an unknown related skill and falling Axiom thresholds", () => {
+    expect(buildWith((d) => replaceIn(join(d, "cards/antiquity.yaml"), "work: -530", "work: 1530")).errors.join("\n")).toMatch(/pythagoras: major work in 1530 is outside antiquity/);
+    expect(buildWith((d) => replaceIn(join(d, "cards/antiquity.yaml"), "related: [spec.real-complex.rational-irrational]", "related: [spec.nope]")).errors.join("\n")).toMatch(/unknown skill spec.nope/);
+    expect(buildWith((d) => replaceIn(join(d, "economy.yaml"), "at: 30000,", "at: 3000,")).errors.join("\n")).toMatch(/Regularity: threshold must be above/);
+  });
+});

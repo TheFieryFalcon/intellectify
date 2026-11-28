@@ -7,6 +7,7 @@ import { z } from "zod";
 import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
+import { loadEconomy, type EconomyBundle } from "./economy.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, slopeOf, type SectionReviews, type UnitReviews } from "./reviews.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, WordListsFile, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
@@ -112,6 +113,8 @@ export interface BuildResult {
     tutorials: Tutorial[];
   }[];
   achievements: AchievementT[];
+  /** The Lemma economy (SPEC §13): values and cards. */
+  economy: EconomyBundle | null;
   /** Word lists (SPEC §9.6), shared by every course. */
   words: WordLists;
   errors: string[];
@@ -436,7 +439,10 @@ export function buildContent(contentDir: string): BuildResult {
     }
     bundles.push({ course, questions, sectionReviews, unitReviews, tutorials: [...tutorials.values()] });
   }
-  return { bundles, achievements: loadAchievements(contentDir, errors), words, errors, warnings };
+  const achievements = loadAchievements(contentDir, errors);
+  const skillIds = new Set(bundles.flatMap((b) => b.course.units.flatMap((u) => u.sections.flatMap((s) => s.skills.map((k) => k.id)))));
+  const economy = loadEconomy(contentDir, skillIds, achievements, errors, warnings);
+  return { bundles, achievements, economy, words, errors, warnings };
 }
 
 /** LaTeX that should satisfy a spec: its own key, rendered as a student would type it. */

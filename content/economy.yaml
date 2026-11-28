@@ -1,0 +1,248 @@
+# The Lemma economy (docs/SPEC.md §13). Formulas are in packages/engine/src/economy.ts; values are here.
+# Tune against the calibration targets in §13.3 with scripts/economy_sim.py.
+
+# §13.2 Theorems. Level n + 1 costs base × growth^n. x, y place each node on the hand-drawn proof tree
+# (a 1000 × 640 page): two proofs side by side, Successor Function's on top and Pigeonhole's below.
+theorems:
+  - id: successor
+    name: Successor Function
+    statement: 'S(n) = n + 1'
+    boosts: Resolved questions
+    base: 50
+    growth: 1.15
+    requires: null
+    x: 110
+    y: 200
+  - id: distributive
+    name: Distributive Law
+    statement: 'a(b + c) = ab + ac'
+    boosts: Quiz, unit quiz and Challenge bonuses
+    base: 200
+    growth: 1.15
+    requires: {theorem: successor, level: 5}
+    x: 330
+    y: 110
+  - id: geometric
+    name: Geometric Series
+    statement: '1 + r + r^2 + \dots = \tfrac{1}{1 - r}'
+    boosts: Daily problem
+    base: 300
+    growth: 1.15
+    requires: {theorem: successor, level: 5}
+    x: 330
+    y: 300
+  - id: ivt
+    name: Intermediate Value Theorem
+    statement: 'f(a) < 0 < f(b) \implies \exists\, c \in (a, b):\ f(c) = 0'
+    boosts: Rank-ups
+    base: 400
+    growth: 1.15
+    requires: {theorem: distributive, level: 3}
+    x: 560
+    y: 60
+  - id: binomial
+    name: Binomial Theorem
+    statement: '(x + y)^n = \sum_{k=0}^{n} \binom{n}{k} x^{n-k} y^k'
+    boosts: Games
+    base: 500
+    growth: 1.15
+    requires: {theorem: distributive, level: 3}
+    unavailable: true
+    x: 560
+    y: 180
+  - id: euler
+    name: Euler's Identity
+    statement: 'e^{i\pi} + 1 = 0'
+    boosts: Achievements
+    base: 500
+    growth: 1.15
+    requires: {theorem: ivt, level: 3}
+    x: 800
+    y: 60
+  - id: harmonic
+    name: Harmonic Series
+    statement: 'H_n = 1 + \tfrac12 + \tfrac13 + \dots + \tfrac1n'
+    boosts: All active sources
+    base: 1000
+    growth: 1.2
+    requires: {theorem: geometric, level: 5}
+    x: 560
+    y: 300
+  - id: golden
+    name: Golden Ratio
+    statement: '\varphi = \tfrac{1 + \sqrt5}{2} \approx 1.618'
+    boosts: All sources
+    base: 5000
+    growth: 1.618
+    requires: {theorem: harmonic, level: 10}
+    x: 800
+    y: 300
+  - id: pigeonhole
+    name: Pigeonhole Principle
+    statement: 'n + 1 \text{ pigeons in } n \text{ holes} \implies \text{a hole holds two}'
+    boosts: Duplicate cards
+    base: 300
+    growth: 1.15
+    requires: null
+    x: 110
+    y: 500
+  - id: lln
+    name: Law of Large Numbers
+    statement: '\bar X_n \to \mu \text{ as } n \to \infty'
+    boosts: Packs
+    base: 2000
+    growth: 2
+    maxLevel: 10
+    requires: {theorem: pigeonhole, level: 5}
+    x: 330
+    y: 450
+  - id: recurrence
+    name: Recurrence Relation
+    statement: 'F_{n+1} = F_n + F_{n-1}'
+    boosts: Research
+    base: 1000
+    growth: 1.3
+    requires: {theorem: pigeonhole, level: 3}
+    x: 330
+    y: 580
+
+# §13.3 Institutes, one per era. Copy n + 1 costs base × 1.15^n.
+# packPrice (§13.7): Antiquity 1 k∴, then half the era's institute, rising 15× an era like the institutes.
+# Bought packs aren't in economy_sim.py yet, so these are a starting point to tune.
+institutes:
+  growth: 1.15
+eras:
+  - {id: antiquity, name: Antiquity, years: to 500, packPrice: 1000, institute: {id: academy, name: Academy, base: 2000, output: 2.5}}
+  - {id: golden-age, name: Golden Age, years: 500–1400, packPrice: 15000, institute: {id: house-of-wisdom, name: House of Wisdom, base: 30000, output: 20}}
+  - {id: renaissance, name: Renaissance, years: 1400–1650, packPrice: 225000, institute: {id: observatory, name: Observatory, base: 450000, output: 160}}
+  - {id: enlightenment, name: Enlightenment, years: 1650–1800, packPrice: 3375000, institute: {id: learned-society, name: Learned Society, base: 6750000, output: 1280}}
+  - {id: steam-age, name: Steam Age, years: 1800–1880, packPrice: 50625000, institute: {id: polytechnic, name: Polytechnic, base: 101250000, output: 10240}}
+  - {id: machine-age, name: Machine Age, years: 1880–1945, packPrice: 759375000, institute: {id: research-institute, name: Research Institute, base: 1518750000, output: 81920}}
+  - {id: space-age, name: Space Age, years: 1945 on, packPrice: 11390625000, institute: {id: particle-accelerator, name: Particle Accelerator, base: 22781250000, output: 655360}}
+
+# Staff slots (§13.3): 1 slot per copy, up to 12 (half a set) at the 12th copy, as fitted with
+# scripts/economy_sim.py (slot_copies, slot_cap).
+staff:
+  boost: {silver: 0.02, gold: 0.05, platinum: 0.10, diamond: 0.25}
+  foilFactor: 2
+  copiesPerSlot: 1
+  maxSlots: 12
+
+timeWarp: {xp: 600, hours: 12}
+
+# §13.4 Conjectures: the first costs 50 M, each next 10× the last; each multiplies Research by 2.5.
+# Only the last, P versus NP, is still open (proved: null).
+conjectures:
+  first: 50000000
+  step: 10
+  multiplier: 2.5
+  list:
+    - {id: bertrand, name: "Bertrand's Postulate", statement: "For every n > 1 there's a prime between n and 2n", proved: "1852, Chebyshev"}
+    - {id: pnt, name: Prime Number Theorem, statement: "The number of primes up to x is about x / ln x", proved: "1896, Hadamard and de la Vallée Poussin"}
+    - {id: weil, name: Weil Conjectures, statement: "Counting solutions of polynomial equations over finite fields obeys a Riemann Hypothesis of its own", proved: "1960–1974, Dwork, Grothendieck and Deligne"}
+    - {id: four-color, name: Four Color Theorem, statement: "Every map can be colored with four colors so no neighbors match", proved: "1976, Appel and Haken"}
+    - {id: mordell, name: Mordell Conjecture, statement: "A curve of genus 2 or more has only finitely many rational points", proved: "1983, Faltings"}
+    - {id: flt, name: "Fermat's Last Theorem", statement: "aⁿ + bⁿ = cⁿ has no positive whole-number solutions for n > 2", proved: "1994, Wiles (with Taylor)"}
+    - {id: kepler, name: Kepler Conjecture, statement: "No packing of equal spheres is denser than the grocer's stack", proved: "1998, Hales"}
+    - {id: catalan, name: "Catalan's Conjecture", statement: "8 and 9 are the only consecutive perfect powers", proved: "2002, Mihăilescu"}
+    - {id: poincare, name: Poincaré Conjecture, statement: "Every simply connected, closed 3-manifold is a 3-sphere", proved: "2003, Perelman"}
+    - {id: weak-goldbach, name: Weak Goldbach Conjecture, statement: "Every odd number greater than 5 is a sum of three primes", proved: "2013, Helfgott"}
+    - {id: riemann, name: Riemann Hypothesis, statement: "Every nontrivial zero of ζ(s) has real part ½", proved: "2026, Alpöge (with AI; formally verified in Lean)"}
+    - {id: p-vs-np, name: P versus NP, statement: "Is every problem whose answer can be checked quickly also quick to solve?", proved: null}
+
+# §13.6 Axioms: milestones of lifetime Lemmas, each +5% to all sources once proven, with its own cosmetic.
+axioms:
+  bonus: 0.05
+  list:
+    - {id: extensionality, name: Extensionality, at: 10000, hours: 14, group: zfc, statement: "Sets with the same elements are equal",
+       cosmetic: {id: venn, slot: banner, name: Venn, description: "Two circles slide together and become one"}, title: null}
+    - {id: regularity, name: Regularity, at: 30000, hours: 26, group: zfc, statement: "Every nonempty set has an element disjoint from it, so there's no endless ∈-descent",
+       cosmetic: {id: well-founded, slot: nodeTheme, name: Well-Founded, description: "The tech tree stands on a drawn ground line, with roots under the first skills"}, title: null}
+    - {id: specification, name: Specification, at: 100000, hours: 50, group: zfc, statement: "Any definable property carves a subset out of a set",
+       cosmetic: {id: set-builder, slot: keypad, name: Set-Builder, description: "Keys framed like { x ∣ … }, with a fine sieve texture"}, title: null}
+    - {id: pairing, name: Pairing, at: 300000, hours: 100, group: zfc, statement: "For any a and b, {a, b} is a set",
+       cosmetic: {id: pair, slot: celebration, name: Pair, description: "Two sparks spiral together into one"}, title: null}
+    - {id: union, name: Union, at: 700000, hours: 150, group: zfc, statement: "The members of a set's members form a set",
+       cosmetic: {id: union, slot: banner, name: Union, description: "Many small sets drift together into one"}, title: null}
+    - {id: replacement, name: Replacement, at: 1500000, hours: 215, group: zfc, statement: "The image of a set under a definable function is a set",
+       cosmetic: {id: image, slot: celebration, name: Image, description: "Each symbol of the answer maps, one to one, onto a star"}, title: null}
+    - {id: infinity, name: Infinity, at: 3000000, hours: 285, group: zfc, statement: "There is an infinite (inductive) set",
+       cosmetic: {id: infinity-icon, slot: lemmaIcon, name: "∞ Lemma icon", description: "The ∴ in the header becomes a slowly tracing ∞"}, title: Inductive}
+    - {id: power-set, name: Power Set, at: 5000000, hours: 335, group: zfc, statement: "Every set has a set of all its subsets",
+       cosmetic: {id: hasse, slot: nodeTheme, name: Hasse, description: "Tree edges drawn as the lattice of a power set"}, title: null}
+    - {id: choice, name: Choice, at: 15000000, hours: 425, group: zfc, statement: "Every family of nonempty sets has a choice function",
+       cosmetic: {id: banach-tarski, slot: celebration, name: Banach–Tarski, description: "A sphere splits into pieces that reassemble into two"}, title: Well-Ordered}
+    - {id: inaccessible, name: Inaccessible, at: 20000000, hours: 445, group: large, statement: "A cardinal that unions and power sets of smaller ones can never reach",
+       cosmetic: {id: unreachable, slot: banner, name: Unreachable, description: "A ladder of ℵ's climbing out of view"}, title: Inaccessible}
+    - {id: mahlo, name: Mahlo, at: 50000000, hours: 520, group: large, statement: "Inaccessible, with inaccessibles below it so common they form a stationary set",
+       cosmetic: {id: stationary, slot: keypad, name: Stationary, description: "The keys hold still while a field of stars turns behind them"}, title: null}
+    - {id: weakly-compact, name: Weakly Compact, at: 70000000, hours: 550, group: large, statement: "Inaccessible, and every tree of its height with small levels has a full-length branch",
+       cosmetic: {id: tree-property, slot: nodeTheme, name: Tree Property, description: "One unbroken branch glows from the root to the top of the tech tree"}, title: null}
+    - {id: measurable, name: Measurable, at: 100000000, hours: 585, group: large, statement: "Carries a two-valued measure: a κ-complete nonprincipal ultrafilter",
+       cosmetic: {id: ultrafilter, slot: celebration, name: Ultrafilter, description: "Light pours down through a funnel of nested sets"}, title: Measurable}
+    - {id: strong, name: Strong, at: 500000000, hours: 645, group: large, statement: "The universe embeds into inner models that agree with it up to any chosen rank",
+       cosmetic: {id: embedding, slot: banner, name: Embedding, description: "The profile shows a smaller faithful copy of itself inside"}, title: null}
+    - {id: woodin, name: Woodin, at: 1500000000, hours: 685, group: large, statement: "Infinitely many of them make every projective game determined",
+       cosmetic: {id: determinacy, slot: keypad, name: Determinacy, description: "Keys light alternately, like moves in an infinite game"}, title: null}
+    - {id: supercompact, name: Supercompact, at: 50000000000, hours: 730, group: large, statement: "Embeddings whose targets are closed under sequences of any chosen length",
+       cosmetic: {id: supercompact, slot: nodeTheme, name: Supercompact, description: "The whole tree folds into a single point and unfolds when the map opens"}, title: null}
+    - {id: huge, name: Huge, at: 50000000000000, hours: 780, group: large, statement: "An embedding whose target is closed under sequences as long as the image of its critical point",
+       cosmetic: {id: huge, slot: celebration, name: Huge, description: "The celebration fills the whole screen"}, title: Huge}
+    - {id: rank-into-rank, name: Rank-into-Rank, at: 1000000000000000, hours: 820, group: large, statement: "A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent",
+       cosmetic: {id: edge, slot: nameOrnament, name: Edge, description: "A hairline of light flickers along the name's edge"}, title: Edge of Consistency}
+
+# §13.5 Corollaries: +(points ÷ 10)% per achievement, +5% per level tier, +10% per completed era set.
+corollaries: {perAchievementPoint: 0.001, perLevelTier: 0.05, perEraSet: 0.10}
+
+# §13.7 Packs. Odds per card (percent); slot 5 is Gold or better. Pity: a Diamond by the 80th pack of an
+# era without one, 4 sooner per Law of Large Numbers level (40 at most).
+packs:
+  size: 5
+  odds:
+    common: {silver: 72, gold: 20, platinum: 6.5, diamond: 1.5}
+    last: {silver: 0, gold: 70, platinum: 24, diamond: 6}
+  pity: 80
+  pityStep: 4
+  pityMin: 40
+  foilOneIn: 25
+  duplicate: {silver: 20, gold: 60, platinum: 200, diamond: 600}
+  # Era: 0 Antiquity … 6 Space Age, capped at the latest unlocked, released era.
+  levelTier:
+    bronze: {packs: 1, era: 0}
+    silver: {packs: 2, era: 0}
+    gold: {packs: 3, era: 1}
+    platinum: {packs: 8, era: 2}
+    diamond: {packs: 12, era: 3}
+    ruby: {packs: 15, era: 4}
+    tanzanite: {packs: 40, era: 5}
+    vibranium: {packs: 54, era: 6}
+    solarium: {packs: 67, era: 6}
+    antimatter: {packs: 226, era: 6}
+  achievement:
+    platinum: {packs: 1, era: 0}
+    diamond: {packs: 2, era: 1}
+    ruby: {packs: 3, era: 2}
+    tanzanite: {packs: 5, era: 3}
+    vibranium: {packs: 8, era: 4}
+    solarium: {packs: 12, era: 5}
+    antimatter: {packs: 20, era: 6}
+  challenge: 1
+  fullWeek: 1
+
+# §13.8 The Lemma shop: fixed prices, cosmetic only.
+shop:
+  - {id: chalkboard, slot: keypad, name: Chalkboard, price: 5000, description: "Chalk keys on a slate-green board"}
+  - {id: graph-paper, slot: keypad, name: Graph Paper, price: 60000, description: "Keys on a fine blue millimetre grid"}
+  - {id: brass, slot: keypad, name: Brass, price: 900000, description: "Engraved brass keys, like a mechanical calculator"}
+  - {id: chalk-dust, slot: celebration, name: Chalk Dust, price: 10000, description: "A puff of chalk dust drifts up from the answer"}
+  - {id: ripple, slot: celebration, name: Ripple, price: 150000, description: "Concentric rings spread out from the answer"}
+  - {id: fibonacci, slot: celebration, name: Fibonacci Spiral, price: 3000000, description: "Squares of 1, 1, 2, 3, 5, 8 spiral outward and fade"}
+  - {id: tessellation, slot: banner, name: Tessellation, price: 8000, description: "A field of interlocking hexagons"}
+  - {id: sine-waves, slot: banner, name: Sine Waves, price: 120000, description: "Slow sine waves of different frequencies"}
+  - {id: mandelbrot, slot: banner, name: Mandelbrot, price: 2000000, description: "The edge of the Mandelbrot set, in ink"}
+  - {id: chalk, slot: nodeTheme, name: Chalk, price: 20000, description: "Edges drawn in soft chalk strokes"}
+  - {id: blueprint, slot: nodeTheme, name: Blueprint, price: 400000, description: "White lines on drafting blue"}
+  - {id: stained-glass, slot: nodeTheme, name: Stained Glass, price: 6000000, description: "Nodes set like panes of colored glass, edges in lead"}
+
+# §13.11 Hub tabs: Research opens at 2 k∴ lifetime earned; Conjectures once Research reaches 250 k∴/day.
+tabs: {research: 2000, conjecturesRate: 250000}

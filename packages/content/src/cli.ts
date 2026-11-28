@@ -3,7 +3,7 @@
  *   pnpm content            (from the repo root)
  * Output: apps/web/static/content/<course>/course.json and questions/<skillId>.json
  */
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildContent } from "./build.js";
@@ -13,7 +13,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const contentDir = join(root, "content");
 const outDir = join(root, "apps/web/static/content");
 
-const { bundles, achievements, words, errors, warnings } = buildContent(contentDir);
+const { bundles, achievements, economy, words, errors, warnings } = buildContent(contentDir);
 warnings.forEach((w) => console.warn(`warning: ${w}`));
 if (errors.length) {
   errors.forEach((e) => console.error(`error: ${e}`));
@@ -41,6 +41,13 @@ for (const { course, questions, sectionReviews, unitReviews, tutorials } of bund
 }
 writeFileSync(join(outDir, "achievements.json"), JSON.stringify(achievements));
 writeFileSync(join(outDir, "words.json"), JSON.stringify(words));
+if (economy) {
+  writeFileSync(join(outDir, "economy.json"), JSON.stringify(economy));
+  // Portraits (SPEC §13.11): the ink-wash WebPs, served next to the bundle as /content/cards/portraits/<id>.webp.
+  cpSync(join(contentDir, "cards/portraits"), join(outDir, "cards/portraits"), { recursive: true, filter: (src) => !src.includes("/source") && !/\.(ya?ml|md|py)$/.test(src) });
+  const eras = [...new Set(economy.cards.map((c) => c.era))];
+  console.log(`economy: ${economy.cards.length} cards in ${eras.length} eras (${eras.join(", ")})`);
+}
 // Banned words (SPEC §14.2): the same list firestore.rules checks (see scripts/banned-rules.mjs).
 const bannedFile = join(contentDir, "banned-words.txt");
 const banned = existsSync(bannedFile)
