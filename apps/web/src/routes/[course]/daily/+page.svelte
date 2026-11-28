@@ -143,8 +143,8 @@
   <dl class="facts">
     <div><dt>Day</dt><dd>{dayLabel}</dd></div>
     <div><dt>Tier</dt><dd>{tier}</dd></div>
-    {#if target}<div><dt>Topic</dt><dd>{target.name}{#if target.earlier}<span class="muted"> · latest with questions</span>{/if}</dd></div>{/if}
-    <div><dt>Streak</dt><dd>{streak}{#if profile?.profile.daily?.best}<span class="muted"> · best {profile.profile.daily.best}</span>{/if}</dd></div>
+    {#if target}<div><dt>Topic</dt><dd>{target.name}{#if target.earlier}<span class="muted"> (latest with questions)</span>{/if}</dd></div>{/if}
+    <div><dt>Streak</dt><dd>{streak}{#if profile?.profile.daily?.best}<span class="muted"> (best {profile.profile.daily.best})</span>{/if}</dd></div>
   </dl>
 
   {#if loading || !store?.loaded}
@@ -176,6 +176,9 @@
     {#if solutionVisible}
       <section class="card">
         <h2 class="first">Solution</h2>
+        <p class="status">{summary.outcome > 0 ? "Solved" : "Not solved"}{#if dailyBonus}, daily bonus +{dailyBonus} XP{/if}</p>
+        <ResultRow outcome={summary.outcome} theta={summary.primary.after.theta} deltaTheta={summary.primary.deltaTheta} rankBefore={summary.primary.rankBefore} rankAfter={summary.primary.rankAfter} xp={xpGained + dailyBonus} />
+        <h2>Solution</h2>
         <Markdown text={served.question.solution} />
       </section>
     {:else}

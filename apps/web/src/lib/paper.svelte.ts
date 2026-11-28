@@ -1,4 +1,4 @@
-/** "Paper first" (SPEC §15.4): Tier 3+ and written questions are meant to be worked on paper. */
+/** "Paper first" (SPEC §16.4): Tier 3+ and written questions are meant to be worked on paper. */
 import { tierOf } from "@intellectify/engine";
 import type { QuestionT } from "./content";
 

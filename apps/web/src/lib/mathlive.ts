@@ -11,7 +11,7 @@ export async function loadMathLive(): Promise<void> {
   loading ??= import("mathlive").then(({ MathfieldElement }) => {
     MathfieldElement.fontsDirectory = "/mathlive/fonts";
     MathfieldElement.soundsDirectory = null;
-    // Accessible maths (SPEC §15.6): screen readers hear each field through MathLive's live region,
+    // Accessible maths (SPEC §16.6): screen readers hear each field through MathLive's live region,
     // and Ctrl+Alt+S reads the whole answer aloud with the browser's own voice.
     MathfieldElement.speechEngine = "local";
   });
@@ -236,4 +236,9 @@ export function fieldKey(el: MathfieldEl, e: KeyboardEvent): boolean {
     return true;
   }
   return false;
+/** Ctrl+Alt+S reads a field's maths aloud (SPEC §16.6). Call once the element has upgraded. */
+export function addReadAloud(el: MathfieldEl) {
+  const mf = el as MathfieldEl & { keybindings?: object[] };
+  if (!Array.isArray(mf.keybindings)) return;
+  mf.keybindings = [...mf.keybindings, { key: "ctrl+alt+[KeyS]", command: ["speak", "all", { withHighlighting: false }] }];
 }

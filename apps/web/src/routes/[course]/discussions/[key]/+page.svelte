@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** One daily problem's discussion (SPEC §13.1): the problem, posts with comments, and a composer. */
+  /** One daily problem's discussion (SPEC §14.1): the problem, posts with comments, and a composer. */
   import { page } from "$app/state";
   import { dateOfDay } from "@intellectify/engine";
   import Markdown from "$lib/components/Markdown.svelte";
@@ -175,7 +175,7 @@
           <textarea bind:value={draft} rows="6" placeholder="Share a solution, hint or question" aria-label="Post"></textarea>
         {/if}
         <div class="row">
-          <span class="muted small">Markdown and LaTeX · spoilers: <code>||hint: hidden text||</code></span>
+          <span class="muted small">Markdown and LaTeX, spoilers: <code>||hint: hidden text||</code></span>
           <button class="btn primary" disabled={busy || !draft.trim()} onclick={postTop}>Post</button>
         </div>
         {#if error}<p class="bad small">{error}</p>{/if}

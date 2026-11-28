@@ -1,0 +1,131 @@
+# Portrait decisions by the owner (docs/SPEC.md §13.7), read by scripts/find_portraits.py and
+# scripts/process_portraits.py.
+
+# Use this Commons file instead of the one Wikidata lists.
+commons:
+  boole: Portrait of George Boole.png
+  madhava: Sangamagrama-Madhava-c1340-c1425-This-is-a-digital-image-of-Madhava-drawn-up-with.ppm.png
+  pythagoras: "Pythagoras. Line engraving by B. Barloccini after C. C. Perk Wellcome V0004820.jpg"
+  ibn-rushd: "Ibn Rushd, Sayr mulhimah min al-Sharq wa-al-Gharb.png"
+  boethius: "Fl Boetio (Flavio Boezio) - Studiolo di Federico da Montefeltro.jpg"
+  al-kindi: "Al-Kindi.jpg"
+  napier: "John Napier.JPG"
+  vesalius: "Esme de Boulonois, portret van Andreas Vesalius (1514-1564), medicus, 17de eeuw, papier, kopergravure, SMU.1989.0055.00, Het Stadsmus.jpg"
+  emilie-du-chatelet: "Okänd - Gabrielle-Émilie Le Tonnelier de Breteuil (1706–1749), Marquise du Châtelet - NMDrh 796 - Nationalmuseum.jpg"
+  babbage: "Charles Babbage - 1860.jpg"
+  rosalind-franklin: "Rosalind-franklin-in-paris.jpg"
+  noether: "Emmy-noether-2.jpg"
+  derrida: "Derrida Dibujo.jpg"
+  john-conway: "John H Conway 2005 (cropped).jpg"
+  kuhn: "Thomas-kuhn-portrait.png"
+  archimedes: "Domenico-Fetti Archimedes 1620.jpg"
+  confucius: "Konfuzius-1770.jpg"
+  leonardo-da-vinci: "Portrait of Leonardo da Vinci by Lattanzio Querena.jpg"
+
+# Images supplied by the owner, in portraits/source/.
+local:
+  maryam-mirzakhani:  # NON-FREE: Wikipedia uses it under fair use; the owner chose to use it anyway
+    file: maryam-mirzakhani.jpg
+    source: https://en.wikipedia.org/wiki/File:Maryam_Mirzakhani.jpg
+    author: Simons Laufer Mathematical Sciences Institute
+    license: Non-free (fair use on English Wikipedia; not licensed for reuse)
+  eudoxus:
+    file: eudoxus.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+  yang-hui:
+    file: yang-hui.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+  bhaskara-ii:
+    file: bhaskara-ii.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+  thabit-ibn-qurra:
+    file: thabit-ibn-qurra.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+  brahmagupta:
+    file: brahmagupta.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+  aristarchus:
+    file: aristarchus.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+
+# "Check" portraits the owner has reviewed: card id → the exact Commons file checked.
+checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
+  adam-smith: "AdamSmith.jpg"
+  al-khwarizmi: "Madrid - Ciudad Universitaria, Monumento a Muhammad al-Juarismi (cropped).jpg"
+  andrew-wiles: "Andrew wiles1-3.jpg"
+  aristotle: "Aristotle Altemps Inv8575.jpg"
+  aryabhata: "2064 aryabhata-crp.jpg"
+  chien-shiung-wu: "Chien-shiung Wu (1912-1997) (cropped).jpg"
+  democritus: "Unknown greek pushkin.jpg"
+  dirac: "Paul Dirac, 1933.jpg"
+  epicurus: "Epikouros BM 1843.jpg"
+  fleming: "Synthetic Production of Penicillin TR1468.jpg"
+  foucault: "Photo of Michel Foucault on 1970 dustjacket of The Order of Things.jpg"
+  gauss: "Carl Friedrich Gauss.jpg"
+  godel: "Young Kurt Gödel as a student in 1925.jpg"
+  heraclitus: "Ca' Rezzonico - Eraclito 1705 - Giuseppe Torretti.jpg"
+  hipparchus: "Head of Hipparchus (cropped).jpg"
+  hippocrates: "Hippocrates rubens.jpg"
+  huygens: "Christiaan-huygens4.jpg"
+  ibn-khaldun: "Bust of Ibn Khaldun (Casbah of Bejaia, Algeria).jpg"
+  john-rawls: "John Rawls (1971 photo portrait).jpg"
+  jonas-salk: "Jonas Salk candid.jpg"
+  kepler: "Johannes Kepler by Hans von Aachen.jpg"
+  laplace: "Pierre-Simon, marquis de Laplace (1745-1827) - Guérin.jpg"
+  liu-hui: "Hunan International Economics University20.jpg"
+  maimonides: "Maimònides.jpg"
+  nasir-al-din-al-tusi: "Nasir al-Din Tusi.jpg"
+  paracelsus: "Paracelsus.jpg"
+  plato: "Plato Silanion Musei Capitolini MC1377.jpg"
+  popper: "Karl Popper.jpg"
+  schrodinger: "Erwin Schrödinger - Narodowe Archiwum Cyfrowe (1-E-939).jpg"
+  shen-kuo: "Beijing Ancient Observatory 20090715-19 (cropped).jpg"
+  simone-de-beauvoir: "French Existentialist and Writer Simone De Beauvoir.jpg"
+  socrates: "Socrates Louvre.jpg"
+  thales: "Illustrerad Verldshistoria band I Ill 107.svg"
+  turing: "Alan Turing (1951) (crop).jpg"
+  von-neumann: "JohnvonNeumann-LosAlamos.jpg"
+  wittgenstein: "Ludwig Wittgenstein.jpg"
+  zeno-of-elea: "Portretbuste van Zeno van Elea Paradigmata graphices variorum artificum (serietitel), RP-P-1907-4495.jpg"
+
+# Where the face is, for images the detector misses or gets wrong:
+# card id → [center x, center y, face width], as fractions of the image's width and height.
+focus:
+  al-razi: [0.41, 0.31, 0.26]
+  euclid: [0.55, 0.16, 0.22]
+  fleming: [0.32, 0.22, 0.15]
+  hawking: [0.38, 0.17, 0.24]
+  liu-hui: [0.48, 0.21, 0.10]
+  lyotard: [0.48, 0.34, 0.40]
+  ptolemy: [0.52, 0.29, 0.26]
+  thabit-ibn-qurra: [0.45, 0.31, 0.34]
+  thomas-aquinas: [0.41, 0.26, 0.22]
+  nicole-oresme: [0.27, 0.29, 0.07]
+  kuhn: [0.44, 0.38, 0.48]
+  boole: [0.47, 0.28, 0.32]
+  vesalius: [0.58, 0.38, 0.24]
+  archimedes: [0.73, 0.27, 0.18]
+  confucius: [0.47, 0.24, 0.14]
+  aristarchus: [0.42, 0.37, 0.43]
+  brahmagupta: [0.55, 0.30, 0.30]
+
+# Images that aren't portraits: these cards go back to needing an illustration.
+reject: {}
+
+
+# Cards whose face is small in a big original: fetch a 1920 or 1280 px thumbnail.
+hires:
+  - nicole-oresme
+  - archimedes

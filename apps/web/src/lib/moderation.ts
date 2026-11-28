@@ -1,5 +1,5 @@
 /**
- * Banned words (SPEC §13.2): checked here before posting or showing a name, and again in Firestore rules.
+ * Banned words (SPEC §14.2): checked here before posting or showing a name, and again in Firestore rules.
  * The list is content/banned-words.txt, built to /content/banned-words.json.
  */
 import { bannedPattern } from "@intellectify/content/moderation";

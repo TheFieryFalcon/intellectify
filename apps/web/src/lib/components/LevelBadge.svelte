@@ -7,7 +7,7 @@
   const fancy = $derived(["ruby", "tanzanite", "vibranium", "solarium", "antimatter"].includes(key));
 </script>
 
-<span class="badge {key}" class:fancy style="--t: var(--lvl-{key})" title="{progress.tier.name} · {progress.into}/{progress.needed} XP to level {progress.level + 1}">
+<span class="badge {key}" class:fancy style="--t: var(--lvl-{key})" title="{progress.tier.name}: {progress.into}/{progress.needed} XP to level {progress.level + 1}">
   <TierGem tier={key} size={11} />
   <span class="lv">Lv {progress.level}</span>
   {#if bar}
@@ -18,7 +18,7 @@
 <style>
   .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .track { width: 48px; height: 4px; border-radius: 2px; background: var(--track); overflow: hidden; }
-  .fill { display: block; height: 100%; background: var(--t); }
+  .fill { display: block; height: 100%; background: var(--t); transition: width 0.6s ease-out; }
 
   /* High tiers: the level number and bar take on the tier's material */
   .fancy .lv { font-weight: 700; background-clip: text; -webkit-background-clip: text; color: transparent; background-size: 200% 100%; animation: flow 4s linear infinite; }

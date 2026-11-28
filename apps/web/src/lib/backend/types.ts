@@ -1,5 +1,5 @@
 import type { WordPicks } from "@intellectify/content/template";
-import type { MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
+import type { EconomyState, Equipped, MarkSource, RankLevel, SkillState, Tier } from "@intellectify/engine";
 import type { MarkResult } from "@intellectify/content/marking";
 import type { ActivityStats } from "../activity";
 export type { ActivityStats };
@@ -70,6 +70,8 @@ export interface Profile {
   nameSet?: boolean;
   /** Phone keyboard Shift keys the student changed from the defaults (SPEC §7.2); null = Shift types the key. */
   shiftKeys?: Record<string, string | null>;
+  /** Settings › Show rewards (SPEC §13): false hides the whole Lemma economy for this student. */
+  showRewards?: boolean;
 }
 
 /** A skill's rank and θ (null until resolved), as shown to other students. */
@@ -90,7 +92,7 @@ export interface PublicCourse {
 
 /**
  * The public mirror of a student (publicProfiles/{uid}): everything leaderboards and profile pages show,
- * in one document, so a board costs one read per student (SPEC §12.2–12.3, §16.3).
+ * in one document, so a board costs one read per student (SPEC §12.2–12.3, §17.3).
  */
 export interface PublicProfile {
   uid: string;
@@ -104,6 +106,23 @@ export interface PublicProfile {
   updatedAt: number;
   /** When the account was created (ms). */
   joined?: number;
+  /** The Lemma economy's public side (SPEC §13.10): what's equipped, the collection, and two board values. */
+  economy?: PublicEconomy;
+}
+
+export interface PublicEconomy {
+  equipped: Pick<Equipped, "title" | "frame" | "banner" | "nameOrnament" | "showcase">;
+  /** Collected card ids: 1 for a foil, 0 otherwise. */
+  cards: Record<string, 0 | 1>;
+  lemmasEarned: number;
+  axiomsProven: number;
+}
+
+/** One batched save of users/{uid}/meta/economy: everything but the two counters, which move by increments. */
+export interface EconomySave {
+  fields: Omit<EconomyState, "lemmasEarned" | "lemmasSpent" | "researchCreditedAt">;
+  earned: number;
+  spent: number;
 }
 
 export type DailyState = "solved" | "tried" | "revealed";
@@ -182,7 +201,7 @@ export interface MarkingJob {
   /** The result has been applied to θ, ranks, XP and achievements. */
   applied: boolean;
   /** What applying it did, shown under the mark like an auto-marked result (XP includes a daily bonus). */
-  effect?: { xp: number; outcome: number; theta: number; deltaTheta: number; rankBefore: number; rankAfter: number } | null;
+  effect?: { xp: number; lemmas?: number; outcome: number; theta: number; deltaTheta: number; rankBefore: number; rankAfter: number } | null;
   /** Paste detector signals (SPEC §7.2): blocked outside pastes, bursts, seconds to answer. */
   signals?: { blocked: number; bursts: number; seconds: number } | null;
   /** One appeal per marked answer (SPEC §10.3). */
@@ -197,7 +216,7 @@ export interface MarkingJob {
   } | null;
 }
 
-/** A discussion thread for one daily problem (SPEC §13.1): key "<day>:<course>:<year group>". */
+/** A discussion thread for one daily problem (SPEC §14.1): key "<day>:<course>:<year group>". */
 export interface ThreadSummary {
   key: string;
   day: string;
@@ -269,17 +288,33 @@ export interface Backend {
   setDisplayName(user: User, name: string): Promise<void>;
   /** Add XP to the profile. */
   grantXp(user: User, grant: XpGrant): Promise<void>;
+  /**
+   * Record name, email and "last seen" on the profile. Called only after the profile has loaded: written at
+   * sign-in, the same moment as the load, it let Firestore answer the load with just these few fields.
+   */
+  markSeen(user: User): Promise<void>;
   /** Save the daily-problem record. */
   saveDaily(user: User, daily: DailyRecord): Promise<void>;
   /**
    * Save the activity counters and the public mirror together (one batch). Called at most every few
    * seconds, not per answer. Anonymous accounts keep their counters but stay off the public mirror.
    */
-  savePublic(user: User, stats: ActivityStats | null, pub: PublicProfile): Promise<void>;
+  savePublic(user: User, stats: ActivityStats | null, pub: PublicProfile, economy?: EconomySave | null): Promise<void>;
+  /** Save profile settings (Show rewards). */
+  saveSettings(uid: string, settings: Pick<Profile, "showRewards">): Promise<void>;
+
+  /** The Lemma economy (SPEC §13.10), from the server only; null before the first save. */
+  loadEconomy(uid: string): Promise<EconomyState | null>;
+  /**
+   * Credit Research (SPEC §13.3) in one transaction, using the server's clock: `credit` gets the saved
+   * state and the server time (ms) and returns the Lemmas to add and where crediting moves to.
+   * Returns the saved state afterwards.
+   */
+  creditResearch(uid: string, credit: (saved: EconomyState, now: number) => { lemmas: number; hours: number; creditedAt: number }): Promise<EconomyState>;
   /** Every public profile, for leaderboards and profile pages. */
   listPublic(): Promise<PublicProfile[]>;
 
-  /** Discussion threads with posts, most recently active first (SPEC §13). */
+  /** Discussion threads with posts, most recently active first (SPEC §14). */
   listThreads(): Promise<ThreadSummary[]>;
   loadPosts(key: string): Promise<Post[]>;
   /** Add a post or comment, creating the thread on its first post. */

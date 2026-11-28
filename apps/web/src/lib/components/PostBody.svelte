@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** A discussion post (SPEC §13.1): sanitized Markdown and LaTeX, with spoilers revealed on click or Enter. */
+  /** A discussion post (SPEC §14.1): sanitized Markdown and LaTeX, with spoilers revealed on click or Enter. */
   import DOMPurify from "dompurify";
   import { renderUserMarkdown } from "$lib/markdown";
 

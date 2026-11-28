@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * The skill's tutorial beside the question (SPEC §15.4): a side panel on computers, a bottom sheet on
+   * The skill's tutorial beside the question (SPEC §16.4): a side panel on computers, a bottom sheet on
    * phones. It doesn't block the question, so the student can read and answer at once.
    */
   import Markdown from "./Markdown.svelte";

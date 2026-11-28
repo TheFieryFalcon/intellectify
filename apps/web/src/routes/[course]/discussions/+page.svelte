@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Discussions (SPEC §13.1): one thread per daily problem, open the whole time. Reached only from here
+   * Discussions (SPEC §14.1): one thread per daily problem, open the whole time. Reached only from here
    * (never from problem screens). Search by date, problem and text.
    */
   import { goto } from "$app/navigation";
@@ -88,7 +88,7 @@
         <li>
           <a href="/{data.course.id}/discussions/{t.key}">
             <span class="title">{q?.title ?? t.questionId}</span>
-            <span class="meta muted">{dayLabel(t.day)} · Year {t.year}{q ? ` · Tier ${q.tier}` : ""}</span>
+            <span class="meta muted">{dayLabel(t.day)}, Year {t.year}{q ? `, Tier ${q.tier}` : ""}</span>
             <span class="count" class:none={!t.posts}>{t.posts} post{t.posts === 1 ? "" : "s"}</span>
             {#if t.updatedAt}<span class="when muted">{ago(t.updatedAt)}</span>{/if}
           </a>

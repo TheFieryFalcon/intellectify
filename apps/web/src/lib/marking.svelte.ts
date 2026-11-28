@@ -27,6 +27,7 @@ import { loadCourse, loadQuestions, loadWords, type QuestionT } from "./content"
 import { achievementsFor } from "./achievements.svelte";
 import { onDaily } from "./achievements";
 import { dailySolved } from "./daily";
+import { answerLemmas } from "./economy.svelte";
 import { profileFor } from "./profile.svelte";
 import { recordAppeal, recordMarked } from "./record";
 import { courseProgress } from "./session.svelte";
@@ -339,7 +340,8 @@ export class MarkingQueue {
         const daily = job.daily && profile ? await profile.recordDaily(job.daily, job.daily.split(":")[0]!, dailySolved(job.result!.score), tierOf(question.rating)) : null;
         const dailyXp = daily?.bonus ?? 0;
         const p = r.summary.primary;
-        const effect = { xp: r.xp + dailyXp, outcome: r.summary.outcome, theta: p.after.theta, deltaTheta: p.deltaTheta, rankBefore: p.rankBefore, rankAfter: p.rankAfter };
+        const lemmas = answerLemmas.current ? answerLemmas.current.parts.reduce((t, p) => t + p.lemmas, 0) + (answerLemmas.current.warp?.lemmas ?? 0) : 0;
+        const effect = { xp: r.xp + dailyXp, lemmas, outcome: r.summary.outcome, theta: p.after.theta, deltaTheta: p.deltaTheta, rankBefore: p.rankBefore, rankAfter: p.rankAfter };
         await this.put({ ...(this.job(job.id) ?? job), applied: true, effect });
         if (job.daily && profile) {
           const day = job.daily.split(":")[0]!;

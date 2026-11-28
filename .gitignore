@@ -9,3 +9,4 @@ apps/web/static/content/
 !.env.example
 .netlify/
 apps/web/static/mathlive/
+.cache/

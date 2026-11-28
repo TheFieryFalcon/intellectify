@@ -1,0 +1,463 @@
+# Steam Age Pack: 1800–1880 (docs/SPEC.md §13.7). First draft.
+era: steam-age
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: gauss
+    name: Carl Friedrich Gauss
+    wikidata: Q6722
+    born: 1777
+    died: 1855
+    work: 1801
+    fields: [Mathematics, Physics, Astronomy]
+    rarity: diamond
+    portrait:
+      file: portraits/gauss.webp
+      source: "https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss.jpg"
+      author: "Gottlieb Biermann / After Christian Albrecht Jensen"
+      license: "Public domain"
+    related: [spec.real-complex.complex-plane]
+    blurb: >-
+      Founded modern number theory with his Disquisitiones Arithmeticae, gave the first widely accepted
+      proof that every polynomial has a complex root, and made the complex plane respectable. He also
+      found the lost asteroid Ceres by inventing the method of least squares.
+
+  - id: darwin
+    name: Charles Darwin
+    wikidata: Q1035
+    born: 1809
+    died: 1882
+    work: 1859
+    fields: [Biology]
+    rarity: diamond
+    portrait:
+      file: portraits/darwin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Charles_Darwin_portrait.jpg"
+      author: "Herbert Rose Barraud"
+      license: "Public domain"
+    blurb: >-
+      On the Origin of Species showed that living things evolve by natural selection, from evidence
+      gathered over decades, beginning with the voyage of the Beagle. It is the unifying idea of
+      biology.
+
+  - id: maxwell
+    name: James Clerk Maxwell
+    wikidata: Q9095
+    born: 1831
+    died: 1879
+    work: 1865
+    fields: [Physics, Mathematics]
+    rarity: diamond
+    portrait:
+      file: portraits/maxwell.webp
+      source: "https://commons.wikimedia.org/wiki/File:James-Clerk-Maxwell-1831-1879.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      His equations unified electricity, magnetism and light, predicting electromagnetic waves that
+      travel at the speed of light. He also founded the statistical theory of gases and took the first
+      color photograph.
+
+  - id: pasteur
+    name: Louis Pasteur
+    wikidata: Q529
+    born: 1822
+    died: 1895
+    work: 1862
+    fields: [Biology, Chemistry, Medicine]
+    rarity: diamond
+    portrait:
+      file: portraits/pasteur.webp
+      source: "https://commons.wikimedia.org/wiki/File:Louis_Pasteur_(1822_-_1895),_microbiologist_and_chemist_Wellcome_V0026980.jpg"
+      author: "Paul Nadar"
+      license: "Public domain"
+    blurb: >-
+      Showed that microbes cause fermentation and disease and do not arise spontaneously. He invented
+      pasteurization and made vaccines against anthrax and rabies.
+
+  - id: marx
+    name: Karl Marx
+    wikidata: Q9061
+    born: 1818
+    died: 1883
+    work: 1867
+    fields: [Philosophy, Economics, History]
+    rarity: diamond
+    portrait:
+      file: portraits/marx.webp
+      source: "https://commons.wikimedia.org/wiki/File:Karl_Marx_001_restored.jpg"
+      author: "John Jabez Edwin Mayall"
+      license: "Public domain"
+    blurb: >-
+      Argued in Capital that history is driven by economic forces and struggles between classes. The
+      Communist Manifesto, written with Engels, became one of the most influential political texts ever.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: faraday
+    name: Michael Faraday
+    wikidata: Q8750
+    born: 1791
+    died: 1867
+    work: 1831
+    fields: [Physics, Chemistry]
+    rarity: platinum
+    portrait:
+      file: portraits/faraday.webp
+      source: "https://commons.wikimedia.org/wiki/File:M_Faraday_Th_Phillips_oil_1842.jpg"
+      author: "Thomas Phillips"
+      license: "Public domain"
+    blurb: >-
+      Discovered electromagnetic induction, the principle of every generator and transformer, and pictured
+      electric and magnetic forces as fields. Largely self-taught, he became the greatest experimenter of
+      his age.
+
+  - id: cauchy
+    name: Augustin-Louis Cauchy
+    wikidata: Q8814
+    born: 1789
+    died: 1857
+    work: 1821
+    fields: [Mathematics, Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/cauchy.webp
+      source: "https://commons.wikimedia.org/wiki/File:French_School_-_Portrait_of_Augustin-Louis_Cauchy_(1789-1857).jpg"
+      author: "Jean Roller (1798–1866)"
+      license: "Public domain"
+    related: [spec.vectors-2d.scalar-product]
+    blurb: >-
+      Rebuilt calculus on careful definitions of limits and continuity, and founded complex analysis.
+      The Cauchy–Schwarz inequality, |a · b| ≤ |a||b|, is one of the many results named after him.
+
+  - id: galois
+    name: Évariste Galois
+    wikidata: Q7091
+    born: 1811
+    died: 1832
+    work: 1832
+    fields: [Mathematics]
+    rarity: platinum
+    portrait:
+      file: portraits/galois.webp
+      source: "https://commons.wikimedia.org/wiki/File:E._Galois_Portrait_No.2.jpg"
+      author: "Alfred Galois"
+      license: "Public domain"
+    related: [spec.complex.polynomials]
+    blurb: >-
+      Explained exactly which polynomial equations can be solved with roots, using groups of symmetries
+      of their solutions. He was killed in a duel at 20, and his ideas founded modern algebra.
+
+  - id: riemann
+    name: Bernhard Riemann
+    wikidata: Q42299
+    born: 1826
+    died: 1866
+    work: 1854
+    fields: [Mathematics, Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/riemann.webp
+      source: "https://commons.wikimedia.org/wiki/File:Georg_Friedrich_Bernhard_Riemann.jpeg"
+      author: "http://www.sil.si.edu/digitalcollections/hst/scientific-identity/explore.htm according to the German Wikipedia ."
+      license: "Public domain"
+    related: [spec.integration.areas]
+    blurb: >-
+      Gave the definition of the integral by sums and the geometry of curved spaces that Einstein later
+      used for gravity. His hypothesis about the zeros of the zeta function stood open until 2026.
+
+  - id: mendel
+    name: Gregor Mendel
+    wikidata: Q37970
+    born: 1822
+    died: 1884
+    work: 1866
+    fields: [Biology]
+    rarity: platinum
+    portrait:
+      file: portraits/mendel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Gregor_Mendel_2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      Bred thousands of pea plants in his monastery garden and found that traits pass on in units, now
+      called genes, in predictable ratios. Ignored in his lifetime, his work founded genetics.
+
+  - id: hegel
+    name: Georg Wilhelm Friedrich Hegel
+    wikidata: Q9235
+    born: 1770
+    died: 1831
+    work: 1807
+    fields: [Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/hegel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jakob_Schlesinger_-_Hegel_1831.jpg"
+      author: "Jakob Schlesinger"
+      license: "Public domain"
+    blurb: >-
+      Saw history as the unfolding of reason, advancing as conflicts between ideas are resolved at a
+      higher level. His Phenomenology of Spirit shaped Marx and much of later philosophy.
+
+  - id: mendeleev
+    name: Dmitri Mendeleev
+    wikidata: Q9106
+    born: 1834
+    died: 1907
+    work: 1869
+    fields: [Chemistry]
+    rarity: platinum
+    portrait:
+      file: portraits/mendeleev.webp
+      source: "https://commons.wikimedia.org/wiki/File:Dmitri_Mendeleev.jpg"
+      author: "Original: Unknown author Unknown author Upload: Germansociety2014"
+      license: "Public domain"
+    blurb: >-
+      Arranged the elements into the periodic table, leaving gaps for elements not yet found. Gallium,
+      scandium and germanium were later discovered with the properties he predicted.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: fourier
+    name: Joseph Fourier
+    wikidata: Q8772
+    born: 1768
+    died: 1830
+    work: 1822
+    fields: [Mathematics, Physics]
+    rarity: gold
+    portrait:
+      file: portraits/fourier.webp
+      source: "https://commons.wikimedia.org/wiki/File:Fourier2.jpg"
+      author: "Julien-Léopold Boilly"
+      license: "Public domain"
+    related: [spec.trigonometry.harmonic-form]
+    blurb: >-
+      Showed that any periodic signal can be built from sines and cosines, while studying how heat flows.
+      Fourier analysis now runs through physics, engineering and every digital recording.
+
+  - id: dalton
+    name: John Dalton
+    wikidata: Q41284
+    born: 1766
+    died: 1844
+    work: 1808
+    fields: [Chemistry, Physics]
+    rarity: gold
+    portrait:
+      file: portraits/dalton.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Dalton._Line_engraving_by_W._H._Worthington,_1823,_afte_Wellcome_V0006489.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/56/cc/016e0ae305e97524425fbfe50c53.jpg Gallery: https://wellcomeimages.org/indexplus/image/V0006489.html Wellcome Collection gallery (2018-03-30): http…"
+      license: "CC BY 4.0"
+    blurb: >-
+      Proposed that each element is made of identical atoms with its own weight, combining in simple
+      ratios. He also gave the first scientific description of color blindness, which he had.
+
+  - id: hamilton
+    name: William Rowan Hamilton
+    wikidata: Q11887
+    born: 1805
+    died: 1865
+    work: 1843
+    fields: [Mathematics, Physics]
+    rarity: gold
+    portrait:
+      file: portraits/hamilton.webp
+      source: "https://commons.wikimedia.org/wiki/File:William_Rowan_Hamilton_painting.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.vectors-3d.algebra]
+    blurb: >-
+      Invented quaternions, carving their rule into a Dublin bridge, and coined the words vector and
+      scalar. His reformulation of mechanics became a foundation of quantum mechanics.
+
+  - id: boole
+    name: George Boole
+    wikidata: Q134661
+    born: 1815
+    died: 1864
+    work: 1854
+    fields: [Mathematics, Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/boole.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_George_Boole.png"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.geometry.logic]
+    blurb: >-
+      Turned logic into algebra, with variables that are true or false. Boolean algebra is the
+      mathematics of every digital circuit.
+
+  - id: mill
+    name: John Stuart Mill
+    wikidata: Q50020
+    born: 1806
+    died: 1873
+    work: 1859
+    fields: [Philosophy, Economics]
+    rarity: gold
+    portrait:
+      file: portraits/mill.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Stuart_Mill_by_London_Stereoscopic_Company,_c1870.jpg"
+      author: "London Stereoscopic Company"
+      license: "Public domain"
+    blurb: >-
+      On Liberty argued that people should be free to do anything that harms no one else. He also
+      developed utilitarianism and argued for women's equality in parliament.
+
+  - id: kierkegaard
+    name: Søren Kierkegaard
+    wikidata: Q6512
+    born: 1813
+    died: 1855
+    work: 1843
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/kierkegaard.webp
+      source: "https://commons.wikimedia.org/wiki/File:S%C3%B8ren_Kierkegaard_(1813-1855)_-_(cropped).jpg"
+      author: "La Biblioteca Real de Dinamarca"
+      license: "Public domain"
+    blurb: >-
+      Wrote about anxiety, choice and faith as each person lives them, not as abstract systems. He is
+      considered the first existentialist.
+
+  - id: schopenhauer
+    name: Arthur Schopenhauer
+    wikidata: Q38193
+    born: 1788
+    died: 1860
+    work: 1818
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/schopenhauer.webp
+      source: "https://commons.wikimedia.org/wiki/File:Arthur_Schopenhauer_by_J_Sch%C3%A4fer,_1859b.jpg"
+      author: "Johann Schäfer"
+      license: "Public domain"
+    blurb: >-
+      The World as Will and Representation saw a blind, striving will behind everything, and art and
+      compassion as relief from it. He brought Indian philosophy into Western thought and influenced
+      Nietzsche.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: sophie-germain
+    name: Sophie Germain
+    wikidata: Q7103
+    born: 1776
+    died: 1831
+    work: 1816
+    fields: [Mathematics, Physics]
+    rarity: silver
+    portrait:
+      file: portraits/sophie-germain.webp
+      source: "https://commons.wikimedia.org/wiki/File:Germain_-_%C5%92uvres_philosophiques,_1896_(Illustration_page_4).jpg"
+      author: "s:fr:Auteur:Sophie Germain"
+      license: "Public domain"
+    related: [spec.real-complex.number-proofs]
+    blurb: >-
+      Studied mathematics in secret under a man's name, then won the Paris Academy's prize for a theory
+      of vibrating plates. She made the biggest advance on Fermat's Last Theorem of her century.
+
+  - id: abel
+    name: Niels Henrik Abel
+    wikidata: Q124115
+    born: 1802
+    died: 1829
+    work: 1824
+    fields: [Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/abel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Niels_Henrik_Abel.jpg"
+      author: "Johan Gørbitz"
+      license: "Public domain"
+    related: [spec.complex.polynomials]
+    blurb: >-
+      Proved that no formula with roots can solve every quintic equation, settling a question open for
+      centuries. He died of tuberculosis at 26; the Abel Prize is named after him.
+
+  - id: lobachevsky
+    name: Nikolai Lobachevsky
+    wikidata: Q129199
+    born: 1792
+    died: 1856
+    work: 1829
+    fields: [Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/lobachevsky.webp
+      source: "https://commons.wikimedia.org/wiki/File:Lobachevsky.jpg"
+      author: "Lev Kryukov"
+      license: "Public domain"
+    blurb: >-
+      Published a consistent geometry in which Euclid's parallel postulate fails, with many parallels
+      through a point. Non-Euclidean geometry showed that axioms are choices, not obvious truths.
+
+  - id: babbage
+    name: Charles Babbage
+    wikidata: Q46633
+    born: 1791
+    died: 1871
+    work: 1837
+    fields: [Computing, Mathematics, Engineering]
+    rarity: silver
+    portrait:
+      file: portraits/babbage.webp
+      source: "https://commons.wikimedia.org/wiki/File:Charles_Babbage_-_1860.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      Designed the Analytical Engine, a mechanical general-purpose computer with memory and a processor,
+      a century before electronic ones. It was never finished in his lifetime.
+
+  - id: ada-lovelace
+    name: Ada Lovelace
+    wikidata: Q7259
+    born: 1815
+    died: 1852
+    work: 1843
+    fields: [Computing, Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/ada-lovelace.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ada_Byron_daguerreotype_by_Antoine_Claudet_1843_or_1850_-_cropped.png"
+      author: "Antoine Claudet"
+      license: "Public domain"
+    blurb: >-
+      Her notes on Babbage's Analytical Engine include a program to compute Bernoulli numbers, often
+      called the first computer program. She saw that such machines could handle symbols, even music,
+      not just numbers.
+
+  - id: florence-nightingale
+    name: Florence Nightingale
+    wikidata: Q37103
+    born: 1820
+    died: 1910
+    work: 1858
+    fields: [Medicine, Statistics]
+    rarity: silver
+    portrait:
+      file: portraits/florence-nightingale.webp
+      source: "https://commons.wikimedia.org/wiki/File:Florence_Nightingale_(H_Hering_NPG_x82368).jpg"
+      author: "Henry Hering (1814-1893)"
+      license: "Public domain"
+    blurb: >-
+      Founded modern nursing after the Crimean War and used statistics and her polar area diagrams to
+      show that more soldiers died of disease than of wounds. Her data changed hospital sanitation.
+
+  - id: joseph-lister
+    name: Joseph Lister
+    wikidata: Q155768
+    born: 1827
+    died: 1912
+    work: 1867
+    fields: [Medicine]
+    rarity: silver
+    portrait:
+      file: portraits/joseph-lister.webp
+      source: "https://commons.wikimedia.org/wiki/File:Joseph_Lister,_1st_Baron_Lister_(1827_%E2%80%93_1912)_surgeon_Wellcome_M0002551.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/e5/93/ffb03e967eb355a6cc5af7f9a41e.jpg Gallery: https://wellcomeimages.org/indexplus/image/M0002551.html Wellcome Collection gallery (2018-03-30): http…"
+      license: "CC BY 4.0"
+    blurb: >-
+      Applied Pasteur's germ theory to surgery, cleaning wounds and instruments with carbolic acid. Deaths
+      after operations fell sharply, and antiseptic surgery spread worldwide.

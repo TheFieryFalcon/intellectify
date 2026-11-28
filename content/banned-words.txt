@@ -1,4 +1,4 @@
-# Banned words (docs/SPEC.md §13.2): identity-based slurs and purely sexual terms only, one per line,
+# Banned words (docs/SPEC.md §14.2): identity-based slurs and purely sexual terms only, one per line,
 # lowercase. Profanity and general insults are allowed.
 # Checked in discussion posts, comments and display names, in the app and in Firestore rules.
 # Matching is whole-word (plurals and -ed/-ing included), so "class" never trips "ass".

@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** One past answer from the local history (SPEC §15.4b): the question as served, the answers given, and the solution. */
+  /** One past answer from the local history (SPEC §16.4b): the question as served, the answers given, and the solution. */
   import Markdown from "./Markdown.svelte";
   import MarkView from "./MarkView.svelte";
   import { loadIndexedQuestion, loadQuestionIndex, loadWords, type QuestionT } from "$lib/content";

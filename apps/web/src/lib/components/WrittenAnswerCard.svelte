@@ -111,7 +111,7 @@
   <div class="meta">
     <span class="tier">Tier {tier}</span>
     <span class="muted">Rating {question.rating}</span>
-    <span class="muted">Written · {points} point{points === 1 ? "" : "s"}</span>
+    <span class="muted">Written, {points} point{points === 1 ? "" : "s"}</span>
     {#if question.requiresCalculator}<span class="muted">Calculator</span>{/if}
     <PaperFirst />
     <span class="muted right">1 submission</span>
@@ -174,7 +174,7 @@
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11 V3 M4.8 6.2 L8 3 L11.2 6.2 M2.5 10.5 V13 H13.5 V10.5" /></svg>
                 Upload
               </label>
-              {#if fromPhoto[p.id] && !reading[p.id]}<span class="from-photo">From photo · check it</span>{/if}
+              {#if fromPhoto[p.id] && !reading[p.id]}<span class="from-photo">From photo: check it</span>{/if}
               {#if photoError[p.id]}<span class="photo-error" role="status">{photoError[p.id]}</span>{/if}
               <span class="count muted" class:bad={(answers[p.id] ?? "").length > MAX_ANSWER}>{(answers[p.id] ?? "").length} / {MAX_ANSWER}</span>
             </div>

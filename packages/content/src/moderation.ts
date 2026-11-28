@@ -1,5 +1,5 @@
 /**
- * Banned-word matching (SPEC §13.2), shared by the app and the Firestore rules so both catch the same
+ * Banned-word matching (SPEC §14.2), shared by the app and the Firestore rules so both catch the same
  * spellings. Browser-safe. Each letter also matches the numbers and symbols people swap in for it
  * ("5lut", "f4g", "n1gg3r"), and may repeat ("sluuut"); a phrase's words may be split by anything.
  * Plain numbers never match: a word can't start with a digit unless a real letter comes next.

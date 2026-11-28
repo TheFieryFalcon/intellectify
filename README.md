@@ -10,10 +10,10 @@ The full specification is in [`docs/SPEC.md`](docs/SPEC.md).
 
 | Path | What it is |
 |---|---|
-| `packages/engine` | Ratings (θ), ranks, gates, roll-ups, question selection, attempt credit |
+| `packages/engine` | Ratings (θ), ranks, gates, roll-ups, question selection, attempt credit, level, the Lemma economy |
 | `packages/checker` | Answer checking: LaTeX parsing, numeric-sampling equivalence, form rules |
 | `packages/content` | Content schemas, validation and the JSON bundle build |
-| `content/` | Curriculum (skill trees) and questions, as YAML |
+| `content/` | Curriculum (skill trees), questions, achievements, the economy (`economy.yaml`) and card sets (`cards/`), as YAML |
 | `apps/web` | SvelteKit web app (static SPA) |
 
 ## Develop

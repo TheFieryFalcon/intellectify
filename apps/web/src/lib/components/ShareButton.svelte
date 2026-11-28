@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** Share this exact problem (SPEC §15.4c): the phone's share sheet where there is one, else copy the link. */
+  /** Share this exact problem (SPEC §16.4c): the phone's share sheet where there is one, else copy the link. */
   import type { QuestionT } from "$lib/content";
   import type { WordPicks } from "@intellectify/content/template";
   import { sharePath } from "$lib/share";

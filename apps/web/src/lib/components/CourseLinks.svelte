@@ -27,7 +27,7 @@
   {#each tiles as t (t.href)}
     <a href={t.href} class="tile">
       <span class="title">{t.title}</span>
-      <span class="meta">{t.meta.join(" · ")}</span>
+      <span class="meta">{t.meta.join(", ")}</span>
     </a>
   {/each}
 </nav>
