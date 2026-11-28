@@ -857,7 +857,8 @@ Group-wide boards:
 - **XP and global level** (§12.4): all time, this month and this week;
 - **Elo per game mode** (§15.7): Frontline, Divide, Draft, Exam Board and Race;
 - Race personal bests (§15.5);
-- cards collected (§13.7).
+- cards collected (§13.7);
+- **lifetime Lemmas** (`lemmasEarned`, not the spendable balance) and **Axioms proven**, shown by the highest Axiom's name (§13.6).
 
 **Implementation (Phase 1).** Each student has one `publicProfiles/{uid}` document holding everything the boards and profile pages show: display name, XP, activity counters (problems total, today and this week; XP this week and this month, by Perth day, Monday-start week and month), daily streak (current, best, last solved), earned achievement ids and points per course, and per course the course rank and θ, started skills' and response skills' rank and θ, and the roll-up ranks.
 - **Writes:** changes collect in the browser and are saved together 15 seconds after the last one (and when the page is hidden), in one batch with the private counters on `users/{uid}`. A run of answers costs one write, not one per answer. Each course is also refreshed once per tab session when its map opens, so older progress appears. Anonymous test accounts stay off the mirror.
@@ -871,7 +872,8 @@ A public profile shows:
 - response-skill ranks;
 - achievements, earned and secret;
 - Elo per game mode, current and peak (§15.7);
-- leaderboard positions.
+- leaderboard positions;
+- with the economy (§13): banner, framed name and equipped title, the 3-card showcase, the card collection (read-only) and the Axioms proven (§13.11).
 
 Phase 1: `/profile/<uid>` (the name in the header links to your own) shows name, level, tier and XP; problems, daily streak and achievement points; position on every board; per course the course rank, response-skill ranks and the tech tree read-only (under **Tech tree**); and earned achievements, secret ones marked. Elo arrives in Phase 3.
 
@@ -949,22 +951,23 @@ A second, **spendable** layer on top of XP. XP measures lifetime effort and neve
 **Rules** (all follow from §1.2 and §12.4)
 - **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, starts slow and grows into a real alternative. Around 200 hours in, a day of Research earns about what an hour of practice does. By 400 hours a day of it is worth about 30 hours of practice, and Conjectures keep it growing long after that. Practice also speeds Research up directly, through the **Time Warp**.
 - **Never touches learning.** Nothing bought, won or collected changes θ, ranks, gates, marking or question selection, and nothing gives hints.
-- **Nothing decays, expires or needs collecting.** Research has no cap and no collect button, so being away never loses anything and coming back at a set time never gains anything. There are no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it.
+- **Nothing decays or expires, and offline progress needs no collecting.** Research has no cap and no collect button: it is credited when the app loads, so being away never loses anything and coming back at a set time never gains anything. There are no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it. (Milestones are different: a reached Axiom is **claimed** with a click, and upgrades are bought, §13.6.)
 - **Nothing steers the student.** No upgrade pays more for one skill, section or unit than another.
 - **No real money.** Lemmas, packs and cosmetics are never sold, and can't be traded or cashed out.
-- **Can be hidden.** **Settings › Show rewards** off hides Lemma counts, pack prompts and the result-panel line. Earnings still accrue.
+- **Can be hidden.** **Settings › Show rewards** off hides the whole economy for that student: the header count and **Lemmas** link, the hub, the result-row ∴ chip and Time Warp line, breakdown tooltips, and pack, Axiom and Conjecture celebrations. Equipped cosmetics and titles still render, for them and for others. Earnings, Research and pack grants still accrue.
 
 ### 13.1 Lemmas (∴)
 - **Base:** each XP award also pays the same number of Lemmas, before multipliers: Lemmas = (XP + flat bonuses) × source multiplier × global multiplier.
-- **Shown** next to the level badge in the header and as **+48 ∴** in the result panel (§6.1). The icon is labeled "Lemmas" for screen readers.
+- **Shown** next to the level badge in the header and as **+48 ∴** in the result row, on the same line as **+XP** (§16.4). The icon is labeled "Lemmas" for screen readers. Header behavior, tooltips and breakdowns are in §13.11.
 - **SI notation, never scientific notation:**
   - Below 1,000, amounts show in full: **850 ∴**, "850 lemmas".
   - From 1,000 up they take an SI prefix, with three significant figures: **100 kilolemmas**, **4.56 megalemmas**, **12.3 gigalemmas**.
   - Where space is tight (header, result panel, buttons), the short form is used: **100 k∴**, **4.56 M∴**.
   - Prefixes run kilo (k, 10³), mega (M), giga (G), tera (T), peta (P), exa (E), zetta (Z), yotta (Y), ronna (R), quetta (Q, 10³⁰). Past that the number keeps growing in quettalemmas.
+  - **Tooltips** (hover, focus or long-press) on any short form show the long name at the same three significant figures: **4.56 M∴** → "4.56 megalemmas". Exact digits are never shown.
 
 ### 13.2 Theorems (the upgrade tree)
-Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × growth^n**. They form a small dependency graph (the *proof tree*), drawn like the tech tree; a theorem unlocks once its prerequisites are proven.
+Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × growth^n**. They form a small dependency graph (the *proof tree*), drawn as a hand-placed diagram (§13.11); a theorem unlocks once its prerequisites are proven.
 
 | Theorem | Boosts | Per level | Base cost | Growth | Requires |
 |---|---|---|---|---|---|
@@ -976,7 +979,7 @@ Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × gro
 | Binomial Theorem | Games (Phase 3; "Not available yet" until then) | +10% | 500 | 1.15 | Distributive Law 3 |
 | Harmonic Series | All active sources | +0.5% × Hₙ, n = questions resolved ever | 1,000 | 1.2 | Geometric Series 5 |
 | Pigeonhole Principle | Duplicate cards | +25% Lemmas per duplicate | 300 | 1.15 | — |
-| Law of Large Numbers | Packs | Diamond pity guarantee comes 2 packs sooner (max level 5) | 2,000 | 2 | Pigeonhole Principle 5 |
+| Law of Large Numbers | Packs | Diamond pity comes 5% of the base 80 (4 packs) sooner (max level 10: 80 → 40) | 2,000 | 2 | Pigeonhole Principle 5 |
 | Golden Ratio | All sources | +6.18% | 5,000 | φ ≈ 1.618 | Harmonic Series 10 |
 | Recurrence Relation | Research | +10% | 1,000 | 1.3 | Pigeonhole Principle 3 |
 
@@ -996,11 +999,15 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 | Research Institute | Machine Age | 1.52 G | 81.9 k |
 | Particle Accelerator | Space Age | 22.8 G | 655 k |
 
-- **Cards staff their era's institute.** Each collected card adds to that institute's output: Silver +2%, Gold +5%, Platinum +10%, Diamond +25%. A foil card doubles its own boost. A complete set roughly triples its institute's output. An institute whose era isn't released yet works unboosted.
+- **Cards staff their era's institute, in limited slots.** Each institute has **staff slots**, and the student chooses which of that era's cards fill them (§13.11), so placing a rare card is a decision that feels good.
+  - **Boost per slotted card:** Silver +2%, Gold +5%, Platinum +10%, Diamond +25% of that institute's output. A foil card doubles its own boost.
+  - **Slots grow with copies built:** 1 slot with the first copy, then more as copies are added, capped below the set size so the rarest cards compete for room. The schedule (copies per extra slot and the cap) is fitted with `scripts/economy_sim.py`.
+  - A card fills one slot at most. **Unslotted cards give nothing to Research**; collecting still counts toward set completion (its corollary and frame) and the Cards collected board.
+  - A new card never replaces a slotted one by itself. An institute whose era isn't released yet works unboosted.
 - **Time Warp.** Every 600 XP earned (about one active hour of practice) instantly credits **12 hours of Research** at the current rate.
   - It inherits XP's repeat rules and daily caps, so it rewards practice and can't be farmed.
   - Over a day, Research comes to about (1 + ½ × hours played) days' worth. Students who practice more keep pace in active hours, not just in calendar time.
-  - Shown as a meter on the Lemmas page: **Time Warp · 420 / 600 XP**.
+  - Shown as a meter in the hub summary (**Time Warp · 420 / 600 XP**), and in the result row of the answer that fires it: **Time Warp +12 h · +5.4 k∴** (§13.11).
 - **Other boosts:** Conjectures (below), Recurrence Relation, Golden Ratio, corollaries and Axioms all apply to Research. The question-specific theorems (Successor Function, Harmonic Series and so on) don't.
 - **Calibration targets** for the early and middle game, for a typical student who plays about 0.75 hours a day (500 hours over two years, §12.4).
   - **Ratio:** one day of Research, Time Warp included, ÷ one active hour of practice.
@@ -1064,13 +1071,14 @@ Corollaries follow from what a student has already done. They are added together
 
 ### 13.6 Axioms (milestones)
 Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. Spending never takes one away, and nothing resets.
-- **Each Axiom gives:** +5% to all sources (practice and Research) permanently, plus **its own cosmetic**, which can't be bought or found in packs.
+- **Reached, then proven.** Crossing a threshold makes the Axiom *reached*. The student **claims** it with **Prove** in the hub (free: it spends nothing), and only then does it apply. A reached Axiom waits indefinitely; nothing is lost by claiming late, but its bonus doesn't apply until then. Several reached at once are claimed together (**Prove 3**, §13.11).
+- **Each Axiom gives, once proven:** +5% to all sources (practice and Research) permanently, plus **its own cosmetic**, which can't be bought or found in packs.
 - **Some Axioms also give a title** (see Titles).
 - **Spacing:**
   - **Fitted to a curve:** thresholds follow the growth curve of a student who plays 1.5 hours a day, so that Rank-into-Rank arrives after 1.5 years.
   - **The nine ZFC axioms** (10 k to 15 M) spread over the first 400 or so active hours, starting with an early taste about 14 hours in.
   - **The nine large cardinals** (30 M to 7 P) then arrive about every 30–65 active hours, up to Rank-into-Rank at about 820. Conjectures carry students through them.
-- **Display:** the Lemmas page shows the next Axiom and its progress, e.g. **Union · 640 k / 1 M**.
+- **Display:** the hub summary shows the next Axiom and its progress, e.g. **Union · 640 k∴ / 1 M∴**; once reached it becomes a **Prove Union** button (§13.11).
 - **Statements:** each Axiom's card shows its statement in one plain line, as flavor and a glimpse of set theory.
 - **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 655).
 
@@ -1115,7 +1123,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 - **Only people who have died.** Every set mixes mathematics, science and philosophy.
 - **Notability first.** Every card is someone notable in their own right. No one is added to balance a set by region or any other quota.
 - **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§16.1). Facts cite a source. Quotes are used only when a source shows the person actually said them.
-- **Related skills** show as chips (e.g. Euler → the skill on complex exponential form). These are data, not a suggestion of what to practice.
+- **Related skills** show as chips on the card's detail view (e.g. Euler → the skill on complex exponential form), linking to the skill page. They're information, not a suggestion of what to practice: nothing about a card changes what is served.
 - **Set size:** about 24 cards.
 - **Rarity** (the owner's judgment):
   - **Diamond:** profoundly transformed their field *and* is extremely famous (Einstein, Feynman, Turing, Nietzsche, Deleuze, Maxwell). There's no quota; the count per set follows from who qualifies, usually 3–6.
@@ -1125,7 +1133,9 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 - **Build checks:** dates, era ranges, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and sources.
 - **Launch:** start with three eras (Antiquity, Enlightenment, Machine Age). The others show as "Not available yet" until their sets are written.
 
-**Getting packs.** Unopened packs have no era. The student picks the era when opening one (any released era).
+**Era unlocks.** Antiquity packs are available from the start. Each later era's packs unlock with the **first copy of the previous era's institute** (Golden Age packs with the first Academy, Renaissance packs with the first House of Wisdom, and so on), which is also when that era's own institute unlocks (§13.3). Locked eras show as sealed packs with the bare-label condition, e.g. **Build an Academy**. Unreleased eras show "Not available yet".
+
+**Getting packs.** Every pack belongs to one era, fixed when it is granted or bought. Later eras cost more.
 
 | Source | Packs |
 |---|---|
@@ -1133,7 +1143,20 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 | Finishing a Section Challenge | 1 |
 | Achievement | Platinum 1 · Diamond 2 · Ruby 3 · Tanzanite 5 · Vibranium 8 · Solarium 12 · Antimatter 20 |
 | A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
-| Buy with Lemmas | 1,000 ∴ each, a fixed price |
+| Buy with Lemmas | A fixed price per era: Antiquity 1 k∴; later eras cost more, at prices fitted with `scripts/economy_sim.py` |
+
+**Which era a free pack is.** The source's tier picks it, capped at the latest unlocked, released era (if the picked era is locked or unreleased, the latest one before it):
+
+| Source tier | Era |
+|---|---|
+| Level tier Bronze or Silver; Platinum achievement | Antiquity |
+| Level tier Gold; Diamond achievement | Golden Age |
+| Level tier Platinum; Ruby achievement | Renaissance |
+| Level tier Diamond; Tanzanite achievement | Enlightenment |
+| Level tier Ruby; Vibranium achievement | Steam Age |
+| Level tier Tanzanite; Solarium achievement | Machine Age |
+| Level tier Vibranium and above; Antimatter achievement | Space Age |
+| Section Challenge, Full Week (no tier) | Latest unlocked era |
 
 **Opening**
 - **Odds per card:**
@@ -1141,16 +1164,16 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
   - Slot 5: Gold 70%, Platinum 24%, Diamond 6%.
   
   The odds table is always shown on the pack screen.
-- **Pity:** a Diamond is guaranteed by the 25th pack of an era without one (Law of Large Numbers shortens this). The counter is shown, e.g. "Diamond in ≤ 12".
+- **Pity:** a Diamond is guaranteed by the **80th** pack of an era without one (Law of Large Numbers shortens this, to 40 at most). The counter is shown, e.g. "Diamond in ≤ 61".
 - **No duplicate Diamonds** until every Diamond in that era has been collected; the roll picks among the missing ones instead.
 - **Duplicates** turn into Lemmas: Silver 20, Gold 60, Platinum 200, Diamond 600 (× Pigeonhole Principle).
 - **Foil:** 1 card in 25 has a foil finish in its rarity's material. A foil copy of a card already held upgrades that card's finish instead of converting.
 - **Rolls are fixed in advance:** each pack's cards come from a seeded hash of the uid, the era and that era's packs-opened count, so reloading can't re-roll a pack. This runs on the client like the rest of practice (§19, risk 4).
 
-**Collection page.** One shelf per era. Uncollected cards show as silhouettes with their name, rarity and fields; the portrait, dates and blurb appear once collected. Completing an era set unlocks that era's **profile frame** (which can't be bought) and its corollary. A profile can **showcase** up to 3 cards.
+**Collection.** One shelf per era, in the hub's **Collection** tab and, read-only, on every public profile. Uncollected cards show as silhouettes with their name, rarity and fields; the portrait, dates and blurb appear once collected. Completing an era set unlocks that era's **profile frame** (which can't be bought) and its corollary. A profile can **showcase** up to 3 cards. Layout and card design are in §13.11.
 
 ### 13.8 Cosmetics (Lemma shop)
-Bought at fixed prices, and cosmetic only.
+Bought at fixed prices, and cosmetic only. Every item can be previewed live before buying (§13.11).
 - **Keypad skins** for the on-screen keypad (§7.2).
 - **Answer celebrations** for correct answers and rank-ups.
 - **Profile banners.**
@@ -1235,17 +1258,156 @@ Frames come only from era sets, Axiom cosmetics only from Axioms, and titles onl
 
 ### 13.10 Storage
 - `users/{uid}/meta/economy` holds:
-  - `lemmasEarned` and `lemmasSpent` (Axioms follow from `lemmasEarned`, so they aren't stored);
+  - `lemmasEarned` and `lemmasSpent` (*reached* Axioms follow from `lemmasEarned`); `axiomsProven`, the count claimed (§13.6), which only goes up;
   - `researchCreditedAt`, written as server time (the rules require `request.time`);
   - theorem levels, institutes built and Conjectures proven;
-  - unopened packs, packs opened per era and pity counters per era;
-  - cards (id → count, foil);
-  - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase.
+  - unopened packs per era, packs opened per era and pity counters per era;
+  - cards (id → count, foil) and staff slots per institute (slot → card id);
+  - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase;
+  - `lastVisit`: the balance, lifetime Lemmas and Research credited at the end of the last hub visit, for the hub's **Since last visit** line (§13.11).
 - **Balance** = `lemmasEarned − lemmasSpent`.
-- **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§17.2). A purchase raises `lemmasSpent`, so every counter only goes up.
+- **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent`, `axiomsProven` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§17.2). A purchase raises `lemmasSpent`, so every counter only goes up.
 - **Saving:** changes are saved in the same batched write as XP and the public mirror (§12.2).
-- **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame and showcase, and the number of cards collected. This feeds a **Cards collected** board (§12.2).
+- **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame, banner and showcase; the collection (card ids, with a foil flag; about 170 ids at most, well within a document); `lemmasEarned`; and `axiomsProven`. These feed the profile's collection and the **Cards collected**, **Lifetime Lemmas** and **Axioms** boards (§12.2). Theorems, institutes, staff and the balance stay private.
 - **Logic:** formulas (earn rates, Research, Conjectures, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, institute, Conjecture, Axiom (thresholds, cosmetics, titles), pack and shop values live in `content/economy.yaml`.
+
+### 13.11 Screens, layout and motion
+Copy follows §16.1: bare labels, chips and numbers. Full sentences only in learning content (theorem, Axiom and Conjecture statements, card blurbs) and the one-line first-open notes. There is **no sound** anywhere.
+
+#### Where it lives
+- **Header.** The nav gains **Lemmas** (→ `/lemmas`) after Leaderboards. The ∴ balance sits after the level badge, in short form (**4.56 M∴**), and also links to `/lemmas`.
+  - **Count-up:** when XP or Lemmas change, the header number (and the level bar) rolls from the old value to the new one over about 600 ms, ease-out. The tooltip shows the final value at once. Reduced motion swaps instantly.
+  - **Pip:** a small dot on the ∴ count while an Axiom is reached but not proven (screen readers: "Axiom to prove"). Nothing else pips: packs, affordable upgrades and new cards never do.
+- **Hub** (`/lemmas`): tabs **Theorems · Research · Conjectures · Axioms · Packs · Collection · Shop**, under a summary strip. Only the hub takes the archive look (below); the header, result row, profile, pack overlay chrome and the rest of the site keep the standard style.
+- **Profile** (§12.3): banner, frame, title, showcase, collection and Axioms. App-wide cosmetics (keypad skin, celebration, node theme) are equipped in **Shop › Wardrobe**.
+- **Show rewards off** (§13 rules) removes the nav link, header count, pip and hub; `/lemmas` shows "Rewards hidden · Settings".
+
+#### Hub summary
+- **Contents, in order:** balance · **Research 10.8 k∴/day** · **Time Warp 420 / 600 XP** (a thin meter) · next Axiom (**Union · 640 k∴ / 1 M∴**, or the **Prove Union** / **Prove 3** button once reached) · buy amount **×1 / ×10 / Max** · **Multipliers**.
+- **Since last visit · +12.3 k∴ · Research 14 h** heads the summary when anything changed since the last hub visit (from `lastVisit`, §13.10). It stays for the whole visit and resets when the student leaves the hub or hides the page. It appears nowhere else: there is no return toast.
+- **Multipliers** opens a panel listing every active multiplier by source: theorems, corollaries (achievements, level tiers, era sets), Axioms and, for Research, Conjectures and staff, with each source's total.
+- **Sticky** at the top of the hub on wider screens; not sticky on phones (below).
+
+#### Tabs: unlock and peek
+- **From the start:** Theorems, Packs, Collection and Shop.
+- **Research:** at 2 k∴ lifetime earned (an Academy is affordable).
+- **Axioms:** when the first Axiom is reached.
+- **Conjectures:** once Research reaches 250 k∴/day (half the first Conjecture's price per 100 days).
+- **Later:** a final, quiet tab item lists the tabs not yet open as silhouettes with their bare-label condition ("Research · 2 k∴ earned"). It disappears once every tab is open.
+- **First-open note:** the first time a tab opens, one marginal sentence says what it's for (e.g. "Institutes earn Lemmas while you're away; cards you place in their slots boost them."). × dismisses it for good (localStorage, like the Paper first tip, §16.5a).
+- **Keys:** Shift+1–7 switch tabs. Every hub shortcut is off while typing in a field or while a sheet or overlay is open; buttons name theirs in their tooltip ("Max (M)").
+
+#### Buying
+- **Buy amount** ×1 / ×10 / Max (in the summary) applies to every theorem and institute button. The button shows the total for that amount; Max also shows the count: **Max · 7 · 12.4 k∴**. If ×10 isn't affordable the button stays pencil and shows what 10 would cost.
+- **No confirmations and no undo.** A purchase applies at once and saves with the next batched write (§12.2).
+- **M** buys the max on the current tab only (Theorems or Research): it repeatedly buys the single **cheapest next level** available on that tab, including theorems it newly unlocks, until nothing more is affordable. It never buys Conjectures, packs or cosmetics. A toast reports **Bought 23 levels · 41.2 k∴**.
+- **Affordability: inked vs pencil.** Affordable items render in full ink. Unaffordable ones render in pale pencil grey, with their price. There are no fill bars, progress rings, tab dots or badges: affordability never pulls.
+
+#### Theorems: the proof tree
+- **Hand-placed SVG** of the 11 theorems, each at a fixed position given in `content/economy.yaml`, composed to read like a page of a proof. Nodes are engraved plates with the name and level (**Lv 12**). Edges are ink lines ending in a small ∴: prerequisite ∴ theorem.
+- **Locked theorems** are pencil outlines with the requirement as a label (**Successor Function 5**). Binomial Theorem shows "Not available yet" until games ship.
+- **Selecting a node** opens a side panel (a bottom sheet on phones): name, statement (one line of KaTeX), effect now → next (**+24 ∴/question → +26**), cost at the chosen buy amount, the ×1/×10/Max buttons, Requires and Unlocks. Nodes are focusable in reading order; Enter opens the panel and Escape closes it.
+
+#### Research: institutes and staff
+- **One row per institute**, in era order: the institute's engraving, name, era, copies, output per day (per copy and total, staff boost included) and buy controls.
+- **Staff strip** under each row: the slots, each filled with a portrait thumbnail in its rarity frame or drawn as a dashed empty slot; the total staff boost (**Staff +64%**); and when the next slot opens (**Next slot · copy 20**).
+- **Click a slot** to open a picker of that era's owned cards, sorted by boost (Diamond foil first), each with its boost. A card already in a slot is marked **Slotted**, and choosing it moves it. **Remove** empties the slot. Newly pulled cards never fill or replace slots on their own.
+- **Locked institutes** show as a sealed silhouette with the bare-label condition (**Build an Academy**). An institute whose era isn't released shows "Not available yet" in its strip and works unboosted.
+
+#### Conjectures: the ledger
+- **A vertical ledger in order.**
+  - **Proven** entries carry a **Proved** stamp, the date the student proved it, and the real prover and year.
+  - **The next entry** shows its cost, statement, the Research rate it would give (**×2.5 → 27.0 M∴/day**) and **Prove** (inked when affordable).
+  - **Later entries** show their cost and statement in pencil.
+  - **The two open problems** sit below a double rule labeled **Open**.
+- **Proving one** opens a full-screen celebration: the statement, who really proved it and when (or "Open"), and the new Research rate.
+
+#### Axioms
+- **A ladder of 18**, in two groups: **ZFC** and **Large cardinals**. Each row has the name, threshold, statement (as marginalia), cosmetic and title.
+  - **Proven:** inked, with the date.
+  - **Reached:** a **Prove** button.
+  - **Next:** lifetime progress, **640 k∴ / 1 M∴**.
+  - **Later:** pencil. Their cosmetics show as a silhouette with the condition until proven.
+- **Claiming:** **Prove** (in the summary or on the ladder) opens a full-screen celebration: the Axiom, its statement and what it unlocks (cosmetic, title, +5%), with **Equip · Later**. Equip puts the cosmetic (and title) on at once.
+- **Several reached:** **Prove 3**. The earlier ones flash by briefly (name and statement, about 0.8 s each), and the highest gets the full celebration. The unlocks list each cosmetic and title with its own **Equip**; **Later** closes.
+
+#### Packs
+- **One pack per era**, in era order, each drawn in its era's style. Each shows:
+  - the unopened count and the era's price, with **Buy** and **Buy 10**;
+  - **Open**, **Open 10** and **Open all**;
+  - set completion (**14 / 24**), the pity counter (**Diamond in ≤ 61**) and the Diamonds still missing;
+  - the odds table, always visible beneath it.
+- **Locked eras** show as sealed packs with their condition (**Build an Academy**); unreleased eras show "Not available yet".
+- **Granted packs** wait here quietly: no toast, no pip, no prompt anywhere else.
+
+#### Opening a pack
+- **Single pack:** a full-screen overlay.
+  - **The cards:** five face-down cards fan out; the fifth, the guaranteed Gold-or-better slot, is slightly larger and last. All backs look the same, so nothing tells what's coming.
+  - **Flipping:** click or tap a card, or press Space or Enter, to flip the next one (a 3D turn of about 300 ms; a crossfade with reduced motion). **Reveal all** flips the rest.
+  - **Duplicates** flip like any card and carry a count badge (**×2**). A foil duplicate of a held card shows **Foil upgrade**.
+  - **A Diamond** flips like the others, then gets a crystal burst of about 1.5 s behind it as it enlarges to the center with its portrait large. A click or any key settles it back into the fan.
+  - **The end** shows one line, **New 3 · Duplicates 2 · +80 ∴ · Diamond in ≤ 61**, and **Open another** (same era, if any are left) · **Done**. Escape first reveals all, then closes.
+- **Open 10 / Open all** skip the flips and end on a grid of the **newly collected cards only** (rarity-sorted, foils marked), then one line: **Duplicates 14 · +2.1 k∴ · Diamond in ≤ 61**.
+- Screen readers hear each reveal ("Euler · Platinum · New"); face-down cards are buttons ("Card 3 of 5").
+
+#### Cards
+- **Portraits** are processed offline into **one ink duotone** (ink on the paper tone), so a set looks coherent whatever the source. They're stored as WebP next to the card YAML, and the source and license are kept (§13.7).
+- **Face:** portrait, name and rarity. **Detail view** (click a card anywhere): the enlarged card plus dates, era, field chips, blurb, sources, related-skill chips (links to the skill page), copies owned, foil, and which slot it's in.
+- **Rarity frames in archive materials:** Silver is pewter, Gold is gilt leaf, Platinum is engraved steel, Diamond is cut crystal over vellum. The rarity is also written on the frame, so color is never the only signal.
+- **Foil:** a holographic sheen that follows the pointer, or a finger dragged across the card on touch. Device motion is never used, so no permission is ever asked. Reduced motion shows a still gilt rim.
+- **Sizes:** a 5:7 card, about 96 px wide in grids, 180 px in the reveal and 320 px in the detail view.
+- **No "New" markers** on cards or cosmetics: the reveal was the moment.
+
+#### Collection
+- **Hub tab:** one shelf per era, in era order. The shelf header shows the era, **14 / 24**, foils, and a **Complete** stamp with the frame once finished. Inside, cards are grouped by rarity (Diamond first, down to Silver) and by birth year within each rarity. Uncollected cards are silhouettes with their name, rarity and fields.
+- **Profiles** show the same shelves, read-only, with that student's cards.
+
+#### Shop
+Two sub-tabs.
+- **Wardrobe:** what the student owns, by slot (keypad skin, celebration, banner, node theme, frame, title, Lemma icon, name ornament), each with **Equip** / **Equipped** and a **Default** option. Items that can't be bought show as a silhouette with their condition: **Axiom · Union · 700 k∴**, **Machine Age set**, **Achievement · Keystone** (secret criteria stay hidden, §12.1).
+- **Shop:** buyable items on category shelves, each with its price, **Preview** and **Buy** (**Owned** once bought).
+- **Preview** opens a sheet with a live sample, and **Buy** is available there:
+  - a keypad skin as a working mini keypad;
+  - a celebration played on a sample answer, with **Replay**;
+  - a banner as a profile hero with the student's own name;
+  - a node theme on one section of the student's real map.
+
+#### Profile hero
+- **Layout:** the banner runs across the top. The name sits in its frame, with the equipped title under it, overlapping the banner's lower edge. The three showcase cards sit on the right (below on phones). Collection and Axioms proven follow further down.
+- **Your own profile:** every editable field (display name, title, frame, banner, showcase) has an **Edit** button. Each opens a picker sheet (silhouettes for locked items, as in the Wardrobe), and a change saves at once with the next batched write.
+
+#### Result row
+- **+24 XP · +48 ∴** on one line (§16.4). The answer that fires the Time Warp adds **Time Warp +12 h · +5.4 k∴** to the same row.
+- **Breakdown tooltip** on the ∴ chip: base, flat bonuses (Successor Function), each multiplier, and the total.
+- **Rewards off:** XP only, and the row reflows with no gap.
+
+#### Celebration order
+- **On problem screens**, toasts play one at a time in this order: rank-up, achievement, level-up. A full-screen moment (a level tier) waits until **Next** is pressed or the screen is left.
+- **Only one full-screen moment shows at a time.** Several play smallest first, biggest last: level tier, then Axiom, then Conjecture.
+- Axioms and Conjectures are always started by the student's own click in the hub, so they never interrupt a question.
+
+#### The archive look (hub only)
+- **Built from tokens** layered over the site's own (`--paper`, `--paper-fiber`, `--ink-archive`, `--pencil`, `--rule`, `--plate`, `--gilt`), each with light and dark values. Every stage passes WCAG AA.
+  - **Paper:** a warm off-white surface with a faint fiber texture (an inline SVG noise, at low opacity). In dark mode it's a deep ink-blue "blueprint" paper.
+  - **Engraved rules and plates:** double hairline borders, corner ornaments, and numbered plates as tab and section labels (**Pl. I · Theorems**).
+  - **Numerals:** STIX Two Text with old-style figures in prose; lining tabular figures for prices and counts.
+  - **Marginalia:** statements set as margin notes beside their entries at 1024 px and up; inline, in italics, below that.
+- **Escalation**, in three stages; the student doesn't choose:
+  1. **Eras.** The hub takes the style of the latest unlocked era: Antiquity, parchment and ink · Golden Age, illuminated manuscript · Renaissance, copperplate · Enlightenment, printed folio · Steam Age, lithograph and brass · Machine Age, blueprint · Space Age, back to the site's own minimalist look (§16.1): the present day.
+  2. **Axioms**, once every era is unlocked. Each proven large cardinal darkens the minimalist page a step toward night, with the ink turning to starlight. Large cardinals already proven count at once.
+  3. **Conjectures**, once all 18 Axioms are proven. Each proven Conjecture adds a constellation, ending in an Antimatter-like void (§12.4) at P versus NP.
+
+#### Phones (≤ 640 px)
+- Hub tabs become a **☰ menu**: a sticky bar with ☰ and the current tab's name. The menu lists the tabs and the Later peek.
+- The summary is **not sticky**: it heads the page and scrolls away.
+- Side panels and pickers become bottom sheets, and marginalia go inline. The proof tree scales to the width, with touch targets of at least 44 px.
+
+#### Accessibility and motion
+- **Reduced motion:** tweens swap instantly, flips crossfade, and bursts, sheens and celebration motion show still frames.
+- **Keyboard:** every tab, node, slot, card and button is reachable. Escape closes the top sheet or overlay.
+
+#### Previews
+`/dev/cards` (every rarity, foil, the reveal, the Diamond reveal, duplicates), `/dev/archive` (every stage, light and dark), `/dev/celebrations` (Axiom, multi-Axiom and Conjecture moments, and the queue order) and `/dev/cosmetics` (every shop and Axiom cosmetic in its preview frame).
 
 ---
 
@@ -1562,7 +1724,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - **Header:** tier, rating, calculator flag, skill(s).
 - **Body:** stem, diagram, and answer inputs per part.
 - Attempts remaining, **Check**, **Give up** (written answers: **Submit for marking**).
-- **After resolving:** a result row (outcome, θ and its change, score, rank, **+XP**, the daily bonus included on the daily problem) on every question screen (practice, quizzes, Challenges, daily, revision, shared problems); worked solution; rank and achievement toasts; Next. A written answer shows the same row under its mark once the mark is applied (it can arrive later; it's kept on the marking job, so it also shows on the marked-answer page). **Tutorial**, **Share** and **Report error** sit above the question; on the practice screen **← Back** returns to the map.
+- **After resolving:** a result row (outcome, θ and its change, score, rank, **+XP** and, with the economy, **+∴** and any Time Warp on the same line (§13.11), the daily bonus included on the daily problem) on every question screen (practice, quizzes, Challenges, daily, revision, shared problems); worked solution; rank and achievement toasts; Next. A written answer shows the same row under its mark once the mark is applied (it can arrive later; it's kept on the marking job, so it also shows on the marked-answer page). **Tutorial**, **Share** and **Report error** sit above the question; on the practice screen **← Back** returns to the map.
 - **Tutorial (implemented)** opens the question's skill tutorial in a side panel (a bottom sheet on phones) that doesn't block the question, so the student can read and answer at once; × or Escape closes it.
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
@@ -1585,7 +1747,7 @@ The app says **points** (and **score**) wherever a student sees how an answer wa
 
 ### 16.5 Other screens
 - **Profile, Leaderboards, Discussions** (daily/monthly; searchable, never linked from problem screens).
-- **Settings:** display name; Shift keys (§7.2); handwriting pad on/off (§7.2); BYO key per provider (stored locally) with **Test key**, which lists the provider's models (nothing marked or charged) and says "Key works", "refused this key" or "Couldn't reach"; marking effort.
+- **Settings:** display name; Shift keys (§7.2); handwriting pad on/off (§7.2); BYO key per provider (stored locally) with **Test key**, which lists the provider's models (nothing marked or charged) and says "Key works", "refused this key" or "Couldn't reach"; marking effort; **Show rewards** (with the economy, §13).
   - **Display name** (Phase 1): 2–30 characters, no banned words (§14.2). Saving updates the account, the profile and the public mirror at once; leaderboards show it within five minutes (their cache). Email sign-ups choose it on the sign-up form. **Google sign-ups** get Google's name by default, so onboarding asks them to choose one (prefilled with Google's name) as its own first step, before the maths mark; existing Google accounts are asked once.
 - **Students' own writing** (written answers, previews, history, discussion posts) keeps the line breaks they typed; authored content (questions, tutorials, solutions) uses normal Markdown paragraphs.
 - **Onboarding:** the display name (Google sign-ups), then the most recent maths mark and where it's from (which sets the year group and the starting tier, §5.3), then a **four-step tour**: the map (colors and shapes), tiers (bands), ranks (floors and gates) and the 0–100 score; **Skip** goes straight to the map. Specialist is the only course for now, so there's no course choice yet. All skills start Unranked.
@@ -1707,7 +1869,7 @@ netlify/functions/     mark, transcribe, ink
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **To tune when the economy ships**
-- Lemma rates, institute and Conjecture costs and outputs, and the Time Warp (against the calibration targets in §13.3, including Rank-into-Rank after 1.5 years of 1.5 hours a day), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity and shop prices (§13), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
+- Lemma rates, institute and Conjecture costs and outputs, and the Time Warp (against the calibration targets in §13.3, including Rank-into-Rank after 1.5 years of 1.5 hours a day), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity (80 packs) and shop prices, per-era pack prices, and the staff-slot schedule (copies per extra slot and the cap, §13.3) (§13), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
