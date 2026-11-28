@@ -1000,16 +1000,16 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 
   | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms |
   |---|---|---|---|---|
-  | 50 | 2.32 k | 152 | 0.07 | 0 |
-  | 100 | 4.38 k | 709 | 0.16 | 1 |
-  | 200 | 10.8 k | 16.0 k | 1.5 | 3 |
-  | 300 | 20.5 k | 87.1 k | 4.3 | 4 |
-  | 400 | 43.2 k | 1.20 M | 28 | 6 |
-  | 500 | 96.1 k | 259 M | 2,700 | 9 |
+  | 50 | 2.65 k | 166 | 0.06 | 1 |
+  | 100 | 4.38 k | 757 | 0.17 | 1 |
+  | 200 | 11.1 k | 16.0 k | 1.5 | 3 |
+  | 300 | 20.5 k | 89.8 k | 4.4 | 4 |
+  | 400 | 41.8 k | 1.14 M | 27 | 6 |
+  | 500 | 97.2 k | 239 M | 2,500 | 9 |
 
   - **Early game:** practice is how Lemmas are earned.
   - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
-  - **From about 400 hours:** a day of Research equals about 28 hours of practice (over a month at a typical pace), so Lemmas stop being a constraint.
+  - **From about 400 hours:** a day of Research equals about 27 hours of practice (over a month at a typical pace), so Lemmas stop being a constraint.
   - **Later:** the last institutes and Axioms are a long tail for students past 500 hours.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
 - **Shown** as a chip on the Lemmas page: **Research · 16.0 k∴/day**.
@@ -1021,11 +1021,11 @@ Corollaries follow from what a student has already done. They are added together
 - Each completed era set (below): +10%.
 
 #### Axioms (milestones)
-Axioms are **milestones of lifetime Lemmas earned**, starting at 100 kilolemmas. Spending never takes one away, and nothing resets.
+Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. Spending never takes one away, and nothing resets.
 - **Each Axiom gives:** +10% to all sources (practice and Research) permanently, plus **its own cosmetic**, which can't be bought or found in packs.
 - **Some Axioms also give a title** (see Titles).
 - **Spacing:**
-  - **The nine ZFC axioms** come at every half-step of a power of ten (100 k, 300 k, 1 M, …, 1 G) and cover a career up to about Solarium.
+  - **The nine ZFC axioms:** the first comes at 10 k, about 12 hours in, as an early taste. The rest come at every half-step of a power of ten (300 k, 1 M, 3 M, …, 1 G) and cover a career up to about Solarium.
   - **The nine large cardinals** come at every power of ten from 10 G to 1 E. They're the long tail.
   - **The last four** are, like the Antimatter achievements, possibly never earned.
 - **Display:** the Lemmas page shows the next Axiom and its progress, e.g. **Union · 6.4 M / 10 M**.
@@ -1034,20 +1034,20 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 100 kilolemmas.
 
 | # | Axiom | At | ≈ Hours | Statement | Cosmetic | Title |
 |---|---|---|---|---|---|---|
-| 1 | Extensionality | 100 k | 75 | Sets with the same elements are equal | **Venn** banner: two circles slide together and become one | — |
-| 2 | Regularity | 300 k | 125 | Every nonempty set has an element disjoint from it, so there's no endless ∈-descent | **Well-Founded** node theme: the tech tree stands on a drawn ground line, with roots under the first skills | — |
-| 3 | Specification | 1 M | 175 | Any definable property carves a subset out of a set | **Set-Builder** keypad skin: keys framed like { x ∣ … }, with a fine sieve texture | — |
-| 4 | Pairing | 3 M | 250 | For any a and b, {a, b} is a set | **Pair** celebration: two sparks spiral together into one | — |
-| 5 | Union | 10 M | 325 | The members of a set's members form a set | **Union** banner: many small sets drift together into one | — |
-| 6 | Replacement | 30 M | 375 | The image of a set under a definable function is a set | **Image** celebration: each symbol of the answer maps, one to one, onto a star | — |
-| 7 | Infinity | 100 M | 425 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
-| 8 | Power Set | 300 M | 450 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
+| 1 | Extensionality | 10 k | 12 | Sets with the same elements are equal | **Venn** banner: two circles slide together and become one | — |
+| 2 | Regularity | 300 k | 100 | Every nonempty set has an element disjoint from it, so there's no endless ∈-descent | **Well-Founded** node theme: the tech tree stands on a drawn ground line, with roots under the first skills | — |
+| 3 | Specification | 1 M | 170 | Any definable property carves a subset out of a set | **Set-Builder** keypad skin: keys framed like { x ∣ … }, with a fine sieve texture | — |
+| 4 | Pairing | 3 M | 230 | For any a and b, {a, b} is a set | **Pair** celebration: two sparks spiral together into one | — |
+| 5 | Union | 10 M | 310 | The members of a set's members form a set | **Union** banner: many small sets drift together into one | — |
+| 6 | Replacement | 30 M | 350 | The image of a set under a definable function is a set | **Image** celebration: each symbol of the answer maps, one to one, onto a star | — |
+| 7 | Infinity | 100 M | 405 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
+| 8 | Power Set | 300 M | 440 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
 | 9 | Choice | 1 G | 475 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
-| 10 | Inaccessible | 10 G | 525 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
-| 11 | Mahlo | 100 G | 575 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
-| 12 | Weakly Compact | 1 T | 600 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
-| 13 | Measurable | 10 T | 675 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
-| 14 | Strong | 100 T | 950 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
+| 10 | Inaccessible | 10 G | 515 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
+| 11 | Mahlo | 100 G | 560 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
+| 12 | Weakly Compact | 1 T | 585 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
+| 13 | Measurable | 10 T | 655 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
+| 14 | Strong | 100 T | 940 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
 | 15 | Woodin | 1 P | — | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
 | 16 | Supercompact | 10 P | — | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
 | 17 | Huge | 100 P | — | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
