@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { Key } from "$lib/keypad";
-  import { addReadAloud, insertLatex, isTouch, loadMathLive, type MathfieldEl } from "$lib/mathlive";
+  import { applyKey, fieldKey, isTouch, latexOf, loadMathLive, setUpField, type MathfieldEl } from "$lib/mathlive";
   import { answerSignals, BURST, guardPaste } from "$lib/paste";
 
   let {
@@ -26,11 +26,14 @@
     void loadMathLive().then(() => {
       ready = true;
       if (!el) return;
-      addReadAloud(el);
-      const mf = el as MathfieldEl & { menuItems?: { id?: string }[] };
-      if (Array.isArray(mf.menuItems)) mf.menuItems = mf.menuItems.filter((m) => m.id !== "paste");
+      setUpField(el);
+      // Enter (with or without Shift) submits, before MathLive sees it; in a half-typed \command it finishes that instead.
+      el.addEventListener("keydown", enter, true);
     });
-    return unguard;
+    return () => {
+      unguard();
+      el?.removeEventListener("keydown", enter, true);
+    };
   });
 
   const signals = answerSignals();
@@ -44,22 +47,35 @@
   }
   /** Characters arriving at once, not from the keypad, count as a burst (a signal, never a block). */
   let inserting = false;
-  function changed(next: string) {
+  /** The value this field last gave out (its LaTeX without empty boxes), so outside changes can be told apart. */
+  let emitted = "";
+  function changed() {
+    const next = latexOf(el);
     if (!inserting && signals && next.length - value.length >= BURST) signals.bursts++;
-    value = next;
+    value = emitted = next;
+  }
+
+  function enter(e: KeyboardEvent) {
+    if (fieldKey(el, e) || e.key !== "Enter" || el.mode === "latex" || e.isComposing) return;
+    e.preventDefault();
+    e.stopPropagation();
+    onsubmit?.();
   }
 
   // Keep the element in sync when the value is reset from outside (e.g. next question).
   $effect(() => {
-    if (ready && el && el.value !== value) el.value = value;
+    if (ready && el && value !== emitted) {
+      el.value = value;
+      emitted = value;
+    }
   });
 
-  /** Insert a keypad key at the caret: `#0` takes the selection, `#?` boxes are left to fill in. */
+  /** A keypad key at the caret (see applyKey: it wraps a selection, and x² squares what was just typed). */
   export function insert(key: Key) {
     if (!el || disabled) return;
     inserting = true;
-    insertLatex(el, key.insert);
-    value = el.value;
+    applyKey(el, key.insert);
+    changed();
     inserting = false;
   }
 </script>
@@ -76,13 +92,7 @@
   math-virtual-keyboard-policy={touch ? "auto" : "manual"}
   smart-fence="on"
   onfocus={() => onfocus?.()}
-  oninput={(e: Event) => changed((e.currentTarget as HTMLElement & { value: string }).value)}
-  onkeydown={(e: KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      onsubmit?.();
-    }
-  }}
+  oninput={changed}
 ></math-field>
 {#if note}<p class="paste-note" role="status">Pasting from outside the site is off</p>{/if}
 
@@ -98,7 +108,8 @@
     background: var(--surface);
     color: var(--ink);
     --caret-color: var(--accent);
-    --selection-background-color: var(--accent-soft);
+    --selection-background-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    --selection-color: var(--ink);
   }
   .field:focus-within { border-color: var(--accent); outline: none; }
   .field.disabled { opacity: 0.7; }

@@ -26,37 +26,89 @@ const KEY = Symbol("answer-signals");
 export const provideSignals = (s: AnswerSignals) => setContext(KEY, s);
 export const answerSignals = (): AnswerSignals | undefined => getContext<AnswerSignals | undefined>(KEY);
 
-/** Text copied or cut on this page this session (normalized), so pasting it back is allowed. */
+/**
+ * Copies made on the site carry this mark on the clipboard, so pasting them back is always allowed (in
+ * any tab of the site, after a reload too). Browsers that drop custom clipboard types fall back to the
+ * text itself: text copied or cut on the page this session (normalized) still pastes.
+ */
+const MARK = "application/x-intellectify";
 const copied: string[] = [];
 const norm = (t: string) => t.replace(/\s+/g, " ").trim();
 let tracking = false;
+/** A drag that started on the page (moving text, or a question's words), not one from outside. */
+let dragging = false;
+
+function rememberText(t: string | undefined) {
+  const n = t ? norm(t) : "";
+  if (n && !copied.includes(n)) copied.push(n);
+  if (copied.length > 50) copied.splice(0, copied.length - 50);
+}
+
+/** Mark a copy that a field has filled in itself (the written-answer editor, which copies its maths as $…$). */
+export function markCopied(e: ClipboardEvent, text: string) {
+  rememberText(text);
+  try {
+    e.clipboardData?.setData(MARK, "1");
+  } catch {
+    // Custom types unsupported: the text is remembered instead.
+  }
+}
 
 function remember(e: ClipboardEvent) {
-  // Read after the field's own handler has filled the clipboard (MathLive sets LaTeX itself).
-  const fromEvent = [e.clipboardData?.getData("text/plain"), e.clipboardData?.getData("application/x-latex")];
-  const fromSelection = document.getSelection()?.toString();
-  for (const t of [...fromEvent, fromSelection]) {
-    const n = t ? norm(t) : "";
-    if (n && !copied.includes(n)) copied.push(n);
+  const data = e.clipboardData;
+  if (!data) return;
+  const editable = document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement;
+  if (!e.defaultPrevented && !editable && e.type === "copy") {
+    // A plain copy of the page's words: fill the clipboard ourselves, so it carries the mark.
+    const sel = document.getSelection();
+    const text = sel?.toString() ?? "";
+    if (sel?.rangeCount && text) {
+      const box = document.createElement("div");
+      box.append(sel.getRangeAt(0).cloneContents());
+      data.setData("text/plain", text);
+      data.setData("text/html", box.innerHTML);
+      e.preventDefault();
+    }
   }
-  if (copied.length > 50) copied.splice(0, copied.length - 50);
+  // A field that filled the clipboard itself (MathLive copies its LaTeX) has already set the text.
+  for (const t of [data.getData("text/plain"), data.getData("application/x-latex"), document.getSelection()?.toString()]) rememberText(t);
+  if (e.defaultPrevented) {
+    try {
+      data.setData(MARK, "1");
+    } catch {
+      // As above.
+    }
+  }
 }
 
 /** Start remembering what's copied on the page. Safe to call more than once. */
 export function trackCopies() {
   if (tracking || typeof document === "undefined") return;
   tracking = true;
+  // Bubble phase: after the field's own handler has filled the clipboard.
   document.addEventListener("copy", remember);
   document.addEventListener("cut", remember);
+  document.addEventListener("dragstart", () => (dragging = true), true);
+  document.addEventListener("dragend", () => (dragging = false), true);
+  document.addEventListener("drop", () => setTimeout(() => (dragging = false)), true);
 }
 
 /** Was this text copied on the site? Short text (a symbol, a number) always passes. */
 export function copiedHere(text: string): boolean {
   const n = norm(text);
   if (n.length <= 3) return true;
-  return copied.some((c) => c === n || c.includes(n) || stripMath(c) === stripMath(n));
+  const bare = stripMath(n);
+  return copied.some((c) => c === n || c.includes(n) || (!!bare && stripMath(c).includes(bare)));
 }
-const stripMath = (t: string) => t.replace(/\$\$?|\\[()[\]]/g, "").trim();
+const stripMath = (t: string) => t.replace(/\$\$?|\\[()[\]]/g, "").replace(/\s+/g, " ").trim();
+
+/** Did this clipboard or drag come from the site? */
+function fromSite(data: DataTransfer | null): boolean {
+  if (!data) return false;
+  if (data.types.includes(MARK)) return true;
+  if (data.files.length) return false;
+  return copiedHere(data.getData("text/plain"));
+}
 
 /**
  * Block outside pastes and drops on an answer field. `onblocked` runs after a blocked one (to show a note
@@ -65,16 +117,13 @@ const stripMath = (t: string) => t.replace(/\$\$?|\\[()[\]]/g, "").trim();
 export function guardPaste(el: HTMLElement, onblocked: () => void): () => void {
   trackCopies();
   const paste = (e: ClipboardEvent) => {
-    const text = e.clipboardData?.getData("text/plain") ?? "";
-    const hasFiles = (e.clipboardData?.files.length ?? 0) > 0;
-    if (!hasFiles && copiedHere(text)) return;
+    if (fromSite(e.clipboardData)) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     onblocked();
   };
   const drop = (e: DragEvent) => {
-    const text = e.dataTransfer?.getData("text/plain") ?? "";
-    if (text && copiedHere(text) && !(e.dataTransfer?.files.length ?? 0)) return;
+    if (dragging || fromSite(e.dataTransfer)) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     onblocked();
