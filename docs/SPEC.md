@@ -1213,7 +1213,7 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
 ### 13.7 Packs and cards
 Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 5 cards from one era.
 
-**Eras.** A person sits in the era of their major work, not their birth. The sets (first draft, `content/cards/`; rarities are the owner's call):
+**Eras.** A person sits in the era of their major work, not their birth. The Space Age starts in 1955, with the postwar turn toward postmodernism and the counterculture. The sets (first draft, `content/cards/`; rarities are the owner's call):
 
 | Pack | Years | Diamond | Platinum | Gold | Silver |
 |---|---|---|---|---|---|
@@ -1222,24 +1222,24 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 | Renaissance Pack | 1400–1650 | Leonardo da Vinci, Nicolaus Copernicus, Galileo Galilei, René Descartes | Johannes Kepler, Pierre de Fermat, Francis Bacon, Niccolò Machiavelli, Andreas Vesalius, William Harvey | Tycho Brahe, Gerolamo Cardano, François Viète, John Napier, Michel de Montaigne, Desiderius Erasmus, Paracelsus | Regiomontanus, Niccolò Tartaglia, Rafael Bombelli, Simon Stevin, William Gilbert, Giordano Bruno, Marin Mersenne |
 | Enlightenment Pack | 1650–1800 | Isaac Newton, Gottfried Wilhelm Leibniz, Leonhard Euler, Immanuel Kant | Blaise Pascal, John Locke, Baruch Spinoza, David Hume, Joseph-Louis Lagrange, Pierre-Simon Laplace, Antoine Lavoisier | Thomas Hobbes, Christiaan Huygens, Robert Boyle, Carl Linnaeus, Jean-Jacques Rousseau, Adam Smith, Edward Jenner | Robert Hooke, Antonie van Leeuwenhoek, Jacob Bernoulli, Abraham de Moivre, Émilie du Châtelet, Voltaire, Benjamin Franklin |
 | Steam Age Pack | 1800–1880 | Carl Friedrich Gauss, Charles Darwin, James Clerk Maxwell, Louis Pasteur, Karl Marx | Michael Faraday, Augustin-Louis Cauchy, Évariste Galois, Bernhard Riemann, Gregor Mendel, Georg Wilhelm Friedrich Hegel, Dmitri Mendeleev | Joseph Fourier, John Dalton, William Rowan Hamilton, George Boole, John Stuart Mill, Søren Kierkegaard, Arthur Schopenhauer | Sophie Germain, Niels Henrik Abel, Nikolai Lobachevsky, Charles Babbage, Ada Lovelace, Florence Nightingale, Joseph Lister |
-| Machine Age Pack | 1880–1945 | Albert Einstein, Marie Curie, Friedrich Nietzsche, Sigmund Freud, Alan Turing | Georg Cantor, Henri Poincaré, David Hilbert, Max Planck, Ernest Rutherford, Niels Bohr, Werner Heisenberg, Kurt Gödel | Erwin Schrödinger, Emmy Noether, Srinivasa Ramanujan, Bertrand Russell, Ludwig Wittgenstein, Gottlob Frege, Alexander Fleming | Nikola Tesla, Howard Florey, Paul Dirac, Ronald Fisher, Ivan Pavlov, William James |
-| Space Age Pack | 1945 on | Richard Feynman, Stephen Hawking, Jean-Paul Sartre, Gilles Deleuze | John von Neumann, Claude Shannon, Francis Crick, Alexander Grothendieck, Karl Popper, Michel Foucault, Simone de Beauvoir | Rosalind Franklin, John Nash, Thomas Kuhn, Chien-Shiung Wu, Paul Erdős, Benoit Mandelbrot, Hannah Arendt, Jacques Derrida | Grace Hopper, Dorothy Hodgkin, Jonas Salk, Peter Higgs, John Horton Conway, Maryam Mirzakhani, Carl Sagan |
+| Machine Age Pack | 1880–1955 | Albert Einstein, Marie Curie, Friedrich Nietzsche, Sigmund Freud, Alan Turing, Richard Feynman, Jean-Paul Sartre | Georg Cantor, Henri Poincaré, David Hilbert, Max Planck, Ernest Rutherford, Niels Bohr, Werner Heisenberg, Kurt Gödel, John von Neumann, Francis Crick | Erwin Schrödinger, Emmy Noether, Srinivasa Ramanujan, Bertrand Russell, Ludwig Wittgenstein, Claude Shannon, Karl Popper, Simone de Beauvoir | Gottlob Frege, Alexander Fleming, Nikola Tesla, Paul Dirac, Rosalind Franklin, John Nash |
+| Space Age Pack | 1955 on | Stephen Hawking, Gilles Deleuze, Noam Chomsky, Michel Foucault | Alexander Grothendieck, Roger Penrose, Andrew Wiles, Tim Berners-Lee, Thomas Kuhn, Jacques Derrida | Chien-Shiung Wu, Benoit Mandelbrot, Paul Erdős, Hannah Arendt, John Rawls, Daniel Kahneman, Terence Tao, Grigori Perelman, Rachel Carson, Jean-François Lyotard | Grace Hopper, Dorothy Hodgkin, Jonas Salk, Peter Higgs, John Horton Conway, Maryam Mirzakhani, Carl Sagan, Jane Goodall |
 
 **Content rules**
 - Cards live in `content/cards/<era>.yaml` (format in `content/cards/README.md`), with: id, name, born and died (or the year they flourished, when neither is known; approximate dates are marked), the year of their **major work** (which picks the era), fields (Mathematics, Statistics, Computing, Physics, Astronomy, Chemistry, Biology, Medicine, Psychology, Philosophy, Economics, History, Geography, Engineering, Art), rarity, portrait (public domain or an original illustration, with its source and license), blurb, and related skill ids (optional).
-- **Only people who have died.** Every set mixes mathematics, science and philosophy.
+- **Living people are allowed.** Every set mixes mathematics, science and philosophy.
 - **Notability first.** Every card is someone notable in their own right. No one is added to balance a set by region or any other quota.
 - **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§16.1). Quotes are used only when the person is known to have actually said them.
 - **Related skills** show as chips on the card's detail view (e.g. Euler → the skill on complex exponential form), linking to the skill page. They're information, not a suggestion of what to practice: nothing about a card changes what is served.
   - **Kept current as courses are added.** Related ids may point into any course. The card check fails on an id that no course has, so a renamed or removed skill can't leave a dead chip.
   - **New courses are flagged automatically.** The check also warns about every skill, in any course, whose name or summary mentions a card's person (Pascal's triangle, de Moivre's theorem) when that card doesn't link it yet. Adding a course surfaces its links to add, with no list to remember.
-- **Set size:** about 24 cards.
+- **Set size:** about 24 cards. The Machine Age is the most crowded, at about 30.
 - **Rarity** (the owner's judgment):
   - **Diamond:** profoundly transformed their field *and* is extremely famous (Einstein, Feynman, Turing, Nietzsche, Deleuze, Maxwell). There's no quota; the count per set follows from who qualifies, usually 3–6.
   - **Platinum:** transformed their field, and is well known to anyone who studies it.
   - **Gold:** made a major contribution that lasted.
   - **Silver:** did notable work that is still taught or cited.
-- **Build checks** (`scripts/verify_cards.py`): dates (and that the person has died), era ranges by major work, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and related skill ids.
+- **Build checks** (`scripts/verify_cards.py`): dates, era ranges by major work, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and related skill ids.
 - **Launch:** all seven eras together. Every set is drafted; portraits are still to be sourced.
 
 **Era unlocks.** Antiquity packs are available from the start. Each later era's packs unlock with the **first copy of the previous era's institute** (Golden Age packs with the first Academy, Renaissance packs with the first House of Wisdom, and so on), which is also when that era's own institute unlocks (§13.3). Locked eras show as sealed packs with the bare-label condition, e.g. **Build an Academy**.

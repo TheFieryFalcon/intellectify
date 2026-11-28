@@ -1,7 +1,7 @@
-# Machine Age Pack: 1880–1945 (docs/SPEC.md §13.7). First draft.
+# Machine Age Pack: 1880–1955 (docs/SPEC.md §13.7). First draft.
 era: machine-age
 cards:
-  # ── Diamond ─────────────────────────────────────────────
+  # ── Diamond ───────────────────────────────────────────
   - id: einstein
     name: Albert Einstein
     born: 1879
@@ -65,7 +65,33 @@ cards:
       solve. In the Second World War he played a leading part in breaking the Enigma codes, and later
       asked whether machines can think.
 
-  # ── Platinum ────────────────────────────────────────────
+  - id: feynman
+    name: Richard Feynman
+    born: 1918
+    died: 1988
+    work: 1948
+    fields: [Physics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Reworked quantum electrodynamics with the diagrams named after him, now used throughout particle
+      physics. His lectures and books made him the best-known explainer of physics, and he showed on
+      television why the Challenger shuttle failed.
+
+  - id: sartre
+    name: Jean-Paul Sartre
+    born: 1905
+    died: 1980
+    work: 1943
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Held that existence precedes essence: there is no human nature given in advance, so we are wholly
+      responsible for what we make of ourselves. He was the leading voice of existentialism and turned
+      down the Nobel Prize in Literature.
+
+  # ── Platinum ──────────────────────────────────────────
   - id: cantor
     name: Georg Cantor
     born: 1845
@@ -166,7 +192,31 @@ cards:
       Proved that any consistent system of axioms for arithmetic leaves true statements it cannot prove.
       His incompleteness theorems ended the hope of a complete foundation for mathematics.
 
-  # ── Gold ────────────────────────────────────────────────
+  - id: von-neumann
+    name: John von Neumann
+    born: 1903
+    died: 1957
+    work: 1945
+    fields: [Mathematics, Computing, Physics, Economics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Described the stored-program design that nearly every computer still follows, and founded game
+      theory. He also put quantum mechanics on rigorous mathematical footing.
+
+  - id: crick
+    name: Francis Crick
+    born: 1916
+    died: 2004
+    work: 1953
+    fields: [Biology]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      With James Watson, using Rosalind Franklin's X-ray data, found that DNA is a double helix, which
+      shows how genes are copied. He then helped work out the genetic code.
+
+  # ── Gold ──────────────────────────────────────────────
   - id: schrodinger
     name: Erwin Schrödinger
     born: 1887
@@ -229,13 +279,50 @@ cards:
       The Tractatus argued that the limits of language are the limits of the world. Later he rejected it,
       seeing meaning in how words are used in everyday life.
 
+  - id: shannon
+    name: Claude Shannon
+    born: 1916
+    died: 2001
+    work: 1948
+    fields: [Mathematics, Computing, Engineering]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Founded information theory, measuring information in bits and finding the limits of sending it
+      over noisy channels. Earlier he showed that Boolean algebra can design switching circuits.
+
+  - id: popper
+    name: Karl Popper
+    born: 1902
+    died: 1994
+    work: 1934
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Argued that a theory is scientific only if some observation could prove it false. The Open Society
+      and Its Enemies defended liberal democracy against totalitarian ideas.
+
+  - id: simone-de-beauvoir
+    name: Simone de Beauvoir
+    born: 1908
+    died: 1986
+    work: 1949
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The Second Sex argued that one is not born, but rather becomes, a woman: womanhood is shaped by
+      society, not fixed by nature. It became a founding text of modern feminism.
+
+  # ── Silver ────────────────────────────────────────────
   - id: frege
     name: Gottlob Frege
     born: 1848
     died: 1925
     work: 1884
     fields: [Philosophy, Mathematics]
-    rarity: gold
+    rarity: silver
     portrait: null
     related: [spec.geometry.logic]
     blurb: >-
@@ -248,13 +335,12 @@ cards:
     died: 1955
     work: 1928
     fields: [Medicine, Biology]
-    rarity: gold
+    rarity: silver
     portrait: null
     blurb: >-
       Noticed that a mold had killed the bacteria around it on a forgotten culture plate, and named its
       substance penicillin. It became the first antibiotic.
 
-  # ── Silver ──────────────────────────────────────────────
   - id: tesla
     name: Nikola Tesla
     born: 1856
@@ -266,18 +352,6 @@ cards:
     blurb: >-
       Invented the induction motor and the alternating-current system that powers the world's grids. The
       unit of magnetic flux density is named after him.
-
-  - id: howard-florey
-    name: Howard Florey
-    born: 1898
-    died: 1968
-    work: 1940
-    fields: [Medicine]
-    rarity: silver
-    portrait: null
-    blurb: >-
-      An Australian who, with Ernst Chain and Norman Heatley, turned penicillin into a drug, purifying it
-      and proving it cured infections. It saved countless lives from the Second World War on.
 
   - id: dirac
     name: Paul Dirac
@@ -291,38 +365,27 @@ cards:
       His equation joined quantum mechanics with special relativity and predicted antimatter, found four
       years later. He shared the 1933 Nobel Prize in Physics with Schrödinger.
 
-  - id: ronald-fisher
-    name: Ronald Fisher
-    born: 1890
-    died: 1962
-    work: 1925
-    fields: [Statistics, Biology]
+  - id: rosalind-franklin
+    name: Rosalind Franklin
+    born: 1920
+    died: 1958
+    work: 1952
+    fields: [Chemistry, Biology]
     rarity: silver
     portrait: null
     blurb: >-
-      Founded modern statistics with randomized experiments, analysis of variance and significance tests.
-      He also showed how Mendel's genetics produces Darwin's evolution.
+      Her X-ray photographs of DNA, above all Photo 51, were key evidence for the double helix. She also
+      worked out the structure of viruses and of coal.
 
-  - id: pavlov
-    name: Ivan Pavlov
-    born: 1849
-    died: 1936
-    work: 1903
-    fields: [Psychology, Biology]
+  - id: john-nash
+    name: John Nash
+    born: 1928
+    died: 2015
+    work: 1950
+    fields: [Mathematics, Economics]
     rarity: silver
     portrait: null
     blurb: >-
-      Found that dogs learn to salivate at a signal that comes before food, the conditioned reflex. He won
-      the Nobel Prize for his work on digestion.
-
-  - id: william-james
-    name: William James
-    born: 1842
-    died: 1910
-    work: 1890
-    fields: [Psychology, Philosophy]
-    rarity: silver
-    portrait: null
-    blurb: >-
-      His Principles of Psychology made psychology a science and described the stream of consciousness.
-      He was a founder of pragmatism, judging ideas by their practical consequences.
+      His 27-page thesis defined the Nash equilibrium, where no player gains by changing strategy alone,
+      now central to economics. He won the Nobel in economics and the Abel Prize after decades of mental
+      illness.

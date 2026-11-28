@@ -8,7 +8,7 @@ cards:
   - id: archimedes        # unique across all eras
     name: Archimedes
     born: -287            # year; negative is BC
-    died: -212
+    died: -212            # leave out for someone living
     circa: [born, died]   # which dates are approximate (optional)
     flourished: -300      # instead of born/died when neither is known
     work: -250            # year of their major work: it picks the era

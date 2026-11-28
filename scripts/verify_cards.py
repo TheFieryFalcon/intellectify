@@ -3,7 +3,8 @@
 
 Errors (exit code 1):
   - a missing or malformed field, a duplicate id, or a field or rarity outside the allowed lists;
-  - dates out of order, someone still living, or a major-work year outside the file's era;
+  - dates out of order or in the future, or a major-work year outside the file's era
+    (living people have no `died`);
   - fewer than 3 Diamonds or 4 cards of any other rarity in a set;
   - a blurb longer than two sentences or MAX_BLURB characters;
   - a portrait without its file, source and license;
@@ -34,16 +35,16 @@ ERAS = {
     "renaissance": (1400, 1650),
     "enlightenment": (1650, 1800),
     "steam-age": (1800, 1880),
-    "machine-age": (1880, 1945),
-    "space-age": (1945, 10_000),
+    "machine-age": (1880, 1955),
+    "space-age": (1955, 10_000),
 }
 RARITIES = ("diamond", "platinum", "gold", "silver")
 MIN_PER_RARITY = {"diamond": 3, "platinum": 4, "gold": 4, "silver": 4}
-SET_SIZE = (20, 28)  # "about 24"
+SET_SIZE = (20, 32)  # about 24; the Machine Age is the most crowded
 MAX_BLURB = 360
 FIELDS = {
     "Mathematics", "Statistics", "Computing", "Physics", "Astronomy", "Chemistry", "Biology",
-    "Medicine", "Psychology", "Philosophy", "Economics", "History", "Geography", "Engineering", "Art",
+    "Medicine", "Psychology", "Linguistics", "Philosophy", "Economics", "History", "Geography", "Engineering", "Art",
 }
 REQUIRED = ("id", "name", "work", "fields", "rarity", "portrait", "blurb")
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
@@ -125,10 +126,12 @@ def main(root: str = "content") -> int:
                 errors.append(f"{at}: duplicate id (also in {seen[cid]})")
             seen[cid] = path.name
 
-            # Dates: born ≤ work ≤ died, or flourished; only people who have died.
+            # Dates: born ≤ work ≤ died (no died for the living), or flourished when neither is known.
             born, died, fl, work = card.get("born"), card.get("died"), card.get("flourished"), card.get("work")
-            if fl is None and (born is None or died is None):
-                errors.append(f"{at}: needs born and died, or flourished")
+            if fl is None and born is None:
+                errors.append(f"{at}: needs born (and died, unless living), or flourished")
+            if isinstance(work, int) and work > this_year:
+                errors.append(f"{at}: major work {work} is in the future")
             if born is not None and died is not None and not born < died:
                 errors.append(f"{at}: born {born} is not before died {died}")
             if died is not None and died > this_year:
@@ -177,7 +180,7 @@ def main(root: str = "content") -> int:
             if counts[r] < MIN_PER_RARITY[r]:
                 errors.append(f"{where}: {counts[r]} {r} cards; at least {MIN_PER_RARITY[r]} needed")
         if not SET_SIZE[0] <= len(cards) <= SET_SIZE[1]:
-            warnings.append(f"{where}: {len(cards)} cards; aim for about 24")
+            warnings.append(f"{where}: {len(cards)} cards; aim for about 24 (at most {SET_SIZE[1]})")
         print(f"{era:>14}: {len(cards)} cards (" + ", ".join(f"{counts[r]} {r}" for r in RARITIES) + ")")
 
     if no_portrait:
