@@ -1,0 +1,317 @@
+# Enlightenment Pack: 1650–1800 (docs/SPEC.md §13.7). First draft.
+era: enlightenment
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: newton
+    name: Isaac Newton
+    born: 1643
+    died: 1727
+    work: 1687
+    fields: [Physics, Mathematics, Astronomy]
+    rarity: diamond
+    portrait: null
+    related: [spec.differential-equations.motion]
+    blurb: >-
+      His Principia gave the laws of motion and universal gravitation, explaining falling apples and
+      planetary orbits with the same law. He also invented calculus and showed that white light is a mix
+      of colors.
+
+  - id: leibniz
+    name: Gottfried Wilhelm Leibniz
+    born: 1646
+    died: 1716
+    work: 1684
+    fields: [Mathematics, Philosophy]
+    rarity: diamond
+    portrait: null
+    related: [spec.differential-equations.implicit]
+    blurb: >-
+      Invented calculus independently of Newton, with the dy/dx and ∫ notation still used today. He also
+      studied binary arithmetic, built a calculating machine and argued that ours is the best of all
+      possible worlds.
+
+  - id: euler
+    name: Leonhard Euler
+    born: 1707
+    died: 1783
+    work: 1748
+    fields: [Mathematics, Physics, Astronomy]
+    rarity: diamond
+    portrait: null
+    related: [spec.complex.polar-form]
+    blurb: >-
+      The most prolific mathematician in history, he introduced the notation f(x), e and i, popularized π
+      and found that e^(iθ) = cos θ + i sin θ. He kept working at full pace after going blind.
+
+  - id: kant
+    name: Immanuel Kant
+    born: 1724
+    died: 1804
+    work: 1781
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      His Critique of Pure Reason argued that space, time and cause are forms our minds impose on
+      experience. In ethics he held that we must act only on rules we could will everyone to follow.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: pascal
+    name: Blaise Pascal
+    born: 1623
+    died: 1662
+    work: 1654
+    fields: [Mathematics, Physics, Philosophy]
+    rarity: platinum
+    portrait: null
+    related: [spec.combinatorics.pascal]
+    blurb: >-
+      Founded probability theory with Fermat, studied the triangle now named after him and built an early
+      calculator. His Pensées hold the wager: belief in God is the better bet.
+
+  - id: locke
+    name: John Locke
+    born: 1632
+    died: 1704
+    work: 1689
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Argued that the mind starts as a blank slate filled by experience, and that government rests on the
+      consent of the governed to protect life, liberty and property. His ideas run through the American
+      Declaration of Independence.
+
+  - id: spinoza
+    name: Baruch Spinoza
+    born: 1632
+    died: 1677
+    work: 1677
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      His Ethics, set out like Euclid with axioms and proofs, argues that God and nature are one
+      substance. He was an early champion of freedom of thought and of reading scripture critically.
+
+  - id: hume
+    name: David Hume
+    born: 1711
+    died: 1776
+    work: 1739
+    fields: [Philosophy, History, Economics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Showed that we never observe causes, only one event following another, so expecting the future to
+      be like the past cannot be justified by reason. Kant said Hume woke him from his dogmatic slumber.
+
+  - id: lagrange
+    name: Joseph-Louis Lagrange
+    born: 1736
+    died: 1813
+    work: 1788
+    fields: [Mathematics, Physics, Astronomy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      His Analytical Mechanics recast Newton's mechanics in a few general equations with no diagrams at
+      all. He also helped found the calculus of variations and set up the metric system.
+
+  - id: laplace
+    name: Pierre-Simon Laplace
+    born: 1749
+    died: 1827
+    work: 1799
+    fields: [Mathematics, Astronomy, Physics]
+    rarity: platinum
+    portrait: null
+    related: [spec.inference.sample-means]
+    blurb: >-
+      His Celestial Mechanics showed the solar system is stable under Newton's laws. He also built
+      probability into a full theory, including an early central limit theorem.
+
+  - id: lavoisier
+    name: Antoine Lavoisier
+    born: 1743
+    died: 1794
+    work: 1789
+    fields: [Chemistry]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Showed that burning is combination with oxygen and that mass is conserved in reactions, and named
+      oxygen and hydrogen. He was guillotined in the French Revolution.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: hobbes
+    name: Thomas Hobbes
+    born: 1588
+    died: 1679
+    work: 1651
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Leviathan argued that without government, life would be solitary, poor, nasty, brutish and short,
+      so people agree to obey a sovereign. It began modern social contract theory.
+
+  - id: huygens
+    name: Christiaan Huygens
+    born: 1629
+    died: 1695
+    work: 1673
+    fields: [Physics, Astronomy, Mathematics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Built the first pendulum clock, discovered Saturn's moon Titan and described its rings. He also
+      proposed that light travels as a wave.
+
+  - id: boyle
+    name: Robert Boyle
+    born: 1627
+    died: 1691
+    work: 1662
+    fields: [Chemistry, Physics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Found that a gas's pressure and volume vary inversely, Boyle's law. The Sceptical Chymist helped
+      turn alchemy into experimental chemistry.
+
+  - id: linnaeus
+    name: Carl Linnaeus
+    born: 1707
+    died: 1778
+    work: 1753
+    fields: [Biology]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Gave every species a two-part Latin name, such as Homo sapiens, and sorted living things into a
+      nested hierarchy. Biologists still use his system.
+
+  - id: rousseau
+    name: Jean-Jacques Rousseau
+    born: 1712
+    died: 1778
+    work: 1762
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The Social Contract begins: Man is born free, and everywhere he is in chains. His ideas of the
+      general will and of natural goodness inspired the French Revolution and modern education.
+
+  - id: adam-smith
+    name: Adam Smith
+    born: 1723
+    died: 1790
+    work: 1776
+    fields: [Economics, Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The Wealth of Nations explained how the division of labor and free markets create prosperity, with
+      self-interest guided as if by an invisible hand. It founded modern economics.
+
+  - id: edward-jenner
+    name: Edward Jenner
+    born: 1749
+    died: 1823
+    work: 1796
+    fields: [Medicine]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Showed that infecting people with mild cowpox protects them from smallpox, the first vaccine. The
+      method he started eventually wiped smallpox out.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: hooke
+    name: Robert Hooke
+    born: 1635
+    died: 1703
+    work: 1665
+    fields: [Physics, Biology]
+    rarity: silver
+    portrait: null
+    related: [spec.differential-equations.motion]
+    blurb: >-
+      His Micrographia showed the microscopic world and named the cell. Hooke's law says a spring's
+      force is proportional to its stretch, the basis of simple harmonic motion.
+
+  - id: leeuwenhoek
+    name: Antonie van Leeuwenhoek
+    born: 1632
+    died: 1723
+    work: 1676
+    fields: [Biology]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Made his own powerful single-lens microscopes and was the first to see bacteria and other
+      single-celled life. He is called the father of microbiology.
+
+  - id: jacob-bernoulli
+    name: Jacob Bernoulli
+    born: 1655
+    died: 1705
+    work: 1690
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    related: [spec.inference.sample-means]
+    blurb: >-
+      Proved the law of large numbers: over many trials, the proportion of successes settles near the
+      true probability. He also found the constant e while studying compound interest.
+
+  - id: de-moivre
+    name: Abraham de Moivre
+    born: 1667
+    died: 1754
+    work: 1730
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    related: [spec.complex.de-moivre]
+    blurb: >-
+      His theorem gives powers of cos θ + i sin θ by multiplying the angle. He also found the normal
+      curve as the limit of the binomial distribution.
+
+  - id: emilie-du-chatelet
+    name: Émilie du Châtelet
+    born: 1706
+    died: 1749
+    work: 1749
+    fields: [Physics, Mathematics, Philosophy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Translated Newton's Principia into French with a commentary; it is still the standard French
+      version. She argued that a moving body's energy grows with the square of its speed.
+
+  - id: voltaire
+    name: Voltaire
+    born: 1694
+    died: 1778
+    work: 1759
+    fields: [Philosophy, History]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Satirized intolerance and blind optimism in Candide and campaigned for freedom of religion and
+      speech. With du Châtelet he spread Newton's ideas in France.
+
+  - id: benjamin-franklin
+    name: Benjamin Franklin
+    born: 1706
+    died: 1790
+    work: 1752
+    fields: [Physics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Showed that lightning is electricity and invented the lightning rod. He named positive and
+      negative charge, then helped draft the American Declaration of Independence.

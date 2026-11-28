@@ -1,0 +1,309 @@
+# Renaissance Pack: 1400–1650 (docs/SPEC.md §13.7). First draft.
+era: renaissance
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: leonardo-da-vinci
+    name: Leonardo da Vinci
+    born: 1452
+    died: 1519
+    work: 1490
+    fields: [Engineering, Biology, Art]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Painted the Mona Lisa and The Last Supper, and filled notebooks with machines, anatomy drawn from
+      dissections and studies of flowing water. He is the model of the Renaissance mind, at home in art
+      and science alike.
+
+  - id: copernicus
+    name: Nicolaus Copernicus
+    born: 1473
+    died: 1543
+    work: 1543
+    fields: [Astronomy, Mathematics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      On the Revolutions of the Heavenly Spheres, published as he died, put the Sun rather than the Earth
+      at the center. The change it started is still called the Copernican Revolution.
+
+  - id: galileo
+    name: Galileo Galilei
+    born: 1564
+    died: 1642
+    work: 1610
+    fields: [Physics, Astronomy, Mathematics]
+    rarity: diamond
+    portrait: null
+    related: [spec.vectors-3d.motion]
+    blurb: >-
+      Turned a telescope on the sky and found Jupiter's moons and the phases of Venus, evidence that
+      Copernicus was right. He also showed by experiment that falling bodies speed up uniformly and that
+      a projectile's path is a parabola, and was tried by the Inquisition for his views.
+
+  - id: descartes
+    name: René Descartes
+    born: 1596
+    died: 1650
+    work: 1637
+    fields: [Philosophy, Mathematics]
+    rarity: diamond
+    portrait: null
+    related: [spec.vectors-2d.components]
+    blurb: >-
+      Joined algebra and geometry with coordinates, so that curves became equations. In philosophy he
+      started from doubt and the one thing he could not doubt: I think, therefore I am.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: kepler
+    name: Johannes Kepler
+    born: 1571
+    died: 1630
+    work: 1609
+    fields: [Astronomy, Mathematics, Physics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Worked from Tycho Brahe's observations to three laws of planetary motion, starting with orbits that
+      are ellipses with the Sun at a focus. Newton's law of gravity was built to explain them.
+
+  - id: fermat
+    name: Pierre de Fermat
+    born: 1607
+    died: 1665
+    work: 1637
+    fields: [Mathematics]
+    rarity: platinum
+    portrait: null
+    related: [spec.real-complex.number-proofs]
+    blurb: >-
+      A lawyer who founded modern number theory, invented coordinate geometry independently of Descartes
+      and founded probability with Pascal. His Last Theorem, scribbled in a margin, took 358 years to
+      prove.
+
+  - id: francis-bacon
+    name: Francis Bacon
+    born: 1561
+    died: 1626
+    work: 1620
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Argued in the Novum Organum that knowledge should be built from careful observation and experiment,
+      not from ancient authority. His program inspired the scientific societies of the next century.
+
+  - id: machiavelli
+    name: Niccolò Machiavelli
+    born: 1469
+    died: 1527
+    work: 1513
+    fields: [Philosophy, History]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      The Prince described how rulers actually gain and keep power, not how they ought to. It founded
+      modern political science and made his name a byword for cunning.
+
+  - id: vesalius
+    name: Andreas Vesalius
+    born: 1514
+    died: 1564
+    work: 1543
+    fields: [Medicine, Biology]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Dissected human bodies himself and corrected Galen's errors in On the Fabric of the Human Body,
+      with superb illustrations. It founded modern anatomy.
+
+  - id: william-harvey
+    name: William Harvey
+    born: 1578
+    died: 1657
+    work: 1628
+    fields: [Medicine, Biology]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Showed that the heart pumps the blood around the body in a circuit, measuring how much it pushes
+      out to prove the blood must return. It overturned ideas held since Galen.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: tycho-brahe
+    name: Tycho Brahe
+    born: 1546
+    died: 1601
+    work: 1588
+    fields: [Astronomy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Made the most accurate naked-eye observations ever, from his observatory on the island of Hven. His
+      sighting of a new star in 1572 showed that the heavens can change.
+
+  - id: cardano
+    name: Gerolamo Cardano
+    born: 1501
+    died: 1576
+    work: 1545
+    fields: [Mathematics, Medicine]
+    rarity: gold
+    portrait: null
+    related: [spec.complex.polynomials, spec.real-complex.complex-arithmetic]
+    blurb: >-
+      His Ars Magna published the solution of cubic and quartic equations, and was the first book to
+      work with square roots of negative numbers. A gambler, he also wrote the first study of
+      probability.
+
+  - id: viete
+    name: François Viète
+    born: 1540
+    died: 1603
+    work: 1591
+    fields: [Mathematics]
+    rarity: gold
+    portrait: null
+    related: [spec.complex.polynomials]
+    blurb: >-
+      Used letters for both unknowns and known quantities, which made algebra general. Vieta's formulas
+      link a polynomial's coefficients to sums and products of its roots.
+
+  - id: napier
+    name: John Napier
+    born: 1550
+    died: 1617
+    work: 1614
+    fields: [Mathematics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Invented logarithms, which turn multiplication into addition. Tables of them sped up astronomy and
+      navigation for over three centuries.
+
+  - id: montaigne
+    name: Michel de Montaigne
+    born: 1533
+    died: 1592
+    work: 1580
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Invented the essay as a form, writing frankly about himself to explore what anyone can know. His
+      skepticism and honesty influenced Descartes, Shakespeare and Pascal.
+
+  - id: erasmus
+    name: Desiderius Erasmus
+    born: 1466
+    died: 1536
+    circa: [born]
+    work: 1511
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The leading humanist scholar of his age, he edited the Greek New Testament and mocked the abuses of
+      his time in The Praise of Folly. He argued for reform by learning rather than by force.
+
+  - id: paracelsus
+    name: Paracelsus
+    born: 1493
+    died: 1541
+    circa: [born]
+    work: 1536
+    fields: [Medicine, Chemistry]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Brought chemistry into medicine, treating diseases with minerals and chemicals. He taught that the
+      dose makes the poison, the founding idea of toxicology.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: regiomontanus
+    name: Regiomontanus
+    born: 1436
+    died: 1476
+    work: 1464
+    fields: [Mathematics, Astronomy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      On Triangles set out plane and spherical trigonometry as a subject of its own in Europe. His
+      astronomical tables were carried on voyages of exploration.
+
+  - id: tartaglia
+    name: Niccolò Tartaglia
+    born: 1499
+    died: 1557
+    circa: [born]
+    work: 1535
+    fields: [Mathematics, Engineering]
+    rarity: silver
+    portrait: null
+    related: [spec.complex.polynomials]
+    blurb: >-
+      Found how to solve cubic equations and won a public contest with it, then told Cardano, who
+      published it. He also studied the flight of cannonballs and translated Euclid into Italian.
+
+  - id: bombelli
+    name: Rafael Bombelli
+    born: 1526
+    died: 1572
+    work: 1572
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    related: [spec.real-complex.complex-arithmetic]
+    blurb: >-
+      Wrote the first rules for arithmetic with complex numbers. He used them to find real roots of
+      cubics where Cardano's formula passes through square roots of negatives.
+
+  - id: stevin
+    name: Simon Stevin
+    born: 1548
+    died: 1620
+    work: 1585
+    fields: [Mathematics, Physics, Engineering]
+    rarity: silver
+    portrait: null
+    related: [spec.vectors-2d.applications]
+    blurb: >-
+      Popularized decimal fractions in The Tenth and found the law of the inclined plane. He used the
+      triangle of forces, an early form of adding forces as vectors.
+
+  - id: william-gilbert
+    name: William Gilbert
+    born: 1544
+    died: 1603
+    work: 1600
+    fields: [Physics, Medicine]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      On the Magnet showed by experiment that the Earth itself is a great magnet. He coined the word
+      electric, from the Greek for amber.
+
+  - id: giordano-bruno
+    name: Giordano Bruno
+    born: 1548
+    died: 1600
+    work: 1584
+    fields: [Philosophy, Astronomy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Argued that the universe is infinite, with countless suns and worlds like ours. He was burned at the
+      stake in Rome for heresy.
+
+  - id: mersenne
+    name: Marin Mersenne
+    born: 1588
+    died: 1648
+    work: 1636
+    fields: [Mathematics, Physics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Studied primes of the form 2ⁿ − 1, now called Mersenne primes, and the physics of sound. His
+      letters linked Descartes, Fermat, Pascal and many others, a scientific network before journals.

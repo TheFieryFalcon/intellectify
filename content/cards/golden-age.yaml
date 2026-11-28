@@ -1,0 +1,322 @@
+# Golden Age Pack: 500–1400 (docs/SPEC.md §13.7). First draft.
+era: golden-age
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: brahmagupta
+    name: Brahmagupta
+    born: 598
+    died: 668
+    circa: [died]
+    work: 628
+    fields: [Mathematics, Astronomy]
+    rarity: diamond
+    portrait: null
+    related: [spec.real-complex.quadratic-roots]
+    blurb: >-
+      Gave the first rules for calculating with zero and negative numbers, treating them as numbers in
+      their own right. He also gave a general solution of quadratic equations.
+
+  - id: al-khwarizmi
+    name: Muhammad ibn Musa al-Khwarizmi
+    born: 780
+    died: 850
+    circa: [born, died]
+    work: 820
+    fields: [Mathematics, Astronomy, Geography]
+    rarity: diamond
+    portrait: null
+    related: [spec.real-complex.quadratic-roots]
+    blurb: >-
+      His book on completing and balancing equations, al-jabr, gave algebra its name, and his book on
+      Hindu numerals spread place-value arithmetic to the Islamic world and Europe. The word algorithm
+      comes from his name.
+
+  - id: ibn-sina
+    name: Ibn Sina (Avicenna)
+    born: 980
+    died: 1037
+    circa: [born]
+    work: 1025
+    fields: [Medicine, Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      His Canon of Medicine was the standard medical textbook in the Islamic world and Europe for six
+      centuries. As a philosopher he joined Aristotle's ideas with Islamic thought and shaped medieval
+      philosophy on both sides of the Mediterranean.
+
+  - id: fibonacci
+    name: Leonardo of Pisa (Fibonacci)
+    born: 1170
+    died: 1250
+    circa: [born, died]
+    work: 1202
+    fields: [Mathematics]
+    rarity: diamond
+    portrait: null
+    related: [spec.real-complex.induction]
+    blurb: >-
+      His Liber Abaci convinced European merchants to switch from Roman numerals to the Hindu–Arabic
+      digits we use today. A puzzle in it about breeding rabbits gives the sequence named after him.
+
+  - id: thomas-aquinas
+    name: Thomas Aquinas
+    born: 1225
+    died: 1274
+    work: 1270
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Brought Aristotle's philosophy together with Christian theology in the Summa Theologiae. His
+      arguments about natural law, ethics and the existence of God are still central to Catholic
+      thought and widely studied.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: ibn-al-haytham
+    name: Ibn al-Haytham (Alhazen)
+    born: 965
+    died: 1040
+    circa: [born, died]
+    work: 1021
+    fields: [Physics, Mathematics, Astronomy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      His Book of Optics showed that we see because light enters the eye, and tested its claims with
+      careful experiments. That insistence on testing made him an early champion of the scientific
+      method.
+
+  - id: omar-khayyam
+    name: Omar Khayyam
+    born: 1048
+    died: 1131
+    work: 1070
+    fields: [Mathematics, Astronomy, Philosophy]
+    rarity: platinum
+    portrait: null
+    related: [spec.combinatorics.pascal]
+    blurb: >-
+      Solved cubic equations geometrically by intersecting conic sections and reformed the Persian
+      calendar to be more accurate than the Gregorian one. He is also famous as the poet of the
+      Rubaiyat.
+
+  - id: ibn-rushd
+    name: Ibn Rushd (Averroes)
+    born: 1126
+    died: 1198
+    work: 1180
+    fields: [Philosophy, Medicine]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Wrote commentaries on Aristotle so thorough that medieval Europe called him simply the
+      Commentator. He argued that reason and faith cannot truly conflict.
+
+  - id: maimonides
+    name: Moses Maimonides
+    born: 1138
+    died: 1204
+    work: 1190
+    fields: [Philosophy, Medicine]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      A physician in Cairo whose Guide for the Perplexed reconciled Jewish teaching with Aristotle's
+      philosophy. He is the most influential Jewish philosopher of the Middle Ages.
+
+  - id: al-biruni
+    name: Abu Rayhan al-Biruni
+    born: 973
+    died: 1050
+    circa: [died]
+    work: 1030
+    fields: [Astronomy, Mathematics, Geography]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Measured the Earth's radius from the dip of the horizon seen from a mountain. He also wrote a
+      careful study of Indian science and culture, and discussed whether the Earth turns.
+
+  - id: bhaskara-ii
+    name: Bhaskara II
+    born: 1114
+    died: 1185
+    work: 1150
+    fields: [Mathematics, Astronomy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      His Lilavati and Bijaganita were standard mathematics texts in India for centuries. He solved
+      Pell's equation with the cyclic method and used ideas close to the derivative in his astronomy.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: boethius
+    name: Boethius
+    born: 477
+    died: 524
+    circa: [born]
+    work: 524
+    fields: [Philosophy, Mathematics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Wrote The Consolation of Philosophy in prison while awaiting execution, one of the most read books
+      of the Middle Ages. His translations of Aristotle's logic were much of what Europe knew of Greek
+      philosophy for centuries.
+
+  - id: al-razi
+    name: Abu Bakr al-Razi (Rhazes)
+    born: 865
+    died: 925
+    circa: [born, died]
+    work: 900
+    fields: [Medicine, Chemistry, Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Ran the hospital in Baghdad and was the first to tell smallpox and measles apart in writing. He
+      also did practical chemistry, classifying substances and refining laboratory methods.
+
+  - id: al-farabi
+    name: Abu Nasr al-Farabi
+    born: 870
+    died: 950
+    circa: [born, died]
+    work: 940
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Known as the Second Teacher after Aristotle, he made logic and Greek philosophy central to
+      Islamic thought. His book on the virtuous city asked what an ideal society would be.
+
+  - id: nasir-al-din-al-tusi
+    name: Nasir al-Din al-Tusi
+    born: 1201
+    died: 1274
+    work: 1260
+    fields: [Astronomy, Mathematics, Philosophy]
+    rarity: gold
+    portrait: null
+    related: [spec.trigonometry.identities]
+    blurb: >-
+      Treated trigonometry as a subject in its own right rather than a tool of astronomy, including the
+      sine rule for plane triangles. He ran the Maragheh observatory, whose planetary models anticipated
+      ideas Copernicus later used.
+
+  - id: william-of-ockham
+    name: William of Ockham
+    born: 1287
+    died: 1347
+    circa: [born]
+    work: 1323
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    related: [spec.geometry.logic]
+    blurb: >-
+      A logician who argued that general terms are only names, not real things. Ockham's razor, the
+      principle of not assuming more than you need to explain something, carries his name.
+
+  - id: ibn-khaldun
+    name: Ibn Khaldun
+    born: 1332
+    died: 1406
+    work: 1377
+    fields: [History, Philosophy, Economics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      His Muqaddimah looked for the causes behind the rise and fall of dynasties, such as group loyalty
+      and economics. It is seen as a founding work of sociology and the philosophy of history.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: al-kindi
+    name: Abu Yusuf al-Kindi
+    born: 801
+    died: 873
+    circa: [born, died]
+    work: 850
+    fields: [Philosophy, Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      The first major philosopher writing in Arabic, he championed Greek learning in Baghdad. His book
+      on breaking codes by counting letter frequencies is the oldest known work on cryptanalysis.
+
+  - id: thabit-ibn-qurra
+    name: Thabit ibn Qurra
+    born: 826
+    died: 901
+    work: 870
+    fields: [Mathematics, Astronomy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Translated Euclid, Archimedes and Ptolemy into Arabic and extended their work. He found a rule
+      that produces pairs of amicable numbers, each the sum of the other's divisors.
+
+  - id: anselm
+    name: Anselm of Canterbury
+    born: 1033
+    died: 1109
+    work: 1078
+    fields: [Philosophy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Gave the ontological argument: God, as that than which nothing greater can be conceived, must
+      exist. Philosophers have argued over whether it works ever since.
+
+  - id: shen-kuo
+    name: Shen Kuo
+    born: 1031
+    died: 1095
+    work: 1088
+    fields: [Astronomy, Mathematics, Geography]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      His Dream Pool Essays give the first known description of a magnetic compass needle and of true
+      north differing from magnetic north. He also wrote on fossils, landforms and movable type.
+
+  - id: yang-hui
+    name: Yang Hui
+    born: 1238
+    died: 1298
+    circa: [born, died]
+    work: 1261
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    related: [spec.combinatorics.pascal]
+    blurb: >-
+      Published the triangle of binomial coefficients four centuries before Pascal; in China it is
+      called Yang Hui's triangle. He also wrote on magic squares and practical arithmetic.
+
+  - id: nicole-oresme
+    name: Nicole Oresme
+    born: 1320
+    died: 1382
+    circa: [born]
+    work: 1360
+    fields: [Mathematics, Physics, Philosophy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Drew changing quantities as graphs centuries before Descartes and proved that the harmonic series
+      grows without bound. He also argued that the Earth's turning could not be ruled out.
+
+  - id: madhava
+    name: Madhava of Sangamagrama
+    born: 1340
+    died: 1425
+    circa: [born, died]
+    work: 1390
+    fields: [Mathematics, Astronomy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Founded the Kerala school, which found infinite series for π, sine and cosine about three centuries
+      before they were found in Europe. He used them to compute π to eleven decimal places.

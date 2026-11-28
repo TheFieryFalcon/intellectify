@@ -16,7 +16,7 @@ unlocked era. An era's packs unlock with the first copy of the previous era's in
 rarity rolls fill a 24-card set (expected distinct cards and foils per rarity, no duplicate Diamonds
 until all are held); pity and bought packs are left out. Each institute has staff slots that grow with
 copies built, and the best cards held for its era fill them. Axioms are assumed to be claimed (Prove)
-as soon as they are reached, and every era is assumed released.
+as soon as they are reached.
 
 Use it to compare settings and keep the calibration targets in §13.3, not to predict exact numbers.
 

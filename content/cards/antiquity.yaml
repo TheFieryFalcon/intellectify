@@ -1,0 +1,340 @@
+# Antiquity Pack: to 500 (docs/SPEC.md §13.7). First draft.
+era: antiquity
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: pythagoras
+    name: Pythagoras
+    born: -570
+    died: -495
+    circa: [born, died]
+    work: -530
+    fields: [Mathematics, Philosophy]
+    rarity: diamond
+    portrait: null
+    related: [spec.real-complex.rational-irrational]
+    blurb: >-
+      Founded a school in southern Italy that saw whole numbers and their ratios behind everything,
+      from musical harmony to the heavens. His followers' discovery that some lengths are not ratios of
+      whole numbers, the first irrationals, shook that view.
+
+  - id: socrates
+    name: Socrates
+    born: -470
+    died: -399
+    circa: [born]
+    work: -420
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Wrote nothing, but questioned the people of Athens about justice, courage and the good life until
+      their confident answers fell apart. His method of probing a claim by questioning it is still how
+      philosophy, law and teaching test ideas.
+
+  - id: plato
+    name: Plato
+    born: -428
+    died: -348
+    circa: [born, died]
+    work: -375
+    fields: [Philosophy, Mathematics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Founded the Academy in Athens and wrote dialogues, among them the Republic, that set the agenda of
+      Western philosophy. He held that true knowledge is of unchanging forms, with mathematics as the
+      model, and is said to have put geometry at the Academy's door.
+
+  - id: aristotle
+    name: Aristotle
+    born: -384
+    died: -322
+    work: -340
+    fields: [Philosophy, Biology, Physics]
+    rarity: diamond
+    portrait: null
+    related: [spec.geometry.logic]
+    blurb: >-
+      Plato's student and Alexander the Great's tutor, he wrote on nearly everything: logic, ethics,
+      politics, poetry, physics and animals. His syllogistic logic was the standard account of valid
+      reasoning for more than two thousand years.
+
+  - id: euclid
+    name: Euclid
+    flourished: -300
+    work: -300
+    fields: [Mathematics]
+    rarity: diamond
+    portrait: null
+    related: [spec.geometry.proof-methods, spec.real-complex.number-proofs]
+    blurb: >-
+      His Elements built geometry and number theory from a handful of axioms, proof by proof, including
+      the proof that there are infinitely many primes. It was used as a textbook for over two thousand
+      years.
+
+  - id: archimedes
+    name: Archimedes
+    born: -287
+    died: -212
+    circa: [born]
+    work: -250
+    fields: [Mathematics, Physics, Engineering]
+    rarity: diamond
+    portrait: null
+    related: [spec.integration.volumes]
+    blurb: >-
+      Found the volume and surface area of a sphere and bounded π between 3 10/71 and 3 1/7, using limits
+      of ever finer shapes nearly two thousand years before calculus. He also founded statics and
+      hydrostatics, with the laws of the lever and of buoyancy.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: thales
+    name: Thales of Miletus
+    born: -624
+    died: -546
+    circa: [born, died]
+    work: -585
+    fields: [Philosophy, Mathematics, Astronomy]
+    rarity: platinum
+    portrait: null
+    related: [spec.geometry.circle-angles]
+    blurb: >-
+      Often called the first philosopher, he explained the world by natural causes rather than myths.
+      The theorem that an angle in a semicircle is a right angle carries his name.
+
+  - id: confucius
+    name: Confucius
+    born: -551
+    died: -479
+    work: -500
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Taught that a good society rests on personal virtue, respect within families and rulers who lead
+      by example. His sayings, collected by his students as the Analects, shaped Chinese ethics,
+      education and government for over two thousand years.
+
+  - id: hippocrates
+    name: Hippocrates of Kos
+    born: -460
+    died: -370
+    circa: [born, died]
+    work: -400
+    fields: [Medicine]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Treated disease as having natural causes to be observed, not as punishment from the gods. The
+      Hippocratic writings and the oath named after him founded medicine as a profession with its own
+      ethics.
+
+  - id: eratosthenes
+    name: Eratosthenes
+    born: -276
+    died: -194
+    circa: [born, died]
+    work: -240
+    fields: [Mathematics, Geography, Astronomy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Measured the Earth's circumference from the angle of the noon Sun at two cities, and came close to
+      the true value. He also gave the sieve still used to list prime numbers.
+
+  - id: ptolemy
+    name: Claudius Ptolemy
+    born: 100
+    died: 170
+    circa: [born, died]
+    work: 150
+    fields: [Astronomy, Mathematics, Geography]
+    rarity: platinum
+    portrait: null
+    related: [spec.trigonometry.compound-angles]
+    blurb: >-
+      His Almagest modeled the motions of the Sun, Moon and planets so well that it ruled astronomy for
+      fourteen centuries. Its table of chords and the theorem on cyclic quadrilaterals named after him
+      amount to the sine table and the compound-angle formulas.
+
+  - id: galen
+    name: Galen
+    born: 129
+    died: 216
+    circa: [died]
+    work: 170
+    fields: [Medicine, Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      A physician to Roman emperors who learned anatomy by dissection and showed that arteries carry
+      blood, not air. His writings were the core of medical teaching in Europe and the Islamic world for
+      over a thousand years.
+
+  - id: diophantus
+    name: Diophantus of Alexandria
+    flourished: 250
+    work: 250
+    fields: [Mathematics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      His Arithmetica was the first book to use symbols for unknowns and to solve equations in whole and
+      rational numbers. Equations like these are still called Diophantine, and his book is where Fermat
+      wrote his famous margin note.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: democritus
+    name: Democritus
+    born: -460
+    died: -370
+    circa: [born, died]
+    work: -420
+    fields: [Philosophy, Physics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Taught that everything is made of tiny, indivisible atoms moving through empty space. The idea
+      waited more than two thousand years for chemistry to confirm it.
+
+  - id: zeno-of-elea
+    name: Zeno of Elea
+    born: -490
+    died: -430
+    circa: [born, died]
+    work: -450
+    fields: [Philosophy, Mathematics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Argued with paradoxes such as Achilles and the tortoise that motion is impossible, because it would
+      take infinitely many steps. Answering him properly took the theory of limits and infinite series.
+
+  - id: epicurus
+    name: Epicurus
+    born: -341
+    died: -270
+    work: -300
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Taught that a happy life comes from simple pleasures, friendship and freedom from fear, including
+      the fear of death. He built his ethics on Democritus's atoms, and his school lasted for centuries.
+
+  - id: apollonius
+    name: Apollonius of Perga
+    born: -240
+    died: -190
+    circa: [born, died]
+    work: -200
+    fields: [Mathematics, Astronomy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      His Conics studied the curves cut from a cone and gave them the names ellipse, parabola and
+      hyperbola. Kepler and Newton later found the planets moving on exactly these curves.
+
+  - id: hipparchus
+    name: Hipparchus
+    born: -190
+    died: -120
+    circa: [born, died]
+    work: -140
+    fields: [Astronomy, Mathematics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Compiled the first known table of chords, the start of trigonometry, and a catalogue of hundreds of
+      stars. He also discovered the slow wobble of the Earth's axis, the precession of the equinoxes.
+
+  - id: aryabhata
+    name: Aryabhata
+    born: 476
+    died: 550
+    work: 499
+    fields: [Mathematics, Astronomy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Wrote the Aryabhatiya at 23, with a table of sines, π to four decimal places and methods for whole
+      number equations. He also argued that the Earth turns on its axis.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: heraclitus
+    name: Heraclitus
+    born: -535
+    died: -475
+    circa: [born, died]
+    work: -500
+    fields: [Philosophy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Taught that everything is in constant change, held together by a rational order he called the
+      logos. His saying that you cannot step into the same river twice is still quoted.
+
+  - id: eudoxus
+    name: Eudoxus of Cnidus
+    born: -408
+    died: -355
+    circa: [born, died]
+    work: -370
+    fields: [Mathematics, Astronomy]
+    rarity: silver
+    portrait: null
+    related: [spec.integration.areas]
+    blurb: >-
+      Gave a theory of ratios that handles irrational lengths, and the method of exhaustion for finding
+      areas and volumes by squeezing them between simpler shapes. Both appear in Euclid's Elements.
+
+  - id: aristarchus
+    name: Aristarchus of Samos
+    born: -310
+    died: -230
+    circa: [born, died]
+    work: -270
+    fields: [Astronomy, Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Proposed that the Earth goes around the Sun, eighteen centuries before Copernicus. He also used
+      geometry to estimate the sizes and distances of the Sun and Moon.
+
+  - id: hero-of-alexandria
+    name: Hero of Alexandria
+    born: 10
+    died: 70
+    circa: [born, died]
+    work: 60
+    fields: [Mathematics, Engineering, Physics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Built the first known steam engine, a spinning sphere driven by jets, and many automata. Hero's
+      formula gives a triangle's area from its three sides.
+
+  - id: liu-hui
+    name: Liu Hui
+    flourished: 263
+    work: 263
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      His commentary on The Nine Chapters on the Mathematical Art justified its methods with proofs. He
+      calculated π as 3.1416 by inscribing polygons of up to 3,072 sides in a circle.
+
+  - id: hypatia
+    name: Hypatia
+    born: 355
+    died: 415
+    circa: [born]
+    work: 400
+    fields: [Mathematics, Astronomy, Philosophy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Taught mathematics, astronomy and philosophy in Alexandria and edited classic texts, among them
+      Ptolemy's astronomical tables. She was the leading scholar of her city until she was murdered by
+      a mob.

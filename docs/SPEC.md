@@ -1109,7 +1109,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
   - **Slots grow with copies built:** **1 slot per copy**, so the first copy opens 1 slot and each copy after it 1 more, up to **12 slots** (half a set) at the 12th copy. The cap keeps the rarest cards competing for room: a set's Diamonds and Platinums alone fill about 9 slots, leaving 3 for the best Golds.
   - **Why this schedule:** it was fitted with `scripts/economy_sim.py` to the calibration targets below. With a slot only every second copy, a day of Research at 400 hours would be worth about 10 hours of practice instead of 20, because a newly built institute starts with 1 copy and its era's packs have only just unlocked (§13.7). Above about 12, the cap barely changes the targets.
   - A card fills one slot at most. **Unslotted cards give nothing to Research**; collecting still counts toward set completion (its corollary and frame) and the Cards collected board.
-  - A new card never replaces a slotted one by itself. An institute whose era isn't released yet works unboosted.
+  - A new card never replaces a slotted one by itself.
 - **Time Warp.** Every 600 XP earned (about one active hour of practice) instantly credits **12 hours of Research** at the current rate.
   - It inherits XP's repeat rules and daily caps, so it rewards practice and can't be farmed.
   - Over a day, Research comes to about (1 + ½ × hours played) days' worth. Students who practice more keep pace in active hours, not just in calendar time.
@@ -1119,7 +1119,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
   - **Ratio:** one day of Research, Time Warp included, ÷ one active hour of practice.
   - **The simulated student** saves for whatever adds the most Lemmas per Lemma spent. The model is `scripts/economy_sim.py`: run it to print these tables, or with `fit` to refit the Axiom thresholds after changing a value.
   - **Included:** Axioms, Conjectures, the Time Warp, staff slots and era pack unlocks (§13.7).
-  - **Assumed:** only free packs (level tiers, plus about 0.15 packs per active hour from Section Challenges and achievements and 0.5 a week from Full Weeks), the best cards held filling each institute's slots, Axioms proven as soon as they're reached, and every era released. Bought packs would raise the numbers a little.
+  - **Assumed:** only free packs (level tiers, plus about 0.15 packs per active hour from Section Challenges and achievements and 0.5 a week from Full Weeks), the best cards held filling each institute's slots, and Axioms proven as soon as they're reached. Bought packs would raise the numbers a little.
 
   | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms | Conjectures |
   |---|---|---|---|---|---|
@@ -1213,34 +1213,36 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
 ### 13.7 Packs and cards
 Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 5 cards from one era.
 
-**Eras.** A person sits in the era of their major work, not their birth.
+**Eras.** A person sits in the era of their major work, not their birth. The sets (first draft, `content/cards/`; rarities are the owner's call):
 
-| Pack | Years | Diamond (proposed) | Other example cards |
-|---|---|---|---|
-| Antiquity Pack | to 500 | Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes | Thales, Zeno of Elea, Democritus, Hippocrates, Eratosthenes, Ptolemy, Diophantus, Hypatia |
-| Golden Age Pack | 500–1400 | Brahmagupta, al-Khwarizmi, Ibn Sina (Avicenna), Fibonacci, Thomas Aquinas | Ibn al-Haytham, Omar Khayyam, Ibn Rushd, Maimonides, William of Ockham |
-| Renaissance Pack | 1400–1650 | Leonardo da Vinci, Copernicus, Galileo, Descartes | Machiavelli, Montaigne, Cardano, Vesalius, Napier, Francis Bacon, Kepler, Fermat |
-| Enlightenment Pack | 1650–1800 | Newton, Leibniz, Euler, Kant | Pascal, Huygens, Hooke, Boyle, Hobbes, Spinoza, Locke, the Bernoullis, Émilie du Châtelet, Hume, Voltaire, Rousseau, Adam Smith, Lagrange, Laplace, Lavoisier |
-| Steam Age Pack | 1800–1880 | Gauss, Darwin, Maxwell, Pasteur, Marx | Fourier, Sophie Germain, Cauchy, Galois, Faraday, Babbage, Ada Lovelace, Boole, Riemann, Hegel, Schopenhauer, Kierkegaard, Mill, Mendel, Florence Nightingale |
-| Machine Age Pack | 1880–1945 | Einstein, Marie Curie, Nietzsche, Freud, Turing | Cantor, Poincaré, Hilbert, Frege, Planck, Rutherford, Bohr, Heisenberg, Schrödinger, Noether, Ramanujan, Russell, Wittgenstein, Gödel, Tesla, Fleming, Florey |
-| Space Age Pack | 1945 on | Feynman, Hawking, Sartre, Deleuze | von Neumann, Shannon, Crick, Rosalind Franklin, Chien-Shiung Wu, Grace Hopper, Erdős, Nash, Grothendieck, Mandelbrot, Conway, Mirzakhani, Simone de Beauvoir, Foucault, Derrida, Popper, Kuhn, Carl Sagan |
+| Pack | Years | Diamond | Platinum | Gold | Silver |
+|---|---|---|---|---|---|
+| Antiquity Pack | to 500 | Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes | Thales of Miletus, Confucius, Hippocrates of Kos, Eratosthenes, Claudius Ptolemy, Galen, Diophantus of Alexandria | Democritus, Zeno of Elea, Epicurus, Apollonius of Perga, Hipparchus, Aryabhata | Heraclitus, Eudoxus of Cnidus, Aristarchus of Samos, Hero of Alexandria, Liu Hui, Hypatia |
+| Golden Age Pack | 500–1400 | Brahmagupta, Muhammad ibn Musa al-Khwarizmi, Ibn Sina (Avicenna), Leonardo of Pisa (Fibonacci), Thomas Aquinas | Ibn al-Haytham (Alhazen), Omar Khayyam, Ibn Rushd (Averroes), Moses Maimonides, Abu Rayhan al-Biruni, Bhaskara II | Boethius, Abu Bakr al-Razi (Rhazes), Abu Nasr al-Farabi, Nasir al-Din al-Tusi, William of Ockham, Ibn Khaldun | Abu Yusuf al-Kindi, Thabit ibn Qurra, Anselm of Canterbury, Shen Kuo, Yang Hui, Nicole Oresme, Madhava of Sangamagrama |
+| Renaissance Pack | 1400–1650 | Leonardo da Vinci, Nicolaus Copernicus, Galileo Galilei, René Descartes | Johannes Kepler, Pierre de Fermat, Francis Bacon, Niccolò Machiavelli, Andreas Vesalius, William Harvey | Tycho Brahe, Gerolamo Cardano, François Viète, John Napier, Michel de Montaigne, Desiderius Erasmus, Paracelsus | Regiomontanus, Niccolò Tartaglia, Rafael Bombelli, Simon Stevin, William Gilbert, Giordano Bruno, Marin Mersenne |
+| Enlightenment Pack | 1650–1800 | Isaac Newton, Gottfried Wilhelm Leibniz, Leonhard Euler, Immanuel Kant | Blaise Pascal, John Locke, Baruch Spinoza, David Hume, Joseph-Louis Lagrange, Pierre-Simon Laplace, Antoine Lavoisier | Thomas Hobbes, Christiaan Huygens, Robert Boyle, Carl Linnaeus, Jean-Jacques Rousseau, Adam Smith, Edward Jenner | Robert Hooke, Antonie van Leeuwenhoek, Jacob Bernoulli, Abraham de Moivre, Émilie du Châtelet, Voltaire, Benjamin Franklin |
+| Steam Age Pack | 1800–1880 | Carl Friedrich Gauss, Charles Darwin, James Clerk Maxwell, Louis Pasteur, Karl Marx | Michael Faraday, Augustin-Louis Cauchy, Évariste Galois, Bernhard Riemann, Gregor Mendel, Georg Wilhelm Friedrich Hegel, Dmitri Mendeleev | Joseph Fourier, John Dalton, William Rowan Hamilton, George Boole, John Stuart Mill, Søren Kierkegaard, Arthur Schopenhauer | Sophie Germain, Niels Henrik Abel, Nikolai Lobachevsky, Charles Babbage, Ada Lovelace, Florence Nightingale, Joseph Lister |
+| Machine Age Pack | 1880–1945 | Albert Einstein, Marie Curie, Friedrich Nietzsche, Sigmund Freud, Alan Turing | Georg Cantor, Henri Poincaré, David Hilbert, Max Planck, Ernest Rutherford, Niels Bohr, Werner Heisenberg, Kurt Gödel | Erwin Schrödinger, Emmy Noether, Srinivasa Ramanujan, Bertrand Russell, Ludwig Wittgenstein, Gottlob Frege, Alexander Fleming | Nikola Tesla, Howard Florey, Paul Dirac, Ronald Fisher, Ivan Pavlov, William James |
+| Space Age Pack | 1945 on | Richard Feynman, Stephen Hawking, Jean-Paul Sartre, Gilles Deleuze | John von Neumann, Claude Shannon, Francis Crick, Alexander Grothendieck, Karl Popper, Michel Foucault, Simone de Beauvoir | Rosalind Franklin, John Nash, Thomas Kuhn, Chien-Shiung Wu, Paul Erdős, Benoit Mandelbrot, Hannah Arendt, Jacques Derrida | Grace Hopper, Dorothy Hodgkin, Jonas Salk, Peter Higgs, John Horton Conway, Maryam Mirzakhani, Carl Sagan |
 
 **Content rules**
-- Cards live in `content/cards/<era>.yaml`, with: id, name, born and died, era, fields (Mathematics, Physics, Chemistry, Biology, Astronomy, Computing, Medicine, Psychology, Philosophy, …), rarity, portrait (public domain or an original illustration, with its source and license), blurb, related skill ids (optional), and sources.
+- Cards live in `content/cards/<era>.yaml` (format in `content/cards/README.md`), with: id, name, born and died (or the year they flourished, when neither is known; approximate dates are marked), the year of their **major work** (which picks the era), fields (Mathematics, Statistics, Computing, Physics, Astronomy, Chemistry, Biology, Medicine, Psychology, Philosophy, Economics, History, Geography, Engineering, Art), rarity, portrait (public domain or an original illustration, with its source and license), blurb, and related skill ids (optional).
 - **Only people who have died.** Every set mixes mathematics, science and philosophy.
 - **Notability first.** Every card is someone notable in their own right. No one is added to balance a set by region or any other quota.
-- **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§16.1). Facts cite a source. Quotes are used only when a source shows the person actually said them.
+- **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§16.1). Quotes are used only when the person is known to have actually said them.
 - **Related skills** show as chips on the card's detail view (e.g. Euler → the skill on complex exponential form), linking to the skill page. They're information, not a suggestion of what to practice: nothing about a card changes what is served.
+  - **Kept current as courses are added.** Related ids may point into any course. The card check fails on an id that no course has, so a renamed or removed skill can't leave a dead chip.
+  - **New courses are flagged automatically.** The check also warns about every skill, in any course, whose name or summary mentions a card's person (Pascal's triangle, de Moivre's theorem) when that card doesn't link it yet. Adding a course surfaces its links to add, with no list to remember.
 - **Set size:** about 24 cards.
 - **Rarity** (the owner's judgment):
   - **Diamond:** profoundly transformed their field *and* is extremely famous (Einstein, Feynman, Turing, Nietzsche, Deleuze, Maxwell). There's no quota; the count per set follows from who qualifies, usually 3–6.
   - **Platinum:** transformed their field, and is well known to anyone who studies it.
   - **Gold:** made a major contribution that lasted.
   - **Silver:** did notable work that is still taught or cited.
-- **Build checks:** dates, era ranges, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and sources.
-- **Launch:** start with three eras (Antiquity, Enlightenment, Machine Age). The others show as "Not available yet" until their sets are written.
+- **Build checks** (`scripts/verify_cards.py`): dates (and that the person has died), era ranges by major work, at least 3 Diamonds and 4 cards of every other rarity per set, blurb length, portrait license and related skill ids.
+- **Launch:** all seven eras together. Every set is drafted; portraits are still to be sourced.
 
-**Era unlocks.** Antiquity packs are available from the start. Each later era's packs unlock with the **first copy of the previous era's institute** (Golden Age packs with the first Academy, Renaissance packs with the first House of Wisdom, and so on), which is also when that era's own institute unlocks (§13.3). Locked eras show as sealed packs with the bare-label condition, e.g. **Build an Academy**. Unreleased eras show "Not available yet".
+**Era unlocks.** Antiquity packs are available from the start. Each later era's packs unlock with the **first copy of the previous era's institute** (Golden Age packs with the first Academy, Renaissance packs with the first House of Wisdom, and so on), which is also when that era's own institute unlocks (§13.3). Locked eras show as sealed packs with the bare-label condition, e.g. **Build an Academy**.
 
 **Getting packs.** Every pack belongs to one era, fixed when it is granted or bought. Later eras cost more.
 
@@ -1252,7 +1254,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 | A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
 | Buy with Lemmas | A fixed price per era: Antiquity 1 k∴; later eras cost more, at prices fitted with `scripts/economy_sim.py` |
 
-**Which era a free pack is.** The source's tier picks it, capped at the latest unlocked, released era (if the picked era is locked or unreleased, the latest one before it):
+**Which era a free pack is.** The source's tier picks it, capped at the latest unlocked era (if the picked era is locked, the latest unlocked one before it):
 
 | Source tier | Era |
 |---|---|
@@ -1419,7 +1421,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **One row per institute**, in era order: the institute's engraving, name, era, copies, output per day (per copy and total, staff boost included) and buy controls.
 - **Staff strip** under each row: the slots, each filled with a portrait thumbnail in its rarity frame or drawn as a dashed empty slot; the total staff boost (**Staff +64%**); and when the next slot opens (**Next slot · copy 8**, or **12 / 12 slots** once full).
 - **Click a slot** to open a picker of that era's owned cards, sorted by boost (Diamond foil first), each with its boost. A card already in a slot is marked **Slotted**, and choosing it moves it. **Remove** empties the slot. Newly pulled cards never fill or replace slots on their own.
-- **Locked institutes** show as a sealed silhouette with the bare-label condition (**Build an Academy**). An institute whose era isn't released shows "Not available yet" in its strip and works unboosted.
+- **Locked institutes** show as a sealed silhouette with the bare-label condition (**Build an Academy**).
 
 #### Conjectures: the ledger
 - **A vertical ledger in order.**
@@ -1444,7 +1446,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
   - **Open**, **Open 10** and **Open all**;
   - set completion (**14 / 24**), the pity counter (**Diamond in ≤ 61**) and the Diamonds still missing;
   - the odds table, always visible beneath it.
-- **Locked eras** show as sealed packs with their condition (**Build an Academy**); unreleased eras show "Not available yet".
+- **Locked eras** show as sealed packs with their condition (**Build an Academy**).
 - **Granted packs** wait here quietly: no toast, no pip, no prompt anywhere else.
 
 #### Opening a pack
@@ -1459,7 +1461,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 
 #### Cards
 - **Portraits** are processed offline into **one ink duotone** (ink on the paper tone), so a set looks coherent whatever the source. They're stored as WebP next to the card YAML, and the source and license are kept (§13.7).
-- **Face:** portrait, name and rarity. **Detail view** (click a card anywhere): the enlarged card plus dates, era, field chips, blurb, sources, related-skill chips (links to the skill page), copies owned, foil, and which slot it's in.
+- **Face:** portrait, name and rarity. **Detail view** (click a card anywhere): the enlarged card plus dates, era, field chips, blurb, related-skill chips (links to the skill page), copies owned, foil, and which slot it's in.
 - **Rarity frames in archive materials:** Silver is pewter, Gold is gilt leaf, Platinum is engraved steel, Diamond is cut crystal over vellum. The rarity is also written on the frame, so color is never the only signal.
 - **Foil:** a holographic sheen that follows the pointer, or a finger dragged across the card on touch. Device motion is never used, so no permission is ever asked. Reduced motion shows a still gilt rim.
 - **Sizes:** a 5:7 card, about 96 px wide in grids, 180 px in the reveal and 320 px in the detail view.

@@ -1,0 +1,328 @@
+# Machine Age Pack: 1880–1945 (docs/SPEC.md §13.7). First draft.
+era: machine-age
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: einstein
+    name: Albert Einstein
+    born: 1879
+    died: 1955
+    work: 1905
+    fields: [Physics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      In 1905 he explained the photoelectric effect with light quanta, proved atoms are real and
+      introduced special relativity, with E = mc². His general relativity, a decade later, explained
+      gravity as curved spacetime.
+
+  - id: marie-curie
+    name: Marie Curie
+    born: 1867
+    died: 1934
+    work: 1898
+    fields: [Physics, Chemistry]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Pioneered the study of radioactivity, a word she coined, and discovered polonium and radium. She
+      was the first woman to win a Nobel Prize and is still the only person to win in two sciences.
+
+  - id: nietzsche
+    name: Friedrich Nietzsche
+    born: 1844
+    died: 1900
+    work: 1883
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Declared that God is dead and asked how people could create values of their own without that
+      foundation. Thus Spoke Zarathustra and his attacks on traditional morality shaped existentialism
+      and much of modern thought.
+
+  - id: freud
+    name: Sigmund Freud
+    born: 1856
+    died: 1939
+    work: 1899
+    fields: [Psychology, Medicine]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Founded psychoanalysis, treating patients by talking, and argued that unconscious wishes shape what
+      we do. The Interpretation of Dreams made ideas like repression part of everyday language.
+
+  - id: turing
+    name: Alan Turing
+    born: 1912
+    died: 1954
+    work: 1936
+    fields: [Computing, Mathematics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Defined computation itself with the Turing machine and proved that some problems no computer can
+      solve. In the Second World War he played a leading part in breaking the Enigma codes, and later
+      asked whether machines can think.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: cantor
+    name: Georg Cantor
+    born: 1845
+    died: 1918
+    work: 1883
+    fields: [Mathematics]
+    rarity: platinum
+    portrait: null
+    related: [spec.real-complex.rational-irrational]
+    blurb: >-
+      Created set theory and showed that some infinities are bigger than others: there are more real
+      numbers than whole numbers. Hilbert called it a paradise from which no one shall expel us.
+
+  - id: poincare
+    name: Henri Poincaré
+    born: 1854
+    died: 1912
+    work: 1895
+    fields: [Mathematics, Physics, Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Founded topology and discovered chaos while studying three bodies under gravity. His conjecture
+      about the shape of three-dimensional space stood for a century.
+
+  - id: hilbert
+    name: David Hilbert
+    born: 1862
+    died: 1943
+    work: 1899
+    fields: [Mathematics, Physics]
+    rarity: platinum
+    portrait: null
+    related: [spec.geometry.proof-methods]
+    blurb: >-
+      Rebuilt geometry on complete axioms and, in 1900, set 23 problems that steered twentieth-century
+      mathematics. His program to put all of mathematics on secure axioms led to the work of Gödel and
+      Turing.
+
+  - id: planck
+    name: Max Planck
+    born: 1858
+    died: 1947
+    work: 1900
+    fields: [Physics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Explained the glow of hot objects by assuming energy comes in small packets, quanta. It began
+      quantum theory, and Planck's constant sets the scale of the quantum world.
+
+  - id: rutherford
+    name: Ernest Rutherford
+    born: 1871
+    died: 1937
+    work: 1911
+    fields: [Physics, Chemistry]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Fired alpha particles at gold foil and found that atoms are mostly empty, with a tiny dense nucleus.
+      He also first split one element into another, and named the proton.
+
+  - id: bohr
+    name: Niels Bohr
+    born: 1885
+    died: 1962
+    work: 1913
+    fields: [Physics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Explained atomic spectra with electrons that jump between fixed orbits. His institute in Copenhagen
+      was the center where quantum mechanics was worked out and argued over.
+
+  - id: heisenberg
+    name: Werner Heisenberg
+    born: 1901
+    died: 1976
+    work: 1925
+    fields: [Physics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Created the first complete form of quantum mechanics at 23. His uncertainty principle says a
+      particle's position and momentum cannot both be known exactly.
+
+  - id: godel
+    name: Kurt Gödel
+    born: 1906
+    died: 1978
+    work: 1931
+    fields: [Mathematics, Philosophy]
+    rarity: platinum
+    portrait: null
+    related: [spec.geometry.logic]
+    blurb: >-
+      Proved that any consistent system of axioms for arithmetic leaves true statements it cannot prove.
+      His incompleteness theorems ended the hope of a complete foundation for mathematics.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: schrodinger
+    name: Erwin Schrödinger
+    born: 1887
+    died: 1961
+    work: 1926
+    fields: [Physics, Biology]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      His wave equation describes how quantum systems change, and his cat in a box shows how strange
+      quantum superposition is. His book What Is Life? inspired the discoverers of DNA's structure.
+
+  - id: noether
+    name: Emmy Noether
+    born: 1882
+    died: 1935
+    work: 1918
+    fields: [Mathematics, Physics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Proved that every symmetry in physics gives a conserved quantity, such as energy from symmetry in
+      time. She also reshaped abstract algebra, and Einstein called her a creative mathematical genius.
+
+  - id: ramanujan
+    name: Srinivasa Ramanujan
+    born: 1887
+    died: 1920
+    work: 1914
+    fields: [Mathematics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Largely self-taught in India, he sent Hardy pages of astonishing formulas and went to Cambridge to
+      work with him. His results on partitions, series and π are still being explored.
+
+  - id: russell
+    name: Bertrand Russell
+    born: 1872
+    died: 1970
+    work: 1910
+    fields: [Philosophy, Mathematics]
+    rarity: gold
+    portrait: null
+    related: [spec.geometry.logic]
+    blurb: >-
+      Found a paradox at the heart of naive set theory, then tried to derive mathematics from logic in
+      Principia Mathematica with Whitehead. He won the Nobel Prize in Literature and campaigned against
+      nuclear weapons.
+
+  - id: wittgenstein
+    name: Ludwig Wittgenstein
+    born: 1889
+    died: 1951
+    work: 1921
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The Tractatus argued that the limits of language are the limits of the world. Later he rejected it,
+      seeing meaning in how words are used in everyday life.
+
+  - id: frege
+    name: Gottlob Frege
+    born: 1848
+    died: 1925
+    work: 1884
+    fields: [Philosophy, Mathematics]
+    rarity: gold
+    portrait: null
+    related: [spec.geometry.logic]
+    blurb: >-
+      Invented modern logic with quantifiers, for all and there exists. He founded analytic philosophy
+      and the philosophy of language.
+
+  - id: fleming
+    name: Alexander Fleming
+    born: 1881
+    died: 1955
+    work: 1928
+    fields: [Medicine, Biology]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Noticed that a mold had killed the bacteria around it on a forgotten culture plate, and named its
+      substance penicillin. It became the first antibiotic.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: tesla
+    name: Nikola Tesla
+    born: 1856
+    died: 1943
+    work: 1888
+    fields: [Engineering, Physics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Invented the induction motor and the alternating-current system that powers the world's grids. The
+      unit of magnetic flux density is named after him.
+
+  - id: howard-florey
+    name: Howard Florey
+    born: 1898
+    died: 1968
+    work: 1940
+    fields: [Medicine]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      An Australian who, with Ernst Chain and Norman Heatley, turned penicillin into a drug, purifying it
+      and proving it cured infections. It saved countless lives from the Second World War on.
+
+  - id: dirac
+    name: Paul Dirac
+    born: 1902
+    died: 1984
+    work: 1928
+    fields: [Physics, Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      His equation joined quantum mechanics with special relativity and predicted antimatter, found four
+      years later. He shared the 1933 Nobel Prize in Physics with Schrödinger.
+
+  - id: ronald-fisher
+    name: Ronald Fisher
+    born: 1890
+    died: 1962
+    work: 1925
+    fields: [Statistics, Biology]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Founded modern statistics with randomized experiments, analysis of variance and significance tests.
+      He also showed how Mendel's genetics produces Darwin's evolution.
+
+  - id: pavlov
+    name: Ivan Pavlov
+    born: 1849
+    died: 1936
+    work: 1903
+    fields: [Psychology, Biology]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Found that dogs learn to salivate at a signal that comes before food, the conditioned reflex. He won
+      the Nobel Prize for his work on digestion.
+
+  - id: william-james
+    name: William James
+    born: 1842
+    died: 1910
+    work: 1890
+    fields: [Psychology, Philosophy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      His Principles of Psychology made psychology a science and described the stream of consciousness.
+      He was a founder of pragmatism, judging ideas by their practical consequences.

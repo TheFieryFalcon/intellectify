@@ -1,0 +1,326 @@
+# Space Age Pack: 1945 on (docs/SPEC.md §13.7). First draft.
+era: space-age
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: feynman
+    name: Richard Feynman
+    born: 1918
+    died: 1988
+    work: 1948
+    fields: [Physics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Reworked quantum electrodynamics with the diagrams named after him, now used throughout particle
+      physics. His lectures and books made him the best-known explainer of physics, and he showed on
+      television why the Challenger shuttle failed.
+
+  - id: hawking
+    name: Stephen Hawking
+    born: 1942
+    died: 2018
+    work: 1974
+    fields: [Physics, Astronomy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Showed that black holes are not fully black but slowly glow and evaporate, joining gravity, quantum
+      theory and heat. A Brief History of Time made him the world's most famous scientist, working for
+      decades despite motor neurone disease.
+
+  - id: sartre
+    name: Jean-Paul Sartre
+    born: 1905
+    died: 1980
+    work: 1946
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Held that existence precedes essence: there is no human nature given in advance, so we are wholly
+      responsible for what we make of ourselves. He was the leading voice of existentialism and turned
+      down the Nobel Prize in Literature.
+
+  - id: deleuze
+    name: Gilles Deleuze
+    born: 1925
+    died: 1995
+    work: 1968
+    fields: [Philosophy]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      In Difference and Repetition he put difference before identity, seeing the world as becoming
+      rather than fixed things. With Félix Guattari he wrote Anti-Oedipus and A Thousand Plateaus,
+      reshaping thought on desire, power and networks.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: von-neumann
+    name: John von Neumann
+    born: 1903
+    died: 1957
+    work: 1945
+    fields: [Mathematics, Computing, Physics, Economics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Described the stored-program design that nearly every computer still follows, and founded game
+      theory. He also put quantum mechanics on rigorous mathematical footing.
+
+  - id: shannon
+    name: Claude Shannon
+    born: 1916
+    died: 2001
+    work: 1948
+    fields: [Mathematics, Computing, Engineering]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Founded information theory, measuring information in bits and finding the limits of sending it
+      over noisy channels. Earlier he showed that Boolean algebra can design switching circuits.
+
+  - id: crick
+    name: Francis Crick
+    born: 1916
+    died: 2004
+    work: 1953
+    fields: [Biology]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      With James Watson, using Rosalind Franklin's X-ray data, found that DNA is a double helix, which
+      shows how genes are copied. He then helped work out the genetic code.
+
+  - id: grothendieck
+    name: Alexander Grothendieck
+    born: 1928
+    died: 2014
+    work: 1960
+    fields: [Mathematics]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Rebuilt algebraic geometry on new foundations of great generality, which led to the proof of the
+      Weil Conjectures. He later left mathematics and lived as a recluse in the Pyrenees.
+
+  - id: popper
+    name: Karl Popper
+    born: 1902
+    died: 1994
+    work: 1945
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Argued that a theory is scientific only if some observation could prove it false. The Open Society
+      and Its Enemies defended liberal democracy against totalitarian ideas.
+
+  - id: foucault
+    name: Michel Foucault
+    born: 1926
+    died: 1984
+    work: 1975
+    fields: [Philosophy, History]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Studied how prisons, hospitals and schools shape people, and how knowledge and power support each
+      other. Discipline and Punish is among the most cited books in the humanities.
+
+  - id: simone-de-beauvoir
+    name: Simone de Beauvoir
+    born: 1908
+    died: 1986
+    work: 1949
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      The Second Sex argued that one is not born, but rather becomes, a woman: womanhood is shaped by
+      society, not fixed by nature. It became a founding text of modern feminism.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: rosalind-franklin
+    name: Rosalind Franklin
+    born: 1920
+    died: 1958
+    work: 1952
+    fields: [Chemistry, Biology]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Her X-ray photographs of DNA, above all Photo 51, were key evidence for the double helix. She also
+      worked out the structure of viruses and of coal.
+
+  - id: john-nash
+    name: John Nash
+    born: 1928
+    died: 2015
+    work: 1950
+    fields: [Mathematics, Economics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      His 27-page thesis defined the Nash equilibrium, where no player gains by changing strategy alone,
+      now central to economics. He won the Nobel in economics and the Abel Prize after decades of mental
+      illness.
+
+  - id: kuhn
+    name: Thomas Kuhn
+    born: 1922
+    died: 1996
+    work: 1962
+    fields: [Philosophy, History]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The Structure of Scientific Revolutions argued that science advances through paradigm shifts, not
+      just steady accumulation. He made paradigm an everyday word.
+
+  - id: chien-shiung-wu
+    name: Chien-Shiung Wu
+    born: 1912
+    died: 1997
+    work: 1957
+    fields: [Physics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Her 1957 experiment showed that nature can tell left from right, overturning the conservation of
+      parity. She was a leading experimental physicist of beta decay.
+
+  - id: erdos
+    name: Paul Erdős
+    born: 1913
+    died: 1996
+    work: 1949
+    fields: [Mathematics]
+    rarity: gold
+    portrait: null
+    related: [spec.combinatorics.pigeonhole]
+    blurb: >-
+      Wrote about 1,500 papers with over 500 coauthors, living out of a suitcase and moving from one
+      collaborator to the next. He founded much of combinatorics and probabilistic methods; the Erdős
+      number measures distance from him.
+
+  - id: mandelbrot
+    name: Benoit Mandelbrot
+    born: 1924
+    died: 2010
+    work: 1982
+    fields: [Mathematics]
+    rarity: gold
+    portrait: null
+    related: [spec.complex.loci]
+    blurb: >-
+      Coined the word fractal for shapes whose detail repeats at every scale, like coastlines and clouds.
+      The Mandelbrot set, a region of the complex plane, is the most famous example.
+
+  - id: hannah-arendt
+    name: Hannah Arendt
+    born: 1906
+    died: 1975
+    work: 1951
+    fields: [Philosophy, History]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The Origins of Totalitarianism traced how Nazism and Stalinism arose. Reporting on Eichmann's trial,
+      she wrote of the banality of evil.
+
+  - id: derrida
+    name: Jacques Derrida
+    born: 1930
+    died: 2004
+    work: 1967
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Founded deconstruction, reading texts closely to show how their meanings depend on oppositions they
+      cannot hold apart. It reshaped literary theory, law and architecture.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: grace-hopper
+    name: Grace Hopper
+    born: 1906
+    died: 1992
+    work: 1959
+    fields: [Computing, Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Wrote one of the first compilers and pushed for programming in English-like words, which led to
+      COBOL. She helped popularize the term debugging.
+
+  - id: dorothy-hodgkin
+    name: Dorothy Hodgkin
+    born: 1910
+    died: 1994
+    work: 1956
+    fields: [Chemistry]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Used X-ray crystallography to find the structures of penicillin, vitamin B12 and insulin. She won
+      the 1964 Nobel Prize in Chemistry.
+
+  - id: jonas-salk
+    name: Jonas Salk
+    born: 1914
+    died: 1995
+    work: 1955
+    fields: [Medicine]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Developed the first effective polio vaccine and chose not to patent it. Mass vaccination cut polio
+      cases dramatically within a few years.
+
+  - id: peter-higgs
+    name: Peter Higgs
+    born: 1929
+    died: 2024
+    work: 1964
+    fields: [Physics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Predicted the particle, now named after him, behind the way fundamental particles get mass. It was
+      found at CERN in 2012, and he shared the Nobel Prize the next year.
+
+  - id: john-conway
+    name: John Horton Conway
+    born: 1937
+    died: 2020
+    work: 1970
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Invented the Game of Life, where simple rules on a grid produce endlessly complex patterns, and the
+      surreal numbers. He also did deep work on symmetry groups and knots.
+
+  - id: maryam-mirzakhani
+    name: Maryam Mirzakhani
+    born: 1977
+    died: 2017
+    work: 2014
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Studied the geometry of curved surfaces and how paths move across them. In 2014 she became the
+      first woman, and first Iranian, to win the Fields Medal.
+
+  - id: carl-sagan
+    name: Carl Sagan
+    born: 1934
+    died: 1996
+    work: 1980
+    fields: [Astronomy]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Studied planetary atmospheres, including the greenhouse heat of Venus, and helped plan NASA's
+      missions. His series Cosmos brought science to hundreds of millions of viewers.

@@ -1,0 +1,333 @@
+# Steam Age Pack: 1800–1880 (docs/SPEC.md §13.7). First draft.
+era: steam-age
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: gauss
+    name: Carl Friedrich Gauss
+    born: 1777
+    died: 1855
+    work: 1801
+    fields: [Mathematics, Physics, Astronomy]
+    rarity: diamond
+    portrait: null
+    related: [spec.real-complex.complex-plane]
+    blurb: >-
+      Founded modern number theory with his Disquisitiones Arithmeticae, gave the first widely accepted
+      proof that every polynomial has a complex root, and made the complex plane respectable. He also
+      found the lost asteroid Ceres by inventing the method of least squares.
+
+  - id: darwin
+    name: Charles Darwin
+    born: 1809
+    died: 1882
+    work: 1859
+    fields: [Biology]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      On the Origin of Species showed that living things evolve by natural selection, from evidence
+      gathered over decades, beginning with the voyage of the Beagle. It is the unifying idea of
+      biology.
+
+  - id: maxwell
+    name: James Clerk Maxwell
+    born: 1831
+    died: 1879
+    work: 1865
+    fields: [Physics, Mathematics]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      His equations unified electricity, magnetism and light, predicting electromagnetic waves that
+      travel at the speed of light. He also founded the statistical theory of gases and took the first
+      color photograph.
+
+  - id: pasteur
+    name: Louis Pasteur
+    born: 1822
+    died: 1895
+    work: 1862
+    fields: [Biology, Chemistry, Medicine]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Showed that microbes cause fermentation and disease and do not arise spontaneously. He invented
+      pasteurization and made vaccines against anthrax and rabies.
+
+  - id: marx
+    name: Karl Marx
+    born: 1818
+    died: 1883
+    work: 1867
+    fields: [Philosophy, Economics, History]
+    rarity: diamond
+    portrait: null
+    blurb: >-
+      Argued in Capital that history is driven by economic forces and struggles between classes. The
+      Communist Manifesto, written with Engels, became one of the most influential political texts ever.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: faraday
+    name: Michael Faraday
+    born: 1791
+    died: 1867
+    work: 1831
+    fields: [Physics, Chemistry]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Discovered electromagnetic induction, the principle of every generator and transformer, and pictured
+      electric and magnetic forces as fields. Largely self-taught, he became the greatest experimenter of
+      his age.
+
+  - id: cauchy
+    name: Augustin-Louis Cauchy
+    born: 1789
+    died: 1857
+    work: 1821
+    fields: [Mathematics, Physics]
+    rarity: platinum
+    portrait: null
+    related: [spec.vectors-2d.scalar-product]
+    blurb: >-
+      Rebuilt calculus on careful definitions of limits and continuity, and founded complex analysis.
+      The Cauchy–Schwarz inequality, |a · b| ≤ |a||b|, is one of the many results named after him.
+
+  - id: galois
+    name: Évariste Galois
+    born: 1811
+    died: 1832
+    work: 1832
+    fields: [Mathematics]
+    rarity: platinum
+    portrait: null
+    related: [spec.complex.polynomials]
+    blurb: >-
+      Explained exactly which polynomial equations can be solved with roots, using groups of symmetries
+      of their solutions. He was killed in a duel at 20, and his ideas founded modern algebra.
+
+  - id: riemann
+    name: Bernhard Riemann
+    born: 1826
+    died: 1866
+    work: 1854
+    fields: [Mathematics, Physics]
+    rarity: platinum
+    portrait: null
+    related: [spec.integration.areas]
+    blurb: >-
+      Gave the definition of the integral by sums and the geometry of curved spaces that Einstein later
+      used for gravity. His hypothesis about the zeros of the zeta function stood open until 2026.
+
+  - id: mendel
+    name: Gregor Mendel
+    born: 1822
+    died: 1884
+    work: 1866
+    fields: [Biology]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Bred thousands of pea plants in his monastery garden and found that traits pass on in units, now
+      called genes, in predictable ratios. Ignored in his lifetime, his work founded genetics.
+
+  - id: hegel
+    name: Georg Wilhelm Friedrich Hegel
+    born: 1770
+    died: 1831
+    work: 1807
+    fields: [Philosophy]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Saw history as the unfolding of reason, advancing as conflicts between ideas are resolved at a
+      higher level. His Phenomenology of Spirit shaped Marx and much of later philosophy.
+
+  - id: mendeleev
+    name: Dmitri Mendeleev
+    born: 1834
+    died: 1907
+    work: 1869
+    fields: [Chemistry]
+    rarity: platinum
+    portrait: null
+    blurb: >-
+      Arranged the elements into the periodic table, leaving gaps for elements not yet found. Gallium,
+      scandium and germanium were later discovered with the properties he predicted.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: fourier
+    name: Joseph Fourier
+    born: 1768
+    died: 1830
+    work: 1822
+    fields: [Mathematics, Physics]
+    rarity: gold
+    portrait: null
+    related: [spec.trigonometry.harmonic-form]
+    blurb: >-
+      Showed that any periodic signal can be built from sines and cosines, while studying how heat flows.
+      Fourier analysis now runs through physics, engineering and every digital recording.
+
+  - id: dalton
+    name: John Dalton
+    born: 1766
+    died: 1844
+    work: 1808
+    fields: [Chemistry, Physics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Proposed that each element is made of identical atoms with its own weight, combining in simple
+      ratios. He also gave the first scientific description of color blindness, which he had.
+
+  - id: hamilton
+    name: William Rowan Hamilton
+    born: 1805
+    died: 1865
+    work: 1843
+    fields: [Mathematics, Physics]
+    rarity: gold
+    portrait: null
+    related: [spec.vectors-3d.algebra]
+    blurb: >-
+      Invented quaternions, carving their rule into a Dublin bridge, and coined the words vector and
+      scalar. His reformulation of mechanics became a foundation of quantum mechanics.
+
+  - id: boole
+    name: George Boole
+    born: 1815
+    died: 1864
+    work: 1854
+    fields: [Mathematics, Philosophy]
+    rarity: gold
+    portrait: null
+    related: [spec.geometry.logic]
+    blurb: >-
+      Turned logic into algebra, with variables that are true or false. Boolean algebra is the
+      mathematics of every digital circuit.
+
+  - id: mill
+    name: John Stuart Mill
+    born: 1806
+    died: 1873
+    work: 1859
+    fields: [Philosophy, Economics]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      On Liberty argued that people should be free to do anything that harms no one else. He also
+      developed utilitarianism and argued for women's equality in parliament.
+
+  - id: kierkegaard
+    name: Søren Kierkegaard
+    born: 1813
+    died: 1855
+    work: 1843
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      Wrote about anxiety, choice and faith as each person lives them, not as abstract systems. He is
+      considered the first existentialist.
+
+  - id: schopenhauer
+    name: Arthur Schopenhauer
+    born: 1788
+    died: 1860
+    work: 1818
+    fields: [Philosophy]
+    rarity: gold
+    portrait: null
+    blurb: >-
+      The World as Will and Representation saw a blind, striving will behind everything, and art and
+      compassion as relief from it. He brought Indian philosophy into Western thought and influenced
+      Nietzsche.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: sophie-germain
+    name: Sophie Germain
+    born: 1776
+    died: 1831
+    work: 1816
+    fields: [Mathematics, Physics]
+    rarity: silver
+    portrait: null
+    related: [spec.real-complex.number-proofs]
+    blurb: >-
+      Studied mathematics in secret under a man's name, then won the Paris Academy's prize for a theory
+      of vibrating plates. She made the biggest advance on Fermat's Last Theorem of her century.
+
+  - id: abel
+    name: Niels Henrik Abel
+    born: 1802
+    died: 1829
+    work: 1824
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    related: [spec.complex.polynomials]
+    blurb: >-
+      Proved that no formula with roots can solve every quintic equation, settling a question open for
+      centuries. He died of tuberculosis at 26; the Abel Prize is named after him.
+
+  - id: lobachevsky
+    name: Nikolai Lobachevsky
+    born: 1792
+    died: 1856
+    work: 1829
+    fields: [Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Published a consistent geometry in which Euclid's parallel postulate fails, with many parallels
+      through a point. Non-Euclidean geometry showed that axioms are choices, not obvious truths.
+
+  - id: babbage
+    name: Charles Babbage
+    born: 1791
+    died: 1871
+    work: 1837
+    fields: [Computing, Mathematics, Engineering]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Designed the Analytical Engine, a mechanical general-purpose computer with memory and a processor,
+      a century before electronic ones. It was never finished in his lifetime.
+
+  - id: ada-lovelace
+    name: Ada Lovelace
+    born: 1815
+    died: 1852
+    work: 1843
+    fields: [Computing, Mathematics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Her notes on Babbage's Analytical Engine include a program to compute Bernoulli numbers, often
+      called the first computer program. She saw that such machines could handle symbols, even music,
+      not just numbers.
+
+  - id: florence-nightingale
+    name: Florence Nightingale
+    born: 1820
+    died: 1910
+    work: 1858
+    fields: [Medicine, Statistics]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Founded modern nursing after the Crimean War and used statistics and her polar area diagrams to
+      show that more soldiers died of disease than of wounds. Her data changed hospital sanitation.
+
+  - id: joseph-lister
+    name: Joseph Lister
+    born: 1827
+    died: 1912
+    work: 1867
+    fields: [Medicine]
+    rarity: silver
+    portrait: null
+    blurb: >-
+      Applied Pasteur's germ theory to surgery, cleaning wounds and instruments with carbolic acid. Deaths
+      after operations fell sharply, and antiseptic surgery spread worldwide.
