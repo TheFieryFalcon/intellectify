@@ -17,15 +17,15 @@
   <h1>Cosmetics</h1>
   {#each items as c (c.id)}
     <section>
-      <h2>{c.name} <span class="muted">{SLOT_NAME[c.slot]} · {c.condition ?? "Shop"}</span></h2>
+      <h2>{c.name} <span class="muted">{SLOT_NAME[c.slot]}, {c.condition ?? "Shop"}</span></h2>
       <CosmeticPreview item={c} name="Ada" />
     </section>
   {/each}
   {#if data}
-    <section><h2>∞ Lemma icon <span class="muted">Lemma icon · Axiom · Infinity</span></h2><p class="icons">4.56 M <LemmaIcon /> · 4.56 M <LemmaIcon infinity /></p></section>
+    <section><h2>∞ Lemma icon <span class="muted">Lemma icon, Axiom Infinity</span></h2><p class="icons">4.56 M <LemmaIcon /> and 4.56 M <LemmaIcon infinity /></p></section>
     <section>
       <h2>Frames <span class="muted">Era sets</span></h2>
-      {#each data.config.eras as e (e.id)}<ProfileHero name="Ada · {e.name}" banner={null} frame="frame-{e.id}" title={null} ornament={null} showcase={[]} cards={new Map()} />{/each}
+      {#each data.config.eras as e (e.id)}<ProfileHero name="Ada ({e.name})" banner={null} frame="frame-{e.id}" title={null} ornament={null} showcase={[]} cards={new Map()} />{/each}
     </section>
   {/if}
 </div>

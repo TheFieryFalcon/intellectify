@@ -36,15 +36,15 @@
         {#if !isOpen}
           <p class="pl">{buildLabel(cfg.eras[i - 1]!.institute.name)}</p>
         {:else}
-          <p class="meta num">{n} unopened · <LemmaAmount value={e.packPrice} /> each</p>
+          <p class="meta num">{n} unopened, <LemmaAmount value={e.packPrice} /> each</p>
           <div class="btns">
-            <button class="ink-btn" class:pencil={e.packPrice > economy.balance} disabled={e.packPrice > economy.balance} onclick={() => economy.buyPacks(e.id, 1)}>Buy · <LemmaAmount value={e.packPrice} /></button>
-            <button class="ink-btn" class:pencil={e.packPrice * 10 > economy.balance} disabled={e.packPrice * 10 > economy.balance} onclick={() => economy.buyPacks(e.id, 10)}>Buy 10 · <LemmaAmount value={e.packPrice * 10} /></button>
+            <button class="ink-btn" class:pencil={e.packPrice > economy.balance} disabled={e.packPrice > economy.balance} onclick={() => economy.buyPacks(e.id, 1)}>Buy <LemmaAmount value={e.packPrice} /></button>
+            <button class="ink-btn" class:pencil={e.packPrice * 10 > economy.balance} disabled={e.packPrice * 10 > economy.balance} onclick={() => economy.buyPacks(e.id, 10)}>Buy 10 for <LemmaAmount value={e.packPrice * 10} /></button>
             <button class="ink-btn" class:pencil={!n} disabled={!n} onclick={() => open(e.id, 1)}>Open</button>
             <button class="ink-btn" class:pencil={n < 2} disabled={n < 2} onclick={() => open(e.id, 10)}>Open 10</button>
             <button class="ink-btn" class:pencil={n < 2} disabled={n < 2} onclick={() => open(e.id, n)}>Open all</button>
           </div>
-          <p class="meta num">{have} / {cards.length} · Diamond in ≤ {diamondIn(cfg, s, e.id)} · Platinum in ≤ {platinumIn(cfg, s, e.id)}{#if missing.length} · Missing: {missing.map((c) => c.name).join(", ")}{/if}</p>
+          <p class="meta num">{have} / {cards.length}, Diamond in ≤ {diamondIn(cfg, s, e.id)}, Platinum in ≤ {platinumIn(cfg, s, e.id)}{#if missing.length}<br />Missing: {missing.map((c) => c.name).join(", ")}{/if}</p>
         {/if}
       </div>
     </section>
@@ -58,7 +58,7 @@
     <tr><th scope="row">Cards 1–{cfg.packs.size - 1}</th>{#each ROWS as r (r)}<td class="num">{odds.common[r]}%</td>{/each}</tr>
     <tr><th scope="row">Card {cfg.packs.size} (Gold or better)</th>{#each ROWS as r (r)}<td class="num">{odds.last[r] ? `${odds.last[r]}%` : "—"}</td>{/each}</tr>
   </tbody>
-  <tfoot><tr><td colspan="5" class="pl">Platinum or better by the {cfg.packs.pity.platinum}th pack without one · Diamond by the {cfg.packs.pity.diamond}th · Foil 1 in {cfg.packs.foilOneIn}</td></tr></tfoot>
+  <tfoot><tr><td colspan="5" class="pl">Platinum or better by the {cfg.packs.pity.platinum}th pack without one, Diamond by the {cfg.packs.pity.diamond}th, foil 1 in {cfg.packs.foilOneIn}</td></tr></tfoot>
 </table>
 
 {#if opening}

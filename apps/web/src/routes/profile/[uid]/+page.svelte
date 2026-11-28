@@ -45,7 +45,7 @@
           (b.id === "course" ? Object.keys(p.courses ?? {}) : [""]).map((c) => {
             const rows = rankBoard(all!, b.id, today, c);
             const r = rows.find((x) => x.profile.uid === uid);
-            return r ? { key: `${b.id}:${c}`, board: b.id, course: c, name: b.group === b.name ? b.name : `${b.group} · ${b.name}`, pos: r.pos, of: rows.length } : null;
+            return r ? { key: `${b.id}:${c}`, board: b.id, course: c, name: b.group === b.name ? b.name : `${b.group}, ${b.name}`, pos: r.pos, of: rows.length } : null;
           }),
         ).filter((x) => x !== null)
       : [],
@@ -92,14 +92,14 @@
       onedit={isMe && mine?.loaded ? (f) => (editing = f) : undefined}
     >
       {#snippet extra()}
-        {#if level}<p class="lvl"><LevelBadge progress={level} /> <span class="muted">{level.tier.name} · {p.xp.toLocaleString("en-US")} XP</span></p>{/if}
+        {#if level}<p class="lvl"><LevelBadge progress={level} /> <span class="muted">{level.tier.name}, {p.xp.toLocaleString("en-US")} XP</span></p>{/if}
       {/snippet}
     </ProfileHero>
     {#if editing && mine && eco}<ProfileEditor field={editing} economy={mine} profile={profileFor(session.backend, session.user)} onclose={() => (editing = null)} />{/if}
 
     <dl class="facts">
       <div><dt>Problems</dt><dd>{(p.stats?.problems ?? 0).toLocaleString("en-US")}</dd></div>
-      <div><dt>Daily streak</dt><dd>{liveStreak(p, today)}{#if p.daily?.best}<span class="muted"> · best {p.daily.best}</span>{/if}</dd></div>
+      <div><dt>Daily streak</dt><dd>{liveStreak(p, today)}{#if p.daily?.best}<span class="muted"> (best {p.daily.best})</span>{/if}</dd></div>
       <div><dt>Achievement points</dt><dd>{achievementPoints(p)}</dd></div>
       {#if p.joined}<div><dt>Joined</dt><dd>{new Date(p.joined).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric", timeZone: "Australia/Perth" })}</dd></div>{/if}
     </dl>
@@ -120,12 +120,12 @@
       {#if bundle}
         {@const progress = progressFromPublic(c)}
         <section>
-          <h2>{bundle.name} <span class="course-rank"><RankDot rank={c.rank} label />{#if c.theta !== null}<span class="muted"> · {score(c.theta)}</span>{/if}</span></h2>
+          <h2>{bundle.name} <span class="course-rank"><RankDot rank={c.rank} label />{#if c.theta !== null}<span class="muted"> {score(c.theta)}</span>{/if}</span></h2>
           {#if Object.keys(c.responseSkills ?? {}).length}
             <ul class="rs">
               {#each bundle.responseSkills as r (r.id)}
                 {@const st = c.responseSkills[r.id]}
-                <li><span class="muted">{r.name}</span> <RankDot rank={(st?.r ?? 0) as RankLevel} label />{#if st?.t != null}<span class="muted"> · {score(st.t)}</span>{/if}</li>
+                <li><span class="muted">{r.name}</span> <RankDot rank={(st?.r ?? 0) as RankLevel} label />{#if st?.t != null}<span class="muted"> {score(st.t)}</span>{/if}</li>
               {/each}
             </ul>
           {/if}

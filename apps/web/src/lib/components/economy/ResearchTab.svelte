@@ -32,11 +32,11 @@
     {@const slots = staffSlots(cfg, n)}
     <li class="row plate" class:pencil={!open}>
       {#if !open}
-        <div class="sealed"><span class="seal" aria-hidden="true">{["I", "II", "III", "IV", "V", "VI", "VII"][i]}</span><div><h3>{e.institute.name}</h3><p class="pl">{e.name} · {buildLabel(cfg.eras[i - 1]!.institute.name)}</p></div></div>
+        <div class="sealed"><span class="seal" aria-hidden="true">{["I", "II", "III", "IV", "V", "VI", "VII"][i]}</span><div><h3>{e.institute.name}</h3><p class="pl">{e.name}: {buildLabel(cfg.eras[i - 1]!.institute.name)}</p></div></div>
       {:else}
         <div class="head">
           <span class="engr" aria-hidden="true">{["I", "II", "III", "IV", "V", "VI", "VII"][i]}</span>
-          <div class="what"><h3>{e.institute.name}</h3><p class="pl">{e.name} · <span class="num">{n}</span> {n === 1 ? "copy" : "copies"}</p></div>
+          <div class="what"><h3>{e.institute.name}</h3><p class="pl">{e.name}, <span class="num">{n}</span> {n === 1 ? "copy" : "copies"}</p></div>
           <div class="out num">
             <span title="Per copy, staff included"><LemmaAmount value={e.institute.output * (1 + staffBoost(cfg, s, e.id, economy.cardMap)) * mult} per="/day" /> each</span>
             <strong><LemmaAmount value={instituteOutput(cfg, s, e, economy.cardMap) * mult} per="/day" /></strong>
@@ -55,7 +55,7 @@
               {/each}
             </div>
             <span class="num">Staff {pct(staffBoost(cfg, s, e.id, economy.cardMap))}</span>
-            {#if nextSlotAt(cfg, n) !== null}<span class="pl">Next slot · copy {nextSlotAt(cfg, n)}</span>{:else}<span class="pl">{slots} / {cfg.staff.maxSlots} slots</span>{/if}
+            {#if nextSlotAt(cfg, n) !== null}<span class="pl">Next slot at copy {nextSlotAt(cfg, n)}</span>{:else}<span class="pl">{slots} / {cfg.staff.maxSlots} slots</span>{/if}
           </div>
         {/if}
       {/if}

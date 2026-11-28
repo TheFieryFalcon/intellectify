@@ -29,11 +29,11 @@
 
 <section class="summary" aria-label="Summary">
   {#if since}
-    <p class="since">Since last visit · <LemmaAmount value={since.earned} sign />{#if since.hours} · Research {since.hours} h{/if}</p>
+    <p class="since">Since last visit: <LemmaAmount value={since.earned} sign />{#if since.hours}, Research {since.hours} h{/if}</p>
   {/if}
   <div class="row">
     <span class="bal num"><LemmaAmount value={economy.balance} /></span>
-    {#if s.lemmasEarned >= cfg.tabs.research || economy.rate > 0}<span class="chip">Research · <LemmaAmount value={economy.rate} per="/day" /></span>{/if}
+    {#if s.lemmasEarned >= cfg.tabs.research || economy.rate > 0}<span class="chip">Research <LemmaAmount value={economy.rate} per="/day" /></span>{/if}
     <span class="warp" title="Every {cfg.timeWarp.xp} XP credits {cfg.timeWarp.hours} hours of Research">
       Time Warp <span class="num">{Math.round(s.warpXp)} / {cfg.timeWarp.xp} XP</span>
       <span class="meter" aria-hidden="true"><span style="width:{(100 * s.warpXp) / cfg.timeWarp.xp}%"></span></span>
@@ -42,7 +42,7 @@
       {#if next.reached}
         <button class="ink-btn prove" onclick={() => economy.proveAxioms()}>{next.toProve > 1 ? `Prove ${next.toProve}` : `Prove ${next.axiom.name}`}</button>
       {:else}
-        <span class="axiom">{next.axiom.name} · <span class="num"><LemmaAmount value={s.lemmasEarned} /> / <LemmaAmount value={next.axiom.at} /></span></span>
+        <span class="axiom">{next.axiom.name} <span class="num"><LemmaAmount value={s.lemmasEarned} /> / <LemmaAmount value={next.axiom.at} /></span></span>
       {/if}
     {/if}
     <span class="amount" role="radiogroup" aria-label="Buy amount">
@@ -61,7 +61,7 @@
     <dl>
       {#each SOURCES as [src, name] (src)}
         {@const ms = [...sourceMultipliers(s, src, ctx), ...globalMultipliers(cfg, s, ctx)]}
-        <dt>{name}</dt><dd>{ms.length ? ms.map((m) => `${m.label} ${fmt(m.factor)}`).join(" · ") : "—"}{#if ms.length}<strong> = {fmt(ms.reduce((t, m) => t * m.factor, 1))}</strong>{/if}</dd>
+        <dt>{name}</dt><dd>{ms.length ? ms.map((m) => `${m.label} ${fmt(m.factor)}`).join(", ") : "—"}{#if ms.length}<strong> = {fmt(ms.reduce((t, m) => t * m.factor, 1))}</strong>{/if}</dd>
       {/each}
       {#if s.theorems.successor}<dt>Successor Function</dt><dd>+{2 * (s.theorems.successor ?? 0)} ∴ per question, before multipliers</dd>{/if}
     </dl>
@@ -75,7 +75,7 @@
     <h3>Research</h3>
     <dl>
       {#each cfg.eras.filter((e) => (s.institutes[e.id] ?? 0) > 0) as e (e.id)}
-        <dt>{e.institute.name}</dt><dd>Staff +{Math.round(staffBoost(cfg, s, e.id, economy.cardMap) * 100)}% · <LemmaAmount value={instituteOutput(cfg, s, e, economy.cardMap)} per="/day" /></dd>
+        <dt>{e.institute.name}</dt><dd>Staff +{Math.round(staffBoost(cfg, s, e.id, economy.cardMap) * 100)}%, <LemmaAmount value={instituteOutput(cfg, s, e, economy.cardMap)} per="/day" /></dd>
       {/each}
       {#each [...researchMultipliers(cfg, s), ...globalMultipliers(cfg, s, ctx)] as m (m.label)}<dt>{m.label}</dt><dd>{fmt(m.factor)}</dd>{/each}
       <dt>Total</dt><dd><strong><LemmaAmount value={economy.rate} per="/day" /></strong></dd>

@@ -7,7 +7,7 @@
   const fancy = $derived(["ruby", "tanzanite", "vibranium", "solarium", "antimatter"].includes(key));
 </script>
 
-<span class="badge {key}" class:fancy style="--t: var(--lvl-{key})" title="{progress.tier.name} · {progress.into}/{progress.needed} XP to level {progress.level + 1}">
+<span class="badge {key}" class:fancy style="--t: var(--lvl-{key})" title="{progress.tier.name}: {progress.into}/{progress.needed} XP to level {progress.level + 1}">
   <TierGem tier={key} size={11} />
   <span class="lv">Lv {progress.level}</span>
   {#if bar}

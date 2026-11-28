@@ -26,13 +26,13 @@
   const unlocks = (id: TheoremId) => cfg.theorems.filter((t) => t.requires?.theorem === id);
 </script>
 
-<div class="tree" style="aspect-ratio: {W} / {H}">
-  <svg viewBox="0 0 {W} {H}" aria-hidden="true">
+<div class="tree">
+  <svg viewBox="0 0 {W} {H}" preserveAspectRatio="none" aria-hidden="true">
     {#each edges as e (e.to.id)}
       {@const lit = theoremUnlocked(cfg, s, e.to.id)}
       {@const mx = (e.from.x + e.to.x) / 2}
-      <path class:lit d="M{e.from.x + 70} {e.from.y} C {mx} {e.from.y}, {mx} {e.to.y}, {e.to.x - 86} {e.to.y}" />
-      <text class:lit x={e.to.x - 80} y={e.to.y + 4}>∴</text>
+      <path class:lit d="M{e.from.x + 70} {e.from.y} C {mx} {e.from.y}, {mx} {e.to.y}, {e.to.x - 100} {e.to.y}" />
+      <text class:lit x={e.to.x - 98} y={e.to.y + 5}>∴</text>
     {/each}
   </svg>
   {#each order as t (t.id)}
@@ -58,7 +58,7 @@
   {@const L = levelOf(s, sel.id)}
   {@const ctx = economy.ctx}
   <Sheet label={sel.name} onclose={() => (selected = null)}>
-    <p class="pl">Theorem · {sel.boosts}</p>
+    <p class="pl">Boosts: {sel.boosts}</p>
     <h2>{sel.name}</h2>
     <p class="statement">{@html tex(sel.statement)}</p>
     <dl>
@@ -83,9 +83,9 @@
 {/if}
 
 <style>
-  .tree { position: relative; width: 100%; max-width: 1000px; margin: 12px auto; }
+  .tree { position: relative; width: 100%; max-width: 1000px; margin: 12px auto; aspect-ratio: 1000 / 640; }
   svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-  path { fill: none; stroke: var(--pencil); stroke-width: 1.2; stroke-dasharray: 4 4; }
+  path { fill: none; stroke: var(--pencil); stroke-width: 1.2; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
   path.lit { stroke: var(--ink-archive); stroke-dasharray: none; stroke-width: 1.4; }
   text { fill: var(--pencil); font-size: 16px; font-family: var(--font-display); }
   text.lit { fill: var(--ink-archive); }
@@ -102,5 +102,6 @@
   dt { color: var(--muted); }
   dd { margin: 0; }
   .buy { display: flex; flex-wrap: wrap; gap: 6px; }
-  @media (max-width: 640px) { .node { min-width: 0; width: 21%; padding: 4px; } }
+  /* Phones: the page is taller, so rows keep 44 px touch targets apart. */
+  @media (max-width: 640px) { .tree { aspect-ratio: 1000 / 1050; } .node { min-width: 0; width: 22%; padding: 3px; } .name { font-size: 10px; } .lv { font-size: 9px; } }
 </style>

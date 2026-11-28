@@ -151,7 +151,7 @@
   </header>
   {#if result}
     <div class="result" aria-live="polite">{@html tex(result.latex)}</div>
-    {#if result.via === "ai"}<p class="muted small">Read by AI · check it</p>{/if}
+    {#if result.via === "ai"}<p class="muted small">Read by AI: check it</p>{/if}
     <div class="row">
       <button type="button" class="btn" onclick={() => (result = null)}>Write again</button>
       <button type="button" class="btn primary" onclick={use}>Use this</button>

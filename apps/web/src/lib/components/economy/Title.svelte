@@ -12,7 +12,7 @@
   loadTitles();
   const info = $derived(titles.map[title]);
   const kind = $derived(info?.kind ?? "axiom");
-  const tip = $derived(info ? (info.kind === "axiom" ? `Axiom · ${info.source}` : `${info.source} · ${info.kind[0]!.toUpperCase()}${info.kind.slice(1)}`) : title);
+  const tip = $derived(info ? (info.kind === "axiom" ? `Axiom: ${info.source}` : `${info.source} (${info.kind[0]!.toUpperCase()}${info.kind.slice(1)})`) : title);
 </script>
 
 <span class="title {kind} t-{slug(title)}" class:calm title={tip}>

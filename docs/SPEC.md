@@ -367,7 +367,7 @@ Ranks per skill: **Unranked → Bronze → Silver → Gold → Platinum → Diam
 ### 5.6 Response skills
 Alongside content skills, every student has **response skills**, each with its own θ and Bronze→Diamond rank (same rules as §5.4):
 
-`Calculation` · `Reasoning` · `Reading & interpretation` · `Proof` · `Clarity of expression` · `Precision of language` · `Synthesis` (list is configurable)
+`Calculation`, `Reasoning`, `Reading & interpretation`, `Proof`, `Clarity of expression`, `Precision of language`, `Synthesis` (list is configurable)
 
 **Tagging rules** (the content build enforces the first four):
 
@@ -460,7 +460,7 @@ Graphical answers such as "sketch y = 1/f(x)" or "shade the locus" are handled t
   - **Written answers are edited as they read (WYSIWYG):** words are plain text and mathematics sits inline as live maths, never raw LaTeX. Maths starts where a keypad key is pressed, where **Maths** is pressed, or where **$** is typed; arrow keys past either end, Enter or $ of a piece of maths go back to the words, and Backspace in empty maths removes it. Pasted text with $…$ becomes maths. The answer is stored, marked and shown elsewhere as text with mathematics between $ signs. On computers the keypad sits under the answer; on phones the maths keyboard appears inside the maths.
 - **Handwriting (implemented).** **Handwrite** under any answer opens a pad: write with a stylus (or a finger or mouse; once a pen is used, touches are ignored), then **Read**. The typeset result is shown to check, then **Use this** puts it in the answer box last used (as maths in a written answer). Undo and Clear work on strokes.
   - **MyScript iink** reads the strokes, through the Netlify Function **`/api/ink`**: it holds the owner's application and HMAC keys (`MYSCRIPT_APPLICATION_KEY`, `MYSCRIPT_HMAC_KEY`), signs each request (HMAC-SHA512 of the body, keyed by both keys), and calls the Cloud REST batch API for LaTeX. Signed-in students only; at most 400 strokes and 20,000 points; nothing is stored.
-  - **AI fallback:** when MyScript's shared monthly quota (2,000 requests on the free tier) runs out, the function answers 429 and that browser skips MyScript until next month; a picture of the ink goes to the vision reader instead (the student's own key, else the free photo reader, §10.5), marked "Read by AI · check it". Any other MyScript failure falls back the same way for that one request.
+  - **AI fallback:** when MyScript's shared monthly quota (2,000 requests on the free tier) runs out, the function answers 429 and that browser skips MyScript until next month; a picture of the ink goes to the vision reader instead (the student's own key, else the free photo reader, §10.5), marked "Read by AI: check it". Any other MyScript failure falls back the same way for that one request.
   - **Settings › Handwriting** turns the pad on or off (on by default) and says which reader is in use.
 - **Paste detector (implemented, every answer).** Answers are the student's own writing, in every mode (practice, quizzes, Challenges, daily, revision, shared problems, and monthly problems when they arrive):
   - Text from **outside the site** can't be pasted or dropped into any answer box (MathLive's Paste menu item is removed too); a short note says "Pasting from outside the site is off". Text copied on the site itself (the student's own answer, a question) still pastes, and so do 1–3 characters.
@@ -506,7 +506,7 @@ An endless adaptive stream for one skill (§5.7).
   | Black | 1950–1999 | diamond |
 
   Each Challenge ends on **exactly one black problem**. The build enforces the length, the rising order and the single black finale, and warns if a grade is missing or fewer than a third of the problems are cross-skill.
-- **Later-unit content.** A problem may draw on a later unit of the **same year**, declared by `requires` (section IDs, e.g. `requires: [matrices]`). The problem shows "Uses Unit 2 · Matrices" and can be **skipped**: a skipped problem changes no θ and is left out of the average, though it rules out a first-try sweep. The build rejects `requires` outside Section Challenges, on a section that isn't in a later unit, and **any Year 11 Challenge problem that requires Year 12 content**.
+- **Later-unit content.** A problem may draw on a later unit of the **same year**, declared by `requires` (section IDs, e.g. `requires: [matrices]`). The problem shows "Uses Unit 2: Matrices" and can be **skipped**: a skipped problem changes no θ and is left out of the average, though it rules out a first-try sweep. The build rejects `requires` outside Section Challenges, on a section that isn't in a later unit, and **any Year 11 Challenge problem that requires Year 12 content**.
 - **Untimed**, and progress is saved across sessions. "Try again" restarts the same sequence; the best average is kept.
 - **Soft gate:** always available. If any skill in the section is below Gold, a "Recommended at Gold" warning appears before starting.
 - Each problem has one **primary skill** (full update) and secondary skills (0.5× update).
@@ -722,7 +722,7 @@ Word problems change their story each time, not just their numbers, so they don'
 - Written answers can be **photographed**: the Photo button takes a picture with the camera or uploads one.
 - **Several photos** (up to 6 pages of one answer) can be taken one by one with the camera or uploaded together. They show as numbered thumbnails and are read together, in order, as one answer. The reader ignores crossed-out work and straightens rotated pages. Transcription may fall back to Flash-Lite.
 - Each photo is shrunk on the device (longest side 1600 px, JPEG) and sent to **`/api/transcribe`**, or straight to the student's own provider (§10.4). This is a vision model told only to transcribe the handwriting into text with LaTeX maths, marking unreadable parts [illegible].
-- The transcription is added to the answer box, labelled "From photo · check it", for the student to correct before submitting. Marking and appeals then use that text as usual.
+- The transcription is added to the answer box, labelled "From photo: check it", for the student to correct before submitting. Marking and appeals then use that text as usual.
 - **Photos are never stored.** `/api/transcribe` uses the same sign-in check as `/api/mark`, accepts one JPEG, PNG or WebP of about 3 MB at most, and reports 429 when over quota.
 
 ---
@@ -1049,7 +1049,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 
 ---
 
-## 13. Lemmas, theorems and packs (planned)
+## 13. Lemmas, theorems and packs (implemented)
 
 A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it (plus passive **Research** from institutes) and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
 
@@ -1113,7 +1113,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 - **Time Warp.** Every 600 XP earned (about one active hour of practice) instantly credits **12 hours of Research** at the current rate.
   - It inherits XP's repeat rules and daily caps, so it rewards practice and can't be farmed.
   - Over a day, Research comes to about (1 + ½ × hours played) days' worth. Students who practice more keep pace in active hours, not just in calendar time.
-  - Shown as a meter in the hub summary (**Time Warp · 420 / 600 XP**), and in the result row of the answer that fires it: **Time Warp +12 h · +5.4 k∴** (§13.11).
+  - Shown as a meter in the hub summary (**Time Warp 420 / 600 XP**), and in the result row of the answer that fires it: **Time Warp +12 h, +5.4 k∴** (§13.11).
 - **Other boosts:** Conjectures (below), Recurrence Relation, Golden Ratio, corollaries and Axioms all apply to Research. The question-specific theorems (Successor Function, Harmonic Series and so on) don't.
 - **Calibration targets** for the early and middle game, for a typical student who plays about 0.75 hours a day (500 hours over two years, §12.4).
   - **Ratio:** one day of Research, Time Warp included, ÷ one active hour of practice.
@@ -1145,7 +1145,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 
   Playing more gets there sooner on the calendar but takes more active hours, because there are fewer days for Research to run. The Time Warp keeps that gap small.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
-- **Shown** as a chip on the Lemmas page: **Research · 8.98 k∴/day**.
+- **Shown** as a chip on the Lemmas page: **Research 8.98 k∴/day**.
 
 ### 13.4 Conjectures (the long-term Research boost)
 Conjectures are famous problems that the student's institutes "prove", one at a time, in order.
@@ -1185,7 +1185,7 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
   - **Fitted to a curve:** thresholds follow the growth curve of a student who plays 1.5 hours a day, so that Rank-into-Rank arrives after 1.5 years.
   - **The nine ZFC axioms** (10 k to 15 M) spread over the first 420 or so active hours, starting with an early taste about 14 hours in.
   - **The nine large cardinals** (20 M to 1 P) then arrive about every 20–75 active hours, up to Rank-into-Rank at about 815. Conjectures carry students through them.
-- **Display:** the hub summary shows the next Axiom and its progress, e.g. **Union · 640 k∴ / 700 k∴**; once reached it becomes a **Prove Union** button (§13.11).
+- **Display:** the hub summary shows the next Axiom and its progress, e.g. **Union 640 k∴ / 700 k∴**; once reached it becomes a **Prove Union** button (§13.11).
 - **Statements:** each Axiom's card shows its statement in one plain line, as flavor and a glimpse of set theory.
 - **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 640).
 
@@ -1254,9 +1254,9 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 
 | Source | Packs |
 |---|---|
-| Reaching a level tier (§12.4), in proportion to the XP since the previous tier (Bronze = 1) | Bronze 1 · Silver 2 · Gold 3 · Platinum 8 · Diamond 12 · Ruby 15 · Tanzanite 40 · Vibranium 54 · Solarium 67 · Antimatter 226 |
+| Reaching a level tier (§12.4), in proportion to the XP since the previous tier (Bronze = 1) | Bronze 1, Silver 2, Gold 3, Platinum 8, Diamond 12, Ruby 15, Tanzanite 40, Vibranium 54, Solarium 67, Antimatter 226 |
 | Finishing a Section Challenge | 1 |
-| Achievement | Platinum 1 · Diamond 2 · Ruby 3 · Tanzanite 5 · Vibranium 8 · Solarium 12 · Antimatter 20 |
+| Achievement | Platinum 1, Diamond 2, Ruby 3, Tanzanite 5, Vibranium 8, Solarium 12, Antimatter 20 |
 | A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
 | Buy with Lemmas | A fixed price per era: Antiquity 1 k∴; later eras cost more, at prices fitted with `scripts/economy_sim.py` |
 
@@ -1282,7 +1282,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 - **Pity:** two guarantees by pack count, each kept per era. Law of Large Numbers shortens both by 5% of their base per level, so they keep the same proportion (halves round to the sooner pack).
   - **Platinum:** a Platinum or better by the **10th** pack of an era without one (5 at most, with Law of Large Numbers 10). A Diamond counts.
   - **Diamond:** a Diamond by the **80th** pack of an era without one (40 at most).
-  - A guaranteed card takes the place of card 3. The counters are shown, e.g. "Diamond in ≤ 61 · Platinum in ≤ 7".
+  - A guaranteed card takes the place of card 3. The counters are shown, e.g. "Diamond in ≤ 61, Platinum in ≤ 7".
 - **No duplicate Diamonds** until every Diamond in that era has been collected; the roll picks among the missing ones instead.
 - **Duplicates** turn into Lemmas: Silver 20, Gold 60, Platinum 200, Diamond 600 (× Pigeonhole Principle).
 - **Foil:** 1 card in 25 has a foil finish in its rarity's material. A foil copy of a card already held upgrades that card's finish instead of converting.
@@ -1388,6 +1388,13 @@ Frames come only from era sets, Axiom cosmetics only from Axioms, and titles onl
 - **Saving:** changes are saved in the same batched write as XP and the public mirror (§12.2).
 - **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame, banner and showcase; the collection (card ids, with a foil flag; about 170 ids at most, well within a document); `lemmasEarned`; and `axiomsProven`. These feed the profile's collection and the **Cards collected**, **Lifetime Lemmas** and **Axioms** boards (§12.2). Theorems, institutes, staff and the balance stay private.
 - **Logic:** formulas (earn rates, Research, Conjectures, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, institute, Conjecture, Axiom (thresholds, cosmetics, titles), pack and shop values live in `content/economy.yaml`.
+- **Implementation notes:**
+  - The store is `apps/web/src/lib/economy.svelte.ts`, created with the profile. Every XP grant names its source (question, quiz, daily, rank-up, achievement, other) and pays its Lemmas there; awards that arrive before the economy loads wait for it.
+  - `lemmasEarned` and `lemmasSpent` are saved as **increments**, so two tabs never overwrite each other's earnings or purchases; everything else is merged with the latest saved copy before each save (counters take the larger value, collections the union).
+  - **Research** is credited in a Firestore transaction: the app stamps a server timestamp on the document, reads it back, and moves `researchCreditedAt` forward by whole hours, keeping the remainder. The rules refuse a `researchCreditedAt` after `request.time` or before the saved one. Crediting runs on load and every 10 minutes while the app is open.
+  - **Retroactive grants:** level tiers and achievements reached before the economy existed pay their packs once, the first time the economy loads.
+  - **Pack prices:** Antiquity 1 k∴, then half each era's institute (×15 an era). Bought packs aren't in `economy_sim.py` yet, so these are a starting point.
+  - **Portraits** are served from `/content/cards/portraits/` (copied by `pnpm content`); cards without one show an engraved monogram.
 
 ### 13.11 Screens, layout and motion
 Copy follows §16.1: bare labels, chips and numbers. Full sentences only in learning content (theorem, Axiom and Conjecture statements, card blurbs) and the one-line first-open notes. There is **no sound** anywhere.
@@ -1396,13 +1403,13 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **Header.** The nav gains **Lemmas** (→ `/lemmas`) after Leaderboards. The ∴ balance sits after the level badge, in short form (**4.56 M∴**), and also links to `/lemmas`.
   - **Count-up:** when XP or Lemmas change, the header number (and the level bar) rolls from the old value to the new one over about 600 ms, ease-out. The tooltip shows the final value at once. Reduced motion swaps instantly.
   - **Pip:** a small dot on the ∴ count while an Axiom is reached but not proven (screen readers: "Axiom to prove"). Nothing else pips: packs, affordable upgrades and new cards never do.
-- **Hub** (`/lemmas`): tabs **Theorems · Research · Conjectures · Axioms · Packs · Collection · Shop**, under a summary strip. Only the hub takes the archive look (below); the header, result row, profile, pack overlay chrome and the rest of the site keep the standard style.
+- **Hub** (`/lemmas`): tabs **Theorems, Research, Conjectures, Axioms, Packs, Collection, Shop**, under a summary strip. Only the hub takes the archive look (below); the header, result row, profile, pack overlay chrome and the rest of the site keep the standard style.
 - **Profile** (§12.3): banner, frame, title, showcase, collection and Axioms. App-wide cosmetics (keypad skin, celebration, node theme) are equipped in **Shop › Wardrobe**.
-- **Show rewards off** (§13 rules) removes the nav link, header count, pip and hub; `/lemmas` shows "Rewards hidden · Settings".
+- **Show rewards off** (§13 rules) removes the nav link, header count, pip and hub; `/lemmas` shows "Rewards hidden (Settings)".
 
 #### Hub summary
-- **Contents, in order:** balance · **Research 8.98 k∴/day** · **Time Warp 420 / 600 XP** (a thin meter) · next Axiom (**Union · 640 k∴ / 700 k∴**, or the **Prove Union** / **Prove 3** button once reached) · buy amount **×1 / ×10 / Max** · **Multipliers**.
-- **Since last visit · +12.3 k∴ · Research 14 h** heads the summary when anything changed since the last hub visit (from `lastVisit`, §13.10). It stays for the whole visit and resets when the student leaves the hub or hides the page. It appears nowhere else: there is no return toast.
+- **Contents, in order:** balance, **Research 8.98 k∴/day**, **Time Warp 420 / 600 XP** (a thin meter), next Axiom (**Union 640 k∴ / 700 k∴**, or the **Prove Union** / **Prove 3** button once reached), buy amount **×1 / ×10 / Max**, **Multipliers**.
+- **Since last visit: +12.3 k∴, Research 14 h** heads the summary when anything changed since the last hub visit (from `lastVisit`, §13.10). It stays for the whole visit and resets when the student leaves the hub or hides the page. It appears nowhere else: there is no return toast.
 - **Multipliers** opens a panel listing every active multiplier by source: theorems, corollaries (achievements, level tiers, era sets), Axioms and, for Research, Conjectures and staff, with each source's total.
 - **Sticky** at the top of the hub on wider screens; not sticky on phones (below).
 
@@ -1411,12 +1418,12 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **Research:** at 2 k∴ lifetime earned (an Academy is affordable).
 - **Axioms:** when the first Axiom is reached.
 - **Conjectures:** once Research reaches 250 k∴/day (half the first Conjecture's price per 100 days).
-- **Later:** a final, quiet tab item lists the tabs not yet open as silhouettes with their bare-label condition ("Research · 2 k∴ earned"). It disappears once every tab is open.
+- **Later:** a final, quiet tab item lists the tabs not yet open as silhouettes with their bare-label condition ("Research (2 k∴ earned)"). It disappears once every tab is open.
 - **First-open note:** the first time a tab opens, one marginal sentence says what it's for (e.g. "Institutes earn Lemmas while you're away; cards you place in their slots boost them."). × dismisses it for good (localStorage, like the Paper first tip, §16.5a).
 - **Keys:** Shift+1–7 switch tabs. Every hub shortcut is off while typing in a field or while a sheet or overlay is open; buttons name theirs in their tooltip ("Max (M)").
 
 #### Buying
-- **Buy amount** ×1 / ×10 / Max (in the summary) applies to every theorem and institute button. The button shows the total for that amount; Max also shows the count: **Max · 7 · 12.4 k∴**. If ×10 isn't affordable the button stays pencil and shows what 10 would cost.
+- **Buy amount** ×1 / ×10 / Max (in the summary) applies to every theorem and institute button. The button shows the total for that amount; Max also shows the count: **Max (7) 12.4 k∴**. If ×10 isn't affordable the button stays pencil and shows what 10 would cost.
 - **No confirmations and no undo.** A purchase applies at once and saves with the next batched write (§12.2).
 - **M** buys the max on the current tab only (Theorems or Research): it repeatedly buys the single **cheapest next level** available on that tab, including theorems it newly unlocks, until nothing more is affordable. It never buys Conjectures, packs or cosmetics. A toast reports **Bought 23 levels · 41.2 k∴**.
 - **Affordability: inked vs pencil.** Affordable items render in full ink. Unaffordable ones render in pale pencil grey, with their price. There are no fill bars, progress rings, tab dots or badges: affordability never pulls.
@@ -1428,7 +1435,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 
 #### Research: institutes and staff
 - **One row per institute**, in era order: the institute's engraving, name, era, copies, output per day (per copy and total, staff boost included) and buy controls.
-- **Staff strip** under each row: the slots, each filled with a portrait thumbnail in its rarity frame or drawn as a dashed empty slot; the total staff boost (**Staff +64%**); and when the next slot opens (**Next slot · copy 8**, or **12 / 12 slots** once full).
+- **Staff strip** under each row: the slots, each filled with a portrait thumbnail in its rarity frame or drawn as a dashed empty slot; the total staff boost (**Staff +64%**); and when the next slot opens (**Next slot at copy 8**, or **12 / 12 slots** once full).
 - **Click a slot** to open a picker of that era's owned cards, sorted by boost (Diamond foil first), each with its boost. A card already in a slot is marked **Slotted**, and choosing it moves it. **Remove** empties the slot. Newly pulled cards never fill or replace slots on their own.
 - **Locked institutes** show as a sealed silhouette with the bare-label condition (**Build an Academy**).
 
@@ -1446,14 +1453,14 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
   - **Reached:** a **Prove** button.
   - **Next:** lifetime progress, **640 k∴ / 700 k∴**.
   - **Later:** pencil. Their cosmetics show as a silhouette with the condition until proven.
-- **Claiming:** **Prove** (in the summary or on the ladder) opens a full-screen celebration: the Axiom, its statement and what it unlocks (cosmetic, title, +5%), with **Equip · Later**. Equip puts the cosmetic (and title) on at once.
+- **Claiming:** **Prove** (in the summary or on the ladder) opens a full-screen celebration: the Axiom, its statement and what it unlocks (cosmetic, title, +5%), with **Equip** and **Later**. Equip puts the cosmetic (and title) on at once.
 - **Several reached:** **Prove 3**. The earlier ones flash by briefly (name and statement, about 0.8 s each), and the highest gets the full celebration. The unlocks list each cosmetic and title with its own **Equip**; **Later** closes.
 
 #### Packs
 - **One pack per era**, in era order, each drawn in its era's style. Each shows:
   - the unopened count and the era's price, with **Buy** and **Buy 10**;
   - **Open**, **Open 10** and **Open all**;
-  - set completion (**14 / 24**), the pity counters (**Diamond in ≤ 61 · Platinum in ≤ 7**) and the Diamonds still missing;
+  - set completion (**14 / 24**), the pity counters (**Diamond in ≤ 61, Platinum in ≤ 7**) and the Diamonds still missing;
   - the odds table, always visible beneath it.
 - **Locked eras** show as sealed packs with their condition (**Build an Academy**).
 - **Granted packs** wait here quietly: no toast, no pip, no prompt anywhere else.
@@ -1464,9 +1471,9 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
   - **Flipping:** click or tap a card, or press Space or Enter, to flip the next one (a 3D turn of about 300 ms; a crossfade with reduced motion). **Reveal all** flips the rest.
   - **Duplicates** flip like any card and carry a count badge (**×2**). A foil duplicate of a held card shows **Foil upgrade**.
   - **A Diamond** flips like the others, then gets a crystal burst of about 1.5 s behind it as it enlarges to the center with its portrait large. A click or any key settles it back into the fan.
-  - **The end** shows one line, **New 2 · Duplicates 1 · +20 ∴ · Diamond in ≤ 61**, and **Open another** (same era, if any are left) · **Done**. Escape first reveals all, then closes.
-- **Open 10 / Open all** skip the flips and end on a grid of the **newly collected cards only** (rarity-sorted, foils marked), then one line: **Duplicates 14 · +2.1 k∴ · Diamond in ≤ 61**.
-- Screen readers hear each reveal ("Euler · Platinum · New"); face-down cards are buttons ("Card 2 of 3").
+  - **The end** shows one line, **New 2 · Duplicates 1, +20 ∴**, the pity counters below it, and **Open another** (same era, if any are left) and **Done**. Escape first reveals all, then closes.
+- **Open 10 / Open all** skip the flips and end on a grid of the **newly collected cards only** (rarity-sorted, foils marked), then one line: **New 6, Duplicates 14, +2.1 k∴**, with the pity counters below it.
+- Screen readers hear each reveal ("Euler, Platinum, New"); face-down cards are buttons ("Card 2 of 3").
 
 #### Cards
 - **Portraits** are processed offline into **one ink-wash style**, so a set looks coherent whatever the source (painting, photo, bust, stamp or sketch):
@@ -1485,7 +1492,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 
 #### Shop
 Two sub-tabs.
-- **Wardrobe:** what the student owns, by slot (keypad skin, celebration, banner, node theme, frame, title, Lemma icon, name ornament), each with **Equip** / **Equipped** and a **Default** option. Items that can't be bought show as a silhouette with their condition: **Axiom · Union · 700 k∴**, **Machine Age set**, **Achievement · Keystone** (secret criteria stay hidden, §12.1).
+- **Wardrobe:** what the student owns, by slot (keypad skin, celebration, banner, node theme, frame, title, Lemma icon, name ornament), each with **Equip** / **Equipped** and a **Default** option. Items that can't be bought show as a silhouette with their condition: **Axiom Union, 700 k∴**, **Machine Age set**, **Achievement: Keystone** (secret criteria stay hidden, §12.1).
 - **Shop:** buyable items on category shelves, each with its price, **Preview** and **Buy** (**Owned** once bought).
 - **Preview** opens a sheet with a live sample, and **Buy** is available there:
   - a keypad skin as a working mini keypad;
@@ -1498,7 +1505,7 @@ Two sub-tabs.
 - **Your own profile:** every editable field (display name, title, frame, banner, showcase) has an **Edit** button. Each opens a picker sheet (silhouettes for locked items, as in the Wardrobe), and a change saves at once with the next batched write.
 
 #### Result row
-- **+24 XP · +48 ∴** on one line (§16.4). The answer that fires the Time Warp adds **Time Warp +12 h · +5.4 k∴** to the same row.
+- **+24 XP · +48 ∴** on one line (§16.4). The answer that fires the Time Warp adds **Time Warp +12 h, +5.4 k∴** under it.
 - **Breakdown tooltip** on the ∴ chip: base, flat bonuses (Successor Function), each multiplier, and the total.
 - **Rewards off:** XP only, and the row reflows with no gap.
 
@@ -1510,11 +1517,11 @@ Two sub-tabs.
 #### The archive look (hub only)
 - **Built from tokens** layered over the site's own (`--paper`, `--paper-fiber`, `--ink-archive`, `--pencil`, `--rule`, `--plate`, `--gilt`), each with light and dark values. Every stage passes WCAG AA.
   - **Paper:** a warm off-white surface with a faint fiber texture (an inline SVG noise, at low opacity). In dark mode it's a deep ink-blue "blueprint" paper.
-  - **Engraved rules and plates:** double hairline borders, corner ornaments, and numbered plates as tab and section labels (**Pl. I · Theorems**).
+  - **Engraved rules and plates:** double hairline borders, corner ornaments, and numbered plates as tab and section labels (**Pl. I Theorems**).
   - **Numerals:** STIX Two Text with old-style figures in prose; lining tabular figures for prices and counts.
   - **Marginalia:** statements set as margin notes beside their entries at 1024 px and up; inline, in italics, below that.
 - **Escalation**, in three stages; the student doesn't choose:
-  1. **Eras.** The hub takes the style of the latest unlocked era: Antiquity, parchment and ink · Golden Age, illuminated manuscript · Renaissance, copperplate · Enlightenment, printed folio · Steam Age, lithograph and brass · Machine Age, blueprint · Space Age, back to the site's own minimalist look (§16.1): the present day.
+  1. **Eras.** The hub takes the style of the latest unlocked era: Antiquity, parchment and ink; Golden Age, illuminated manuscript; Renaissance, copperplate; Enlightenment, printed folio; Steam Age, lithograph and brass; Machine Age, blueprint; Space Age, back to the site's own minimalist look (§16.1): the present day.
   2. **Axioms**, once every era is unlocked. Each proven large cardinal darkens the minimalist page a step toward night, with the ink turning to starlight. Large cardinals already proven count at once.
   3. **Conjectures**, once all 18 Axioms are proven. Each proven Conjecture adds a constellation, ending in an Antimatter-like void (§12.4) at P versus NP.
 
@@ -1809,7 +1816,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 ### 16.1 Visual identity
 - **Spelling:** all product copy, content (tutorials, questions, solutions, skill names) and code use standard **American** spelling (practice, color, center, factored, modeling). Mathematical notation still follows WACE conventions (§3.1).
 - **Copy is minimal:** labels over sentences, no explanatory filler on screens; show a number or a status rather than describe it.
-- **Non-learning information is data, not sentences.** Design rule, applied everywhere (screens, tutorials, questions, emails): metadata such as dot points, prerequisites, counts, dates, statuses and modes is shown as a bare label, list or chip, never wrapped in a sentence. Write "1.2.2, 1.2.3", not "Dot points 1.2.2 and 1.2.3."; "Local mode · saved in this browser", not "Local mode: progress is saved in this browser."; "No questions yet" with no full stop. Full sentences are reserved for learning content: explanations, worked solutions and feedback.
+- **Non-learning information is data, not sentences.** Design rule, applied everywhere (screens, tutorials, questions, emails): metadata such as dot points, prerequisites, counts, dates, statuses and modes is shown as a bare label, list or chip, never wrapped in a sentence. Write "1.2.2, 1.2.3", not "Dot points 1.2.2 and 1.2.3."; "Local mode: saved in this browser", not "Local mode: progress is saved in this browser."; "No questions yet" with no full stop. Full sentences are reserved for learning content: explanations, worked solutions and feedback.
 - **Clean and academic:** light theme, minimal, plenty of white space. In the spirit of Khan Academy or Brilliant, but the design is original.
 - Rank colors are the main accent: Unranked gray, Bronze, Silver, Gold, Platinum, Diamond.
 - Typography is tuned for math: KaTeX output, and math fields at matching sizes.
@@ -1828,7 +1835,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - The daily problem (tier, streak, solved) and Revision, Questions and leaderboard links are tiles above the map; the monthly problem joins them when it ships.
 
 ### 16.3 Skill page
-- Shows rank, score, θ, what the next rank needs, **every rank's floor and gate progress** (e.g. "Gold · θ 1400 · 2/3 at Tier 3+", earned ranks ticked), size, dot points covered, suggested prerequisites (with their ranks, for information only), leads to, and the **last five answers** in the skill from this browser's history (date, question, score), linking to History.
+- Shows rank, score, θ, what the next rank needs, **every rank's floor and gate progress** (e.g. "Gold, θ 1400, 2/3 at Tier 3+", earned ranks ticked), size, dot points covered, suggested prerequisites (with their ranks, for information only), leads to, and the **last five answers** in the skill from this browser's history (date, question, score), linking to History.
 - **Learn** opens the skill's tutorial (§3.1): a clean reading view with glossary hovers and links to prerequisite tutorials. On a student's first visit to a skill (never practiced) it is the main button, ahead of Practice, but never required.
 - **Practice** is the main action otherwise. There is no tier chooser: the starting tier comes from onboarding (§5.3). **Drop a tier** is the "Easier questions" switch.
 - No quiz or Challenge links here: the section quiz, unit quiz and Section Challenge are reached from their nodes on the map.
@@ -1850,7 +1857,7 @@ Every player has an Elo rating **for each game mode**: Frontline, Divide, Draft,
 - Free-response pending state: "Marking…", with a BYO-key nudge.
 
 ### 16.4a Wording: points, not marks
-The app says **points** (and **score**) wherever a student sees how an answer was scored: "Written · 5 points", "Score 80%", "Appeal this score". Our rubrics and milestones are not the WACE marking scheme, so the app never calls them marks. The LLM marker writes "points" in its feedback too. ("Marking" for the process, and a student's school "maths mark" in onboarding, keep their usual meaning.)
+The app says **points** (and **score**) wherever a student sees how an answer was scored: "Written, 5 points", "Score 80%", "Appeal this score". Our rubrics and milestones are not the WACE marking scheme, so the app never calls them marks. The LLM marker writes "points" in its feedback too. ("Marking" for the process, and a student's school "maths mark" in onboarding, keep their usual meaning.)
 
 ### 16.4b Answer history and Back
 - Every answer a student gives (practice, quizzes, Challenges, daily, revision) is logged **in the browser only** (localStorage, newest 500 per course): question id, variant and word picks, the answer per part, the attempt each part was solved on, the outcome, and for written answers the marking job. Nothing is read from or written to Firestore for it, so it doesn't follow a student to another device.

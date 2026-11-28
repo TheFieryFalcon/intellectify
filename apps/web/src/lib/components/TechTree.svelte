@@ -88,13 +88,13 @@
         <rect class="region" x={r.x} y={r.y} width={r.w} height={r.h} rx="18" />
         <text class="region-label" x={r.x + 14} y={r.y + 20}>
           {r.name}
-          {#if rollups.sections[r.id]?.rank}· {RANK_LABEL[rollups.sections[r.id]!.rank]}{/if}
+          {#if rollups.sections[r.id]?.rank}({RANK_LABEL[rollups.sections[r.id]!.rank]}){/if}
         </text>
       {/each}
       {#each layout.headers as h, i (i)}
         <text class={h.kind} x={h.x} y={h.y + (h.kind === "year" ? 22 : 18)}>
           {h.text}{#if h.kind === "unit" && rollups.units[Number(h.text.split(" ")[1])]?.rank}
-            · {RANK_LABEL[rollups.units[Number(h.text.split(" ")[1])]!.rank]}{/if}
+            ({RANK_LABEL[rollups.units[Number(h.text.split(" ")[1])]!.rank]}){/if}
         </text>
       {/each}
       {#each layout.edges as e (e.from + e.to)}
@@ -123,7 +123,7 @@
             <svg viewBox="0 0 24 24"><path class="line" d="M10 7 H19 M10 12 H19 M10 17 H19" /><path class="tick" d="M4 7 L5.5 8.5 L8 5.5 M4 12 L5.5 13.5 L8 10.5 M4 17 L5.5 18.5 L8 15.5" /></svg>
           {/if}
         </span>
-        <span class="label">{reviewLabel(r)}{#if best !== undefined && best >= 0}<span class="best"> · {Math.round(best * 100)}%</span>{/if}</span>
+        <span class="label">{reviewLabel(r)}{#if best !== undefined && best >= 0}<span class="best"> {Math.round(best * 100)}%</span>{/if}</span>
       </a>
     {/each}
 

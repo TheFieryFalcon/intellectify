@@ -13,7 +13,7 @@
 <div class="overlay" role="dialog" aria-modal="true" aria-label="Conjecture proved: {conjecture.name}">
   <div class="sky" aria-hidden="true">{#each Array.from({ length: 40 }, (_, i) => i) as i (i)}<span style="--x:{(i * 61) % 100}; --y:{(i * 37) % 100}; --d:{(i % 7) * 0.3}s"></span>{/each}</div>
   <div class="card">
-    <p class="eyebrow">Conjecture {index + 1} · Proved</p>
+    <p class="eyebrow">Conjecture {index + 1} proved</p>
     <h2>{conjecture.name}</h2>
     <p class="statement">{conjecture.statement}</p>
     <p class="real">{conjecture.proved ?? "Open"}</p>

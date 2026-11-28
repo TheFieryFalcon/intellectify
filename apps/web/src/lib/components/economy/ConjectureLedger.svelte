@@ -27,10 +27,10 @@
         <div>
           <h3>{c.name}</h3>
           {#if i < s.conjectures}
-            <p class="meta"><span class="stamp">Proved</span> {s.conjectureDates[i] ? date(s.conjectureDates[i]!) : ""} · <span class="real">{c.proved ?? "Open"}</span></p>
+            <p class="meta"><span class="stamp">Proved</span> {s.conjectureDates[i] ? date(s.conjectureDates[i]!) : ""}, <span class="real">{c.proved ?? "Open"}</span></p>
           {:else if i === s.conjectures}
-            <p class="meta num"><LemmaAmount value={cost} /> · ×{cfg.conjectures.multiplier} → <LemmaAmount value={nextRate} per="/day" /></p>
-            <button class="ink-btn" class:pencil={cost > economy.balance} disabled={cost > economy.balance} onclick={() => economy.proveConjecture()}>Prove · <LemmaAmount value={cost} /></button>
+            <p class="meta num"><LemmaAmount value={cost} />, Research ×{cfg.conjectures.multiplier} → <LemmaAmount value={nextRate} per="/day" /></p>
+            <button class="ink-btn" class:pencil={cost > economy.balance} disabled={cost > economy.balance} onclick={() => economy.proveConjecture()}>Prove for <LemmaAmount value={cost} /></button>
           {:else}
             <p class="meta num"><LemmaAmount value={cost} /></p>
           {/if}

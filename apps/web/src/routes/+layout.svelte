@@ -94,7 +94,7 @@
     {/if}
   </div>
   {#if session.backend?.kind === "local" && session.user}
-    <p class="local">Local mode · saved in this browser</p>
+    <p class="local">Local mode: saved in this browser</p>
   {/if}
   {#if profile?.failed}
     <p class="load-failed" role="alert">Couldn't load your progress{profile.loadError ? ` (${profile.loadError})` : ""}, so nothing is being saved. <button class="btn link" onclick={() => location.reload()}>Reload</button></p>
@@ -155,7 +155,7 @@
   nav a.settings { font-size: 13px; color: var(--muted); font-weight: 400; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
-  nav a.balance { position: relative; display: inline-flex; align-items: baseline; gap: 2px; font-size: 13px; color: var(--ink); }
+  nav a.balance { white-space: nowrap; position: relative; display: inline-flex; align-items: baseline; gap: 2px; font-size: 13px; color: var(--ink); }
   .pip { position: absolute; top: -2px; right: -7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
   .toast.marked { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
   .toast.marked a { color: var(--ink); text-decoration: none; }
@@ -165,7 +165,7 @@
   /* Phones: the nav takes its own row under the brand; the name hides (the level badge links to the profile). */
   @media (max-width: 640px) {
     .bar { flex-wrap: wrap; row-gap: 4px; padding: 8px 16px; }
-    nav { width: 100%; justify-content: space-between; gap: 10px; font-size: 13px; }
+    nav { width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; }
     nav a.who { display: none; }
     nav a.lvl :global(.track) { display: none; }
   }

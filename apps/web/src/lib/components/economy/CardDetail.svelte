@@ -16,7 +16,7 @@
   const slot = $derived.by(() => {
     if (!held || !mine || !economy) return null;
     const i = (economy.state.staff[card.era] ?? []).indexOf(card.id);
-    return i >= 0 ? `${era?.institute.name ?? "Institute"} · slot ${i + 1}` : null;
+    return i >= 0 ? `${era?.institute.name ?? "Institute"}, slot ${i + 1}` : null;
   });
   const year = (y: number) => (y < 0 ? `${-y} BC` : `${y}`);
   const dates = $derived.by(() => {
@@ -29,7 +29,7 @@
   $effect(() => void (card.related?.length && skillNames().then((m) => (skills = m))));
   const isUrl = (s: string) => /^https?:\/\//.test(s);
   /** CC BY and CC BY-SA portraits are adapted (the ink wash) and say so. */
-  const adapted = (license: string) => (license.startsWith("CC BY") || license === "Attribution" ? " · Adapted" : "");
+  const adapted = (license: string) => (license.startsWith("CC BY") || license === "Attribution" ? ", adapted" : "");
 </script>
 
 <Sheet label={card.name} {onclose} wide>
@@ -37,7 +37,7 @@
     <CardFace {card} width={Math.min(320, typeof window !== "undefined" ? window.innerWidth - 80 : 320)} foil={!!owned?.foil} silhouette={!held} />
     <div class="facts">
       <h2>{card.name}</h2>
-      <p class="muted">{held ? dates : "Not collected"} · {era?.name ?? card.era}</p>
+      <p class="muted">{held ? dates : "Not collected"}, {era?.name ?? card.era}</p>
       <ul class="chips">{#each card.fields as f (f)}<li>{f}</li>{/each}</ul>
       {#if held}<p class="blurb">{card.blurb}</p>{/if}
       {#if card.related?.length}
@@ -56,7 +56,7 @@
         </dl>
       {/if}
       {#if held && card.portrait}
-        <p class="credit">Portrait: {card.portrait.author ? `${card.portrait.author.slice(0, 120)}${card.portrait.author.length > 120 ? "…" : ""} · ` : ""}{card.portrait.license}{adapted(card.portrait.license)} · {#if isUrl(card.portrait.source)}<a href={card.portrait.source} target="_blank" rel="noopener noreferrer">Source</a>{:else}{card.portrait.source}{/if}</p>
+        <p class="credit">Portrait: {card.portrait.author ? `${card.portrait.author.slice(0, 120)}${card.portrait.author.length > 120 ? "…" : ""}, ` : ""}{card.portrait.license}{adapted(card.portrait.license)}, {#if isUrl(card.portrait.source)}<a href={card.portrait.source} target="_blank" rel="noopener noreferrer">Source</a>{:else}{card.portrait.source}{/if}</p>
       {/if}
     </div>
   </div>

@@ -40,7 +40,7 @@
   <div><span class="k">{show ? "Earned" : "XP"}</span><span class="v xp">+{xp}{show ? " XP" : ""}{#if show} · <button type="button" class="chip" title={breakdown || undefined}><LemmaAmount value={total} sign /></button>{/if}</span></div>
 </div>
 {#if show && live?.warp}
-  <p class="warp">Time Warp +{live.warp.hours} h · <LemmaAmount value={live.warp.lemmas} sign /></p>
+  <p class="warp">Time Warp +{live.warp.hours} h, <LemmaAmount value={live.warp.lemmas} sign /></p>
 {/if}
 {#if rankAfter > rankBefore}
   <p class="rank-up">Rank up: {RANK_LABEL[rankBefore as RankLevel]} → {RANK_LABEL[rankAfter as RankLevel]}</p>

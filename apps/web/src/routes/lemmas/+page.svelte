@@ -133,7 +133,7 @@
     } else if ((e.key === "m" || e.key === "M") && !e.ctrlKey && !e.metaKey && !e.altKey && (tab === "theorems" || tab === "research")) {
       e.preventDefault();
       const r = economy.buyMax(tab);
-      notice = r.count ? `Bought ${r.count} ${r.count === 1 ? "level" : "levels"} · ${lemmasShort(r.cost)}` : "Nothing affordable";
+      notice = r.count ? `Bought ${r.count} ${r.count === 1 ? "level" : "levels"} for ${lemmasShort(r.cost)}` : "Nothing affordable";
     }
   }
   function select(id: TabId) {
@@ -148,7 +148,7 @@
 <svelte:window onkeydown={keys} />
 
 {#if profile?.loaded && profile.profile.showRewards === false}
-  <div class="wrap narrow"><p class="muted">Rewards hidden · <a href="/settings">Settings</a></p></div>
+  <div class="wrap narrow"><p class="muted">Rewards hidden (<a href="/settings">Settings</a>)</p></div>
 {:else}
   <div class="archive" data-era={stage.era} data-night={stage.night || undefined} data-stars={stage.stars || undefined}>
     {#if stage.stars}<Constellations count={stage.stars} />{/if}
@@ -161,7 +161,7 @@
         <div class="top">
           <HubSummary {economy} bind:amount />
           <nav class="tabs" aria-label="Lemmas">
-            <button class="menu-btn" aria-expanded={menu} onclick={() => (menu = !menu)}>☰ <span>Pl. {ROMAN[TABS.indexOf(current)]} · {current.name}</span></button>
+            <button class="menu-btn" aria-expanded={menu} onclick={() => (menu = !menu)}>☰ <span>Pl. {ROMAN[TABS.indexOf(current)]} {current.name}</span></button>
             <ul class:shown={menu}>
               {#each TABS as t, i (t.id)}
                 {#if openTabs.has(t.id)}
@@ -169,13 +169,13 @@
                 {/if}
               {/each}
               {#if later.length}
-                <li class="later"><span class="pl">Later</span>{#each later as t (t.id)}<span class="sil" title={condition[t.id]}>{t.name} · {condition[t.id]}</span>{/each}</li>
+                <li class="later"><span class="pl">Later</span>{#each later as t (t.id)}<span class="sil" title={condition[t.id]}>{t.name} ({condition[t.id]})</span>{/each}</li>
               {/if}
             </ul>
           </nav>
         </div>
 
-        <h1 class="sr">Lemmas · {current.name}</h1>
+        <h1 class="sr">Lemmas: {current.name}</h1>
         {#if !seen.includes(tab)}
           <p class="note margin">{current.note} <button class="btn link" aria-label="Dismiss" onclick={() => dismissNote(tab)}>×</button></p>
         {/if}

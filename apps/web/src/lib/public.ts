@@ -66,7 +66,7 @@ export function boardEntry(p: PublicProfile, board: BoardId, today: string, cour
   switch (board) {
     case "xp": {
       if (!(p.xp > 0)) return null;
-      return { sort: p.xp, label: `Lv ${levelProgress(p.xp).level} · ${p.xp.toLocaleString("en-US")} XP` };
+      return { sort: p.xp, label: `Lv ${levelProgress(p.xp).level}, ${p.xp.toLocaleString("en-US")} XP` };
     }
     case "xp-month":
       return n(s && s.month === monthOf(today) ? s.monthXp : 0, " XP");
@@ -75,7 +75,7 @@ export function boardEntry(p: PublicProfile, board: BoardId, today: string, cour
     case "course": {
       const c = p.courses?.[course];
       if (!c || (c.rank === 0 && c.theta === null)) return null;
-      return { sort: c.rank * 1000 + (c.theta === null ? 0 : score(c.theta)), label: `${RANK_LABEL[c.rank]}${c.theta === null ? "" : ` · ${score(c.theta)}`}` };
+      return { sort: c.rank * 1000 + (c.theta === null ? 0 : score(c.theta)), label: `${RANK_LABEL[c.rank]}${c.theta === null ? "" : ` ${score(c.theta)}`}` };
     }
     case "achievements":
       return n(achievementPoints(p), " pts");

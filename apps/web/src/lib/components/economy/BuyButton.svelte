@@ -12,6 +12,6 @@
   <span class="pl">Max level</span>
 {:else}
   <button class="ink-btn" class:pencil={!q.affordable || disabled} disabled={!q.affordable || disabled} onclick={() => onbuy(amount)} title={amount === "max" ? "Max (M)" : undefined}>
-    {amount === "max" ? `Max · ${q.count}` : `×${amount}`} · <LemmaAmount value={q.cost} />
+    {amount === "max" ? `Max (${q.count})` : `×${amount}`} <LemmaAmount value={q.cost} />
   </button>
 {/if}

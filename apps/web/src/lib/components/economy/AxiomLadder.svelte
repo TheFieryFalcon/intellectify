@@ -38,11 +38,7 @@
             {:else if i === reached}
               <p class="meta num"><LemmaAmount value={s.lemmasEarned} /> / <LemmaAmount value={a.at} /></p>
             {/if}
-            <p class="unlock">
-              {#if proven}{a.cosmetic.name}{:else}<span class="sil">{a.cosmetic.name}</span>{/if}
-              {#if a.title} · {#if proven}<Title title={a.title} />{:else}<span class="sil">{a.title}</span>{/if}{/if}
-              · +5%
-            </p>
+            <p class="unlock">{#if proven}{a.cosmetic.name}{:else}<span class="sil">{a.cosmetic.name}</span>{/if}{#if a.title}, {#if proven}<Title title={a.title} />{:else}<span class="sil">{a.title}</span>{/if}{/if}, +5%</p>
           </div>
         </div>
         <p class="margin">{a.statement}</p>

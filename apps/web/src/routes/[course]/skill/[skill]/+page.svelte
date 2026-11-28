@@ -96,7 +96,7 @@
     <h1>Skill not found</h1>
     <p><a href="/{data.course.id}">Back to the map</a></p>
   {:else}
-    <a class="back" href="/{data.course.id}">← Unit {entry.unit} · {entry.section.name}</a>
+    <a class="back" href="/{data.course.id}">← Unit {entry.unit}: {entry.section.name}</a>
     <h1>{entry.skill.name}</h1>
     <p class="summary">{entry.skill.summary}</p>
     <nav class="tabs" aria-label="Skill">

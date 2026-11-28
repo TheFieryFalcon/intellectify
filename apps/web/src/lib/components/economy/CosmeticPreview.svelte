@@ -27,7 +27,9 @@
     const unit = course.units[0]!;
     return { ...course, units: [{ ...unit, sections: unit.sections.slice(0, 1) }] } as CourseBundle;
   });
-  const progress = $derived(courseProgress("specialist")?.progress ?? emptyProgress());
+  // The student's real map (created outside any derived: the store holds state of its own).
+  const store = item.slot === "nodeTheme" ? courseProgress("specialist") : null;
+  const progress = $derived(store?.progress ?? emptyProgress());
 </script>
 
 <div class="preview">

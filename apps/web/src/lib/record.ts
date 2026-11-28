@@ -28,13 +28,13 @@ function celebrateResult(course: CourseBundle, store: CourseProgressStore, resul
     const before = store.progress.skills[id]?.rank ?? 0;
     if (st.rank > before) {
       ranked = true;
-      toast({ kind: "rankUp", rank: st.rank, label: `${names.get(id) ?? id} · ${RANK_LABEL[st.rank as RankLevel]}` });
+      toast({ kind: "rankUp", rank: st.rank, label: `${names.get(id) ?? id}: ${RANK_LABEL[st.rank as RankLevel]}` });
     }
   }
   for (const [id, st] of Object.entries(result.changes.responseSkills)) {
     if (st.rank > (store.progress.responseSkills[id]?.rank ?? 0)) {
       ranked = true;
-      toast({ kind: "rankUp", rank: st.rank, label: `${course.responseSkills.find((r) => r.id === id)?.name ?? id} · ${RANK_LABEL[st.rank as RankLevel]}` });
+      toast({ kind: "rankUp", rank: st.rank, label: `${course.responseSkills.find((r) => r.id === id)?.name ?? id}: ${RANK_LABEL[st.rank as RankLevel]}` });
     }
   }
   if (ranked || correct) playCelebration(currentEconomy()?.state.equipped.celebration, ranked ? "rankUp" : "correct");

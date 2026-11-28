@@ -122,7 +122,7 @@
     </ol>
   {/if}
   {#if readAt}
-    <p class="foot muted">Updated {time(readAt)} · <button class="link" onclick={() => load(true)}>Refresh</button></p>
+    <p class="foot muted">Updated {time(readAt)}, <button class="link" onclick={() => load(true)}>Refresh</button></p>
   {/if}
 </div>
 

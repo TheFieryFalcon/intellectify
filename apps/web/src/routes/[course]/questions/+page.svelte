@@ -77,7 +77,7 @@
   /** Group label → its place in the curriculum, for grouping by subsection. */
   const subsectionOrder = $derived(
     new Map(
-      [...skills.values()].flatMap((k) => k.skill.subsections.map((n) => (get("skill") ? n : `${k.skill.name} · ${n}`))).map((label, i) => [label, i] as const),
+      [...skills.values()].flatMap((k) => k.skill.subsections.map((n) => (get("skill") ? n : `${k.skill.name}: ${n}`))).map((label, i) => [label, i] as const),
     ),
   );
   const groups = $derived.by((): { key: string; label: string; items: QuestionIndexEntry[] }[] => {
@@ -89,7 +89,7 @@
       if (by === "tier") add(`Tier ${q.tier}`, q);
       else if (by === "tag") q.tags.forEach((t) => add(t, q));
       else if (by === "skill") q.skills.forEach((s) => add(skillName(s), q));
-      else if (by === "subsection") add(get("skill") ? q.subsection : `${skillName(q.skill)} · ${q.subsection}`, q);
+      else if (by === "subsection") add(get("skill") ? q.subsection : `${skillName(q.skill)}: ${q.subsection}`, q);
       else if (by === "section") add(sections.find((s) => s.id === q.section)?.name ?? q.section, q);
       else if (by === "answered") add(answered.has(q.id) ? "Answered" : "Not answered", q);
     }

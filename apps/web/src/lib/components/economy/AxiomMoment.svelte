@@ -32,7 +32,7 @@
 
 <div class="overlay" role="dialog" aria-modal="true" aria-label="Axiom proved: {top.name}">
   <div class="card" tabindex="-1" bind:this={card}>
-    <p class="eyebrow">{done ? (axioms.length > 1 ? `Axioms proved · ${axioms.length}` : "Axiom proved") : "Proved"}</p>
+    <p class="eyebrow">{done ? (axioms.length > 1 ? `${axioms.length} Axioms proved` : "Axiom proved") : "Proved"}</p>
     {#key step}
       <div class="axiom" class:flash={!done}>
         <span class="glyph" aria-hidden="true">∈</span>

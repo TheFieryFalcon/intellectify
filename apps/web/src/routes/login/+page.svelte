@@ -89,7 +89,7 @@
         {/if}
       </div>
     {:else}
-      <p class="muted">Local mode · saved in this browser</p>
+      <p class="muted">Local mode: saved in this browser</p>
       <button class="btn primary wide" disabled={busy} onclick={() => run(() => session.backend!.signInAsGuest())}>Continue</button>
     {/if}
 

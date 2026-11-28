@@ -171,8 +171,8 @@
     <p class="muted">Loading…</p>
   {:else if ch === null}
     <section class="card">
-      <h1>Section Challenge · {section.name}</h1>
-      <p class="muted">{sequence.length} problems · untimed · progress saved{#if sequence.some((q) => q.requires.length)}{" · "}{sequence.filter((q) => q.requires.length).length} use a later unit (skippable){/if}</p>
+      <h1>Section Challenge: {section.name}</h1>
+      <p class="muted">{sequence.length} problems, untimed, progress saved{#if sequence.some((q) => q.requires.length)}{", "}{sequence.filter((q) => q.requires.length).length} use a later unit (skippable){/if}</p>
       <p class="ramp">
         {#each SLOPES as g, i (g)}{#if i}<span class="arrow">→</span>{/if}<SlopeMark slope={g} label />
           <span class="muted count">{sequence.filter((q) => slopeOf(q.rating) === g).length}</span>{/each}
@@ -187,7 +187,7 @@
     </section>
   {:else if ch.finishedAt}
     <section class="card">
-      <h1>Section Challenge · {section.name}</h1>
+      <h1>Section Challenge: {section.name}</h1>
       <div class="stats">
         <div><span class="k">Average outcome</span><span class="v">{pending ? "…" : `${Math.round(average * 100)}%`}</span></div>
         <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || `${attempted.filter((r) => r.firstTry).length} / ${attempted.length}`}</span></div>
@@ -201,13 +201,13 @@
     </section>
   {:else if current}
     <div class="progress">
-      <span>Section Challenge · {section.name}</span>
-      <span class="num"><SlopeMark slope={slopeOf(current.question.rating)} label /> · {shown + 1} / {ch.questions.length}</span>
+      <span>Section Challenge: {section.name}</span>
+      <span class="num"><SlopeMark slope={slopeOf(current.question.rating)} label /> {shown + 1} / {ch.questions.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * ch.results.length) / ch.questions.length}%"></span></div>
     {#if !resolved && laterContent(current.question).length}
       <div class="later" role="note">
-        <span>Uses {laterContent(current.question).map((s) => `Unit ${s.unit} · ${s.name}`).join(", ")}</span>
+        <span>Uses {laterContent(current.question).map((s) => `Unit ${s.unit}: ${s.name}`).join(", ")}</span>
         <button class="btn quiet" onclick={skip}>Skip</button>
       </div>
     {/if}

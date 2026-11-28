@@ -32,14 +32,14 @@
   {onclick}
   type={onclick ? "button" : undefined}
   role={onclick ? "button" : "img"}
-  aria-label="{card.name} · {RARITY_NAME[card.rarity]}{silhouette ? ' · Not collected' : ''}{foil ? ' · Foil' : ''}"
+  aria-label="{card.name}, {RARITY_NAME[card.rarity]}{silhouette ? ', not collected' : ''}{foil ? ', foil' : ''}"
 >
   <span class="art">
     {#if url}<img src={url} alt="" loading="lazy" decoding="async" />{:else}<span class="mono">{initials}</span>{/if}
   </span>
-  <span class="plate">
+  <span class="nameplate">
     <span class="name">{card.name}</span>
-    {#if silhouette && !small}<span class="fields">{card.fields.join(" · ")}</span>{/if}
+    {#if silhouette && !small}<span class="fields">{card.fields.join(", ")}</span>{/if}
     <span class="rarity">{RARITY_NAME[card.rarity]}</span>
   </span>
   {#if count > 1}<span class="count">×{count}</span>{/if}
@@ -59,7 +59,7 @@
   .diamond .art { background: #f3ecda; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8); }
   img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .mono { font-family: var(--font-display); font-size: calc(var(--w) * 0.3); color: #6d6455; letter-spacing: 0.04em; }
-  .plate { display: flex; flex-direction: column; gap: 1px; padding-top: calc(var(--w) * 0.035); min-height: calc(var(--w) * 0.3); justify-content: center; }
+  .nameplate { display: flex; flex-direction: column; gap: 1px; padding-top: calc(var(--w) * 0.035); min-height: calc(var(--w) * 0.3); justify-content: center; }
   .name { font-family: var(--font-display); font-weight: 600; font-size: calc(var(--w) * 0.085); line-height: 1.1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
   .small .name { font-size: 10px; }
   .rarity { font-size: max(8px, calc(var(--w) * 0.055)); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }

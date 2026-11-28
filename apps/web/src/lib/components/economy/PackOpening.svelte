@@ -30,7 +30,7 @@
   const newCards = $derived(all.filter((c) => c.result === "new").sort((a, b) => RARITIES.indexOf(a.rarity) - RARITIES.indexOf(b.rarity)));
   const dups = $derived(all.filter((c) => c.result !== "new").length);
   const done = $derived(!single || flipped >= pack.cards.length);
-  const label = (c: PulledCard) => `${cards.get(c.id)?.name ?? c.id} · ${RARITY_NAME[c.rarity]} · ${c.result === "new" ? "New" : c.result === "foilUpgrade" ? "Foil upgrade" : `Duplicate ×${c.count}`}`;
+  const label = (c: PulledCard) => `${cards.get(c.id)?.name ?? c.id}, ${RARITY_NAME[c.rarity]}, ${c.result === "new" ? "New" : c.result === "foilUpgrade" ? "Foil upgrade" : `Duplicate ×${c.count}`}`;
 
   function flip(i = flipped) {
     if (spotlight) {
@@ -95,7 +95,7 @@
     {#if !done}
       <button class="btn link reveal" onclick={revealAll}>Reveal all</button>
     {:else}
-      <p class="sum">New {pack.cards.filter((c) => c.result === "new").length} · Duplicates {pack.cards.filter((c) => c.result !== "new").length} · <LemmaAmount value={pack.lemmas} sign /> · Diamond in ≤ {diamondIn} · Platinum in ≤ {platinumIn}</p>
+      <p class="sum">New {pack.cards.filter((c) => c.result === "new").length} · Duplicates {pack.cards.filter((c) => c.result !== "new").length}, <LemmaAmount value={pack.lemmas} sign /><br />Diamond in ≤ {diamondIn}, Platinum in ≤ {platinumIn}</p>
       <div class="actions">{#if canAnother}<button class="btn" onclick={onanother}>Open another</button>{/if}<button class="btn primary" onclick={onclose}>Done</button></div>
     {/if}
   {:else}
@@ -107,13 +107,13 @@
         <p class="muted none">No new cards</p>
       {/each}
     </div>
-    <p class="sum">{results.length} packs · New {newCards.length} · Duplicates {dups} · <LemmaAmount value={total} sign /> · Diamond in ≤ {diamondIn} · Platinum in ≤ {platinumIn}</p>
+    <p class="sum">{results.length} packs: New {newCards.length}, Duplicates {dups}, <LemmaAmount value={total} sign /><br />Diamond in ≤ {diamondIn}, Platinum in ≤ {platinumIn}</p>
     <div class="actions"><button class="btn primary" onclick={onclose}>Done</button></div>
   {/if}
 </div>
 
 <style>
-  .overlay { position: fixed; inset: 0; z-index: 42; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 16px; background: rgba(12, 14, 20, 0.88); color: #f2f4f8; outline: none; overflow-y: auto; }
+  .overlay { position: fixed; inset: 0; z-index: 42; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 16px; background: rgba(8, 10, 16, 0.94); backdrop-filter: blur(4px); color: #f2f4f8; outline: none; overflow-y: auto; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .fan { display: flex; align-items: flex-end; justify-content: center; gap: 14px; flex-wrap: wrap; }
   .slot { position: relative; animation: deal 0.35s ease-out both; animation-delay: calc(var(--i) * 0.08s); perspective: 800px; }

@@ -37,7 +37,7 @@
       <span class="spin" aria-hidden="true"></span>
       <div>
         <strong>{busy ? "Marking" : "Queued for marking"}</strong>
-        {#if !busy && job.attempts > 0}<span class="muted"> · retry in {when(job.nextTryAt)}</span>{/if}
+        {#if !busy && job.attempts > 0}<span class="muted"> (retry in {when(job.nextTryAt)})</span>{/if}
         {#if job.lastError && !busy}<p class="muted small">{job.lastError}</p>{/if}
       </div>
       {#if !busy && job.attempts > 0}<button class="btn quiet" onclick={() => queue.retryNow(job.id)}>Retry now</button>{/if}

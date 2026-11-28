@@ -63,7 +63,7 @@
     </form>
   {:else if field === "showcase"}
     <h2>Showcase</h2>
-    <p class="muted">Up to 3 cards · {s.equipped.showcase.length} chosen</p>
+    <p class="muted">Up to 3 cards ({s.equipped.showcase.length} chosen)</p>
     <div class="cards">
       {#each collected as c (c.id)}
         <div class="pickcard" class:on={s.equipped.showcase.includes(c.id)}>
@@ -86,7 +86,7 @@
               {#if field === "title"}<Title title={c.id} />{:else}{c.name}{/if}
             </button>
           {:else}
-            <span class="opt locked">{field === "title" ? "?" : c.name} · {c.price !== undefined ? "Shop" : c.condition}</span>
+            <span class="opt locked">{field === "title" ? "?" : c.name} ({c.price !== undefined ? "Shop" : c.condition})</span>
           {/if}
         </li>
       {/each}

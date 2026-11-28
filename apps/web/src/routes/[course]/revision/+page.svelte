@@ -65,7 +65,7 @@
       {#each [["easy", "Easy", "Tiers 2 and 3"], ["hard", "Hard", "Tiers 3 and 4"]] as const as [v, label, meta] (v)}
         <label class="level" class:on={examLevel === v}>
           <input type="radio" name="level" value={v} checked={examLevel === v} onchange={() => (examLevel = v)} />
-          <span class="name">{label}</span><span class="muted small">{meta} · half each</span>
+          <span class="name">{label}</span><span class="muted small">{meta}, half each</span>
         </label>
       {/each}
     </div>
@@ -88,7 +88,7 @@
       <label>Type {@render typeSelect(kind, (v) => (kind = v))}</label>
     </div>
     <fieldset>
-      <legend>Tiers <span class="muted small">{tiers.length ? "" : "· any"}</span></legend>
+      <legend>Tiers <span class="muted small">{tiers.length ? "" : "(any)"}</span></legend>
       <div class="chips">
         {#each [1, 2, 3, 4, 5, 6] as t (t)}
           <label class="chip" class:on={tiers.includes(t)}><input type="checkbox" checked={tiers.includes(t)} onchange={() => (tiers = toggle(tiers, t))} />T{t}</label>
@@ -96,7 +96,7 @@
       </div>
     </fieldset>
     <fieldset>
-      <legend>Tags <span class="muted small">{picked.length ? "· any of these" : "· any"}</span></legend>
+      <legend>Tags <span class="muted small">{picked.length ? "(any of these)" : "(any)"}</span></legend>
       <div class="chips">
         {#each tags as t (t)}
           <label class="chip" class:on={picked.includes(t)}><input type="checkbox" checked={picked.includes(t)} onchange={() => (picked = toggle(picked, t))} />{t}</label>

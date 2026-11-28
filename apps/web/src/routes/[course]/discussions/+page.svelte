@@ -88,7 +88,7 @@
         <li>
           <a href="/{data.course.id}/discussions/{t.key}">
             <span class="title">{q?.title ?? t.questionId}</span>
-            <span class="meta muted">{dayLabel(t.day)} · Year {t.year}{q ? ` · Tier ${q.tier}` : ""}</span>
+            <span class="meta muted">{dayLabel(t.day)}, Year {t.year}{q ? `, Tier ${q.tier}` : ""}</span>
             <span class="count" class:none={!t.posts}>{t.posts} post{t.posts === 1 ? "" : "s"}</span>
             {#if t.updatedAt}<span class="when muted">{ago(t.updatedAt)}</span>{/if}
           </a>

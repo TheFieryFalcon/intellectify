@@ -88,7 +88,7 @@
       {#if mine}
         {#if equippedIn(c.slot) === c.id}<span class="pl">Equipped</span>{:else}<button class="ink-btn" onclick={() => economy.equip(c.slot, c.id)}>Equip</button>{/if}
       {:else if c.price !== undefined}
-        <button class="ink-btn" class:pencil={c.price > economy.balance} disabled={c.price > economy.balance} onclick={() => economy.buyCosmetic(c.id)}>Buy · <LemmaAmount value={c.price} /></button>
+        <button class="ink-btn" class:pencil={c.price > economy.balance} disabled={c.price > economy.balance} onclick={() => economy.buyCosmetic(c.id)}>Buy <LemmaAmount value={c.price} /></button>
       {/if}
     </div>
   </Sheet>

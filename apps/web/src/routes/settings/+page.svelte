@@ -131,7 +131,7 @@
     <h2>Marking key</h2>
     <dl class="facts">
       <dt>Marking</dt>
-      <dd>{current ? `Your ${PROVIDER_LABEL[current.provider]} key · ${masked(current.key)}` : "Free (shared, may queue)"}</dd>
+      <dd>{current ? `Your ${PROVIDER_LABEL[current.provider]} key (${masked(current.key)})` : "Free (shared, may queue)"}</dd>
       <dt>Stored</dt>
       <dd>This browser only</dd>
       <dt>Sent to</dt>

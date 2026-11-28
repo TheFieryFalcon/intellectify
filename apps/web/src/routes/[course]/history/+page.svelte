@@ -109,7 +109,7 @@
           <button class="row" onclick={() => (open = open === e.id ? null : e.id)} aria-expanded={open === e.id}>
             <span class="time muted">{time(e.at)}</span>
             <span class="title">{ix?.title ?? e.questionId}</span>
-            <span class="meta muted">{skills.get(e.skill)?.skill.name ?? e.skill} · {modeLabel(e.mode)}{ix ? ` · T${ix.tier}` : ""}</span>
+            <span class="meta muted">{skills.get(e.skill)?.skill.name ?? e.skill}, {modeLabel(e.mode)}{ix ? `, T${ix.tier}` : ""}</span>
             <span class="score" class:good={o !== null && o >= 0.6} class:bad={o !== null && o < 0.6}>{pct(o)}</span>
           </button>
           {#if open === e.id}<div class="body"><PastAnswer entry={e} /></div>{/if}
