@@ -318,9 +318,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Defines vectors, e.g. OA = a and OB = b, and writes OM = ½a and ON = ½b", points: 1, dimension: proof }
-          - { id: mn, description: "MN = ON − OM = ½(b − a)", points: 1, dimension: reasoning }
-          - { id: ab, description: "AB = b − a, so MN = ½AB", points: 1, dimension: reasoning }
+          - { id: setup, description: "Sets up vectors for the triangle and writes the midpoints in terms of them (e.g. OA = a, OB = b, so OM = ½a and ON = ½b)", points: 1, dimension: proof }
+          - { id: mn, description: "Finds MN in terms of those vectors (e.g. MN = ON − OM = ½(b − a))", points: 1, dimension: reasoning }
+          - { id: ab, description: "Relates MN to AB (e.g. AB = b − a, so MN = ½AB)", points: 1, dimension: reasoning }
           - { id: conclude, description: "Concludes: a positive multiple means parallel, and the factor ½ means half the length", points: 1, dimension: clarity }
   solution: |
     Let $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$. Then $\overrightarrow{OM} = \tfrac{1}{2}\mathbf{a}$ and $\overrightarrow{ON} = \tfrac{1}{2}\mathbf{b}$, so
@@ -450,9 +450,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Sets OA = a, OB = b, and writes the three midpoints: ½a, ½b and ½(a + b)", points: 1, dimension: reasoning }
-          - { id: point, description: "Finds the point ⅔ of the way along one line, e.g. from O to the midpoint of AB: ⅓(a + b)", points: 2, dimension: reasoning }
-          - { id: others, description: "Shows the points ⅔ of the way along the other two lines are also ⅓(a + b), e.g. a + ⅔(½b − a) = ⅓a + ⅓b", points: 2, dimension: proof }
+          - { id: setup, description: "Sets up vectors and writes the three midpoints in terms of them (e.g. OA = a, OB = b; midpoints ½a, ½b and ½(a + b))", points: 1, dimension: reasoning }
+          - { id: point, description: "Finds the point two-thirds of the way along one of the lines (e.g. from O to the midpoint of AB: ⅓(a + b))", points: 2, dimension: reasoning }
+          - { id: others, description: "Shows the matching point on each of the other two lines is the same point (e.g. a + ⅔(½b − a) = ⅓a + ⅓b)", points: 2, dimension: proof }
           - { id: conclude, description: "Concludes that all three lines pass through the same point", points: 1, dimension: clarity }
   solution: |
     Let $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OB} = \mathbf{b}$, with $O$ as the origin. The midpoints of $AB$, $OB$ and $OA$ have position vectors $\tfrac{1}{2}(\mathbf{a} + \mathbf{b})$, $\tfrac{1}{2}\mathbf{b}$ and $\tfrac{1}{2}\mathbf{a}$.
@@ -543,9 +543,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Uses position vectors a, b, c, d (or an equivalent setup)", points: 1, dimension: reasoning }
-          - { id: lhs, description: "Left side = (b − a) + (d − a) + (b − c) + (d − c) = 2(b + d) − 2(a + c)", points: 2, dimension: reasoning }
-          - { id: rhs, description: "PQ = ½(b + d) − ½(a + c), so 4PQ = 2(b + d) − 2(a + c)", points: 2, dimension: proof }
+          - { id: setup, description: "Sets up vectors for the four corners (e.g. position vectors a, b, c, d)", points: 1, dimension: reasoning }
+          - { id: lhs, description: "Writes the left side in terms of them and simplifies (e.g. (b − a) + (d − a) + (b − c) + (d − c) = 2(b + d) − 2(a + c))", points: 2, dimension: reasoning }
+          - { id: rhs, description: "Writes PQ in the same terms and matches it to the left side (e.g. PQ = ½(b + d) − ½(a + c), so 4PQ = 2(b + d) − 2(a + c))", points: 2, dimension: proof }
           - { id: clear, description: "Concludes clearly", points: 1, dimension: clarity }
   solution: |
     With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$, the left side is $(\mathbf{b} - \mathbf{a}) + (\mathbf{d} - \mathbf{a}) + (\mathbf{b} - \mathbf{c}) + (\mathbf{d} - \mathbf{c}) = 2(\mathbf{b} + \mathbf{d}) - 2(\mathbf{a} + \mathbf{c})$.

@@ -112,7 +112,7 @@
     }
     done = true;
     const bonus = scope === "unit" ? XP.unitQuiz : XP.sectionQuiz;
-    if (profile) await profile.grant(bonus);
+    if (profile) await profile.grant(bonus, {}, "quiz");
     xp += bonus;
   }
 
@@ -141,7 +141,7 @@
     <p class="muted">No questions yet</p>
   {:else if done}
     <section class="card">
-      <h1>{scope === "unit" ? "Unit quiz" : "Section quiz"} · {target.name}</h1>
+      <h1>{scope === "unit" ? "Unit quiz" : "Section quiz"}: {target.name}</h1>
       <div class="stats">
         <div><span class="k">Correct</span><span class="v">{correct} / {quiz.length}</span></div>
         <div><span class="k">{pending ? "Marking" : "First try"}</span><span class="v">{pending || settled.filter((r) => r.firstTry).length}</span></div>
@@ -164,7 +164,7 @@
     </section>
   {:else if current}
     <div class="progress" aria-label="Question {index + 1} of {quiz.length}">
-      <span>{scope === "unit" ? "Unit quiz" : "Section quiz"} · {target.name}</span>
+      <span>{scope === "unit" ? "Unit quiz" : "Section quiz"}: {target.name}</span>
       <span class="num">{index + 1} / {quiz.length}</span>
     </div>
     <div class="bar"><span style="width:{(100 * (index + (resolved ? 1 : 0))) / quiz.length}%"></span></div>

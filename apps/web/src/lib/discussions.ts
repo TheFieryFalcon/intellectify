@@ -1,5 +1,5 @@
 /**
- * Discussions (SPEC §13): thread list and posts, each read once and kept for a short while, so browsing
+ * Discussions (SPEC §14): thread list and posts, each read once and kept for a short while, so browsing
  * costs few Firestore reads. Your own posts update the copies in place.
  */
 import type { Backend, Post, ThreadSummary } from "./backend";

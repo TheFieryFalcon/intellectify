@@ -1,5 +1,5 @@
 /**
- * Share a problem by link (SPEC §15.4c): the question id, its numeric variant and its word picks, so the
+ * Share a problem by link (SPEC §16.4c): the question id, its numeric variant and its word picks, so the
  * person opening the link gets exactly the same problem. Nothing is stored; the link carries it all.
  */
 import { validPicks, type WordLists, type WordPicks } from "@intellectify/content/template";

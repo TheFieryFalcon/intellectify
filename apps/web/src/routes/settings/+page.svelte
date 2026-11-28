@@ -40,7 +40,7 @@
     }
   }
 
-  /** Handwriting pad (SPEC §7.2, §15.5): on unless turned off, per browser. */
+  /** Handwriting pad (SPEC §7.2, §16.5): on unless turned off, per browser. */
   let stylus = $state(stylusOn());
   const handwritingOut = quotaOut();
 
@@ -108,6 +108,16 @@
       </form>
     </section>
   {/if}
+  {#if session.user && profile}
+    <section class="card">
+      <h2>Rewards</h2>
+      <label class="switch"><input type="checkbox" checked={profile.profile.showRewards !== false} onchange={(e) => void profile.setShowRewards(e.currentTarget.checked)} /> Show rewards</label>
+      <dl class="facts">
+        <dt>Off</dt>
+        <dd>Hides Lemmas, the hub, packs and their celebrations. Earnings and Research keep accruing; equipped cosmetics and titles still show.</dd>
+      </dl>
+    </section>
+  {/if}
   {#if session.user}<ShiftKeySettings {profile} />{/if}
   <section class="card">
     <h2>Handwriting</h2>
@@ -121,7 +131,7 @@
     <h2>Marking key</h2>
     <dl class="facts">
       <dt>Marking</dt>
-      <dd>{current ? `Your ${PROVIDER_LABEL[current.provider]} key · ${masked(current.key)}` : "Free (shared, may queue)"}</dd>
+      <dd>{current ? `Your ${PROVIDER_LABEL[current.provider]} key (${masked(current.key)})` : "Free (shared, may queue)"}</dd>
       <dt>Stored</dt>
       <dd>This browser only</dd>
       <dt>Sent to</dt>

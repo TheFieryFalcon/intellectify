@@ -35,7 +35,7 @@
   let banned = $state<string[]>([]);
   $effect(() => void loadBannedWords().then((w) => (banned = w)));
   const nameErr = $derived(needsName ? nameError(name, banned) : null);
-  /** A short tour after the maths mark (SPEC §15.5): the map, tiers, ranks and gates, the score. */
+  /** A short tour after the maths mark (SPEC §16.5): the map, tiers, ranks and gates, the score. */
   let touring = $state(false);
   let slide = $state(0);
   const SLIDES = ["The map", "Tiers", "Ranks", "Score"] as const;

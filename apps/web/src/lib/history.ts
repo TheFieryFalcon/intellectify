@@ -1,5 +1,5 @@
 /**
- * Answer history (SPEC §15.4b): every answer a student gives, kept in this browser only.
+ * Answer history (SPEC §16.4b): every answer a student gives, kept in this browser only.
  * Never synced, so it costs no Firestore reads or writes. Oldest entries drop past MAX per course.
  */
 import type { SubmittedSignals } from "./paste";

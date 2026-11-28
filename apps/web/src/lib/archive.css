@@ -1,0 +1,95 @@
+/*
+ * The archive look (SPEC §13.11), hub only. Colors come from archive-tokens.css, by stage:
+ * data-era (the latest unlocked era), then data-night (proven large cardinals, once every era is open),
+ * then data-stars (proven Conjectures, once all 18 Axioms are proven), each in light and dark.
+ */
+.archive {
+  --paper-fiber: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.33 0 0 0 0 0.2 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--paper);
+  background-image: var(--paper-fiber);
+  background-blend-mode: multiply;
+  color: var(--ink-archive);
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  /* Site tokens inside the hub follow the archive's, so shared components fit in. */
+  --ink: var(--ink-archive);
+  --muted: var(--pencil);
+  --line: color-mix(in srgb, var(--rule) 45%, transparent);
+  --edge: var(--rule);
+  --surface: var(--plate);
+  --region: color-mix(in srgb, var(--plate) 70%, var(--paper));
+  --accent: var(--gilt);
+  --accent-soft: color-mix(in srgb, var(--gilt) 14%, var(--paper));
+  --on-accent: var(--paper);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+.archive[data-era="space-age"]:not([data-night]), .archive[data-night] { background-image: none; }
+
+/* The header takes the archive's paper and ink on the hub, with the era band under it. */
+.archive.archive > header { background: transparent; border-bottom: 0; }
+.archive > header .brand, .archive > header nav a { color: var(--ink-archive); }
+.archive > header nav a.who, .archive > header nav a.settings, .archive > header .signout { color: var(--pencil); }
+.archive > header .local { background: color-mix(in srgb, var(--plate) 70%, transparent); color: var(--pencil); }
+.archive > header .brand { font-family: var(--font-display); }
+
+/* Each era has its own band across the top, texture and lettering, so every step is obvious. */
+.archive .era-band { display: block; height: 14px; border-bottom: 1px solid var(--rule); }
+.archive[data-night] .era-band, .archive[data-era="space-age"] .era-band { display: none; }
+/* Antiquity: a Greek key band; inscriptional capitals. */
+.archive[data-era="antiquity"] .era-band { background: var(--rule); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Cpath d='M0 13H6V3H20V10H12V7H16' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") repeat-x; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Cpath d='M0 13H6V3H20V10H12V7H16' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") repeat-x; border: 0; }
+.archive[data-era="antiquity"] :is(h1, h2, h3, .tab) { text-transform: uppercase; letter-spacing: 0.08em; }
+/* Golden Age: a lapis and gold border band, like an illuminated page. */
+.archive[data-era="golden-age"] .era-band { background: repeating-linear-gradient(90deg, var(--rule) 0 14px, var(--gilt) 14px 18px, var(--rule) 18px 32px, #8a1c1c 32px 36px); }
+.archive[data-era="golden-age"] :is(h1, h2, h3) { color: var(--rule); }
+.archive[data-era="golden-age"] h3::first-letter { color: #8a1c1c; font-size: 1.3em; }
+/* Renaissance: engraved crosshatching. */
+.archive[data-era="renaissance"] { background-image: repeating-linear-gradient(45deg, color-mix(in srgb, var(--rule) 7%, transparent) 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, color-mix(in srgb, var(--rule) 5%, transparent) 0 1px, transparent 1px 7px); }
+.archive[data-era="renaissance"] .era-band { background: repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 4px); }
+.archive[data-era="renaissance"] :is(h1, h2, h3) { font-style: italic; }
+/* Enlightenment: a printer's double rule with red, crisp and clean. */
+.archive[data-era="enlightenment"] { background-image: none; }
+.archive[data-era="enlightenment"] .era-band { height: 8px; border-top: 3px solid var(--ink-archive); border-bottom: 1px solid var(--gilt); background: none; }
+.archive[data-era="enlightenment"] :is(h1, h2, h3) { font-variant: small-caps; letter-spacing: 0.03em; }
+/* Steam Age: brass rivets on a bottle-green rule; heavy lettering. */
+.archive[data-era="steam-age"] .era-band { background: radial-gradient(circle, var(--gilt) 2.5px, transparent 3px) 0 50% / 22px 14px repeat-x, var(--ink-archive); }
+.archive[data-era="steam-age"] :is(h1, h2, h3) { font-weight: 700; letter-spacing: 0.02em; }
+.archive[data-era="steam-age"] .plate { border-radius: 6px; border-width: 4px; }
+/* Machine Age: a blueprint grid with measured ticks; stenciled labels. */
+.archive[data-era="machine-age"] { background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px); background-size: 24px 24px; }
+.archive[data-era="machine-age"] .era-band { background: repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 12px), repeating-linear-gradient(90deg, var(--rule) 0 2px, transparent 2px 60px); background-size: auto 6px, auto 14px; background-repeat: repeat-x; background-position: bottom; }
+.archive[data-era="machine-age"] :is(h1, h2, h3, .pl) { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; letter-spacing: 0.02em; }
+.archive[data-era="machine-age"] .plate { border-style: solid; border-width: 1px; border-radius: 0; }
+@media (prefers-color-scheme: dark) {
+  .archive:not([data-era="space-age"]):not([data-night]):not([data-era="machine-age"]):not([data-era="renaissance"]) { background-blend-mode: soft-light; }
+}
+.archive h1, .archive h2, .archive h3 { font-family: var(--font-display); color: var(--ink-archive); }
+/* Prices and counts: lining tabular figures. */
+.archive .num, .archive .price { font-variant-numeric: lining-nums tabular-nums; }
+
+/* Engraved rules and plates. */
+.archive .plate { background: var(--plate); border: 3px double var(--rule); border-radius: 2px; position: relative; }
+.archive .plate::before, .archive .plate::after { content: "❦"; position: absolute; font-size: 9px; color: var(--gilt); line-height: 1; }
+.archive .plate::before { top: 2px; left: 3px; }
+.archive .plate::after { bottom: 2px; right: 3px; transform: rotate(180deg); }
+.archive .rule { border: 0; border-top: 3px double var(--rule); margin: 18px 0; }
+.archive .pl { font-family: var(--font-display); font-variant: small-caps; letter-spacing: 0.06em; color: var(--pencil); }
+
+/* Inked (affordable) and pencil (not): no fill bars, rings or badges, so affordability never pulls. */
+.archive .inked { color: var(--ink-archive); border-color: var(--ink-archive); }
+.archive .pencil { color: var(--pencil); border-color: color-mix(in srgb, var(--pencil) 60%, transparent); border-style: dashed; }
+.archive button.ink-btn { font: inherit; font-size: 13px; padding: 5px 10px; border: 1px solid var(--ink-archive); background: transparent; color: var(--ink-archive); border-radius: 3px; cursor: pointer; font-variant-numeric: lining-nums tabular-nums; }
+.archive button.ink-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--ink-archive) 8%, transparent); }
+.archive button.ink-btn.pencil, .archive button.ink-btn:disabled { color: var(--pencil); border: 1px dashed var(--pencil); cursor: default; }
+
+/* Marginalia: margin notes at 1024 px and up; inline italics below. */
+.archive .margin { font-family: var(--font-display); font-style: italic; color: var(--pencil); font-size: 14px; line-height: 1.4; font-variant-numeric: oldstyle-nums; }
+@media (min-width: 1024px) {
+  .archive .with-margin { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 28px; align-items: start; }
+}
+
+/* Conjectures, once every Axiom is proven: constellations, ending in an Antimatter-like void at P versus NP. */
+.archive .sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.archive.archive[data-stars="12"] { --paper: #030208; --plate: #0b0716; background: radial-gradient(ellipse at 50% 30%, #1a0f33, #030208 70%); }
+.archive.archive[data-stars="12"]::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: conic-gradient(from 0deg at 50% 0%, rgba(255, 79, 216, 0.06), rgba(58, 216, 255, 0.06), rgba(89, 255, 160, 0.05), rgba(255, 79, 216, 0.06)); }
+@media (prefers-reduced-motion: reduce) { .archive { transition: none; } }

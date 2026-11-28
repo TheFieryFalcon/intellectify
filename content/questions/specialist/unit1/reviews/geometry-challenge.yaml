@@ -28,9 +28,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: foot, description: "Drops the perpendicular OM from O to the line", points: 1, dimension: proof }
-          - { id: bisects, description: "The perpendicular from the center bisects a chord, in both circles: AM = MD and BM = MC", points: 2, dimension: reasoning }
-          - { id: subtract, description: "AB = AM − BM = MD − MC = CD", points: 1, dimension: proof }
+          - { id: foot, description: "Makes a construction that links the two circles (e.g. the perpendicular OM from O to the line)", points: 1, dimension: proof }
+          - { id: bisects, description: "Finds equal lengths in both circles (e.g. the perpendicular from the center bisects each chord: AM = MD and BM = MC)", points: 2, dimension: reasoning }
+          - { id: subtract, description: "Concludes AB = CD (e.g. AB = AM − BM = MD − MC = CD)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $M$ be the foot of the perpendicular from $O$ to the line. The perpendicular from the center of a circle to a chord bisects the chord. $AD$ is a chord of the larger circle, so $AM = MD$; $BC$ is a chord of the smaller circle, so $BM = MC$.
@@ -68,10 +68,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: names, description: "Names ∠DAB = α and ∠ABC = β, and uses ∠ADC = 180° − β (opposite angles of a cyclic quadrilateral)", points: 1, dimension: reasoning }
-          - { id: p, description: "Angle sum of triangle APD: ∠APD = 180° − α − (180° − β) = β − α", points: 1, dimension: reasoning }
-          - { id: q, description: "Angle sum of triangle ABQ: ∠AQB = 180° − α − β", points: 1, dimension: reasoning }
-          - { id: add, description: "Adds to get 180° − 2α", points: 1, dimension: proof }
+          - { id: names, description: "Names the angles and relates the quadrilateral's angles (e.g. ∠DAB = α, ∠ABC = β, ∠ADC = 180° − β, opposite angles of a cyclic quadrilateral)", points: 1, dimension: reasoning }
+          - { id: p, description: "Finds ∠APD in terms of them (e.g. angle sum of triangle APD: β − α)", points: 1, dimension: reasoning }
+          - { id: q, description: "Finds ∠AQB in terms of them (e.g. angle sum of triangle ABQ: 180° − α − β)", points: 1, dimension: reasoning }
+          - { id: add, description: "Combines them to the required result (e.g. adds to get 180° − 2α)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $\angle DAB = \alpha$ and $\angle ABC = \beta$. Opposite angles of a cyclic quadrilateral add to $180^\circ$, so $\angle ADC = 180^\circ - \beta$.
@@ -158,9 +158,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: center, description: "∠COB = 2∠CAB (angle at the center is twice the angle at the circumference)", points: 2, dimension: reasoning }
-          - { id: tangent, description: "∠OCT = 90° (tangent ⟂ radius)", points: 1, dimension: reasoning }
-          - { id: sum, description: "Angle sum of triangle OCT: ∠CTO = 90° − 2∠CAB, and ∠CTO = ∠ATC", points: 1, dimension: proof }
+          - { id: center, description: "Relates an angle at O to ∠CAB (e.g. ∠COB = 2∠CAB, angle at the center)", points: 2, dimension: reasoning }
+          - { id: tangent, description: "Uses the tangent (e.g. ∠OCT = 90°, tangent ⟂ radius)", points: 1, dimension: reasoning }
+          - { id: sum, description: "Concludes the angle at T (e.g. angle sum of triangle OCT: ∠CTO = 90° − 2∠CAB)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $\angle CAB = x$. The angle at the center on arc $CB$ is twice the angle at the circumference: $\angle COB = 2x$.
@@ -180,9 +180,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: assume, description: "Assumes, for contradiction, that log₂3 = p/q with p, q positive integers (it is positive)", points: 1, dimension: proof }
-          - { id: power, description: "Rewrites as 2^(p/q) = 3, so 2^p = 3^q", points: 2, dimension: reasoning }
-          - { id: parity, description: "2^p is even (p ≥ 1) and 3^q is odd: contradiction", points: 1, dimension: proof }
+          - { id: assume, description: "Sets up a proof by contradiction (e.g. log₂3 = p/q with p, q positive integers)", points: 1, dimension: proof }
+          - { id: power, description: "Removes the logarithm (e.g. 2^(p/q) = 3, so 2^p = 3^q)", points: 2, dimension: reasoning }
+          - { id: parity, description: "Reaches a contradiction (e.g. 2^p is even for p ≥ 1 and 3^q is odd)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Suppose, for contradiction, that $\log_2 3 = \dfrac{p}{q}$ for integers $p$ and $q$. Since $3 > 1$, $\log_2 3 > 0$, so we can take $p, q$ positive.
@@ -242,9 +242,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: assume, description: "Assumes, for contradiction, that a whole number k > 1 divides both a and b", points: 1, dimension: proof }
-          - { id: divides, description: "Then k divides ad and bc, so k divides ad − bc", points: 2, dimension: reasoning }
-          - { id: contra, description: "But ad − bc = 1, and k > 1 can't divide 1: contradiction", points: 1, dimension: proof }
+          - { id: assume, description: "Sets up a proof by contradiction (e.g. a whole number k > 1 divides both a and b)", points: 1, dimension: proof }
+          - { id: divides, description: "Deduces k divides ad − bc (e.g. k divides ad and bc)", points: 2, dimension: reasoning }
+          - { id: contra, description: "Reaches a contradiction (e.g. ad − bc = 1, and k > 1 can't divide 1)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Suppose, for contradiction, that a whole number $k > 1$ divides both $a$ and $b$. Then $k$ divides $ad$ and $bc$, so it divides their difference $ad - bc = 1$. No whole number greater than 1 divides 1, which is a contradiction. So $a$ and $b$ have no common factor greater than 1.
@@ -278,10 +278,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: congruent, description: "Triangles OAP and OBP are congruent (RHS: right angles at A and B, OA = OB, OP common), so ∠AOP = ∠BOP", points: 1, dimension: reasoning }
-          - { id: perpendicular, description: "OP meets AB at M with triangles OMA and OMB congruent (SAS), so OM ⟂ AB and OM = d", points: 2, dimension: reasoning }
-          - { id: similar, description: "Triangles OMA and OAP are similar (common angle at O, right angles at M and A)", points: 1, dimension: proof }
-          - { id: conclude, description: "OM/OA = OA/OP, so OP = r²/d", points: 1, dimension: proof }
+          - { id: congruent, description: "Shows OP splits the figure symmetrically (e.g. triangles OAP and OBP congruent by RHS, so ∠AOP = ∠BOP)", points: 1, dimension: reasoning }
+          - { id: perpendicular, description: "Shows OP is perpendicular to AB at distance d from O (e.g. triangles OMA and OMB congruent by SAS, so OM ⟂ AB and OM = d)", points: 2, dimension: reasoning }
+          - { id: similar, description: "Finds a pair of similar triangles linking d, r and OP (e.g. OMA and OAP: common angle at O, right angles at M and A)", points: 1, dimension: proof }
+          - { id: conclude, description: "Concludes OP = r²/d (e.g. OM/OA = OA/OP)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     A tangent is perpendicular to the radius at its point of contact, so $\angle OAP = \angle OBP = 90^\circ$. Triangles $OAP$ and $OBP$ have $OA = OB = r$ and $OP$ common, so they are congruent (RHS), and $\angle AOP = \angle BOP$.
@@ -317,11 +317,11 @@
     - id: a
       rubric:
         criteria:
-          - { id: axis, description: "The center lies on the perpendicular bisector of chord AB, which passes through the midpoints N of AB and M of CD", points: 1, dimension: reasoning }
-          - { id: touch, description: "The radius to the point of contact is perpendicular to CD, so the circle touches CD at M", points: 1, dimension: reasoning }
-          - { id: diameter, description: "MN extended is a diameter MS of the circle", points: 1, dimension: proof }
-          - { id: chords, description: "Intersecting chords at N: MN × NS = AN × NB, so s × NS = s²/4 and NS = s/4", points: 2, dimension: reasoning }
-          - { id: conclude, description: "Diameter MS = 5s/4, so the radius is 5s/8", points: 1, dimension: proof }
+          - { id: axis, description: "Locates the center (e.g. on the perpendicular bisector of chord AB, through the midpoints N of AB and M of CD)", points: 1, dimension: reasoning }
+          - { id: touch, description: "Finds where the circle touches CD (e.g. the radius to the point of contact is perpendicular to CD, so it touches at M)", points: 1, dimension: reasoning }
+          - { id: diameter, description: "Identifies a diameter to work with (e.g. MN extended is a diameter MS)", points: 1, dimension: proof }
+          - { id: chords, description: "Finds a length on that diameter (e.g. intersecting chords at N: MN × NS = AN × NB, so NS = s/4), or uses Pythagoras another way", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Concludes the radius is 5s/8 (e.g. diameter MS = 5s/4)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $N$ and $M$ be the midpoints of $AB$ and $CD$, and $K$ the center. $AB$ is a chord, so $K$ lies on its perpendicular bisector, the line $NM$.
@@ -369,10 +369,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: cyclic, description: "AECD and BFCD are cyclic (each has two opposite right angles)", points: 1, dimension: reasoning }
-          - { id: first, description: "∠CDE = ∠CAE = ∠CBA = ∠CFD (same arc; alternate segment; same arc)", points: 2, dimension: reasoning }
-          - { id: second, description: "∠CED = ∠CAD = ∠CBF = ∠CDF (same arc; alternate segment; same arc)", points: 2, dimension: reasoning }
-          - { id: similar, description: "So triangles CDE and CFD are similar, giving CD/CF = CE/CD and CD² = CE × CF", points: 1, dimension: proof }
+          - { id: cyclic, description: "Identifies useful cyclic quadrilaterals (e.g. AECD and BFCD, each with two opposite right angles)", points: 1, dimension: reasoning }
+          - { id: first, description: "Finds one pair of equal angles in triangles CDE and CFD (e.g. ∠CDE = ∠CAE = ∠CBA = ∠CFD: same arc, alternate segment, same arc)", points: 2, dimension: reasoning }
+          - { id: second, description: "Finds a second pair of equal angles (e.g. ∠CED = ∠CAD = ∠CBF = ∠CDF: same arc, alternate segment, same arc)", points: 2, dimension: reasoning }
+          - { id: similar, description: "Concludes the triangles are similar and CD² = CE × CF", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $\angle CEA = \angle CDA = 90^\circ$, and these are opposite angles of quadrilateral $AECD$, so it is cyclic. In the same way $\angle CFB = \angle CDB = 90^\circ$, so $BFCD$ is cyclic.
@@ -411,10 +411,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: meet, description: "Lets the bisector of angle A meet the circle again at M", points: 1, dimension: proof }
-          - { id: chords, description: "∠BAM = ∠MAC, so chords BM and MC are equal (equal angles at the circumference stand on equal chords)", points: 2, dimension: reasoning }
-          - { id: perp, description: "MB = MC puts M on the perpendicular bisector of BC", points: 1, dimension: reasoning }
-          - { id: unique, description: "The two lines are different (AB ≠ AC), so they meet only at M, which is on the circle", points: 1, dimension: proof }
+          - { id: meet, description: "Names the point to study (e.g. M, where the bisector of angle A meets the circle again)", points: 1, dimension: proof }
+          - { id: chords, description: "Shows M is equally far from B and C (e.g. ∠BAM = ∠MAC, so chords BM and MC are equal)", points: 2, dimension: reasoning }
+          - { id: perp, description: "Places M on the perpendicular bisector of BC (e.g. MB = MC)", points: 1, dimension: reasoning }
+          - { id: unique, description: "Concludes the two lines meet at M on the circle (e.g. they are different lines since AB ≠ AC, so they meet only once)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the bisector of angle $A$ meet the circle again at $M$. Then $\angle BAM = \angle MAC$: equal angles at the circumference stand on equal chords, so $MB = MC$. A point equally far from $B$ and $C$ lies on the perpendicular bisector of $BC$, so $M$ is on it.
@@ -449,10 +449,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: common, description: "Draws the common tangent at T (it touches both circles there)", points: 1, dimension: proof }
-          - { id: first, description: "In the first circle, the tangents at A and at T make equal angles with chord AT (alternate segment, or equal tangents from where they meet)", points: 1, dimension: reasoning }
-          - { id: second, description: "In the second circle, the tangents at B and at T make equal angles with chord BT", points: 1, dimension: reasoning }
-          - { id: parallel, description: "The two angles at T are vertically opposite, so the tangents at A and B make equal alternate angles with line AB: they are parallel", points: 1, dimension: reasoning }
+          - { id: common, description: "Brings in the common tangent at T", points: 1, dimension: proof }
+          - { id: first, description: "Finds equal angles in the first circle (e.g. the tangents at A and T make equal angles with chord AT: alternate segment, or equal tangents)", points: 1, dimension: reasoning }
+          - { id: second, description: "Finds equal angles in the second circle (e.g. the tangents at B and T make equal angles with chord BT)", points: 1, dimension: reasoning }
+          - { id: parallel, description: "Concludes the tangents at A and B are parallel (e.g. the angles at T are vertically opposite, giving equal alternate angles on line AB)", points: 1, dimension: reasoning }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Draw the common tangent at $T$. In the first circle, the tangent at $A$ and the common tangent both make with chord $AT$ an angle equal to the angle in the alternate segment, so they make equal angles with line $AB$. The same holds in the second circle for the tangent at $B$ and the common tangent, with chord $BT$.
@@ -486,10 +486,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: meet, description: "Lets line PQ meet AB at M (M is outside both circles)", points: 1, dimension: proof }
-          - { id: first, description: "Tangent–secant from M to the first circle: MA² = MP × MQ", points: 1, dimension: reasoning }
-          - { id: second, description: "Tangent–secant from M to the second circle: MB² = MP × MQ", points: 1, dimension: reasoning }
-          - { id: conclude, description: "So MA² = MB², MA = MB: M is the midpoint of AB", points: 1, dimension: proof }
+          - { id: meet, description: "Names the point to study (e.g. M, where line PQ meets AB, outside both circles)", points: 1, dimension: proof }
+          - { id: first, description: "Relates MA to the common chord (e.g. tangent–secant in the first circle: MA² = MP × MQ)", points: 1, dimension: reasoning }
+          - { id: second, description: "Relates MB the same way (e.g. tangent–secant in the second circle: MB² = MP × MQ)", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes MA = MB, so M is the midpoint of AB", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let line $PQ$ meet $AB$ at $M$. From $M$, $MA$ is a tangent to the first circle and $MPQ$ is a secant of it, so $MA^2 = MP \times MQ$. In the same way, $MB$ is a tangent to the second circle and $MPQ$ is a secant of it, so $MB^2 = MP \times MQ$.
@@ -509,10 +509,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: assume, description: "Assumes, for contradiction, that √2 + √3 = r with r rational", points: 1, dimension: proof }
-          - { id: square, description: "Squares: 5 + 2√6 = r², so √6 = (r² − 5)/2 would be rational", points: 1, dimension: reasoning }
-          - { id: root6, description: "Proves √6 is irrational: √6 = p/q in lowest terms gives p² = 6q², so p is even, p = 2m, 2m² = 3q², so q is even: contradiction", points: 2, dimension: reasoning }
-          - { id: conclude, description: "So the assumption fails: √2 + √3 is irrational", points: 1, dimension: proof }
+          - { id: assume, description: "Sets up a proof by contradiction (e.g. √2 + √3 = r with r rational)", points: 1, dimension: proof }
+          - { id: square, description: "Reduces it to a simpler irrational (e.g. squaring: √6 = (r² − 5)/2 would be rational)", points: 1, dimension: reasoning }
+          - { id: root6, description: "Proves that simpler number is irrational (e.g. √6 = p/q in lowest terms gives p² = 6q², so p and then q are even)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Concludes √2 + √3 is irrational", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Suppose, for contradiction, that $\sqrt{2} + \sqrt{3} = r$ with $r$ rational. Squaring, $5 + 2\sqrt{6} = r^2$, so $\sqrt{6} = \dfrac{r^2 - 5}{2}$ would be rational.
@@ -552,11 +552,11 @@
     - id: a
       rubric:
         criteria:
-          - { id: construct, description: "Chooses E on diagonal AC with ∠ABE = ∠DBC", points: 1, dimension: proof }
-          - { id: sim1, description: "Triangles ABE and DBC are similar (∠ABE = ∠DBC by construction; ∠BAE = ∠BAC = ∠BDC, same arc BC)", points: 2, dimension: reasoning }
-          - { id: len1, description: "So AE/AB = DC/DB, i.e. AE × BD = AB × CD", points: 1, dimension: reasoning }
-          - { id: sim2, description: "Triangles CBE and DBA are similar (∠CBE = ∠DBA, since adding ∠EBD to both equal angles; ∠BCE = ∠BCA = ∠BDA, same arc AB), giving CE × BD = BC × AD", points: 2, dimension: reasoning }
-          - { id: add, description: "Adds, using AE + CE = AC: AC × BD = AB × CD + AD × BC", points: 1, dimension: proof }
+          - { id: construct, description: "Makes a construction that creates similar triangles (e.g. E on diagonal AC with ∠ABE = ∠DBC)", points: 1, dimension: proof }
+          - { id: sim1, description: "Proves a first pair of triangles similar (e.g. ABE and DBC: ∠ABE = ∠DBC by construction, ∠BAE = ∠BDC on arc BC)", points: 2, dimension: reasoning }
+          - { id: len1, description: "Gets a first length relation from it (e.g. AE × BD = AB × CD)", points: 1, dimension: reasoning }
+          - { id: sim2, description: "Proves a second pair similar and gets a second relation (e.g. CBE and DBA, giving CE × BD = BC × AD)", points: 2, dimension: reasoning }
+          - { id: add, description: "Combines them to the result (e.g. adds, using AE + CE = AC)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Choose $E$ on $AC$ with $\angle ABE = \angle DBC$.

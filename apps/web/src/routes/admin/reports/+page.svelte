@@ -74,11 +74,11 @@
       <article class="card">
         <p class="what">
           <a href={href(r)} target="_blank" rel="noopener">{r.target}</a>
-          <span class="muted">{r.kind === "tutorial" ? "Tutorial" : `Tier ${r.tier ?? "?"}`}{r.variant !== null ? ` · variant ${r.variant}` : ""}</span>
+          <span class="muted">{r.kind === "tutorial" ? "Tutorial" : `Tier ${r.tier ?? "?"}`}{r.variant !== null ? `, variant ${r.variant}` : ""}</span>
         </p>
         <p class="note">{r.note}</p>
         <div class="foot">
-          <span class="muted"><a href="/profile/{r.uid}">{r.name}</a> · {when(r.at)}</span>
+          <span class="muted"><a href="/profile/{r.uid}">{r.name}</a>, {when(r.at)}</span>
           <span class="acts">
             {#if r.status === "open"}
               <button class="btn" disabled={busy === r.id} onclick={() => set(r, "dismissed")}>Dismiss</button>

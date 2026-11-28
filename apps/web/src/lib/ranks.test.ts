@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { progress, score } from "./ranks";
 
 describe("rank progress ring", () => {
-  it("fills linearly in score between rank floors (SPEC §15.2)", () => {
+  it("fills linearly in score between rank floors (SPEC §16.2)", () => {
     // Bronze → Silver runs from θ 1000 (score 0.67) to 1250 (score 7.59).
     expect(progress(1, 1000)).toBe(0);
     expect(progress(1, 1250)).toBe(1);

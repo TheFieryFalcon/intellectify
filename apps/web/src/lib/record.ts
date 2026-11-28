@@ -14,6 +14,31 @@ import type { CourseProgressStore } from "./session.svelte";
 import type { AchievementsStore } from "./achievements.svelte";
 import { addHistory, type HistoryMode } from "./history";
 import { onAppeal, onMarked } from "./achievements";
+import { beginAnswer } from "./economy.svelte";
+import { toast } from "./celebrations.svelte";
+import { playCelebration } from "./fx.svelte";
+import { RANK_LABEL } from "./ranks";
+import { currentEconomy } from "./profile.svelte";
+
+/** Rank-up toasts, one per skill that ranked up, and the equipped celebration (SPEC §13.11). */
+function celebrateResult(course: CourseBundle, store: CourseProgressStore, result: ResultSummary, correct: boolean) {
+  const names = new Map([...indexSkills(course)].map(([id, x]) => [id, x.skill.name]));
+  let ranked = false;
+  for (const [id, st] of Object.entries(result.changes.skills)) {
+    const before = store.progress.skills[id]?.rank ?? 0;
+    if (st.rank > before) {
+      ranked = true;
+      toast({ kind: "rankUp", rank: st.rank, label: `${names.get(id) ?? id}: ${RANK_LABEL[st.rank as RankLevel]}` });
+    }
+  }
+  for (const [id, st] of Object.entries(result.changes.responseSkills)) {
+    if (st.rank > (store.progress.responseSkills[id]?.rank ?? 0)) {
+      ranked = true;
+      toast({ kind: "rankUp", rank: st.rank, label: `${course.responseSkills.find((r) => r.id === id)?.name ?? id}: ${RANK_LABEL[st.rank as RankLevel]}` });
+    }
+  }
+  if (ranked || correct) playCelebration(currentEconomy()?.state.equipped.celebration, ranked ? "rankUp" : "correct");
+}
 
 export async function recordResult(opts: {
   course: CourseBundle;
@@ -26,6 +51,7 @@ export async function recordResult(opts: {
   mode?: HistoryMode;
 }): Promise<{ summary: ResultSummary; xp: number }> {
   const { course, store, profile, served, parts } = opts;
+  beginAnswer();
   const question = served.question;
   const index = indexSkills(course);
   const before = store.progress.skills[question.skills.primary];
@@ -52,6 +78,7 @@ export async function recordResult(opts: {
   };
   for (const [id, st] of Object.entries(result.changes.skills)) gained((store.progress.skills[id]?.rank ?? 0) as RankLevel, st.rank as RankLevel);
   for (const [id, st] of Object.entries(result.changes.responseSkills)) gained((store.progress.responseSkills[id]?.rank ?? 0) as RankLevel, st.rank as RankLevel);
+  celebrateResult(course, store, result, result.outcome > 0.6);
 
   await store.save(
     { ...result.changes, rollupRanks: rollups.ranks },
@@ -89,7 +116,7 @@ export async function recordResult(opts: {
   let xp = 0;
   if (profile) {
     xp = (await profile.grantQuestion(question.id, tierOf(question.rating), result.outcome)) + rankXp;
-    if (rankXp) await profile.grant(rankXp);
+    if (rankXp) await profile.grant(rankXp, {}, "rankUp");
   }
   return { summary: result, xp };
 }
@@ -122,11 +149,13 @@ export async function recordMarked(opts: {
   jobId: string;
 }): Promise<{ summary: ResultSummary; xp: number }> {
   const { course, store, profile, question } = opts;
+  beginAnswer();
   const index = indexSkills(course);
   const before = store.progress.skills[question.skills.primary];
   const result = scoreMarked(store.progress, question, opts.mark, (id) => index.get(id)?.skill.size ?? "medium", getStartTier(course.id));
   const after = { ...store.progress, skills: { ...store.progress.skills, ...result.changes.skills }, responseSkills: { ...store.progress.responseSkills, ...result.changes.responseSkills } };
   const rankXp = rankUpXp(store, result);
+  celebrateResult(course, store, result, result.outcome > 0.6);
   await store.save(
     { ...result.changes, rollupRanks: computeRollups(course, after).ranks },
     {
@@ -164,7 +193,7 @@ export async function recordMarked(opts: {
   let xp = 0;
   if (profile) {
     xp = (await profile.grantWritten(question.id, tierOf(question.rating), opts.mark.score)) + rankXp;
-    if (rankXp) await profile.grant(rankXp);
+    if (rankXp) await profile.grant(rankXp, {}, "rankUp");
   }
   return { summary: result, xp };
 }
@@ -187,6 +216,6 @@ export async function recordAppeal(opts: {
   await store.save({ ...result.changes, rollupRanks: computeRollups(course, after).ranks }, null);
   opts.profile?.publishCourse(course, store.progress);
   await opts.achievements?.event((st) => onAppeal(st, { before: opts.first.score, after: opts.second.score }), store, profile);
-  if (profile && rankXp) await profile.grant(rankXp);
+  if (profile && rankXp) await profile.grant(rankXp, {}, "rankUp");
   return { summary: result, xp: rankXp };
 }

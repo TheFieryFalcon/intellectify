@@ -238,8 +238,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: semicircle, description: "∠ACB = 90°, with the reason (angle in a semicircle)", points: 2, dimension: reasoning }
-          - { id: sum, description: "Angle sum of triangle ABC: ∠CAB + ∠CBA = 180° − 90°", points: 1, dimension: reasoning }
+          - { id: semicircle, description: "Finds ∠ACB with a reason (e.g. 90°, angle in a semicircle)", points: 2, dimension: reasoning }
+          - { id: sum, description: "Relates the other two angles to it (e.g. angle sum of triangle ABC: ∠CAB + ∠CBA = 180° − 90°)", points: 1, dimension: reasoning }
           - { id: conclude, description: "Concludes ∠CAB + ∠CBA = 90°", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -540,10 +540,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: odd, description: "Writes n = 2k + 1 for an integer k", points: 1, dimension: proof }
-          - { id: factor, description: "Shows n² − 1 = 4k² + 4k = 4k(k + 1)", points: 1, dimension: reasoning }
-          - { id: even, description: "Explains that k(k + 1) is even: one of two consecutive integers is even", points: 2, dimension: reasoning }
-          - { id: conclude, description: "So n² − 1 = 4 × (an even number), a multiple of 8", points: 1, dimension: proof }
+          - { id: odd, description: "Writes a general odd number algebraically (e.g. n = 2k + 1 for an integer k)", points: 1, dimension: proof }
+          - { id: factor, description: "Rewrites n² − 1 usefully (e.g. 4k² + 4k = 4k(k + 1), or (n − 1)(n + 1))", points: 1, dimension: reasoning }
+          - { id: even, description: "Finds the extra factor of 2 (e.g. k(k + 1) is even, as one of two consecutive integers is; or n − 1 and n + 1 are consecutive even numbers)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Concludes n² − 1 is a multiple of 8", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $n = 2k + 1$, where $k$ is an integer. Then $n^2 - 1 = 4k^2 + 4k = 4k(k + 1)$.
@@ -579,9 +579,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: equal, description: "PA = PB (tangents from one point), so ∠PAB = ∠PBA", points: 1, dimension: reasoning }
-          - { id: alt, description: "Alternate segment theorem: ∠PAB = ∠ACB (and ∠PBA = ∠ACB)", points: 2, dimension: reasoning }
-          - { id: sum, description: "Angle sum of triangle PAB: ∠APB = 180° − 2∠ACB", points: 1, dimension: reasoning }
+          - { id: equal, description: "Finds equal angles in triangle PAB (e.g. PA = PB, tangents from one point, so ∠PAB = ∠PBA)", points: 1, dimension: reasoning }
+          - { id: alt, description: "Relates them to ∠ACB (e.g. alternate segment theorem: ∠PAB = ∠ACB)", points: 2, dimension: reasoning }
+          - { id: sum, description: "Concludes ∠APB = 180° − 2∠ACB (e.g. angle sum of triangle PAB)", points: 1, dimension: reasoning }
           - { id: conclude, description: "States the result with every step justified", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |

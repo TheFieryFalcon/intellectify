@@ -1,4 +1,4 @@
-/* Clean, academic (docs/SPEC.md §15.1). Every color is a token; dark mode redefines tokens only. */
+/* Clean, academic (docs/SPEC.md §16.1). Every color is a token; dark mode redefines tokens only. */
 :root {
   --bg: #fafbfc;
   --surface: #ffffff;
@@ -101,3 +101,19 @@ input[type="email"], input[type="text"] { font: inherit; padding: 9px 12px; bord
   font-size: 9px !important; line-height: 1 !important;
   color: var(--accent) !important; opacity: 0.85; pointer-events: none; white-space: nowrap;
 }
+
+/* MathLive's right-click menu lives in each math-field's shadow root; its colors follow the site's (and the
+   equipped color's) tokens, light and dark. Rules on the host element override MathLive's :host defaults. */
+math-field {
+  --ui-menu-bg: var(--surface);
+  --ui-menu-text: var(--ink);
+  --ui-menu-bg-hover: var(--region);
+  --ui-menu-text-hover: var(--ink);
+  --ui-menu-bg-active: var(--accent);
+  --ui-menu-text-active: var(--on-accent);
+  --ui-menu-bg-active-muted: var(--accent-soft);
+  --ui-menu-text-active-muted: var(--ink);
+  --ui-menu-divider: 1px solid var(--line);
+  --ui-menu-shadow: 0 10px 28px rgba(15, 22, 35, 0.22), 0 0 0 1px var(--line);
+}
+math-field::part(ui-menu-container) { font-family: var(--font-body); }

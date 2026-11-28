@@ -526,9 +526,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: right, description: ∠OSM = ∠OTM = 90° (tangent ⟂ radius), points: 1, dimension: reasoning}
-      - {id: sides, description: OS = OT (radii) and OM is common, points: 1, dimension: reasoning}
-      - {id: congruent, description: 'Triangles OSM and OTM are congruent (right angle, hypotenuse, side)', points: 2, dimension: proof}
+      - {id: right, description: "Uses the right angles where the tangents touch (e.g. ∠OSM = ∠OTM = 90°, tangent ⟂ radius)", points: 1, dimension: reasoning}
+      - {id: sides, description: "Identifies the other equal parts (e.g. OS = OT radii, OM common)", points: 1, dimension: reasoning}
+      - {id: congruent, description: "Concludes MS = MT by a valid argument (e.g. triangles OSM and OTM congruent by RHS, or Pythagoras)", points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Join $OS$, $OT$ and $OM$. $\angle OSM = \angle OTM = 90^\circ$ (tangent ⟂ radius), $OS = OT$ (radii) and $OM$ is common. So right-angled triangles $OSM$ and $OTM$ are congruent (hypotenuse and one side), and $MS = MT$.
@@ -606,10 +606,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: diam, description: 'Draws the diameter TD and uses ∠(tangent, TD) = 90°', points: 1, dimension: reasoning}
-      - {id: semi, description: '∠TBD = 90° (angle in a semicircle), so ∠BTD = 90° − ∠TDB', points: 1, dimension: reasoning}
-      - {id: subtract, description: Tangent–chord angle = 90° − ∠BTD = ∠TDB, points: 1, dimension: reasoning}
-      - {id: same, description: ∠TDB = ∠TAB (same arc TB), points: 1, dimension: proof}
+      - {id: diam, description: "Makes a construction that brings in a known angle (e.g. the diameter TD, with the tangent ⟂ TD)", points: 1, dimension: reasoning}
+      - {id: semi, description: "Finds a useful angle from it (e.g. ∠TBD = 90°, angle in a semicircle, so ∠BTD = 90° − ∠TDB)", points: 1, dimension: reasoning}
+      - {id: subtract, description: "Expresses the tangent–chord angle in terms of it (e.g. 90° − ∠BTD = ∠TDB)", points: 1, dimension: reasoning}
+      - {id: same, description: "Links it to the angle in the alternate segment (e.g. ∠TDB = ∠TAB, same arc TB)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Draw the diameter $TD$ and join $DB$. The tangent is perpendicular to $TD$, so the tangent–chord angle is $90^\circ - \angle BTD$. In triangle $TBD$, $\angle TBD = 90^\circ$ (angle in a semicircle), so $\angle TDB = 90^\circ - \angle BTD$ too. So the tangent–chord angle equals $\angle TDB$, which equals $\angle TAB$ (same arc $TB$).
@@ -779,9 +779,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: tangent, description: 'Uses the common tangent at T, and names where TA and TB cross the small circle (P and Q)', points: 1, dimension: synthesis}
-      - {id: parallel, description: Alternate segment theorem in both circles shows PQ ∥ AB (or equivalent), points: 2, dimension: reasoning}
-      - {id: alt, description: 'Alternate segment theorem for tangent AB at C: ∠ACP = ∠CTP and ∠BCQ = ∠CTQ (or equivalent)', points: 2, dimension: reasoning}
+      - {id: tangent, description: "Sets up the figure usefully (e.g. the common tangent at T, and P, Q where TA and TB cross the small circle)", points: 1, dimension: synthesis}
+      - {id: parallel, description: "Finds a key parallel or angle relation (e.g. alternate segment theorem in both circles gives PQ ∥ AB)", points: 2, dimension: reasoning}
+      - {id: alt, description: "Brings in the tangent at C (e.g. alternate segment theorem: ∠ACP = ∠CTP and ∠BCQ = ∠CTQ)", points: 2, dimension: reasoning}
       - {id: conclude, description: Combines these to show ∠ATC = ∠CTB, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |

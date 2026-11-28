@@ -1,0 +1,442 @@
+# Enlightenment Pack: 1650–1800 (docs/SPEC.md §13.7). First draft.
+era: enlightenment
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: newton
+    name: Isaac Newton
+    wikidata: Q935
+    born: 1643
+    died: 1727
+    work: 1687
+    fields: [Physics, Mathematics, Astronomy]
+    rarity: diamond
+    portrait:
+      file: portraits/newton.webp
+      source: "https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689.jpg"
+      author: "Godfrey Kneller"
+      license: "Public domain"
+    related: [spec.differential-equations.motion]
+    blurb: >-
+      His Principia gave the laws of motion and universal gravitation, explaining falling apples and
+      planetary orbits with the same law. He also invented calculus and showed that white light is a mix
+      of colors.
+
+  - id: leibniz
+    name: Gottfried Wilhelm Leibniz
+    wikidata: Q9047
+    born: 1646
+    died: 1716
+    work: 1684
+    fields: [Mathematics, Philosophy]
+    rarity: diamond
+    portrait:
+      file: portraits/leibniz.webp
+      source: "https://commons.wikimedia.org/wiki/File:Christoph_Bernhard_Francke_-_Bildnis_des_Philosophen_Leibniz_(ca._1695).jpg"
+      author: "Christoph Bernhard Francke"
+      license: "Public domain"
+    related: [spec.differential-equations.implicit]
+    blurb: >-
+      Invented calculus independently of Newton, with the dy/dx and ∫ notation still used today. He also
+      studied binary arithmetic, built a calculating machine and argued that ours is the best of all
+      possible worlds.
+
+  - id: euler
+    name: Leonhard Euler
+    wikidata: Q7604
+    born: 1707
+    died: 1783
+    work: 1748
+    fields: [Mathematics, Physics, Astronomy]
+    rarity: diamond
+    portrait:
+      file: portraits/euler.webp
+      source: "https://commons.wikimedia.org/wiki/File:Leonhard_Euler.jpg"
+      author: "Jakob Emanuel Handmann"
+      license: "Public domain"
+    related: [spec.complex.polar-form]
+    blurb: >-
+      The most prolific mathematician in history, he introduced the notation f(x), e and i, popularized π
+      and found that e^(iθ) = cos θ + i sin θ. He kept working at full pace after going blind.
+
+  - id: kant
+    name: Immanuel Kant
+    wikidata: Q9312
+    born: 1724
+    died: 1804
+    work: 1781
+    fields: [Philosophy]
+    rarity: diamond
+    portrait:
+      file: portraits/kant.webp
+      source: "https://commons.wikimedia.org/wiki/File:Immanuel_Kant_-_Gemaelde_2.jpg"
+      author: "Becker"
+      license: "Public domain"
+    blurb: >-
+      His Critique of Pure Reason argued that space, time and cause are forms our minds impose on
+      experience. In ethics he held that we must act only on rules we could will everyone to follow.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: pascal
+    name: Blaise Pascal
+    wikidata: Q1290
+    born: 1623
+    died: 1662
+    work: 1654
+    fields: [Mathematics, Physics, Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/pascal.webp
+      source: "https://commons.wikimedia.org/wiki/File:Blaise_Pascal_Versailles.JPG"
+      author: "unknown; a copy of the painting of François II Quesnel, which was made for Gérard Edelinck en 1691 [réf. nécessaire] ."
+      license: "Public domain"
+    related: [spec.combinatorics.pascal]
+    blurb: >-
+      Founded probability theory with Fermat, studied the triangle now named after him and built an early
+      calculator. His Pensées hold the wager: belief in God is the better bet.
+
+  - id: locke
+    name: John Locke
+    wikidata: Q9353
+    born: 1632
+    died: 1704
+    work: 1689
+    fields: [Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/locke.webp
+      source: "https://commons.wikimedia.org/wiki/File:JohnLocke.png"
+      author: "Godfrey Kneller"
+      license: "Public domain"
+    blurb: >-
+      Argued that the mind starts as a blank slate filled by experience, and that government rests on the
+      consent of the governed to protect life, liberty and property. His ideas run through the American
+      Declaration of Independence.
+
+  - id: spinoza
+    name: Baruch Spinoza
+    wikidata: Q35802
+    born: 1632
+    died: 1677
+    work: 1677
+    fields: [Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/spinoza.webp
+      source: "https://commons.wikimedia.org/wiki/File:Spinoza.jpg"
+      author: "anonymous"
+      license: "Public domain"
+    blurb: >-
+      His Ethics, set out like Euclid with axioms and proofs, argues that God and nature are one
+      substance. He was an early champion of freedom of thought and of reading scripture critically.
+
+  - id: hume
+    name: David Hume
+    wikidata: Q37160
+    born: 1711
+    died: 1776
+    work: 1739
+    fields: [Philosophy, History, Economics]
+    rarity: platinum
+    portrait:
+      file: portraits/hume.webp
+      source: "https://commons.wikimedia.org/wiki/File:David_Hume_Ramsay.jpg"
+      author: "Allan Ramsay"
+      license: "Public domain"
+    blurb: >-
+      Showed that we never observe causes, only one event following another, so expecting the future to
+      be like the past cannot be justified by reason. Kant said Hume woke him from his dogmatic slumber.
+
+  - id: lagrange
+    name: Joseph-Louis Lagrange
+    wikidata: Q80222
+    born: 1736
+    died: 1813
+    work: 1788
+    fields: [Mathematics, Physics, Astronomy]
+    rarity: platinum
+    portrait:
+      file: portraits/lagrange.webp
+      source: "https://commons.wikimedia.org/wiki/File:%D0%9B%D0%B0%D0%B3%D1%80%D0%B0%D0%BD%D0%B6.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      His Analytical Mechanics recast Newton's mechanics in a few general equations with no diagrams at
+      all. He also helped found the calculus of variations and set up the metric system.
+
+  - id: laplace
+    name: Pierre-Simon Laplace
+    wikidata: Q44481
+    born: 1749
+    died: 1827
+    work: 1799
+    fields: [Mathematics, Astronomy, Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/laplace.webp
+      source: "https://commons.wikimedia.org/wiki/File:Pierre-Simon,_marquis_de_Laplace_(1745-1827)_-_Gu%C3%A9rin.jpg"
+      author: "Jean-Baptiste Paulin Guérin"
+      license: "Public domain"
+    related: [spec.inference.sample-means]
+    blurb: >-
+      His Celestial Mechanics showed the solar system is stable under Newton's laws. He also built
+      probability into a full theory, including an early central limit theorem.
+
+  - id: lavoisier
+    name: Antoine Lavoisier
+    wikidata: Q39607
+    born: 1743
+    died: 1794
+    work: 1789
+    fields: [Chemistry]
+    rarity: platinum
+    portrait:
+      file: portraits/lavoisier.webp
+      source: "https://commons.wikimedia.org/wiki/File:David_-_Portrait_of_Monsieur_Lavoisier_(cropped).jpg"
+      author: "Jacques-Louis David"
+      license: "Public domain"
+    blurb: >-
+      Showed that burning is combination with oxygen and that mass is conserved in reactions, and named
+      oxygen and hydrogen. He was guillotined in the French Revolution.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: hobbes
+    name: Thomas Hobbes
+    wikidata: Q37621
+    born: 1588
+    died: 1679
+    work: 1651
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/hobbes.webp
+      source: "https://commons.wikimedia.org/wiki/File:Thomas_Hobbes_(portrait).jpg"
+      author: "John Michael Wright"
+      license: "Public domain"
+    blurb: >-
+      Leviathan argued that without government, life would be solitary, poor, nasty, brutish and short,
+      so people agree to obey a sovereign. It began modern social contract theory.
+
+  - id: huygens
+    name: Christiaan Huygens
+    wikidata: Q39599
+    born: 1629
+    died: 1695
+    work: 1673
+    fields: [Physics, Astronomy, Mathematics]
+    rarity: gold
+    portrait:
+      file: portraits/huygens.webp
+      source: "https://commons.wikimedia.org/wiki/File:Christiaan-huygens4.jpg"
+      author: "Bernard Vaillant"
+      license: "Public domain"
+    blurb: >-
+      Built the first pendulum clock, discovered Saturn's moon Titan and described its rings. He also
+      proposed that light travels as a wave.
+
+  - id: boyle
+    name: Robert Boyle
+    wikidata: Q43393
+    born: 1627
+    died: 1691
+    work: 1662
+    fields: [Chemistry, Physics]
+    rarity: gold
+    portrait:
+      file: portraits/boyle.webp
+      source: "https://commons.wikimedia.org/wiki/File:The_Shannon_Portrait_of_the_Hon_Robert_Boyle.jpg"
+      author: "Johann Kerseboom"
+      license: "Public domain"
+    blurb: >-
+      Found that a gas's pressure and volume vary inversely, Boyle's law. The Sceptical Chymist helped
+      turn alchemy into experimental chemistry.
+
+  - id: linnaeus
+    name: Carl Linnaeus
+    wikidata: Q1043
+    born: 1707
+    died: 1778
+    work: 1753
+    fields: [Biology]
+    rarity: gold
+    portrait:
+      file: portraits/linnaeus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Carl_von_Linn%C3%A9.jpg"
+      author: "Alexander Roslin"
+      license: "Public domain"
+    blurb: >-
+      Gave every species a two-part Latin name, such as Homo sapiens, and sorted living things into a
+      nested hierarchy. Biologists still use his system.
+
+  - id: rousseau
+    name: Jean-Jacques Rousseau
+    wikidata: Q6527
+    born: 1712
+    died: 1778
+    work: 1762
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/rousseau.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jean-Jacques_Rousseau_(painted_portrait).jpg"
+      author: "Maurice Quentin de La Tour"
+      license: "Public domain"
+    blurb: >-
+      The Social Contract begins: Man is born free, and everywhere he is in chains. His ideas of the
+      general will and of natural goodness inspired the French Revolution and modern education.
+
+  - id: adam-smith
+    name: Adam Smith
+    wikidata: Q9381
+    born: 1723
+    died: 1790
+    work: 1776
+    fields: [Economics, Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/adam-smith.webp
+      source: "https://commons.wikimedia.org/wiki/File:AdamSmith.jpg"
+      author: "Etching created by Cadell and Davies (1811), John Horsburgh (1828) or R.C. Bell (1872)."
+      license: "Public domain"
+    blurb: >-
+      The Wealth of Nations explained how the division of labor and free markets create prosperity, with
+      self-interest guided as if by an invisible hand. It founded modern economics.
+
+  - id: edward-jenner
+    name: Edward Jenner
+    wikidata: Q40852
+    born: 1749
+    died: 1823
+    work: 1796
+    fields: [Medicine]
+    rarity: gold
+    portrait:
+      file: portraits/edward-jenner.webp
+      source: "https://commons.wikimedia.org/wiki/File:Edward_Jenner_by_James_Northcote.jpg"
+      author: "James Northcote"
+      license: "Public domain"
+    blurb: >-
+      Showed that infecting people with mild cowpox protects them from smallpox, the first vaccine. The
+      method he started eventually wiped smallpox out.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: hooke
+    name: Robert Hooke
+    wikidata: Q46830
+    born: 1635
+    died: 1703
+    work: 1665
+    fields: [Physics, Biology]
+    rarity: silver
+    portrait:
+      file: portraits/hooke.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_a_Mathematician_1680c.jpg"
+      author: "Mary Beale"
+      license: "Public domain"
+    related: [spec.differential-equations.motion]
+    blurb: >-
+      His Micrographia showed the microscopic world and named the cell. Hooke's law says a spring's
+      force is proportional to its stretch, the basis of simple harmonic motion.
+
+  - id: leeuwenhoek
+    name: Antonie van Leeuwenhoek
+    wikidata: Q43522
+    born: 1632
+    died: 1723
+    work: 1676
+    fields: [Biology]
+    rarity: silver
+    portrait:
+      file: portraits/leeuwenhoek.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portret_van_Antonie_van_Leeuwenhoek,_RP-P-1903-A-23563.jpg"
+      author: "Rijksmuseum"
+      license: "CC0"
+    blurb: >-
+      Made his own powerful single-lens microscopes and was the first to see bacteria and other
+      single-celled life. He is called the father of microbiology.
+
+  - id: jacob-bernoulli
+    name: Jacob Bernoulli
+    wikidata: Q122392
+    born: 1655
+    died: 1705
+    work: 1690
+    fields: [Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/jacob-bernoulli.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jakob_Bernoulli.jpg"
+      author: "Niklaus Bernoulli (1662-1716)"
+      license: "Public domain"
+    related: [spec.inference.sample-means]
+    blurb: >-
+      Proved the law of large numbers: over many trials, the proportion of successes settles near the
+      true probability. He also found the constant e while studying compound interest.
+
+  - id: de-moivre
+    name: Abraham de Moivre
+    wikidata: Q200397
+    born: 1667
+    died: 1754
+    work: 1730
+    fields: [Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/de-moivre.webp
+      source: "https://commons.wikimedia.org/wiki/File:Abraham_de_Moivre_by_Joseph_Highmore.jpg"
+      author: "Joseph Highmore"
+      license: "Public domain"
+    related: [spec.complex.de-moivre]
+    blurb: >-
+      His theorem gives powers of cos θ + i sin θ by multiplying the angle. He also found the normal
+      curve as the limit of the binomial distribution.
+
+  - id: emilie-du-chatelet
+    name: Émilie du Châtelet
+    wikidata: Q7286
+    born: 1706
+    died: 1749
+    work: 1749
+    fields: [Physics, Mathematics, Philosophy]
+    rarity: silver
+    portrait:
+      file: portraits/emilie-du-chatelet.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ok%C3%A4nd_-_Gabrielle-%C3%89milie_Le_Tonnelier_de_Breteuil_(1706%E2%80%931749),_Marquise_du_Ch%C3%A2telet_-_NMDrh_796_-_Nationalmuseum.jpg"
+      author: "anonymous"
+      license: "Public domain"
+    blurb: >-
+      Translated Newton's Principia into French with a commentary; it is still the standard French
+      version. She argued that a moving body's energy grows with the square of its speed.
+
+  - id: voltaire
+    name: Voltaire
+    wikidata: Q9068
+    born: 1694
+    died: 1778
+    work: 1759
+    fields: [Philosophy, History]
+    rarity: silver
+    portrait:
+      file: portraits/voltaire.webp
+      source: "https://commons.wikimedia.org/wiki/File:Nicolas_de_Largilli%C3%A8re_-_Portrait_de_Voltaire_(1694-1778)_en_1718_-_P208_-_mus%C3%A9e_Carnavalet_-_5_(cropped).jpg"
+      author: "Nicolas de Largillière"
+      license: "CC0"
+    blurb: >-
+      Satirized intolerance and blind optimism in Candide and campaigned for freedom of religion and
+      speech. With du Châtelet he spread Newton's ideas in France.
+
+  - id: benjamin-franklin
+    name: Benjamin Franklin
+    wikidata: Q34969
+    born: 1706
+    died: 1790
+    work: 1752
+    fields: [Physics]
+    rarity: silver
+    portrait:
+      file: portraits/benjamin-franklin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Joseph_Siffrein_Duplessis_-_Benjamin_Franklin_-_Google_Art_Project.jpg"
+      author: "Joseph-Siffred Duplessis"
+      license: "Public domain"
+    blurb: >-
+      Showed that lightning is electricity and invented the lightning rod. He named positive and
+      negative charge, then helped draft the American Declaration of Independence.

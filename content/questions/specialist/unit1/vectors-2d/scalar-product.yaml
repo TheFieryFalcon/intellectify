@@ -361,9 +361,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: expand, description: "Expands to a·a − a·b + b·a − b·b", points: 1, dimension: reasoning }
-          - { id: simplify, description: "Uses a·b = b·a and a·a = |a|² to reach |a|² − |b|²", points: 1, dimension: reasoning }
-          - { id: hence, description: "With |a| = |b| the dot product is 0, so the (non-zero) vectors are perpendicular", points: 1, dimension: proof }
+          - { id: expand, description: "Expands (a + b)·(a − b) correctly (e.g. a·a − a·b + b·a − b·b)", points: 1, dimension: reasoning }
+          - { id: simplify, description: "Simplifies to |a|² − |b|² (e.g. using a·b = b·a and a·a = |a|²)", points: 1, dimension: reasoning }
+          - { id: hence, description: "Concludes the dot product is 0 when |a| = |b|, so the (non-zero) vectors are perpendicular", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with each step justified", points: 1, dimension: clarity }
   solution: |
     $(\mathbf{a} + \mathbf{b})\cdot(\mathbf{a} - \mathbf{b}) = \mathbf{a}\cdot\mathbf{a} - \mathbf{a}\cdot\mathbf{b} + \mathbf{b}\cdot\mathbf{a} - \mathbf{b}\cdot\mathbf{b} = |\mathbf{a}|^2 - |\mathbf{b}|^2$, since $\mathbf{a}\cdot\mathbf{b} = \mathbf{b}\cdot\mathbf{a}$.
@@ -463,9 +463,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: bc, description: "Writes BC = b − c", points: 1, dimension: reasoning }
-          - { id: square, description: "|BC|² = (b − c)·(b − c), expanded to |b|² − 2b·c + |c|²", points: 2, dimension: reasoning }
-          - { id: angle, description: "Uses b·c = |b||c|cos A, since A is the angle between b and c drawn from A", points: 1, dimension: proof }
+          - { id: bc, description: "Writes the vector along BC in terms of b and c (e.g. BC = b − c)", points: 1, dimension: reasoning }
+          - { id: square, description: "Finds |BC|² by expanding a dot product (e.g. (b − c)·(b − c) = |b|² − 2b·c + |c|²)", points: 2, dimension: reasoning }
+          - { id: angle, description: "Brings in angle A through the dot product (e.g. b·c = |b||c|cos A, since A is the angle between b and c drawn from A)", points: 1, dimension: proof }
           - { id: clear, description: "Clear, complete and correctly concluded", points: 1, dimension: clarity }
   solution: |
     $\overrightarrow{BC} = \overrightarrow{AC} - \overrightarrow{AB} = \mathbf{b} - \mathbf{c}$. So
@@ -851,10 +851,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: write, description: "Writes both sides in components: (a₁b₁ + a₂b₂)² and (a₁² + a₂²)(b₁² + b₂²)", points: 1, dimension: reasoning }
-          - { id: subtract, description: "Shows the difference is (a₁b₂ − a₂b₁)²", points: 2, dimension: reasoning }
-          - { id: conclude, description: "A square is ≥ 0, giving the inequality", points: 1, dimension: proof }
-          - { id: equality, description: "Equality exactly when a₁b₂ = a₂b₁, i.e. one vector is a multiple of the other (parallel, or one is zero)", points: 1, dimension: synthesis }
+          - { id: write, description: "Writes both sides in a form that can be compared (e.g. in components: (a₁b₁ + a₂b₂)² and (a₁² + a₂²)(b₁² + b₂²))", points: 1, dimension: reasoning }
+          - { id: subtract, description: "Shows the difference between the sides is never negative (e.g. it equals (a₁b₂ − a₂b₁)²)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Concludes the inequality from that (e.g. a square is ≥ 0)", points: 1, dimension: proof }
+          - { id: equality, description: "Finds when equality holds: exactly when one vector is a multiple of the other (e.g. a₁b₂ = a₂b₁: parallel, or one is zero)", points: 1, dimension: synthesis }
   solution: |
     $|\mathbf{a}|^2|\mathbf{b}|^2 - (\mathbf{a}\cdot\mathbf{b})^2 = (a_1^2 + a_2^2)(b_1^2 + b_2^2) - (a_1b_1 + a_2b_2)^2 = a_1^2b_2^2 + a_2^2b_1^2 - 2a_1b_1a_2b_2 = (a_1b_2 - a_2b_1)^2 \ge 0$.
     Equality holds exactly when $a_1b_2 = a_2b_1$, which means one vector is a multiple of the other: they are parallel, or one is the zero vector.

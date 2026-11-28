@@ -1,0 +1,465 @@
+# Antiquity Pack: to 500 (docs/SPEC.md §13.7). First draft.
+era: antiquity
+cards:
+  # ── Diamond ─────────────────────────────────────────────
+  - id: pythagoras
+    name: Pythagoras
+    wikidata: Q10261
+    born: -570
+    died: -495
+    circa: [born, died]
+    work: -530
+    fields: [Mathematics, Philosophy]
+    rarity: diamond
+    portrait:
+      file: portraits/pythagoras.webp
+      source: "https://commons.wikimedia.org/wiki/File:Pythagoras._Line_engraving_by_B._Barloccini_after_C._C._Perk_Wellcome_V0004820.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/f0/9d/e7ddf49e5245fd1590657496bcde.jpg Gallery: https://wellcomeimages.org/indexplus/image/V0004820.html Wellcome Collection gallery (2018-04-01): http…"
+      license: "CC BY 4.0"
+    related: [spec.real-complex.rational-irrational]
+    blurb: >-
+      Founded a school in southern Italy that saw whole numbers and their ratios behind everything,
+      from musical harmony to the heavens. His followers' discovery that some lengths are not ratios of
+      whole numbers, the first irrationals, shook that view.
+
+  - id: socrates
+    name: Socrates
+    wikidata: Q913
+    born: -470
+    died: -399
+    circa: [born]
+    work: -420
+    fields: [Philosophy]
+    rarity: diamond
+    portrait:
+      file: portraits/socrates.webp
+      source: "https://commons.wikimedia.org/wiki/File:Socrates_Louvre.jpg"
+      author: "Copy of Lysippos (?)"
+      license: "Public domain"
+    blurb: >-
+      Wrote nothing, but questioned the people of Athens about justice, courage and the good life until
+      their confident answers fell apart. His method of probing a claim by questioning it is still how
+      philosophy, law and teaching test ideas.
+
+  - id: plato
+    name: Plato
+    wikidata: Q859
+    born: -428
+    died: -348
+    circa: [born, died]
+    work: -375
+    fields: [Philosophy, Mathematics]
+    rarity: diamond
+    portrait:
+      file: portraits/plato.webp
+      source: "https://commons.wikimedia.org/wiki/File:Plato_Silanion_Musei_Capitolini_MC1377.jpg"
+      author: "Marie-Lan Nguyen"
+      license: "CC BY 2.5"
+    blurb: >-
+      Founded the Academy in Athens and wrote dialogues, among them the Republic, that set the agenda of
+      Western philosophy. He held that true knowledge is of unchanging forms, with mathematics as the
+      model, and is said to have put geometry at the Academy's door.
+
+  - id: aristotle
+    name: Aristotle
+    wikidata: Q868
+    born: -384
+    died: -322
+    work: -340
+    fields: [Philosophy, Biology, Physics]
+    rarity: diamond
+    portrait:
+      file: portraits/aristotle.webp
+      source: "https://commons.wikimedia.org/wiki/File:Aristotle_Altemps_Inv8575.jpg"
+      author: "After Lysippos"
+      license: "Public domain"
+    related: [spec.geometry.logic]
+    blurb: >-
+      Plato's student and Alexander the Great's tutor, he wrote on nearly everything: logic, ethics,
+      politics, poetry, physics and animals. His syllogistic logic was the standard account of valid
+      reasoning for more than two thousand years.
+
+  - id: euclid
+    name: Euclid
+    wikidata: Q8747
+    flourished: -300
+    work: -300
+    fields: [Mathematics]
+    rarity: diamond
+    portrait:
+      file: portraits/euclid.webp
+      source: "https://commons.wikimedia.org/wiki/File:Euklid2.jpg"
+      author: "Justus van Gent"
+      license: "Public domain"
+    related: [spec.geometry.proof-methods, spec.real-complex.number-proofs]
+    blurb: >-
+      His Elements built geometry and number theory from a handful of axioms, proof by proof, including
+      the proof that there are infinitely many primes. It was used as a textbook for over two thousand
+      years.
+
+  - id: archimedes
+    name: Archimedes
+    wikidata: Q8739
+    born: -287
+    died: -212
+    circa: [born]
+    work: -250
+    fields: [Mathematics, Physics, Engineering]
+    rarity: diamond
+    portrait:
+      file: portraits/archimedes.webp
+      source: "https://commons.wikimedia.org/wiki/File:Domenico-Fetti_Archimedes_1620.jpg"
+      author: "Domenico Fetti"
+      license: "Public domain"
+    related: [spec.integration.volumes]
+    blurb: >-
+      Found the volume and surface area of a sphere and bounded π between 3 10/71 and 3 1/7, using limits
+      of ever finer shapes nearly two thousand years before calculus. He also founded statics and
+      hydrostatics, with the laws of the lever and of buoyancy.
+
+  # ── Platinum ────────────────────────────────────────────
+  - id: thales
+    name: Thales of Miletus
+    wikidata: Q36303
+    born: -624
+    died: -546
+    circa: [born, died]
+    work: -585
+    fields: [Philosophy, Mathematics, Astronomy]
+    rarity: platinum
+    portrait:
+      file: portraits/thales.webp
+      source: "https://commons.wikimedia.org/wiki/File:Illustrerad_Verldshistoria_band_I_Ill_107.svg"
+      author: "Wilhelm Meyer"
+      license: "Public domain"
+    related: [spec.geometry.circle-angles]
+    blurb: >-
+      Often called the first philosopher, he explained the world by natural causes rather than myths.
+      The theorem that an angle in a semicircle is a right angle carries his name.
+
+  - id: confucius
+    name: Confucius
+    wikidata: Q4604
+    born: -551
+    died: -479
+    work: -500
+    fields: [Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/confucius.webp
+      source: "https://commons.wikimedia.org/wiki/File:Konfuzius-1770.jpg"
+      author: "Confucius, gouache on paper, c. 1770 . Encyclopedia Britannica."
+      license: "Public domain"
+    blurb: >-
+      Taught that a good society rests on personal virtue, respect within families and rulers who lead
+      by example. His sayings, collected by his students as the Analects, shaped Chinese ethics,
+      education and government for over two thousand years.
+
+  - id: hippocrates
+    name: Hippocrates of Kos
+    wikidata: Q5264
+    born: -460
+    died: -370
+    circa: [born, died]
+    work: -400
+    fields: [Medicine]
+    rarity: platinum
+    portrait:
+      file: portraits/hippocrates.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hippocrates_rubens.jpg"
+      author: "Paulus Pontius / After Peter Paul Rubens"
+      license: "Public domain"
+    blurb: >-
+      Treated disease as having natural causes to be observed, not as punishment from the gods. The
+      Hippocratic writings and the oath named after him founded medicine as a profession with its own
+      ethics.
+
+  - id: eratosthenes
+    name: Eratosthenes
+    wikidata: Q43182
+    born: -276
+    died: -194
+    circa: [born, died]
+    work: -240
+    fields: [Mathematics, Geography, Astronomy]
+    rarity: platinum
+    portrait:
+      file: portraits/eratosthenes.webp
+      source: "https://commons.wikimedia.org/wiki/File:Eratosthenes.jpg"
+      author: "Unknown"
+      license: "Public domain"
+    blurb: >-
+      Measured the Earth's circumference from the angle of the noon Sun at two cities, and came close to
+      the true value. He also gave the sieve still used to list prime numbers.
+
+  - id: ptolemy
+    name: Claudius Ptolemy
+    wikidata: Q34943
+    born: 100
+    died: 170
+    circa: [born, died]
+    work: 150
+    fields: [Astronomy, Mathematics, Geography]
+    rarity: platinum
+    portrait:
+      file: portraits/ptolemy.webp
+      source: "https://commons.wikimedia.org/wiki/File:PSM_V78_D326_Ptolemy.png"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.trigonometry.compound-angles]
+    blurb: >-
+      His Almagest modeled the motions of the Sun, Moon and planets so well that it ruled astronomy for
+      fourteen centuries. Its table of chords and the theorem on cyclic quadrilaterals named after him
+      amount to the sine table and the compound-angle formulas.
+
+  - id: galen
+    name: Galen
+    wikidata: Q8778
+    born: 129
+    died: 216
+    circa: [died]
+    work: 170
+    fields: [Medicine, Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/galen.webp
+      source: "https://commons.wikimedia.org/wiki/File:Galenus.jpg"
+      author: "Georg Paul Busch (engraver)"
+      license: "Public domain"
+    blurb: >-
+      A physician to Roman emperors who learned anatomy by dissection and showed that arteries carry
+      blood, not air. His writings were the core of medical teaching in Europe and the Islamic world for
+      over a thousand years.
+
+  - id: diophantus
+    name: Diophantus of Alexandria
+    wikidata: Q178217
+    flourished: 250
+    work: 250
+    fields: [Mathematics]
+    rarity: platinum
+    portrait:
+      file: portraits/diophantus.webp
+      source: "https://commons.wikimedia.org/wiki/File:%CE%94%CE%B9%CF%8C%CF%86%CE%B1%CE%BD%CF%84%CE%BF%CF%82_-_Diophantos_-_%D0%94%D0%98%D0%9E%D0%A4%D0%90%D0%9D%D0%A2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      His Arithmetica was the first book to use symbols for unknowns and to solve equations in whole and
+      rational numbers. Equations like these are still called Diophantine, and his book is where Fermat
+      wrote his famous margin note.
+
+  # ── Gold ────────────────────────────────────────────────
+  - id: democritus
+    name: Democritus
+    wikidata: Q41980
+    born: -460
+    died: -370
+    circa: [born, died]
+    work: -420
+    fields: [Philosophy, Physics]
+    rarity: gold
+    portrait:
+      file: portraits/democritus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Unknown_greek_pushkin.jpg"
+      author: "user:shakko"
+      license: "CC BY-SA 3.0"
+    blurb: >-
+      Taught that everything is made of tiny, indivisible atoms moving through empty space. The idea
+      waited more than two thousand years for chemistry to confirm it.
+
+  - id: zeno-of-elea
+    name: Zeno of Elea
+    wikidata: Q132157
+    born: -490
+    died: -430
+    circa: [born, died]
+    work: -450
+    fields: [Philosophy, Mathematics]
+    rarity: gold
+    portrait:
+      file: portraits/zeno-of-elea.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portretbuste_van_Zeno_van_Elea_Paradigmata_graphices_variorum_artificum_(serietitel),_RP-P-1907-4495.jpg"
+      author: "Jan de Bisschop"
+      license: "CC0"
+    blurb: >-
+      Argued with paradoxes such as Achilles and the tortoise that motion is impossible, because it would
+      take infinitely many steps. Answering him properly took the theory of limits and infinite series.
+
+  - id: epicurus
+    name: Epicurus
+    wikidata: Q43216
+    born: -341
+    died: -270
+    work: -300
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/epicurus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Epikouros_BM_1843.jpg"
+      author: "Unknown artist Unknown artist"
+      license: "Public domain"
+    blurb: >-
+      Taught that a happy life comes from simple pleasures, friendship and freedom from fear, including
+      the fear of death. He built his ethics on Democritus's atoms, and his school lasted for centuries.
+
+  - id: apollonius
+    name: Apollonius of Perga
+    wikidata: Q180109
+    born: -240
+    died: -190
+    circa: [born, died]
+    work: -200
+    fields: [Mathematics, Astronomy]
+    rarity: gold
+    portrait:
+      file: portraits/apollonius.webp
+      source: "https://commons.wikimedia.org/wiki/File:Apollonii_Pergei_Opera_1537_detail.jpg"
+      author: "Giovanni Battista Memo"
+      license: "Public domain"
+    blurb: >-
+      His Conics studied the curves cut from a cone and gave them the names ellipse, parabola and
+      hyperbola. Kepler and Newton later found the planets moving on exactly these curves.
+
+  - id: hipparchus
+    name: Hipparchus
+    wikidata: Q159905
+    born: -190
+    died: -120
+    circa: [born, died]
+    work: -140
+    fields: [Astronomy, Mathematics]
+    rarity: gold
+    portrait:
+      file: portraits/hipparchus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Head_of_Hipparchus_(cropped).jpg"
+      author: "William Henry Smyth"
+      license: "Public domain"
+    blurb: >-
+      Compiled the first known table of chords, the start of trigonometry, and a catalogue of hundreds of
+      stars. He also discovered the slow wobble of the Earth's axis, the precession of the equinoxes.
+
+  - id: aryabhata
+    name: Aryabhata
+    wikidata: Q11359
+    born: 476
+    died: 550
+    work: 499
+    fields: [Mathematics, Astronomy]
+    rarity: gold
+    portrait:
+      file: portraits/aryabhata.webp
+      source: "https://commons.wikimedia.org/wiki/File:2064_aryabhata-crp.jpg"
+      author: "Own work"
+      license: "Public domain"
+    blurb: >-
+      Wrote the Aryabhatiya at 23, with a table of sines, π to four decimal places and methods for whole
+      number equations. He also argued that the Earth turns on its axis.
+
+  # ── Silver ──────────────────────────────────────────────
+  - id: heraclitus
+    name: Heraclitus
+    wikidata: Q41155
+    born: -535
+    died: -475
+    circa: [born, died]
+    work: -500
+    fields: [Philosophy]
+    rarity: silver
+    portrait:
+      file: portraits/heraclitus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ca%27_Rezzonico_-_Eraclito_1705_-_Giuseppe_Torretti.jpg"
+      author: "Didier Descouens"
+      license: "CC BY-SA 4.0"
+    blurb: >-
+      Taught that everything is in constant change, held together by a rational order he called the
+      logos. His saying that you cannot step into the same river twice is still quoted.
+
+  - id: eudoxus
+    name: Eudoxus of Cnidus
+    wikidata: Q185150
+    born: -408
+    died: -355
+    circa: [born, died]
+    work: -370
+    fields: [Mathematics, Astronomy]
+    rarity: silver
+    portrait:
+      file: portraits/eudoxus.webp
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
+    related: [spec.integration.areas]
+    blurb: >-
+      Gave a theory of ratios that handles irrational lengths, and the method of exhaustion for finding
+      areas and volumes by squeezing them between simpler shapes. Both appear in Euclid's Elements.
+
+  - id: aristarchus
+    name: Aristarchus of Samos
+    wikidata: Q140188
+    born: -310
+    died: -230
+    circa: [born, died]
+    work: -270
+    fields: [Astronomy, Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/aristarchus.webp
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
+    blurb: >-
+      Proposed that the Earth goes around the Sun, eighteen centuries before Copernicus. He also used
+      geometry to estimate the sizes and distances of the Sun and Moon.
+
+  - id: hero-of-alexandria
+    name: Hero of Alexandria
+    wikidata: Q161853
+    born: 10
+    died: 70
+    circa: [born, died]
+    work: 60
+    fields: [Mathematics, Engineering, Physics]
+    rarity: silver
+    portrait:
+      file: portraits/hero-of-alexandria.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hero_of_Alexandria.png"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      Built the first known steam engine, a spinning sphere driven by jets, and many automata. Hero's
+      formula gives a triangle's area from its three sides.
+
+  - id: liu-hui
+    name: Liu Hui
+    wikidata: Q316304
+    flourished: 263
+    work: 263
+    fields: [Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/liu-hui.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hunan_International_Economics_University20.jpg"
+      author: "Uploaded by Huangdan2060"
+      license: "CC BY 3.0"
+    blurb: >-
+      His commentary on The Nine Chapters on the Mathematical Art justified its methods with proofs. He
+      calculated π as 3.1416 by inscribing polygons of up to 3,072 sides in a circle.
+
+  - id: hypatia
+    name: Hypatia
+    wikidata: Q11903
+    born: 355
+    died: 415
+    circa: [born]
+    work: 400
+    fields: [Mathematics, Astronomy, Philosophy]
+    rarity: silver
+    portrait:
+      file: portraits/hypatia.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hipatia67.jpg"
+      author: "Elbert Hubbard (June 19, 1856 – May 7, 1915)"
+      license: "Public domain"
+    blurb: >-
+      Taught mathematics, astronomy and philosophy in Alexandria and edited classic texts, among them
+      Ptolemy's astronomical tables. She was the leading scholar of her city until she was murdered by
+      a mob.

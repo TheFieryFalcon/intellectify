@@ -16,7 +16,8 @@ import {
   updateProfile,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, updateDoc, where, writeBatch } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocFromServer, getDocs, getDocsFromServer, getFirestore, increment, limit, orderBy, query, runTransaction, serverTimestamp, setDoc, Timestamp, updateDoc, where, writeBatch } from "firebase/firestore";
+import { emptyEconomy, type EconomyState } from "@intellectify/engine";
 import { mergeAchievements, mergeProfile, mergeProgress } from "../claim";
 import { OWNER_UIDS } from "./context";
 import { emptyProfile, emptyProgress, type AchievementRecord, type Backend, type ChallengeState, type MarkingJob, type Post, type Profile, type PublicProfile, type Report, type StoredSkillState, type ThreadSummary, type User } from "./types";
@@ -57,7 +58,7 @@ function friendly(err: unknown): never | void {
 }
 
 /**
- * Firestore layout (docs/SPEC.md §16.3):
+ * Firestore layout (docs/SPEC.md §17.3):
  *   users/{uid}                                  profile
  *   users/{uid}/courses/{course}                 rollupRanks
  *   users/{uid}/courses/{course}/skillStates/{skillId}
@@ -72,6 +73,14 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
   const auth = getAuth(app);
   const db = getFirestore(app);
   const courseDoc = (uid: string, course: string) => doc(db, "users", uid, "courses", course);
+  const economyDoc = (uid: string) => doc(db, "users", uid, "meta", "economy");
+  /** The saved economy, with server timestamps as ms. */
+  const toEconomy = (d: Record<string, unknown> | undefined): EconomyState | null => {
+    if (!d) return null;
+    const at = d.researchCreditedAt as Timestamp | undefined;
+    const { clock: _clock, ...rest } = d;
+    return { ...emptyEconomy(), ...(rest as Partial<EconomyState>), researchCreditedAt: at ? at.toMillis() : null };
+  };
 
   const listeners = new Set<(u: User | null) => void>();
   const toUser = (u: FirebaseUser): User => ({
@@ -85,11 +94,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
   });
   const emit = (u: FirebaseUser | null) => listeners.forEach((l) => l(u ? toUser(u) : null));
 
-  onAuthStateChanged(auth, (u) => {
-    emit(u);
-    // Keep a small profile document (name, email, last seen) for profiles and leaderboards.
-    if (u) void setDoc(doc(db, "users", u.uid), { displayName: toUser(u).displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true }).catch(() => {});
-  });
+  // Emit only once Firebase knows who is signed in: before that, currentUser is null even for a signed-in
+  // student, and treating that as "signed out" sent them to the login page mid-load.
+  onAuthStateChanged(auth, (u) => emit(u));
 
   /** Everything an anonymous account holds, read while still signed in to it (SPEC §2.1a). */
   async function exportAccount(uid: string) {
@@ -120,7 +127,9 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
     kind: "firebase",
     onUser(cb) {
       listeners.add(cb);
-      if (auth.currentUser !== undefined) cb(auth.currentUser ? toUser(auth.currentUser) : null);
+      void auth.authStateReady().then(() => {
+        if (listeners.has(cb)) cb(auth.currentUser ? toUser(auth.currentUser) : null);
+      });
       return () => listeners.delete(cb);
     },
     async signInWithGoogle() {
@@ -226,16 +235,47 @@ export function createFirebaseBackend(config: FirebaseConfig): Backend {
       batch.set(doc(db, "users", u.uid), own, { merge: true });
       await batch.commit();
     },
+    async markSeen(u) {
+      // Keep a small profile document (name, email, last seen) for profiles and leaderboards.
+      await setDoc(doc(db, "users", u.uid), { displayName: u.displayName, email: u.email, lastSeen: serverTimestamp() }, { merge: true });
+    },
     async saveDaily(u, daily) {
       await setDoc(doc(db, "users", u.uid), { daily }, { merge: true });
     },
-    async savePublic(u, stats, pub) {
+    async savePublic(u, stats, pub, economy) {
       const batch = writeBatch(db);
       batch.set(doc(db, "users", u.uid), { stats }, { merge: true });
+      // The economy (SPEC §13.10) saves in the same batch. Its two counters move by increments, so two tabs
+      // never overwrite each other's earnings or purchases; Firestore rules refuse any lowering.
+      if (economy) {
+        const { researchCreditedAt: _r, ...fields } = economy.fields as typeof economy.fields & { researchCreditedAt?: unknown };
+        batch.set(economyDoc(u.uid), { ...JSON.parse(JSON.stringify(fields)), lemmasEarned: increment(economy.earned), lemmasSpent: increment(economy.spent) }, { merge: true });
+      }
       // Public mirror for leaderboards and profiles (SPEC §12.2). Anonymous test accounts stay off it.
       // Courses merge key by key, so a course not touched this session keeps its last mirror.
       if (!u.anonymous) batch.set(doc(db, "publicProfiles", u.uid), JSON.parse(JSON.stringify(pub)), { merge: true });
       await batch.commit();
+    },
+    async saveSettings(uid, settings) {
+      await setDoc(doc(db, "users", uid), settings, { merge: true });
+    },
+    async loadEconomy(uid) {
+      return toEconomy((await getDocFromServer(economyDoc(uid))).data());
+    },
+    async creditResearch(uid, credit) {
+      // The server's clock: stamp it on the document, then read it back inside the transaction, so a
+      // changed device clock gains nothing (SPEC §13.3).
+      await setDoc(economyDoc(uid), { clock: serverTimestamp() }, { merge: true });
+      return runTransaction(db, async (tx) => {
+        const snap = await tx.get(economyDoc(uid));
+        const data = snap.data() ?? {};
+        const saved = toEconomy(data)!;
+        const now = (data.clock as Timestamp | undefined)?.toMillis() ?? Date.now();
+        const r = credit(saved, now);
+        const next = { ...saved, lemmasEarned: saved.lemmasEarned + r.lemmas, researchHours: saved.researchHours + r.hours, researchCreditedAt: r.creditedAt };
+        tx.set(economyDoc(uid), { lemmasEarned: next.lemmasEarned, researchHours: next.researchHours, researchCreditedAt: Timestamp.fromMillis(r.creditedAt) }, { merge: true });
+        return next;
+      });
     },
     async listThreads() {
       const snap = await getDocs(query(collection(db, "discussions"), orderBy("updatedAt", "desc"), limit(300)));

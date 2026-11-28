@@ -1,7 +1,20 @@
 <script lang="ts">
   import AuthGate from "$lib/components/AuthGate.svelte";
   import { gate } from "$lib/gate.svelte";
-  import { achievementToasts } from "$lib/achievements.svelte";
+  import { currentMoment, dismissMoment, toasts } from "$lib/celebrations.svelte";
+  import { fx } from "$lib/fx.svelte";
+  import AxiomMoment from "$lib/components/economy/AxiomMoment.svelte";
+  import CelebrationArt from "$lib/components/economy/CelebrationArt.svelte";
+  import ConjectureMoment from "$lib/components/economy/ConjectureMoment.svelte";
+  import CountUp from "$lib/components/economy/CountUp.svelte";
+  import LemmaIcon from "$lib/components/economy/LemmaIcon.svelte";
+  import { lemmasLong } from "@intellectify/engine";
+  import { themeCss } from "$lib/cosmetics";
+  import { cosmetics } from "$lib/economy.svelte";
+  import "$lib/archive.css";
+  import "$lib/archive-tokens.css";
+  import { archiveStage } from "$lib/archiveStage";
+  import Constellations from "$lib/components/economy/Constellations.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
   import { beforeNavigate, goto } from "$app/navigation";
@@ -26,17 +39,32 @@
     return () => clearTimeout(t);
   });
 
-  // Achievement toasts: one at a time, a few seconds each (SPEC §12.1).
+  // Toasts, one at a time: rank-up, then achievement, then level-up (SPEC §12.1, §13.11).
+  const shownToast = $derived(toasts[0] ?? null);
   $effect(() => {
-    if (!achievementToasts.length) return;
-    const t = setTimeout(() => achievementToasts.shift(), 4500);
+    if (!shownToast) return;
+    const t = setTimeout(() => toasts.shift(), 10_000);
     return () => clearTimeout(t);
   });
-
-  // Level-up toast: shows for a few seconds after a grant crosses a level boundary.
+  // Full-screen moments, one at a time: level tier, Axiom, Conjecture.
+  const moment = $derived(currentMoment());
+  const economy = $derived(profile?.economy ?? null);
+  const rewards = $derived(!!economy && economy.visible && !economy.failed);
+  // The equipped color recolors the whole site (SPEC §13.8); it shows even with rewards hidden.
+  const colorCss = $derived.by(() => {
+    const id = economy?.state.equipped.theme;
+    const c = id ? cosmetics.colors[id] : null;
+    return c ? `<style>${themeCss(c.style)}</style>` : "";
+  });
+  const onHub = $derived(page.url.pathname.startsWith("/lemmas") && rewards && !!economy?.loaded);
+  const stage = $derived(archiveStage(economy));
+  // The equipped answer celebration plays over the page for a moment.
+  let playing = $state<{ id: string; at: number } | null>(null);
   $effect(() => {
-    if (!profile?.levelUp || profile.levelUp.newTier) return;
-    const t = setTimeout(() => profile && (profile.levelUp = null), 4000);
+    const p = fx.play;
+    if (!p) return;
+    playing = { id: p.id, at: p.at };
+    const t = setTimeout(() => (playing = null), 2300);
     return () => clearTimeout(t);
   });
 
@@ -51,12 +79,17 @@
   });
 
   // After a deploy, an open tab is still running the old version. Load the new one at the next page change
-  // (a full load, not an in-app one), so old code never keeps saving progress (SPEC §16.2).
+  // (a full load, not an in-app one), so old code never keeps saving progress (SPEC §17.2).
   beforeNavigate(({ willUnload, to }) => {
     if (updated.current && !willUnload && to?.url) location.href = to.url.href;
   });
 </script>
 
+<svelte:head>{@html colorCss}</svelte:head>
+
+<!-- On the Lemmas hub the whole page, header included, takes the archive look (SPEC §13.11). -->
+<div class="page" class:archive={onHub} data-era={onHub ? stage.era : undefined} data-night={onHub && stage.night ? stage.night : undefined} data-stars={onHub && stage.stars ? stage.stars : undefined}>
+{#if onHub && stage.stars}<Constellations count={stage.stars} />{/if}
 <header>
   <div class="bar">
     <a class="brand" href="/">Intellectify</a>
@@ -65,26 +98,41 @@
         <a href="/specialist">Specialist</a>
         {#if marking?.waiting}<a class="marking" href="/specialist/marked" title="Written answers waiting for a mark">Marking {marking.waiting}</a>{/if}
         <a href="/leaderboards">Leaderboards</a>
+        {#if rewards}<a href="/lemmas">Lemmas</a>{/if}
         <a class="who muted" href="/profile/{session.user.uid}">{session.user.displayName}</a>
         {#if profile?.loaded}<a class="lvl" href="/profile/{session.user.uid}" aria-label="Your profile"><LevelBadge progress={profile.progress} bar /></a>{/if}
+        {#if rewards && economy?.loaded}
+          <a class="balance" href="/lemmas" title={lemmasLong(economy.balance)} aria-label="Lemmas: {lemmasLong(economy.balance)}{economy.toProve ? ', Axiom to prove' : ''}">
+            <CountUp value={economy.balance} /><LemmaIcon id={economy.state.equipped.lemmaIcon} />
+            {#if economy.toProve}<span class="pip" aria-hidden="true"></span>{/if}
+          </a>
+        {/if}
         <a class="settings" href="/settings">Settings</a>
         <button class="btn link signout" onclick={() => session.backend?.signOut()}>Sign out</button>
       </nav>
     {/if}
   </div>
   {#if session.backend?.kind === "local" && session.user}
-    <p class="local">Local mode · saved in this browser</p>
+    <p class="local">Local mode: saved in this browser</p>
   {/if}
   {#if profile?.failed}
     <p class="load-failed" role="alert">Couldn't load your progress{profile.loadError ? ` (${profile.loadError})` : ""}, so nothing is being saved. <button class="btn link" onclick={() => location.reload()}>Reload</button></p>
   {/if}
 </header>
+{#if onHub}<div class="era-band" aria-hidden="true"></div>{/if}
 
-{#if achievementToasts.length}
-  {@const a = achievementToasts[0]!}
-  <div class="toast achievement" role="status">
+{#if shownToast?.kind === "achievement"}
+  {@const a = shownToast.achievement}
+  <div class="toast" role="status">
     <TierGem tier={a.tier} size={14} />
     <span><span class="muted">Achievement</span> {a.name} <span class="pts">+{a.points}</span></span>
+  </div>
+{:else if shownToast?.kind === "rankUp"}
+  <div class="toast" role="status"><span><span class="muted">Rank up</span> {shownToast.label}</span></div>
+{:else if shownToast?.kind === "levelUp"}
+  <div class="toast" role="status">
+    <TierGem tier={shownToast.tier.key} size={12} />
+    <span>Level {shownToast.level}</span>
   </div>
 {/if}
 
@@ -95,14 +143,17 @@
   </div>
 {/if}
 
-{#if profile?.levelUp?.newTier}
-  <TierCelebration levelUp={profile.levelUp} onclose={() => profile && (profile.levelUp = null)} />
-{:else if profile?.levelUp}
-  <div class="toast" role="status">
-    <TierGem tier={profile.levelUp.tier.key} size={12} />
-    <span>Level {profile.levelUp.level}</span>
-  </div>
+{#if moment?.kind === "tier"}
+  {@const m = moment}
+  <TierCelebration levelUp={{ level: m.level, tier: m.tier, newTier: true }} onclose={() => dismissMoment(m)} />
+{:else if moment?.kind === "axiom" && rewards}
+  {@const m = moment}
+  <AxiomMoment axioms={m.axioms} onclose={() => dismissMoment(m)} />
+{:else if moment?.kind === "conjecture" && rewards}
+  {@const m = moment}
+  <ConjectureMoment conjecture={m.conjecture} index={m.index} rateBefore={m.rateBefore} rateAfter={m.rateAfter} onclose={() => dismissMoment(m)} />
 {/if}
+{#if playing}{#key playing.at}<CelebrationArt id={playing.id} />{/key}{/if}
 
 {#if gate.open && session.user?.anonymous}<AuthGate />{/if}
 
@@ -113,6 +164,7 @@
     {@render children()}
   {/if}
 </main>
+</div>
 
 <style>
   header { border-bottom: 1px solid var(--line); background: var(--surface); }
@@ -124,7 +176,8 @@
   nav a.settings { font-size: 13px; color: var(--muted); font-weight: 400; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
-  .toast.achievement { bottom: calc(env(safe-area-inset-bottom, 0px) + 76px); }
+  nav a.balance { white-space: nowrap; position: relative; display: inline-flex; align-items: baseline; gap: 2px; font-size: 13px; color: var(--ink); }
+  .pip { position: absolute; top: -2px; right: -7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
   .toast.marked { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
   .toast.marked a { color: var(--ink); text-decoration: none; }
   nav a.marking { font-size: 13px; color: var(--accent); }
@@ -133,7 +186,7 @@
   /* Phones: the nav takes its own row under the brand; the name hides (the level badge links to the profile). */
   @media (max-width: 640px) {
     .bar { flex-wrap: wrap; row-gap: 4px; padding: 8px 16px; }
-    nav { width: 100%; justify-content: space-between; gap: 10px; font-size: 13px; }
+    nav { width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; }
     nav a.who { display: none; }
     nav a.lvl :global(.track) { display: none; }
   }

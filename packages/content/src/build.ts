@@ -7,6 +7,7 @@ import { z } from "zod";
 import { fillTemplate, wordParams, type WordLists, type WordPicks } from "./template.js";
 import { diagramErrors } from "./diagram-check.js";
 import { loadAchievements, type AchievementT } from "./achievements.js";
+import { loadEconomy, type EconomyBundle } from "./economy.js";
 import { loadTutorials, type Tutorial } from "./tutorials.js";
 import { CHALLENGE_RATING, challengeLength, QUIZ_MIX, QUIZ_POOL_FACTOR, slopeOf, type SectionReviews, type UnitReviews } from "./reviews.js";
 import { CourseManifest, CurriculumVersion, Question, ResponseSkills, WordListsFile, type CourseManifestT, type CurriculumVersionT, type QuestionT } from "./schema.js";
@@ -112,6 +113,8 @@ export interface BuildResult {
     tutorials: Tutorial[];
   }[];
   achievements: AchievementT[];
+  /** The Lemma economy (SPEC §13): values and cards. */
+  economy: EconomyBundle | null;
   /** Word lists (SPEC §9.6), shared by every course. */
   words: WordLists;
   errors: string[];
@@ -232,7 +235,7 @@ export function buildContent(contentDir: string): BuildResult {
     const unitReviews: Record<number, UnitReviews<QuestionT>> = {};
     const qDir = join(contentDir, "questions", courseId);
     const qIds = new Set<string>();
-    /** Titles already used in this course, so two questions never share a name (SPEC §15.3a). */
+    /** Titles already used in this course, so two questions never share a name (SPEC §16.3a). */
     const titleOwner = new Map<string, string>();
     let files: string[] = [];
     try {
@@ -268,7 +271,7 @@ export function buildContent(contentDir: string): BuildResult {
         if (q.skills.secondary.length && !("synthesis" in q.responseSkills)) errors.push(`${where}: cross-skill questions exercise synthesis`);
         if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
           errors.push(`${where}: a computed answer exercises calculation`);
-        // Every question has a readable title, in title case, that says what it's about (SPEC §15.3a).
+        // Every question has a readable title, in title case, that says what it's about (SPEC §16.3a).
         if (!q.title) errors.push(`${where}: needs a title`);
         else if (/\{\{/.test(q.title)) errors.push(`${where}: a title can't use variant or word placeholders`);
         else if (/^[a-z]{2,} [a-z]{2,}/.test(q.title)) errors.push(`${where}: titles are in title case`);
@@ -436,7 +439,10 @@ export function buildContent(contentDir: string): BuildResult {
     }
     bundles.push({ course, questions, sectionReviews, unitReviews, tutorials: [...tutorials.values()] });
   }
-  return { bundles, achievements: loadAchievements(contentDir, errors), words, errors, warnings };
+  const achievements = loadAchievements(contentDir, errors);
+  const skillIds = new Set(bundles.flatMap((b) => b.course.units.flatMap((u) => u.sections.flatMap((s) => s.skills.map((k) => k.id)))));
+  const economy = loadEconomy(contentDir, skillIds, achievements, errors, warnings);
+  return { bundles, achievements, economy, words, errors, warnings };
 }
 
 /** LaTeX that should satisfy a spec: its own key, rendered as a student would type it. */

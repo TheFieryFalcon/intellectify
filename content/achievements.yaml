@@ -143,6 +143,24 @@
   secret: true
   criterion: Solve a Tier 5 question on its 5th and final attempt
   rule: {kind: flag, flag: lastGasp}
+- id: P24
+  name: First Edition
+  tier: platinum
+  points: 10
+  criterion: Open a card pack
+  rule: {kind: economy, stat: packsOpened, gte: 1}
+- id: P25
+  name: Research Grant
+  tier: platinum
+  points: 10
+  criterion: Build an institute
+  rule: {kind: economy, stat: institutes, gte: 1}
+- id: P26
+  name: Lemma by Lemma
+  tier: platinum
+  points: 10
+  criterion: Buy 25 theorem levels
+  rule: {kind: economy, stat: theoremLevels, gte: 25}
 - id: D1
   name: Deep Roots
   tier: diamond
@@ -280,6 +298,24 @@
   secret: true
   criterion: Solve a Tier 5 question first-try in a skill where you are Unranked
   rule: {kind: flag, flag: contradiction}
+- id: D23
+  name: Faculty
+  tier: diamond
+  points: 25
+  criterion: Fill all 12 staff slots of an institute
+  rule: {kind: economy, stat: fullStaff, gte: 1}
+- id: D24
+  name: Gilt Edges
+  tier: diamond
+  points: 25
+  criterion: Hold 5 foil cards
+  rule: {kind: economy, stat: foils, gte: 5}
+- id: D25
+  name: Curator
+  tier: diamond
+  points: 25
+  criterion: Collect 75 different cards
+  rule: {kind: economy, stat: cards, gte: 75}
 - id: R1
   name: Bedrock
   tier: ruby
@@ -394,80 +430,112 @@
   secret: true
   criterion: Reach Diamond in a skill after having dropped it to Tier 1
   rule: {kind: flag, flag: ouroboros}
+- id: R19
+  name: Complete Works
+  tier: ruby
+  points: 50
+  criterion: Complete an era set
+  rule: {kind: economy, stat: sets, gte: 1}
+- id: R20
+  name: Time Traveller
+  tier: ruby
+  points: 50
+  criterion: Fire 250 Time Warps
+  rule: {kind: economy, stat: warps, gte: 250}
+- id: R21
+  name: Lucky Draw
+  tier: ruby
+  points: 50
+  secret: true
+  criterion: Pull two Diamonds from one pack
+  rule: {kind: economyFeat, feat: luckyDraw}
 - id: T1
   name: Bedrock II
+  title: Keystone
   tier: tanzanite
   points: 100
   criterion: 5,000 correct at T3+
   rule: {kind: count, stat: correctT3, gte: 5000}
 - id: T2
   name: Diamond Unit
+  title: Unit Vector
   tier: tanzanite
   points: 100
   criterion: Unit rank Diamond
   rule: {kind: unitRank, rank: 5}
 - id: T3
   name: Frontier Hundred
+  title: Boundary Point
   tier: tanzanite
   points: 100
   criterion: 100 Tier 5 questions first-try correct
   rule: {kind: count, stat: firstTryT5, gte: 100}
 - id: T4
   name: Hundred Straight
+  title: Straightedge
   tier: tanzanite
   points: 100
   criterion: 100 consecutive first-try correct at T4+
   rule: {kind: best, stat: firstTryStreakT4, gte: 100}
 - id: T5
   name: Tier Six
+  title: Sixth Sense
   tier: tanzanite
   points: 100
   criterion: Fully solve a monthly Tier 6 problem (all milestones)
   rule: {kind: pending, feature: monthly}
 - id: T6
   name: Half-Year
+  title: Solstice
   tier: tanzanite
   points: 100
   criterion: 182-day daily-problem streak
   rule: {kind: best, stat: dailyStreak, gte: 182}
 - id: T7
   name: Unit Sweep
+  title: Exhaustive
   tier: tanzanite
   points: 100
   criterion: All three Section Challenges of a unit at average outcome ≥ 0.9
   rule: {kind: unitChallenges, min: 0.9}
 - id: T8
   name: Diamond Mind
+  title: Polymath
   tier: tanzanite
   points: 100
   criterion: Every response skill at Diamond
   rule: {kind: responseAllAtRank, rank: 5}
 - id: T9
   name: Year Diamond
+  title: Twin Prime
   tier: tanzanite
   points: 100
   criterion: Both units of a year (1–2 or 3–4) at unit rank Diamond
   rule: {kind: yearUnitsAtRank, rank: 5}
 - id: T10
   name: Perfect Year
+  title: Perfect Number
   tier: tanzanite
   points: 100
   criterion: A perfect Unit Quiz in both units of a year
   rule: {kind: yearPerfectUnitQuizzes}
 - id: T11
   name: Grand Prover
+  title: Proofwright
   tier: tanzanite
   points: 100
   criterion: 150 free-response answers at 100%
   rule: {kind: count, stat: fr100, gte: 150}
 - id: T12
   name: Top of the Month
+  title: Supremum
   tier: tanzanite
   points: 100
   criterion: 'Finish a calendar month #1 on the course θ leaderboard'
   rule: {kind: flag, flag: topOfMonth}
 - id: T13
   name: Grandmaster Opening
+  title: Steep Gradient
   tier: tanzanite
   points: 100
   secret: true
@@ -475,6 +543,7 @@
   rule: {kind: flag, flag: grandmaster}
 - id: T14
   name: Contrapositive
+  title: Non Sequitur
   tier: tanzanite
   points: 100
   secret: true
@@ -482,6 +551,7 @@
   rule: {kind: contrapositive}
 - id: T15
   name: Fractal
+  title: Self-Similar
   tier: tanzanite
   points: 100
   secret: true
@@ -489,61 +559,78 @@
   rule: {kind: fractal}
 - id: T16
   name: Show Your Working
+  title: Worked Example
   tier: tanzanite
   points: 100
   secret: true
   criterion: Solve every daily problem of a week first-try and post a solution in each one's discussion
   rule: {kind: flag, flag: perfectWeekDiscussed}
+- id: T17
+  name: Hall of Fame
+  title: Patron
+  tier: tanzanite
+  points: 100
+  criterion: Hold a Diamond card from every era
+  rule: {kind: economy, stat: diamondEras, gte: 7}
 - id: V1
   name: Course Diamond
+  title: Closure
   tier: vibranium
   points: 250
   criterion: Course rank Diamond
   rule: {kind: courseRank, rank: 5}
 - id: V2
   name: Ten Thousand
+  title: Myriad
   tier: vibranium
   points: 250
   criterion: 10,000 correct at T3+
   rule: {kind: count, stat: correctT3, gte: 10000}
 - id: V3
   name: Frontier Five Hundred
+  title: Cartographer
   tier: vibranium
   points: 250
   criterion: 500 Tier 5 questions correct
   rule: {kind: count, stat: correctT5, gte: 500}
 - id: V4
   name: Triple Six
+  title: Honeycomb
   tier: vibranium
   points: 250
   criterion: Fully solve 3 monthly Tier 6 problems
   rule: {kind: pending, feature: monthly}
 - id: V5
   name: Orbit
+  title: Revolutionary
   tier: vibranium
   points: 250
   criterion: 365-day daily-problem streak
   rule: {kind: best, stat: dailyStreak, gte: 365}
 - id: V6
   name: Two Hundred Straight
+  title: Geodesic
   tier: vibranium
   points: 250
   criterion: 200 consecutive first-try correct at T4+
   rule: {kind: best, stat: firstTryStreakT4, gte: 200}
 - id: V7
   name: Challenge Master
+  title: Universal
   tier: vibranium
   points: 250
   criterion: Every Section Challenge in the course at average outcome ≥ 0.9
   rule: {kind: allChallenges, min: 0.9}
 - id: V8
   name: Diamond Everywhere
+  title: Everywhere Dense
   tier: vibranium
   points: 250
   criterion: Every skill in the course at Diamond simultaneously
   rule: {kind: skillsAtRank, rank: 5, count: all}
 - id: V9
   name: Flawless Frontier
+  title: Measure Zero
   tier: vibranium
   points: 250
   secret: true
@@ -551,6 +638,7 @@
   rule: {kind: best, stat: firstTryStreakT5, gte: 25}
 - id: V10
   name: Lone Wolf
+  title: Unique Solution
   tier: vibranium
   points: 250
   secret: true
@@ -558,6 +646,7 @@
   rule: {kind: pending, feature: monthly}
 - id: V11
   name: QED
+  title: Tombstone
   tier: vibranium
   points: 250
   secret: true
@@ -565,6 +654,7 @@
   rule: {kind: best, stat: fr100Streak, gte: 15}
 - id: V12
   name: Unblemished
+  title: No Remainder
   tier: vibranium
   points: 250
   secret: true
@@ -572,31 +662,43 @@
   rule: {kind: flag, flag: unblemished}
 - id: V13
   name: Speed of Thought
+  title: Instantaneous
   tier: vibranium
   points: 250
   secret: true
   criterion: Fully solve a monthly Tier 6 problem within 72 hours of release
   rule: {kind: pending, feature: monthly}
+- id: V14
+  name: The Complete Archive
+  title: Archivist
+  tier: vibranium
+  points: 250
+  criterion: Complete every era set
+  rule: {kind: economy, stat: sets, gte: 7}
 - id: S1
   name: Six Suns
+  title: Helios
   tier: solarium
   points: 600
   criterion: Fully solve 6 consecutive monthly Tier 6 problems
   rule: {kind: pending, feature: monthly}
 - id: S2
   name: Five Hundred Straight
+  title: Infinite Ray
   tier: solarium
   points: 600
   criterion: 500 consecutive first-try correct at T4+
   rule: {kind: best, stat: firstTryStreakT4, gte: 500}
 - id: S3
   name: Total Mastery
+  title: Totality
   tier: solarium
   points: 600
   criterion: Every skill and every response skill at Diamond, and every Section Challenge swept (all first-try)
   rule: {kind: totalMastery}
 - id: S4
   name: Diamond Hands
+  title: Fixed Point
   tier: solarium
   points: 600
   secret: true
@@ -604,6 +706,7 @@
   rule: {kind: flag, flag: diamondHands}
 - id: S5
   name: One Shot
+  title: Unit Impulse
   tier: solarium
   points: 600
   secret: true
@@ -611,12 +714,14 @@
   rule: {kind: pending, feature: monthly}
 - id: A1
   name: Annihilation
+  title: Annihilator
   tier: antimatter
   points: 1500
   criterion: Fully solve 12 consecutive monthly Tier 6 problems
   rule: {kind: pending, feature: monthly}
 - id: A2
   name: Event Horizon
+  title: Singularity
   tier: antimatter
   points: 1500
   secret: true
@@ -624,6 +729,7 @@
   rule: {kind: flag, flag: eventHorizon}
 - id: A3
   name: Annus Mirabilis
+  title: Mirabilis
   tier: antimatter
   points: 1500
   secret: true

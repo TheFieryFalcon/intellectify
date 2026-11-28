@@ -149,10 +149,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: rule, description: "Each entry of row n+1 (other than the 1s at the ends) is the sum of the two entries above it", points: 1, dimension: reasoning }
-          - { id: twice, description: "So every entry of row n is used exactly twice, once for each entry below it", points: 2, dimension: reasoning }
+          - { id: rule, description: "Relates row n+1 to row n (e.g. each entry other than the end 1s is the sum of the two entries above it)", points: 1, dimension: reasoning }
+          - { id: twice, description: "Shows the next row's sum is twice this row's (e.g. every entry of row n is used exactly twice, once for each entry below it)", points: 2, dimension: reasoning }
           - { id: ends, description: "Correctly handles the 1s at the ends", points: 1, dimension: precision }
-          - { id: hence, description: "Concludes from row 0 summing to 1 and doubling each time that row n sums to 2^n", points: 1, dimension: proof }
+          - { id: hence, description: "Concludes that row n sums to 2^n (e.g. row 0 sums to 1 and the sum doubles each time)", points: 1, dimension: proof }
   solution: |
     Each inner entry of row $n + 1$ is the sum of the two entries above it, and each end 1 comes from the single 1 above it. Adding all of row $n + 1$ therefore uses every entry of row $n$ exactly twice: once for the entry below-left and once for below-right. So each row sums to double the row above. Row 0 sums to 1, so row $n$ sums to $2^n$.
 
@@ -186,9 +186,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: start, description: "Rewrites the first term as C(r+1, r+1)", points: 1, dimension: reasoning }
-          - { id: chain, description: "Applies Pascal's rule repeatedly, each step absorbing the next term", points: 2, dimension: reasoning }
-          - { id: end, description: "Reaches C(n+1, r+1) after the last term", points: 1, dimension: proof }
+          - { id: start, description: "Starts the argument with a valid first step (e.g. rewrites the first term as C(r+1, r+1))", points: 1, dimension: reasoning }
+          - { id: chain, description: "Combines the terms one by one with a valid identity (e.g. Pascal's rule, each step absorbing the next term), or proves it another valid way", points: 2, dimension: reasoning }
+          - { id: end, description: "Reaches C(n+1, r+1) at the end", points: 1, dimension: proof }
           - { id: clear, description: "Clear, complete and precise (e.g. uses '…' correctly or states the general step)", points: 1, dimension: clarity }
   solution: |
     Since $\binom{r}{r} = 1 = \binom{r+1}{r+1}$, the sum starts with $\binom{r+1}{r+1} + \binom{r+1}{r} = \binom{r+2}{r+1}$ by Pascal's rule. Adding the next term gives $\binom{r+2}{r+1} + \binom{r+2}{r} = \binom{r+3}{r+1}$, and so on. In general, once the terms up to $\binom{k}{r}$ have been added, the total is $\binom{k+1}{r+1}$. After the last term $\binom{n}{r}$, the total is $\binom{n+1}{r+1}$.
@@ -225,9 +225,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: idea, description: "Gives a valid idea: pairing subsets (even vs odd size) or splitting with Pascal's rule", points: 2, dimension: reasoning }
-          - { id: detail, description: "Shows the pairing is one-to-one between even-sized and odd-sized subsets (e.g. toggle a fixed element), or that the terms cancel in a telescoping sum", points: 2, dimension: proof }
-          - { id: n1, description: "Uses n ≥ 1 where needed (there must be an element to toggle)", points: 1, dimension: precision }
+          - { id: idea, description: "Gives a valid idea (e.g. pairing even-sized with odd-sized subsets, or splitting terms with Pascal's rule)", points: 2, dimension: reasoning }
+          - { id: detail, description: "Carries the idea through (e.g. toggling a fixed element pairs even-sized and odd-sized subsets one-to-one, or the terms cancel in a telescoping sum)", points: 2, dimension: proof }
+          - { id: n1, description: "Uses n ≥ 1 where needed (e.g. there must be an element to toggle)", points: 1, dimension: precision }
   solution: |
     The sum is (number of even-sized subsets) minus (number of odd-sized subsets) of an $n$-element set. Fix one element, $x$ (this needs $n \ge 1$). Adding $x$ to a subset that doesn't contain it, or removing it from one that does, changes the size by 1 and pairs every subset with exactly one other. So the even-sized and odd-sized subsets pair up exactly, and the sum is 0.
 
@@ -267,9 +267,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: idea, description: "Uses symmetry/pairing: each n-subset of 2n objects pairs with its complement, which is also an n-subset", points: 2, dimension: reasoning }
-          - { id: distinct, description: "Shows a subset is never its own complement (sizes n and n, disjoint, n ≥ 1)", points: 2, dimension: precision }
-          - { id: conclude, description: "Concludes the count is twice the number of pairs, hence even (or equivalently via C(2n,n) = 2·C(2n−1,n−1))", points: 1, dimension: proof }
+          - { id: idea, description: "Gives a valid reason the count splits into equal halves or pairs (e.g. each n-subset of 2n objects pairs with its complement, also an n-subset)", points: 2, dimension: reasoning }
+          - { id: distinct, description: "Justifies the pairing has no fixed points (e.g. a subset is never its own complement: sizes n and n, disjoint, n ≥ 1), or the equivalent step", points: 2, dimension: precision }
+          - { id: conclude, description: "Concludes the count is even (e.g. twice the number of pairs, or via C(2n,n) = 2·C(2n−1,n−1))", points: 1, dimension: proof }
   solution: |
     Pair each $n$-element subset of $\{1, \dots, 2n\}$ with its complement, which also has $n$ elements. A subset can't be its own complement (they're disjoint and non-empty when $n \ge 1$), so the subsets split into pairs. The total, $\binom{2n}{n}$, is therefore even.
 

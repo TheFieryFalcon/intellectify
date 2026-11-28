@@ -135,9 +135,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: square, description: "Squares both sides and writes them as dot products", points: 1, dimension: reasoning }
-          - { id: expand, description: "Expands: |a|² + 2a·b + |b|² = |a|² − 2a·b + |b|²", points: 1, dimension: reasoning }
-          - { id: conclude, description: "Gets a·b = 0, so the non-zero vectors are perpendicular", points: 1, dimension: proof }
+          - { id: square, description: "Turns the lengths into dot products (e.g. squares both sides)", points: 1, dimension: reasoning }
+          - { id: expand, description: "Expands both sides (e.g. |a|² + 2a·b + |b|² = |a|² − 2a·b + |b|²)", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes a·b = 0, so the non-zero vectors are perpendicular", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out", points: 1, dimension: clarity }
   solution: |
     Square both sides: $(\mathbf{a} + \mathbf{b})\cdot(\mathbf{a} + \mathbf{b}) = (\mathbf{a} - \mathbf{b})\cdot(\mathbf{a} - \mathbf{b})$, so $|\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2 = |\mathbf{a}|^2 - 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2$.
@@ -157,10 +157,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Sets up parallelogram OABC with OA = a, OC = c, so OB = a + c", points: 1, dimension: proof }
-          - { id: mid1, description: "Midpoint of OB has position vector ½(a + c)", points: 1, dimension: reasoning }
-          - { id: mid2, description: "Midpoint of AC has position vector ½(a + c)", points: 1, dimension: reasoning }
-          - { id: conclude, description: "The midpoints are the same point, so the diagonals meet there and cut each other in half", points: 1, dimension: clarity }
+          - { id: setup, description: "Sets up vectors for the parallelogram (e.g. OABC with OA = a, OC = c, so OB = a + c)", points: 1, dimension: proof }
+          - { id: mid1, description: "Finds the midpoint of one diagonal (e.g. ½(a + c))", points: 1, dimension: reasoning }
+          - { id: mid2, description: "Finds the midpoint of the other diagonal (e.g. ½(a + c))", points: 1, dimension: reasoning }
+          - { id: conclude, description: "Concludes the midpoints coincide, so the diagonals cut each other in half", points: 1, dimension: clarity }
   solution: |
     Let the parallelogram be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$, so $\overrightarrow{OB} = \mathbf{a} + \mathbf{c}$.
     The midpoint of $OB$ has position vector $\tfrac{1}{2}(\mathbf{a} + \mathbf{c})$. The midpoint of $AC$ has position vector $\tfrac{1}{2}(\mathbf{a} + \mathbf{c})$ too.
@@ -199,10 +199,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Parallelogram OABC with sides a, c; diagonals a + c and a − c", points: 1, dimension: reasoning }
-          - { id: dot, description: "Perpendicular diagonals: (a + c)·(a − c) = 0", points: 1, dimension: reasoning }
-          - { id: expand, description: "Expands to |a|² − |c|² = 0, so |a| = |c|", points: 1, dimension: proof }
-          - { id: conclude, description: "Adjacent sides equal, and opposite sides of a parallelogram are equal, so all four sides are equal: a rhombus", points: 1, dimension: clarity }
+          - { id: setup, description: "Sets up vectors for the parallelogram and its diagonals (e.g. sides a, c; diagonals a + c and a − c)", points: 1, dimension: reasoning }
+          - { id: dot, description: "Writes the perpendicular condition with vectors (e.g. (a + c)·(a − c) = 0)", points: 1, dimension: reasoning }
+          - { id: expand, description: "Deduces the sides are equal (e.g. |a|² − |c|² = 0, so |a| = |c|)", points: 1, dimension: proof }
+          - { id: conclude, description: "Concludes all four sides are equal, so a rhombus (e.g. opposite sides of a parallelogram are equal)", points: 1, dimension: clarity }
   solution: |
     Let the parallelogram be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Its diagonals are $\mathbf{a} + \mathbf{c}$ and $\mathbf{a} - \mathbf{c}$.
     Perpendicular diagonals give $(\mathbf{a} + \mathbf{c})\cdot(\mathbf{a} - \mathbf{c}) = |\mathbf{a}|^2 - |\mathbf{c}|^2 = 0$, so $|\mathbf{a}| = |\mathbf{c}|$.
@@ -220,10 +220,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Parallelogram OABC with sides a, c; diagonals a + c and a − c", points: 1, dimension: reasoning }
-          - { id: equal, description: "Sets |a + c|² = |a − c|² and expands both", points: 1, dimension: reasoning }
-          - { id: dot, description: "Gets 4a·c = 0, so a·c = 0 and the sides at O are perpendicular", points: 1, dimension: proof }
-          - { id: conclude, description: "A parallelogram with one right angle has four right angles (co-interior angles), so it is a rectangle", points: 1, dimension: clarity }
+          - { id: setup, description: "Sets up vectors for the parallelogram and its diagonals (e.g. sides a, c; diagonals a + c and a − c)", points: 1, dimension: reasoning }
+          - { id: equal, description: "Writes the equal-diagonals condition and expands it (e.g. |a + c|² = |a − c|²)", points: 1, dimension: reasoning }
+          - { id: dot, description: "Deduces the sides are perpendicular (e.g. 4a·c = 0, so a·c = 0)", points: 1, dimension: proof }
+          - { id: conclude, description: "Concludes it is a rectangle (e.g. a parallelogram with one right angle has four, by co-interior angles)", points: 1, dimension: clarity }
   solution: |
     Let the parallelogram be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$. Equal diagonals give $|\mathbf{a} + \mathbf{c}|^2 = |\mathbf{a} - \mathbf{c}|^2$:
     $|\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{c} + |\mathbf{c}|^2 = |\mathbf{a}|^2 - 2\,\mathbf{a}\cdot\mathbf{c} + |\mathbf{c}|^2$, so $\mathbf{a}\cdot\mathbf{c} = 0$.
@@ -242,9 +242,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Takes O as origin: OB = b, OA = −b, OP = p, with |p| = |b| (both are radii)", points: 1, dimension: reasoning }
-          - { id: vectors, description: "PA = −b − p and PB = b − p", points: 1, dimension: reasoning }
-          - { id: dot, description: "PA·PB = −(b + p)·(b − p) = −(|b|² − |p|²) = 0", points: 2, dimension: proof }
+          - { id: setup, description: "Sets up vectors that capture the circle (e.g. O as origin: OB = b, OA = −b, OP = p, with |p| = |b| as radii)", points: 1, dimension: reasoning }
+          - { id: vectors, description: "Writes PA and PB in terms of them (e.g. PA = −b − p and PB = b − p)", points: 1, dimension: reasoning }
+          - { id: dot, description: "Shows PA·PB = 0 (e.g. −(b + p)·(b − p) = −(|b|² − |p|²) = 0)", points: 2, dimension: proof }
           - { id: conclude, description: "Concludes the angle at P is 90°", points: 1, dimension: clarity }
   solution: |
     Take $O$ as the origin, with $\overrightarrow{OB} = \mathbf{b}$, $\overrightarrow{OA} = -\mathbf{b}$ and $\overrightarrow{OP} = \mathbf{p}$. All three are radii, so $|\mathbf{p}| = |\mathbf{b}|$.
@@ -265,10 +265,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Rectangle OABC with OA = a, OC = c and a·c = 0; writes the four midpoints", points: 1, dimension: reasoning }
-          - { id: sides, description: "Finds two adjacent sides of the inner shape, e.g. ½(c − a) and ½(a + c) (up to sign)", points: 2, dimension: reasoning }
-          - { id: equal, description: "Shows they have equal length using a·c = 0: both squared lengths are ¼(|a|² + |c|²)", points: 1, dimension: proof }
-          - { id: conclude, description: "The inner shape is a parallelogram (midpoint result) with adjacent sides equal, so a rhombus", points: 1, dimension: clarity }
+          - { id: setup, description: "Sets up vectors for the rectangle and the midpoints (e.g. OA = a, OC = c with a·c = 0)", points: 1, dimension: reasoning }
+          - { id: sides, description: "Finds two adjacent sides of the inner shape (e.g. ½(c − a) and ½(a + c), up to sign)", points: 2, dimension: reasoning }
+          - { id: equal, description: "Shows they have equal length (e.g. using a·c = 0, both squared lengths are ¼(|a|² + |c|²))", points: 1, dimension: proof }
+          - { id: conclude, description: "Concludes it is a rhombus (e.g. a parallelogram, by the midpoint result, with adjacent sides equal)", points: 1, dimension: clarity }
   solution: |
     Let the rectangle be $OABC$ with $\overrightarrow{OA} = \mathbf{a}$ and $\overrightarrow{OC} = \mathbf{c}$, where $\mathbf{a}\cdot\mathbf{c} = 0$. The midpoints of $OA$, $AB$, $BC$ and $CO$ are $P = \tfrac{1}{2}\mathbf{a}$, $Q = \mathbf{a} + \tfrac{1}{2}\mathbf{c}$, $R = \tfrac{1}{2}\mathbf{a} + \mathbf{c}$ and $S = \tfrac{1}{2}\mathbf{c}$.
     Joining midpoints of any quadrilateral gives a parallelogram. Its sides $\overrightarrow{PQ} = \tfrac{1}{2}(\mathbf{a} + \mathbf{c})$ and $\overrightarrow{QR} = \tfrac{1}{2}(\mathbf{c} - \mathbf{a})$ have
@@ -287,9 +287,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Position vectors a, b, c, d; the shared midpoint gives ½(a + c) = ½(b + d)", points: 2, dimension: reasoning }
-          - { id: sides, description: "Rearranges to b − a = c − d, i.e. AB = DC", points: 2, dimension: proof }
-          - { id: conclude, description: "One pair of opposite sides equal and parallel, so a parallelogram", points: 1, dimension: clarity }
+          - { id: setup, description: "Writes the shared-midpoint condition with vectors (e.g. ½(a + c) = ½(b + d))", points: 2, dimension: reasoning }
+          - { id: sides, description: "Deduces a pair of opposite sides are equal vectors (e.g. b − a = c − d, i.e. AB = DC)", points: 2, dimension: proof }
+          - { id: conclude, description: "Concludes it is a parallelogram (e.g. one pair of opposite sides equal and parallel)", points: 1, dimension: clarity }
   solution: |
     Let the corners have position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$. The midpoints of $AC$ and $BD$ coincide: $\tfrac{1}{2}(\mathbf{a} + \mathbf{c}) = \tfrac{1}{2}(\mathbf{b} + \mathbf{d})$.
     Rearranging, $\mathbf{b} - \mathbf{a} = \mathbf{c} - \mathbf{d}$, i.e. $\overrightarrow{AB} = \overrightarrow{DC}$. One pair of opposite sides is equal and parallel, so $ABCD$ is a parallelogram.
@@ -306,10 +306,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Takes M as origin with MB = u and MC = −u, and MA = v (or an equivalent setup)", points: 1, dimension: reasoning }
-          - { id: sides, description: "AB = u − v and AC = −u − v", points: 1, dimension: reasoning }
-          - { id: expand, description: "Expands |u − v|² + |u + v|² = 2|u|² + 2|v|²", points: 2, dimension: proof }
-          - { id: conclude, description: "Identifies |v| = AM and |u| = BM to finish", points: 1, dimension: clarity }
+          - { id: setup, description: "Chooses vectors to work with (e.g. M as origin with MB = u, MC = −u, MA = v; or AB and AC as base vectors)", points: 1, dimension: reasoning }
+          - { id: sides, description: "Writes the other vectors it needs correctly in terms of them (e.g. AB = u − v and AC = −u − v; or AM = ½(AB + AC) and BM = ½(AC − AB))", points: 1, dimension: reasoning }
+          - { id: expand, description: "Expands the squared lengths with dot products and shows the cross terms cancel (e.g. |u − v|² + |u + v|² = 2|u|² + 2|v|²)", points: 2, dimension: proof }
+          - { id: conclude, description: "Identifies the lengths and states AB² + AC² = 2AM² + 2BM²", points: 1, dimension: clarity }
   solution: |
     Take $M$ as the origin, with $\overrightarrow{MB} = \mathbf{u}$, $\overrightarrow{MC} = -\mathbf{u}$ and $\overrightarrow{MA} = \mathbf{v}$. Then $\overrightarrow{AB} = \mathbf{u} - \mathbf{v}$ and $\overrightarrow{AC} = -\mathbf{u} - \mathbf{v}$.
     $AB^2 + AC^2 = |\mathbf{u} - \mathbf{v}|^2 + |\mathbf{u} + \mathbf{v}|^2 = 2|\mathbf{u}|^2 + 2|\mathbf{v}|^2$, since the $\mathbf{u}\cdot\mathbf{v}$ terms cancel.
@@ -350,10 +350,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Uses position vectors a, b, c, d and states (c − a)·(d − b) = 0", points: 1, dimension: reasoning }
-          - { id: expand, description: "Expands AB² + CD² − AD² − BC² in dot products; the squared terms cancel", points: 2, dimension: proof }
-          - { id: factor, description: "Simplifies the remainder to 2(a − c)·(d − b) (or an equivalent factorization)", points: 2, dimension: synthesis }
-          - { id: conclude, description: "This is 0 by perpendicularity, giving the result", points: 1, dimension: clarity }
+          - { id: setup, description: "Sets up vectors and writes the perpendicular condition (e.g. position vectors a, b, c, d with (c − a)·(d − b) = 0)", points: 1, dimension: reasoning }
+          - { id: expand, description: "Expands the side lengths with dot products (e.g. AB² + CD² − AD² − BC²; the squared terms cancel)", points: 2, dimension: proof }
+          - { id: factor, description: "Simplifies what is left to the perpendicular condition (e.g. 2(a − c)·(d − b))", points: 2, dimension: synthesis }
+          - { id: conclude, description: "Concludes it is 0, giving the result", points: 1, dimension: clarity }
   solution: |
     With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$:
     $AB^2 + CD^2 - AD^2 - BC^2 = |\mathbf{b} - \mathbf{a}|^2 + |\mathbf{d} - \mathbf{c}|^2 - |\mathbf{d} - \mathbf{a}|^2 - |\mathbf{c} - \mathbf{b}|^2$.
@@ -373,10 +373,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Lets H be where the lines from A and B meet, and takes H as the origin", points: 1, dimension: synthesis }
-          - { id: conditions, description: "Writes a·(c − b) = 0 and b·(c − a) = 0", points: 2, dimension: reasoning }
-          - { id: subtract, description: "Combines them to get c·(b − a) = 0 (or equivalent)", points: 2, dimension: proof }
-          - { id: conclude, description: "So HC is perpendicular to AB: the line from C at right angles to AB also passes through H", points: 1, dimension: clarity }
+          - { id: setup, description: "Sets up the point to study (e.g. H where the lines from A and B meet, taken as origin)", points: 1, dimension: synthesis }
+          - { id: conditions, description: "Writes the two perpendicular conditions with vectors (e.g. a·(c − b) = 0 and b·(c − a) = 0)", points: 2, dimension: reasoning }
+          - { id: subtract, description: "Combines them into the third condition (e.g. c·(b − a) = 0)", points: 2, dimension: proof }
+          - { id: conclude, description: "Concludes the line from C at right angles to AB also passes through H", points: 1, dimension: clarity }
   solution: |
     Let the lines from $A$ and $B$ meet at $H$, and take $H$ as the origin, with $A$, $B$, $C$ at $\mathbf{a}$, $\mathbf{b}$, $\mathbf{c}$.
     $HA$ is perpendicular to $BC$: $\mathbf{a}\cdot(\mathbf{c} - \mathbf{b}) = 0$, so $\mathbf{a}\cdot\mathbf{c} = \mathbf{a}\cdot\mathbf{b}$.
@@ -396,9 +396,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: setup, description: "Position vectors a, b, c, d; MN = ½(b + d − a − c)", points: 1, dimension: reasoning }
-          - { id: lhs, description: "Expands the four sides: 2(|a|² + |b|² + |c|² + |d|²) − 2(a·b + b·c + c·d + d·a)", points: 2, dimension: reasoning }
-          - { id: rhs, description: "Expands AC² + BD² + |b + d − a − c|² and simplifies to the same expression", points: 2, dimension: proof }
+          - { id: setup, description: "Sets up vectors and writes MN in terms of them (e.g. position vectors a, b, c, d; MN = ½(b + d − a − c))", points: 1, dimension: reasoning }
+          - { id: lhs, description: "Expands the sum of the sides squared (e.g. 2(|a|² + |b|² + |c|² + |d|²) − 2(a·b + b·c + c·d + d·a))", points: 2, dimension: reasoning }
+          - { id: rhs, description: "Expands the other side and shows it is the same (e.g. AC² + BD² + |b + d − a − c|²)", points: 2, dimension: proof }
           - { id: clear, description: "Clearly organized, with the conclusion stated", points: 1, dimension: clarity }
   solution: |
     With position vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}, \mathbf{d}$, let $S = |\mathbf{a}|^2 + |\mathbf{b}|^2 + |\mathbf{c}|^2 + |\mathbf{d}|^2$.
@@ -419,10 +419,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: origin, description: "Takes the rectangle's center as origin: c = −a and d = −b", points: 1, dimension: synthesis }
-          - { id: equal, description: "Uses equal diagonals (a rectangle's diagonals are equal and bisect each other): |a| = |b|", points: 1, dimension: reasoning }
-          - { id: expand, description: "PA² + PC² = |p − a|² + |p + a|² = 2|p|² + 2|a|², and likewise for B and D", points: 2, dimension: proof }
-          - { id: conclude, description: "Equal because |a| = |b|", points: 1, dimension: clarity }
+          - { id: origin, description: "Sets up vectors that capture the rectangle (e.g. center as origin: c = −a and d = −b)", points: 1, dimension: synthesis }
+          - { id: equal, description: "Uses the rectangle's equal diagonals (e.g. |a| = |b|)", points: 1, dimension: reasoning }
+          - { id: expand, description: "Expands both sums (e.g. PA² + PC² = |p − a|² + |p + a|² = 2|p|² + 2|a|², and likewise for B and D)", points: 2, dimension: proof }
+          - { id: conclude, description: "Concludes they are equal (e.g. because |a| = |b|)", points: 1, dimension: clarity }
   solution: |
     Take the center of the rectangle as the origin. Its diagonals bisect each other, so $\mathbf{c} = -\mathbf{a}$ and $\mathbf{d} = -\mathbf{b}$. They are also equal in length, so $|\mathbf{a}| = |\mathbf{b}|$.
     $PA^2 + PC^2 = |\mathbf{p} - \mathbf{a}|^2 + |\mathbf{p} + \mathbf{a}|^2 = 2|\mathbf{p}|^2 + 2|\mathbf{a}|^2$, since the $\mathbf{p}\cdot\mathbf{a}$ terms cancel.

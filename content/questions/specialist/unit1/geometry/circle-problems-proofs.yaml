@@ -30,9 +30,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'c', description: "∠ACB = 90° puts C on the circle with diameter AB (converse of the angle in a semicircle)", points: 2, dimension: reasoning }
-          - { id: 'd', description: "Likewise ∠ADB = 90° puts D on the same circle", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So A, B, C, D all lie on the circle with diameter AB", points: 1, dimension: proof }
+          - { id: 'c', description: "Places C on the circle with diameter AB (e.g. ∠ACB = 90°, converse of the angle in a semicircle)", points: 2, dimension: reasoning }
+          - { id: 'd', description: "Places D on the same circle (e.g. ∠ADB = 90°)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes A, B, C, D lie on one circle", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     By the converse of the angle in a semicircle, $\angle ACB = 90^\circ$ means $C$ lies on the circle with diameter $AB$, and $\angle ADB = 90^\circ$ means $D$ lies on that same circle. $A$ and $B$ are on it too, so all four points are concyclic.
@@ -62,10 +62,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'two', description: "Let the perpendicular bisectors of AB and BC meet at O (they aren't parallel, as AB and BC aren't)", points: 1, dimension: proof }
-          - { id: 'equal', description: "O is equidistant from A and B, and from B and C, so OA = OB = OC", points: 2, dimension: reasoning }
-          - { id: 'third', description: "OA = OC puts O on the perpendicular bisector of CA too", points: 1, dimension: reasoning }
-          - { id: 'circle', description: "The circle with center O and radius OA passes through A, B and C", points: 1, dimension: proof }
+          - { id: 'two', description: "Names a candidate center (e.g. O, where the perpendicular bisectors of AB and BC meet; they aren't parallel since AB and BC aren't)", points: 1, dimension: proof }
+          - { id: 'equal', description: "Shows it is equally far from all three corners (e.g. OA = OB and OB = OC, from the perpendicular bisectors)", points: 2, dimension: reasoning }
+          - { id: 'third', description: "Shows the third bisector passes through it (e.g. OA = OC puts O on the perpendicular bisector of CA)", points: 1, dimension: reasoning }
+          - { id: 'circle', description: "Concludes there is a circle through A, B and C (e.g. center O, radius OA)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     The sides $AB$ and $BC$ aren't parallel, so their perpendicular bisectors meet at a point $O$. Being on the first gives $OA = OB$, and on the second $OB = OC$. So $OA = OC$, and $O$ is also on the perpendicular bisector of $CA$: all three meet at $O$. Since $OA = OB = OC$, the circle with center $O$ through $A$ passes through $B$ and $C$.
@@ -98,9 +98,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'equal', description: "Triangles ABC and ADC are congruent (SSS), so ∠ADC = ∠ABC = 90°", points: 2, dimension: reasoning }
-          - { id: 'cyclic', description: "Opposite angles B and D add to 180°, so ABCD is cyclic (converse)", points: 1, dimension: reasoning }
-          - { id: 'diameter', description: "∠ABC = 90° stands on AC, so AC is a diameter", points: 1, dimension: proof }
+          - { id: 'equal', description: "Shows the angle at D is also 90° (e.g. triangles ABC and ADC congruent by SSS, so ∠ADC = ∠ABC)", points: 2, dimension: reasoning }
+          - { id: 'cyclic', description: "Concludes ABCD is cyclic (e.g. opposite angles B and D add to 180°, converse)", points: 1, dimension: reasoning }
+          - { id: 'diameter', description: "Concludes AC is a diameter (e.g. the 90° angle at B stands on AC)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Triangles $ABC$ and $ADC$ have $AB = AD$, $CB = CD$ and $AC$ common, so they are congruent and $\angle ADC = \angle ABC = 90^\circ$. Then $\angle ABC + \angle ADC = 180^\circ$, so by the converse of the cyclic quadrilateral theorem $ABCD$ is cyclic. In that circle, $\angle ABC = 90^\circ$ is an angle in a semicircle on $AC$, so $AC$ is a diameter.
@@ -134,9 +134,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'cointerior', description: "AB ∥ DC: ∠CBA + ∠BCD = 180° (co-interior angles)", points: 2, dimension: reasoning }
-          - { id: 'swap', description: "So ∠DAB + ∠BCD = 180° (using ∠DAB = ∠CBA)", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "Opposite angles add to 180°, so ABCD is cyclic (converse)", points: 1, dimension: proof }
+          - { id: 'cointerior', description: "Uses the parallel sides (e.g. AB ∥ DC: ∠CBA + ∠BCD = 180°, co-interior angles)", points: 2, dimension: reasoning }
+          - { id: 'swap', description: "Brings in the equal base angles (e.g. so ∠DAB + ∠BCD = 180°)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ABCD is cyclic (e.g. opposite angles add to 180°, converse)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $AB \parallel DC$, so the co-interior angles at $B$ and $C$ add to $180^\circ$: $\angle CBA + \angle BCD = 180^\circ$. Since $\angle DAB = \angle CBA$, this gives $\angle DAB + \angle BCD = 180^\circ$. Opposite angles add to $180^\circ$, so by the converse of the cyclic quadrilateral theorem, $ABCD$ is cyclic.
@@ -170,9 +170,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'cyclic', description: "BDEC is a cyclic quadrilateral", points: 1, dimension: reasoning }
-          - { id: 'exterior', description: "∠ADE is the exterior angle at D (A, D, B collinear), so it equals the interior opposite angle ∠BCE", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "∠BCE = ∠ACB, since E is on AC", points: 1, dimension: proof }
+          - { id: 'cyclic', description: "Uses that B, D, E, C lie on one circle (e.g. BDEC is a cyclic quadrilateral)", points: 1, dimension: reasoning }
+          - { id: 'exterior', description: "Relates ∠ADE to an angle of the circle (e.g. exterior angle at D equals the interior opposite angle ∠BCE)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ∠ADE = ∠ACB (e.g. ∠BCE = ∠ACB, since E is on AC)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $B$, $D$, $E$, $C$ lie on the circle, so $BDEC$ is a cyclic quadrilateral. $A$, $D$, $B$ are collinear, so $\angle ADE$ is an exterior angle of it at $D$, and equals the interior opposite angle $\angle BCE$. Since $E$ lies on $AC$, $\angle BCE = \angle ACB$. Hence $\angle ADE = \angle ACB$.
@@ -207,9 +207,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'concyclic', description: "By the converse of angles on the same arc, A, B, C, D are concyclic", points: 2, dimension: reasoning }
-          - { id: 'same', description: "In that circle, ∠CAD and ∠CBD stand on the same arc CD (A and B on the same side of CD)", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So ∠CAD = ∠CBD", points: 1, dimension: proof }
+          - { id: 'concyclic', description: "Shows A, B, C, D are concyclic (e.g. converse of angles on the same arc)", points: 2, dimension: reasoning }
+          - { id: 'same', description: "Finds the arc that ∠CAD and ∠CBD stand on (e.g. both on arc CD, with A and B on the same side)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ∠CAD = ∠CBD", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Equal angles $\angle ACB = \angle ADB$, with $C$ and $D$ on the same side of $AB$, mean $A$, $B$, $C$, $D$ are concyclic (converse of angles on the same arc). In that circle, $\angle CAD$ and $\angle CBD$ both stand on arc $CD$, so they are equal.
@@ -244,9 +244,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'alt', description: "Alternate segment: the angle between the tangent and AB equals ∠ADB", points: 1, dimension: reasoning }
-          - { id: 'parallel', description: "Tangent ∥ BD: that same angle equals ∠ABD (alternate angles)", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "So ∠ADB = ∠ABD and triangle ABD is isosceles: AB = AD", points: 1, dimension: proof }
+          - { id: 'alt', description: "Relates the tangent to an angle in the triangle (e.g. alternate segment: the angle between the tangent and AB equals ∠ADB)", points: 1, dimension: reasoning }
+          - { id: 'parallel', description: "Uses the parallel lines (e.g. tangent ∥ BD: that angle equals ∠ABD, alternate angles)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes AB = AD (e.g. ∠ADB = ∠ABD, so triangle ABD is isosceles)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $X$ be on the tangent at $A$, on the side of $AB$ away from $D$. By the alternate segment theorem, $\angle XAB = \angle ADB$. Since $AX \parallel BD$, $\angle XAB = \angle ABD$ (alternate angles). So $\angle ADB = \angle ABD$, triangle $ABD$ is isosceles, and $AB = AD$.
@@ -279,9 +279,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'angles', description: "Equal chords AB and CD subtend equal angles at the circumference: ∠ADB = ∠DBC", points: 2, dimension: reasoning }
-          - { id: 'alternate', description: "These are alternate angles for lines AD and BC with transversal BD", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So AD ∥ BC", points: 1, dimension: proof }
+          - { id: 'angles', description: "Turns the equal chords into equal angles (e.g. AB and CD subtend equal angles at the circumference: ∠ADB = ∠DBC)", points: 2, dimension: reasoning }
+          - { id: 'alternate', description: "Recognizes a parallel-line angle pair (e.g. alternate angles for AD and BC with transversal BD)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes AD ∥ BC", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Equal chords subtend equal angles at the circumference: $\angle ADB$ (on chord $AB$) equals $\angle DBC$ (on chord $CD$). With the points in order $A, B, C, D$, $A$ and $C$ are on opposite sides of $BD$, so these are alternate angles for the lines $AD$ and $BC$ cut by $BD$. Equal alternate angles mean $AD \parallel BC$.
@@ -315,9 +315,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'exterior', description: "∠EBC is the exterior angle of ABCD at B, so it equals the interior opposite angle ∠ADC", points: 2, dimension: reasoning }
-          - { id: 'common', description: "The angle at E is common", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "Two pairs of equal angles: the triangles are similar", points: 1, dimension: proof }
+          - { id: 'exterior', description: "Finds one pair of equal angles (e.g. ∠EBC, exterior angle of ABCD at B, equals the interior opposite angle ∠ADC)", points: 2, dimension: reasoning }
+          - { id: 'common', description: "Finds a second pair (e.g. the common angle at E)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes the triangles are similar", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $E$, $B$, $A$ are collinear, so $\angle EBC$ is an exterior angle of cyclic quadrilateral $ABCD$, and equals the interior opposite angle $\angle ADC = \angle EDA$. The triangles also share the angle at $E$. Two pairs of equal angles, so triangles $EBC$ and $EDA$ are similar.
@@ -351,9 +351,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'similar', description: "Triangles BAD and BCA share the angle at B and have ∠BAD = ∠BCA, so they are similar", points: 2, dimension: reasoning }
-          - { id: 'ratio', description: "So BA/BC = BD/BA", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "BA² = BD × BC", points: 1, dimension: proof }
+          - { id: 'similar', description: "Shows two triangles are similar (e.g. BAD and BCA: common angle at B and ∠BAD = ∠BCA)", points: 2, dimension: reasoning }
+          - { id: 'ratio', description: "Writes the ratio of sides (e.g. BA/BC = BD/BA)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes BA² = BD × BC", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Triangles $BAD$ and $BCA$ share the angle at $B$, and $\angle BAD = \angle BCA$. So they are similar, with $\dfrac{BA}{BC} = \dfrac{BD}{BA}$, i.e. $BA^2 = BD \times BC$.
@@ -392,9 +392,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'concyclic', description: "∠BEC = ∠BFC = 90°, so B, C, E, F lie on the circle with diameter BC", points: 2, dimension: reasoning }
-          - { id: 'exterior', description: "In cyclic quadrilateral BCEF, the exterior angle at E (∠AEF) equals the interior opposite angle ∠FBC", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "∠FBC = ∠ABC, so ∠AEF = ∠ABC", points: 1, dimension: proof }
+          - { id: 'concyclic', description: "Shows B, C, E, F are concyclic (e.g. ∠BEC = ∠BFC = 90°: circle with diameter BC)", points: 2, dimension: reasoning }
+          - { id: 'exterior', description: "Relates ∠AEF to an angle of that circle (e.g. exterior angle at E of BCEF equals the interior opposite angle ∠FBC)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ∠AEF = ∠ABC", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $\angle BEC = \angle BFC = 90^\circ$, so $E$ and $F$ lie on the circle with diameter $BC$, and $B$, $C$, $E$, $F$ are concyclic. In cyclic quadrilateral $BCEF$, $A$, $E$, $C$ are collinear, so $\angle AEF$ is an exterior angle at $E$ and equals the interior opposite angle $\angle FBC = \angle ABC$.
@@ -442,10 +442,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'p', description: "In triangle ABP, ∠APB = 180° − ½(∠A + ∠B)", points: 1, dimension: reasoning }
-          - { id: 'r', description: "In triangle CDR, ∠CRD = 180° − ½(∠C + ∠D)", points: 1, dimension: reasoning }
-          - { id: 'sum', description: "∠P + ∠R = 360° − ½(∠A + ∠B + ∠C + ∠D) = 360° − 180° = 180°", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "Opposite angles of PQRS add to 180°, so it is cyclic", points: 1, dimension: proof }
+          - { id: 'p', description: "Finds one angle of PQRS from the bisected angles (e.g. triangle ABP: ∠APB = 180° − ½(∠A + ∠B))", points: 1, dimension: reasoning }
+          - { id: 'r', description: "Finds the opposite angle the same way (e.g. triangle CDR: ∠CRD = 180° − ½(∠C + ∠D))", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "Shows the two add to 180° (e.g. 360° − ½(∠A + ∠B + ∠C + ∠D) = 180°)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes PQRS is cyclic (e.g. opposite angles add to 180°, converse)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     The angle of $PQRS$ at $P$ is $\angle APB$, and in triangle $ABP$ the angles at $A$ and $B$ are half the quadrilateral's: $\angle APB = 180^\circ - \tfrac{1}{2}(\angle A + \angle B)$. Likewise the angle at $R$ is $\angle CRD = 180^\circ - \tfrac{1}{2}(\angle C + \angle D)$.
@@ -482,10 +482,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'alt', description: "Alternate segment in the first circle: the angle between the tangent at P and PA equals ∠PBA", points: 1, dimension: reasoning }
-          - { id: 'exterior', description: "ABDC is cyclic (second circle) and P, B, D are collinear, so ∠PBA (exterior angle at B) equals ∠ACD", points: 2, dimension: reasoning }
-          - { id: 'alternate', description: "So the tangent makes with line PC the same angle as CD does: equal alternate angles", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "Hence CD is parallel to the tangent", points: 1, dimension: proof }
+          - { id: 'alt', description: "Relates the tangent at P to the first circle (e.g. alternate segment: the angle between it and PA equals ∠PBA)", points: 1, dimension: reasoning }
+          - { id: 'exterior', description: "Carries that angle into the second circle (e.g. ABDC cyclic with P, B, D collinear, so the exterior angle ∠PBA equals ∠ACD)", points: 2, dimension: reasoning }
+          - { id: 'alternate', description: "Finds equal alternate (or corresponding) angles for CD and the tangent", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes CD is parallel to the tangent", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $X$ be a point on the tangent at $P$, on the side of $PA$ away from $B$. By the alternate segment theorem in the first circle, $\angle XPA = \angle PBA$.
@@ -526,10 +526,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'aefh', description: "In quadrilateral AFHE, the angles at E and F are 90°, so ∠FHE = 180° − ∠A", points: 1, dimension: reasoning }
-          - { id: 'bhc', description: "∠BHC = ∠FHE (vertically opposite), so ∠BHC = 180° − ∠A", points: 1, dimension: reasoning }
-          - { id: 'reflect', description: "Reflection keeps angles: ∠BH'C = ∠BHC = 180° − ∠A, with H' on the other side of BC from A", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "∠BAC + ∠BH'C = 180°, so ABH'C is cyclic (converse): H' is on the circle", points: 1, dimension: proof }
+          - { id: 'aefh', description: "Finds ∠FHE in terms of ∠A (e.g. quadrilateral AFHE has right angles at E and F, so ∠FHE = 180° − ∠A)", points: 1, dimension: reasoning }
+          - { id: 'bhc', description: "Finds ∠BHC (e.g. vertically opposite ∠FHE: 180° − ∠A)", points: 1, dimension: reasoning }
+          - { id: 'reflect', description: "Carries it to the reflection (e.g. reflection keeps angles: ∠BH′C = 180° − ∠A, with H′ on the other side of BC from A)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes H′ is on the circle (e.g. ∠BAC + ∠BH′C = 180°: ABH′C cyclic, converse)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     In quadrilateral $AFHE$, $\angle AFH = \angle AEH = 90^\circ$, so $\angle FHE = 360^\circ - 180^\circ - \angle A = 180^\circ - \angle A$. $\angle BHC$ and $\angle FHE$ are vertically opposite, so $\angle BHC = 180^\circ - \angle A$.
@@ -569,10 +569,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'first', description: "Alternate segment in the first circle: ∠TAP = ∠AQP", points: 1, dimension: reasoning }
-          - { id: 'second', description: "Alternate segment in the second circle: ∠TBP = ∠BQP", points: 1, dimension: reasoning }
-          - { id: 'sum', description: "So ∠TAB + ∠TBA = ∠AQP + ∠PQB = ∠AQB, and ∠ATB = 180° − ∠AQB", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "∠ATB + ∠AQB = 180° with T and Q on opposite sides of AB, so ATBQ is cyclic", points: 1, dimension: proof }
+          - { id: 'first', description: "Relates the tangent at A to an angle at Q (e.g. alternate segment: ∠TAP = ∠AQP)", points: 1, dimension: reasoning }
+          - { id: 'second', description: "Relates the tangent at B the same way (e.g. ∠TBP = ∠BQP)", points: 1, dimension: reasoning }
+          - { id: 'sum', description: "Relates ∠ATB to ∠AQB (e.g. ∠TAB + ∠TBA = ∠AQB, so ∠ATB = 180° − ∠AQB)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes ATBQ is cyclic (e.g. opposite angles add to 180°, with T and Q on opposite sides of AB)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     In the first circle, the angle between tangent $TA$ and chord $AP$ equals the angle in the alternate segment: $\angle TAP = \angle AQP$. In the second circle, likewise, $\angle TBP = \angle BQP$.

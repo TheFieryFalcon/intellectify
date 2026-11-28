@@ -52,7 +52,7 @@
     <tbody>
       {#each sorted as r, i (r.k.id)}
         {#if !sortBy && (i === 0 || sorted[i - 1]!.section.id !== r.section.id)}
-          <tr class="group"><td colspan="6">Unit {r.unit} · {r.section.name}</td></tr>
+          <tr class="group"><td colspan="6">Unit {r.unit}: {r.section.name}</td></tr>
         {/if}
         <tr>
           <td><a href="/{course.id}/skill/{r.k.id}">{r.k.name}</a></td>

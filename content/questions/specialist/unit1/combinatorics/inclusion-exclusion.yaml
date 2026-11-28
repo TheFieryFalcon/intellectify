@@ -221,11 +221,11 @@
     - id: a
       rubric:
         criteria:
-          - { id: approach, description: "Shows every element of the union is counted exactly once by the right-hand side (or derives it from the two-set formula)", points: 1, dimension: reasoning }
-          - { id: one, description: "An element in exactly one set: counted 1 time", points: 1, dimension: reasoning }
-          - { id: two, description: "An element in exactly two sets: counted 2 − 1 = 1 time", points: 1, dimension: reasoning }
-          - { id: three, description: "An element in all three: counted 3 − 3 + 1 = 1 time", points: 1, dimension: proof }
-          - { id: outside, description: "Elements in no set are counted 0 times; concludes clearly", points: 1, dimension: clarity }
+          - { id: approach, description: "Has a valid plan (e.g. shows every element of the union is counted exactly once by the right-hand side, or derives it from the two-set formula)", points: 1, dimension: reasoning }
+          - { id: one, description: "Handles elements in exactly one set (e.g. counted 1 time), or the equivalent step of the chosen method", points: 1, dimension: reasoning }
+          - { id: two, description: "Handles elements in exactly two sets (e.g. counted 2 − 1 = 1 time), or the equivalent step", points: 1, dimension: reasoning }
+          - { id: three, description: "Handles elements in all three sets (e.g. counted 3 − 3 + 1 = 1 time), or the equivalent step", points: 1, dimension: proof }
+          - { id: outside, description: "Accounts for elements in no set (e.g. counted 0 times) and concludes clearly", points: 1, dimension: clarity }
   solution: |
     Check how many times the right-hand side counts each element.
 

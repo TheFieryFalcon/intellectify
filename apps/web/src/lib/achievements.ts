@@ -211,7 +211,7 @@ export function onAppeal(prev: AchievementStats, e: { before: number; after: num
   return s;
 }
 
-/** A post or comment in a discussion thread (SPEC §13). */
+/** A post or comment in a discussion thread (SPEC §14). */
 export function onPost(prev: AchievementStats, threadKey: string): AchievementStats {
   const s: AchievementStats = structuredClone(prev);
   if (!s.discussed.includes(threadKey)) s.discussed = [...s.discussed, threadKey].slice(-1000);
@@ -243,6 +243,8 @@ export interface EvalContext {
   progress: CourseProgress;
   rollups: Rollups;
   now: number;
+  /** The student's Lemma economy (SPEC §13), for its achievements; absent before it loads. */
+  economy?: { stats: Record<string, number>; feats: string[] } | null;
 }
 
 /** Diamond Hands needs to know how long every skill has been at Diamond; update that, then check every rule. */
@@ -265,6 +267,10 @@ export function evaluate(defs: AchievementT[], stats: AchievementStats, ctx: Eva
     switch (r.kind) {
       case "pending":
         return false;
+      case "economy":
+        return (ctx.economy?.stats[r.stat] ?? 0) >= r.gte;
+      case "economyFeat":
+        return !!ctx.economy?.feats.includes(r.feat);
       case "count":
         return (s.counts[r.stat] ?? 0) >= r.gte;
       case "best":

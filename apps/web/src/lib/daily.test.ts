@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { CourseSchedule } from "@intellectify/content";
-import { currentStreak, dailyTarget, dailyTier, nextStreak, pickDaily, seededRandom } from "./daily";
+import { currentStreak, dailyTarget, dailyTier, nextStreak, pickDaily, seededRandom, dailySolved } from "./daily";
 import type { QuestionT } from "./content";
 
 const sched: CourseSchedule[] = [
@@ -43,5 +43,14 @@ describe("daily problem (SPEC §8.5)", () => {
     expect(nextStreak({ lastSolved: "2026-11-26", streak: 4 }, "2026-11-27")).toBe(5);
     expect(nextStreak({ lastSolved: "2026-11-25", streak: 4 }, "2026-11-27")).toBe(1);
     expect(currentStreak({ lastSolved: "2026-11-25", streak: 4 }, "2026-11-27")).toBe(0);
+  });
+});
+
+describe("dailySolved", () => {
+  it("counts only full marks, since a daily problem can be tried again", () => {
+    expect(dailySolved(1)).toBe(true);
+    expect(dailySolved(0.999)).toBe(false);
+    expect(dailySolved(0.7)).toBe(false);
+    expect(dailySolved(0)).toBe(false);
   });
 });

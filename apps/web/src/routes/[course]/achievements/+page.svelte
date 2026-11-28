@@ -20,12 +20,12 @@
   {#if !store?.loaded}
     <p class="muted">Loading…</p>
   {:else}
-    <p class="summary"><span class="num">{earnedCount} / {store.defs.length}</span> <span class="muted">earned</span> · <span class="num">{points}</span> <span class="muted">points</span></p>
+    <p class="summary"><span class="num">{earnedCount} / {store.defs.length}</span> <span class="muted">earned,</span> <span class="num">{points}</span> <span class="muted">points</span></p>
     {#each TIERS as tier (tier)}
       {@const list = store.defs.filter((a) => a.tier === tier)}
       {#if list.length}
         <section>
-          <h2><TierGem {tier} size={13} /> {NAMES[tier]} <span class="muted">· {list[0]!.points} points · {list.filter((a) => store.earned[a.id]).length} / {list.length}</span></h2>
+          <h2><TierGem {tier} size={13} /> {NAMES[tier]} <span class="muted">{list[0]!.points} points, {list.filter((a) => store.earned[a.id]).length} / {list.length}</span></h2>
           <ul class="shelf">
             {#each list as a (a.id)}
               {@const got = store.earned[a.id]}

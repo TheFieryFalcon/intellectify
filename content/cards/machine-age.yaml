@@ -1,0 +1,546 @@
+# Machine Age Pack: 1880–1955 (docs/SPEC.md §13.7). First draft.
+era: machine-age
+cards:
+  # ── Diamond ───────────────────────────────────────────
+  - id: einstein
+    name: Albert Einstein
+    wikidata: Q937
+    born: 1879
+    died: 1955
+    work: 1905
+    fields: [Physics]
+    rarity: diamond
+    portrait:
+      file: portraits/einstein.webp
+      source: "https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head_cleaned.jpg"
+      author: "Oren Jack Turner"
+      license: "Public domain"
+    blurb: >-
+      In 1905 he explained the photoelectric effect with light quanta, proved atoms are real and
+      introduced special relativity, with E = mc². His general relativity, a decade later, explained
+      gravity as curved spacetime.
+
+  - id: marie-curie
+    name: Marie Curie
+    wikidata: Q7186
+    born: 1867
+    died: 1934
+    work: 1898
+    fields: [Physics, Chemistry]
+    rarity: diamond
+    portrait:
+      file: portraits/marie-curie.webp
+      source: "https://commons.wikimedia.org/wiki/File:Marie_Curie_(1900)_(cropped).jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      Pioneered the study of radioactivity, a word she coined, and discovered polonium and radium. She
+      was the first woman to win a Nobel Prize and is still the only person to win in two sciences.
+
+  - id: nietzsche
+    name: Friedrich Nietzsche
+    wikidata: Q9358
+    born: 1844
+    died: 1900
+    work: 1883
+    fields: [Philosophy]
+    rarity: diamond
+    portrait:
+      file: portraits/nietzsche.webp
+      source: "https://commons.wikimedia.org/wiki/File:Nietzsche187a.jpg"
+      author: "Friedrich Hermann Hartmann"
+      license: "Public domain"
+    blurb: >-
+      Declared that God is dead and asked how people could create values of their own without that
+      foundation. Thus Spoke Zarathustra and his attacks on traditional morality shaped existentialism
+      and much of modern thought.
+
+  - id: freud
+    name: Sigmund Freud
+    wikidata: Q9215
+    born: 1856
+    died: 1939
+    work: 1899
+    fields: [Psychology, Medicine]
+    rarity: diamond
+    portrait:
+      file: portraits/freud.webp
+      source: "https://commons.wikimedia.org/wiki/File:Sigmund_Freud,_by_Max_Halberstadt_(cropped).jpg"
+      author: "Max Halberstadt"
+      license: "Public domain"
+    blurb: >-
+      Founded psychoanalysis, treating patients by talking, and argued that unconscious wishes shape what
+      we do. The Interpretation of Dreams made ideas like repression part of everyday language.
+
+  - id: turing
+    name: Alan Turing
+    wikidata: Q7251
+    born: 1912
+    died: 1954
+    work: 1936
+    fields: [Computing, Mathematics]
+    rarity: diamond
+    portrait:
+      file: portraits/turing.webp
+      source: "https://commons.wikimedia.org/wiki/File:Alan_Turing_(1951)_(crop).jpg"
+      author: "Elliott & Fry"
+      license: "Public domain"
+    blurb: >-
+      Defined computation itself with the Turing machine and proved that some problems no computer can
+      solve. In the Second World War he played a leading part in breaking the Enigma codes, and later
+      asked whether machines can think.
+
+  - id: feynman
+    name: Richard Feynman
+    wikidata: Q39246
+    born: 1918
+    died: 1988
+    work: 1948
+    fields: [Physics]
+    rarity: diamond
+    portrait:
+      file: portraits/feynman.webp
+      source: "https://commons.wikimedia.org/wiki/File:RichardFeynman-PaineMansionWoods1984_copyrightTamikoThiel_bw.jpg"
+      author: "Copyright Tamiko Thiel 1984"
+      license: "CC BY-SA 3.0"
+    blurb: >-
+      Reworked quantum electrodynamics with the diagrams named after him, now used throughout particle
+      physics. His lectures and books made him the best-known explainer of physics, and he showed on
+      television why the Challenger shuttle failed.
+
+  - id: sartre
+    name: Jean-Paul Sartre
+    wikidata: Q9364
+    born: 1905
+    died: 1980
+    work: 1943
+    fields: [Philosophy]
+    rarity: diamond
+    portrait:
+      file: portraits/sartre.webp
+      source: "https://commons.wikimedia.org/wiki/File:Flickr_-_Government_Press_Office_(GPO)_-_Jean_Paul_Sartre_and_Simone_De_Beauvoir_welcomed_by_Avraham_Shlonsky_and_Leah_Goldberg_(cropped).jpg"
+      author: "Moshe Milner"
+      license: "CC BY-SA 3.0"
+    blurb: >-
+      Held that existence precedes essence: there is no human nature given in advance, so we are wholly
+      responsible for what we make of ourselves. He was the leading voice of existentialism and turned
+      down the Nobel Prize in Literature.
+
+  # ── Platinum ──────────────────────────────────────────
+  - id: cantor
+    name: Georg Cantor
+    wikidata: Q76420
+    born: 1845
+    died: 1918
+    work: 1883
+    fields: [Mathematics]
+    rarity: platinum
+    portrait:
+      file: portraits/cantor.webp
+      source: "https://commons.wikimedia.org/wiki/File:Georg_Cantor2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.real-complex.rational-irrational]
+    blurb: >-
+      Created set theory and showed that some infinities are bigger than others: there are more real
+      numbers than whole numbers. Hilbert called it a paradise from which no one shall expel us.
+
+  - id: poincare
+    name: Henri Poincaré
+    wikidata: Q81082
+    born: 1854
+    died: 1912
+    work: 1895
+    fields: [Mathematics, Physics, Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/poincare.webp
+      source: "https://commons.wikimedia.org/wiki/File:Henri_Poincar%C3%A9-2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      Founded topology and discovered chaos while studying three bodies under gravity. His conjecture
+      about the shape of three-dimensional space stood for a century.
+
+  - id: hilbert
+    name: David Hilbert
+    wikidata: Q41585
+    born: 1862
+    died: 1943
+    work: 1899
+    fields: [Mathematics, Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/hilbert.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hilbert.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.geometry.proof-methods]
+    blurb: >-
+      Rebuilt geometry on complete axioms and, in 1900, set 23 problems that steered twentieth-century
+      mathematics. His program to put all of mathematics on secure axioms led to the work of Gödel and
+      Turing.
+
+  - id: planck
+    name: Max Planck
+    wikidata: Q9021
+    born: 1858
+    died: 1947
+    work: 1900
+    fields: [Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/planck.webp
+      source: "https://commons.wikimedia.org/wiki/File:Max_Planck.png"
+      author: "Courtesy of the Clendening History of Medicine Library, University of Kansas Medical Center."
+      license: "CC BY-SA 3.0"
+    blurb: >-
+      Explained the glow of hot objects by assuming energy comes in small packets, quanta. It began
+      quantum theory, and Planck's constant sets the scale of the quantum world.
+
+  - id: rutherford
+    name: Ernest Rutherford
+    wikidata: Q9123
+    born: 1871
+    died: 1937
+    work: 1911
+    fields: [Physics, Chemistry]
+    rarity: platinum
+    portrait:
+      file: portraits/rutherford.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ernest_Rutherford_LOC.jpg"
+      author: "George Grantham Bain Collection (Library of Congress)"
+      license: "Public domain"
+    blurb: >-
+      Fired alpha particles at gold foil and found that atoms are mostly empty, with a tiny dense nucleus.
+      He also first split one element into another, and named the proton.
+
+  - id: bohr
+    name: Niels Bohr
+    wikidata: Q7085
+    born: 1885
+    died: 1962
+    work: 1913
+    fields: [Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/bohr.webp
+      source: "https://commons.wikimedia.org/wiki/File:Niels_Bohr.jpg"
+      author: "The American Institute of Physics credits the photo [1] to AB Lagrelius & Westphal , which is the Swedish company used by the Nobel Foundation for most photos of its book series Les Prix Nobel ."
+      license: "Public domain"
+    blurb: >-
+      Explained atomic spectra with electrons that jump between fixed orbits. His institute in Copenhagen
+      was the center where quantum mechanics was worked out and argued over.
+
+  - id: heisenberg
+    name: Werner Heisenberg
+    wikidata: Q40904
+    born: 1901
+    died: 1976
+    work: 1925
+    fields: [Physics]
+    rarity: platinum
+    portrait:
+      file: portraits/heisenberg.webp
+      source: "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild183-R57262,_Werner_Heisenberg.jpg"
+      author: "Unknown author Unknown author"
+      license: "CC BY-SA 3.0 de"
+    blurb: >-
+      Created the first complete form of quantum mechanics at 23. His uncertainty principle says a
+      particle's position and momentum cannot both be known exactly.
+
+  - id: godel
+    name: Kurt Gödel
+    wikidata: Q41390
+    born: 1906
+    died: 1978
+    work: 1931
+    fields: [Mathematics, Philosophy]
+    rarity: platinum
+    portrait:
+      file: portraits/godel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Young_Kurt_G%C3%B6del_as_a_student_in_1925.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.geometry.logic]
+    blurb: >-
+      Proved that any consistent system of axioms for arithmetic leaves true statements it cannot prove.
+      His incompleteness theorems ended the hope of a complete foundation for mathematics.
+
+  - id: von-neumann
+    name: John von Neumann
+    wikidata: Q17455
+    born: 1903
+    died: 1957
+    work: 1945
+    fields: [Mathematics, Computing, Physics, Economics]
+    rarity: platinum
+    portrait:
+      file: portraits/von-neumann.webp
+      source: "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.jpg"
+      author: "Unknown"
+      license: "Attribution"
+    blurb: >-
+      Described the stored-program design that nearly every computer still follows, and founded game
+      theory. He also put quantum mechanics on rigorous mathematical footing.
+
+  - id: crick
+    name: Francis Crick
+    wikidata: Q123280
+    born: 1916
+    died: 2004
+    work: 1953
+    fields: [Biology]
+    rarity: platinum
+    portrait:
+      file: portraits/crick.webp
+      source: "https://commons.wikimedia.org/wiki/File:Francis_Crick_1995.jpg"
+      author: "Unknown author Unknown author"
+      license: "CC BY 4.0"
+    blurb: >-
+      With James Watson, using Rosalind Franklin's X-ray data, found that DNA is a double helix, which
+      shows how genes are copied. He then helped work out the genetic code.
+
+  # ── Gold ──────────────────────────────────────────────
+  - id: schrodinger
+    name: Erwin Schrödinger
+    wikidata: Q9130
+    born: 1887
+    died: 1961
+    work: 1926
+    fields: [Physics, Biology]
+    rarity: gold
+    portrait:
+      file: portraits/schrodinger.webp
+      source: "https://commons.wikimedia.org/wiki/File:Erwin_Schr%C3%B6dinger_-_Narodowe_Archiwum_Cyfrowe_(1-E-939).jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      His wave equation describes how quantum systems change, and his cat in a box shows how strange
+      quantum superposition is. His book What Is Life? inspired the discoverers of DNA's structure.
+
+  - id: noether
+    name: Emmy Noether
+    wikidata: Q7099
+    born: 1882
+    died: 1935
+    work: 1918
+    fields: [Mathematics, Physics]
+    rarity: gold
+    portrait:
+      file: portraits/noether.webp
+      source: "https://commons.wikimedia.org/wiki/File:Emmy-noether-2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    blurb: >-
+      Proved that every symmetry in physics gives a conserved quantity, such as energy from symmetry in
+      time. She also reshaped abstract algebra, and Einstein called her a creative mathematical genius.
+
+  - id: ramanujan
+    name: Srinivasa Ramanujan
+    wikidata: Q83163
+    born: 1887
+    died: 1920
+    work: 1914
+    fields: [Mathematics]
+    rarity: gold
+    portrait:
+      file: portraits/ramanujan.webp
+      source: "https://commons.wikimedia.org/wiki/File:Srinivasa_Ramanujan_-_OPC_-_2_(cleaned).jpg"
+      author: "Konrad Jacobs"
+      license: "Public domain"
+    blurb: >-
+      Largely self-taught in India, he sent Hardy pages of astonishing formulas and went to Cambridge to
+      work with him. His results on partitions, series and π are still being explored.
+
+  - id: russell
+    name: Bertrand Russell
+    wikidata: Q33760
+    born: 1872
+    died: 1970
+    work: 1910
+    fields: [Philosophy, Mathematics]
+    rarity: gold
+    portrait:
+      file: portraits/russell.webp
+      source: "https://commons.wikimedia.org/wiki/File:Bertrand_Russell_photo.jpg"
+      author: "Bassano Ltd"
+      license: "Public domain"
+    related: [spec.geometry.logic]
+    blurb: >-
+      Found a paradox at the heart of naive set theory, then tried to derive mathematics from logic in
+      Principia Mathematica with Whitehead. He won the Nobel Prize in Literature and campaigned against
+      nuclear weapons.
+
+  - id: wittgenstein
+    name: Ludwig Wittgenstein
+    wikidata: Q9391
+    born: 1889
+    died: 1951
+    work: 1921
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/wittgenstein.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ludwig_Wittgenstein.jpg"
+      author: "Moritz Nähr"
+      license: "Public domain"
+    blurb: >-
+      The Tractatus argued that the limits of language are the limits of the world. Later he rejected it,
+      seeing meaning in how words are used in everyday life.
+
+  - id: shannon
+    name: Claude Shannon
+    wikidata: Q92760
+    born: 1916
+    died: 2001
+    work: 1948
+    fields: [Mathematics, Computing, Engineering]
+    rarity: gold
+    portrait:
+      file: portraits/shannon.webp
+      source: "https://commons.wikimedia.org/wiki/File:ClaudeShannon_MFO3807.jpg"
+      author: "Jacobs, Konrad"
+      license: "CC BY-SA 2.0 de"
+    blurb: >-
+      Founded information theory, measuring information in bits and finding the limits of sending it
+      over noisy channels. Earlier he showed that Boolean algebra can design switching circuits.
+
+  - id: popper
+    name: Karl Popper
+    wikidata: Q81244
+    born: 1902
+    died: 1994
+    work: 1934
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/popper.webp
+      source: "https://commons.wikimedia.org/wiki/File:Karl_Popper.jpg"
+      author: "Franz Barta"
+      license: "No restrictions"
+    blurb: >-
+      Argued that a theory is scientific only if some observation could prove it false. The Open Society
+      and Its Enemies defended liberal democracy against totalitarian ideas.
+
+  - id: simone-de-beauvoir
+    name: Simone de Beauvoir
+    wikidata: Q7197
+    born: 1908
+    died: 1986
+    work: 1949
+    fields: [Philosophy]
+    rarity: gold
+    portrait:
+      file: portraits/simone-de-beauvoir.webp
+      source: "https://commons.wikimedia.org/wiki/File:French_Existentialist_and_Writer_Simone_De_Beauvoir.jpg"
+      author: "Unknown, dedicated to Bettmann Archive"
+      license: "Public domain"
+    blurb: >-
+      The Second Sex argued that one is not born, but rather becomes, a woman: womanhood is shaped by
+      society, not fixed by nature. It became a founding text of modern feminism.
+
+  # ── Silver ────────────────────────────────────────────
+  - id: frege
+    name: Gottlob Frege
+    wikidata: Q60028
+    born: 1848
+    died: 1925
+    work: 1884
+    fields: [Philosophy, Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/frege.webp
+      source: "https://commons.wikimedia.org/wiki/File:Young_frege.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
+    related: [spec.geometry.logic]
+    blurb: >-
+      Invented modern logic with quantifiers, for all and there exists. He founded analytic philosophy
+      and the philosophy of language.
+
+  - id: fleming
+    name: Alexander Fleming
+    wikidata: Q37064
+    born: 1881
+    died: 1955
+    work: 1928
+    fields: [Medicine, Biology]
+    rarity: silver
+    portrait:
+      file: portraits/fleming.webp
+      source: "https://commons.wikimedia.org/wiki/File:Synthetic_Production_of_Penicillin_TR1468.jpg"
+      author: "Official photographer"
+      license: "Public domain"
+    blurb: >-
+      Noticed that a mold had killed the bacteria around it on a forgotten culture plate, and named its
+      substance penicillin. It became the first antibiotic.
+
+  - id: tesla
+    name: Nikola Tesla
+    wikidata: Q9036
+    born: 1856
+    died: 1943
+    work: 1888
+    fields: [Engineering, Physics]
+    rarity: silver
+    portrait:
+      file: portraits/tesla.webp
+      source: "https://commons.wikimedia.org/wiki/File:Tesla_circa_1890.jpeg"
+      author: "Napoleon Sarony"
+      license: "Public domain"
+    blurb: >-
+      Invented the induction motor and the alternating-current system that powers the world's grids. The
+      unit of magnetic flux density is named after him.
+
+  - id: dirac
+    name: Paul Dirac
+    wikidata: Q47480
+    born: 1902
+    died: 1984
+    work: 1928
+    fields: [Physics, Mathematics]
+    rarity: silver
+    portrait:
+      file: portraits/dirac.webp
+      source: "https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933.jpg"
+      author: "Nobel Foundation"
+      license: "Public domain"
+    blurb: >-
+      His equation joined quantum mechanics with special relativity and predicted antimatter, found four
+      years later. He shared the 1933 Nobel Prize in Physics with Schrödinger.
+
+  - id: rosalind-franklin
+    name: Rosalind Franklin
+    wikidata: Q7474
+    born: 1920
+    died: 1958
+    work: 1952
+    fields: [Chemistry, Biology]
+    rarity: silver
+    portrait:
+      file: portraits/rosalind-franklin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Rosalind-franklin-in-paris.jpg"
+      author: "CSHL"
+      license: "CC BY-SA 4.0"
+    blurb: >-
+      Her X-ray photographs of DNA, above all Photo 51, were key evidence for the double helix. She also
+      worked out the structure of viruses and of coal.
+
+  - id: john-nash
+    name: John Nash
+    wikidata: Q128736
+    born: 1928
+    died: 2015
+    work: 1950
+    fields: [Mathematics, Economics]
+    rarity: silver
+    portrait:
+      file: portraits/john-nash.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Forbes_Nash,_Jr._by_Peter_Badge.jpg"
+      author: "Peter Badge / Typos1"
+      license: "CC BY-SA 3.0"
+    blurb: >-
+      His 27-page thesis defined the Nash equilibrium, where no player gains by changing strategy alone,
+      now central to economics. He won the Nobel in economics and the Abel Prize after decades of mental
+      illness.

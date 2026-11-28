@@ -49,7 +49,7 @@ export function loadQuestions(fetchFn: Fetch, course: string, skillId: string): 
 }
 
 const indexCache = new Map<string, Promise<QuestionIndexEntry[]>>();
-/** Every question in a course, as a small listing (SPEC §15.3a). */
+/** Every question in a course, as a small listing (SPEC §16.3a). */
 export function loadQuestionIndex(fetchFn: Fetch, course: string): Promise<QuestionIndexEntry[]> {
   if (!indexCache.has(course)) indexCache.set(course, fetchFn(`/content/${course}/question-index.json`).then((r) => (r.ok ? r.json() : [])));
   return indexCache.get(course)!;

@@ -12,6 +12,12 @@
   import { loadCourse } from "$lib/content";
   import { profileFor } from "$lib/profile.svelte";
   import { dayBefore } from "$lib/activity";
+  import Title from "$lib/components/economy/Title.svelte";
+  import { loadEconomyData } from "$lib/economy.svelte";
+  import { setAxiomNames } from "$lib/public";
+
+  let axiomsReady = $state(0);
+  $effect(() => void loadEconomyData().then((d) => { setAxiomNames(d.config.axioms.list.map((a) => a.name)); axiomsReady++; }).catch(() => {}));
 
   let profiles = $state<PublicProfile[] | null>(null);
   let failed = $state(false);
@@ -42,7 +48,7 @@
   const go = (b: BoardId, c = course) => goto(`?b=${b}${b === "course" ? `&course=${c}` : ""}`, { replaceState: true, noScroll: true, keepFocus: true });
 
   const today = perthDay();
-  const rows = $derived(profiles ? rankBoard(profiles, board, today, course) : []);
+  const rows = $derived(profiles && axiomsReady >= 0 ? rankBoard(profiles, board, today, course) : []);
   const me = $derived(session.user?.uid);
   const top = $derived(rows.slice(0, 100));
   const mine = $derived(rows.find((r) => r.profile.uid === me));
@@ -101,7 +107,7 @@
       {#each top as r (r.profile.uid)}
         <li class:me={r.profile.uid === me}>
           <span class="pos">{r.pos}</span>
-          <a class="name" href="/profile/{r.profile.uid}">{r.profile.displayName}</a>
+          <span class="who"><a class="name" href="/profile/{r.profile.uid}">{r.profile.displayName}</a>{#if r.profile.economy?.equipped.title}<Title title={r.profile.economy.equipped.title} calm />{/if}</span>
           <span class="val">{r.label}</span>
         </li>
       {/each}
@@ -116,7 +122,7 @@
     </ol>
   {/if}
   {#if readAt}
-    <p class="foot muted">Updated {time(readAt)} · <button class="link" onclick={() => load(true)}>Refresh</button></p>
+    <p class="foot muted">Updated {time(readAt)}, <button class="link" onclick={() => load(true)}>Refresh</button></p>
   {/if}
 </div>
 
@@ -133,6 +139,7 @@
   .board li + li { border-top: 1px solid var(--line); }
   .board li.me { background: var(--accent-soft); }
   .pos { font-variant-numeric: tabular-nums; color: var(--muted); text-align: right; }
+  .who { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .name { color: var(--ink); text-decoration: none; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .name:hover { color: var(--accent); }
   .val { font-variant-numeric: tabular-nums; font-size: 13px; }

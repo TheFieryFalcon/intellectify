@@ -3,7 +3,7 @@ import type { CourseBundle } from "./content";
 
 /** Node box: progress shape on top, label below. */
 export const NODE_W = 112;
-/** Height of the shape area by skill size (SPEC §15.2): small circle, medium circle, small diamond, large diamond. */
+/** Height of the shape area by skill size (SPEC §16.2): small circle, medium circle, small diamond, large diamond. */
 export const SHAPE_H = { small: 32, medium: 44, large: 50, cornerstone: 68 } as const;
 /** Label metrics (must match .label in TechTree.svelte). */
 export const LABEL_W = 108;
@@ -87,7 +87,7 @@ export interface TreeLayout {
 }
 
 /**
- * One map per course (SPEC §15.2): units stacked top to bottom, Year 11 above Year 12.
+ * One map per course (SPEC §16.2): units stacked top to bottom, Year 11 above Year 12.
  * Each section is its own layered graph (dagre), so skills branch the way their prerequisites do;
  * a unit's sections sit side by side, top-aligned.
  */

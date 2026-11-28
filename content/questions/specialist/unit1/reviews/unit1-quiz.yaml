@@ -394,9 +394,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: write, description: "Writes the integers as 2a + 1 and 2b + 1 for integers a, b", points: 1, dimension: proof }
-          - { id: expand, description: "(2a + 1)(2b + 1) = 4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1", points: 2, dimension: reasoning }
-          - { id: conclude, description: "This is one more than an even number, so it is odd", points: 1, dimension: proof }
+          - { id: write, description: "Writes two general odd integers algebraically (e.g. 2a + 1 and 2b + 1 for integers a, b)", points: 1, dimension: proof }
+          - { id: expand, description: "Shows the product has the form of an odd number (e.g. (2a + 1)(2b + 1) = 2(2ab + a + b) + 1)", points: 2, dimension: reasoning }
+          - { id: conclude, description: "Concludes the product is odd (e.g. one more than an even number)", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the integers be $2a + 1$ and $2b + 1$. Their product is $4ab + 2a + 2b + 1 = 2(2ab + a + b) + 1$, which is one more than an even number, so it is odd.
@@ -505,8 +505,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: route, description: "Writes AD = AB + BC + CD (or another route around the quadrilateral)", points: 1, dimension: proof }
-          - { id: cancel, description: "Uses CD = −DC = −AB, so AB + CD = 0", points: 2, dimension: reasoning }
+          - { id: route, description: "Links AD to BC through the other sides (e.g. AD = AB + BC + CD, or another route around the quadrilateral)", points: 1, dimension: proof }
+          - { id: cancel, description: "Uses AB = DC to cancel the extra sides (e.g. CD = −DC = −AB, so AB + CD = 0)", points: 2, dimension: reasoning }
           - { id: conclude, description: "So AD = BC", points: 1, dimension: proof }
           - { id: clear, description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |

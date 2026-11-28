@@ -8,7 +8,7 @@
   import { RANK_LABEL } from "$lib/ranks";
   import { courseProgress, session } from "$lib/session.svelte";
   import { achievementsFor } from "$lib/achievements.svelte";
-  import { profileFor } from "$lib/profile.svelte";
+  import { currentEconomy, profileFor } from "$lib/profile.svelte";
 
   let { data } = $props();
   const store = $derived(courseProgress(data.course.id));
@@ -79,7 +79,7 @@
   {#if !store || !store.loaded || !rollups}
     <p class="muted">Loading your progress…</p>
   {:else if view === "tree"}
-    <TechTree course={data.course} progress={store.progress} {rollups} {challengeBest} />
+    <TechTree course={data.course} progress={store.progress} {rollups} {challengeBest} theme={currentEconomy()?.state.equipped.nodeTheme ?? null} />
   {:else}
     <SkillTable course={data.course} progress={store.progress} />
   {/if}
