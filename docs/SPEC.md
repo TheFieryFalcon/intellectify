@@ -856,7 +856,8 @@ Group-wide boards:
 - problems done: total, this week, today;
 - **XP and global level** (§12.4): all time, this month and this week;
 - **Elo per game mode** (§14.7): Frontline, Divide, Draft, Exam Board and Race;
-- Race personal bests (§14.5).
+- Race personal bests (§14.5);
+- cards collected (§12.5).
 
 **Implementation (Phase 1).** Each student has one `publicProfiles/{uid}` document holding everything the boards and profile pages show: display name, XP, activity counters (problems total, today and this week; XP this week and this month, by Perth day, Monday-start week and month), daily streak (current, best, last solved), earned achievement ids and points per course, and per course the course rank and θ, started skills' and response skills' rank and θ, and the roll-up ranks.
 - **Writes:** changes collect in the browser and are saved together 15 seconds after the last one (and when the page is hidden), in one batch with the private counters on `users/{uid}`. A run of answers costs one write, not one per answer. Each course is also refreshed once per tab session when its map opens, so older progress appears. Anonymous test accounts stay off the mirror.
@@ -938,6 +939,197 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 - XP has its own **leaderboard** (§12.2): all time, this month and this week.
 
 **Storage.** Total XP lives on `users/{uid}` and is mirrored to `publicProfiles/{uid}` for leaderboards (§12.2: batched, not per answer). Practice XP is computed client-side, so it falls under the accepted client-side trust risk (§18). Competitive XP is awarded by Netlify Functions.
+
+### 12.5 Lemmas, theorems and packs (planned)
+
+A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
+
+**Rules** (all follow from §1.2 and §12.4)
+- **Earned by doing.** Every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow.
+- **Never touches learning.** Nothing bought, won or collected changes θ, ranks, gates, marking or question selection, and nothing gives hints.
+- **Nothing decays, expires or runs on a timer.** There's no idle income, no "while you were away", no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it.
+- **Nothing steers the student.** No upgrade pays more for one skill, section or unit than another.
+- **No real money.** Lemmas, packs and cosmetics are never sold, and can't be traded or cashed out.
+- **Can be hidden.** **Settings › Show rewards** off hides Lemma counts, pack prompts and the result-panel line. Earnings still accrue.
+
+#### Lemmas (∴)
+- **Base:** each XP award also pays the same number of Lemmas, before multipliers: Lemmas = (XP + flat bonuses) × source multiplier × global multiplier.
+- **Shown** as **∴ 12,345** next to the level badge in the header, and as **+48 ∴** in the result panel (§6.1). Totals from 1,000,000 up use scientific notation (**∴ 1.23 × 10⁶**). The icon is labeled "Lemmas" for screen readers.
+
+#### Theorems (the upgrade tree)
+Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × growth^n**. They form a small dependency graph (the *proof tree*), drawn like the tech tree; a theorem unlocks once its prerequisites are proven.
+
+| Theorem | Boosts | Per level | Base cost | Growth | Requires |
+|---|---|---|---|---|---|
+| Successor Function | Resolved questions | +2 ∴ flat per question | 50 | 1.15 | — |
+| Distributive Law | Quiz, unit quiz and Challenge bonuses | +10% | 200 | 1.15 | Successor Function 5 |
+| Geometric Series | Daily problem | +1% × (1 + r + r² + … + r^(k−1)), r = 0.95, k = days solved ever (approaches +20%) | 300 | 1.15 | Successor Function 5 |
+| Intermediate Value Theorem | Rank-ups (skills and response skills) | +15% | 400 | 1.15 | Distributive Law 3 |
+| Euler's Identity | Achievements | +15% | 500 | 1.15 | Intermediate Value Theorem 3 |
+| Binomial Theorem | Games (Phase 3; "Not available yet" until then) | +10% | 500 | 1.15 | Distributive Law 3 |
+| Harmonic Series | All sources | +0.5% × Hₙ, n = questions resolved ever | 1,000 | 1.2 | Geometric Series 5 |
+| Pigeonhole Principle | Duplicate cards | +25% Lemmas per duplicate | 300 | 1.15 | — |
+| Law of Large Numbers | Packs | Diamond pity guarantee comes 2 packs sooner (max level 5) | 2,000 | 2 | Pigeonhole Principle 5 |
+| Golden Ratio | All sources | +6.18% | 5,000 | φ ≈ 1.618 | Harmonic Series 10 |
+
+- Geometric Series and Harmonic Series grow with **counts that only go up** (days solved, questions resolved), so their bonuses never fall back.
+- Each theorem's card shows its statement in one line of maths (e.g. Hₙ = 1 + ½ + ⅓ + … + 1/n), as flavor and as a tiny bit of learning.
+
+#### Corollaries (free, automatic, permanent)
+Corollaries follow from what a student has already done. They are added together into one global factor.
+- Each achievement earned: +(points ÷ 10)%, so +1% for Platinum and +150% for Antimatter.
+- Each level tier reached (§12.4): +5%.
+- Each completed era set (below): +10%.
+
+#### Axioms (optional prestige)
+- **Formalize** becomes available once 100,000 Lemmas have been earned since the last Formalize (or ever, the first time).
+- It grants **⌊√(E ÷ 100,000)⌋ Axioms**, where E is the Lemmas earned since the last Formalize. Each Axiom is **+10% to all sources, permanently**.
+- **It resets:** theorem levels and the Lemma balance. **It keeps everything else:** XP, Axioms, corollaries, cards, unopened packs, cosmetics and titles.
+- It is **always voluntary.** There's no forced reset at term end, and the confirmation lists exactly what resets.
+- **Naming:** the first nine Axioms take the ZFC axioms' names in order (Extensionality, Regularity, Specification, Pairing, Union, Replacement, Infinity, Power Set, Choice). The next nine take large-cardinal names (Inaccessible, Mahlo, Weakly Compact, Measurable, Strong, Woodin, Supercompact, Huge, Rank-into-Rank). From then on they're numbered (Axiom 19, …).
+
+#### Packs and cards
+Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 5 cards from one era.
+
+**Eras.** A person sits in the era of their major work, not their birth.
+
+| Pack | Years | Example cards |
+|---|---|---|
+| Antiquity Pack | to 500 | Thales, Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes, Eratosthenes, Liu Hui, Hypatia, Aryabhata |
+| Golden Age Pack | 500–1400 | Brahmagupta, al-Khwarizmi, Ibn al-Haytham, Ibn Sina, al-Biruni, Omar Khayyam, Bhaskara II, Shen Kuo, Fibonacci, Thomas Aquinas, Madhava |
+| Renaissance Pack | 1400–1650 | Leonardo da Vinci, Copernicus, Cardano, Vesalius, Napier, Francis Bacon, Kepler, Galileo, Descartes, Fermat |
+| Enlightenment Pack | 1650–1800 | Pascal, Huygens, Newton, Leibniz, Seki Takakazu, Spinoza, Locke, the Bernoullis, Émilie du Châtelet, Euler, Maria Agnesi, Hume, Kant, Lagrange, Lavoisier |
+| Steam Age Pack | 1800–1880 | Gauss, Fourier, Sophie Germain, Cauchy, Abel, Galois, Faraday, Mary Somerville, Babbage, Ada Lovelace, Boole, Hamilton, Darwin, Riemann, Maxwell, Mendel, Florence Nightingale, Mill |
+| Machine Age Pack | 1880–1945 | Cantor, Kovalevskaya, Frege, Nietzsche, Poincaré, Hilbert, Marie Curie, Planck, Rutherford, Lawrence Bragg, Einstein, Noether, Ramanujan, Bohr, Meitner, Russell, Wittgenstein, Gödel, Turing, Howard Florey |
+| Space Age Pack | 1945 on | von Neumann, Shannon, Grace Hopper, Ruby Payne-Scott, Rosalind Franklin, Chien-Shiung Wu, Feynman, Erdős, Nash, Simone de Beauvoir, Popper, Kuhn, Grothendieck, Katherine Johnson, Mandelbrot, Conway, Hawking, Mirzakhani |
+
+**Content rules**
+- Cards live in `content/cards/<era>.yaml`, with: id, name, born and died, era, fields (Mathematics, Physics, Chemistry, Biology, Astronomy, Computing, Medicine, Philosophy, …), rarity, portrait (public domain or an original illustration, with its source and license), blurb, related skill ids (optional), and sources.
+- **Only people who have died.** Every set mixes mathematics, science and philosophy, and draws on several regions of the world, women included wherever history records them.
+- **Blurb:** at most two sentences on what they did and why it mattered. This is learning content, so full sentences are fine (§15.1). Facts cite a source. Quotes are used only when a source shows the person actually said them.
+- **Related skills** show as chips (e.g. Euler → the skill on complex exponential form). These are data, not a suggestion of what to practice.
+- **Set size:** 24 cards (3 Diamond, 5 Platinum, 7 Gold, 9 Silver). Rarity reflects lasting influence on the field, as judged by the owner.
+- **Build checks:** dates, era ranges, rarity counts, blurb length, portrait license and sources.
+- **Launch:** start with three eras (Antiquity, Enlightenment, Machine Age). The others show as "Not available yet" until their sets are written.
+
+**Getting packs.** Unopened packs have no era. The student picks the era when opening one (any released era).
+
+| Source | Packs |
+|---|---|
+| Level-up | 1 |
+| Reaching a level tier | 5 |
+| Finishing a Section Challenge | 1 |
+| Achievement | Platinum 1 · Diamond 2 · Ruby 3 · Tanzanite 5 · Vibranium 8 · Solarium 12 · Antimatter 20 |
+| A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
+| Buy with Lemmas | 1,000 ∴ each, a fixed price |
+
+**Opening**
+- **Odds per card:**
+  - Slots 1–4: Silver 72%, Gold 20%, Platinum 6.5%, Diamond 1.5%.
+  - Slot 5: Gold 70%, Platinum 24%, Diamond 6%.
+  
+  The odds table is always shown on the pack screen.
+- **Pity:** a Diamond is guaranteed by the 25th pack of an era without one (Law of Large Numbers shortens this). The counter is shown, e.g. "Diamond in ≤ 12".
+- **No duplicate Diamonds** until every Diamond in that era has been collected; the roll picks among the missing ones instead.
+- **Duplicates** turn into Lemmas: Silver 20, Gold 60, Platinum 200, Diamond 600 (× Pigeonhole Principle).
+- **Foil:** 1 card in 25 has a foil finish in its rarity's material. A foil copy of a card already held upgrades that card's finish instead of converting.
+- **Rolls are fixed in advance:** each pack's cards come from a seeded hash of the uid, the era and that era's packs-opened count, so reloading can't re-roll a pack. This runs on the client like the rest of practice (§18, risk 4).
+
+**Collection page.** One shelf per era. Uncollected cards show as silhouettes with their name, rarity and fields; the portrait, dates and blurb appear once collected. Completing an era set unlocks that era's **profile frame** (which can't be bought) and its corollary. A profile can **showcase** up to 3 cards.
+
+#### Cosmetics (Lemma shop)
+Bought at fixed prices, and cosmetic only. They are never reset by Formalize.
+- **Keypad skins** for the on-screen keypad (§7.2).
+- **Answer celebrations** for correct answers and rank-ups.
+- **Profile banners.**
+- **Tech-tree node themes.**
+
+Frames come only from era sets, and titles only from achievements.
+
+#### Titles
+- **Every Tanzanite, Vibranium, Solarium and Antimatter achievement unlocks one unique title.** Titles can't be bought or dropped, so a title always means its feat.
+- A title unlocks the first time its achievement is earned in any course.
+- **Shown:** one equipped title under the name on profiles, in lobbies and on leaderboards.
+- **Tooltip:** the achievement's name and tier. Secret criteria stay hidden (§12.1).
+- **Data:** in `content/achievements.yaml`, each achievement from Tanzanite up has a `title`. The build checks that every one has a title, that titles are unique, and that no lower tier has one.
+- **Styles:**
+  - **Tanzanite and Vibranium:** text in the tier's color and material, with its gem glyph. These don't move.
+  - **Solarium and Antimatter:** each title has its **own animated effect**, built on the tier visuals of §12.4 (Solarium radiant and gold, Antimatter a void with an iridescent rim).
+- **Effects, in practice:**
+  - They run in CSS and SVG only, the title stays real, selectable text, and contrast passes WCAG AA.
+  - On leaderboard rows the effect plays only on hover or focus, so long lists stay calm and cheap. It plays in full on profiles, in lobbies and in the achievement's full-screen celebration.
+  - Reduced motion shows a still frame.
+  - A preview of every title is at `/dev/titles`.
+
+**Tanzanite**
+
+| # | Achievement | Title | Why |
+|---|---|---|---|
+| T1 | Bedrock II | Keystone | The stone that holds the arch up |
+| T2 | Diamond Unit | Unit Vector | A unit, at full magnitude |
+| T3 | Frontier Hundred | Boundary Point | In topology the boundary is also called the frontier |
+| T4 | Hundred Straight | Straightedge | Euclid's tool for drawing straight lines |
+| T5 | Tier Six | Sixth Sense | Tier 6 |
+| T6 | Half-Year | Solstice | 182 days is solstice to solstice |
+| T7 | Unit Sweep | Exhaustive | The method of exhaustion: leave nothing out |
+| T8 | Diamond Mind | Polymath | Every response skill |
+| T9 | Year Diamond | Twin Prime | Two units, both Diamond |
+| T10 | Perfect Year | Perfect Number | Two perfect Unit Quizzes |
+| T11 | Grand Prover | Proofwright | A maker of proofs |
+| T12 | Top of the Month | Supremum | The least upper bound |
+| T13 | 🔒 Grandmaster Opening | Steep Gradient | Diamond in almost no time |
+| T14 | 🔒 Contrapositive | Non Sequitur | Mastery that doesn't follow from its prerequisites |
+| T15 | 🔒 Fractal | Self-Similar | The same rank at every scale |
+| T16 | 🔒 Show Your Working | Worked Example | A solution posted every day |
+
+**Vibranium**
+
+| # | Achievement | Title | Why |
+|---|---|---|---|
+| V1 | Course Diamond | Closure | The whole course, closed |
+| V2 | Ten Thousand | Myriad | Greek for ten thousand |
+| V3 | Frontier Five Hundred | Cartographer | Has mapped the frontier |
+| V4 | Triple Six | Honeycomb | Hexagons divide the plane most efficiently (Hales' honeycomb theorem) |
+| V5 | Orbit | Revolutionary | One full revolution of the Sun |
+| V6 | Two Hundred Straight | Geodesic | The straightest possible path |
+| V7 | Challenge Master | Universal | ∀ Challenges |
+| V8 | Diamond Everywhere | Everywhere Dense | Diamond in every neighborhood of the tree |
+| V9 | 🔒 Flawless Frontier | Measure Zero | Errors: a set of measure zero |
+| V10 | 🔒 Lone Wolf | Unique Solution | The only one who solved it |
+| V11 | 🔒 QED | Tombstone | The ∎ that ends a proof |
+| V12 | 🔒 Unblemished | No Remainder | A hundred questions, divided cleanly |
+| V13 | 🔒 Speed of Thought | Instantaneous | The instantaneous rate of change |
+
+**Solarium** (animated)
+
+| # | Achievement | Title | Effect |
+|---|---|---|---|
+| S1 | Six Suns | Helios | Six small suns orbit the title on a hexagonal path |
+| S2 | Five Hundred Straight | Infinite Ray | A thin beam of light runs through the letters and on past the end, never coming back; a new one starts every few seconds |
+| S3 | Total Mastery | Totality | The title sits in front of a total eclipse: a corona flares around it, with beads of light at its edges |
+| S4 | 🔒 Diamond Hands | Fixed Point | Sun rays turn slowly around a fixed dot beside the title, which stays perfectly still |
+| S5 | 🔒 One Shot | Unit Impulse | A single sharp spike of light (a Dirac delta) rises from the baseline and lights every letter for an instant, then is gone |
+
+**Antimatter** (animated)
+
+| # | Achievement | Title | Effect |
+|---|---|---|---|
+| A1 | Annihilation | Annihilator | Void-black letters with an iridescent rim; a particle and an antiparticle appear at either end, meet in the middle and annihilate in a white flash. (In algebra, an annihilator is the set of elements that send everything to zero.) |
+| A2 | 🔒 Event Horizon | Singularity | The letters bend around a black core at the title's center, as if gravitationally lensed, with a faint accretion ring |
+| A3 | 🔒 Annus Mirabilis | Mirabilis | The letters are windows onto deep space: a starfield drifts inside them and a comet crosses once per cycle |
+
+#### Storage
+- `users/{uid}/meta/economy` holds:
+  - `lemmasEarned`, `lemmasSpent` and `earnedAtFormalize`;
+  - `axioms` and theorem levels;
+  - unopened packs, packs opened per era and pity counters per era;
+  - cards (id → count, foil);
+  - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase.
+- **Balance** = `lemmasEarned − lemmasSpent`.
+- **Firestore rules** refuse any write that lowers `lemmasEarned`, `lemmasSpent`, `axioms` or a packs-opened count, or that makes `lemmasSpent` exceed `lemmasEarned`. This is the same guard as XP (§16.2). A purchase raises `lemmasSpent`, and Formalize sets `lemmasSpent` to `lemmasEarned`, so every counter still only goes up.
+- **Saving:** changes are saved in the same batched write as XP and the public mirror (§12.2).
+- **Public mirror:** `publicProfiles/{uid}` gains the equipped title, frame and showcase, and the number of cards collected. This feeds a **Cards collected** board (§12.2).
+- **Logic:** formulas (earn rates, theorem costs and effects, corollaries, Axioms, pack rolls) are pure functions in `packages/engine/src/economy.ts`, unit-tested like `level.ts`. Theorem, pack and shop values live in `content/economy.yaml`.
 
 ---
 
@@ -1322,6 +1514,7 @@ users/{uid}/courses/{course}/responseSkillStates/{rsId}  θ, rank, gateCounts
 users/{uid}/courses/{course}/attempts/{attemptId}        question id/version/variant, answers, outcome, Δθ, ts
 users/{uid}/courses/{course}/challenges/{sectionId}      Section Challenge progress
 users/{uid}/courses/{course}/meta/achievements           achievement counters and earned dates (§12.1)
+users/{uid}/meta/economy                                 Lemmas earned/spent, theorems, Axioms, packs, cards, cosmetics, titles (§12.5)
 users/{uid}/markingJobs/{jobId}          pending/complete, provider, result, effect, appeal, paste signals
 publicProfiles/{uid}                     display name, ranks, achievement points, leaderboard aggregates
 monthly/{yyyy-mm}/problems/{course-year} (with monthly problems) problem id; submissions/{uid} (best milestones, writing history, follow-up answers, signals, moderation status)
@@ -1335,7 +1528,7 @@ Leaderboards read `publicProfiles` once per tab every five minutes and sort in t
 ### 16.4 Repository layout
 ```
 apps/web/              SvelteKit app
-packages/engine/       rating, selection, ranks, roll-up, level, school calendar (pure TS, unit-tested)
+packages/engine/       rating, selection, ranks, roll-up, level, economy, school calendar (pure TS, unit-tested)
 packages/checker/      answer checkers, intervals, form rules
 packages/content/      content schema and build, diagrams (spec → SVG), marking prompts, verify runner
 content/curriculum/    <course>/course.yaml + <version>.yaml
@@ -1344,7 +1537,8 @@ content/questions/     <course>/<unit>/<section>/<skill>.yaml
 content/tutorials/     <course>/<skillId>.md (one per skill) + glossary built from them
 content/schedules/     course outlines by school week (§8.5)
 content/calendar/      <year>.yaml: term dates, semesters, exam periods (§8.6)
-content/achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
+content/cards/          <era>.yaml: collectible cards by era (§12.5)
+content/economy.yaml, achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
 scripts/               SymPy verification (verify_questions.py, verify_geometry.py)
 netlify/functions/     mark, transcribe, ink
 ```
@@ -1395,6 +1589,9 @@ netlify/functions/     mark, transcribe, ink
 
 **To tune in Phase 1**
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
+
+**To tune when the economy ships**
+- Lemma rates, theorem costs and effects, corollary sizes, the Formalize threshold, pack sources, odds, pity and shop prices (§12.5), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.
