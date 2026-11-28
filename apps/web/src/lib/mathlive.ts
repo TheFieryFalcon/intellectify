@@ -236,10 +236,11 @@ export function fieldKey(el: MathfieldEl, e: KeyboardEvent): boolean {
     return true;
   }
   return false;
+}
 /** Ctrl+Alt+S reads a field's maths aloud (SPEC §16.6). Call once the element has upgraded. */
 export function addReadAloud(el: MathfieldEl) {
   const mf = el as MathfieldEl & { keybindings?: object[] };
   if (!Array.isArray(mf.keybindings)) return;
   mf.keybindings = [...mf.keybindings, { key: "ctrl+alt+[KeyS]", command: ["speak", "all", { withHighlighting: false }] }];
 }
-}
+
