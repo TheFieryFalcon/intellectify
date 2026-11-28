@@ -1030,7 +1030,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 | Pack | Years | Diamond (proposed) | Other example cards |
 |---|---|---|---|
 | Antiquity Pack | to 500 | Pythagoras, Socrates, Plato, Aristotle, Euclid, Archimedes | Thales, Zeno of Elea, Democritus, Hippocrates, Eratosthenes, Ptolemy, Diophantus, Hypatia |
-| Golden Age Pack | 500–1400 | al-Khwarizmi, Fibonacci, Thomas Aquinas | Brahmagupta, Ibn al-Haytham, Ibn Sina, Omar Khayyam, Ibn Rushd, Maimonides, William of Ockham |
+| Golden Age Pack | 500–1400 | Brahmagupta, al-Khwarizmi, Ibn Sina (Avicenna), Fibonacci, Thomas Aquinas | Ibn al-Haytham, Omar Khayyam, Ibn Rushd, Maimonides, William of Ockham |
 | Renaissance Pack | 1400–1650 | Leonardo da Vinci, Copernicus, Galileo, Descartes | Machiavelli, Montaigne, Cardano, Vesalius, Napier, Francis Bacon, Kepler, Fermat |
 | Enlightenment Pack | 1650–1800 | Newton, Leibniz, Euler, Kant | Pascal, Huygens, Hooke, Boyle, Hobbes, Spinoza, Locke, the Bernoullis, Émilie du Châtelet, Hume, Voltaire, Rousseau, Adam Smith, Lagrange, Laplace, Lavoisier |
 | Steam Age Pack | 1800–1880 | Gauss, Darwin, Maxwell, Pasteur, Marx | Fourier, Sophie Germain, Cauchy, Galois, Faraday, Babbage, Ada Lovelace, Boole, Riemann, Hegel, Schopenhauer, Kierkegaard, Mill, Mendel, Florence Nightingale |
