@@ -242,3 +242,4 @@ export function addReadAloud(el: MathfieldEl) {
   if (!Array.isArray(mf.keybindings)) return;
   mf.keybindings = [...mf.keybindings, { key: "ctrl+alt+[KeyS]", command: ["speak", "all", { withHighlighting: false }] }];
 }
+}
