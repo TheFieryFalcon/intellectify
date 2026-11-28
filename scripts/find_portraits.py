@@ -285,7 +285,7 @@ def judge(result: Result, info: dict | None) -> bool:
 
 def load_overrides() -> dict:
     data = yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}
-    return {k: data.get(k) or {} for k in ("commons", "local", "checked", "focus")}
+    return {k: data.get(k) or {} for k in ("commons", "local", "checked", "focus", "reject")}
 
 
 def find_images(results: list[Result], cache: dict) -> None:
@@ -323,6 +323,9 @@ def find_images(results: list[Result], cache: dict) -> None:
             judge(r, infos.get(queue[id(r)][round_]))
             if chosen and "image chosen by the owner" not in r.notes:
                 r.notes.insert(0, "image chosen by the owner")
+    for r in results:  # images that aren't portraits
+        if r.card["id"] in over["reject"]:
+            r.status, r.notes = "illustrate", [f"not a portrait: {over['reject'][r.card['id']]}"]
     for r in results:  # checks the owner has already done, for this exact file
         if r.status == "check" and over["checked"].get(r.card["id"]) == r.file:
             r.status = "credit" if license_kind(r.license or "", "") != "public-domain" else "ready"
@@ -339,7 +342,7 @@ def standard_thumbs(results: list[Result]) -> None:
     for r in results:
         if r.local or not r.width or r.width > THUMB_STEPS[-1]:
             continue
-        smaller = [w for w in THUMB_STEPS if w < r.width]
+        smaller = [w for w in THUMB_STEPS if w <= r.width]
         if smaller:
             groups.setdefault(smaller[-1], []).append(r)
     for step, rs in groups.items():

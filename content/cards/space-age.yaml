@@ -10,7 +10,11 @@ cards:
     work: 1974
     fields: [Physics, Astronomy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/hawking.webp
+      source: "https://commons.wikimedia.org/wiki/File:Stephen_Hawking.StarChild.jpg"
+      author: "NASA"
+      license: "Public domain"
     blurb: >-
       Showed that black holes are not fully black but slowly glow and evaporate, joining gravity, quantum
       theory and heat. A Brief History of Time made him the world's most famous scientist, working for
@@ -24,7 +28,11 @@ cards:
     work: 1968
     fields: [Philosophy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/deleuze.webp
+      source: "https://commons.wikimedia.org/wiki/File:AVT_Gilles-Deleuze_6342.webp"
+      author: "Tintinades"
+      license: "CC BY-SA 4.0"
     blurb: >-
       In Difference and Repetition he put difference before identity, seeing the world as becoming
       rather than fixed things. With Félix Guattari he wrote Anti-Oedipus and A Thousand Plateaus,
@@ -37,7 +45,11 @@ cards:
     work: 1957
     fields: [Linguistics, Philosophy, Psychology]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/noam-chomsky.webp
+      source: "https://commons.wikimedia.org/wiki/File:Noam_Chomsky_portrait_2015.jpg"
+      author: "Augusto Starita / Ministerio de Cultura de la Nación"
+      license: "CC BY-SA 2.0"
     blurb: >-
       Argued that every human language shares a deep structure that children are born ready to learn,
       overturning the idea that language is learned by imitation alone. Syntactic Structures founded
@@ -51,7 +63,11 @@ cards:
     work: 1975
     fields: [Philosophy, History]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/foucault.webp
+      source: "https://commons.wikimedia.org/wiki/File:Photo_of_Michel_Foucault_on_1970_dustjacket_of_The_Order_of_Things.jpg"
+      author: "Jerry Bauer"
+      license: "Public domain"
     blurb: >-
       Studied how prisons, hospitals and schools shape people, and how knowledge and power support each
       other. Discipline and Punish is among the most cited books in the humanities.
@@ -65,7 +81,11 @@ cards:
     work: 1960
     fields: [Mathematics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/grothendieck.webp
+      source: "https://commons.wikimedia.org/wiki/File:Alexander_Grothendieck.jpg"
+      author: "Konrad Jacobs, Erlangen, Copyright by MFO / Original uploader was AEDP at it.wikipedia"
+      license: "CC BY-SA 2.0 de"
     blurb: >-
       Rebuilt algebraic geometry on new foundations of great generality, which led to the proof of the
       Weil Conjectures. He later left mathematics and lived as a recluse in the Pyrenees.
@@ -77,7 +97,11 @@ cards:
     work: 1965
     fields: [Mathematics, Physics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/roger-penrose.webp
+      source: "https://commons.wikimedia.org/wiki/File:Roger_Penrose_9560.JPG"
+      author: "Biswarup Ganguly"
+      license: "CC BY 3.0"
     blurb: >-
       Showed in 1965 that black holes are an unavoidable prediction of general relativity, which won him
       a share of the 2020 Nobel Prize in Physics. He also found Penrose tilings, patterns that cover the
@@ -90,7 +114,11 @@ cards:
     work: 1994
     fields: [Mathematics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/andrew-wiles.webp
+      source: "https://commons.wikimedia.org/wiki/File:Andrew_wiles1-3.jpg"
+      author: "\"copyright C. J. Mozzochi, Princeton N.J\""
+      license: "Attribution"
     related: [spec.real-complex.number-proofs]
     blurb: >-
       Proved Fermat's Last Theorem in 1994, after seven years of working on it in secret and closing a
@@ -104,7 +132,11 @@ cards:
     work: 1989
     fields: [Computing]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/tim-berners-lee.webp
+      source: "https://commons.wikimedia.org/wiki/File:LS3_4919_(cropped).jpg"
+      author: "Web Summit"
+      license: "CC BY 2.0"
     blurb: >-
       Invented the World Wide Web at CERN in 1989, with web pages, links and the first browser, and gave
       it away free. He founded the consortium that still sets the web's open standards.
@@ -117,7 +149,11 @@ cards:
     work: 1962
     fields: [Philosophy, History]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/kuhn.webp
+      source: "https://commons.wikimedia.org/wiki/File:Thomas_Kuhn_(1977)_(cropped).jpg"
+      author: "Bob Bielk"
+      license: "Public domain"
     blurb: >-
       The Structure of Scientific Revolutions argued that science advances through paradigm shifts, not
       just steady accumulation. He made paradigm an everyday word.
@@ -130,7 +166,11 @@ cards:
     work: 1967
     fields: [Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/derrida.webp
+      source: "https://commons.wikimedia.org/wiki/File:Derrida_EHESS_(cropped).png"
+      author: "Auto-épreuve"
+      license: "CC BY 4.0"
     blurb: >-
       Founded deconstruction, reading texts closely to show how their meanings depend on oppositions they
       cannot hold apart. It reshaped literary theory, law and architecture.
@@ -144,7 +184,11 @@ cards:
     work: 1957
     fields: [Physics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/chien-shiung-wu.webp
+      source: "https://commons.wikimedia.org/wiki/File:Chien-shiung_Wu_(1912-1997)_(cropped).jpg"
+      author: "Smithsonian Institution from United States"
+      license: "No restrictions"
     blurb: >-
       Her 1957 experiment showed that nature can tell left from right, overturning the conservation of
       parity. She was a leading experimental physicist of beta decay.
@@ -157,7 +201,11 @@ cards:
     work: 1982
     fields: [Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/mandelbrot.webp
+      source: "https://commons.wikimedia.org/wiki/File:Benoit_Mandelbrot_mg_1804-d.jpg"
+      author: "Rama"
+      license: "CC BY-SA 2.0 fr"
     related: [spec.complex.loci]
     blurb: >-
       Coined the word fractal for shapes whose detail repeats at every scale, like coastlines and clouds.
@@ -171,7 +219,11 @@ cards:
     work: 1959
     fields: [Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/erdos.webp
+      source: "https://commons.wikimedia.org/wiki/File:Erdos_head_budapest_fall_1992.jpg"
+      author: "Topsy Kretts"
+      license: "CC BY 3.0"
     related: [spec.combinatorics.pigeonhole]
     blurb: >-
       Wrote about 1,500 papers with over 500 coauthors, living out of a suitcase and moving from one
@@ -186,7 +238,11 @@ cards:
     work: 1963
     fields: [Philosophy, History]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/hannah-arendt.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hannah_Arendt_auf_dem_1._Kulturkritikerkongress,_Barbara_Niggl_Radloff,_FM-2019-1-5-9-16_(cropped).jpg"
+      author: "Barbara Niggl Radloff"
+      license: "CC BY-SA 4.0"
     blurb: >-
       Reporting on the trial of the Nazi organizer Adolf Eichmann, she wrote of the banality of evil: great
       crimes done by ordinary people not thinking. The Origins of Totalitarianism traced how Nazism and
@@ -200,7 +256,11 @@ cards:
     work: 1971
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/john-rawls.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Rawls_(1971_photo_portrait).jpg"
+      author: "Published by the Belknap Press of Harvard University Press . Photograph taken by Alec Rawls, John's son. The portrait was uncredited on the original dust jacket, but Alec is identified as its photogr…"
+      license: "Public domain"
     blurb: >-
       A Theory of Justice asked what rules we would choose behind a veil of ignorance, not knowing our
       place in society. It revived political philosophy in the English-speaking world.
@@ -213,7 +273,11 @@ cards:
     work: 1979
     fields: [Psychology, Economics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/daniel-kahneman.webp
+      source: "https://commons.wikimedia.org/wiki/File:Daniel_Kahneman_(3283955327)_(cropped).jpg"
+      author: "nrkbeta"
+      license: "CC BY-SA 2.0"
     blurb: >-
       With Amos Tversky, showed that people judge risk and probability with predictable biases, not as
       the perfectly rational agents economics assumed. Their prospect theory won him the Nobel Prize in
@@ -226,7 +290,11 @@ cards:
     work: 2004
     fields: [Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/terence-tao.webp
+      source: "https://commons.wikimedia.org/wiki/File:Terence_Tao_at_IPAM%27s_Fireside_Chat_2026_(50m16s)_(cropped).jpg"
+      author: "Institute for Pure & Applied Mathematics"
+      license: "CC BY 4.0"
     blurb: >-
       Born in Adelaide, he won an International Mathematical Olympiad gold medal at 13, and with Ben
       Green proved that the primes contain evenly spaced runs of any length. He won the Fields Medal in
@@ -239,7 +307,11 @@ cards:
     work: 2003
     fields: [Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/grigori-perelman.webp
+      source: "https://commons.wikimedia.org/wiki/File:Grigori_Perelman,_1993_(re-scanned)_(cropped).jpg"
+      author: "George Bergman"
+      license: "CC BY-SA 4.0"
     blurb: >-
       Proved the Poincaré Conjecture, posting his proof online in 2002 and 2003 rather than in a journal.
       He turned down both the Fields Medal and a million-dollar Millennium Prize.
@@ -252,7 +324,11 @@ cards:
     work: 1962
     fields: [Biology]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/rachel-carson.webp
+      source: "https://commons.wikimedia.org/wiki/File:Rachel-Carson.jpg"
+      author: "U.S. Fish and Wildlife Service"
+      license: "Public domain"
     blurb: >-
       Silent Spring showed how pesticides such as DDT were poisoning birds, rivers and food chains. It
       launched the modern environmental movement and led to DDT being banned for farm use in the United
@@ -266,7 +342,11 @@ cards:
     work: 1979
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/lyotard.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jean-Francois_Lyotard_cropped.jpg"
+      author: "Bracha L. Ettinger, retouched by AM ( talk )"
+      license: "CC BY-SA 2.0"
     blurb: >-
       The Postmodern Condition defined the postmodern as incredulity toward grand narratives, the big
       stories of progress and liberation that once justified knowledge. It made postmodernism a key word
@@ -281,7 +361,11 @@ cards:
     work: 1959
     fields: [Computing, Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/grace-hopper.webp
+      source: "https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg"
+      author: "James S. Davis"
+      license: "Public domain"
     blurb: >-
       Wrote one of the first compilers and pushed for programming in English-like words, which led to
       COBOL. She helped popularize the term debugging.
@@ -294,7 +378,11 @@ cards:
     work: 1956
     fields: [Chemistry]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/dorothy-hodgkin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Professor_Dorothy_Hodgkin.jpg"
+      author: "University of Bristol"
+      license: "CC BY-SA 2.0"
     blurb: >-
       Used X-ray crystallography to find the structures of penicillin, vitamin B12 and insulin. She won
       the 1964 Nobel Prize in Chemistry.
@@ -307,7 +395,11 @@ cards:
     work: 1955
     fields: [Medicine]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/jonas-salk.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jonas_Salk_candid.jpg"
+      author: "SAS Scandinavian Airlines"
+      license: "Public domain"
     blurb: >-
       Developed the first effective polio vaccine and chose not to patent it. Mass vaccination cut polio
       cases dramatically within a few years.
@@ -320,7 +412,11 @@ cards:
     work: 1964
     fields: [Physics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/peter-higgs.webp
+      source: "https://commons.wikimedia.org/wiki/File:Nobel_Prize_24_2013.jpg"
+      author: "Bengt Nyman"
+      license: "CC BY 2.0"
     blurb: >-
       Predicted the particle, now named after him, behind the way fundamental particles get mass. It was
       found at CERN in 2012, and he shared the Nobel Prize the next year.
@@ -333,7 +429,11 @@ cards:
     work: 1970
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/john-conway.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_H_Conway_2005_(cropped)_(2).jpg"
+      author: "\"Thane Plambeck\""
+      license: "CC BY 2.0"
     blurb: >-
       Invented the Game of Life, where simple rules on a grid produce endlessly complex patterns, and the
       surreal numbers. He also did deep work on symmetry groups and knots.
@@ -346,7 +446,11 @@ cards:
     work: 2014
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/maryam-mirzakhani.webp
+      source: "https://commons.wikimedia.org/wiki/File:Maryam_Mirzakhani_in_Seoul_2014.jpg"
+      author: "Gert-Martin Greuel"
+      license: "CC BY-SA 2.0 de"
     blurb: >-
       Studied the geometry of curved surfaces and how paths move across them. In 2014 she became the
       first woman, and first Iranian, to win the Fields Medal.
@@ -359,7 +463,11 @@ cards:
     work: 1980
     fields: [Astronomy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/carl-sagan.webp
+      source: "https://commons.wikimedia.org/wiki/File:Carl_Sagan_Planetary_Society.JPG"
+      author: "NASA/JPL"
+      license: "Public domain"
     blurb: >-
       Studied planetary atmospheres, including the greenhouse heat of Venus, and helped plan NASA's
       missions. His series Cosmos brought science to hundreds of millions of viewers.
@@ -372,7 +480,11 @@ cards:
     work: 1960
     fields: [Biology]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/jane-goodall.webp
+      source: "https://commons.wikimedia.org/wiki/File:Deputy_Secretary_Higginbottom_Poses_for_a_Photo_With_Dr._Jane_Goodall_and_the_State_Department%27s_Global_Health_Diplomacy_Director_Jordan_in_Washington_(22365513310)_(2)_(cropped_2).jpg"
+      author: "U.S. Department of State from United States"
+      license: "Public domain"
     blurb: >-
       Lived among the chimpanzees of Gombe in Tanzania from 1960 and found that they make and use tools,
       overturning the idea that only humans do. She spent her later life campaigning for conservation.

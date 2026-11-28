@@ -10,7 +10,11 @@ cards:
     work: 1687
     fields: [Physics, Mathematics, Astronomy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/newton.webp
+      source: "https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689.jpg"
+      author: "Godfrey Kneller"
+      license: "Public domain"
     related: [spec.differential-equations.motion]
     blurb: >-
       His Principia gave the laws of motion and universal gravitation, explaining falling apples and
@@ -25,7 +29,11 @@ cards:
     work: 1684
     fields: [Mathematics, Philosophy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/leibniz.webp
+      source: "https://commons.wikimedia.org/wiki/File:Christoph_Bernhard_Francke_-_Bildnis_des_Philosophen_Leibniz_(ca._1695).jpg"
+      author: "Christoph Bernhard Francke"
+      license: "Public domain"
     related: [spec.differential-equations.implicit]
     blurb: >-
       Invented calculus independently of Newton, with the dy/dx and ∫ notation still used today. He also
@@ -40,7 +48,11 @@ cards:
     work: 1748
     fields: [Mathematics, Physics, Astronomy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/euler.webp
+      source: "https://commons.wikimedia.org/wiki/File:Leonhard_Euler.jpg"
+      author: "Jakob Emanuel Handmann"
+      license: "Public domain"
     related: [spec.complex.polar-form]
     blurb: >-
       The most prolific mathematician in history, he introduced the notation f(x), e and i, popularized π
@@ -54,7 +66,11 @@ cards:
     work: 1781
     fields: [Philosophy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/kant.webp
+      source: "https://commons.wikimedia.org/wiki/File:Immanuel_Kant_-_Gemaelde_2.jpg"
+      author: "Becker"
+      license: "Public domain"
     blurb: >-
       His Critique of Pure Reason argued that space, time and cause are forms our minds impose on
       experience. In ethics he held that we must act only on rules we could will everyone to follow.
@@ -68,7 +84,11 @@ cards:
     work: 1654
     fields: [Mathematics, Physics, Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/pascal.webp
+      source: "https://commons.wikimedia.org/wiki/File:Blaise_Pascal_Versailles.JPG"
+      author: "unknown; a copy of the painting of François II Quesnel, which was made for Gérard Edelinck en 1691 [réf. nécessaire] ."
+      license: "Public domain"
     related: [spec.combinatorics.pascal]
     blurb: >-
       Founded probability theory with Fermat, studied the triangle now named after him and built an early
@@ -82,7 +102,11 @@ cards:
     work: 1689
     fields: [Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/locke.webp
+      source: "https://commons.wikimedia.org/wiki/File:JohnLocke.png"
+      author: "Godfrey Kneller"
+      license: "Public domain"
     blurb: >-
       Argued that the mind starts as a blank slate filled by experience, and that government rests on the
       consent of the governed to protect life, liberty and property. His ideas run through the American
@@ -96,7 +120,11 @@ cards:
     work: 1677
     fields: [Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/spinoza.webp
+      source: "https://commons.wikimedia.org/wiki/File:Spinoza.jpg"
+      author: "anonymous"
+      license: "Public domain"
     blurb: >-
       His Ethics, set out like Euclid with axioms and proofs, argues that God and nature are one
       substance. He was an early champion of freedom of thought and of reading scripture critically.
@@ -109,7 +137,11 @@ cards:
     work: 1739
     fields: [Philosophy, History, Economics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/hume.webp
+      source: "https://commons.wikimedia.org/wiki/File:David_Hume_Ramsay.jpg"
+      author: "Allan Ramsay"
+      license: "Public domain"
     blurb: >-
       Showed that we never observe causes, only one event following another, so expecting the future to
       be like the past cannot be justified by reason. Kant said Hume woke him from his dogmatic slumber.
@@ -122,7 +154,11 @@ cards:
     work: 1788
     fields: [Mathematics, Physics, Astronomy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/lagrange.webp
+      source: "https://commons.wikimedia.org/wiki/File:%D0%9B%D0%B0%D0%B3%D1%80%D0%B0%D0%BD%D0%B6.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       His Analytical Mechanics recast Newton's mechanics in a few general equations with no diagrams at
       all. He also helped found the calculus of variations and set up the metric system.
@@ -135,7 +171,11 @@ cards:
     work: 1799
     fields: [Mathematics, Astronomy, Physics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/laplace.webp
+      source: "https://commons.wikimedia.org/wiki/File:Pierre-Simon,_marquis_de_Laplace_(1745-1827)_-_Gu%C3%A9rin.jpg"
+      author: "Jean-Baptiste Paulin Guérin"
+      license: "Public domain"
     related: [spec.inference.sample-means]
     blurb: >-
       His Celestial Mechanics showed the solar system is stable under Newton's laws. He also built
@@ -149,7 +189,11 @@ cards:
     work: 1789
     fields: [Chemistry]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/lavoisier.webp
+      source: "https://commons.wikimedia.org/wiki/File:David_-_Portrait_of_Monsieur_Lavoisier_(cropped).jpg"
+      author: "Jacques-Louis David"
+      license: "Public domain"
     blurb: >-
       Showed that burning is combination with oxygen and that mass is conserved in reactions, and named
       oxygen and hydrogen. He was guillotined in the French Revolution.
@@ -163,7 +207,11 @@ cards:
     work: 1651
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/hobbes.webp
+      source: "https://commons.wikimedia.org/wiki/File:Thomas_Hobbes_(portrait).jpg"
+      author: "John Michael Wright"
+      license: "Public domain"
     blurb: >-
       Leviathan argued that without government, life would be solitary, poor, nasty, brutish and short,
       so people agree to obey a sovereign. It began modern social contract theory.
@@ -176,7 +224,11 @@ cards:
     work: 1673
     fields: [Physics, Astronomy, Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/huygens.webp
+      source: "https://commons.wikimedia.org/wiki/File:Christiaan-huygens4.jpg"
+      author: "Bernard Vaillant"
+      license: "Public domain"
     blurb: >-
       Built the first pendulum clock, discovered Saturn's moon Titan and described its rings. He also
       proposed that light travels as a wave.
@@ -189,7 +241,11 @@ cards:
     work: 1662
     fields: [Chemistry, Physics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/boyle.webp
+      source: "https://commons.wikimedia.org/wiki/File:The_Shannon_Portrait_of_the_Hon_Robert_Boyle.jpg"
+      author: "Johann Kerseboom"
+      license: "Public domain"
     blurb: >-
       Found that a gas's pressure and volume vary inversely, Boyle's law. The Sceptical Chymist helped
       turn alchemy into experimental chemistry.
@@ -202,7 +258,11 @@ cards:
     work: 1753
     fields: [Biology]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/linnaeus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Carl_von_Linn%C3%A9.jpg"
+      author: "Alexander Roslin"
+      license: "Public domain"
     blurb: >-
       Gave every species a two-part Latin name, such as Homo sapiens, and sorted living things into a
       nested hierarchy. Biologists still use his system.
@@ -215,7 +275,11 @@ cards:
     work: 1762
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/rousseau.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jean-Jacques_Rousseau_(painted_portrait).jpg"
+      author: "Maurice Quentin de La Tour"
+      license: "Public domain"
     blurb: >-
       The Social Contract begins: Man is born free, and everywhere he is in chains. His ideas of the
       general will and of natural goodness inspired the French Revolution and modern education.
@@ -228,7 +292,11 @@ cards:
     work: 1776
     fields: [Economics, Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/adam-smith.webp
+      source: "https://commons.wikimedia.org/wiki/File:AdamSmith.jpg"
+      author: "Etching created by Cadell and Davies (1811), John Horsburgh (1828) or R.C. Bell (1872)."
+      license: "Public domain"
     blurb: >-
       The Wealth of Nations explained how the division of labor and free markets create prosperity, with
       self-interest guided as if by an invisible hand. It founded modern economics.
@@ -241,7 +309,11 @@ cards:
     work: 1796
     fields: [Medicine]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/edward-jenner.webp
+      source: "https://commons.wikimedia.org/wiki/File:Edward_Jenner_by_James_Northcote.jpg"
+      author: "James Northcote"
+      license: "Public domain"
     blurb: >-
       Showed that infecting people with mild cowpox protects them from smallpox, the first vaccine. The
       method he started eventually wiped smallpox out.
@@ -255,7 +327,11 @@ cards:
     work: 1665
     fields: [Physics, Biology]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/hooke.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_a_Mathematician_1680c.jpg"
+      author: "Mary Beale"
+      license: "Public domain"
     related: [spec.differential-equations.motion]
     blurb: >-
       His Micrographia showed the microscopic world and named the cell. Hooke's law says a spring's
@@ -269,7 +345,11 @@ cards:
     work: 1676
     fields: [Biology]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/leeuwenhoek.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portret_van_Antonie_van_Leeuwenhoek,_RP-P-1903-A-23563.jpg"
+      author: "Rijksmuseum"
+      license: "CC0"
     blurb: >-
       Made his own powerful single-lens microscopes and was the first to see bacteria and other
       single-celled life. He is called the father of microbiology.
@@ -282,7 +362,11 @@ cards:
     work: 1690
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/jacob-bernoulli.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jakob_Bernoulli.jpg"
+      author: "Niklaus Bernoulli (1662-1716)"
+      license: "Public domain"
     related: [spec.inference.sample-means]
     blurb: >-
       Proved the law of large numbers: over many trials, the proportion of successes settles near the
@@ -296,7 +380,11 @@ cards:
     work: 1730
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/de-moivre.webp
+      source: "https://commons.wikimedia.org/wiki/File:Abraham_de_Moivre_by_Joseph_Highmore.jpg"
+      author: "Joseph Highmore"
+      license: "Public domain"
     related: [spec.complex.de-moivre]
     blurb: >-
       His theorem gives powers of cos θ + i sin θ by multiplying the angle. He also found the normal
@@ -310,7 +398,11 @@ cards:
     work: 1749
     fields: [Physics, Mathematics, Philosophy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/emilie-du-chatelet.webp
+      source: "https://commons.wikimedia.org/wiki/File:Le_Tonnelier_de_Breteuil,_Emilie.jpg"
+      author: "Marianne Loir"
+      license: "Public domain"
     blurb: >-
       Translated Newton's Principia into French with a commentary; it is still the standard French
       version. She argued that a moving body's energy grows with the square of its speed.
@@ -323,7 +415,11 @@ cards:
     work: 1759
     fields: [Philosophy, History]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/voltaire.webp
+      source: "https://commons.wikimedia.org/wiki/File:Nicolas_de_Largilli%C3%A8re_-_Portrait_de_Voltaire_(1694-1778)_en_1718_-_P208_-_mus%C3%A9e_Carnavalet_-_5_(cropped).jpg"
+      author: "Nicolas de Largillière"
+      license: "CC0"
     blurb: >-
       Satirized intolerance and blind optimism in Candide and campaigned for freedom of religion and
       speech. With du Châtelet he spread Newton's ideas in France.
@@ -336,7 +432,11 @@ cards:
     work: 1752
     fields: [Physics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/benjamin-franklin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Joseph_Siffrein_Duplessis_-_Benjamin_Franklin_-_Google_Art_Project.jpg"
+      author: "Joseph-Siffred Duplessis"
+      license: "Public domain"
     blurb: >-
       Showed that lightning is electricity and invented the lightning rod. He named positive and
       negative charge, then helped draft the American Declaration of Independence.

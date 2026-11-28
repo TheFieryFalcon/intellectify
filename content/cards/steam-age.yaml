@@ -10,7 +10,11 @@ cards:
     work: 1801
     fields: [Mathematics, Physics, Astronomy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/gauss.webp
+      source: "https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss.jpg"
+      author: "Gottlieb Biermann / After Christian Albrecht Jensen"
+      license: "Public domain"
     related: [spec.real-complex.complex-plane]
     blurb: >-
       Founded modern number theory with his Disquisitiones Arithmeticae, gave the first widely accepted
@@ -25,7 +29,11 @@ cards:
     work: 1859
     fields: [Biology]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/darwin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Charles_Darwin_portrait.jpg"
+      author: "Herbert Rose Barraud"
+      license: "Public domain"
     blurb: >-
       On the Origin of Species showed that living things evolve by natural selection, from evidence
       gathered over decades, beginning with the voyage of the Beagle. It is the unifying idea of
@@ -39,7 +47,11 @@ cards:
     work: 1865
     fields: [Physics, Mathematics]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/maxwell.webp
+      source: "https://commons.wikimedia.org/wiki/File:James-Clerk-Maxwell-1831-1879.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       His equations unified electricity, magnetism and light, predicting electromagnetic waves that
       travel at the speed of light. He also founded the statistical theory of gases and took the first
@@ -53,7 +65,11 @@ cards:
     work: 1862
     fields: [Biology, Chemistry, Medicine]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/pasteur.webp
+      source: "https://commons.wikimedia.org/wiki/File:Louis_Pasteur_(1822_-_1895),_microbiologist_and_chemist_Wellcome_V0026980.jpg"
+      author: "Paul Nadar"
+      license: "Public domain"
     blurb: >-
       Showed that microbes cause fermentation and disease and do not arise spontaneously. He invented
       pasteurization and made vaccines against anthrax and rabies.
@@ -66,7 +82,11 @@ cards:
     work: 1867
     fields: [Philosophy, Economics, History]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/marx.webp
+      source: "https://commons.wikimedia.org/wiki/File:Karl_Marx_001_restored.jpg"
+      author: "John Jabez Edwin Mayall"
+      license: "Public domain"
     blurb: >-
       Argued in Capital that history is driven by economic forces and struggles between classes. The
       Communist Manifesto, written with Engels, became one of the most influential political texts ever.
@@ -80,7 +100,11 @@ cards:
     work: 1831
     fields: [Physics, Chemistry]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/faraday.webp
+      source: "https://commons.wikimedia.org/wiki/File:M_Faraday_Th_Phillips_oil_1842.jpg"
+      author: "Thomas Phillips"
+      license: "Public domain"
     blurb: >-
       Discovered electromagnetic induction, the principle of every generator and transformer, and pictured
       electric and magnetic forces as fields. Largely self-taught, he became the greatest experimenter of
@@ -94,7 +118,11 @@ cards:
     work: 1821
     fields: [Mathematics, Physics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/cauchy.webp
+      source: "https://commons.wikimedia.org/wiki/File:French_School_-_Portrait_of_Augustin-Louis_Cauchy_(1789-1857).jpg"
+      author: "Jean Roller (1798–1866)"
+      license: "Public domain"
     related: [spec.vectors-2d.scalar-product]
     blurb: >-
       Rebuilt calculus on careful definitions of limits and continuity, and founded complex analysis.
@@ -108,7 +136,11 @@ cards:
     work: 1832
     fields: [Mathematics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/galois.webp
+      source: "https://commons.wikimedia.org/wiki/File:E._Galois_Portrait_No.2.jpg"
+      author: "Alfred Galois"
+      license: "Public domain"
     related: [spec.complex.polynomials]
     blurb: >-
       Explained exactly which polynomial equations can be solved with roots, using groups of symmetries
@@ -122,7 +154,11 @@ cards:
     work: 1854
     fields: [Mathematics, Physics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/riemann.webp
+      source: "https://commons.wikimedia.org/wiki/File:Georg_Friedrich_Bernhard_Riemann.jpeg"
+      author: "http://www.sil.si.edu/digitalcollections/hst/scientific-identity/explore.htm according to the German Wikipedia ."
+      license: "Public domain"
     related: [spec.integration.areas]
     blurb: >-
       Gave the definition of the integral by sums and the geometry of curved spaces that Einstein later
@@ -136,7 +172,11 @@ cards:
     work: 1866
     fields: [Biology]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/mendel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Gregor_Mendel_2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Bred thousands of pea plants in his monastery garden and found that traits pass on in units, now
       called genes, in predictable ratios. Ignored in his lifetime, his work founded genetics.
@@ -149,7 +189,11 @@ cards:
     work: 1807
     fields: [Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/hegel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Jakob_Schlesinger_-_Hegel_1831.jpg"
+      author: "Jakob Schlesinger"
+      license: "Public domain"
     blurb: >-
       Saw history as the unfolding of reason, advancing as conflicts between ideas are resolved at a
       higher level. His Phenomenology of Spirit shaped Marx and much of later philosophy.
@@ -162,7 +206,11 @@ cards:
     work: 1869
     fields: [Chemistry]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/mendeleev.webp
+      source: "https://commons.wikimedia.org/wiki/File:Dmitri_Mendeleev.jpg"
+      author: "Original: Unknown author Unknown author Upload: Germansociety2014"
+      license: "Public domain"
     blurb: >-
       Arranged the elements into the periodic table, leaving gaps for elements not yet found. Gallium,
       scandium and germanium were later discovered with the properties he predicted.
@@ -176,7 +224,11 @@ cards:
     work: 1822
     fields: [Mathematics, Physics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/fourier.webp
+      source: "https://commons.wikimedia.org/wiki/File:Fourier2.jpg"
+      author: "Julien-Léopold Boilly"
+      license: "Public domain"
     related: [spec.trigonometry.harmonic-form]
     blurb: >-
       Showed that any periodic signal can be built from sines and cosines, while studying how heat flows.
@@ -190,7 +242,11 @@ cards:
     work: 1808
     fields: [Chemistry, Physics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/dalton.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Dalton._Line_engraving_by_W._H._Worthington,_1823,_afte_Wellcome_V0006489.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/56/cc/016e0ae305e97524425fbfe50c53.jpg Gallery: https://wellcomeimages.org/indexplus/image/V0006489.html Wellcome Collection gallery (2018-03-30): http…"
+      license: "CC BY 4.0"
     blurb: >-
       Proposed that each element is made of identical atoms with its own weight, combining in simple
       ratios. He also gave the first scientific description of color blindness, which he had.
@@ -203,7 +259,11 @@ cards:
     work: 1843
     fields: [Mathematics, Physics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/hamilton.webp
+      source: "https://commons.wikimedia.org/wiki/File:William_Rowan_Hamilton_painting.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     related: [spec.vectors-3d.algebra]
     blurb: >-
       Invented quaternions, carving their rule into a Dublin bridge, and coined the words vector and
@@ -217,7 +277,11 @@ cards:
     work: 1854
     fields: [Mathematics, Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/boole.webp
+      source: "https://commons.wikimedia.org/wiki/File:Photo_of_George_Boole_standing.png"
+      author: "Samuel Prout Newcombe (c1824-1912)"
+      license: "Public domain"
     related: [spec.geometry.logic]
     blurb: >-
       Turned logic into algebra, with variables that are true or false. Boolean algebra is the
@@ -231,7 +295,11 @@ cards:
     work: 1859
     fields: [Philosophy, Economics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/mill.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Stuart_Mill_by_London_Stereoscopic_Company,_c1870.jpg"
+      author: "London Stereoscopic Company"
+      license: "Public domain"
     blurb: >-
       On Liberty argued that people should be free to do anything that harms no one else. He also
       developed utilitarianism and argued for women's equality in parliament.
@@ -244,7 +312,11 @@ cards:
     work: 1843
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/kierkegaard.webp
+      source: "https://commons.wikimedia.org/wiki/File:S%C3%B8ren_Kierkegaard_(1813-1855)_-_(cropped).jpg"
+      author: "La Biblioteca Real de Dinamarca"
+      license: "Public domain"
     blurb: >-
       Wrote about anxiety, choice and faith as each person lives them, not as abstract systems. He is
       considered the first existentialist.
@@ -257,7 +329,11 @@ cards:
     work: 1818
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/schopenhauer.webp
+      source: "https://commons.wikimedia.org/wiki/File:Arthur_Schopenhauer_by_J_Sch%C3%A4fer,_1859b.jpg"
+      author: "Johann Schäfer"
+      license: "Public domain"
     blurb: >-
       The World as Will and Representation saw a blind, striving will behind everything, and art and
       compassion as relief from it. He brought Indian philosophy into Western thought and influenced
@@ -272,7 +348,11 @@ cards:
     work: 1816
     fields: [Mathematics, Physics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/sophie-germain.webp
+      source: "https://commons.wikimedia.org/wiki/File:Germain_-_%C5%92uvres_philosophiques,_1896_(Illustration_page_4).jpg"
+      author: "s:fr:Auteur:Sophie Germain"
+      license: "Public domain"
     related: [spec.real-complex.number-proofs]
     blurb: >-
       Studied mathematics in secret under a man's name, then won the Paris Academy's prize for a theory
@@ -286,7 +366,11 @@ cards:
     work: 1824
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/abel.webp
+      source: "https://commons.wikimedia.org/wiki/File:Niels_Henrik_Abel.jpg"
+      author: "Johan Gørbitz"
+      license: "Public domain"
     related: [spec.complex.polynomials]
     blurb: >-
       Proved that no formula with roots can solve every quintic equation, settling a question open for
@@ -300,7 +384,11 @@ cards:
     work: 1829
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/lobachevsky.webp
+      source: "https://commons.wikimedia.org/wiki/File:Lobachevsky.jpg"
+      author: "Lev Kryukov"
+      license: "Public domain"
     blurb: >-
       Published a consistent geometry in which Euclid's parallel postulate fails, with many parallels
       through a point. Non-Euclidean geometry showed that axioms are choices, not obvious truths.
@@ -313,7 +401,11 @@ cards:
     work: 1837
     fields: [Computing, Mathematics, Engineering]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/babbage.webp
+      source: "https://commons.wikimedia.org/wiki/File:Charles_Babbage_-_1860.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Designed the Analytical Engine, a mechanical general-purpose computer with memory and a processor,
       a century before electronic ones. It was never finished in his lifetime.
@@ -326,7 +418,11 @@ cards:
     work: 1843
     fields: [Computing, Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/ada-lovelace.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ada_Byron_daguerreotype_by_Antoine_Claudet_1843_or_1850_-_cropped.png"
+      author: "Antoine Claudet"
+      license: "Public domain"
     blurb: >-
       Her notes on Babbage's Analytical Engine include a program to compute Bernoulli numbers, often
       called the first computer program. She saw that such machines could handle symbols, even music,
@@ -340,7 +436,11 @@ cards:
     work: 1858
     fields: [Medicine, Statistics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/florence-nightingale.webp
+      source: "https://commons.wikimedia.org/wiki/File:Florence_Nightingale_(H_Hering_NPG_x82368).jpg"
+      author: "Henry Hering (1814-1893)"
+      license: "Public domain"
     blurb: >-
       Founded modern nursing after the Crimean War and used statistics and her polar area diagrams to
       show that more soldiers died of disease than of wounds. Her data changed hospital sanitation.
@@ -353,7 +453,11 @@ cards:
     work: 1867
     fields: [Medicine]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/joseph-lister.webp
+      source: "https://commons.wikimedia.org/wiki/File:Joseph_Lister,_1st_Baron_Lister_(1827_%E2%80%93_1912)_surgeon_Wellcome_M0002551.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/e5/93/ffb03e967eb355a6cc5af7f9a41e.jpg Gallery: https://wellcomeimages.org/indexplus/image/M0002551.html Wellcome Collection gallery (2018-03-30): http…"
+      license: "CC BY 4.0"
     blurb: >-
       Applied Pasteur's germ theory to surgery, cleaning wounds and instruments with carbolic acid. Deaths
       after operations fell sharply, and antiseptic surgery spread worldwide.

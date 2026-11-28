@@ -8,6 +8,11 @@ commons:
 
 # Images supplied by the owner, in portraits/source/.
 local:
+  yang-hui:
+    file: yang-hui.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
   bhaskara-ii:
     file: bhaskara-ii.png
     source: Supplied by the project owner
@@ -65,5 +70,33 @@ checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
 # Where the face is, for images the detector misses or gets wrong:
 # card id → [center x, center y, face width], as fractions of the image's width and height.
 focus:
+  al-kindi: [0.42, 0.42, 0.20]
+  al-razi: [0.41, 0.31, 0.26]
+  aristarchus: [0.16, 0.15, 0.12]
+  archimedes: [0.75, 0.37, 0.21]
+  boethius: [0.45, 0.42, 0.30]           # a manuscript initial: frame the whole scene
+  brahmagupta: [0.49, 0.50, 0.12]
+  confucius: [0.52, 0.25, 0.20]
+  derrida: [0.41, 0.22, 0.12]
+  euclid: [0.55, 0.16, 0.22]
+  fleming: [0.32, 0.22, 0.15]
   hawking: [0.38, 0.17, 0.24]
+  ibn-rushd: [0.30, 0.25, 0.13]
+  john-conway: [0.66, 0.52, 0.50]
+  kuhn: [0.36, 0.33, 0.36]
+  leonardo-da-vinci: [0.42, 0.36, 0.50]
+  liu-hui: [0.48, 0.20, 0.14]
+  lyotard: [0.48, 0.34, 0.40]
+  napier: [0.54, 0.16, 0.14]
+  nicole-oresme: [0.36, 0.40, 0.25]     # a manuscript scene: frame the figure at the desk
+  noether: [0.36, 0.20, 0.17]
+  ptolemy: [0.52, 0.29, 0.26]
+  pythagoras: [0.52, 0.36, 0.38]
+  rosalind-franklin: [0.52, 0.27, 0.32]
   thabit-ibn-qurra: [0.45, 0.31, 0.34]
+  thomas-aquinas: [0.41, 0.26, 0.22]
+
+# Images that aren't portraits: these cards go back to needing an illustration.
+reject:
+  bombelli: a title page of his Algebra; no likeness of him is known
+  eudoxus: a diagram of planetary orbits; no likeness of him is known

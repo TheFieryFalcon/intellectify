@@ -10,7 +10,11 @@ cards:
     work: 1490
     fields: [Engineering, Biology, Art]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/leonardo-da-vinci.webp
+      source: "https://commons.wikimedia.org/wiki/File:Francesco_Melzi_-_Portrait_of_Leonardo.png"
+      author: "Attributed to Francesco Melzi"
+      license: "Public domain"
     blurb: >-
       Painted the Mona Lisa and The Last Supper, and filled notebooks with machines, anatomy drawn from
       dissections and studies of flowing water. He is the model of the Renaissance mind, at home in art
@@ -24,7 +28,11 @@ cards:
     work: 1543
     fields: [Astronomy, Mathematics]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/copernicus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Nikolaus_Kopernikus_MOT.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       On the Revolutions of the Heavenly Spheres, published as he died, put the Sun rather than the Earth
       at the center. The change it started is still called the Copernican Revolution.
@@ -37,7 +45,11 @@ cards:
     work: 1610
     fields: [Physics, Astronomy, Mathematics]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/galileo.webp
+      source: "https://commons.wikimedia.org/wiki/File:Galileo.arp.300pix.jpg"
+      author: "Justus Sustermans"
+      license: "Public domain"
     related: [spec.vectors-3d.motion]
     blurb: >-
       Turned a telescope on the sky and found Jupiter's moons and the phases of Venus, evidence that
@@ -52,7 +64,11 @@ cards:
     work: 1637
     fields: [Philosophy, Mathematics]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/descartes.webp
+      source: "https://commons.wikimedia.org/wiki/File:Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg"
+      author: "After Frans Hals"
+      license: "Public domain"
     related: [spec.vectors-2d.components]
     blurb: >-
       Joined algebra and geometry with coordinates, so that curves became equations. In philosophy he
@@ -67,7 +83,11 @@ cards:
     work: 1609
     fields: [Astronomy, Mathematics, Physics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/kepler.webp
+      source: "https://commons.wikimedia.org/wiki/File:Johannes_Kepler_by_Hans_von_Aachen.jpg"
+      author: "Hans von Aachen"
+      license: "Public domain"
     blurb: >-
       Worked from Tycho Brahe's observations to three laws of planetary motion, starting with orbits that
       are ellipses with the Sun at a focus. Newton's law of gravity was built to explain them.
@@ -80,7 +100,11 @@ cards:
     work: 1637
     fields: [Mathematics]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/fermat.webp
+      source: "https://commons.wikimedia.org/wiki/File:Pierre_de_Fermat3.jpg"
+      author: "Rolland Lefebvre"
+      license: "Public domain"
     related: [spec.real-complex.number-proofs]
     blurb: >-
       A lawyer who founded modern number theory, invented coordinate geometry independently of Descartes
@@ -95,7 +119,11 @@ cards:
     work: 1620
     fields: [Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/francis-bacon.webp
+      source: "https://commons.wikimedia.org/wiki/File:Somer_Francis_Bacon.jpg"
+      author: "Paul van Somer I / Formerly attributed to Frans Pourbus the Younger"
+      license: "Public domain"
     blurb: >-
       Argued in the Novum Organum that knowledge should be built from careful observation and experiment,
       not from ancient authority. His program inspired the scientific societies of the next century.
@@ -108,7 +136,11 @@ cards:
     work: 1513
     fields: [Philosophy, History]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/machiavelli.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_Niccol%C3%B2_Machiavelli_by_Santi_di_Tito.jpg"
+      author: "Santi di Tito"
+      license: "Public domain"
     blurb: >-
       The Prince described how rulers actually gain and keep power, not how they ought to. It founded
       modern political science and made his name a byword for cunning.
@@ -121,7 +153,11 @@ cards:
     work: 1543
     fields: [Medicine, Biology]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/vesalius.webp
+      source: "https://commons.wikimedia.org/wiki/File:Vesalius_Fabrica_portrait.jpg"
+      author: "Attributed to Jan van Calcar"
+      license: "Public domain"
     blurb: >-
       Dissected human bodies himself and corrected Galen's errors in On the Fabric of the Human Body,
       with superb illustrations. It founded modern anatomy.
@@ -134,7 +170,11 @@ cards:
     work: 1628
     fields: [Medicine, Biology]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/william-harvey.webp
+      source: "https://commons.wikimedia.org/wiki/File:William_Harvey_2.jpg"
+      author: "After Daniël Mijtens"
+      license: "Public domain"
     blurb: >-
       Showed that the heart pumps the blood around the body in a circuit, measuring how much it pushes
       out to prove the blood must return. It overturned ideas held since Galen.
@@ -148,7 +188,11 @@ cards:
     work: 1588
     fields: [Astronomy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/tycho-brahe.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portr%C3%A4tt_av_Tycho_Brahe_-_Skoklosters_slott_-_90153.tif"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Made the most accurate naked-eye observations ever, from his observatory on the island of Hven. His
       sighting of a new star in 1572 showed that the heavens can change.
@@ -161,7 +205,11 @@ cards:
     work: 1545
     fields: [Mathematics, Medicine]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/cardano.webp
+      source: "https://commons.wikimedia.org/wiki/File:Girolamo_Cardano._Stipple_engraving_by_R._Cooper._Wellcome_V0001004.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/ae/d3/8753d7ad74cb086ba79ccfc75e7f.jpg Gallery: https://wellcomeimages.org/indexplus/image/V0001004.html Wellcome Collection gallery (2018-03-29): http…"
+      license: "CC BY 4.0"
     related: [spec.complex.polynomials, spec.real-complex.complex-arithmetic]
     blurb: >-
       His Ars Magna published the solution of cubic and quartic equations, and was the first book to
@@ -176,7 +224,11 @@ cards:
     work: 1591
     fields: [Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/viete.webp
+      source: "https://commons.wikimedia.org/wiki/File:Francois_Viete.jpeg"
+      author: "The original uploader was Dr. Manuel at German Wikipedia ."
+      license: "Public domain"
     related: [spec.complex.polynomials]
     blurb: >-
       Used letters for both unknowns and known quantities, which made algebra general. Vieta's formulas
@@ -190,7 +242,11 @@ cards:
     work: 1614
     fields: [Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/napier.webp
+      source: "https://commons.wikimedia.org/wiki/File:John_Napier.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Invented logarithms, which turn multiplication into addition. Tables of them sped up astronomy and
       navigation for over three centuries.
@@ -203,7 +259,11 @@ cards:
     work: 1580
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/montaigne.webp
+      source: "https://commons.wikimedia.org/wiki/File:Montaigne-Dumonstier.jpg"
+      author: "anonymous"
+      license: "Public domain"
     blurb: >-
       Invented the essay as a form, writing frankly about himself to explore what anyone can know. His
       skepticism and honesty influenced Descartes, Shakespeare and Pascal.
@@ -217,7 +277,11 @@ cards:
     work: 1511
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/erasmus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Holbein-erasmus.jpg"
+      author: "Hans Holbein the Younger"
+      license: "Public domain"
     blurb: >-
       The leading humanist scholar of his age, he edited the Greek New Testament and mocked the abuses of
       his time in The Praise of Folly. He argued for reform by learning rather than by force.
@@ -231,7 +295,11 @@ cards:
     work: 1536
     fields: [Medicine, Chemistry]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/paracelsus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Paracelsus.jpg"
+      author: "After Quinten Massijs"
+      license: "Public domain"
     blurb: >-
       Brought chemistry into medicine, treating diseases with minerals and chemicals. He taught that the
       dose makes the poison, the founding idea of toxicology.
@@ -245,7 +313,11 @@ cards:
     work: 1464
     fields: [Mathematics, Astronomy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/regiomontanus.webp
+      source: "https://commons.wikimedia.org/wiki/File:Johannes_Regiomontanus2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       On Triangles set out plane and spherical trigonometry as a subject of its own in Europe. His
       astronomical tables were carried on voyages of exploration.
@@ -259,7 +331,11 @@ cards:
     work: 1535
     fields: [Mathematics, Engineering]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/tartaglia.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portret_van_Niccolo_Tartaglia_Nicolavs_Tartaglia_Brixianvs_(titel_op_object)_Portretten_van_beroemde_Europese_geleerden_(serietitel)_Virorum_doctorum_de_Disciplinis_benemerentium_effigies_(serietitel),_RP-P-1909-4459.jpg"
+      author: "Rijksmuseum"
+      license: "CC0"
     related: [spec.complex.polynomials]
     blurb: >-
       Found how to solve cubic equations and won a public contest with it, then told Cardano, who
@@ -287,7 +363,11 @@ cards:
     work: 1585
     fields: [Mathematics, Physics, Engineering]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/stevin.webp
+      source: "https://commons.wikimedia.org/wiki/File:Simon-stevin.jpeg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     related: [spec.vectors-2d.applications]
     blurb: >-
       Popularized decimal fractions in The Tenth and found the law of the inclined plane. He used the
@@ -301,7 +381,11 @@ cards:
     work: 1600
     fields: [Physics, Medicine]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/william-gilbert.webp
+      source: "https://commons.wikimedia.org/wiki/File:William_Gilbert.jpg"
+      author: "Granger"
+      license: "Public domain"
     blurb: >-
       On the Magnet showed by experiment that the Earth itself is a great magnet. He coined the word
       electric, from the Greek for amber.
@@ -314,7 +398,11 @@ cards:
     work: 1584
     fields: [Philosophy, Astronomy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/giordano-bruno.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_Giordano_Bruno_in_%22Opere%22_Wellcome_L0015152_(cropped).jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/bc/3d/265d1be073eb34224006d0d35b02.jpg Gallery: https://wellcomeimages.org/indexplus/image/L0015152.html Wellcome Collection gallery (2018-04-01): http…"
+      license: "CC BY 4.0"
     blurb: >-
       Argued that the universe is infinite, with countless suns and worlds like ours. He was burned at the
       stake in Rome for heresy.
@@ -327,7 +415,11 @@ cards:
     work: 1636
     fields: [Mathematics, Physics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/mersenne.webp
+      source: "https://commons.wikimedia.org/wiki/File:MarinMersenneDuflos.jpg"
+      author: "Claude Duflos"
+      license: "Public domain"
     blurb: >-
       Studied primes of the form 2ⁿ − 1, now called Mersenne primes, and the physics of sound. His
       letters linked Descartes, Fermat, Pascal and many others, a scientific network before journals.

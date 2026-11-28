@@ -186,11 +186,13 @@ def portrait_block(r: fp.Result) -> str:
             f"      license: {q(r.license)}\n")
 
 
-def write_fields(done: list[fp.Result]) -> None:
-    """Replace each card's `portrait: null` (or an earlier portrait block) with its new one."""
+def write_fields(done: list[fp.Result], cleared: list[fp.Result] = ()) -> None:
+    """Replace each card's `portrait` field with its new block, or with null for `cleared` cards."""
     by_era: dict[str, dict[str, str]] = {}
     for r in done:
         by_era.setdefault(r.era, {})[r.card["id"]] = portrait_block(r)
+    for r in cleared:
+        by_era.setdefault(r.era, {})[r.card["id"]] = "    portrait: null\n"
     for era, blocks in by_era.items():
         path = fp.CARDS / f"{era}.yaml"
         text = path.read_text()
@@ -229,13 +231,19 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--refetch", action="store_true", help="download again even if cached")
     args = ap.parse_args(argv)
     results = load_results(args)
-    focus = fp.load_overrides().get("focus", {})
+    over = fp.load_overrides()
+    focus = over["focus"]
+    for r in results:  # apply rejections in offline runs too
+        if r.card["id"] in over["reject"]:
+            r.status = "illustrate"
 
     OUT.mkdir(parents=True, exist_ok=True)
-    done, skipped, low_res, guessed = [], [], [], []
+    done, skipped, low_res, guessed, cleared = [], [], [], [], []
     for i, r in enumerate(results, 1):
         if r.status not in ("ready", "credit"):
             skipped.append(f"{r.card['id']} ({r.status})")
+            cleared.append(r)
+            (OUT / f"{r.card['id']}.webp").unlink(missing_ok=True)
             continue
         source = fetch(r, args.refetch)
         if source.width < W * 0.6:
@@ -246,7 +254,7 @@ def main(argv: list[str]) -> int:
         image.save(OUT / f"{r.card['id']}.webp", "WEBP", quality=QUALITY, method=6)
         done.append(r)
         print(f"[{i}/{len(results)}] {r.card['id']}", file=sys.stderr, flush=True)
-    write_fields(done)
+    write_fields(done, cleared)
     if args.sheet:
         contact_sheet([r.card["id"] for r in done], args.sheet)
     size = sum((OUT / f"{r.card['id']}.webp").stat().st_size for r in done)

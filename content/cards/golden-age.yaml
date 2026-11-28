@@ -11,7 +11,11 @@ cards:
     work: 628
     fields: [Mathematics, Astronomy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/brahmagupta.webp
+      source: "https://commons.wikimedia.org/wiki/File:Hindu_astronomer,_19th-century_illustration.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     related: [spec.real-complex.quadratic-roots]
     blurb: >-
       Gave the first rules for calculating with zero and negative numbers, treating them as numbers in
@@ -26,7 +30,11 @@ cards:
     work: 820
     fields: [Mathematics, Astronomy, Geography]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/al-khwarizmi.webp
+      source: "https://commons.wikimedia.org/wiki/File:Madrid_-_Ciudad_Universitaria,_Monumento_a_Muhammad_al-Juarismi_(cropped).jpg"
+      author: "Zarateman"
+      license: "CC0"
     related: [spec.real-complex.quadratic-roots]
     blurb: >-
       His book on completing and balancing equations, al-jabr, gave algebra its name, and his book on
@@ -42,7 +50,11 @@ cards:
     work: 1025
     fields: [Medicine, Philosophy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/ibn-sina.webp
+      source: "https://commons.wikimedia.org/wiki/File:Pursina.jpg"
+      author: "Original work: Abolhassan Sadighi Depiction: User:Ehsan 1987"
+      license: "Public domain"
     blurb: >-
       His Canon of Medicine was the standard medical textbook in the Islamic world and Europe for six
       centuries. As a philosopher he joined Aristotle's ideas with Islamic thought and shaped medieval
@@ -57,7 +69,11 @@ cards:
     work: 1202
     fields: [Mathematics]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/fibonacci.webp
+      source: "https://commons.wikimedia.org/wiki/File:Fibonacci5.jpg"
+      author: "Unknown"
+      license: "Public domain"
     related: [spec.real-complex.induction]
     blurb: >-
       His Liber Abaci convinced European merchants to switch from Roman numerals to the Hindu–Arabic
@@ -71,7 +87,11 @@ cards:
     work: 1270
     fields: [Philosophy]
     rarity: diamond
-    portrait: null
+    portrait:
+      file: portraits/thomas-aquinas.webp
+      source: "https://commons.wikimedia.org/wiki/File:St-thomas-aquinasFXD.jpg"
+      author: "Carlo Crivelli"
+      license: "Public domain"
     blurb: >-
       Brought Aristotle's philosophy together with Christian theology in the Summa Theologiae. His
       arguments about natural law, ethics and the existence of God are still central to Catholic
@@ -87,7 +107,11 @@ cards:
     work: 1021
     fields: [Physics, Mathematics, Astronomy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/ibn-al-haytham.webp
+      source: "https://commons.wikimedia.org/wiki/File:Ibn_Al-Haytham_portrait.jpg"
+      author: "Michel Bakni"
+      license: "CC BY-SA 4.0"
     blurb: >-
       His Book of Optics showed that we see because light enters the eye, and tested its claims with
       careful experiments. That insistence on testing made him an early champion of the scientific
@@ -101,7 +125,11 @@ cards:
     work: 1070
     fields: [Mathematics, Astronomy, Philosophy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/omar-khayyam.webp
+      source: "https://commons.wikimedia.org/wiki/File:Omar_Khayyam2.JPG"
+      author: "The original uploader was Atilin at French Wikipedia ."
+      license: "CC BY-SA 3.0"
     related: [spec.combinatorics.pascal]
     blurb: >-
       Solved cubic equations geometrically by intersecting conic sections and reformed the Persian
@@ -116,7 +144,11 @@ cards:
     work: 1180
     fields: [Philosophy, Medicine]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/ibn-rushd.webp
+      source: "https://commons.wikimedia.org/wiki/File:Statue_of_Averroes_in_C%C3%B3rdoba,_Spain.jpg"
+      author: "Saleemzohaib"
+      license: "CC BY 3.0"
     blurb: >-
       Wrote commentaries on Aristotle so thorough that medieval Europe called him simply the
       Commentator. He argued that reason and faith cannot truly conflict.
@@ -129,7 +161,11 @@ cards:
     work: 1190
     fields: [Philosophy, Medicine]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/maimonides.webp
+      source: "https://commons.wikimedia.org/wiki/File:Maim%C3%B2nides.jpg"
+      author: "No machine-readable author provided. Makinal~commonswiki assumed (based on copyright claims)."
+      license: "CC BY-SA 3.0"
     blurb: >-
       A physician in Cairo whose Guide for the Perplexed reconciled Jewish teaching with Aristotle's
       philosophy. He is the most influential Jewish philosopher of the Middle Ages.
@@ -143,7 +179,11 @@ cards:
     work: 1030
     fields: [Astronomy, Mathematics, Geography]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/al-biruni.webp
+      source: "https://commons.wikimedia.org/wiki/File:Al-Biruni_Portrait.jpg"
+      author: "Michel Bakni"
+      license: "CC BY-SA 4.0"
     blurb: >-
       Measured the Earth's radius from the dip of the horizon seen from a mountain. He also wrote a
       careful study of Indian science and culture, and discussed whether the Earth turns.
@@ -156,7 +196,11 @@ cards:
     work: 1150
     fields: [Mathematics, Astronomy]
     rarity: platinum
-    portrait: null
+    portrait:
+      file: portraits/bhaskara-ii.webp
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
     blurb: >-
       His Lilavati and Bijaganita were standard mathematics texts in India for centuries. He solved
       Pell's equation with the cyclic method and used ideas close to the derivative in his astronomy.
@@ -171,7 +215,11 @@ cards:
     work: 524
     fields: [Philosophy, Mathematics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/boethius.webp
+      source: "https://commons.wikimedia.org/wiki/File:Boethius_initial_consolation_philosophy.jpg"
+      author: "http://special.lib.gla.ac.uk/exhibns/treasures/boethius.html"
+      license: "Public domain"
     blurb: >-
       Wrote The Consolation of Philosophy in prison while awaiting execution, one of the most read books
       of the Middle Ages. His translations of Aristotle's logic were much of what Europe knew of Greek
@@ -186,7 +234,11 @@ cards:
     work: 900
     fields: [Medicine, Chemistry, Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/al-razi.webp
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_Rhazes_(al-Razi)_(AD_865_-_925)_Wellcome_L0005053_(cropped).jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/40/fd/f7548c12356bc6802be29b9a5fba.jpg Gallery: https://wellcomeimages.org/indexplus/image/L0005053.html Wellcome Collection gallery (2018-04-01): http…"
+      license: "CC BY 4.0"
     blurb: >-
       Ran the hospital in Baghdad and was the first to tell smallpox and measles apart in writing. He
       also did practical chemistry, classifying substances and refining laboratory methods.
@@ -200,7 +252,11 @@ cards:
     work: 940
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/al-farabi.webp
+      source: "https://commons.wikimedia.org/wiki/File:Al-Farabi_,_Sayr_mulhimah_min_al-Sharq_wa-al-Gharb.png"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Known as the Second Teacher after Aristotle, he made logic and Greek philosophy central to
       Islamic thought. His book on the virtuous city asked what an ideal society would be.
@@ -213,7 +269,11 @@ cards:
     work: 1260
     fields: [Astronomy, Mathematics, Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/nasir-al-din-al-tusi.webp
+      source: "https://commons.wikimedia.org/wiki/File:Nasir_al-Din_Tusi.jpg"
+      author: "scan of stamp 30 May 2006"
+      license: "Public domain"
     related: [spec.trigonometry.identities]
     blurb: >-
       Treated trigonometry as a subject in its own right rather than a tool of astronomy, including the
@@ -229,7 +289,11 @@ cards:
     work: 1323
     fields: [Philosophy]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/william-of-ockham.webp
+      source: "https://commons.wikimedia.org/wiki/File:William_of_Ockham.png"
+      author: "self-created (Moscarlop)"
+      license: "CC BY-SA 3.0"
     related: [spec.geometry.logic]
     blurb: >-
       A logician who argued that general terms are only names, not real things. Ockham's razor, the
@@ -243,7 +307,11 @@ cards:
     work: 1377
     fields: [History, Philosophy, Economics]
     rarity: gold
-    portrait: null
+    portrait:
+      file: portraits/ibn-khaldun.webp
+      source: "https://commons.wikimedia.org/wiki/File:Bust_of_Ibn_Khaldun_(Casbah_of_Bejaia,_Algeria).jpg"
+      author: "Reda Kerbush"
+      license: "CC BY-SA 4.0"
     blurb: >-
       His Muqaddimah looked for the causes behind the rise and fall of dynasties, such as group loyalty
       and economics. It is seen as a founding work of sociology and the philosophy of history.
@@ -258,7 +326,11 @@ cards:
     work: 850
     fields: [Philosophy, Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/al-kindi.webp
+      source: "https://commons.wikimedia.org/wiki/File:Stamp_IQ_1962_6f.jpg"
+      author: "Iraq Post"
+      license: "Public domain"
     blurb: >-
       The first major philosopher writing in Arabic, he championed Greek learning in Baghdad. His book
       on breaking codes by counting letter frequencies is the oldest known work on cryptanalysis.
@@ -271,7 +343,11 @@ cards:
     work: 870
     fields: [Mathematics, Astronomy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/thabit-ibn-qurra.webp
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
     blurb: >-
       Translated Euclid, Archimedes and Ptolemy into Arabic and extended their work. He found a rule
       that produces pairs of amicable numbers, each the sum of the other's divisors.
@@ -284,7 +360,11 @@ cards:
     work: 1078
     fields: [Philosophy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/anselm.webp
+      source: "https://commons.wikimedia.org/wiki/File:Anselm-CanterburyVit.jpg"
+      author: "Unknown, English"
+      license: "Public domain"
     blurb: >-
       Gave the ontological argument: God, as that than which nothing greater can be conceived, must
       exist. Philosophers have argued over whether it works ever since.
@@ -297,7 +377,11 @@ cards:
     work: 1088
     fields: [Astronomy, Mathematics, Geography]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/shen-kuo.webp
+      source: "https://commons.wikimedia.org/wiki/File:Beijing_Ancient_Observatory_20090715-19_(cropped).jpg"
+      author: "Hans A. Rosbach"
+      license: "CC BY-SA 3.0"
     blurb: >-
       His Dream Pool Essays give the first known description of a magnetic compass needle and of true
       north differing from magnetic north. He also wrote on fossils, landforms and movable type.
@@ -311,7 +395,11 @@ cards:
     work: 1261
     fields: [Mathematics]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/yang-hui.webp
+      source: "Supplied by the project owner"
+      author: "Unknown"
+      license: "Public domain"
     related: [spec.combinatorics.pascal]
     blurb: >-
       Published the triangle of binomial coefficients four centuries before Pascal; in China it is
@@ -326,7 +414,11 @@ cards:
     work: 1360
     fields: [Mathematics, Physics, Philosophy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/nicole-oresme.webp
+      source: "https://commons.wikimedia.org/wiki/File:Oresme.jpg"
+      author: "Nicole Oresme / Aristotle"
+      license: "Public domain"
     blurb: >-
       Drew changing quantities as graphs centuries before Descartes and proved that the harmonic series
       grows without bound. He also argued that the Earth's turning could not be ruled out.
@@ -340,7 +432,11 @@ cards:
     work: 1390
     fields: [Mathematics, Astronomy]
     rarity: silver
-    portrait: null
+    portrait:
+      file: portraits/madhava.webp
+      source: "https://commons.wikimedia.org/wiki/File:Sangamagrama-Madhava-c1340-c1425-This-is-a-digital-image-of-Madhava-drawn-up-with.ppm.png"
+      author: "Sangamagrama Madhava (c.1340 -c.1425). This is a digital image of Madhava drawn up with inputs provided by his descendants and released in 2014 by the Madhava Ganitha Kendram, a Kochi based voluntary…"
+      license: "CC BY-SA 4.0"
     blurb: >-
       Founded the Kerala school, which found infinite series for π, sine and cosine about three centuries
       before they were found in Europe. He used them to compute π to eleven decimal places.

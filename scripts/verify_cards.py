@@ -51,7 +51,7 @@ FIELDS = {
 REQUIRED = ("id", "name", "work", "fields", "rarity", "portrait", "blurb")
 # Public domain (or Commons' No restrictions), CC0, CC BY and CC BY-SA (any version, or Commons'
 # Attribution), or the project's own illustration.
-PORTRAIT_LICENSE = re.compile(r"^(Public domain|No restrictions|CC0( 1\.0)?|CC BY(-SA)? [1-4]\.0( [A-Za-z-]+)?|Attribution|Original illustration)$")
+PORTRAIT_LICENSE = re.compile(r"^(Public domain|No restrictions|CC0( 1\.0)?|CC BY(-SA)? [1-4]\.[05]( [A-Za-z-]+)?|Attribution|Original illustration)$")
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 # A sentence ends at . ! or ? followed by a space and a capital letter or digit, or at the end.
 SENTENCE_END = re.compile(r"[.!?](?=\s+[A-Z0-9ÉÖ]|\s*$)")
