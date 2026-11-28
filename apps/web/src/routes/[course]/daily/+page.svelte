@@ -185,6 +185,8 @@
         <Markdown text={served.question.solution} />
       </section>
     {:else}
+      <div class="actions">
+        <button type="button" class="btn" onclick={reveal}>Show solution</button>
         {#if done !== "solved"}<span class="muted note">Today's problem can't count as solved after you see it.</span>{/if}
       </div>
     {/if}
