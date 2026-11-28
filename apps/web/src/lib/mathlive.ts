@@ -73,8 +73,12 @@ const PRIME = /^#@'$/;
 /** Keys that decorate letters: vector arrows, hats, bars, bold. They take the letters just before the caret. */
 const ACCENT = /^\\(?:vec|hat|bar|overline|overrightarrow|overleftrightarrow|dot|ddot|mathbf|tilde|underset\{\\sim\}|overset\{\\frown\})\{#0\}$/;
 
-/** Keys with exactly one empty box (√□, sin(□), |□|, (□), eˣ…): the term just typed goes in the box. */
-const oneBox = (latex: string) => (latex.match(/#[0?@]/g) ?? []).length === 1 && !SCRIPT.test(latex) && !PRIME.test(latex) && !ACCENT.test(latex);
+/**
+ * Keys with exactly one empty box (√□, sin(□), |□|, (□), ∫□…): the term just typed goes in the box.
+ * Not when the box is a power (e^□): x then e^□ is x·e^□, not eˣ.
+ */
+const oneBox = (latex: string) =>
+  (latex.match(/#[0?@]/g) ?? []).length === 1 && !/\^\{[^{}]*#[0?@]/.test(latex) && !SCRIPT.test(latex) && !PRIME.test(latex) && !ACCENT.test(latex);
 
 /**
  * How a key takes what was typed just before it, so words can become maths first:
@@ -118,7 +122,7 @@ const arrowFor = (latex: string, letters: number) => (letters === 1 ? latex : la
  * - x² and other powers, subscripts and primes attach to the term just typed, whatever it is (a vector,
  *   a bracket, a letter); a fraction or something already raised to a power is bracketed first;
  * - a vector arrow, hat or bar goes over the letters just typed ("AB" then arrow gives AB with an arrow);
- * - a key with one empty box (√□, sin(□), |□|, (□), e^□…) puts the term just typed in the box
+ * - a key with one empty box (√□, sin(□), |□|, (□), ∫□…) puts the term just typed in the box; e^□ doesn't
  *   ("2x" then √ gives √(2x));
  * - otherwise the key goes in at the caret with empty boxes to fill in.
  */
