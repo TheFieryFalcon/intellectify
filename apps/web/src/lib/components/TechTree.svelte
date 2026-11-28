@@ -12,7 +12,8 @@
     rollups,
     challengeBest = {},
     readonly = false,
-  }: { course: CourseBundle; progress: CourseProgress; rollups: Rollups; challengeBest?: Record<string, number>; readonly?: boolean } = $props();
+    theme = null,
+  }: { course: CourseBundle; progress: CourseProgress; rollups: Rollups; challengeBest?: Record<string, number>; readonly?: boolean; theme?: string | null } = $props();
 
   const sectionName = (id: string) => course.units.flatMap((u) => u.sections).find((s) => s.id === id)?.name ?? id;
   const reviewHref = (r: LaidOutReview) =>
@@ -29,6 +30,32 @@
     for (const s of skills) for (const p of s.prereqs) m.set(p, [...(m.get(p) ?? []), s.id]);
     return m;
   });
+
+  /* Node themes (SPEC §13.6, §13.8): cosmetic only. */
+  /** Hasse: edges as straight lattice lines between their ends. */
+  const straight = (d: string) => {
+    const nums = d.match(/-?\d+(\.\d+)?/g)?.map(Number) ?? [];
+    return nums.length >= 4 ? `M${nums[0]} ${nums[1]} L${nums.at(-2)} ${nums.at(-1)}` : d;
+  };
+  /** Tree Property: one unbroken branch, the longest chain of prerequisites. */
+  const branch = $derived.by(() => {
+    if (theme !== "tree-property") return new Set<string>();
+    const memo = new Map<string, string[]>();
+    const longest = (id: string): string[] => {
+      if (memo.has(id)) return memo.get(id)!;
+      memo.set(id, [id]);
+      let best: string[] = [];
+      for (const p of prereqs.get(id) ?? []) if (prereqs.has(p)) { const c = longest(p); if (c.length > best.length) best = c; }
+      const out = [...best, id];
+      memo.set(id, out);
+      return out;
+    };
+    let top: string[] = [];
+    for (const s of skills) { const c = longest(s.id); if (c.length > top.length) top = c; }
+    return new Set(top);
+  });
+  /** Well-Founded: roots under the skills with no prerequisites. */
+  const roots = $derived(theme === "well-founded" ? skills.filter((s) => !s.prereqs.some((p) => prereqs.has(p))).map((s) => layout.nodes.get(s.id)!).filter(Boolean) : []);
 
   let focused = $state<string | null>(null);
 
@@ -55,7 +82,7 @@
 </script>
 
 <div class="scroll">
-  <div class="map" class:focus={!!chain} style="width:{layout.width}px;height:{layout.height}px">
+  <div class="map {theme ? `theme-${theme}` : ''}" class:focus={!!chain} style="width:{layout.width}px;height:{layout.height + (theme === 'well-founded' ? 40 : 0)}px">
     <svg class="edges" width={layout.width} height={layout.height} aria-hidden="true">
       {#each layout.regions as r (r.id)}
         <rect class="region" x={r.x} y={r.y} width={r.w} height={r.h} rx="18" />
@@ -71,8 +98,12 @@
         </text>
       {/each}
       {#each layout.edges as e (e.from + e.to)}
-        <path d={e.d} class:hidden={e.hidden} class:lit={edgeLit(e.from, e.to)} />
+        <path d={theme === "hasse" ? straight(e.d) : e.d} class:hidden={e.hidden} class:lit={edgeLit(e.from, e.to)} class:branch={branch.has(e.from) && branch.has(e.to)} />
       {/each}
+      {#if theme === "well-founded"}
+        <line class="ground" x1="0" y1={layout.height + 24} x2={layout.width} y2={layout.height + 24} />
+        {#each roots as n, i (i)}<path class="root" d="M{n.x + NODE_W / 2} {n.y + 46} q -6 {12 + (i % 3) * 4} -14 {20 + (i % 2) * 6} M{n.x + NODE_W / 2} {n.y + 46} q 5 {14 + (i % 2) * 5} 12 {22 + (i % 3) * 4}" />{/each}
+      {/if}
     </svg>
 
     {#each readonly ? [] : layout.reviews as r (r.kind + r.id)}
@@ -102,6 +133,7 @@
       <a
         class="node {rankKey(st.rank)} size-{s.size}"
         class:lit={chain?.all.has(s.id)}
+        class:branch={branch.has(s.id)}
         href={readonly ? undefined : `/${course.id}/skill/${s.id}`}
         tabindex={readonly ? 0 : undefined}
         style="left:{n.x}px;top:{n.y}px;width:{NODE_W}px;{rankVars(st.rank, st.theta)}"
@@ -172,5 +204,26 @@
   .review:focus-visible { outline: none; }
   .review:focus-visible .tile { outline: 2px solid var(--accent); outline-offset: 3px; }
   .best { color: var(--muted); font-variant-numeric: tabular-nums; }
+  /* Node themes. */
+  .theme-well-founded .ground { stroke: var(--ink); stroke-width: 1.5; }
+  .theme-well-founded .root { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .theme-hasse .edges path { stroke-dasharray: none; stroke-width: 1; stroke: var(--muted); }
+  .theme-hasse .ring { box-shadow: 0 0 0 3px var(--region), 0 0 0 4px var(--muted); }
+  .theme-tree-property .edges path.branch { stroke: var(--gold); stroke-width: 3; filter: drop-shadow(0 0 4px var(--gold)); }
+  .theme-tree-property .node.branch .ring { box-shadow: 0 0 0 3px var(--region), 0 0 10px 3px var(--gold); }
+  .theme-supercompact { animation: unfold 1.1s cubic-bezier(0.2, 0.9, 0.3, 1) both; transform-origin: 50% 50%; }
+  @keyframes unfold { from { transform: scale(0.01); opacity: 0; } 30% { opacity: 1; } }
+  .theme-chalk .edges path { stroke: color-mix(in srgb, var(--ink) 55%, transparent); stroke-width: 2.2; stroke-dasharray: 7 2 1 2; stroke-linecap: round; }
+  .theme-chalk .disc { border-style: dashed; }
+  .theme-blueprint { background: #1f3f6e linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 20px 20px; border-radius: 12px; }
+  .theme-blueprint .region { fill: rgba(255, 255, 255, 0.05); stroke: rgba(255, 255, 255, 0.4); stroke-dasharray: 4 3; }
+  .theme-blueprint .edges path { stroke: #e8f1ff; }
+  .theme-blueprint :is(.region-label, .year, .unit) { fill: #cfe0f7; }
+  .theme-blueprint .label { background: #1f3f6e; box-shadow: 0 0 0 2px #1f3f6e; color: #eef4ff; }
+  .theme-blueprint .ring { box-shadow: 0 0 0 3px #1f3f6e; }
+  .theme-stained-glass .edges path { stroke: #2b2b2b; stroke-width: 3.5; }
+  .theme-stained-glass .disc { border: 2px solid #2b2b2b; background: linear-gradient(160deg, color-mix(in srgb, var(--r) 70%, #fff) -10%, var(--r) 50%, color-mix(in srgb, var(--r) 60%, #6a2bd9) 100%); }
+  .theme-stained-glass .ring { box-shadow: 0 0 0 3px #2b2b2b; }
+  @media (prefers-reduced-motion: reduce) { .theme-supercompact { animation: none; } }
   .label { font-size: 11px; line-height: 14.5px; padding: 0 3px; border-radius: 4px; background: var(--region); box-shadow: 0 0 0 2px var(--region); }
 </style>

@@ -16,6 +16,11 @@
   import { perthDay } from "$lib/profile.svelte";
   import { RANK_LABEL, score } from "$lib/ranks";
   import { session } from "$lib/session.svelte";
+  import { currentEconomy, profileFor } from "$lib/profile.svelte";
+  import { loadEconomyData, type Card, type EconomyData } from "$lib/economy.svelte";
+  import ProfileHero from "$lib/components/economy/ProfileHero.svelte";
+  import CollectionShelves from "$lib/components/economy/CollectionShelves.svelte";
+  import ProfileEditor from "$lib/components/economy/ProfileEditor.svelte";
 
   const uid = $derived(page.params.uid!);
   let all = $state<PublicProfile[] | null>(null);
@@ -53,6 +58,20 @@
       .sort((a, b) => b.points - a.points || a.name.localeCompare(b.name)),
   );
   const isMe = $derived(session.user?.uid === uid);
+
+  // The economy on profiles (SPEC §12.3, §13.11): banner, framed name, title, showcase, collection, Axioms.
+  let eco = $state<EconomyData | null>(null);
+  $effect(() => void loadEconomyData().then((d) => (eco = d)).catch(() => {}));
+  const mine = $derived(isMe ? currentEconomy() : null);
+  const cards = $derived(new Map<string, Card>((eco?.cards ?? []).map((c) => [c.id, c])));
+  const equipped = $derived(mine?.loaded ? mine.state.equipped : (p?.economy?.equipped ?? null));
+  const owned = $derived.by(() => {
+    if (mine?.loaded) return mine.state.cards;
+    return Object.fromEntries(Object.entries(p?.economy?.cards ?? {}).map(([id, f]) => [id, { n: 1, foil: f === 1 }]));
+  });
+  const proven = $derived(mine?.loaded ? mine.state.axiomsProven : (p?.economy?.axiomsProven ?? 0));
+  const foils = $derived(Object.fromEntries(Object.entries(owned).map(([id, o]) => [id, o.foil])));
+  let editing = $state<"name" | "banner" | "frame" | "title" | "showcase" | null>(null);
 </script>
 
 <div class="wrap">
@@ -61,10 +80,22 @@
   {:else if !p}
     <p class="muted">{isMe ? "Your profile appears here after your first answer" : "No profile here"}</p>
   {:else}
-    <header class="head">
-      <h1>{p.displayName}</h1>
-      {#if level}<span class="lvl"><LevelBadge progress={level} /> <span class="muted">{level.tier.name} · {p.xp.toLocaleString("en-US")} XP</span></span>{/if}
-    </header>
+    <ProfileHero
+      name={isMe && session.user ? session.user.displayName : p.displayName}
+      banner={equipped?.banner ?? null}
+      frame={equipped?.frame ?? null}
+      title={equipped?.title ?? null}
+      ornament={equipped?.nameOrnament ?? null}
+      showcase={equipped?.showcase ?? []}
+      {cards}
+      {foils}
+      onedit={isMe && mine?.loaded ? (f) => (editing = f) : undefined}
+    >
+      {#snippet extra()}
+        {#if level}<p class="lvl"><LevelBadge progress={level} /> <span class="muted">{level.tier.name} · {p.xp.toLocaleString("en-US")} XP</span></p>{/if}
+      {/snippet}
+    </ProfileHero>
+    {#if editing && mine && eco}<ProfileEditor field={editing} economy={mine} profile={profileFor(session.backend, session.user)} onclose={() => (editing = null)} />{/if}
 
     <dl class="facts">
       <div><dt>Problems</dt><dd>{(p.stats?.problems ?? 0).toLocaleString("en-US")}</dd></div>
@@ -106,6 +137,24 @@
       {/if}
     {/each}
 
+    {#if eco}
+      <section>
+        <h2>Axioms <span class="muted count">{proven}</span></h2>
+        {#if proven}
+          <ul class="ach">
+            {#each eco.config.axioms.list.slice(0, proven) as a (a.id)}<li><span class="in" aria-hidden="true">∈</span> <span class="aname">{a.name}</span></li>{/each}
+          </ul>
+        {:else}<p class="muted">None yet</p>{/if}
+      </section>
+      <section>
+        <h2>Collection <span class="muted count">{Object.values(owned).filter((o) => o.n > 0).length} / {eco.cards.length}</span></h2>
+        <details class="tree">
+          <summary>Cards</summary>
+          <CollectionShelves eras={eco.config.eras} cards={eco.cards} {owned} mine={isMe} />
+        </details>
+      </section>
+    {/if}
+
     <section>
       <h2>Achievements <span class="muted count">{earned.length}</span></h2>
       {#if earned.length}
@@ -122,9 +171,8 @@
 </div>
 
 <style>
-  .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-bottom: 12px; }
-  h1 { margin: 0; font-size: 28px; }
-  .lvl { font-size: 13px; display: inline-flex; gap: 8px; align-items: center; }
+  .lvl { font-size: 13px; display: inline-flex; gap: 8px; align-items: center; margin: 6px 0 0 4px; }
+  .in { font-family: var(--font-display); color: #9aa4b1; }
   .facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0 0 18px; }
   .facts div { display: flex; flex-direction: column; }
   dt { font-size: 11px; color: var(--muted); }

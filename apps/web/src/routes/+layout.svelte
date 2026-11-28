@@ -1,7 +1,14 @@
 <script lang="ts">
   import AuthGate from "$lib/components/AuthGate.svelte";
   import { gate } from "$lib/gate.svelte";
-  import { achievementToasts } from "$lib/achievements.svelte";
+  import { currentMoment, dismissMoment, toasts } from "$lib/celebrations.svelte";
+  import { fx } from "$lib/fx.svelte";
+  import AxiomMoment from "$lib/components/economy/AxiomMoment.svelte";
+  import CelebrationArt from "$lib/components/economy/CelebrationArt.svelte";
+  import ConjectureMoment from "$lib/components/economy/ConjectureMoment.svelte";
+  import CountUp from "$lib/components/economy/CountUp.svelte";
+  import LemmaIcon from "$lib/components/economy/LemmaIcon.svelte";
+  import { lemmasLong } from "@intellectify/engine";
   import "../app.css";
   import "katex/dist/katex.min.css";
   import { beforeNavigate, goto } from "$app/navigation";
@@ -26,17 +33,24 @@
     return () => clearTimeout(t);
   });
 
-  // Achievement toasts: one at a time, a few seconds each (SPEC §12.1).
+  // Toasts, one at a time: rank-up, then achievement, then level-up (SPEC §12.1, §13.11).
+  const shownToast = $derived(toasts[0] ?? null);
   $effect(() => {
-    if (!achievementToasts.length) return;
-    const t = setTimeout(() => achievementToasts.shift(), 4500);
+    if (!shownToast) return;
+    const t = setTimeout(() => toasts.shift(), shownToast.kind === "achievement" ? 4500 : 3500);
     return () => clearTimeout(t);
   });
-
-  // Level-up toast: shows for a few seconds after a grant crosses a level boundary.
+  // Full-screen moments, one at a time: level tier, Axiom, Conjecture.
+  const moment = $derived(currentMoment());
+  const economy = $derived(profile?.economy ?? null);
+  const rewards = $derived(!!economy && economy.visible && !economy.failed);
+  // The equipped answer celebration plays over the page for a moment.
+  let playing = $state<{ id: string; at: number } | null>(null);
   $effect(() => {
-    if (!profile?.levelUp || profile.levelUp.newTier) return;
-    const t = setTimeout(() => profile && (profile.levelUp = null), 4000);
+    const p = fx.play;
+    if (!p) return;
+    playing = { id: p.id, at: p.at };
+    const t = setTimeout(() => (playing = null), 2300);
     return () => clearTimeout(t);
   });
 
@@ -65,8 +79,15 @@
         <a href="/specialist">Specialist</a>
         {#if marking?.waiting}<a class="marking" href="/specialist/marked" title="Written answers waiting for a mark">Marking {marking.waiting}</a>{/if}
         <a href="/leaderboards">Leaderboards</a>
+        {#if rewards}<a href="/lemmas">Lemmas</a>{/if}
         <a class="who muted" href="/profile/{session.user.uid}">{session.user.displayName}</a>
         {#if profile?.loaded}<a class="lvl" href="/profile/{session.user.uid}" aria-label="Your profile"><LevelBadge progress={profile.progress} bar /></a>{/if}
+        {#if rewards && economy?.loaded}
+          <a class="balance" href="/lemmas" title={lemmasLong(economy.balance)} aria-label="Lemmas: {lemmasLong(economy.balance)}{economy.toProve ? ', Axiom to prove' : ''}">
+            <CountUp value={economy.balance} /><LemmaIcon infinity={economy.state.equipped.lemmaIcon === "infinity-icon"} />
+            {#if economy.toProve}<span class="pip" aria-hidden="true"></span>{/if}
+          </a>
+        {/if}
         <a class="settings" href="/settings">Settings</a>
         <button class="btn link signout" onclick={() => session.backend?.signOut()}>Sign out</button>
       </nav>
@@ -80,11 +101,18 @@
   {/if}
 </header>
 
-{#if achievementToasts.length}
-  {@const a = achievementToasts[0]!}
-  <div class="toast achievement" role="status">
+{#if shownToast?.kind === "achievement"}
+  {@const a = shownToast.achievement}
+  <div class="toast" role="status">
     <TierGem tier={a.tier} size={14} />
     <span><span class="muted">Achievement</span> {a.name} <span class="pts">+{a.points}</span></span>
+  </div>
+{:else if shownToast?.kind === "rankUp"}
+  <div class="toast" role="status"><span><span class="muted">Rank up</span> {shownToast.label}</span></div>
+{:else if shownToast?.kind === "levelUp"}
+  <div class="toast" role="status">
+    <TierGem tier={shownToast.tier.key} size={12} />
+    <span>Level {shownToast.level}</span>
   </div>
 {/if}
 
@@ -95,14 +123,17 @@
   </div>
 {/if}
 
-{#if profile?.levelUp?.newTier}
-  <TierCelebration levelUp={profile.levelUp} onclose={() => profile && (profile.levelUp = null)} />
-{:else if profile?.levelUp}
-  <div class="toast" role="status">
-    <TierGem tier={profile.levelUp.tier.key} size={12} />
-    <span>Level {profile.levelUp.level}</span>
-  </div>
+{#if moment?.kind === "tier"}
+  {@const m = moment}
+  <TierCelebration levelUp={{ level: m.level, tier: m.tier, newTier: true }} onclose={() => dismissMoment(m)} />
+{:else if moment?.kind === "axiom" && rewards}
+  {@const m = moment}
+  <AxiomMoment axioms={m.axioms} onclose={() => dismissMoment(m)} />
+{:else if moment?.kind === "conjecture" && rewards}
+  {@const m = moment}
+  <ConjectureMoment conjecture={m.conjecture} index={m.index} rateBefore={m.rateBefore} rateAfter={m.rateAfter} onclose={() => dismissMoment(m)} />
 {/if}
+{#if playing}{#key playing.at}<CelebrationArt id={playing.id} />{/key}{/if}
 
 {#if gate.open && session.user?.anonymous}<AuthGate />{/if}
 
@@ -124,7 +155,8 @@
   nav a.settings { font-size: 13px; color: var(--muted); font-weight: 400; }
   .local { margin: 0; padding: 6px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--region); }
   .loading { text-align: center; padding: 64px 16px; }
-  .toast.achievement { bottom: calc(env(safe-area-inset-bottom, 0px) + 76px); }
+  nav a.balance { position: relative; display: inline-flex; align-items: baseline; gap: 2px; font-size: 13px; color: var(--ink); }
+  .pip { position: absolute; top: -2px; right: -7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
   .toast.marked { bottom: calc(env(safe-area-inset-bottom, 0px) + 128px); }
   .toast.marked a { color: var(--ink); text-decoration: none; }
   nav a.marking { font-size: 13px; color: var(--accent); }

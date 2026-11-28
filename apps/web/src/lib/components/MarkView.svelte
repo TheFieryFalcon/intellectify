@@ -68,7 +68,7 @@
     {#if final.feedback}<div class="overall"><Markdown text={final.feedback} /></div>{/if}
     {#if job.effect}
       {@const e = job.effect}
-      <div class="effect"><ResultRow outcome={e.outcome} theta={e.theta} deltaTheta={e.deltaTheta} rankBefore={e.rankBefore} rankAfter={e.rankAfter} xp={e.xp} /></div>
+      <div class="effect"><ResultRow outcome={e.outcome} theta={e.theta} deltaTheta={e.deltaTheta} rankBefore={e.rankBefore} rankAfter={e.rankAfter} xp={e.xp} lemmas={e.lemmas ?? null} /></div>
     {/if}
 
     {#if job.appeal?.status === "pending"}

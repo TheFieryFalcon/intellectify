@@ -108,6 +108,16 @@
       </form>
     </section>
   {/if}
+  {#if session.user && profile}
+    <section class="card">
+      <h2>Rewards</h2>
+      <label class="switch"><input type="checkbox" checked={profile.profile.showRewards !== false} onchange={(e) => void profile.setShowRewards(e.currentTarget.checked)} /> Show rewards</label>
+      <dl class="facts">
+        <dt>Off</dt>
+        <dd>Hides Lemmas, the hub, packs and their celebrations. Earnings and Research keep accruing; equipped cosmetics and titles still show.</dd>
+      </dl>
+    </section>
+  {/if}
   {#if session.user}<ShiftKeySettings {profile} />{/if}
   <section class="card">
     <h2>Handwriting</h2>
