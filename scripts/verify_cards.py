@@ -10,6 +10,7 @@ Errors (exit code 1):
   - a portrait without its file, source, author and license, or with a license other than
     public domain, CC0, CC BY, CC BY-SA or an original illustration;
   - a malformed `wikidata` id;
+  (a portrait whose license starts with "Non-free" is the owner's call: a warning, not an error)
   - a `related` id that isn't a skill in any course under content/curriculum.
 
 Warnings (printed, exit code 0):
@@ -171,6 +172,8 @@ def main(root: str = "content") -> int:
                 no_portrait += 1
             elif not all(portrait.get(k) for k in ("file", "source", "author", "license")):
                 errors.append(f"{at}: portrait needs file, source, author and license")
+            elif str(portrait["license"]).startswith("Non-free"):
+                warnings.append(f"{at}: portrait is NON-FREE ({portrait['license']}): replace it or get the rights holder's permission")
             elif not PORTRAIT_LICENSE.match(str(portrait["license"])):
                 errors.append(f"{at}: portrait license '{portrait['license']}' isn't allowed (§13.7)")
             elif not (path.parent / portrait["file"]).is_file():

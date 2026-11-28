@@ -12,8 +12,8 @@ cards:
     rarity: diamond
     portrait:
       file: portraits/leonardo-da-vinci.webp
-      source: "https://commons.wikimedia.org/wiki/File:Francesco_Melzi_-_Portrait_of_Leonardo.png"
-      author: "Attributed to Francesco Melzi"
+      source: "https://commons.wikimedia.org/wiki/File:DaVinciSelfPort.jpg"
+      author: "Leonardo da Vinci"
       license: "Public domain"
     blurb: >-
       Painted the Mona Lisa and The Last Supper, and filled notebooks with machines, anatomy drawn from
@@ -155,8 +155,8 @@ cards:
     rarity: platinum
     portrait:
       file: portraits/vesalius.webp
-      source: "https://commons.wikimedia.org/wiki/File:Vesalius_Fabrica_portrait.jpg"
-      author: "Attributed to Jan van Calcar"
+      source: "https://commons.wikimedia.org/wiki/File:Esme_de_Boulonois,_portret_van_Andreas_Vesalius_(1514-1564),_medicus,_17de_eeuw,_papier,_kopergravure,_SMU.1989.0055.00,_Het_Stadsmus.jpg"
+      author: "Esme de Boulonois"
       license: "Public domain"
     blurb: >-
       Dissected human bodies himself and corrected Galen's errors in On the Fabric of the Human Body,
@@ -244,8 +244,8 @@ cards:
     rarity: gold
     portrait:
       file: portraits/napier.webp
-      source: "https://commons.wikimedia.org/wiki/File:John_Napier.jpg"
-      author: "Unknown author Unknown author"
+      source: "https://commons.wikimedia.org/wiki/File:John_Napier.JPG"
+      author: "Samuel Freeman"
       license: "Public domain"
     blurb: >-
       Invented logarithms, which turn multiplication into addition. Tables of them sped up astronomy and

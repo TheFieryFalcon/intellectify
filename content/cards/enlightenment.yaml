@@ -400,8 +400,8 @@ cards:
     rarity: silver
     portrait:
       file: portraits/emilie-du-chatelet.webp
-      source: "https://commons.wikimedia.org/wiki/File:Le_Tonnelier_de_Breteuil,_Emilie.jpg"
-      author: "Marianne Loir"
+      source: "https://commons.wikimedia.org/wiki/File:Ok%C3%A4nd_-_Gabrielle-%C3%89milie_Le_Tonnelier_de_Breteuil_(1706%E2%80%931749),_Marquise_du_Ch%C3%A2telet_-_NMDrh_796_-_Nationalmuseum.jpg"
+      author: "anonymous"
       license: "Public domain"
     blurb: >-
       Translated Newton's Principia into French with a commentary; it is still the standard French

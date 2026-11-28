@@ -151,9 +151,9 @@ cards:
     rarity: platinum
     portrait:
       file: portraits/kuhn.webp
-      source: "https://commons.wikimedia.org/wiki/File:Thomas_Kuhn_(1977)_(cropped).jpg"
-      author: "Bob Bielk"
-      license: "Public domain"
+      source: "https://commons.wikimedia.org/wiki/File:Thomas-kuhn-portrait.png"
+      author: "Davi.trip"
+      license: "CC BY-SA 4.0"
     blurb: >-
       The Structure of Scientific Revolutions argued that science advances through paradigm shifts, not
       just steady accumulation. He made paradigm an everyday word.
@@ -168,9 +168,9 @@ cards:
     rarity: platinum
     portrait:
       file: portraits/derrida.webp
-      source: "https://commons.wikimedia.org/wiki/File:Derrida_EHESS_(cropped).png"
-      author: "Auto-épreuve"
-      license: "CC BY 4.0"
+      source: "https://commons.wikimedia.org/wiki/File:Derrida_Dibujo.jpg"
+      author: "Arturo Espinosa Seguir Jacques Derrida for PIFAL Pencil on Fabriano."
+      license: "CC BY 2.0"
     blurb: >-
       Founded deconstruction, reading texts closely to show how their meanings depend on oppositions they
       cannot hold apart. It reshaped literary theory, law and architecture.
@@ -431,7 +431,7 @@ cards:
     rarity: silver
     portrait:
       file: portraits/john-conway.webp
-      source: "https://commons.wikimedia.org/wiki/File:John_H_Conway_2005_(cropped)_(2).jpg"
+      source: "https://commons.wikimedia.org/wiki/File:John_H_Conway_2005_(cropped).jpg"
       author: "\"Thane Plambeck\""
       license: "CC BY 2.0"
     blurb: >-
@@ -448,9 +448,9 @@ cards:
     rarity: silver
     portrait:
       file: portraits/maryam-mirzakhani.webp
-      source: "https://commons.wikimedia.org/wiki/File:Maryam_Mirzakhani_in_Seoul_2014.jpg"
-      author: "Gert-Martin Greuel"
-      license: "CC BY-SA 2.0 de"
+      source: "https://en.wikipedia.org/wiki/File:Maryam_Mirzakhani.jpg"
+      author: "Simons Laufer Mathematical Sciences Institute"
+      license: "Non-free (fair use on English Wikipedia; not licensed for reuse)"
     blurb: >-
       Studied the geometry of curved surfaces and how paths move across them. In 2014 she became the
       first woman, and first Iranian, to win the Fields Medal.

@@ -279,8 +279,8 @@ cards:
     rarity: gold
     portrait:
       file: portraits/boole.webp
-      source: "https://commons.wikimedia.org/wiki/File:Photo_of_George_Boole_standing.png"
-      author: "Samuel Prout Newcombe (c1824-1912)"
+      source: "https://commons.wikimedia.org/wiki/File:Portrait_of_George_Boole.png"
+      author: "Unknown author Unknown author"
       license: "Public domain"
     related: [spec.geometry.logic]
     blurb: >-

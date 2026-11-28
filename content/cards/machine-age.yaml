@@ -329,9 +329,9 @@ cards:
     rarity: gold
     portrait:
       file: portraits/noether.webp
-      source: "https://commons.wikimedia.org/wiki/File:EmmyNoether_MFO3096.jpg"
-      author: "Konrad Jacobs, Erlangen"
-      license: "CC BY-SA 2.0 de"
+      source: "https://commons.wikimedia.org/wiki/File:Emmy-noether-2.jpg"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Proved that every symmetry in physics gives a conserved quantity, such as energy from symmetry in
       time. She also reshaped abstract algebra, and Einstein called her a creative mathematical genius.
@@ -520,8 +520,8 @@ cards:
     rarity: silver
     portrait:
       file: portraits/rosalind-franklin.webp
-      source: "https://commons.wikimedia.org/wiki/File:Rosalind_Franklin.jpg"
-      author: "MRC Laboratory of Molecular Biology"
+      source: "https://commons.wikimedia.org/wiki/File:Rosalind-franklin-in-paris.jpg"
+      author: "CSHL"
       license: "CC BY-SA 4.0"
     blurb: >-
       Her X-ray photographs of DNA, above all Photo 51, were key evidence for the double helix. She also

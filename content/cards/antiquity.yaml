@@ -13,9 +13,9 @@ cards:
     rarity: diamond
     portrait:
       file: portraits/pythagoras.webp
-      source: "https://commons.wikimedia.org/wiki/File:Kapitolinischer_Pythagoras.jpg"
-      author: "The original uploader was Galilea at German Wikipedia ."
-      license: "CC BY-SA 3.0"
+      source: "https://commons.wikimedia.org/wiki/File:Pythagoras._Line_engraving_by_B._Barloccini_after_C._C._Perk_Wellcome_V0004820.jpg"
+      author: "https://wellcomeimages.org/indexplus/obf_images/f0/9d/e7ddf49e5245fd1590657496bcde.jpg Gallery: https://wellcomeimages.org/indexplus/image/V0004820.html Wellcome Collection gallery (2018-04-01): http…"
+      license: "CC BY 4.0"
     related: [spec.real-complex.rational-irrational]
     blurb: >-
       Founded a school in southern Italy that saw whole numbers and their ratios behind everything,
@@ -404,9 +404,9 @@ cards:
     rarity: silver
     portrait:
       file: portraits/aristarchus.webp
-      source: "https://commons.wikimedia.org/wiki/File:Aristarchus_van_Samos,_atlas_of_Cellarius_(1646).jpg"
-      author: "Unknown artist (17th century)"
-      license: "Public domain"
+      source: "https://commons.wikimedia.org/wiki/File:Depiction_of_Aristarchus_at_the_NKUA_on_May_22,_2022.jpg"
+      author: "George E. Koronaios"
+      license: "CC BY-SA 4.0"
     blurb: >-
       Proposed that the Earth goes around the Sun, eighteen centuries before Copernicus. He also used
       geometry to estimate the sizes and distances of the Sun and Moon.

@@ -146,9 +146,9 @@ cards:
     rarity: platinum
     portrait:
       file: portraits/ibn-rushd.webp
-      source: "https://commons.wikimedia.org/wiki/File:Statue_of_Averroes_in_C%C3%B3rdoba,_Spain.jpg"
-      author: "Saleemzohaib"
-      license: "CC BY 3.0"
+      source: "https://commons.wikimedia.org/wiki/File:Ibn_Rushd,_Sayr_mulhimah_min_al-Sharq_wa-al-Gharb.png"
+      author: "Unknown author Unknown author"
+      license: "Public domain"
     blurb: >-
       Wrote commentaries on Aristotle so thorough that medieval Europe called him simply the
       Commentator. He argued that reason and faith cannot truly conflict.
@@ -217,8 +217,8 @@ cards:
     rarity: gold
     portrait:
       file: portraits/boethius.webp
-      source: "https://commons.wikimedia.org/wiki/File:Boethius_initial_consolation_philosophy.jpg"
-      author: "http://special.lib.gla.ac.uk/exhibns/treasures/boethius.html"
+      source: "https://commons.wikimedia.org/wiki/File:Fl_Boetio_(Flavio_Boezio)_-_Studiolo_di_Federico_da_Montefeltro.jpg"
+      author: "Justus van Gent / Pedro Berruguete"
       license: "Public domain"
     blurb: >-
       Wrote The Consolation of Philosophy in prison while awaiting execution, one of the most read books
@@ -328,9 +328,9 @@ cards:
     rarity: silver
     portrait:
       file: portraits/al-kindi.webp
-      source: "https://commons.wikimedia.org/wiki/File:Stamp_IQ_1962_6f.jpg"
-      author: "Iraq Post"
-      license: "Public domain"
+      source: "https://commons.wikimedia.org/wiki/File:Al-Kindi.jpg"
+      author: "Muntadher Saleh"
+      license: "CC BY-SA 4.0"
     blurb: >-
       The first major philosopher writing in Arabic, he championed Greek learning in Baghdad. His book
       on breaking codes by counting letter frequencies is the oldest known work on cryptanalysis.
