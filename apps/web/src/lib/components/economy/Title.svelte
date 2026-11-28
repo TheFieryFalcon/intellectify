@@ -63,11 +63,12 @@
   .t-mirabilis .fxr { left: -10%; top: 10%; width: 12px; height: 1px; background: linear-gradient(90deg, transparent, #fff); animation: comet 6s linear infinite; }
 
   /* Axioms */
-  .t-huge .ch { display: inline-block; animation: swell 4s ease-in-out infinite; animation-delay: calc(var(--i) * 0.15s); }
+  /* Huge: the letters swell in a slow wave, glowing at their largest, and settle. */
+  .t-huge .ch { display: inline-block; transform-origin: 50% 80%; animation: swell 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * 0.18s); }
+  /* Edge of Consistency: the title holds a smaller copy of itself, which grows into it, endlessly. */
   .nest { position: relative; display: inline-block; }
-  .copy { position: absolute; left: 0; top: 0; font-size: 0.5em; opacity: 0.6; transform-origin: center; white-space: nowrap; pointer-events: none; animation: zoom 4s linear infinite; }
-  .c1 { left: 25%; top: 25%; }
-  .c2 { left: 37%; top: 37%; font-size: 0.25em; animation-delay: -2s; }
+  .copy { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; pointer-events: none; color: var(--accent); font-weight: 600; transform: scale(0.15); opacity: 0; animation: zoomin 4s linear infinite; }
+  .c2 { animation-delay: -2s; }
 
   /* Calm rows: still until hovered or focused. */
   .calm *, .calm { animation-play-state: paused !important; }
@@ -85,7 +86,7 @@
   @keyframes lens { 50% { letter-spacing: 0.08em; } }
   @keyframes drift { to { background-position: 400px 0, -300px 0, 200px 0, 0 0; } }
   @keyframes comet { 0%, 70% { transform: translateX(0); opacity: 0; } 75% { opacity: 1; } 100% { transform: translateX(240px) translateY(6px); opacity: 0; } }
-  @keyframes swell { 50% { transform: scale(1.12); } }
-  @keyframes zoom { from { transform: scale(1); opacity: 0.6; } to { transform: scale(2); opacity: 0; } }
+  @keyframes swell { 0%, 60%, 100% { transform: scale(1); text-shadow: none; } 25% { transform: scale(1.32); text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 60%, transparent); } }
+  @keyframes zoomin { 0% { transform: scale(0.05); opacity: 0; } 35% { opacity: 0.7; } 100% { transform: scale(0.48); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .title *, .title { animation: none !important; } }
 </style>

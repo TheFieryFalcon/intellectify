@@ -26,7 +26,8 @@ export type TheoremId =
   | "golden"
   | "recurrence";
 
-export type CosmeticSlot = "keypad" | "celebration" | "banner" | "nodeTheme" | "frame" | "title" | "lemmaIcon" | "nameOrnament";
+export type CosmeticSlot = "theme" | "keypad" | "celebration" | "banner" | "nodeTheme" | "frame" | "title" | "lemmaIcon" | "nameOrnament";
+/** Cosmetic slots in the Wardrobe; "theme" holds the color, a separate option (SPEC §13.8). */
 export const COSMETIC_SLOTS: readonly CosmeticSlot[] = ["keypad", "celebration", "banner", "nodeTheme", "frame", "title", "lemmaIcon", "nameOrnament"];
 
 export interface TheoremDef {
@@ -55,6 +56,24 @@ export interface EraDef {
   packPrice: number;
 }
 
+/**
+ * How a cosmetic without bespoke artwork is drawn: a kind the app knows (gradient banner, confetti,
+ * a keypad palette, a site theme …) and its colors. See content/economy.yaml.
+ */
+export interface CosmeticStyle {
+  kind: string;
+  colors?: string[];
+  motion?: string;
+  /** Geometric shop designs: which pattern, drawn in the student's color. */
+  pattern?: string;
+  /** Themes: the base hue (0–360) and saturation (0–1); the accent hue if it differs; "dark" forces a dark page. */
+  hue?: number;
+  sat?: number;
+  accentHue?: number;
+  accentSat?: number;
+  mode?: "dark";
+}
+
 export interface CosmeticDef {
   id: string;
   slot: CosmeticSlot;
@@ -62,6 +81,18 @@ export interface CosmeticDef {
   description: string;
   /** Shop items only. */
   price?: number;
+  style?: CosmeticStyle;
+}
+
+/** A site color (SPEC §13.8): bought in the shop or unlocked by an Axiom. */
+export interface ColorDef {
+  id: string;
+  name: string;
+  description: string;
+  price?: number;
+  /** The Axiom that unlocks it, instead of a price. */
+  axiom?: string;
+  style: CosmeticStyle;
 }
 
 export interface AxiomDef {
@@ -72,7 +103,8 @@ export interface AxiomDef {
   hours: number;
   group: "zfc" | "large";
   statement: string;
-  cosmetic: CosmeticDef;
+  /** 3 to 5 cosmetics: the first themed on the Axiom itself, the rest simply good-looking (SPEC §13.6). */
+  cosmetics: CosmeticDef[];
   title: string | null;
 }
 
@@ -112,6 +144,7 @@ export interface EconomyConfig {
     fullWeek: number;
   };
   shop: CosmeticDef[];
+  colors: ColorDef[];
   /** Hub tabs: lifetime Lemmas for Research, Research per day for Conjectures (SPEC §13.11). */
   tabs: { research: number; conjecturesRate: number };
 }
@@ -144,6 +177,8 @@ export interface PackCounts {
 }
 
 export interface Equipped {
+  /** Site color theme (SPEC §13.8). */
+  theme?: string | null;
   title: string | null;
   frame: string | null;
   banner: string | null;
@@ -169,6 +204,10 @@ export interface EconomyState {
   researchHours: number;
   /** XP towards the next Time Warp. */
   warpXp: number;
+  /** Time Warps fired, ever (an achievement counts them). */
+  warps?: number;
+  /** One-off feats for achievements, e.g. "luckyDraw" (two Diamonds in one pack). */
+  feats?: string[];
   theorems: Partial<Record<TheoremId, number>>;
   /** Institute copies per era id. */
   institutes: Record<string, number>;
@@ -193,7 +232,7 @@ export interface EconomyState {
   lastVisit: { balance: number; earned: number; researchHours: number } | null;
 }
 
-export const emptyEquipped = (): Equipped => ({ title: null, frame: null, banner: null, keypad: null, celebration: null, nodeTheme: null, lemmaIcon: null, nameOrnament: null, showcase: [] });
+export const emptyEquipped = (): Equipped => ({ theme: null, title: null, frame: null, banner: null, keypad: null, celebration: null, nodeTheme: null, lemmaIcon: null, nameOrnament: null, showcase: [] });
 
 export const emptyEconomy = (): EconomyState => ({
   lemmasEarned: 0,
@@ -814,12 +853,13 @@ export function proveAxioms(cfg: EconomyConfig, s: EconomyState, now: number): {
   if (reached <= s.axiomsProven) return { state: s, proven: [] };
   const proven = cfg.axioms.list.slice(s.axiomsProven, reached);
   const titles = proven.map((a) => a.title).filter((t): t is string => !!t);
+  const colors = (cfg.colors ?? []).filter((c) => c.axiom && proven.some((a) => a.id === c.axiom)).map((c) => c.id);
   return {
     state: {
       ...s,
       axiomsProven: reached,
       axiomDates: [...s.axiomDates, ...proven.map(() => now)],
-      owned: [...new Set([...s.owned, ...proven.map((a) => a.cosmetic.id)])],
+      owned: [...new Set([...s.owned, ...proven.flatMap((a) => a.cosmetics.map((c) => c.id)), ...colors])],
       titles: [...new Set([...s.titles, ...titles])],
     },
     proven,
@@ -827,7 +867,7 @@ export function proveAxioms(cfg: EconomyConfig, s: EconomyState, now: number): {
 }
 
 export function buyCosmetic(cfg: EconomyConfig, s: EconomyState, id: string): EconomyState | null {
-  const item = cfg.shop.find((c) => c.id === id);
+  const item = cfg.shop.find((c) => c.id === id) ?? (cfg.colors ?? []).find((c) => c.id === id);
   if (!item || item.price === undefined || s.owned.includes(id) || item.price > balanceOf(s)) return null;
   return { ...spend(s, item.price), owned: [...s.owned, id] };
 }
@@ -872,6 +912,8 @@ export function mergeEconomy(mine: EconomyState, saved: EconomyState): EconomySt
     axiomDates: mine.axiomDates.length >= saved.axiomDates.length ? mine.axiomDates : saved.axiomDates,
     researchCreditedAt: Math.max(mine.researchCreditedAt ?? 0, saved.researchCreditedAt ?? 0) || null,
     researchHours: Math.max(mine.researchHours, saved.researchHours),
+    warps: Math.max(mine.warps ?? 0, saved.warps ?? 0),
+    feats: [...new Set([...(mine.feats ?? []), ...(saved.feats ?? [])])],
     theorems: maxRecord(mine.theorems, saved.theorems),
     institutes: maxRecord(mine.institutes, saved.institutes),
     conjectures: Math.max(mine.conjectures, saved.conjectures),
@@ -885,4 +927,96 @@ export function mergeEconomy(mine: EconomyState, saved: EconomyState): EconomySt
     dailyDays: Math.max(mine.dailyDays, saved.dailyDays),
     fullWeeks: [...new Set([...mine.fullWeeks, ...saved.fullWeeks])],
   };
+}
+
+/* ───────────────────────── Site themes (SPEC §13.8) ───────────────────────── */
+
+export interface ThemeTokens {
+  bg: string;
+  surface: string;
+  region: string;
+  line: string;
+  edge: string;
+  ink: string;
+  muted: string;
+  accent: string;
+  accentSoft: string;
+  onAccent: string;
+  track: string;
+}
+
+const hex = (r: number, g: number, b: number) => `#${[r, g, b].map((v) => Math.round(Math.max(0, Math.min(1, v)) * 255).toString(16).padStart(2, "0")).join("")}`;
+/** HSL (h in degrees, s and l in 0–1) to #rrggbb. */
+export function hsl(h: number, s: number, l: number): string {
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return hex(f(0), f(8), f(4));
+}
+const luminance = (c: string) => {
+  const v = [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16) / 255).map((x) => (x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * v[0]! + 0.7152 * v[1]! + 0.0722 * v[2]!;
+};
+/** WCAG contrast ratio of two #rrggbb colors. */
+export function contrast(a: string, b: string): number {
+  const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p) as [number, number];
+  return (x + 0.05) / (y + 0.05);
+}
+/** The lightness, stepping from `from` toward `to`, at which the color first reaches `need` on every background. */
+function reach(h: number, s: number, from: number, to: number, bgs: string[], need: number): string {
+  const step = from > to ? -0.01 : 0.01;
+  for (let l = from; step < 0 ? l >= to : l <= to; l += step) {
+    const c = hsl(h, s, l);
+    if (bgs.every((b) => contrast(c, b) >= need)) return c;
+  }
+  return hsl(h, s, to);
+}
+
+/**
+ * A site theme's tokens for light and dark pages, derived from its hue so every one passes WCAG AA:
+ * ink 7:1, muted text and the accent 4.5:1 on the background, surfaces and regions.
+ */
+export function themeTokens(style: CosmeticStyle): { light: ThemeTokens; dark: ThemeTokens } {
+  const h = style.hue ?? 220;
+  const s = style.sat ?? 0.5;
+  const ah = style.accentHue ?? h;
+  const as = style.accentSat ?? Math.max(0.45, s);
+  const light = (): ThemeTokens => {
+    const bg = hsl(h, s * 0.45, 0.965);
+    const surface = hsl(h, s * 0.35, 0.995);
+    const region = hsl(h, s * 0.4, 0.935);
+    const bgs = [bg, surface, region];
+    const accent = reach(ah, as, 0.5, 0.15, bgs, 4.6);
+    return {
+      bg, surface, region,
+      line: hsl(h, s * 0.3, 0.88),
+      edge: hsl(h, s * 0.25, 0.76),
+      ink: reach(h, Math.min(0.3, s), 0.18, 0.05, bgs, 9),
+      muted: reach(h, Math.min(0.18, s), 0.45, 0.2, bgs, 4.6),
+      accent,
+      accentSoft: hsl(ah, as * 0.6, 0.92),
+      onAccent: "#ffffff",
+      track: hsl(h, s * 0.3, 0.86),
+    };
+  };
+  const dark = (): ThemeTokens => {
+    const bg = hsl(h, s * 0.35, 0.08);
+    const surface = hsl(h, s * 0.3, 0.12);
+    const region = hsl(h, s * 0.33, 0.1);
+    const bgs = [bg, surface, region];
+    const accent = reach(ah, as, 0.6, 0.9, bgs, 4.6);
+    return {
+      bg, surface, region,
+      line: hsl(h, s * 0.25, 0.18),
+      edge: hsl(h, s * 0.2, 0.28),
+      ink: reach(h, Math.min(0.25, s), 0.88, 0.98, bgs, 9),
+      muted: reach(h, Math.min(0.18, s), 0.6, 0.85, bgs, 4.6),
+      accent,
+      accentSoft: hsl(ah, as * 0.5, 0.18),
+      onAccent: reach(ah, as, 0.12, 0.02, [accent], 4.6),
+      track: hsl(h, s * 0.25, 0.2),
+    };
+  };
+  const d = dark();
+  return { light: style.mode === "dark" ? d : light(), dark: d };
 }

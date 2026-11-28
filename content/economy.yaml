@@ -107,18 +107,18 @@ theorems:
     y: 580
 
 # §13.3 Institutes, one per era. Copy n + 1 costs base × 1.15^n.
-# packPrice (§13.7): Antiquity 1 k∴, then half the era's institute, rising 15× an era like the institutes.
-# Bought packs aren't in economy_sim.py yet, so these are a starting point to tune.
+# packPrice (§13.7): an eighth of the era's institute (Antiquity 250 ∴), rising 15× an era like the institutes.
+# economy_sim.py buys packs when they're the best value.
 institutes:
   growth: 1.15
 eras:
-  - {id: antiquity, name: Antiquity, years: to 500, packPrice: 1000, institute: {id: academy, name: Academy, base: 2000, output: 2.5}}
-  - {id: golden-age, name: Golden Age, years: 500–1400, packPrice: 15000, institute: {id: house-of-wisdom, name: House of Wisdom, base: 30000, output: 20}}
-  - {id: renaissance, name: Renaissance, years: 1400–1650, packPrice: 225000, institute: {id: observatory, name: Observatory, base: 450000, output: 160}}
-  - {id: enlightenment, name: Enlightenment, years: 1650–1800, packPrice: 3375000, institute: {id: learned-society, name: Learned Society, base: 6750000, output: 1280}}
-  - {id: steam-age, name: Steam Age, years: 1800–1880, packPrice: 50625000, institute: {id: polytechnic, name: Polytechnic, base: 101250000, output: 10240}}
-  - {id: machine-age, name: Machine Age, years: 1880–1945, packPrice: 759375000, institute: {id: research-institute, name: Research Institute, base: 1518750000, output: 81920}}
-  - {id: space-age, name: Space Age, years: 1945 on, packPrice: 11390625000, institute: {id: particle-accelerator, name: Particle Accelerator, base: 22781250000, output: 655360}}
+  - {id: antiquity, name: Antiquity, years: to 500, packPrice: 250, institute: {id: academy, name: Academy, base: 2000, output: 2.5}}
+  - {id: golden-age, name: Golden Age, years: 500–1400, packPrice: 3750, institute: {id: house-of-wisdom, name: House of Wisdom, base: 30000, output: 20}}
+  - {id: renaissance, name: Renaissance, years: 1400–1650, packPrice: 56250, institute: {id: observatory, name: Observatory, base: 450000, output: 160}}
+  - {id: enlightenment, name: Enlightenment, years: 1650–1800, packPrice: 843750, institute: {id: learned-society, name: Learned Society, base: 6750000, output: 1280}}
+  - {id: steam-age, name: Steam Age, years: 1800–1880, packPrice: 12656250, institute: {id: polytechnic, name: Polytechnic, base: 101250000, output: 10240}}
+  - {id: machine-age, name: Machine Age, years: 1880–1945, packPrice: 189843750, institute: {id: research-institute, name: Research Institute, base: 1518750000, output: 81920}}
+  - {id: space-age, name: Space Age, years: 1945 on, packPrice: 2847656250, institute: {id: particle-accelerator, name: Particle Accelerator, base: 22781250000, output: 655360}}
 
 # Staff slots (§13.3): 1 slot per copy, up to 12 (half a set) at the 12th copy, as fitted with
 # scripts/economy_sim.py (slot_copies, slot_cap).
@@ -150,46 +150,219 @@ conjectures:
     - {id: riemann, name: Riemann Hypothesis, statement: "Every nontrivial zero of ζ(s) has real part ½", proved: "2026, Alpöge (with AI; formally verified in Lean)"}
     - {id: p-vs-np, name: P versus NP, statement: "Is every problem whose answer can be checked quickly also quick to solve?", proved: null}
 
-# §13.6 Axioms: milestones of lifetime Lemmas, each +5% to all sources once proven, with its own cosmetic.
+# §13.6 Axioms: milestones of lifetime Lemmas, each +5% to all sources once proven, with 3 to 5 cosmetics
+# (the first themed on the Axiom, the rest simply good-looking); some also unlock a color (below).
 axioms:
   bonus: 0.05
   list:
-    - {id: extensionality, name: Extensionality, at: 10000, hours: 14, group: zfc, statement: "Sets with the same elements are equal",
-       cosmetic: {id: venn, slot: banner, name: Venn, description: "Two circles slide together and become one"}, title: null}
-    - {id: regularity, name: Regularity, at: 30000, hours: 26, group: zfc, statement: "Every nonempty set has an element disjoint from it, so there's no endless ∈-descent",
-       cosmetic: {id: well-founded, slot: nodeTheme, name: Well-Founded, description: "The tech tree stands on a drawn ground line, with roots under the first skills"}, title: null}
-    - {id: specification, name: Specification, at: 100000, hours: 50, group: zfc, statement: "Any definable property carves a subset out of a set",
-       cosmetic: {id: set-builder, slot: keypad, name: Set-Builder, description: "Keys framed like { x ∣ … }, with a fine sieve texture"}, title: null}
-    - {id: pairing, name: Pairing, at: 300000, hours: 100, group: zfc, statement: "For any a and b, {a, b} is a set",
-       cosmetic: {id: pair, slot: celebration, name: Pair, description: "Two sparks spiral together into one"}, title: null}
-    - {id: union, name: Union, at: 700000, hours: 150, group: zfc, statement: "The members of a set's members form a set",
-       cosmetic: {id: union, slot: banner, name: Union, description: "Many small sets drift together into one"}, title: null}
-    - {id: replacement, name: Replacement, at: 1500000, hours: 215, group: zfc, statement: "The image of a set under a definable function is a set",
-       cosmetic: {id: image, slot: celebration, name: Image, description: "Each symbol of the answer maps, one to one, onto a star"}, title: null}
-    - {id: infinity, name: Infinity, at: 3000000, hours: 285, group: zfc, statement: "There is an infinite (inductive) set",
-       cosmetic: {id: infinity-icon, slot: lemmaIcon, name: "∞ Lemma icon", description: "The ∴ in the header becomes a slowly tracing ∞"}, title: Inductive}
-    - {id: power-set, name: Power Set, at: 5000000, hours: 335, group: zfc, statement: "Every set has a set of all its subsets",
-       cosmetic: {id: hasse, slot: nodeTheme, name: Hasse, description: "Tree edges drawn as the lattice of a power set"}, title: null}
-    - {id: choice, name: Choice, at: 15000000, hours: 420, group: zfc, statement: "Every family of nonempty sets has a choice function",
-       cosmetic: {id: banach-tarski, slot: celebration, name: Banach–Tarski, description: "A sphere splits into pieces that reassemble into two"}, title: Well-Ordered}
-    - {id: inaccessible, name: Inaccessible, at: 20000000, hours: 445, group: large, statement: "A cardinal that unions and power sets of smaller ones can never reach",
-       cosmetic: {id: unreachable, slot: banner, name: Unreachable, description: "A ladder of ℵ's climbing out of view"}, title: Inaccessible}
-    - {id: mahlo, name: Mahlo, at: 50000000, hours: 520, group: large, statement: "Inaccessible, with inaccessibles below it so common they form a stationary set",
-       cosmetic: {id: stationary, slot: keypad, name: Stationary, description: "The keys hold still while a field of stars turns behind them"}, title: null}
-    - {id: weakly-compact, name: Weakly Compact, at: 70000000, hours: 550, group: large, statement: "Inaccessible, and every tree of its height with small levels has a full-length branch",
-       cosmetic: {id: tree-property, slot: nodeTheme, name: Tree Property, description: "One unbroken branch glows from the root to the top of the tech tree"}, title: null}
-    - {id: measurable, name: Measurable, at: 100000000, hours: 585, group: large, statement: "Carries a two-valued measure: a κ-complete nonprincipal ultrafilter",
-       cosmetic: {id: ultrafilter, slot: celebration, name: Ultrafilter, description: "Light pours down through a funnel of nested sets"}, title: Measurable}
-    - {id: strong, name: Strong, at: 500000000, hours: 640, group: large, statement: "The universe embeds into inner models that agree with it up to any chosen rank",
-       cosmetic: {id: embedding, slot: banner, name: Embedding, description: "The profile shows a smaller faithful copy of itself inside"}, title: null}
-    - {id: woodin, name: Woodin, at: 1500000000, hours: 675, group: large, statement: "Infinitely many of them make every projective game determined",
-       cosmetic: {id: determinacy, slot: keypad, name: Determinacy, description: "Keys light alternately, like moves in an infinite game"}, title: null}
-    - {id: supercompact, name: Supercompact, at: 50000000000, hours: 720, group: large, statement: "Embeddings whose targets are closed under sequences of any chosen length",
-       cosmetic: {id: supercompact, slot: nodeTheme, name: Supercompact, description: "The whole tree folds into a single point and unfolds when the map opens"}, title: null}
-    - {id: huge, name: Huge, at: 50000000000000, hours: 770, group: large, statement: "An embedding whose target is closed under sequences as long as the image of its critical point",
-       cosmetic: {id: huge, slot: celebration, name: Huge, description: "The celebration fills the whole screen"}, title: Huge}
-    - {id: rank-into-rank, name: Rank-into-Rank, at: 1000000000000000, hours: 815, group: large, statement: "A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent",
-       cosmetic: {id: edge, slot: nameOrnament, name: Edge, description: "A hairline of light flickers along the name's edge"}, title: Edge of Consistency}
+    - id: extensionality
+      name: Extensionality
+      at: 10000
+      hours: 14
+      group: zfc
+      statement: Sets with the same elements are equal
+      title: null
+      cosmetics:
+        - {id: venn, slot: banner, name: Venn, description: Two circles slide together and become one}
+        - {id: dawn, slot: banner, name: Dawn, description: 'Peach fading into lavender, drifting slowly', style: {kind: gradient, colors: ['#ffcfa8', '#f7b2c4', '#c9b6f2'], motion: drift}}
+        - {id: copper-icon, slot: lemmaIcon, name: Copper ∴, description: The ∴ in warm brushed copper, style: {kind: glyph, colors: ['#b8693a', '#e7a272']}}
+    - id: regularity
+      name: Regularity
+      at: 30000
+      hours: 26
+      group: zfc
+      statement: Every nonempty set has an element disjoint from it, so there's no endless ∈-descent
+      title: null
+      cosmetics:
+        - {id: well-founded, slot: nodeTheme, name: Well-Founded, description: 'The tech tree stands on a drawn ground line, with roots under the first skills'}
+        - {id: linen, slot: keypad, name: Linen, description: Soft cream keys on a woven ground, style: {kind: palette, colors: ['#efe7d8', '#fbf7ef', '#3d3326', '#d8ccb6']}}
+        - {id: confetti, slot: celebration, name: Confetti, description: A bright burst of confetti, style: {kind: confetti, colors: ['#ff6b6b', '#ffd166', '#06d6a0', '#4dabf7', '#b197fc']}}
+    - id: specification
+      name: Specification
+      at: 100000
+      hours: 50
+      group: zfc
+      statement: Any definable property carves a subset out of a set
+      title: null
+      cosmetics:
+        - {id: set-builder, slot: keypad, name: Set-Builder, description: 'Keys framed like { x ∣ … }, with a fine sieve texture'}
+        - {id: soft-glow, slot: nameOrnament, name: Soft Glow, description: A warm glow around the name, style: {kind: glow, colors: ['#ffb86b']}}
+        - {id: meadow, slot: banner, name: Meadow, description: Rolling green hills under a pale sky, style: {kind: waves, colors: ['#2f9e44', '#8ce99a', '#ebfbee'], motion: drift}}
+    - id: pairing
+      name: Pairing
+      at: 300000
+      hours: 100
+      group: zfc
+      statement: For any a and b, {a, b} is a set
+      title: null
+      cosmetics:
+        - {id: pair, slot: celebration, name: Pair, description: Two sparks spiral together into one}
+        - {id: tide, slot: banner, name: Tide, description: Teal waves rolling in, style: {kind: waves, colors: ['#0b7285', '#3bc9db', '#c5f6fa'], motion: drift}}
+        - {id: mist, slot: keypad, name: Mist, description: Frosted pale-blue keys, style: {kind: palette, colors: ['#dbe9f6', '#f4f9ff', '#1d3b57', '#b5cde3']}}
+    - id: union
+      name: Union
+      at: 700000
+      hours: 150
+      group: zfc
+      statement: The members of a set's members form a set
+      title: null
+      cosmetics:
+        - {id: union, slot: banner, name: Union, description: Many small sets drift together into one}
+        - {id: bubbles, slot: celebration, name: Bubbles, description: Bubbles rise and pop, style: {kind: bubbles, colors: ['#66d9e8', '#a5d8ff', '#e599f7']}}
+        - {id: pastel, slot: nodeTheme, name: Pastel, description: Soft pastel regions and rounded edges, style: {kind: palette, colors: ['#fff4f8', '#f3d9fa', '#c0a3e6', '#fff4f8']}}
+    - id: replacement
+      name: Replacement
+      at: 1500000
+      hours: 215
+      group: zfc
+      statement: The image of a set under a definable function is a set
+      title: null
+      cosmetics:
+        - {id: image, slot: celebration, name: Image, description: 'Each symbol of the answer maps, one to one, onto a star'}
+        - {id: silver-icon, slot: lemmaIcon, name: Silver ∴, description: The ∴ in polished silver, style: {kind: glyph, colors: ['#8a939e', '#dfe5ec'], motion: shimmer}}
+        - {id: harbor-banner, slot: banner, name: Harbor, description: Navy water with sea-glass light, style: {kind: waves, colors: ['#0b3a5b', '#127c8a', '#99e9f2'], motion: drift}}
+    - id: infinity
+      name: Infinity
+      at: 3000000
+      hours: 275
+      group: zfc
+      statement: There is an infinite (inductive) set
+      title: Inductive
+      cosmetics:
+        - {id: infinity-icon, slot: lemmaIcon, name: ∞ Lemma icon, description: The ∴ in the header becomes a slowly tracing ∞}
+        - {id: ember-banner, slot: banner, name: Embers, description: 'Glowing orange and red, shimmering', style: {kind: gradient, colors: ['#7a1e0e', '#e8590c', '#ffa94d'], motion: shimmer}}
+        - {id: ember-name, slot: nameOrnament, name: Ember, description: The name burns from orange to red, style: {kind: gradient, colors: ['#f76707', '#e03131']}}
+    - id: power-set
+      name: Power Set
+      at: 5000000
+      hours: 320
+      group: zfc
+      statement: Every set has a set of all its subsets
+      title: null
+      cosmetics:
+        - {id: hasse, slot: nodeTheme, name: Hasse, description: Tree edges drawn as the lattice of a power set}
+        - {id: obsidian, slot: keypad, name: Obsidian, description: Glossy black keys with a soft sheen, style: {kind: palette, colors: ['#0e0f13', '#22252d', '#f1f3f5', '#3a3f4b'], motion: shimmer}}
+        - {id: sparkles, slot: celebration, name: Sparkles, description: Gold sparkles twinkle out, style: {kind: sparkles, colors: ['#ffd43b', '#fff3bf', '#fab005']}}
+    - id: choice
+      name: Choice
+      at: 15000000
+      hours: 405
+      group: zfc
+      statement: Every family of nonempty sets has a choice function
+      title: Well-Ordered
+      cosmetics:
+        - {id: banach-tarski, slot: celebration, name: Banach–Tarski, description: A sphere splits into pieces that reassemble into two}
+        - {id: velvet, slot: banner, name: Velvet, description: 'Deep plum, folded like velvet', style: {kind: mesh, colors: ['#2b0a3d', '#5f1d6e', '#a23b72'], motion: drift}}
+        - {id: orchid-keys, slot: keypad, name: Orchid, description: Deep orchid keys with pale type, style: {kind: palette, colors: ['#2a0f35', '#4a1d5e', '#f8e8ff', '#8e44ad']}}
+    - id: inaccessible
+      name: Inaccessible
+      at: 20000000
+      hours: 425
+      group: large
+      statement: A cardinal that unions and power sets of smaller ones can never reach
+      title: Inaccessible
+      cosmetics:
+        - {id: unreachable, slot: banner, name: Unreachable, description: A ladder of ℵ's climbing out of view}
+        - {id: midnight, slot: nodeTheme, name: Midnight, description: A night-blue map with glowing paths, style: {kind: palette, colors: ['#0b1226', '#16213e', '#8fb3ff', '#0b1226'], motion: glow}}
+        - {id: gold-icon, slot: lemmaIcon, name: Gold ∴, description: The ∴ in shimmering gold, style: {kind: glyph, colors: ['#b8860b', '#ffe066'], motion: shimmer}}
+        - {id: frost, slot: keypad, name: Frost, description: Icy keys with a crisp white edge, style: {kind: palette, colors: ['#c9e7f5', '#eef9ff', '#0f3a52', '#ffffff'], motion: shimmer}}
+    - id: mahlo
+      name: Mahlo
+      at: 50000000
+      hours: 495
+      group: large
+      statement: Inaccessible, with inaccessibles below it so common they form a stationary set
+      title: null
+      cosmetics:
+        - {id: stationary, slot: keypad, name: Stationary, description: The keys hold still while a field of stars turns behind them}
+        - {id: petals, slot: celebration, name: Petals, description: Pink petals drift down, style: {kind: petals, colors: ['#ffc9de', '#faa2c1', '#fff0f6']}}
+        - {id: northern-lights, slot: banner, name: Northern Lights, description: Green and violet curtains of light, style: {kind: waves, colors: ['#051923', '#2b9348', '#80ffdb', '#7b2cbf'], motion: drift}}
+        - {id: quantifier-icon, slot: lemmaIcon, name: Quantifier ∴, description: '∀ turns into ∃ and back: the quantifiers of higher-order logic'}
+    - id: weakly-compact
+      name: Weakly Compact
+      at: 70000000
+      hours: 520
+      group: large
+      statement: Inaccessible, and every tree of its height with small levels has a full-length branch
+      title: null
+      cosmetics:
+        - {id: tree-property, slot: nodeTheme, name: Tree Property, description: One unbroken branch glows from the root to the top of the tech tree}
+        - {id: gilded-name, slot: nameOrnament, name: Gilded, description: The name in shimmering gold leaf, style: {kind: shimmer, colors: ['#b8860b', '#ffe066', '#b8860b']}}
+        - {id: rosewood, slot: keypad, name: Rosewood, description: Warm polished wooden keys, style: {kind: palette, colors: ['#3b1f18', '#7a3e2f', '#fbe9e2', '#9c5a46']}}
+        - {id: moss, slot: nodeTheme, name: Moss, description: 'Soft greens, like a forest floor', style: {kind: palette, colors: ['#f1f7ec', '#dcebd2', '#5c8a4a', '#f1f7ec']}}
+    - id: measurable
+      name: Measurable
+      at: 100000000
+      hours: 555
+      group: large
+      statement: 'Carries a two-valued measure: a κ-complete nonprincipal ultrafilter'
+      title: Measurable
+      cosmetics:
+        - {id: ultrafilter, slot: celebration, name: Ultrafilter, description: Light pours down through a funnel of nested sets}
+        - {id: fireworks, slot: celebration, name: Fireworks, description: Fireworks burst in every color, style: {kind: fireworks, colors: ['#ff6b6b', '#ffd43b', '#69db7c', '#4dabf7', '#da77f2']}}
+        - {id: prism, slot: banner, name: Prism, description: A drifting rainbow through glass, style: {kind: gradient, colors: ['#ff8787', '#ffd43b', '#8ce99a', '#74c0fc', '#b197fc'], motion: drift}}
+        - {id: sunset-name, slot: nameOrnament, name: Sunset, description: The name fades from gold to coral, style: {kind: gradient, colors: ['#f59f00', '#f03e3e']}}
+    - id: strong
+      name: Strong
+      at: 500000000
+      hours: 610
+      group: large
+      statement: The universe embeds into inner models that agree with it up to any chosen rank
+      title: null
+      cosmetics:
+        - {id: embedding, slot: banner, name: Embedding, description: The profile shows a smaller faithful copy of itself inside}
+        - {id: neon, slot: keypad, name: Neon, description: Dark keys outlined in neon, style: {kind: palette, colors: ['#0a0a12', '#141428', '#e0fbff', '#00f5d4'], motion: glow}}
+        - {id: prism-icon, slot: lemmaIcon, name: Prism ∴, description: The ∴ shimmering through the spectrum, style: {kind: glyph, colors: ['#ff6b6b', '#ffd43b', '#69db7c', '#4dabf7', '#da77f2'], motion: shimmer}}
+        - {id: aurora-name, slot: nameOrnament, name: Aurora, description: 'Green to violet, rippling across the name', style: {kind: shimmer, colors: ['#2b9348', '#80ffdb', '#7b2cbf']}}
+    - id: woodin
+      name: Woodin
+      at: 1500000000
+      hours: 650
+      group: large
+      statement: Infinitely many of them make every projective game determined
+      title: null
+      cosmetics:
+        - {id: determinacy, slot: keypad, name: Determinacy, description: 'Keys light alternately, like moves in an infinite game'}
+        - {id: starfield, slot: banner, name: Starfield, description: A deep sky full of twinkling stars, style: {kind: stars, colors: ['#03040b', '#111836', '#ffffff']}}
+        - {id: neon-map, slot: nodeTheme, name: Neon, description: Neon paths on a dark map, style: {kind: palette, colors: ['#0a0a12', '#141428', '#00f5d4', '#0a0a12'], motion: glow}}
+        - {id: halo, slot: celebration, name: Halo, description: A soft ring of light swells and fades, style: {kind: glow, colors: ['#b197fc', '#e5dbff']}}
+    - id: supercompact
+      name: Supercompact
+      at: 50000000000
+      hours: 690
+      group: large
+      statement: Embeddings whose targets are closed under sequences of any chosen length
+      title: null
+      cosmetics:
+        - {id: supercompact, slot: nodeTheme, name: Supercompact, description: The whole tree folds into a single point and unfolds when the map opens}
+        - {id: opal, slot: keypad, name: Opal, description: Pearly keys with a moving iridescence, style: {kind: palette, colors: ['#e9ecf5', '#ffffff', '#2b2d42', '#d0bfff'], motion: iridescent}}
+        - {id: nebula, slot: banner, name: Nebula, description: Purple and blue clouds drifting in space, style: {kind: mesh, colors: ['#10002b', '#3c096c', '#5a189a', '#4361ee'], motion: drift}}
+        - {id: star-icon, slot: lemmaIcon, name: Starlit ∴, description: The ∴ glowing like a small star, style: {kind: glyph, colors: ['#fff9db', '#ffd43b'], motion: glow}}
+        - {id: starlight, slot: nameOrnament, name: Starlight, description: A cool starlight glow that twinkles, style: {kind: glow, colors: ['#7fb0ff'], motion: twinkle}}
+    - id: huge
+      name: Huge
+      at: 50000000000000
+      hours: 730
+      group: large
+      statement: An embedding whose target is closed under sequences as long as the image of its critical point
+      title: Huge
+      cosmetics:
+        - {id: huge, slot: celebration, name: Huge, description: The celebration fills the whole screen}
+        - {id: golden-rain, slot: celebration, name: Golden Rain, description: Gold leaf falls across the screen, style: {kind: confetti, colors: ['#ffd43b', '#fab005', '#fff3bf']}}
+        - {id: gilded-map, slot: nodeTheme, name: Gilded, description: Gold paths on ivory, style: {kind: palette, colors: ['#fffbeb', '#fff3c4', '#c99700', '#fffbeb'], motion: glow}}
+        - {id: solar-flare, slot: banner, name: Solar Flare, description: A blazing sun rising over the banner, style: {kind: mesh, colors: ['#5c0f00', '#e8590c', '#ffd43b', '#fff9db'], motion: shimmer}}
+    - id: rank-into-rank
+      name: Rank-into-Rank
+      at: 1000000000000000
+      hours: 750
+      group: large
+      statement: 'A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent'
+      title: Edge of Consistency
+      cosmetics:
+        - {id: edge, slot: nameOrnament, name: Edge, description: A hairline of light flickers along the name's edge}
+        - {id: eclipse-keys, slot: keypad, name: Eclipse, description: Black keys ringed in gold, style: {kind: palette, colors: ['#050505', '#111111', '#ffe8a3', '#d4a017'], motion: glow}}
+        - {id: eclipse-icon, slot: lemmaIcon, name: Eclipse ∴, description: A black ∴ with a gold corona, style: {kind: glyph, colors: ['#000000', '#ffd43b'], motion: corona}}
+        - {id: supernova, slot: celebration, name: Supernova, description: A white-gold star explodes outward, style: {kind: fireworks, colors: ['#ffffff', '#ffe066', '#ffa94d']}}
 
 # §13.5 Corollaries: +(points ÷ 10)% per achievement, +5% per level tier, +10% per completed era set.
 corollaries: {perAchievementPoint: 0.001, perLevelTier: 0.05, perEraSet: 0.10}
@@ -229,20 +402,57 @@ packs:
   challenge: 1
   fullWeek: 1
 
-# §13.8 The Lemma shop: fixed prices, cosmetic only.
+# §13.8 The Lemma shop: fixed prices, cosmetic only. Shop designs are simple geometric patterns drawn
+# in the student's color, so they suit any color they choose.
 shop:
-  - {id: chalkboard, slot: keypad, name: Chalkboard, price: 5000, description: "Chalk keys on a slate-green board"}
-  - {id: graph-paper, slot: keypad, name: Graph Paper, price: 60000, description: "Keys on a fine blue millimetre grid"}
-  - {id: brass, slot: keypad, name: Brass, price: 900000, description: "Engraved brass keys, like a mechanical calculator"}
-  - {id: chalk-dust, slot: celebration, name: Chalk Dust, price: 10000, description: "A puff of chalk dust drifts up from the answer"}
-  - {id: ripple, slot: celebration, name: Ripple, price: 150000, description: "Concentric rings spread out from the answer"}
-  - {id: fibonacci, slot: celebration, name: Fibonacci Spiral, price: 3000000, description: "Squares of 1, 1, 2, 3, 5, 8 spiral outward and fade"}
-  - {id: tessellation, slot: banner, name: Tessellation, price: 8000, description: "A field of interlocking hexagons"}
-  - {id: sine-waves, slot: banner, name: Sine Waves, price: 120000, description: "Slow sine waves of different frequencies"}
-  - {id: mandelbrot, slot: banner, name: Mandelbrot, price: 2000000, description: "The edge of the Mandelbrot set, in ink"}
-  - {id: chalk, slot: nodeTheme, name: Chalk, price: 20000, description: "Edges drawn in soft chalk strokes"}
-  - {id: blueprint, slot: nodeTheme, name: Blueprint, price: 400000, description: "White lines on drafting blue"}
-  - {id: stained-glass, slot: nodeTheme, name: Stained Glass, price: 6000000, description: "Nodes set like panes of colored glass, edges in lead"}
+  - {id: hexagons, slot: banner, name: Hexagons, description: A quiet field of hexagons, style: {kind: geo, pattern: hexagons}, price: 8000}
+  - {id: triangles, slot: banner, name: Triangles, description: Alternating triangles in two tones, style: {kind: geo, pattern: triangles}, price: 20000}
+  - {id: rings, slot: banner, name: Rings, description: Overlapping circles in a row, style: {kind: geo, pattern: rings}, price: 60000}
+  - {id: chevrons, slot: banner, name: Chevrons, description: Chevrons marching across, style: {kind: geo, pattern: chevrons}, price: 150000}
+  - {id: lattice, slot: banner, name: Lattice, description: A fine diamond lattice, style: {kind: geo, pattern: lattice}, price: 400000}
+  - {id: waves, slot: banner, name: Waves, description: Slow parallel waves, style: {kind: geo, pattern: waves}, price: 1000000}
+  - {id: concentric, slot: banner, name: Concentric, description: Circles spreading from one point, style: {kind: geo, pattern: concentric}, price: 3000000}
+  - {id: outline-keys, slot: keypad, name: Outline, description: Hollow keys with a fine outline, style: {kind: geo, pattern: outline}, price: 5000}
+  - {id: pill-keys, slot: keypad, name: Pill, description: Rounded pill keys, style: {kind: geo, pattern: pill}, price: 40000}
+  - {id: inset-keys, slot: keypad, name: Inset, description: Keys pressed into the surface, style: {kind: geo, pattern: inset}, price: 250000}
+  - {id: tinted-keys, slot: keypad, name: Tinted, description: Keys tinted in your color, style: {kind: geo, pattern: tinted}, price: 900000}
+  - {id: block-keys, slot: keypad, name: Block, description: Square keys with a heavy base line, style: {kind: geo, pattern: block}, price: 2500000}
+  - {id: ripple, slot: celebration, name: Ripple, description: Rings spread out from the answer, style: {kind: geo, pattern: ripple}, price: 10000}
+  - {id: burst, slot: celebration, name: Burst, description: Straight lines burst outward, style: {kind: geo, pattern: burst}, price: 50000}
+  - {id: squares, slot: celebration, name: Squares, description: Squares turn and fly apart, style: {kind: geo, pattern: squares}, price: 300000}
+  - {id: shards, slot: celebration, name: Shards, description: Triangles scatter like glass, style: {kind: geo, pattern: shards}, price: 1000000}
+  - {id: orbit, slot: celebration, name: Orbit, description: Dots circle once and settle, style: {kind: geo, pattern: orbit}, price: 3000000}
+  - {id: outline-map, slot: nodeTheme, name: Outline, description: Hollow nodes and hairline paths, style: {kind: geo, pattern: outline}, price: 20000}
+  - {id: bold-map, slot: nodeTheme, name: Bold, description: Thick paths in your color, style: {kind: geo, pattern: bold}, price: 150000}
+  - {id: dotted-map, slot: nodeTheme, name: Dotted, description: Dotted paths on a dotted ground, style: {kind: geo, pattern: dotted}, price: 600000}
+  - {id: lattice-map, slot: nodeTheme, name: Lattice, description: Straight paths and square nodes, style: {kind: geo, pattern: lattice}, price: 2000000}
+  - {id: glow-map, slot: nodeTheme, name: Glow, description: Paths and nodes softly lit, style: {kind: geo, pattern: glow}, price: 6000000}
+
+# Colors (§13.8): a separate option from cosmetics. Each recolors the whole site, light and dark, from a hue
+# (checked for contrast by the build). Bought here, or unlocked by an Axiom.
+colors:
+  - {id: spring, name: Spring, description: Fresh greens and new leaves, axiom: specification, style: {kind: theme, hue: 95, sat: 0.55}}
+  - {id: harbor, name: Harbor, description: Deep navy with sea-glass accents, axiom: replacement, style: {kind: theme, hue: 205, sat: 0.6, accentHue: 180}}
+  - {id: orchid, name: Orchid, description: Soft purples with orchid pink, axiom: choice, style: {kind: theme, hue: 290, sat: 0.5, accentHue: 315}}
+  - {id: glacier, name: Glacier, description: Ice blues and clear skies, axiom: mahlo, style: {kind: theme, hue: 195, sat: 0.65}}
+  - {id: sunset, name: Sunset, description: Warm corals and evening gold, axiom: measurable, style: {kind: theme, hue: 18, sat: 0.75, accentHue: 8}}
+  - {id: noir, name: Noir, description: 'Black, white and grey, nothing else', axiom: strong, style: {kind: theme, hue: 220, sat: 0, accentSat: 0}}
+  - {id: sakura, name: Sakura, description: Cherry-blossom pinks, axiom: woodin, style: {kind: theme, hue: 340, sat: 0.6}}
+  - {id: royal, name: Royal, description: Deep purple with gold, axiom: huge, style: {kind: theme, hue: 265, sat: 0.55, accentHue: 45, accentSat: 0.9}}
+  - {id: eclipse, name: Eclipse, description: 'Black and gold, always dark', axiom: rank-into-rank, style: {kind: theme, hue: 45, sat: 0.25, accentHue: 45, accentSat: 0.9, mode: dark}}
+  - {id: forest, name: Forest, description: Deep greens, price: 15000, style: {kind: theme, hue: 140, sat: 0.45}}
+  - {id: ocean-theme, name: Ocean, description: Clear blues, price: 15000, style: {kind: theme, hue: 210, sat: 0.7}}
+  - {id: rose, name: Rose, description: Dusky rose pinks, price: 40000, style: {kind: theme, hue: 345, sat: 0.45}}
+  - {id: lavender, name: Lavender, description: Gentle lavender, price: 40000, style: {kind: theme, hue: 260, sat: 0.5}}
+  - {id: sunflower, name: Sunflower, description: Warm yellows with a brown accent, price: 120000, style: {kind: theme, hue: 45, sat: 0.8, accentHue: 28}}
+  - {id: teal, name: Teal, description: Calm blue-green, price: 120000, style: {kind: theme, hue: 175, sat: 0.6}}
+  - {id: coral, name: Coral, description: Bright coral and cream, price: 300000, style: {kind: theme, hue: 12, sat: 0.7}}
+  - {id: plum, name: Plum, description: Rich plum purples, price: 300000, style: {kind: theme, hue: 300, sat: 0.45}}
+  - {id: slate, name: Slate, description: Cool blue-greys, price: 800000, style: {kind: theme, hue: 215, sat: 0.18}}
+  - {id: copper, name: Copper, description: Copper and terracotta, price: 800000, style: {kind: theme, hue: 22, sat: 0.55, accentHue: 20}}
+  - {id: mint, name: Mint, description: Cool fresh mint, price: 2000000, style: {kind: theme, hue: 155, sat: 0.55}}
+  - {id: crimson, name: Crimson, description: Deep crimson reds, price: 2000000, style: {kind: theme, hue: 355, sat: 0.65}}
+  - {id: midnight-blue, name: Midnight Blue, description: 'Night blues, always dark', price: 5000000, style: {kind: theme, hue: 225, sat: 0.5, mode: dark}}
 
 # §13.11 Hub tabs: Research opens at 2 k∴ lifetime earned; Conjectures once Research reaches 250 k∴/day.
 tabs: {research: 2000, conjecturesRate: 250000}

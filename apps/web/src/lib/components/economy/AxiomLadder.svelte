@@ -12,6 +12,7 @@
   const cfg = $derived(economy.config!);
   const s = $derived(economy.state);
   const reached = $derived(economy.reached);
+  const colorOf = (id: string) => cfg.colors?.find((c) => c.axiom === id);
   const date = (t: number) => new Date(t).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" });
   const groups = $derived([
     { name: "ZFC", list: cfg.axioms.list.slice(0, 9), offset: 0 },
@@ -38,7 +39,7 @@
             {:else if i === reached}
               <p class="meta num"><LemmaAmount value={s.lemmasEarned} /> / <LemmaAmount value={a.at} /></p>
             {/if}
-            <p class="unlock">{#if proven}{a.cosmetic.name}{:else}<span class="sil">{a.cosmetic.name}</span>{/if}{#if a.title}, {#if proven}<Title title={a.title} />{:else}<span class="sil">{a.title}</span>{/if}{/if}, +5%</p>
+            <p class="unlock">{#each a.cosmetics as c, k (c.id)}{k ? ", " : ""}{#if proven}{c.name}{:else}<span class="sil">{c.name}</span>{/if}{/each}{#if colorOf(a.id)}, {#if proven}{colorOf(a.id)!.name} color{:else}<span class="sil">{colorOf(a.id)!.name} color</span>{/if}{/if}{#if a.title}, {#if proven}<Title title={a.title} />{:else}<span class="sil">{a.title}</span>{/if}{/if}, +5%</p>
           </div>
         </div>
         <p class="margin">{a.statement}</p>

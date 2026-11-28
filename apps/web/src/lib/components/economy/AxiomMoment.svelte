@@ -6,6 +6,7 @@
   import type { AxiomDef } from "@intellectify/engine";
   import { currentEconomy } from "$lib/profile.svelte";
   import Title from "./Title.svelte";
+  import { SLOT_NAME } from "$lib/cosmetics";
 
   let { axioms, onclose }: { axioms: AxiomDef[]; onclose: () => void } = $props();
   const economy = currentEconomy();
@@ -44,10 +45,19 @@
       <ul class="unlocks">
         <li><span class="k">All sources</span><span>+5%</span></li>
         {#each axioms as a (a.id)}
-          <li>
-            <span class="k">{a.cosmetic.name}</span>
-            {#if equipped[a.cosmetic.id]}<span class="muted">Equipped</span>{:else}<button class="btn link" onclick={() => equip(a.cosmetic.id, () => economy?.equip(a.cosmetic.slot, a.cosmetic.id))}>Equip</button>{/if}
-          </li>
+          {#each a.cosmetics as c (c.id)}
+            <li>
+              <span class="k">{c.name} <span class="muted">{SLOT_NAME[c.slot]}</span></span>
+              {#if equipped[c.id]}<span class="muted">Equipped</span>{:else}<button class="btn link" onclick={() => equip(c.id, () => economy?.equip(c.slot, c.id))}>Equip</button>{/if}
+            </li>
+          {/each}
+          {@const color = economy?.config?.colors?.find((x) => x.axiom === a.id)}
+          {#if color}
+            <li>
+              <span class="k">{color.name} <span class="muted">Color</span></span>
+              {#if equipped[color.id]}<span class="muted">Equipped</span>{:else}<button class="btn link" onclick={() => equip(color.id, () => economy?.equip("theme", color.id))}>Equip</button>{/if}
+            </li>
+          {/if}
           {#if a.title}
             <li>
               <span class="k"><Title title={a.title} /></span>
@@ -70,7 +80,7 @@
   .statement { margin: 0 auto; max-width: 34ch; font-family: var(--font-display); font-style: italic; color: var(--muted); }
   .flash { animation: flash 0.8s ease both; }
   .axiom:not(.flash) { animation: rise 0.5s ease both; }
-  .unlocks { list-style: none; padding: 0; margin: 18px 0; display: grid; gap: 6px; text-align: left; }
+  .unlocks { list-style: none; padding: 0; margin: 18px 0; display: grid; gap: 6px; text-align: left; max-height: 46vh; overflow-y: auto; }
   .unlocks li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; }
   .k { font-weight: 500; }
   @keyframes fade { from { opacity: 0; } }

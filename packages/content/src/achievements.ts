@@ -8,11 +8,11 @@ import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 
 export const ACHIEVEMENT_TIERS = {
-  platinum: { points: 10, count: 23, secret: 1 },
-  diamond: { points: 25, count: 22, secret: 2 },
-  ruby: { points: 50, count: 18, secret: 3 },
-  tanzanite: { points: 100, count: 16, secret: 4 },
-  vibranium: { points: 250, count: 13, secret: 5 },
+  platinum: { points: 10, count: 26, secret: 1 },
+  diamond: { points: 25, count: 25, secret: 2 },
+  ruby: { points: 50, count: 21, secret: 4 },
+  tanzanite: { points: 100, count: 17, secret: 4 },
+  vibranium: { points: 250, count: 14, secret: 5 },
   solarium: { points: 600, count: 5, secret: 2 },
   antimatter: { points: 1500, count: 3, secret: 2 },
 } as const;
@@ -40,6 +40,9 @@ export const Rule = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("contrapositive") }),
   z.object({ kind: z.literal("fractal") }),
   z.object({ kind: z.literal("totalMastery") }),
+  // The Lemma economy (SPEC §13), account-wide: a counted stat, or a one-off feat.
+  z.object({ kind: z.literal("economy"), stat: z.enum(["packsOpened", "institutes", "theoremLevels", "fullStaff", "foils", "cards", "sets", "warps", "diamondEras"]), gte: z.number().positive() }),
+  z.object({ kind: z.literal("economyFeat"), feat: z.string() }),
 ]);
 
 export const Achievement = z.object({

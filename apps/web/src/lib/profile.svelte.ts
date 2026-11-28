@@ -379,3 +379,5 @@ export function profileFor(backend: Backend | null, user: User | null): ProfileS
 
 /** The signed-in student's economy, if a profile store exists. */
 export const currentEconomy = (): EconomyStore | null => current?.store.economy ?? null;
+/** The signed-in student's profile store, if one exists. */
+export const currentProfile = (): ProfileStore | null => current?.store ?? null;

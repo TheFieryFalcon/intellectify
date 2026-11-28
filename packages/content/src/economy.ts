@@ -6,7 +6,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
-import { COSMETIC_SLOTS, RARITIES, type CardDef, type EconomyConfig, type TheoremId } from "@intellectify/engine";
+import { contrast, COSMETIC_SLOTS, RARITIES, themeTokens, type CardDef, type EconomyConfig, type TheoremId } from "@intellectify/engine";
 import type { AchievementT } from "./achievements.js";
 
 const THEOREM_IDS: TheoremId[] = ["successor", "distributive", "geometric", "ivt", "euler", "binomial", "harmonic", "pigeonhole", "lln", "golden", "recurrence"];
@@ -24,7 +24,35 @@ export const ERA_YEARS: Record<(typeof ERA_IDS)[number], [number, number]> = {
 
 const num = z.number().positive();
 const rarityMap = z.object({ silver: z.number().min(0), gold: z.number().min(0), platinum: z.number().min(0), diamond: z.number().min(0) });
-const cosmetic = z.object({ id: z.string().regex(/^[a-z0-9-]+$/), slot: z.enum(COSMETIC_SLOTS as unknown as [string, ...string[]]), name: z.string().min(1), description: z.string().min(1), price: num.optional() });
+const hexColor = z.string().regex(/^#[0-9a-f]{6}$/i);
+/** Styles the app knows how to draw, by slot (SPEC §13.8). */
+export const STYLE_KINDS: Record<string, string[]> = {
+  banner: ["gradient", "waves", "mesh", "stars", "stripes", "geo"],
+  keypad: ["palette", "geo"],
+  celebration: ["confetti", "sparkles", "bubbles", "petals", "fireworks", "glow", "geo"],
+  nodeTheme: ["palette", "geo"],
+  lemmaIcon: ["glyph"],
+  nameOrnament: ["gradient", "glow", "shimmer"],
+};
+/** Geometric shop patterns the app draws in the student's color, by slot. */
+export const GEO_PATTERNS: Record<string, string[]> = {
+  banner: ["hexagons", "triangles", "rings", "chevrons", "lattice", "waves", "concentric"],
+  keypad: ["outline", "pill", "inset", "tinted", "block"],
+  celebration: ["ripple", "burst", "squares", "shards", "orbit"],
+  nodeTheme: ["outline", "bold", "dotted", "lattice", "glow"],
+};
+const style = z.object({
+  kind: z.string(),
+  colors: z.array(hexColor).optional(),
+  motion: z.enum(["drift", "shimmer", "glow", "iridescent", "twinkle", "corona"]).optional(),
+  pattern: z.string().optional(),
+  hue: z.number().min(0).max(360).optional(),
+  sat: z.number().min(0).max(1).optional(),
+  accentHue: z.number().min(0).max(360).optional(),
+  accentSat: z.number().min(0).max(1).optional(),
+  mode: z.literal("dark").optional(),
+});
+const cosmetic = z.object({ id: z.string().regex(/^[a-z0-9-]+$/), slot: z.enum(COSMETIC_SLOTS as unknown as [string, ...string[]]), name: z.string().min(1), description: z.string().min(1), price: num.optional(), style: style.optional() });
 const tierRule = z.object({ packs: z.number().int().positive(), era: z.number().int().min(0).max(6) });
 
 export const EconomyFile = z.object({
@@ -71,7 +99,7 @@ export const EconomyFile = z.object({
         hours: num,
         group: z.enum(["zfc", "large"]),
         statement: z.string().min(1),
-        cosmetic,
+        cosmetics: z.array(cosmetic).min(3).max(5),
         title: z.string().min(1).nullable(),
       }),
     ),
@@ -89,6 +117,7 @@ export const EconomyFile = z.object({
     fullWeek: z.number().int().positive(),
   }),
   shop: z.array(cosmetic.extend({ price: num })),
+  colors: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), name: z.string().min(1), description: z.string().min(1), price: num.optional(), axiom: z.string().optional(), style })),
   tabs: z.object({ research: num, conjecturesRate: num }),
 });
 
@@ -152,18 +181,43 @@ export function loadEconomy(contentDir: string, skillIds: Set<string>, achieveme
   ax.forEach((a, i) => {
     if (i > 0 && a.at <= ax[i - 1]!.at) e(`Axiom ${a.name}: threshold must be above ${ax[i - 1]!.name}'s`);
     if (a.group !== (i < 9 ? "zfc" : "large")) e(`Axiom ${a.name}: should be ${i < 9 ? "zfc" : "large"}`);
-    if (a.cosmetic.price !== undefined) e(`Axiom ${a.name}: its cosmetic can't have a price`);
+    if (a.cosmetics.some((c) => c.price !== undefined)) e(`Axiom ${a.name}: its cosmetics can't have a price`);
   });
   if (ax.filter((a) => a.title).length !== 6) e("six Axioms give titles");
+  for (const a of ax) if ([a.name, a.title ?? "", a.statement].some((t) => /\.\.\.$|\n/.test(t))) e(`Axiom ${a.name}: a stray "..." or line break in its text`);
   // Conjectures: 12, the last two open.
   const cj = cfg.conjectures.list;
   if (cj.length !== 12) e(`there must be 12 Conjectures (found ${cj.length})`);
   if (cj.slice(0, -1).some((c) => c.proved === null)) e("only the last Conjecture can still be open (proved: null)");
   // Cosmetics: unique ids; no frames, titles, icons or ornaments in the shop.
-  const cosmeticIds = [...cfg.shop.map((c) => c.id), ...ax.map((a) => a.cosmetic.id), ...cfg.eras.map((x) => `frame-${x.id}`)];
+  const cosmeticIds = [...cfg.shop.map((c) => c.id), ...ax.flatMap((a) => a.cosmetics.map((c) => c.id)), ...cfg.eras.map((x) => `frame-${x.id}`)];
+  // Styles: a kind the app draws for that slot, with enough colors (or a known pattern).
+  const NEED: Record<string, number> = { palette: 4, glyph: 1, gradient: 1, glow: 1, shimmer: 2 };
+  for (const c of [...cfg.shop, ...ax.flatMap((a) => a.cosmetics)]) {
+    if (!c.style) continue;
+    if (!STYLE_KINDS[c.slot]?.includes(c.style.kind)) e(`cosmetic ${c.id}: a ${c.slot} can't be drawn as "${c.style.kind}" (one of ${STYLE_KINDS[c.slot]?.join(", ") ?? "none"})`);
+    else if (c.style.kind === "geo") {
+      if (!GEO_PATTERNS[c.slot]?.includes(c.style.pattern ?? "")) e(`cosmetic ${c.id}: pattern "${c.style.pattern}" isn't one of ${GEO_PATTERNS[c.slot]?.join(", ")}`);
+    } else if ((c.style.colors?.length ?? 0) < (NEED[c.style.kind] ?? 2)) e(`cosmetic ${c.id}: ${c.style.kind} needs at least ${NEED[c.style.kind] ?? 2} colors`);
+  }
+  for (const c of cfg.shop) if (c.style?.kind !== "geo") e(`shop item ${c.id}: shop designs are geometric (style kind geo)`);
+  // Colors: a separate option. Each passes WCAG AA in light and dark; each has a price or an Axiom.
+  for (const c of cfg.colors ?? []) {
+    if ((c.price === undefined) === (c.axiom === undefined)) e(`color ${c.id}: needs a price or an axiom, not both`);
+    if (c.axiom && !ax.some((a) => a.id === c.axiom)) e(`color ${c.id}: unknown axiom ${c.axiom}`);
+    if (c.style.kind !== "theme" || c.style.hue === undefined || c.style.sat === undefined) e(`color ${c.id}: needs kind theme, hue and sat`);
+    for (const [mode, t] of Object.entries(themeTokens(c.style))) {
+      for (const bg of [t.bg, t.surface, t.region]) {
+        if (contrast(t.ink, bg) < 7 || contrast(t.muted, bg) < 4.5 || contrast(t.accent, bg) < 4.5) e(`color ${c.id}: fails contrast in ${mode} mode`);
+      }
+      if (contrast(t.onAccent, t.accent) < 4.5) e(`color ${c.id}: text on its accent fails contrast in ${mode} mode`);
+    }
+  }
+  cosmeticIds.push(...(cfg.colors ?? []).map((c) => c.id));
   const dup = cosmeticIds.filter((id, i) => cosmeticIds.indexOf(id) !== i);
   if (dup.length) e(`duplicate cosmetic ids: ${[...new Set(dup)].join(", ")}`);
   for (const c of cfg.shop) if (!["keypad", "celebration", "banner", "nodeTheme"].includes(c.slot)) e(`shop item ${c.id}: ${c.slot} can't be bought`);
+  for (const a of ax) for (const c of a.cosmetics) if (["theme", "frame", "title"].includes(c.slot)) e(`Axiom ${a.name}: ${c.id} can't be a ${c.slot} (colors are listed separately)`);
 
   // Titles (SPEC §13.9): every Tanzanite-and-up achievement has one, no lower tier does, and all are unique.
   const high = ["tanzanite", "vibranium", "solarium", "antimatter"];

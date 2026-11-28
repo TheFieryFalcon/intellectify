@@ -5,6 +5,7 @@
   import type { Rollups } from "$lib/practice";
   import { RANK_LABEL, rankKey, rankVars, score } from "$lib/ranks";
   import { LABEL_W, layoutTree, NODE_W, REVIEW_SIZE, SHAPE_H, type LaidOutReview } from "$lib/treeLayout";
+  import { styleOf } from "$lib/economy.svelte";
 
   let {
     course,
@@ -31,7 +32,18 @@
     return m;
   });
 
-  /* Node themes (SPEC §13.6, §13.8): cosmetic only. */
+  /* Node themes (SPEC §13.6, §13.8): cosmetic only. Axiom themes have their own drawing or a palette;
+     shop themes are geometric, in the student's color. */
+  const tst = $derived(styleOf(theme));
+  const themeClass = $derived(!theme ? "" : tst?.kind === "palette" ? `theme-palette m-${tst.motion ?? "none"}` : tst?.kind === "geo" ? `theme-geo-${tst.pattern}` : `theme-${theme}`);
+  const isDark = (hex: string) => {
+    const v = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    return 0.299 * v[0]! + 0.587 * v[1]! + 0.114 * v[2]! < 128;
+  };
+  const themeVars = $derived(tst?.kind === "palette" && tst.colors ? `${tst.colors.map((c, i) => `--t${i}:${c}`).join(";")};--tink:${isDark(tst.colors[0]!) ? "#eef1ff" : "#1c2330"};` : "");
+  const straightEdges = $derived(theme === "hasse" || (tst?.kind === "geo" && tst.pattern === "lattice"));
+  /** Supercompact: every node starts folded into the map's center. */
+  const center = $derived({ x: layout.width / 2, y: layout.height / 2 });
   /** Hasse: edges as straight lattice lines between their ends. */
   const straight = (d: string) => {
     const nums = d.match(/-?\d+(\.\d+)?/g)?.map(Number) ?? [];
@@ -54,8 +66,8 @@
     for (const s of skills) { const c = longest(s.id); if (c.length > top.length) top = c; }
     return new Set(top);
   });
-  /** Well-Founded: roots under the skills with no prerequisites. */
-  const roots = $derived(theme === "well-founded" ? skills.filter((s) => !s.prereqs.some((p) => prereqs.has(p))).map((s) => layout.nodes.get(s.id)!).filter(Boolean) : []);
+  /** Well-Founded: the tree stands on the ground, with roots from the skills nothing builds on. */
+  const roots = $derived(theme === "well-founded" ? skills.filter((s) => !(dependents.get(s.id)?.length)).map((s) => layout.nodes.get(s.id)!).filter(Boolean) : []);
 
   let focused = $state<string | null>(null);
 
@@ -82,7 +94,7 @@
 </script>
 
 <div class="scroll">
-  <div class="map {theme ? `theme-${theme}` : ''}" class:focus={!!chain} style="width:{layout.width}px;height:{layout.height + (theme === 'well-founded' ? 40 : 0)}px">
+  <div class="map {themeClass}" class:focus={!!chain} style="width:{layout.width}px;height:{layout.height + (theme === 'well-founded' ? 44 : 0)}px;{themeVars}">
     <svg class="edges" width={layout.width} height={layout.height} aria-hidden="true">
       {#each layout.regions as r (r.id)}
         <rect class="region" x={r.x} y={r.y} width={r.w} height={r.h} rx="18" />
@@ -98,11 +110,20 @@
         </text>
       {/each}
       {#each layout.edges as e (e.from + e.to)}
-        <path d={theme === "hasse" ? straight(e.d) : e.d} class:hidden={e.hidden} class:lit={edgeLit(e.from, e.to)} class:branch={branch.has(e.from) && branch.has(e.to)} />
+        <path d={straightEdges ? straight(e.d) : e.d} class:hidden={e.hidden} class:lit={edgeLit(e.from, e.to)} class:branch={branch.has(e.from) && branch.has(e.to)} />
       {/each}
+      {#if theme === "supercompact"}
+        {#each [1, 2, 3, 4, 5, 6] as k (k)}<circle class="fold" cx={center.x} cy={center.y} r={k * Math.max(layout.width, layout.height) / 11} />{/each}
+      {/if}
       {#if theme === "well-founded"}
-        <line class="ground" x1="0" y1={layout.height + 24} x2={layout.width} y2={layout.height + 24} />
-        {#each roots as n, i (i)}<path class="root" d="M{n.x + NODE_W / 2} {n.y + 46} q -6 {12 + (i % 3) * 4} -14 {20 + (i % 2) * 6} M{n.x + NODE_W / 2} {n.y + 46} q 5 {14 + (i % 2) * 5} 12 {22 + (i % 3) * 4}" />{/each}
+        <rect class="earth" x="0" y={layout.height + 22} width={layout.width} height="22" />
+        <line class="ground" x1="0" y1={layout.height + 22} x2={layout.width} y2={layout.height + 22} />
+        {#each roots as n, i (i)}
+          {@const x = n.x + NODE_W / 2}
+          {@const g = layout.height + 22}
+          <path class="trunk" d="M{x} {n.y + 26} L {x} {g}" />
+          <path class="root" d="M{x} {g} c -3 6, -10 10, -18 14 M{x} {g} c 2 7, 8 11, 15 15 M{x} {g} l 1 18" />
+        {/each}
       {/if}
     </svg>
 
@@ -136,7 +157,7 @@
         class:branch={branch.has(s.id)}
         href={readonly ? undefined : `/${course.id}/skill/${s.id}`}
         tabindex={readonly ? 0 : undefined}
-        style="left:{n.x}px;top:{n.y}px;width:{NODE_W}px;{rankVars(st.rank, st.theta)}"
+        style="left:{n.x}px;top:{n.y}px;width:{NODE_W}px;{rankVars(st.rank, st.theta)};--fx:{center.x - n.x - NODE_W / 2}px;--fy:{center.y - n.y}px"
         aria-label="{s.name}, {s.size}, {RANK_LABEL[st.rank]}{st.theta === null ? '' : `, score ${score(st.theta)}`}"
         onmouseenter={() => (focused = s.id)}
         onmouseleave={() => (focused = null)}
@@ -205,25 +226,58 @@
   .review:focus-visible .tile { outline: 2px solid var(--accent); outline-offset: 3px; }
   .best { color: var(--muted); font-variant-numeric: tabular-nums; }
   /* Node themes. */
-  .theme-well-founded .ground { stroke: var(--ink); stroke-width: 1.5; }
-  .theme-well-founded .root { fill: none; stroke: var(--muted); stroke-width: 1; }
-  .theme-hasse .edges path { stroke-dasharray: none; stroke-width: 1; stroke: var(--muted); }
-  .theme-hasse .ring { box-shadow: 0 0 0 3px var(--region), 0 0 0 4px var(--muted); }
-  .theme-tree-property .edges path.branch { stroke: var(--gold); stroke-width: 3; filter: drop-shadow(0 0 4px var(--gold)); }
-  .theme-tree-property .node.branch .ring { box-shadow: 0 0 0 3px var(--region), 0 0 10px 3px var(--gold); }
-  .theme-supercompact { animation: unfold 1.1s cubic-bezier(0.2, 0.9, 0.3, 1) both; transform-origin: 50% 50%; }
-  @keyframes unfold { from { transform: scale(0.01); opacity: 0; } 30% { opacity: 1; } }
-  .theme-chalk .edges path { stroke: color-mix(in srgb, var(--ink) 55%, transparent); stroke-width: 2.2; stroke-dasharray: 7 2 1 2; stroke-linecap: round; }
-  .theme-chalk .disc { border-style: dashed; }
-  .theme-blueprint { background: #1f3f6e linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 20px 20px; border-radius: 12px; }
-  .theme-blueprint .region { fill: rgba(255, 255, 255, 0.05); stroke: rgba(255, 255, 255, 0.4); stroke-dasharray: 4 3; }
-  .theme-blueprint .edges path { stroke: #e8f1ff; }
-  .theme-blueprint :is(.region-label, .year, .unit) { fill: #cfe0f7; }
-  .theme-blueprint .label { background: #1f3f6e; box-shadow: 0 0 0 2px #1f3f6e; color: #eef4ff; }
-  .theme-blueprint .ring { box-shadow: 0 0 0 3px #1f3f6e; }
-  .theme-stained-glass .edges path { stroke: #2b2b2b; stroke-width: 3.5; }
-  .theme-stained-glass .disc { border: 2px solid #2b2b2b; background: linear-gradient(160deg, color-mix(in srgb, var(--r) 70%, #fff) -10%, var(--r) 50%, color-mix(in srgb, var(--r) 60%, #6a2bd9) 100%); }
-  .theme-stained-glass .ring { box-shadow: 0 0 0 3px #2b2b2b; }
-  @media (prefers-reduced-motion: reduce) { .theme-supercompact { animation: none; } }
+  /* Well-Founded (Regularity): the tree stands on drawn ground, with roots under the first skills. */
+  .theme-well-founded .ground { stroke: var(--ink); stroke-width: 2; }
+  .theme-well-founded .earth { fill: color-mix(in srgb, var(--ink) 8%, transparent); }
+  .theme-well-founded .root { fill: none; stroke: color-mix(in srgb, var(--ink) 55%, transparent); stroke-width: 1.4; stroke-linecap: round; }
+  .theme-well-founded .trunk { fill: none; stroke: color-mix(in srgb, var(--ink) 30%, transparent); stroke-width: 1.2; stroke-dasharray: 2 3; }
+  /* Hasse (Power Set): straight lattice lines, every node a hollow point. */
+  .theme-hasse .region { fill: none; stroke: var(--line); stroke-dasharray: 2 4; }
+  .theme-hasse .edges path { stroke: var(--ink); stroke-width: 1.2; opacity: 0.75; }
+  .theme-hasse .ring { box-shadow: 0 0 0 3px var(--bg), 0 0 0 4.5px var(--ink); }
+  .theme-hasse .label { background: var(--bg); box-shadow: 0 0 0 2px var(--bg); }
+  /* Tree Property (Weakly Compact): one unbroken branch glows from the root to the top; the rest recede. */
+  .theme-tree-property .edges path { opacity: 0.35; }
+  .theme-tree-property .edges path.branch { opacity: 1; stroke: var(--gold); stroke-width: 3.5; filter: drop-shadow(0 0 5px var(--gold)); }
+  .theme-tree-property .node:not(.branch) { opacity: 0.55; }
+  .theme-tree-property .node.branch .ring { box-shadow: 0 0 0 3px var(--region), 0 0 14px 5px var(--gold); }
+  .theme-tree-property .node.branch .label { font-weight: 600; }
+  /* Supercompact: the whole tree folds into one point and unfolds when the map opens. */
+  .theme-supercompact { background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%); }
+  .theme-supercompact .fold { fill: none; stroke: color-mix(in srgb, var(--accent) 35%, transparent); stroke-width: 1; stroke-dasharray: 3 5; }
+  .theme-supercompact .ring { box-shadow: 0 0 0 3px var(--region), 0 0 0 4px color-mix(in srgb, var(--accent) 40%, transparent); }
+  .theme-supercompact .node { animation: unfold 1.4s cubic-bezier(0.2, 0.9, 0.25, 1) both; }
+  .theme-supercompact .edges path, .theme-supercompact .region, .theme-supercompact text { animation: appear 1.4s ease-out both; }
+  @keyframes unfold { from { transform: translate(var(--fx), var(--fy)) scale(0.05) rotate(-180deg); opacity: 0; } 35% { opacity: 1; } }
+  @keyframes appear { 0%, 55% { opacity: 0; } }
+
+  /* Palettes (Axiom themes): map, regions, paths and labels. */
+  .theme-palette { background: var(--t0); border-radius: 14px; }
+  .theme-palette .region { fill: var(--t1); }
+  .theme-palette .edges path { stroke: var(--t2); stroke-width: 1.8; }
+  .theme-palette :is(.region-label, .year, .unit) { fill: var(--tink); opacity: 0.8; }
+  .theme-palette .label { background: var(--t3); box-shadow: 0 0 0 2px var(--t3); color: var(--tink); }
+  .theme-palette .ring { box-shadow: 0 0 0 3px var(--t1); }
+  .theme-palette .tile { box-shadow: 0 0 0 3px var(--t1); }
+  .theme-palette .review { color: var(--tink); }
+  .theme-palette.m-glow .edges path { filter: drop-shadow(0 0 3px var(--t2)); }
+  .theme-palette.m-glow .ring { box-shadow: 0 0 0 3px var(--t1), 0 0 12px 2px color-mix(in srgb, var(--t2) 70%, transparent); }
+
+  /* Geometric shop themes, in the student's color. */
+  .theme-geo-outline .region { fill: none; stroke: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  .theme-geo-outline .edges path { stroke: var(--accent); stroke-width: 1; }
+  .theme-geo-outline .disc { background: var(--bg); color: var(--ink); border: 2px solid var(--r); }
+  .theme-geo-outline .label { background: var(--bg); box-shadow: 0 0 0 2px var(--bg); }
+  .theme-geo-bold .edges path { stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
+  .theme-geo-bold .ring { box-shadow: 0 0 0 3px var(--region), 0 0 0 5px var(--accent); }
+  .theme-geo-dotted { background: radial-gradient(color-mix(in srgb, var(--accent) 35%, transparent) 1px, transparent 1.2px) 0 0 / 14px 14px; }
+  .theme-geo-dotted .region { fill: color-mix(in srgb, var(--region) 85%, transparent); }
+  .theme-geo-dotted .edges path { stroke: var(--accent); stroke-width: 2.4; stroke-dasharray: 0.1 6; stroke-linecap: round; }
+  .theme-geo-lattice .region { fill: none; stroke: var(--line); }
+  .theme-geo-lattice .edges path { stroke: var(--accent); stroke-width: 1.3; }
+  .theme-geo-lattice .ring, .theme-geo-lattice .disc { border-radius: 4px; }
+  .theme-geo-glow .edges path { stroke: var(--accent); stroke-width: 1.8; filter: drop-shadow(0 0 4px var(--accent)); }
+  .theme-geo-glow .ring { box-shadow: 0 0 0 3px var(--region), 0 0 14px 3px color-mix(in srgb, var(--accent) 60%, transparent); }
+  @media (prefers-reduced-motion: reduce) { .theme-supercompact .node, .theme-supercompact .edges path, .theme-supercompact .region, .theme-supercompact text { animation: none; } }
   .label { font-size: 11px; line-height: 14.5px; padding: 0 3px; border-radius: 4px; background: var(--region); box-shadow: 0 0 0 2px var(--region); }
 </style>

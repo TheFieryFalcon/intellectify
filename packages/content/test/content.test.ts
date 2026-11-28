@@ -170,6 +170,6 @@ describe("economy content (SPEC §13)", () => {
   it("catches a card outside its era, an unknown related skill and falling Axiom thresholds", () => {
     expect(buildWith((d) => replaceIn(join(d, "cards/antiquity.yaml"), "work: -530", "work: 1530")).errors.join("\n")).toMatch(/pythagoras: major work in 1530 is outside antiquity/);
     expect(buildWith((d) => replaceIn(join(d, "cards/antiquity.yaml"), "related: [spec.real-complex.rational-irrational]", "related: [spec.nope]")).errors.join("\n")).toMatch(/unknown skill spec.nope/);
-    expect(buildWith((d) => replaceIn(join(d, "economy.yaml"), "at: 30000,", "at: 3000,")).errors.join("\n")).toMatch(/Regularity: threshold must be above/);
+    expect(buildWith((d) => replaceIn(join(d, "economy.yaml"), "      at: 30000\n", "      at: 3000\n")).errors.join("\n")).toMatch(/Regularity: threshold must be above/);
   });
 });

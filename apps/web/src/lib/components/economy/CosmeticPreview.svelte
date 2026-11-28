@@ -14,6 +14,7 @@
   import CelebrationArt from "./CelebrationArt.svelte";
   import ProfileHero from "./ProfileHero.svelte";
   import Title from "./Title.svelte";
+  import LemmaIcon from "./LemmaIcon.svelte";
 
   let { item, name }: { item: CosmeticEntry; name: string } = $props();
   let typed = $state("");
@@ -46,6 +47,8 @@
     {#if section}<div class="tree"><TechTree course={section} {progress} rollups={computeRollups(section, progress)} readonly theme={item.id} /></div>{:else}<p class="muted">Loading…</p>{/if}
   {:else if item.slot === "title"}
     <Title title={item.id} />
+  {:else if item.slot === "lemmaIcon"}
+    <p class="icon num">4.56 M<LemmaIcon id={item.id} /></p>
   {:else if item.slot === "nameOrnament"}
     <ProfileHero {name} banner={null} frame={null} title={null} ornament={item.id} showcase={[]} cards={new Map()} />
   {/if}
@@ -56,5 +59,6 @@
   .sample { min-height: 24px; font-family: var(--font-display); font-size: 18px; border-bottom: 1px solid var(--line); margin: 0 0 6px; }
   .answer { display: flex; gap: 10px; align-items: center; font-size: 18px; }
   .ok { color: var(--good); font-size: 13px; font-weight: 600; }
+  .icon { font-size: 28px; margin: 0; }
   .tree { max-height: 360px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: var(--bg); }
 </style>

@@ -65,7 +65,7 @@ export const CFG: EconomyConfig = {
   conjectures: { first: 50e6, step: 10, multiplier: 2.5, list: Array.from({ length: 12 }, (_, i) => ({ id: `c${i}`, name: `C${i}`, statement: "", proved: null })) },
   axioms: {
     bonus: 0.05,
-    list: [10e3, 30e3, 100e3].map((at, i) => ({ id: `a${i}`, name: `A${i}`, at, hours: 0, group: "zfc" as const, statement: "", cosmetic: { id: `cos${i}`, slot: "banner" as const, name: "", description: "" }, title: i === 1 ? "Inductive" : null })),
+    list: [10e3, 30e3, 100e3].map((at, i) => ({ id: `a${i}`, name: `A${i}`, at, hours: 0, group: "zfc" as const, statement: "", cosmetics: [{ id: `cos${i}`, slot: "banner" as const, name: "", description: "" }, { id: `extra${i}`, slot: "theme" as const, name: "", description: "" }], title: i === 1 ? "Inductive" : null })),
   },
   corollaries: { perAchievementPoint: 0.001, perLevelTier: 0.05, perEraSet: 0.1 },
   packs: {
@@ -80,6 +80,7 @@ export const CFG: EconomyConfig = {
     fullWeek: 1,
   },
   shop: [],
+  colors: [{ id: "glow", name: "Glow", description: "", axiom: "a1", style: { kind: "theme", hue: 10, sat: 0.5 } }],
   tabs: { research: 2000, conjecturesRate: 250e3 },
 };
 
@@ -257,7 +258,7 @@ describe("Axioms (SPEC §13.6)", () => {
     expect(r.proven.map((a) => a.id)).toEqual(["a0", "a1"]);
     expect(s.axiomsProven).toBe(2);
     expect(s.titles).toEqual(["Inductive"]);
-    expect(s.owned).toEqual(["cos0", "cos1"]);
+    expect(s.owned).toEqual(["cos0", "extra0", "cos1", "extra1", "glow"]);
     expect(nextAxiom(CFG, s)).toMatchObject({ reached: false, axiom: { id: "a2" } });
   });
 });
@@ -367,5 +368,23 @@ describe("merging copies", () => {
     expect(m.cards).toEqual({ d1: { n: 2, foil: true }, s1: { n: 1, foil: false } });
     expect(m.owned.sort()).toEqual(["x", "y"]);
     expect(m.packs.antiquity).toEqual({ granted: 6, opened: 3, pity: 0 });
+  });
+});
+
+describe("site themes (SPEC §13.8)", () => {
+  it("pass WCAG AA in light and dark for any hue", async () => {
+    const { themeTokens, contrast } = await import("../src/economy.js");
+    for (let hue = 0; hue < 360; hue += 15) {
+      for (const sat of [0, 0.3, 0.7, 1]) {
+        for (const t of Object.values(themeTokens({ kind: "theme", hue, sat }))) {
+          for (const bg of [t.bg, t.surface, t.region]) {
+            expect(contrast(t.ink, bg)).toBeGreaterThanOrEqual(7);
+            expect(contrast(t.muted, bg)).toBeGreaterThanOrEqual(4.5);
+            expect(contrast(t.accent, bg)).toBeGreaterThanOrEqual(4.5);
+          }
+          expect(contrast(t.onAccent, t.accent)).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
   });
 });

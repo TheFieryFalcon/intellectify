@@ -53,6 +53,10 @@ class Params:
     # per calendar week. They go to the latest unlocked era.
     packs_per_hour: float = 0.15
     packs_per_week: float = 0.5
+    # Bought packs (§13.7): era k costs pack_price0 * inst_cost_step**k (an eighth of its institute).
+    # The simulated student buys them, a tenth of the era's packs at a time, when they're the best value.
+    pack_price0: float = 250
+    buy_packs: bool = True
     # Time Warp: days of Research credited per active hour (12 hours = 0.5).
     time_warp: float = 0.5
     # Conjectures: first costs conj_cost0, each next costs conj_cost_step times more, each multiplies Research.
@@ -160,6 +164,7 @@ def simulate(p: Params, hours_per_day: float, max_hours: float) -> Run:
     balance = earned = 0.0
     owned = [0] * 7
     packs = [0.0] * 7  # packs opened per era
+    bought_packs = 0
     practice_lv = golden_lv = recurrence_lv = conj = 0
     outputs = [p.inst_out0 * p.inst_out_step**k for k in range(7)]
     hours = 0.0
@@ -211,6 +216,14 @@ def simulate(p: Params, hours_per_day: float, max_hours: float) -> Run:
             cost = 5000 * 1.618**golden_lv
             gain = (XP_PER_HOUR * hours_per_day * (1 + 0.10 * practice_lv) + base * (1 + 0.10 * recurrence_lv) * conj_mult)
             options.append((gain * 0.0618 * global_mult / cost, cost, ("golden",)))
+            if p.buy_packs:
+                for k in range(min(latest, 6) + 1):
+                    if owned[k] == 0:
+                        continue  # cards only help an institute that exists
+                    b = max(1, math.ceil(packs[k] * 0.1))
+                    cost = p.pack_price0 * p.inst_cost_step**k * b
+                    more = owned[k] * outputs[k] * card_boost(slot_boosts(packs[k] + b), slots(p, owned[k]))
+                    options.append(((more - staffed(k, owned[k])) * r_mult / cost, cost, ("packs", k, b)))
             if conj < p.conj_count:
                 cost = p.conj_cost0 * p.conj_cost_step**conj
                 options.append((research * (p.conj_mult - 1) / cost, cost, ("conjecture",)))
@@ -220,6 +233,10 @@ def simulate(p: Params, hours_per_day: float, max_hours: float) -> Run:
             balance -= cost
             if what[0] == "institute":
                 owned[what[1]] += 1
+            elif what[0] == "packs":
+                packs[what[1]] += what[2]
+                runs[what[1]] = slot_boosts(packs[what[1]])
+                bought_packs += what[2]
             elif what[0] == "practice":
                 practice_lv += 1
             elif what[0] == "recurrence":

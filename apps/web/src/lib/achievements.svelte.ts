@@ -12,7 +12,9 @@ import { computeRollups } from "./practice";
 import type { ProfileStore } from "./profile.svelte";
 import type { CourseProgressStore } from "./session.svelte";
 import { toast } from "./celebrations.svelte";
-import { currentEconomy } from "./profile.svelte";
+import { currentEconomy, currentProfile } from "./profile.svelte";
+import { onEconomyChange } from "./economy.svelte";
+import { courseProgress } from "./session.svelte";
 
 let defsPromise: Promise<AchievementT[]> | null = null;
 export const loadAchievementDefs = (f: typeof fetch = fetch) => (defsPromise ??= f("/content/achievements.json").then((r) => (r.ok ? r.json() : [])));
@@ -33,6 +35,10 @@ export class AchievementsStore {
     private user: User,
     private course: CourseBundle,
   ) {}
+
+  get courseId() {
+    return this.course.id;
+  }
 
   private loading: Promise<void> | null = null;
 
@@ -61,7 +67,7 @@ export class AchievementsStore {
   private async settle(stats: AchievementStats, store: CourseProgressStore, profile: ProfileStore | null) {
     if (this.failed) return [];
     const now = Date.now();
-    const { stats: next, newly } = evaluate(this.defs, stats, { course: this.course, progress: store.progress, rollups: computeRollups(this.course, store.progress), now }, this.earned);
+    const { stats: next, newly } = evaluate(this.defs, stats, { course: this.course, progress: store.progress, rollups: computeRollups(this.course, store.progress), now, economy: currentEconomy()?.achievementStats() ?? null }, this.earned);
     this.stats = next;
     if (newly.length) {
       this.earned = { ...this.earned, ...Object.fromEntries(newly.map((a) => [a.id, now])) };
@@ -117,6 +123,19 @@ export class AchievementsStore {
 }
 
 const stores = new Map<string, AchievementsStore>();
+
+// Economy achievements (SPEC §13): re-check them shortly after the economy changes (a purchase, a pack, a warp).
+let economyTimer: ReturnType<typeof setTimeout> | null = null;
+onEconomyChange(() => {
+  if (economyTimer) clearTimeout(economyTimer);
+  economyTimer = setTimeout(() => {
+    for (const s of stores.values()) {
+      const store = courseProgress(s.courseId);
+      const profile = currentProfile();
+      if (store?.loaded && profile) void s.event((x) => x, store, profile);
+    }
+  }, 1500);
+});
 export function achievementsFor(backend: Backend | null, user: User | null, course: CourseBundle): AchievementsStore | null {
   if (!backend || !user) return null;
   const key = `${user.uid}:${course.id}`;

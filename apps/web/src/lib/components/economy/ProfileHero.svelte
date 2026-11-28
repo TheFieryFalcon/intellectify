@@ -9,6 +9,7 @@
   import Banner from "./Banner.svelte";
   import CardFace from "./CardFace.svelte";
   import Title from "./Title.svelte";
+  import { styleOf } from "$lib/economy.svelte";
 
   let { name, banner, frame, title, ornament, showcase, cards, foils = {}, onedit, extra }: {
     name: string;
@@ -22,6 +23,10 @@
     onedit?: (field: "name" | "banner" | "frame" | "title" | "showcase") => void;
     extra?: Snippet;
   } = $props();
+  // Name ornaments (SPEC §13.6): Rank-into-Rank's Edge, or a colored style.
+  const orn = $derived(styleOf(ornament));
+  const ornClass = $derived(!ornament ? "" : ornament === "edge" ? "orn-edge" : orn ? `orn-${orn.kind} m-${orn.motion ?? "none"}` : "");
+  const ornVars = $derived(orn?.colors ? `--o0:${orn.colors[0]};--o1:${orn.colors[1] ?? orn.colors[0]};--og:${orn.colors.join(", ")}` : "");
 </script>
 
 <header class="hero">
@@ -32,7 +37,7 @@
   <div class="row">
     <div class="who">
       <div class="namebox {frame ?? ''}">
-        <h1 class="name" class:edge={ornament === "edge"}>{name}</h1>
+        <h1 class="name {ornClass}" style={ornVars}>{name}</h1>
         {#if onedit}<span class="edits"><button class="edit" onclick={() => onedit("name")}>Edit name</button><button class="edit" onclick={() => onedit("frame")}>Edit frame</button></span>{/if}
       </div>
       <div class="titleline">
@@ -72,9 +77,16 @@
   .frame-machine-age { border: 2px solid #cfe0f7; background: #1f3f6e; color: #eef4ff; }
   .frame-space-age { border: 1px solid #6b7aa6; background: radial-gradient(circle at 30% 20%, #20264a, #0b0e1c); color: #f3f5ff; }
   .namebox[class*="frame-"] .edit { color: inherit; opacity: 0.75; }
-  /* Edge (Rank-into-Rank): a hairline of light flickers along the name's edge. */
-  .edge { text-shadow: 0 0 0.5px #fff, 0 0 1px rgba(170, 220, 255, 0.8); animation: edge 3s ease-in-out infinite; }
-  @keyframes edge { 0%, 100% { text-shadow: 0 0 0.5px #fff, 0 0 1px rgba(170, 220, 255, 0.5); } 47% { text-shadow: 0 0 0.5px #fff, 0 0 1px rgba(170, 220, 255, 0.5); } 50% { text-shadow: 0 0 1px #fff, 0 0 3px rgba(190, 235, 255, 1); } 53% { text-shadow: 0 0 0.5px #fff, 0 0 1px rgba(170, 220, 255, 0.6); } }
+  /* Edge (Rank-into-Rank): a hairline of light runs and flickers along the name's edge. */
+  .orn-edge { background: linear-gradient(100deg, currentColor 40%, color-mix(in srgb, var(--accent) 70%, white) 47%, #fff 50%, color-mix(in srgb, var(--accent) 70%, white) 53%, currentColor 60%) 0 0 / 260% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 0.7px var(--accent)); animation: edge 3.6s linear infinite; }
+  @keyframes edge { from { background-position: 130% 0; } 70% { filter: drop-shadow(0 0 0.7px var(--accent)); } 73% { filter: drop-shadow(0 0 2.5px var(--accent)); } 76% { filter: drop-shadow(0 0 0.7px var(--accent)); } to { background-position: -130% 0; } }
+  /* Colored ornaments (Axiom unlocks). */
+  .orn-gradient { background: linear-gradient(90deg, var(--og)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .orn-shimmer { background: linear-gradient(90deg, var(--og), var(--o0)) 0 0 / 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: orn-shimmer 5s linear infinite; }
+  .orn-glow { text-shadow: 0 0 6px var(--o0), 0 0 14px color-mix(in srgb, var(--o0) 60%, transparent); }
+  .orn-glow.m-twinkle { animation: twinkle 3s ease-in-out infinite; }
+  @keyframes orn-shimmer { to { background-position: -200% 0; } }
+  @keyframes twinkle { 50% { text-shadow: 0 0 2px var(--o0), 0 0 6px color-mix(in srgb, var(--o0) 40%, transparent); } }
   @media (max-width: 640px) { .row { margin-top: -26px; padding: 0 8px; } .name { font-size: 22px; } }
-  @media (prefers-reduced-motion: reduce) { .edge { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .name { animation: none !important; } }
 </style>

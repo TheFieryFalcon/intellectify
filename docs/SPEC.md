@@ -65,7 +65,7 @@
   - [12.2 Leaderboards](#122-leaderboards)
   - [12.3 Profile page](#123-profile-page)
   - [12.4 Global level](#124-global-level)
-- [13. Lemmas, theorems and packs (planned)](#13-lemmas-theorems-and-packs-planned)
+- [13. Lemmas, theorems and packs (implemented)](#13-lemmas-theorems-and-packs-implemented)
   - [13.1 Lemmas (∴)](#131-lemmas-)
   - [13.2 Theorems (the upgrade tree)](#132-theorems-the-upgrade-tree)
   - [13.3 Research (passive)](#133-research-passive)
@@ -785,22 +785,22 @@ Tutorials (§3.1) are reviewed by the owner, with a deliberate pass for concisio
 
 ### 12.1 Achievements
 
-Achievements are Khan-style badges that **feel like rewards** and must be **deliberately earned**. There are **100** of them across **seven tiers**. Even the easiest tier needs sustained effort.
+Achievements are Khan-style badges that **feel like rewards** and must be **deliberately earned**. There are **111** of them across **seven tiers**. Even the easiest tier needs sustained effort.
 
 | Tier | Points | Count | Of which secret | Intended feel |
 |---|---|---|---|---|
-| **Platinum** | 10 | 23 | 1 | Weeks of steady, serious work |
-| **Diamond** | 25 | 22 | 2 | A term of dedicated work |
-| **Ruby** | 50 | 18 | 3 | Strong mastery of a unit |
-| **Tanzanite** | 100 | 16 | 4 | Top-student territory |
-| **Vibranium** | 250 | 13 | 5 | Exceptional; few will earn any |
+| **Platinum** | 10 | 26 | 1 | Weeks of steady, serious work |
+| **Diamond** | 25 | 25 | 2 | A term of dedicated work |
+| **Ruby** | 50 | 21 | 4 | Strong mastery of a unit |
+| **Tanzanite** | 100 | 17 | 4 | Top-student territory |
+| **Vibranium** | 250 | 14 | 5 | Exceptional; few will earn any |
 | **Solarium** | 600 | 5 | 2 | Near-mythical |
 | **Antimatter** | 1500 | 3 | 2 | Possibly never earned |
-| **Total** | | **100** | **19** | |
+| **Total** | | **111** | **20** | |
 
 **Rules**
 - **Secret achievements (🔒)** are fully visible: name, tier and points are shown like any other achievement. Only the **criterion is hidden** ("???") until earned, so the **name serves as the hint**. Secrets are esoteric and skew toward the high tiers.
-- **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global.
+- **Course scope:** achievements are earned once per course. When new courses launch, the course-scoped set is instantiated for each one, and cross-course ones (e.g. daily streaks) stay global. The economy ones (P24–P26, D23–D25, R19–R21, T17, V14) read the account-wide Lemma economy (§13) and are checked shortly after it changes.
 - **Definitions:** criteria are declarative in `content/achievements.yaml` (generated from the tables below; the build checks tier counts, secrets and points against them) and evaluated client-side after each resolved question, quiz, challenge or daily/monthly result. Counters (first-try streaks, per-tier correct counts, weekly counts, one-off flags) and earned dates live in `users/{uid}/courses/{course}/meta/achievements`.
 - Achievements whose feature doesn't exist yet (monthly problems) have `pending` rules: they're listed as "Not available yet" and can't be earned until the feature ships.
 - **Feature events (Phase 1).** Daily problems, written answers, appeals, discussion posts and the leaderboards feed the same stats:
@@ -822,7 +822,7 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 - Free-response counts as *100%* only with a rubric score of 100% and no appeal.
 - Daily-problem rules use Australia/Perth dates.
 
-#### Platinum (10 pts, 23)
+#### Platinum (10 pts, 26)
 | # | Name | Criterion |
 |---|---|---|
 | P1 | Groundwork | 100 correct answers at T3+ |
@@ -848,8 +848,11 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | P21 | Broad Base | Gold in at least one skill in every section of a unit |
 | P22 | Explorer | Resolve at least 10 questions in every skill of a unit |
 | P23 | 🔒 Last Gasp | Solve a Tier 5 question on its 5th and final attempt |
+| P24 | First Edition | Open a card pack (§13.7) |
+| P25 | Research Grant | Build an institute (§13.3) |
+| P26 | Lemma by Lemma | Buy 25 theorem levels (§13.2) |
 
-#### Diamond (25 pts, 22)
+#### Diamond (25 pts, 25)
 | # | Name | Criterion |
 |---|---|---|
 | D1 | Deep Roots | 500 correct at T3+ |
@@ -874,8 +877,11 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | D20 | Annotator | Post solutions in 25 different daily/monthly discussions |
 | D21 | 🔒 Counterexample | A confirmed report on a Tier 5 or Tier 6 question |
 | D22 | 🔒 Contradiction | Solve a Tier 5 question first-try in a skill where you are Unranked |
+| D23 | Faculty | Fill all 12 staff slots of an institute |
+| D24 | Gilt Edges | Hold 5 foil cards |
+| D25 | Curator | Collect 75 different cards |
 
-#### Ruby (50 pts, 18)
+#### Ruby (50 pts, 21)
 | # | Name | Criterion |
 |---|---|---|
 | R1 | Bedrock | 2,000 correct at T3+ |
@@ -896,8 +902,11 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | R16 | 🔒 Taxicab | θ exactly 1729 in any skill after an update |
 | R17 | 🔒 Clutch Appeal | An appeal that moves a score from below 60% to 100% |
 | R18 | 🔒 Ouroboros | Reach Diamond in a skill after having dropped it to Tier 1 |
+| R19 | Complete Works | Complete an era set |
+| R20 | Time Traveller | Fire 250 Time Warps |
+| R21 | 🔒 Lucky Draw | Pull two Diamonds from one pack |
 
-#### Tanzanite (100 pts, 16)
+#### Tanzanite (100 pts, 17)
 | # | Name | Criterion |
 |---|---|---|
 | T1 | Bedrock II | 5,000 correct at T3+ |
@@ -916,8 +925,9 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | T14 | 🔒 Contrapositive | Diamond in a skill while every one of its prerequisites is below Gold |
 | T15 | 🔒 Fractal | Every skill, section and unit of a year at the same rank (Platinum or higher) at once |
 | T16 | 🔒 Show Your Working | Solve every daily problem of a week first-try and post a solution in each one's discussion |
+| T17 | Hall of Fame | Hold a Diamond card from every era |
 
-#### Vibranium (250 pts, 13)
+#### Vibranium (250 pts, 14)
 | # | Name | Criterion |
 |---|---|---|
 | V1 | Course Diamond | Course rank Diamond |
@@ -933,6 +943,7 @@ Achievements are Khan-style badges that **feel like rewards** and must be **deli
 | V11 | 🔒 QED | 15 consecutive free-response answers at 100% |
 | V12 | 🔒 Unblemished | A calendar week with ≥ 100 questions, at least half T4+, every one first-try correct |
 | V13 | 🔒 Speed of Thought | Fully solve a monthly Tier 6 problem within 72 hours of release |
+| V14 | The Complete Archive | Complete every era set |
 
 #### Solarium (600 pts, 5)
 | # | Name | Criterion |
@@ -1054,7 +1065,7 @@ One account-wide **level**, earned with **XP** from almost everything a student 
 A second, **spendable** layer on top of XP. XP measures lifetime effort and never goes down. **Lemmas** are earned alongside it (plus passive **Research** from institutes) and spent on **theorems** (an incremental upgrade tree), **packs** of collectible cards, and cosmetics. Achievements at Tanzanite and above also unlock **titles**.
 
 **Rules** (all follow from §1.2 and §12.4)
-- **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, starts slow and grows into a real alternative. Around 200 hours in, a day of Research earns about what an hour of practice does. By 400 hours a day of it is worth about 20 hours of practice, and Conjectures keep it growing long after that. Practice also speeds Research up directly, through the **Time Warp**.
+- **Earned mostly by doing.** Almost every Lemma comes from an action that already earns XP. Lemmas inherit XP's repeat rules and daily caps, so nothing can be farmed that XP doesn't already allow. The one passive source, **Research**, starts slow and grows into a real alternative. Around 200 hours in, a day of Research earns about what an hour of practice does. By 400 hours a day of it is worth about 30 hours of practice, and Conjectures keep it growing long after that. Practice also speeds Research up directly, through the **Time Warp**.
 - **Never touches learning.** Nothing bought, won or collected changes θ, ranks, gates, marking or question selection, and nothing gives hints.
 - **Nothing decays or expires, and offline progress needs no collecting.** Research has no cap and no collect button: it is credited when the app loads, so being away never loses anything and coming back at a set time never gains anything. There are no limited-time offers and no shop rotation. What a student has earned only goes down when they spend it. (Milestones are different: a reached Axiom is **claimed** with a click, and upgrades are bought, §13.6.)
 - **Nothing steers the student.** No upgrade pays more for one skill, section or unit than another.
@@ -1105,7 +1116,7 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 | Particle Accelerator | Space Age | 22.8 G | 655 k |
 
 - **Cards staff their era's institute, in limited slots.** Each institute has **staff slots**, and the student chooses which of that era's cards fill them (§13.11), so placing a rare card is a decision that feels good.
-  - **Boost per slotted card:** Silver +2%, Gold +6%, Platinum +15%, Diamond +30% of that institute's output. A foil card doubles its own boost. These were raised (from 2, 5, 10 and 25%) when packs went to 3 cards, so a smaller collection keeps Research on the calibration targets below.
+  - **Boost per slotted card:** Silver +2%, Gold +6%, Platinum +15%, Diamond +30% of that institute's output. A foil card doubles its own boost. These were raised (from 2, 5, 10 and 25%) when packs went to 3 cards.
   - **Slots grow with copies built:** **1 slot per copy**, so the first copy opens 1 slot and each copy after it 1 more, up to **12 slots** (half a set) at the 12th copy. The cap keeps the rarest cards competing for room: a set's Diamonds and Platinums alone fill about 9 slots, leaving 3 for the best Golds.
   - **Why this schedule:** it was fitted with `scripts/economy_sim.py` to the calibration targets below. With a slot only every second copy, a day of Research at 400 hours would be worth about 10 hours of practice instead of 20, because a newly built institute starts with 1 copy and its era's packs have only just unlocked (§13.7). Above 12, a higher cap moves Rank-into-Rank by less than 10 hours.
   - A card fills one slot at most. **Unslotted cards give nothing to Research**; collecting still counts toward set completion (its corollary and frame) and the Cards collected board.
@@ -1118,34 +1129,34 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 - **Calibration targets** for the early and middle game, for a typical student who plays about 0.75 hours a day (500 hours over two years, §12.4).
   - **Ratio:** one day of Research, Time Warp included, ÷ one active hour of practice.
   - **The simulated student** saves for whatever adds the most Lemmas per Lemma spent. The model is `scripts/economy_sim.py`: run it to print these tables, or with `fit` to refit the Axiom thresholds after changing a value.
-  - **Included:** Axioms, Conjectures, the Time Warp, staff slots and era pack unlocks (§13.7).
-  - **Assumed:** only free packs (level tiers, plus about 0.15 packs per active hour from Section Challenges and achievements and 0.5 a week from Full Weeks), the best cards held filling each institute's slots, and Axioms proven as soon as they're reached. Bought packs would raise the numbers a little.
+  - **Included:** Axioms, Conjectures, the Time Warp, staff slots, era pack unlocks and **bought packs** (§13.7): the student buys packs, a tenth of an era's packs at a time, whenever they add the most Research per Lemma.
+  - **Assumed:** free packs from level tiers, plus about 0.15 packs per active hour from Section Challenges and achievements and 0.5 a week from Full Weeks; the best cards held filling each institute's slots; and Axioms proven as soon as they're reached.
 
   | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms | Conjectures |
   |---|---|---|---|---|---|
-  | 100 | 5.88 k | 378 | 0.06 | 4 | 0 |
-  | 200 | 10.1 k | 8.98 k | 0.9 | 6 | 0 |
-  | 300 | 15.0 k | 74.5 k | 5.0 | 8 | 0 |
-  | 400 | 22.9 k | 481 k | 21 | 10 | 0 |
-  | 500 | 33.9 k | 12.3 M | 360 | 13 | 1 |
-  | 600 | 72.9 k | 3.44 T | 47 million | 16 | 6 |
-  | 700 | 139 k | 335 T | 2.4 billion | 18 | 9 |
+  | 100 | 5.88 k | 377 | 0.06 | 4 | 0 |
+  | 200 | 9.59 k | 11.5 k | 1.2 | 6 | 0 |
+  | 300 | 15.0 k | 87.1 k | 5.8 | 8 | 0 |
+  | 400 | 22.9 k | 673 k | 29 | 10 | 0 |
+  | 500 | 34.9 k | 13.1 M | 370 | 14 | 1 |
+  | 600 | 89.4 k | 167 T | 1.9 billion | 18 | 8 |
+  | 700 | 158 k | 2.43 P | 15 billion | 18 | 10 |
 
   - **Early game:** practice is how Lemmas are earned.
   - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
-  - **From about 400 hours:** a day of Research equals about 20 hours of practice, so Lemmas stop being a constraint.
-  - **From about 465 hours:** Conjectures take over. Each one multiplies Research by 2.5 and helps pay for the next, so growth compounds through the large cardinals.
-- **The end goal: Rank-into-Rank after 1.5 years of 1.5 hours a day** (about 815 active hours). The Axiom thresholds are fitted to that student's curve. Every hour figure in this section counts **active hours** (time spent practicing); Research also accrues by calendar day.
+  - **From about 400 hours:** a day of Research equals about 30 hours of practice, so Lemmas stop being a constraint.
+  - **From about 450 hours:** Conjectures take over. Each one multiplies Research by 2.5 and helps pay for the next, so growth compounds through the large cardinals.
+- **The end goal: Rank-into-Rank after about 1.4 years of 1.5 hours a day** (about 750 active hours). The Axiom thresholds were fitted to that student's curve before bought packs joined the model; buying packs makes it faster, and that's intended. Every hour figure in this section counts **active hours** (time spent practicing); Research also accrues by calendar day.
 
   | Play per day | Rank-into-Rank (active hours) | Calendar time |
   |---|---|---|
-  | 45 minutes | about 640 | 2.3 years |
-  | 1.5 hours | about 815 | 1.5 years |
-  | 3 hours | about 980 | 0.9 years |
+  | 45 minutes | about 595 | 2.2 years |
+  | 1.5 hours | about 750 | 1.4 years |
+  | 3 hours | about 905 | 0.8 years |
 
   Playing more gets there sooner on the calendar but takes more active hours, because there are fewer days for Research to run. The Time Warp keeps that gap small.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
-- **Shown** as a chip on the Lemmas page: **Research 8.98 k∴/day**.
+- **Shown** as a chip on the Lemmas page: **Research 11.5 k∴/day**.
 
 ### 13.4 Conjectures (the long-term Research boost)
 Conjectures are famous problems that the student's institutes "prove", one at a time, in order.
@@ -1153,7 +1164,7 @@ Conjectures are famous problems that the student's institutes "prove", one at a 
 - **Effect:** each proven Conjecture **multiplies Research by 2.5**, permanently. The multipliers stack (×2.5, ×6.25, ×15.6, …).
 - **Why the numbers work:** costs grow 10× while Research grows only 2.5×, so each Conjecture takes longer to reach than the one before. Growth compounds without running away, and the large cardinals arrive spread out rather than all at once.
 - **Shown:** the Conjectures list shows every entry with its cost, its statement in one plain line, and when and by whom it was really proved. Proven ones carry a **Proved** chip.
-- **The last two are the very end of the ladder**, after Rank-into-Rank: at 1.5 hours a day, about 1,300 and 1,850 active hours. The Riemann Hypothesis was proved only in November 2026, and P versus NP is still open: in Intellectify, Research can settle it; in the real world, nobody has.
+- **The last two are the very end of the ladder**, after Rank-into-Rank: at 1.5 hours a day, about 1,050 and 1,550 active hours. The Riemann Hypothesis was proved only in November 2026, and P versus NP is still open: in Intellectify, Research can settle it; in the real world, nobody has.
 
 | # | Conjecture | Cost | Statement | Really proved |
 |---|---|---|---|---|
@@ -1179,15 +1190,18 @@ Corollaries follow from what a student has already done. They are added together
 ### 13.6 Axioms (milestones)
 Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. Spending never takes one away, and nothing resets.
 - **Reached, then proven.** Crossing a threshold makes the Axiom *reached*. The student **claims** it with **Prove** in the hub (free: it spends nothing), and only then does it apply. A reached Axiom waits indefinitely; nothing is lost by claiming late, but its bonus doesn't apply until then. Several reached at once are claimed together (**Prove 3**, §13.11).
-- **Each Axiom gives, once proven:** +5% to all sources (practice and Research) permanently, plus **its own cosmetic**, which can't be bought or found in packs.
+- **Each Axiom gives, once proven:** +5% to all sources (practice and Research) permanently, plus **3 to 5 cosmetics**, which can't be bought or found in packs.
+  - **The first is themed on the Axiom** (the Cosmetic column below). The rest aren't about the Axiom at all, just good-looking pieces: banners, keypads, celebrations, node themes, Lemma icons and name ornaments, richer the higher the Axiom (3 each for ZFC, 4 or 5 for the large cardinals). The full lists are in `content/economy.yaml`.
+  - **Some also unlock a color** (§13.8): Specification, Replacement and Choice, and every large cardinal from Mahlo up.
+  - Mahlo's extras include the **Quantifier ∴** Lemma icon: ∀ turns into ∃ and back, the quantifiers of higher-order logic.
 - **Some Axioms also give a title** (see Titles).
 - **Spacing:**
-  - **Fitted to a curve:** thresholds follow the growth curve of a student who plays 1.5 hours a day, so that Rank-into-Rank arrives after 1.5 years.
-  - **The nine ZFC axioms** (10 k to 15 M) spread over the first 420 or so active hours, starting with an early taste about 14 hours in.
-  - **The nine large cardinals** (20 M to 1 P) then arrive about every 20–75 active hours, up to Rank-into-Rank at about 815. Conjectures carry students through them.
+  - **Fitted to a curve:** thresholds follow the growth curve of a student who plays 1.5 hours a day, so that Rank-into-Rank arrived after 1.5 years before bought packs were modelled; with them it comes after about 1.4.
+  - **The nine ZFC axioms** (10 k to 15 M) spread over the first 405 or so active hours, starting with an early taste about 14 hours in.
+  - **The nine large cardinals** (20 M to 1 P) then arrive about every 20–70 active hours, up to Rank-into-Rank at about 750. Conjectures carry students through them.
 - **Display:** the hub summary shows the next Axiom and its progress, e.g. **Union 640 k∴ / 700 k∴**; once reached it becomes a **Prove Union** button (§13.11).
 - **Statements:** each Axiom's card shows its statement in one plain line, as flavor and a glimpse of set theory.
-- **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 640).
+- **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 595).
 
 | # | Axiom | At | ≈ Hours | Statement | Cosmetic | Title |
 |---|---|---|---|---|---|---|
@@ -1197,18 +1211,18 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
 | 4 | Pairing | 300 k | 100 | For any a and b, {a, b} is a set | **Pair** celebration: two sparks spiral together into one | — |
 | 5 | Union | 700 k | 150 | The members of a set's members form a set | **Union** banner: many small sets drift together into one | — |
 | 6 | Replacement | 1.5 M | 215 | The image of a set under a definable function is a set | **Image** celebration: each symbol of the answer maps, one to one, onto a star | — |
-| 7 | Infinity | 3 M | 285 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
-| 8 | Power Set | 5 M | 335 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
-| 9 | Choice | 15 M | 420 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
-| 10 | Inaccessible | 20 M | 445 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
-| 11 | Mahlo | 50 M | 520 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
-| 12 | Weakly Compact | 70 M | 550 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
-| 13 | Measurable | 100 M | 585 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
-| 14 | Strong | 500 M | 640 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
-| 15 | Woodin | 1.5 G | 675 | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
-| 16 | Supercompact | 50 G | 720 | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
-| 17 | Huge | 50 T | 770 | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
-| 18 | Rank-into-Rank | 1 P | 815 | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
+| 7 | Infinity | 3 M | 275 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
+| 8 | Power Set | 5 M | 320 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
+| 9 | Choice | 15 M | 405 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
+| 10 | Inaccessible | 20 M | 425 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
+| 11 | Mahlo | 50 M | 495 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
+| 12 | Weakly Compact | 70 M | 520 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
+| 13 | Measurable | 100 M | 555 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
+| 14 | Strong | 500 M | 610 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
+| 15 | Woodin | 1.5 G | 650 | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
+| 16 | Supercompact | 50 G | 690 | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
+| 17 | Huge | 50 T | 730 | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
+| 18 | Rank-into-Rank | 1 P | 750 | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
 
 ### 13.7 Packs and cards
 Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 3 cards from one era.
@@ -1258,7 +1272,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 | Finishing a Section Challenge | 1 |
 | Achievement | Platinum 1, Diamond 2, Ruby 3, Tanzanite 5, Vibranium 8, Solarium 12, Antimatter 20 |
 | A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
-| Buy with Lemmas | A fixed price per era: Antiquity 1 k∴; later eras cost more, at prices fitted with `scripts/economy_sim.py` |
+| Buy with Lemmas | A fixed price per era: Antiquity 250 ∴, then 15× more each era (an eighth of that era's institute); `scripts/economy_sim.py` buys them when they're the best value |
 
 **Which era a free pack is.** The source's tier picks it, capped at the latest unlocked era (if the picked era is locked, the latest unlocked one before it):
 
@@ -1296,6 +1310,10 @@ Bought at fixed prices, and cosmetic only. Every item can be previewed live befo
 - **Answer celebrations** for correct answers and rank-ups.
 - **Profile banners.**
 - **Tech-tree node themes.**
+
+**Shop designs are simple, elegant geometry** (hexagons, chevrons, rings, outline keys, ripples, bold or dotted paths …) drawn in the student's **color**, so every design suits every color.
+
+**Colors are a separate option from cosmetics.** Each recolors the whole site, light and dark (accent, surfaces, lines and text), and is bought in the Shop's **Colors** tab or unlocked by an Axiom. Colors aren't maths-themed: Forest, Ocean, Rose, Lavender, Sunflower, Teal, Coral, Plum, Slate, Copper, Mint, Crimson, Midnight Blue, and the Axiom colors (Spring, Harbor, Orchid, Glacier, Sunset, Noir, Sakura, Royal, Eclipse). Each is built from a hue, and the build checks every one passes WCAG AA in both modes. The hub keeps its archive look whatever the color.
 
 Frames come only from era sets, Axiom cosmetics only from Axioms, and titles only from achievements and Axioms.
 
@@ -1337,6 +1355,7 @@ Frames come only from era sets, Axiom cosmetics only from Axioms, and titles onl
 | T14 | 🔒 Contrapositive | Non Sequitur | Mastery that doesn't follow from its prerequisites |
 | T15 | 🔒 Fractal | Self-Similar | The same rank at every scale |
 | T16 | 🔒 Show Your Working | Worked Example | A solution posted every day |
+| T17 | Hall of Fame | Patron | Patrons kept the scholars of every age |
 
 **Vibranium**
 
@@ -1355,6 +1374,7 @@ Frames come only from era sets, Axiom cosmetics only from Axioms, and titles onl
 | V11 | 🔒 QED | Tombstone | The ∎ that ends a proof |
 | V12 | 🔒 Unblemished | No Remainder | A hundred questions, divided cleanly |
 | V13 | 🔒 Speed of Thought | Instantaneous | The instantaneous rate of change |
+| V14 | The Complete Archive | Archivist | Keeper of the whole collection |
 
 **Solarium** (animated)
 
@@ -1393,7 +1413,7 @@ Frames come only from era sets, Axiom cosmetics only from Axioms, and titles onl
   - `lemmasEarned` and `lemmasSpent` are saved as **increments**, so two tabs never overwrite each other's earnings or purchases; everything else is merged with the latest saved copy before each save (counters take the larger value, collections the union).
   - **Research** is credited in a Firestore transaction: the app stamps a server timestamp on the document, reads it back, and moves `researchCreditedAt` forward by whole hours, keeping the remainder. The rules refuse a `researchCreditedAt` after `request.time` or before the saved one. Crediting runs on load and every 10 minutes while the app is open.
   - **Retroactive grants:** level tiers and achievements reached before the economy existed pay their packs once, the first time the economy loads.
-  - **Pack prices:** Antiquity 1 k∴, then half each era's institute (×15 an era). Bought packs aren't in `economy_sim.py` yet, so these are a starting point.
+  - **Pack prices:** Antiquity 250 ∴, then an eighth of each era's institute (×15 an era). `economy_sim.py` includes buying them.
   - **Portraits** are served from `/content/cards/portraits/` (copied by `pnpm content`); cards without one show an engraved monogram.
 
 ### 13.11 Screens, layout and motion
@@ -1408,7 +1428,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **Show rewards off** (§13 rules) removes the nav link, header count, pip and hub; `/lemmas` shows "Rewards hidden (Settings)".
 
 #### Hub summary
-- **Contents, in order:** balance, **Research 8.98 k∴/day**, **Time Warp 420 / 600 XP** (a thin meter), next Axiom (**Union 640 k∴ / 700 k∴**, or the **Prove Union** / **Prove 3** button once reached), buy amount **×1 / ×10 / Max**, **Multipliers**.
+- **Contents, in order:** balance, **Research 11.5 k∴/day**, **Time Warp 420 / 600 XP** (a thin meter), next Axiom (**Union 640 k∴ / 700 k∴**, or the **Prove Union** / **Prove 3** button once reached), buy amount **×1 / ×10 / Max**, **Multipliers**.
 - **Since last visit: +12.3 k∴, Research 14 h** heads the summary when anything changed since the last hub visit (from `lastVisit`, §13.10). It stays for the whole visit and resets when the student leaves the hub or hides the page. It appears nowhere else: there is no return toast.
 - **Multipliers** opens a panel listing every active multiplier by source: theorems, corollaries (achievements, level tiers, era sets), Axioms and, for Research, Conjectures and staff, with each source's total.
 - **Sticky** at the top of the hub on wider screens; not sticky on phones (below).
@@ -1491,9 +1511,10 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **Profiles** show the same shelves, read-only, with that student's cards.
 
 #### Shop
-Two sub-tabs.
+Three sub-tabs.
 - **Wardrobe:** what the student owns, by slot (keypad skin, celebration, banner, node theme, frame, title, Lemma icon, name ornament), each with **Equip** / **Equipped** and a **Default** option. Items that can't be bought show as a silhouette with their condition: **Axiom Union, 700 k∴**, **Machine Age set**, **Achievement: Keystone** (secret criteria stay hidden, §12.1).
-- **Shop:** buyable items on category shelves, each with its price, **Preview** and **Buy** (**Owned** once bought).
+- **Shop:** buyable designs on category shelves, each with its price, **Preview** and **Buy** (**Owned** once bought).
+- **Colors:** every color with a light and a dark swatch, **Buy** or **Equip**, and **Default**; Axiom colors show their condition.
 - **Preview** opens a sheet with a live sample, and **Buy** is available there:
   - a keypad skin as a working mini keypad;
   - a celebration played on a sample answer, with **Replay**;
@@ -1510,18 +1531,18 @@ Two sub-tabs.
 - **Rewards off:** XP only, and the row reflows with no gap.
 
 #### Celebration order
-- **On problem screens**, toasts play one at a time in this order: rank-up, achievement, level-up. A full-screen moment (a level tier) waits until **Next** is pressed or the screen is left.
+- **On problem screens**, toasts play one at a time in this order: rank-up, achievement, level-up. Each stays **10 seconds**. A full-screen moment (a level tier) waits until **Next** is pressed or the screen is left.
 - **Only one full-screen moment shows at a time.** Several play smallest first, biggest last: level tier, then Axiom, then Conjecture.
 - Axioms and Conjectures are always started by the student's own click in the hub, so they never interrupt a question.
 
 #### The archive look (hub only)
-- **Built from tokens** layered over the site's own (`--paper`, `--paper-fiber`, `--ink-archive`, `--pencil`, `--rule`, `--plate`, `--gilt`), each with light and dark values. Every stage passes WCAG AA.
+- **Built from tokens** layered over the site's own (`--paper`, `--paper-fiber`, `--ink-archive`, `--pencil`, `--rule`, `--plate`, `--gilt`), each with light and dark values, generated by `scripts/archive_tokens.py`, which checks that every stage passes WCAG AA.
   - **Paper:** a warm off-white surface with a faint fiber texture (an inline SVG noise, at low opacity). In dark mode it's a deep ink-blue "blueprint" paper.
   - **Engraved rules and plates:** double hairline borders, corner ornaments, and numbered plates as tab and section labels (**Pl. I Theorems**).
   - **Numerals:** STIX Two Text with old-style figures in prose; lining tabular figures for prices and counts.
   - **Marginalia:** statements set as margin notes beside their entries at 1024 px and up; inline, in italics, below that.
 - **Escalation**, in three stages; the student doesn't choose:
-  1. **Eras.** The hub takes the style of the latest unlocked era: Antiquity, parchment and ink; Golden Age, illuminated manuscript; Renaissance, copperplate; Enlightenment, printed folio; Steam Age, lithograph and brass; Machine Age, blueprint; Space Age, back to the site's own minimalist look (§16.1): the present day.
+  1. **Eras.** Each era is unmistakable, in light and dark: its own palette, a band across the top of the hub (a Greek key, a lapis-and-gold border, engraved hatching, a printer's double rule, brass rivets, a measured blueprint scale) and its own lettering. The hub takes the style of the latest unlocked era: Antiquity, parchment and ink; Golden Age, illuminated manuscript; Renaissance, copperplate; Enlightenment, printed folio; Steam Age, lithograph and brass; Machine Age, blueprint; Space Age, back to the site's own minimalist look (§16.1): the present day.
   2. **Axioms**, once every era is unlocked. Each proven large cardinal darkens the minimalist page a step toward night, with the ink turning to starlight. Large cardinals already proven count at once.
   3. **Conjectures**, once all 18 Axioms are proven. Each proven Conjecture adds a constellation, ending in an Antimatter-like void (§12.4) at P versus NP.
 
@@ -1945,7 +1966,7 @@ content/schedules/     course outlines by school week (§8.5)
 content/calendar/      <year>.yaml: term dates, semesters, exam periods (§8.6)
 content/cards/          <era>.yaml: collectible cards by era (§13.7)
 content/economy.yaml, achievements.yaml, response-skills.yaml, words.yaml, banned-words.txt
-scripts/               SymPy verification (verify_questions.py, verify_geometry.py); Lemma economy simulation (economy_sim.py, §13.3); table of contents (spec_toc.py)
+scripts/               SymPy verification (verify_questions.py, verify_geometry.py); Lemma economy simulation (economy_sim.py, §13.3); archive look tokens (archive_tokens.py, §13.11); table of contents (spec_toc.py)
 netlify/functions/     mark, transcribe, ink
 ```
 
@@ -1997,7 +2018,7 @@ netlify/functions/     mark, transcribe, ink
 - XP values and the ~600 XP/hour assumption, checked against real usage so that level 500 stays at roughly 500 hours (§12.4).
 
 **To tune when the economy ships**
-- Lemma rates, institute and Conjecture costs and outputs, and the Time Warp (against the calibration targets in §13.3, including Rank-into-Rank after 1.5 years of 1.5 hours a day), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity (80 packs) and shop prices, per-era pack prices, and the staff-slot schedule (copies per extra slot and the cap, §13.3) (§13), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
+- Lemma rates, institute and Conjecture costs and outputs, and the Time Warp (against the calibration targets in §13.3, including Rank-into-Rank after about 1.4 years of 1.5 hours a day, with bought packs), theorem costs and effects, corollary sizes, Axiom thresholds, pack sources, odds, pity (80 packs) and shop prices, per-era pack prices, and the staff-slot schedule (copies per extra slot and the cap, §13.3) (§13), so that an era set takes weeks, not days, and the whole collection stays a long-term goal.
 
 **Owner to specify later**
 - **Science answer types** (before Phase 5): unit-aware numeric answers, significant-figure rules, chemical formula and equation input, balanced-equation checking.

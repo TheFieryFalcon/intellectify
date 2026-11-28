@@ -9,6 +9,8 @@
   import CountUp from "$lib/components/economy/CountUp.svelte";
   import LemmaIcon from "$lib/components/economy/LemmaIcon.svelte";
   import { lemmasLong } from "@intellectify/engine";
+  import { themeCss } from "$lib/cosmetics";
+  import { cosmetics } from "$lib/economy.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
   import { beforeNavigate, goto } from "$app/navigation";
@@ -37,13 +39,19 @@
   const shownToast = $derived(toasts[0] ?? null);
   $effect(() => {
     if (!shownToast) return;
-    const t = setTimeout(() => toasts.shift(), shownToast.kind === "achievement" ? 4500 : 3500);
+    const t = setTimeout(() => toasts.shift(), 10_000);
     return () => clearTimeout(t);
   });
   // Full-screen moments, one at a time: level tier, Axiom, Conjecture.
   const moment = $derived(currentMoment());
   const economy = $derived(profile?.economy ?? null);
   const rewards = $derived(!!economy && economy.visible && !economy.failed);
+  // The equipped color recolors the whole site (SPEC §13.8); it shows even with rewards hidden.
+  const colorCss = $derived.by(() => {
+    const id = economy?.state.equipped.theme;
+    const c = id ? cosmetics.colors[id] : null;
+    return c ? `<style>${themeCss(c.style)}</style>` : "";
+  });
   // The equipped answer celebration plays over the page for a moment.
   let playing = $state<{ id: string; at: number } | null>(null);
   $effect(() => {
@@ -71,6 +79,8 @@
   });
 </script>
 
+<svelte:head>{@html colorCss}</svelte:head>
+
 <header>
   <div class="bar">
     <a class="brand" href="/">Intellectify</a>
@@ -84,7 +94,7 @@
         {#if profile?.loaded}<a class="lvl" href="/profile/{session.user.uid}" aria-label="Your profile"><LevelBadge progress={profile.progress} bar /></a>{/if}
         {#if rewards && economy?.loaded}
           <a class="balance" href="/lemmas" title={lemmasLong(economy.balance)} aria-label="Lemmas: {lemmasLong(economy.balance)}{economy.toProve ? ', Axiom to prove' : ''}">
-            <CountUp value={economy.balance} /><LemmaIcon infinity={economy.state.equipped.lemmaIcon === "infinity-icon"} />
+            <CountUp value={economy.balance} /><LemmaIcon id={economy.state.equipped.lemmaIcon} />
             {#if economy.toProve}<span class="pip" aria-hidden="true"></span>{/if}
           </a>
         {/if}

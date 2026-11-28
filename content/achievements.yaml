@@ -143,6 +143,24 @@
   secret: true
   criterion: Solve a Tier 5 question on its 5th and final attempt
   rule: {kind: flag, flag: lastGasp}
+- id: P24
+  name: First Edition
+  tier: platinum
+  points: 10
+  criterion: Open a card pack
+  rule: {kind: economy, stat: packsOpened, gte: 1}
+- id: P25
+  name: Research Grant
+  tier: platinum
+  points: 10
+  criterion: Build an institute
+  rule: {kind: economy, stat: institutes, gte: 1}
+- id: P26
+  name: Lemma by Lemma
+  tier: platinum
+  points: 10
+  criterion: Buy 25 theorem levels
+  rule: {kind: economy, stat: theoremLevels, gte: 25}
 - id: D1
   name: Deep Roots
   tier: diamond
@@ -280,6 +298,24 @@
   secret: true
   criterion: Solve a Tier 5 question first-try in a skill where you are Unranked
   rule: {kind: flag, flag: contradiction}
+- id: D23
+  name: Faculty
+  tier: diamond
+  points: 25
+  criterion: Fill all 12 staff slots of an institute
+  rule: {kind: economy, stat: fullStaff, gte: 1}
+- id: D24
+  name: Gilt Edges
+  tier: diamond
+  points: 25
+  criterion: Hold 5 foil cards
+  rule: {kind: economy, stat: foils, gte: 5}
+- id: D25
+  name: Curator
+  tier: diamond
+  points: 25
+  criterion: Collect 75 different cards
+  rule: {kind: economy, stat: cards, gte: 75}
 - id: R1
   name: Bedrock
   tier: ruby
@@ -394,6 +430,25 @@
   secret: true
   criterion: Reach Diamond in a skill after having dropped it to Tier 1
   rule: {kind: flag, flag: ouroboros}
+- id: R19
+  name: Complete Works
+  tier: ruby
+  points: 50
+  criterion: Complete an era set
+  rule: {kind: economy, stat: sets, gte: 1}
+- id: R20
+  name: Time Traveller
+  tier: ruby
+  points: 50
+  criterion: Fire 250 Time Warps
+  rule: {kind: economy, stat: warps, gte: 250}
+- id: R21
+  name: Lucky Draw
+  tier: ruby
+  points: 50
+  secret: true
+  criterion: Pull two Diamonds from one pack
+  rule: {kind: economyFeat, feat: luckyDraw}
 - id: T1
   name: Bedrock II
   title: Keystone
@@ -510,6 +565,13 @@
   secret: true
   criterion: Solve every daily problem of a week first-try and post a solution in each one's discussion
   rule: {kind: flag, flag: perfectWeekDiscussed}
+- id: T17
+  name: Hall of Fame
+  title: Patron
+  tier: tanzanite
+  points: 100
+  criterion: Hold a Diamond card from every era
+  rule: {kind: economy, stat: diamondEras, gte: 7}
 - id: V1
   name: Course Diamond
   title: Closure
@@ -606,6 +668,13 @@
   secret: true
   criterion: Fully solve a monthly Tier 6 problem within 72 hours of release
   rule: {kind: pending, feature: monthly}
+- id: V14
+  name: The Complete Archive
+  title: Archivist
+  tier: vibranium
+  points: 250
+  criterion: Complete every era set
+  rule: {kind: economy, stat: sets, gte: 7}
 - id: S1
   name: Six Suns
   title: Helios

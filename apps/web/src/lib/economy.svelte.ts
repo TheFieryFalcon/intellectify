@@ -27,6 +27,7 @@ import {
   researchDue,
   researchRate,
   setStaff,
+  staffSlots,
   tierPacks,
   timeWarp,
   type AchievementTier,
@@ -35,6 +36,9 @@ import {
   type BuyAmount,
   type CardDef,
   type ConjectureDef,
+  type CosmeticDef,
+  type ColorDef,
+  type CosmeticStyle,
   type CosmeticSlot,
   type EconomyConfig,
   type EconomyContext,
@@ -64,12 +68,23 @@ export interface EconomyData {
 
 let dataPromise: Promise<EconomyData> | null = null;
 export const loadEconomyData = (f: typeof fetch = fetch): Promise<EconomyData> =>
-  (dataPromise ??= f("/content/economy.json").then((r) => {
+  (dataPromise ??= f("/content/economy.json").then(async (r) => {
     if (!r.ok) throw new Error(`economy.json: ${r.status}`);
-    return r.json() as Promise<EconomyData>;
+    const data = (await r.json()) as EconomyData;
+    cosmetics.map = Object.fromEntries([...data.config.shop, ...data.config.axioms.list.flatMap((a) => a.cosmetics)].map((c) => [c.id, c]));
+    cosmetics.colors = Object.fromEntries((data.config.colors ?? []).map((c) => [c.id, c]));
+    return data;
   }));
 
+/** Every shop and Axiom cosmetic by id, once economy.json has loaded: how each one is drawn. */
+export const cosmetics = $state<{ map: Record<string, CosmeticDef>; colors: Record<string, ColorDef> }>({ map: {}, colors: {} });
+export const styleOf = (id: string | null | undefined): CosmeticStyle | null => (id ? (cosmetics.map[id]?.style ?? null) : null);
+
 export const portraitUrl = (c: Pick<Card, "portrait">) => (c.portrait ? `/content/cards/${c.portrait.file}` : null);
+
+/** Listeners told when the economy changes (economy achievements re-check then). */
+const changeListeners = new Set<() => void>();
+export const onEconomyChange = (fn: () => void) => changeListeners.add(fn);
 
 /** What the answer just shown earned in Lemmas (SPEC §13.11 Result row). */
 export interface AnswerLemmas {
@@ -191,7 +206,33 @@ export class EconomyStore {
     this.pendingEarned += Math.max(0, next.lemmasEarned - this.state.lemmasEarned);
     this.pendingSpent += Math.max(0, next.lemmasSpent - this.state.lemmasSpent);
     this.state = next;
-    if (!this.failed) this.profile.touch();
+    if (!this.failed) {
+      this.profile.touch();
+      for (const fn of changeListeners) fn();
+    }
+  }
+
+  /** Counts and feats for the economy achievements (SPEC §12.1, §13). */
+  achievementStats(): { stats: Record<string, number>; feats: string[] } | null {
+    if (!this.loaded || !this.data) return null;
+    const cfg = this.data.config;
+    const s = this.state;
+    const held = Object.entries(s.cards).filter(([, c]) => c.n > 0);
+    const diamondEras = new Set(held.map(([id]) => this.cardMap.get(id)).filter((c) => c?.rarity === "diamond").map((c) => c!.era));
+    return {
+      stats: {
+        packsOpened: Object.values(s.packs).reduce((t, p) => t + p.opened, 0),
+        institutes: Object.values(s.institutes).reduce((t, n) => t + n, 0),
+        theoremLevels: Object.values(s.theorems).reduce((t, n) => t + (n ?? 0), 0),
+        fullStaff: cfg.eras.filter((e) => staffSlots(cfg, s.institutes[e.id] ?? 0) >= cfg.staff.maxSlots && (s.staff[e.id] ?? []).slice(0, cfg.staff.maxSlots).filter(Boolean).length >= cfg.staff.maxSlots).length,
+        foils: held.filter(([, c]) => c.foil).length,
+        cards: held.length,
+        sets: cfg.eras.filter((e) => eraComplete(s, this.cardsOf(e.id))).length,
+        warps: s.warps ?? 0,
+        diamondEras: diamondEras.size,
+      },
+      feats: s.feats ?? [],
+    };
   }
 
   /**
@@ -212,6 +253,7 @@ export class EconomyStore {
       ...this.state,
       lemmasEarned: this.state.lemmasEarned + part.lemmas + warpLemmas,
       warpXp: warp.warpXp,
+      warps: (this.state.warps ?? 0) + warp.warps,
       researchHours: this.state.researchHours + cfg.timeWarp.hours * warp.warps,
     });
     const row = answerLemmas.current;
@@ -315,6 +357,7 @@ export class EconomyStore {
       s = r.state;
       out.push(r.result);
     }
+    if (out.some((r) => r.cards.filter((c) => c.rarity === "diamond").length >= 2) && !(s.feats ?? []).includes("luckyDraw")) s = { ...s, feats: [...(s.feats ?? []), "luckyDraw"] };
     if (out.length) this.apply(s);
     return out;
   }
@@ -373,7 +416,7 @@ export class EconomyStore {
     if (!this.data) return [];
     if (slot === "title") return this.state.titles;
     if (slot === "frame") return this.data.config.eras.filter((e) => eraComplete(this.state, this.cardsOf(e.id))).map((e) => `frame-${e.id}`);
-    const ids = [...this.data.config.shop, ...this.data.config.axioms.list.map((a) => a.cosmetic)].filter((c) => c.slot === slot).map((c) => c.id);
+    const ids = [...this.data.config.shop, ...this.data.config.axioms.list.flatMap((a) => a.cosmetics)].filter((c) => c.slot === slot).map((c) => c.id);
     return ids.filter((id) => this.state.owned.includes(id));
   }
 
