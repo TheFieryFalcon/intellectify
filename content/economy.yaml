@@ -209,7 +209,7 @@ axioms:
       cosmetics:
         - {id: union, slot: banner, name: Union, description: Many small sets drift together into one}
         - {id: bubbles, slot: celebration, name: Bubbles, description: Bubbles rise and pop, style: {kind: bubbles, colors: ['#66d9e8', '#a5d8ff', '#e599f7']}}
-        - {id: pastel, slot: nodeTheme, name: Pastel, description: Soft pastel regions and rounded edges, style: {kind: palette, colors: ['#fff4f8', '#f3d9fa', '#c0a3e6', '#fff4f8']}}
+        - {id: pastel, slot: nodeTheme, name: Pastel, description: Soft lilac regions and quiet violet paths, style: {kind: palette, colors: ['#fbf7fc', '#f2eaf6', '#a07cc5', '#ffffff']}}
     - id: replacement
       name: Replacement
       at: 1500000
@@ -289,7 +289,7 @@ axioms:
         - {id: tree-property, slot: nodeTheme, name: Tree Property, description: One unbroken branch glows from the root to the top of the tech tree}
         - {id: gilded-name, slot: nameOrnament, name: Gilded, description: The name in shimmering gold leaf, style: {kind: shimmer, colors: ['#b8860b', '#ffe066', '#b8860b']}}
         - {id: rosewood, slot: keypad, name: Rosewood, description: Warm polished wooden keys, style: {kind: palette, colors: ['#3b1f18', '#7a3e2f', '#fbe9e2', '#9c5a46']}}
-        - {id: moss, slot: nodeTheme, name: Moss, description: 'Soft greens, like a forest floor', style: {kind: palette, colors: ['#f1f7ec', '#dcebd2', '#5c8a4a', '#f1f7ec']}}
+        - {id: moss, slot: nodeTheme, name: Moss, description: Soft sage regions and deep green paths, style: {kind: palette, colors: ['#f4f7f0', '#e7eedf', '#4f7a3f', '#fbfcf9']}}
     - id: measurable
       name: Measurable
       at: 100000000
@@ -349,7 +349,7 @@ axioms:
       cosmetics:
         - {id: huge, slot: celebration, name: Huge, description: The celebration fills the whole screen}
         - {id: golden-rain, slot: celebration, name: Golden Rain, description: Gold leaf falls across the screen, style: {kind: confetti, colors: ['#ffd43b', '#fab005', '#fff3bf']}}
-        - {id: gilded-map, slot: nodeTheme, name: Gilded, description: Gold paths on ivory, style: {kind: palette, colors: ['#fffbeb', '#fff3c4', '#c99700', '#fffbeb'], motion: glow}}
+        - {id: gilded-map, slot: nodeTheme, name: Gilded, description: 'Ivory leaves, hairline gold paths and serif lettering', style: {kind: palette, colors: ['#fbf8f0', '#f4eedf', '#b08a2e', '#fffdf8']}}
         - {id: solar-flare, slot: banner, name: Solar Flare, description: A blazing sun rising over the banner, style: {kind: mesh, colors: ['#5c0f00', '#e8590c', '#ffd43b', '#fff9db'], motion: shimmer}}
     - id: rank-into-rank
       name: Rank-into-Rank

@@ -52,7 +52,7 @@ const style = z.object({
   accentSat: z.number().min(0).max(1).optional(),
   mode: z.literal("dark").optional(),
 });
-const cosmetic = z.object({ id: z.string().regex(/^[a-z0-9-]+$/), slot: z.enum(COSMETIC_SLOTS as unknown as [string, ...string[]]), name: z.string().min(1), description: z.string().min(1), price: num.optional(), style: style.optional() });
+const cosmetic = z.object({ id: z.string().regex(/^[a-z0-9-]+$/), slot: z.enum(COSMETIC_SLOTS as unknown as [string, ...string[]]), name: z.string().min(1), description: z.string().min(1), price: num.optional(), style: style.optional() }).strict();
 const tierRule = z.object({ packs: z.number().int().positive(), era: z.number().int().min(0).max(6) });
 
 export const EconomyFile = z.object({
@@ -117,7 +117,7 @@ export const EconomyFile = z.object({
     fullWeek: z.number().int().positive(),
   }),
   shop: z.array(cosmetic.extend({ price: num })),
-  colors: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), name: z.string().min(1), description: z.string().min(1), price: num.optional(), axiom: z.string().optional(), style })),
+  colors: z.array(z.object({ id: z.string().regex(/^[a-z0-9-]+$/), name: z.string().min(1), description: z.string().min(1), price: num.optional(), axiom: z.string().optional(), style }).strict()),
   tabs: z.object({ research: num, conjecturesRate: num }),
 });
 

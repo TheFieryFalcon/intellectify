@@ -3,10 +3,8 @@
    * The Lemmas hub (SPEC §13.11): a summary strip over seven tabs, in the archive look. Tabs open as the
    * economy grows; the rest wait as quiet silhouettes under Later.
    */
-  import "$lib/archive.css";
-  import "$lib/archive-tokens.css";
   import { onMount } from "svelte";
-  import { eraUnlocked, lemmasShort, type BuyAmount } from "@intellectify/engine";
+  import { lemmasShort, type BuyAmount } from "@intellectify/engine";
   import { profileFor } from "$lib/profile.svelte";
   import { session } from "$lib/session.svelte";
   import AxiomLadder from "$lib/components/economy/AxiomLadder.svelte";
@@ -17,7 +15,6 @@
   import ResearchTab from "$lib/components/economy/ResearchTab.svelte";
   import ShopTab from "$lib/components/economy/ShopTab.svelte";
   import TheoremTree from "$lib/components/economy/TheoremTree.svelte";
-  import Constellations from "$lib/components/economy/Constellations.svelte";
 
   type TabId = "theorems" | "research" | "conjectures" | "axioms" | "packs" | "collection" | "shop";
   const TABS: { id: TabId; name: string; note: string }[] = [
@@ -107,19 +104,6 @@
     };
   });
 
-  // The archive's stage (SPEC §13.11): the latest unlocked era; then night with each proven large cardinal
-  // once every era is open; then constellations with each Conjecture once all 18 Axioms are proven.
-  const stage = $derived.by(() => {
-    if (!economy || !cfg) return { era: "antiquity", night: 0, stars: 0 };
-    const s = economy.state;
-    const eras = cfg.eras.filter((e) => eraUnlocked(cfg, s, e.id));
-    const era = eras.at(-1)?.id ?? "antiquity";
-    const all = eras.length === cfg.eras.length;
-    const night = all ? Math.max(0, Math.min(9, s.axiomsProven - 9)) : 0;
-    const stars = all && s.axiomsProven >= cfg.axioms.list.length ? s.conjectures : 0;
-    return { era, night, stars };
-  });
-
   const typing = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName) || !!t.closest("math-field"));
   function keys(e: KeyboardEvent) {
     if (!ready || !economy || typing(e.target) || document.querySelector('[role="dialog"]')) return;
@@ -150,8 +134,7 @@
 {#if profile?.loaded && profile.profile.showRewards === false}
   <div class="wrap narrow"><p class="muted">Rewards hidden (<a href="/settings">Settings</a>)</p></div>
 {:else}
-  <div class="archive" data-era={stage.era} data-night={stage.night || undefined} data-stars={stage.stars || undefined}>
-    {#if stage.stars}<Constellations count={stage.stars} />{/if}
+  <div class="hub-root">
     <div class="wrap hub">
       {#if !economy || !economy.loaded}
         <p class="pl">Loading…</p>
@@ -195,7 +178,7 @@
 
 <style>
   .hub { position: relative; padding-top: 8px; }
-  .top { position: sticky; top: 0; z-index: 5; background: var(--paper); background-image: inherit; padding-bottom: 4px; }
+  .top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(6px); padding-bottom: 4px; }
   .tabs ul { list-style: none; display: flex; flex-wrap: wrap; gap: 2px 4px; padding: 8px 0 0; margin: 0; align-items: center; }
   .tab { font: inherit; font-family: var(--font-display); font-size: 15px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--ink-archive); padding: 6px 10px; cursor: pointer; min-height: 40px; }
   .tab .pl { font-size: 12px; }

@@ -11,6 +11,10 @@
   import { lemmasLong } from "@intellectify/engine";
   import { themeCss } from "$lib/cosmetics";
   import { cosmetics } from "$lib/economy.svelte";
+  import "$lib/archive.css";
+  import "$lib/archive-tokens.css";
+  import { archiveStage } from "$lib/archiveStage";
+  import Constellations from "$lib/components/economy/Constellations.svelte";
   import "../app.css";
   import "katex/dist/katex.min.css";
   import { beforeNavigate, goto } from "$app/navigation";
@@ -52,6 +56,8 @@
     const c = id ? cosmetics.colors[id] : null;
     return c ? `<style>${themeCss(c.style)}</style>` : "";
   });
+  const onHub = $derived(page.url.pathname.startsWith("/lemmas") && rewards && !!economy?.loaded);
+  const stage = $derived(archiveStage(economy));
   // The equipped answer celebration plays over the page for a moment.
   let playing = $state<{ id: string; at: number } | null>(null);
   $effect(() => {
@@ -81,6 +87,9 @@
 
 <svelte:head>{@html colorCss}</svelte:head>
 
+<!-- On the Lemmas hub the whole page, header included, takes the archive look (SPEC §13.11). -->
+<div class="page" class:archive={onHub} data-era={onHub ? stage.era : undefined} data-night={onHub && stage.night ? stage.night : undefined} data-stars={onHub && stage.stars ? stage.stars : undefined}>
+{#if onHub && stage.stars}<Constellations count={stage.stars} />{/if}
 <header>
   <div class="bar">
     <a class="brand" href="/">Intellectify</a>
@@ -110,6 +119,7 @@
     <p class="load-failed" role="alert">Couldn't load your progress{profile.loadError ? ` (${profile.loadError})` : ""}, so nothing is being saved. <button class="btn link" onclick={() => location.reload()}>Reload</button></p>
   {/if}
 </header>
+{#if onHub}<div class="era-band" aria-hidden="true"></div>{/if}
 
 {#if shownToast?.kind === "achievement"}
   {@const a = shownToast.achievement}
@@ -154,6 +164,7 @@
     {@render children()}
   {/if}
 </main>
+</div>
 
 <style>
   header { border-bottom: 1px solid var(--line); background: var(--surface); }

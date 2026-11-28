@@ -1423,7 +1423,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **Header.** The nav gains **Lemmas** (→ `/lemmas`) after Leaderboards. The ∴ balance sits after the level badge, in short form (**4.56 M∴**), and also links to `/lemmas`.
   - **Count-up:** when XP or Lemmas change, the header number (and the level bar) rolls from the old value to the new one over about 600 ms, ease-out. The tooltip shows the final value at once. Reduced motion swaps instantly.
   - **Pip:** a small dot on the ∴ count while an Axiom is reached but not proven (screen readers: "Axiom to prove"). Nothing else pips: packs, affordable upgrades and new cards never do.
-- **Hub** (`/lemmas`): tabs **Theorems, Research, Conjectures, Axioms, Packs, Collection, Shop**, under a summary strip. Only the hub takes the archive look (below); the header, result row, profile, pack overlay chrome and the rest of the site keep the standard style.
+- **Hub** (`/lemmas`): tabs **Theorems, Research, Conjectures, Axioms, Packs, Collection, Shop**, under a summary strip. Only the hub takes the archive look (below), and on the hub the header takes it too, with the era's band under it; the result row, profile, pack overlay chrome and the rest of the site keep the standard style.
 - **Profile** (§12.3): banner, frame, title, showcase, collection and Axioms. App-wide cosmetics (keypad skin, celebration, node theme) are equipped in **Shop › Wardrobe**.
 - **Show rewards off** (§13 rules) removes the nav link, header count, pip and hub; `/lemmas` shows "Rewards hidden (Settings)".
 

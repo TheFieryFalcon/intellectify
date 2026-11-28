@@ -17,7 +17,7 @@
     if (!v) return null;
     const earned = s.lemmasEarned - v.earned;
     const hours = s.researchHours - v.researchHours;
-    return earned > 0 || hours > 0 ? { earned, hours } : null;
+    return earned >= 1 ? { earned, hours } : null;
   });
   const next = $derived(nextAxiom(cfg, s));
   let panel = $state(false);

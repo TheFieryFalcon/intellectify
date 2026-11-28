@@ -19,6 +19,7 @@
       {#each ["light", "dark"] as scheme (scheme)}
         <div class="archive panel" data-scheme={scheme} data-era={st.era} data-night={st.night || undefined} data-stars={st.stars || undefined}>
           {#if st.stars}<Constellations count={st.stars} />{/if}
+          <div class="era-band"></div>
           <p class="pl">Pl. I {st.label}, {scheme}</p>
           <h3>Successor Function <span class="num">Lv 12</span></h3>
           <p class="margin">S(n) = n + 1, the first step of every count.</p>
