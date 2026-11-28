@@ -1105,9 +1105,9 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 | Particle Accelerator | Space Age | 22.8 G | 655 k |
 
 - **Cards staff their era's institute, in limited slots.** Each institute has **staff slots**, and the student chooses which of that era's cards fill them (§13.11), so placing a rare card is a decision that feels good.
-  - **Boost per slotted card:** Silver +2%, Gold +5%, Platinum +10%, Diamond +25% of that institute's output. A foil card doubles its own boost.
+  - **Boost per slotted card:** Silver +2%, Gold +6%, Platinum +15%, Diamond +30% of that institute's output. A foil card doubles its own boost. These were raised (from 2, 5, 10 and 25%) when packs went to 3 cards, so a smaller collection keeps Research on the calibration targets below.
   - **Slots grow with copies built:** **1 slot per copy**, so the first copy opens 1 slot and each copy after it 1 more, up to **12 slots** (half a set) at the 12th copy. The cap keeps the rarest cards competing for room: a set's Diamonds and Platinums alone fill about 9 slots, leaving 3 for the best Golds.
-  - **Why this schedule:** it was fitted with `scripts/economy_sim.py` to the calibration targets below. With a slot only every second copy, a day of Research at 400 hours would be worth about 10 hours of practice instead of 20, because a newly built institute starts with 1 copy and its era's packs have only just unlocked (§13.7). Above about 12, the cap barely changes the targets.
+  - **Why this schedule:** it was fitted with `scripts/economy_sim.py` to the calibration targets below. With a slot only every second copy, a day of Research at 400 hours would be worth about 10 hours of practice instead of 20, because a newly built institute starts with 1 copy and its era's packs have only just unlocked (§13.7). Above 12, a higher cap moves Rank-into-Rank by less than 10 hours.
   - A card fills one slot at most. **Unslotted cards give nothing to Research**; collecting still counts toward set completion (its corollary and frame) and the Cards collected board.
   - A new card never replaces a slotted one by itself.
 - **Time Warp.** Every 600 XP earned (about one active hour of practice) instantly credits **12 hours of Research** at the current rate.
@@ -1123,29 +1123,29 @@ Research comes from **institutes**: one per era, bought with Lemmas and staffed 
 
   | Hours played | Practice (∴/hour) | Research (∴/day) | Ratio | Axioms | Conjectures |
   |---|---|---|---|---|---|
-  | 100 | 5.88 k | 379 | 0.06 | 4 | 0 |
-  | 200 | 10.3 k | 9.45 k | 0.9 | 6 | 0 |
-  | 300 | 15.4 k | 76.4 k | 5.0 | 8 | 0 |
-  | 400 | 22.9 k | 470 k | 21 | 10 | 0 |
-  | 500 | 33.9 k | 11.1 M | 330 | 13 | 1 |
-  | 600 | 67.6 k | 678 G | 10 million | 16 | 5 |
-  | 700 | 132 k | 335 T | 2.5 billion | 18 | 9 |
+  | 100 | 5.88 k | 378 | 0.06 | 4 | 0 |
+  | 200 | 10.1 k | 8.98 k | 0.9 | 6 | 0 |
+  | 300 | 15.0 k | 74.5 k | 5.0 | 8 | 0 |
+  | 400 | 22.9 k | 481 k | 21 | 10 | 0 |
+  | 500 | 33.9 k | 12.3 M | 360 | 13 | 1 |
+  | 600 | 72.9 k | 3.44 T | 47 million | 16 | 6 |
+  | 700 | 139 k | 335 T | 2.4 billion | 18 | 9 |
 
   - **Early game:** practice is how Lemmas are earned.
   - **Around 200 hours:** a student who skips a day loses little, because Research already out-earns their typical 45 minutes of practice.
   - **From about 400 hours:** a day of Research equals about 20 hours of practice, so Lemmas stop being a constraint.
-  - **From about 470 hours:** Conjectures take over. Each one multiplies Research by 2.5 and helps pay for the next, so growth compounds through the large cardinals.
-- **The end goal: Rank-into-Rank after 1.5 years of 1.5 hours a day** (about 820 active hours). The Axiom thresholds are fitted to that student's curve. Every hour figure in this section counts **active hours** (time spent practicing); Research also accrues by calendar day.
+  - **From about 465 hours:** Conjectures take over. Each one multiplies Research by 2.5 and helps pay for the next, so growth compounds through the large cardinals.
+- **The end goal: Rank-into-Rank after 1.5 years of 1.5 hours a day** (about 815 active hours). The Axiom thresholds are fitted to that student's curve. Every hour figure in this section counts **active hours** (time spent practicing); Research also accrues by calendar day.
 
   | Play per day | Rank-into-Rank (active hours) | Calendar time |
   |---|---|---|
-  | 45 minutes | about 645 | 2.4 years |
-  | 1.5 hours | about 820 | 1.5 years |
+  | 45 minutes | about 640 | 2.3 years |
+  | 1.5 hours | about 815 | 1.5 years |
   | 3 hours | about 980 | 0.9 years |
 
   Playing more gets there sooner on the calendar but takes more active hours, because there are fewer days for Research to run. The Time Warp keeps that gap small.
 - **Crediting:** in whole hours, whenever the app next loads. There's no cap and no collect button. Elapsed time comes from Firestore server timestamps, so changing the device clock gains nothing.
-- **Shown** as a chip on the Lemmas page: **Research · 9.45 k∴/day**.
+- **Shown** as a chip on the Lemmas page: **Research · 8.98 k∴/day**.
 
 ### 13.4 Conjectures (the long-term Research boost)
 Conjectures are famous problems that the student's institutes "prove", one at a time, in order.
@@ -1153,7 +1153,7 @@ Conjectures are famous problems that the student's institutes "prove", one at a 
 - **Effect:** each proven Conjecture **multiplies Research by 2.5**, permanently. The multipliers stack (×2.5, ×6.25, ×15.6, …).
 - **Why the numbers work:** costs grow 10× while Research grows only 2.5×, so each Conjecture takes longer to reach than the one before. Growth compounds without running away, and the large cardinals arrive spread out rather than all at once.
 - **Shown:** the Conjectures list shows every entry with its cost, its statement in one plain line, and when and by whom it was really proved. Proven ones carry a **Proved** chip.
-- **The last two are the very end of the ladder**, after Rank-into-Rank: at 1.5 hours a day, about 1,300 and 1,900 active hours. The Riemann Hypothesis was proved only in November 2026, and P versus NP is still open: in Intellectify, Research can settle it; in the real world, nobody has.
+- **The last two are the very end of the ladder**, after Rank-into-Rank: at 1.5 hours a day, about 1,300 and 1,850 active hours. The Riemann Hypothesis was proved only in November 2026, and P versus NP is still open: in Intellectify, Research can settle it; in the real world, nobody has.
 
 | # | Conjecture | Cost | Statement | Really proved |
 |---|---|---|---|---|
@@ -1184,10 +1184,10 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
 - **Spacing:**
   - **Fitted to a curve:** thresholds follow the growth curve of a student who plays 1.5 hours a day, so that Rank-into-Rank arrives after 1.5 years.
   - **The nine ZFC axioms** (10 k to 15 M) spread over the first 420 or so active hours, starting with an early taste about 14 hours in.
-  - **The nine large cardinals** (20 M to 1 P) then arrive about every 25–75 active hours, up to Rank-into-Rank at about 820. Conjectures carry students through them.
+  - **The nine large cardinals** (20 M to 1 P) then arrive about every 20–75 active hours, up to Rank-into-Rank at about 815. Conjectures carry students through them.
 - **Display:** the hub summary shows the next Axiom and its progress, e.g. **Union · 640 k∴ / 700 k∴**; once reached it becomes a **Prove Union** button (§13.11).
 - **Statements:** each Axiom's card shows its statement in one plain line, as flavor and a glimpse of set theory.
-- **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 645).
+- **The "≈ Hours" column** is the simulation's estimate in **active hours** for a student playing 1.5 hours a day. At 45 minutes a day the late Axioms come sooner in active hours (Rank-into-Rank at about 640).
 
 | # | Axiom | At | ≈ Hours | Statement | Cosmetic | Title |
 |---|---|---|---|---|---|---|
@@ -1199,16 +1199,16 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
 | 6 | Replacement | 1.5 M | 215 | The image of a set under a definable function is a set | **Image** celebration: each symbol of the answer maps, one to one, onto a star | — |
 | 7 | Infinity | 3 M | 285 | There is an infinite (inductive) set | **∞ Lemma icon**: the ∴ in the header becomes a slowly tracing ∞ | Inductive |
 | 8 | Power Set | 5 M | 335 | Every set has a set of all its subsets | **Hasse** node theme: tree edges drawn as the lattice of a power set | — |
-| 9 | Choice | 15 M | 425 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
+| 9 | Choice | 15 M | 420 | Every family of nonempty sets has a choice function | **Banach–Tarski** celebration: a sphere splits into pieces that reassemble into two | Well-Ordered |
 | 10 | Inaccessible | 20 M | 445 | A cardinal that unions and power sets of smaller ones can never reach | **Unreachable** banner: a ladder of ℵ's climbing out of view | Inaccessible |
 | 11 | Mahlo | 50 M | 520 | Inaccessible, with inaccessibles below it so common they form a stationary set | **Stationary** keypad skin: the keys hold still while a field of stars turns behind them | — |
 | 12 | Weakly Compact | 70 M | 550 | Inaccessible, and every tree of its height with small levels has a full-length branch | **Tree Property** node theme: one unbroken branch glows from the root to the top of the tech tree | — |
 | 13 | Measurable | 100 M | 585 | Carries a two-valued measure: a κ-complete nonprincipal ultrafilter | **Ultrafilter** celebration: light pours down through a funnel of nested sets | Measurable |
-| 14 | Strong | 500 M | 645 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
-| 15 | Woodin | 1.5 G | 685 | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
-| 16 | Supercompact | 50 G | 730 | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
-| 17 | Huge | 50 T | 780 | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
-| 18 | Rank-into-Rank | 1 P | 820 | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
+| 14 | Strong | 500 M | 640 | The universe embeds into inner models that agree with it up to any chosen rank | **Embedding** profile banner: the profile shows a smaller faithful copy of itself inside | — |
+| 15 | Woodin | 1.5 G | 675 | Infinitely many of them make every projective game determined | **Determinacy** keypad skin: keys light alternately, like moves in an infinite game | — |
+| 16 | Supercompact | 50 G | 720 | Embeddings whose targets are closed under sequences of any chosen length | **Supercompact** node theme: the whole tree folds into a single point and unfolds when the map opens | — |
+| 17 | Huge | 50 T | 770 | An embedding whose target is closed under sequences as long as the image of its critical point | **Huge** celebration: the celebration fills the whole screen | Huge |
+| 18 | Rank-into-Rank | 1 P | 815 | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
 
 ### 13.7 Packs and cards
 Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 3 cards from one era.
@@ -1401,7 +1401,7 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **Show rewards off** (§13 rules) removes the nav link, header count, pip and hub; `/lemmas` shows "Rewards hidden · Settings".
 
 #### Hub summary
-- **Contents, in order:** balance · **Research 9.45 k∴/day** · **Time Warp 420 / 600 XP** (a thin meter) · next Axiom (**Union · 640 k∴ / 700 k∴**, or the **Prove Union** / **Prove 3** button once reached) · buy amount **×1 / ×10 / Max** · **Multipliers**.
+- **Contents, in order:** balance · **Research 8.98 k∴/day** · **Time Warp 420 / 600 XP** (a thin meter) · next Axiom (**Union · 640 k∴ / 700 k∴**, or the **Prove Union** / **Prove 3** button once reached) · buy amount **×1 / ×10 / Max** · **Multipliers**.
 - **Since last visit · +12.3 k∴ · Research 14 h** heads the summary when anything changed since the last hub visit (from `lastVisit`, §13.10). It stays for the whole visit and resets when the student leaves the hub or hides the page. It appears nowhere else: there is no return toast.
 - **Multipliers** opens a panel listing every active multiplier by source: theorems, corollaries (achievements, level tiers, era sets), Axioms and, for Research, Conjectures and staff, with each source's total.
 - **Sticky** at the top of the hub on wider screens; not sticky on phones (below).

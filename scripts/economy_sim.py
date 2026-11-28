@@ -72,7 +72,7 @@ class Params:
 
 # Cards (§13.7). Rarities from best to worst; boost per slotted card, a foil doubles it.
 RARITIES = ("diamond", "platinum", "gold", "silver")
-CARD_BOOST = {"diamond": 0.25, "platinum": 0.10, "gold": 0.05, "silver": 0.02}
+CARD_BOOST = {"diamond": 0.30, "platinum": 0.15, "gold": 0.06, "silver": 0.02}
 SET_SIZE = {"diamond": 4, "platinum": 5, "gold": 7, "silver": 8}  # about 24 per era
 # Expected cards of each rarity per pack (§13.7): 3 cards; cards 1-2 Silver 72%, Gold 20%, Platinum 6.5%,
 # Diamond 1.5%; card 3 Gold 92%, Platinum 6.5%, Diamond 1.5%. A Platinum or better is guaranteed by the

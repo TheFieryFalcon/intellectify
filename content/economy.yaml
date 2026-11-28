@@ -123,7 +123,7 @@ eras:
 # Staff slots (§13.3): 1 slot per copy, up to 12 (half a set) at the 12th copy, as fitted with
 # scripts/economy_sim.py (slot_copies, slot_cap).
 staff:
-  boost: {silver: 0.02, gold: 0.05, platinum: 0.10, diamond: 0.25}
+  boost: {silver: 0.02, gold: 0.06, platinum: 0.15, diamond: 0.30}
   foilFactor: 2
   copiesPerSlot: 1
   maxSlots: 12
@@ -170,7 +170,7 @@ axioms:
        cosmetic: {id: infinity-icon, slot: lemmaIcon, name: "∞ Lemma icon", description: "The ∴ in the header becomes a slowly tracing ∞"}, title: Inductive}
     - {id: power-set, name: Power Set, at: 5000000, hours: 335, group: zfc, statement: "Every set has a set of all its subsets",
        cosmetic: {id: hasse, slot: nodeTheme, name: Hasse, description: "Tree edges drawn as the lattice of a power set"}, title: null}
-    - {id: choice, name: Choice, at: 15000000, hours: 425, group: zfc, statement: "Every family of nonempty sets has a choice function",
+    - {id: choice, name: Choice, at: 15000000, hours: 420, group: zfc, statement: "Every family of nonempty sets has a choice function",
        cosmetic: {id: banach-tarski, slot: celebration, name: Banach–Tarski, description: "A sphere splits into pieces that reassemble into two"}, title: Well-Ordered}
     - {id: inaccessible, name: Inaccessible, at: 20000000, hours: 445, group: large, statement: "A cardinal that unions and power sets of smaller ones can never reach",
        cosmetic: {id: unreachable, slot: banner, name: Unreachable, description: "A ladder of ℵ's climbing out of view"}, title: Inaccessible}
@@ -180,15 +180,15 @@ axioms:
        cosmetic: {id: tree-property, slot: nodeTheme, name: Tree Property, description: "One unbroken branch glows from the root to the top of the tech tree"}, title: null}
     - {id: measurable, name: Measurable, at: 100000000, hours: 585, group: large, statement: "Carries a two-valued measure: a κ-complete nonprincipal ultrafilter",
        cosmetic: {id: ultrafilter, slot: celebration, name: Ultrafilter, description: "Light pours down through a funnel of nested sets"}, title: Measurable}
-    - {id: strong, name: Strong, at: 500000000, hours: 645, group: large, statement: "The universe embeds into inner models that agree with it up to any chosen rank",
+    - {id: strong, name: Strong, at: 500000000, hours: 640, group: large, statement: "The universe embeds into inner models that agree with it up to any chosen rank",
        cosmetic: {id: embedding, slot: banner, name: Embedding, description: "The profile shows a smaller faithful copy of itself inside"}, title: null}
-    - {id: woodin, name: Woodin, at: 1500000000, hours: 685, group: large, statement: "Infinitely many of them make every projective game determined",
+    - {id: woodin, name: Woodin, at: 1500000000, hours: 675, group: large, statement: "Infinitely many of them make every projective game determined",
        cosmetic: {id: determinacy, slot: keypad, name: Determinacy, description: "Keys light alternately, like moves in an infinite game"}, title: null}
-    - {id: supercompact, name: Supercompact, at: 50000000000, hours: 730, group: large, statement: "Embeddings whose targets are closed under sequences of any chosen length",
+    - {id: supercompact, name: Supercompact, at: 50000000000, hours: 720, group: large, statement: "Embeddings whose targets are closed under sequences of any chosen length",
        cosmetic: {id: supercompact, slot: nodeTheme, name: Supercompact, description: "The whole tree folds into a single point and unfolds when the map opens"}, title: null}
-    - {id: huge, name: Huge, at: 50000000000000, hours: 780, group: large, statement: "An embedding whose target is closed under sequences as long as the image of its critical point",
+    - {id: huge, name: Huge, at: 50000000000000, hours: 770, group: large, statement: "An embedding whose target is closed under sequences as long as the image of its critical point",
        cosmetic: {id: huge, slot: celebration, name: Huge, description: "The celebration fills the whole screen"}, title: Huge}
-    - {id: rank-into-rank, name: Rank-into-Rank, at: 1000000000000000, hours: 820, group: large, statement: "A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent",
+    - {id: rank-into-rank, name: Rank-into-Rank, at: 1000000000000000, hours: 815, group: large, statement: "A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent",
        cosmetic: {id: edge, slot: nameOrnament, name: Edge, description: "A hairline of light flickers along the name's edge"}, title: Edge of Consistency}
 
 # §13.5 Corollaries: +(points ÷ 10)% per achievement, +5% per level tier, +10% per completed era set.
