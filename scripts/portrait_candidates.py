@@ -4,8 +4,10 @@
 Wikidata names one image per person, and it isn't always a usable portrait (a statue far away, a
 manuscript scene, a faint drawing). This lists the other images in the person's Commons category
 (Wikidata P373, plus its subcategories with "portrait" in their name), keeps those with a license
-the spec allows and a usable size, and draws a numbered contact sheet per card with each image's
-width, license and status (ready, credit, or check: see find_portraits.py).
+the spec allows and a usable size, and looks for a face in a preview of each. Images with a face
+come first, ranked by how many pixels the face has in the original (a sharp, large face is best);
+the sheet shows the face box, each image's width, license and status (ready, credit, or check: see
+find_portraits.py).
 
 To use one, put its file name under `commons:` in content/cards/portraits/overrides.yaml.
 
@@ -24,11 +26,13 @@ import urllib.request
 from io import BytesIO
 from pathlib import Path
 
+import numpy as np
 import yaml
 from PIL import Image, ImageDraw
 
 sys.path.insert(0, str(Path(__file__).parent))
 import find_portraits as fp  # noqa: E402
+import process_portraits as pp  # noqa: E402
 
 OUT = fp.ROOT / ".cache" / "portraits" / "candidates"
 IMAGE_TYPES = {"image/jpeg", "image/png", "image/tiff", "image/webp"}
@@ -54,32 +58,49 @@ def category_files(category: str) -> list[str]:
     return list(dict.fromkeys(files))
 
 
-def candidates(card: dict, era: str, qid: str, max_n: int, min_width: int) -> list[dict]:
+def candidates(card: dict, era: str, qid: str, max_n: int, min_width: int, scan: int) -> list[dict]:
+    """Licensed images of a usable size, those with a face first, best face first."""
     entity = fp.entities([qid])[qid]
     names = fp.claim_values(entity, "P18")
     for cat in fp.claim_values(entity, "P373")[:1]:
         names += category_files(cat)
-    names = list(dict.fromkeys(names))
-    infos = fp.commons_files(names[:150])
-    out = []
-    for name in names:
+    names = [n for n in dict.fromkeys(names) if not n.lower().endswith((".svg", ".pdf", ".djvu", ".ogg", ".webm", ".gif"))]
+    infos = fp.commons_files(names[:scan])
+    usable = []
+    for name in names[:scan]:
         info = infos.get(name)
         if not info or not info.get("width") or info["width"] < min_width:
             continue
         r = fp.Result(card, era, qid=qid)
-        if not fp.judge(r, info):
-            continue
-        out.append({"file": name, "width": info["width"], "license": r.license, "status": r.status,
-                    "notes": r.notes, "thumb": info["thumb"]})
-        if len(out) >= max_n:
-            break
+        if fp.judge(r, info):
+            usable.append({"file": name, "width": info["width"], "license": r.license, "status": r.status,
+                           "notes": r.notes})
+    previews = preview_urls([c["file"] for c in usable])
+    for c in usable:
+        url = previews.get(c["file"])
+        im = fetch(url) if url else None
+        c["preview"] = im
+        face = pp.detect_face(np.asarray(im.convert("L"))) if im else None
+        c["face"] = face
+        c["face_px"] = round(face[2] / im.width * c["width"]) if face else 0
+    usable.sort(key=lambda c: -c["face_px"])
+    return usable[:max_n]
+
+
+def preview_urls(names: list[str]) -> dict[str, str]:
+    """250 px thumbnail URLs, 25 files a request."""
+    out = {}
+    for i in range(0, len(names), 25):
+        batch = names[i:i + 25]
+        q = fp.api(fp.COMMONS, action="query", titles="|".join("File:" + n for n in batch), prop="imageinfo",
+                   iiprop="url", iiurlwidth=PREVIEW)["query"]
+        step = {n["from"]: n["to"] for n in q.get("normalized", [])}
+        by_title = {p["title"]: p for p in q["pages"].values()}
+        for n in batch:
+            page = by_title.get(step.get("File:" + n, "File:" + n), {})
+            if page.get("imageinfo"):
+                out[n] = page["imageinfo"][0].get("thumburl")
     return out
-
-
-def preview_url(name: str) -> str | None:
-    q = fp.api(fp.COMMONS, action="query", titles="File:" + name, prop="imageinfo", iiprop="url", iiurlwidth=PREVIEW)
-    page = next(iter(q["query"]["pages"].values()))
-    return page.get("imageinfo", [{}])[0].get("thumburl")
 
 
 def fetch(url: str) -> Image.Image | None:
@@ -104,12 +125,16 @@ def sheet(cid: str, cands: list[dict], path: Path) -> None:
     d.text((8, 8), f"{cid}: {len(cands)} candidates", fill=(0, 0, 0))
     for i, c in enumerate(cands):
         x, y = 8 + (i % cols) * (tw + 8), 30 + (i // cols) * (th + 40)
-        url = preview_url(c["file"])
-        im = fetch(url) if url else None
+        im = c["preview"]
         if im:
+            im = im.copy()
+            if c["face"]:
+                fx, fy, fs = c["face"]
+                ImageDraw.Draw(im).rectangle([fx - fs / 2, fy - fs / 2, fx + fs / 2, fy + fs / 2], outline=(255, 0, 0), width=2)
             im.thumbnail((tw, th))
             img.paste(im, (x, y))
-        d.text((x, y + th + 2), f"#{i} {c['width']}px {c['status']}", fill=(200, 0, 0) if c["status"] == "check" else (0, 0, 160))
+        label = f"#{i} {c['width']}px {c['status']}" + (f" face {c['face_px']}px" if c["face_px"] else " no face")
+        d.text((x, y + th + 2), label, fill=(200, 0, 0) if c["status"] == "check" else (0, 0, 160))
         d.text((x, y + th + 16), c["license"][:30], fill=(80, 80, 80))
     img.save(path)
 
@@ -119,6 +144,7 @@ def main(argv: list[str]) -> int:
     ap.add_argument("ids", help="comma-separated card ids")
     ap.add_argument("--max", type=int, default=12, help="candidates per card (default 12)")
     ap.add_argument("--min-width", type=int, default=300, help="skip images narrower than this (default 300)")
+    ap.add_argument("--scan", type=int, default=60, help="images to look at per person (default 60)")
     args = ap.parse_args(argv)
     cards = cards_by_id()
     OUT.mkdir(parents=True, exist_ok=True)
@@ -127,8 +153,9 @@ def main(argv: list[str]) -> int:
         if not card.get("wikidata"):
             print(f"{cid}: no wikidata id", file=sys.stderr)
             continue
-        cands = candidates(card, era, card["wikidata"], args.max, args.min_width)
-        (OUT / f"{cid}.json").write_text(json.dumps(cands, ensure_ascii=False, indent=1))
+        cands = candidates(card, era, card["wikidata"], args.max, args.min_width, args.scan)
+        (OUT / f"{cid}.json").write_text(json.dumps([{k: v for k, v in c.items() if k != "preview"} for c in cands],
+                                                    ensure_ascii=False, indent=1))
         sheet(cid, cands, OUT / f"{cid}.png")
         print(f"{cid}: {len(cands)} candidates → {(OUT / f'{cid}.png').relative_to(fp.ROOT)}", file=sys.stderr, flush=True)
     return 0
