@@ -173,6 +173,8 @@ def main(root: str = "content") -> int:
                 errors.append(f"{at}: portrait needs file, source, author and license")
             elif not PORTRAIT_LICENSE.match(str(portrait["license"])):
                 errors.append(f"{at}: portrait license '{portrait['license']}' isn't allowed (§13.7)")
+            elif not (path.parent / portrait["file"]).is_file():
+                errors.append(f"{at}: portrait file {portrait['file']} is missing (run scripts/process_portraits.py)")
             if "wikidata" in card and not re.match(r"^Q[1-9][0-9]*$", str(card["wikidata"])):
                 errors.append(f"{at}: wikidata '{card['wikidata']}' isn't a Wikidata item id")
 

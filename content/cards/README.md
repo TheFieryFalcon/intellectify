@@ -6,6 +6,9 @@ Portraits: `python3 scripts/find_portraits.py` looks each card up on Wikidata an
 writes `portraits.md`, sorting cards into ready (public domain), credit (CC BY or CC BY-SA), check
 and illustrate. Allowed licenses: `Public domain`, `CC0`, `CC BY 4.0` (any version), `CC BY-SA 4.0`
 (any version), `No restrictions` and `Attribution` (Commons' own tags), or `Original illustration`.
+Owner decisions (another Commons file, a supplied image, checks done) go in
+`portraits/overrides.yaml`. Then `python3 scripts/process_portraits.py` makes the duotone WebPs in
+`portraits/` and fills in each card's `portrait` field.
 
 ```yaml
 era: antiquity            # must match the file name

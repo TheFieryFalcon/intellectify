@@ -1,0 +1,63 @@
+# Portrait decisions by the owner (docs/SPEC.md §13.7), read by scripts/find_portraits.py and
+# scripts/process_portraits.py.
+
+# Use this Commons file instead of the one Wikidata lists.
+commons:
+  al-kindi: Stamp IQ 1962 6f.jpg  # 1962 Iraqi stamp; Wikidata lists no image
+  madhava: Sangamagrama-Madhava-c1340-c1425-This-is-a-digital-image-of-Madhava-drawn-up-with.ppm.png
+
+# Images supplied by the owner, in portraits/source/.
+local:
+  bhaskara-ii:
+    file: bhaskara-ii.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+  thabit-ibn-qurra:
+    file: thabit-ibn-qurra.png
+    source: Supplied by the project owner
+    author: Unknown
+    license: Public domain
+
+# "Check" portraits the owner has reviewed: card id → the exact Commons file checked.
+checked:  # all 40 reviewed and confirmed by the owner, 28 November 2026
+  adam-smith: "AdamSmith.jpg"
+  al-khwarizmi: "Madrid - Ciudad Universitaria, Monumento a Muhammad al-Juarismi (cropped).jpg"
+  al-kindi: "Stamp IQ 1962 6f.jpg"
+  andrew-wiles: "Andrew wiles1-3.jpg"
+  aristotle: "Aristotle Altemps Inv8575.jpg"
+  aryabhata: "2064 aryabhata-crp.jpg"
+  chien-shiung-wu: "Chien-shiung Wu (1912-1997) (cropped).jpg"
+  democritus: "Unknown greek pushkin.jpg"
+  dirac: "Paul Dirac, 1933.jpg"
+  epicurus: "Epikouros BM 1843.jpg"
+  fleming: "Synthetic Production of Penicillin TR1468.jpg"
+  foucault: "Photo of Michel Foucault on 1970 dustjacket of The Order of Things.jpg"
+  gauss: "Carl Friedrich Gauss.jpg"
+  godel: "Young Kurt Gödel as a student in 1925.jpg"
+  heraclitus: "Ca' Rezzonico - Eraclito 1705 - Giuseppe Torretti.jpg"
+  hipparchus: "Head of Hipparchus (cropped).jpg"
+  hippocrates: "Hippocrates rubens.jpg"
+  huygens: "Christiaan-huygens4.jpg"
+  ibn-khaldun: "Bust of Ibn Khaldun (Casbah of Bejaia, Algeria).jpg"
+  ibn-rushd: "Statue of Averroes in Córdoba, Spain.jpg"
+  john-rawls: "John Rawls (1971 photo portrait).jpg"
+  jonas-salk: "Jonas Salk candid.jpg"
+  kepler: "Johannes Kepler by Hans von Aachen.jpg"
+  kuhn: "Thomas Kuhn (1977) (cropped).jpg"
+  laplace: "Pierre-Simon, marquis de Laplace (1745-1827) - Guérin.jpg"
+  liu-hui: "Hunan International Economics University20.jpg"
+  maimonides: "Maimònides.jpg"
+  nasir-al-din-al-tusi: "Nasir al-Din Tusi.jpg"
+  paracelsus: "Paracelsus.jpg"
+  plato: "Plato Silanion Musei Capitolini MC1377.jpg"
+  popper: "Karl Popper.jpg"
+  schrodinger: "Erwin Schrödinger - Narodowe Archiwum Cyfrowe (1-E-939).jpg"
+  shen-kuo: "Beijing Ancient Observatory 20090715-19 (cropped).jpg"
+  simone-de-beauvoir: "French Existentialist and Writer Simone De Beauvoir.jpg"
+  socrates: "Socrates Louvre.jpg"
+  thales: "Illustrerad Verldshistoria band I Ill 107.svg"
+  turing: "Alan Turing (1951) (crop).jpg"
+  von-neumann: "JohnvonNeumann-LosAlamos.jpg"
+  wittgenstein: "Ludwig Wittgenstein.jpg"
+  zeno-of-elea: "Portretbuste van Zeno van Elea Paradigmata graphices variorum artificum (serietitel), RP-P-1907-4495.jpg"

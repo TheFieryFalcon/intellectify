@@ -15,13 +15,18 @@ For each card in content/cards:
        illustrate  no image, or a license the spec doesn't allow: needs an original illustration
        unmatched   no Wikidata match: add the card's `wikidata` id by hand and run again
 
+Owner decisions live in content/cards/portraits/overrides.yaml: a different Commons file for a
+card, an image supplied by the owner, and "check" portraits the owner has reviewed (tied to the
+exact file, so a new image is checked again).
+
 Writes the report to content/cards/portraits.md. Nothing is downloaded unless asked.
+scripts/process_portraits.py then turns the chosen images into the cards' duotone WebPs.
 
 Usage:
     python3 scripts/find_portraits.py                      # look up every card, write the report
     python3 scripts/find_portraits.py --only euler,gauss   # just these cards (report not written)
     python3 scripts/find_portraits.py --write-ids          # also save each match as `wikidata:` in the YAML
-    python3 scripts/find_portraits.py --download DIR       # also save usable images (1200 px wide) in DIR
+    python3 scripts/find_portraits.py --download DIR       # also save usable images (960 px wide) in DIR
 
 Wikimedia asks automated clients to identify themselves: set PORTRAIT_USER_AGENT to something
 like "YourApp-portraits/1.0 (you@example.com)" to include your contact details.
@@ -47,6 +52,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 CARDS = ROOT / "content" / "cards"
 REPORT = CARDS / "portraits.md"
+OVERRIDES = CARDS / "portraits" / "overrides.yaml"
 ERA_ORDER = ["antiquity", "golden-age", "renaissance", "enlightenment", "steam-age", "machine-age", "space-age"]
 USER_AGENT = os.environ.get("PORTRAIT_USER_AGENT", "card-portrait-finder/1.0 (python-urllib)")
 WIKIPEDIA = "https://en.wikipedia.org/w/api.php"
@@ -56,6 +62,9 @@ COMMONS = "https://commons.wikimedia.org/w/api.php"
 CHECK_WORDS = ("bust", "statue", "sculpture", "relief", "coin", "stamp", "banknote", "medal", "monument")
 STATUSES = ("ready", "credit", "check", "illustrate", "unmatched")
 PACE = 0.5  # seconds between requests, to stay well inside Wikimedia's rate limits
+# Thumbnail widths Wikimedia keeps rendered; downloads at other sizes, or of originals, get refused
+# (https://w.wiki/GHai).
+THUMB_STEPS = (250, 330, 500, 960)
 
 
 def api(url: str, **params) -> dict:
@@ -97,6 +106,8 @@ class Result:
     author: str | None = None
     url: str | None = None
     thumb: str | None = None
+    width: int | None = None  # the original's width in pixels
+    local: Path | None = None  # an image supplied by the owner (overrides.yaml)
     notes: list[str] = field(default_factory=list)
 
 
@@ -204,13 +215,13 @@ def license_kind(short: str, code: str) -> str | None:
 
 
 def commons_files(filenames: list[str]) -> dict[str, dict]:
-    """License, author, categories and a 1200 px thumbnail for each file, 25 files a request."""
+    """License, author, categories, width and a 960 px thumbnail for each file, 25 files a request."""
     out: dict[str, dict] = {}
     names = list(dict.fromkeys(filenames))
     for i in range(0, len(names), 25):
         batch = names[i:i + 25]
         params = dict(action="query", titles="|".join("File:" + f for f in batch), prop="imageinfo|categories",
-                      iiprop="url|extmetadata", iiurlwidth=1200, cllimit="max")
+                      iiprop="url|extmetadata|size", iiurlwidth=THUMB_STEPS[-1], cllimit="max")
         pages: dict[str, dict] = {}
         step: dict[str, str] = {}
         while True:  # categories can spill into continuation requests
@@ -219,7 +230,7 @@ def commons_files(filenames: list[str]) -> dict[str, dict]:
             for page in q["query"]["pages"].values():
                 merged = pages.setdefault(page["title"], {"categories": []})
                 merged["categories"] += page.get("categories", [])
-                if "imageinfo" in page:
+                if "imageinfo" in page and "imageinfo" not in merged:  # continuations bring older versions
                     merged["imageinfo"] = page["imageinfo"]
             if "continue" not in q:
                 break
@@ -234,6 +245,7 @@ def commons_files(filenames: list[str]) -> dict[str, dict]:
                 "file": f,
                 "url": info["descriptionurl"],
                 "thumb": info.get("thumburl") or info["url"],
+                "width": info.get("width"),
                 "short": plain(meta.get("LicenseShortName")),
                 "code": plain(meta.get("License")),
                 "author": plain(meta.get("Artist")) or plain(meta.get("Credit")),
@@ -253,7 +265,7 @@ def judge(result: Result, info: dict | None) -> bool:
         result.notes.append(f"{info['file']}: {info['short'] or 'unknown license'}")
         return False
     result.notes = []
-    result.file, result.url, result.thumb = info["file"], info["url"], info["thumb"]
+    result.file, result.url, result.thumb, result.width = info["file"], info["url"], info["thumb"], info["width"]
     result.license, result.author = info["short"] or kind, info["author"]
     text = " ".join([info["file"], info["description"], *info["categories"]]).lower()
     hits = sorted({w for w in CHECK_WORDS if re.search(rf"\b{w}s?\b", text)})
@@ -271,21 +283,76 @@ def judge(result: Result, info: dict | None) -> bool:
     return True
 
 
+def load_overrides() -> dict:
+    data = yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}
+    return {k: data.get(k) or {} for k in ("commons", "local", "checked")}
+
+
 def find_images(results: list[Result], cache: dict) -> None:
-    """Try each matched card's Wikidata images in order, a batch of first choices, then second, then third."""
-    queue = {id(r): claim_values(cache[r.qid], "P18")[:3] for r in results if r.qid}
+    """Try each matched card's Wikidata images in order, a batch of first choices, then second, then third.
+
+    overrides.yaml can name a different Commons file, supply a local image, or confirm a check.
+    """
+    over = load_overrides()
+    queue = {}
     for r in results:
-        if r.qid:
+        cid = r.card["id"]
+        if cid in over["local"]:
+            entry = over["local"][cid]
+            r.local = OVERRIDES.parent / "source" / entry["file"]
+            r.file, r.url, r.author, r.license = entry["file"], entry["source"], entry["author"], entry["license"]
+            kind = license_kind(entry["license"], "")
+            r.status = "ready" if kind == "public-domain" else "credit" if kind else "illustrate"
+            r.notes = ["supplied by the owner"]
+        elif r.qid:
+            queue[id(r)] = [over["commons"][cid]] if cid in over["commons"] else claim_values(cache[r.qid], "P18")[:3]
+            if cid in over["commons"]:
+                r.notes.append("image chosen by the owner")
+    for r in results:
+        if id(r) in queue:
             r.status = "illustrate"
             if not queue[id(r)]:
                 r.notes.append("no image on Wikidata")
     for round_ in range(3):
-        pending = [r for r in results if r.qid and r.status == "illustrate" and len(queue[id(r)]) > round_]
+        pending = [r for r in results if id(r) in queue and r.status == "illustrate" and len(queue[id(r)]) > round_]
         if not pending:
             break
         infos = commons_files([queue[id(r)][round_] for r in pending])
         for r in pending:
+            chosen = "image chosen by the owner" in r.notes
             judge(r, infos.get(queue[id(r)][round_]))
+            if chosen and "image chosen by the owner" not in r.notes:
+                r.notes.insert(0, "image chosen by the owner")
+    for r in results:  # checks the owner has already done, for this exact file
+        if r.status == "check" and over["checked"].get(r.card["id"]) == r.file:
+            r.status = "credit" if license_kind(r.license or "", "") != "public-domain" else "ready"
+            r.notes = ["checked by the owner (" + "; ".join(r.notes) + ")"]
+
+
+def standard_thumbs(results: list[Result]) -> None:
+    """Point each result's thumb at the largest standard width below its original's width.
+
+    The first lookup asks for 960 px; a narrower original comes back unscaled, and Wikimedia
+    refuses bulk downloads of originals, so those are asked again at a smaller standard width.
+    """
+    groups: dict[int, list[Result]] = {}
+    for r in results:
+        if r.local or not r.width or r.width > THUMB_STEPS[-1]:
+            continue
+        smaller = [w for w in THUMB_STEPS if w < r.width]
+        if smaller:
+            groups.setdefault(smaller[-1], []).append(r)
+    for step, rs in groups.items():
+        for i in range(0, len(rs), 25):
+            batch = rs[i:i + 25]
+            pages = api(COMMONS, action="query", titles="|".join("File:" + r.file for r in batch),
+                        prop="imageinfo", iiprop="url", iiurlwidth=step)["query"]
+            step_map = {n["from"]: n["to"] for n in pages.get("normalized", [])}
+            by_title = {p["title"]: p for p in pages["pages"].values()}
+            for r in batch:
+                page = by_title.get(step_map.get("File:" + r.file, "File:" + r.file), {})
+                if page.get("imageinfo"):
+                    r.thumb = page["imageinfo"][0].get("thumburl") or r.thumb
 
 
 # ── Output ──────────────────────────────────────────────────────────────────
@@ -315,7 +382,7 @@ def write_ids(results: list[Result]) -> int:
 def download(results: list[Result], out: Path) -> int:
     n = 0
     for r in results:
-        if r.status in ("ready", "credit", "check") and r.thumb:
+        if r.status in ("ready", "credit", "check") and r.thumb and not r.local:
             ext = Path(urllib.parse.urlparse(r.thumb).path).suffix.lower() or ".jpg"
             dest = out / r.era / f"{r.card['id']}{ext}"
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -367,6 +434,21 @@ def report(results: list[Result]) -> str:
     return "\n".join(out) + "\n"
 
 
+def collect(only: set[str] | None = None) -> list[Result]:
+    """Every card (or just `only`), matched on Wikidata and sorted by its portrait's license."""
+    results: list[Result] = []
+    for era in ERA_ORDER:
+        for card in yaml.safe_load((CARDS / f"{era}.yaml").read_text())["cards"]:
+            if only is None or card["id"] in only:
+                results.append(Result(card, era))
+    cache: dict = {}
+    print(f"Matching {len(results)} cards on Wikidata…", file=sys.stderr)
+    resolve(results, cache)
+    print("Reading portrait licenses on Commons…", file=sys.stderr)
+    find_images(results, cache)
+    return results
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--only", help="comma-separated card ids")
@@ -375,17 +457,7 @@ def main(argv: list[str]) -> int:
     args = ap.parse_args(argv)
     only = set(args.only.split(",")) if args.only else None
 
-    results: list[Result] = []
-    for era in ERA_ORDER:
-        for card in yaml.safe_load((CARDS / f"{era}.yaml").read_text())["cards"]:
-            if only is None or card["id"] in only:
-                results.append(Result(card, era))
-
-    cache: dict = {}
-    print(f"Matching {len(results)} cards on Wikidata…", file=sys.stderr)
-    resolve(results, cache)
-    print("Reading portrait licenses on Commons…", file=sys.stderr)
-    find_images(results, cache)
+    results = collect(only)
     for r in results:
         if only is not None:
             print(f"{r.card['id']}: {r.status}" + (f" ({r.license})" if r.license else "") + (f" — {'; '.join(r.notes)}" if r.notes else ""), file=sys.stderr)
@@ -393,6 +465,7 @@ def main(argv: list[str]) -> int:
     if args.write_ids:
         print(f"Saved {write_ids(results)} Wikidata ids", file=sys.stderr)
     if args.download:
+        standard_thumbs(results)
         print(f"Downloaded {download(results, args.download)} images to {args.download}", file=sys.stderr)
     if only is None:
         REPORT.write_text(report(results))
