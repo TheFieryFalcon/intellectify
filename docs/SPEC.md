@@ -1056,8 +1056,7 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 
 | Source | Packs |
 |---|---|
-| Level-up | 1 |
-| Reaching a level tier | 5 |
+| Reaching a level tier (§12.4), in proportion to the XP since the previous tier (Bronze = 1) | Bronze 1 · Silver 2 · Gold 3 · Platinum 8 · Diamond 12 · Ruby 15 · Tanzanite 40 · Vibranium 54 · Solarium 67 · Antimatter 226 |
 | Finishing a Section Challenge | 1 |
 | Achievement | Platinum 1 · Diamond 2 · Ruby 3 · Tanzanite 5 · Vibranium 8 · Solarium 12 · Antimatter 20 |
 | A Full Week of daily problems (Mon–Sun, as in P8) | 1 |
