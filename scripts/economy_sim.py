@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Simulate the Lemma economy (docs/SPEC.md §12.5) to tune its numbers.
+"""Simulate the Lemma economy (docs/SPEC.md §13) to tune its numbers.
 
 A simulated student plays a fixed number of active hours a day. Practice earns Lemmas at a rate
 that rises with upgrades, corollaries and Axioms; Research earns Lemmas per calendar day plus the
@@ -8,7 +8,7 @@ saving up when that purchase isn't affordable yet.
 
 The model is deliberately simple. The question-specific theorems are lumped into one +10%/level
 practice upgrade, corollaries grow linearly with hours played, and card collection follows a smooth
-curve. Use it to compare settings and keep the calibration targets in §12.5, not to predict exact
+curve. Use it to compare settings and keep the calibration targets in §13.3, not to predict exact
 numbers.
 
 Usage:
@@ -28,7 +28,7 @@ XP_PER_HOUR = 600  # §12.4: typical practice rate
 
 @dataclass(frozen=True)
 class Params:
-    # Institutes (§12.5 Research): copy n+1 of tier k costs inst_cost0 * inst_cost_step**k * 1.15**n
+    # Institutes (§13.3): copy n+1 of tier k costs inst_cost0 * inst_cost_step**k * 1.15**n
     # and makes inst_out0 * inst_out_step**k Lemmas a day.
     inst_cost0: float = 2_000
     inst_cost_step: float = 15
@@ -147,7 +147,7 @@ def simulate(p: Params, hours_per_day: float, max_hours: float) -> Run:
 
 
 def si(x: float) -> str:
-    """SI notation as the app shows it (§12.5): three significant figures, k to Q."""
+    """SI notation as the app shows it (§13.1): three significant figures, k to Q."""
     if x < 1000:
         return f"{x:.0f}"
     prefixes = "kMGTPEZYRQ"
@@ -172,7 +172,7 @@ def fit_thresholds(p: Params, hours_per_day: float = 1.5, end_hours: float = 821
     """Fit all 18 thresholds so the given student reaches each Axiom at a target active hour.
 
     ZFC targets are fixed; the large cardinals are spaced evenly from the last ZFC target to end_hours.
-    The default targets Rank-into-Rank after 1.5 years of 1.5 hours a day (§12.5).
+    The default targets Rank-into-Rank after 1.5 years of 1.5 hours a day (§13.3, §13.6).
     """
     last = zfc_hours[-1]
     targets = list(zfc_hours) + [last + (end_hours - last) * (k + 1) / 9 for k in range(9)]

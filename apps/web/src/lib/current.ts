@@ -1,5 +1,5 @@
 /**
- * The question practice is showing in each skill (SPEC §15.4d), kept in this browser until it's answered,
+ * The question practice is showing in each skill (SPEC §16.4d), kept in this browser until it's answered,
  * so leaving and coming back shows the same question with the same numbers and words.
  */
 import type { WordPicks } from "@intellectify/content/template";

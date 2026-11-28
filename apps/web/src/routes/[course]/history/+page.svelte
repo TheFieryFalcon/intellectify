@@ -1,5 +1,5 @@
 <script lang="ts">
-  /** Answer history (SPEC §15.4b): every answer given in this browser, newest first. Local only. */
+  /** Answer history (SPEC §16.4b): every answer given in this browser, newest first. Local only. */
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import PastAnswer from "$lib/components/PastAnswer.svelte";

@@ -59,7 +59,7 @@ export function renderMarkdown(src: string, opts: { inline?: boolean; breaks?: b
 }
 
 /**
- * A student's own writing (discussion posts, SPEC §13.1): Markdown and LaTeX, no diagrams or glossary,
+ * A student's own writing (discussion posts, SPEC §14.1): Markdown and LaTeX, no diagrams or glossary,
  * sanitized by `purify` (DOMPurify in the browser) before KaTeX output is swapped back in.
  * Spoilers: `||label: hidden||` or `||hidden||` become blurred spans revealed on click, with the label
  * (or "Spoiler") as a tooltip. Math and Markdown work inside them.

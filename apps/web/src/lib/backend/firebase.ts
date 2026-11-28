@@ -57,7 +57,7 @@ function friendly(err: unknown): never | void {
 }
 
 /**
- * Firestore layout (docs/SPEC.md §16.3):
+ * Firestore layout (docs/SPEC.md §17.3):
  *   users/{uid}                                  profile
  *   users/{uid}/courses/{course}                 rollupRanks
  *   users/{uid}/courses/{course}/skillStates/{skillId}

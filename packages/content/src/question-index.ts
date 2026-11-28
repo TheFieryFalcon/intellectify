@@ -1,5 +1,5 @@
 /**
- * Question index (SPEC §15.3a): a small listing of every question in a course, for the Questions pages.
+ * Question index (SPEC §16.3a): a small listing of every question in a course, for the Questions pages.
  * Full questions (with solutions) load from `source` only when opened. Browser-safe.
  */
 import { tierOf } from "@intellectify/engine";

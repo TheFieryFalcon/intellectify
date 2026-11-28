@@ -35,7 +35,7 @@
   });
 
 
-  /** Every rank's floor and gate, and how far the student is (SPEC §15.3). */
+  /** Every rank's floor and gate, and how far the student is (SPEC §16.3). */
   const ladder = $derived(
     ([1, 2, 3, 4, 5] as const).map((r) => {
       const need = gateFor(r, entry?.skill.size);
@@ -44,7 +44,7 @@
     }),
   );
 
-  /** The last answers in this skill, from this browser's history (SPEC §15.4b). */
+  /** The last answers in this skill, from this browser's history (SPEC §16.4b). */
   const marking = $derived(markingFor(session.backend, session.user));
   let recent = $state<HistoryEntry[]>([]);
   $effect(() => {
@@ -59,7 +59,7 @@
   const when = (at: number) => new Date(at).toLocaleDateString(undefined, { day: "numeric", month: "short" });
   const nameOf = (id: string) => listed.find((q) => q.id === id)?.title ?? id;
 
-  /** Overview, or the skill's Questions tab (SPEC §15.3a). */
+  /** Overview, or the skill's Questions tab (SPEC §16.3a). */
   const tab = $derived(page.url.searchParams.get("tab") === "questions" ? "questions" : "overview");
   let listed = $state<QuestionIndexEntry[]>([]);
   $effect(() => {
@@ -127,7 +127,7 @@
     {:else}
       <div class="actions">
         {#if !skillState && entry.skill.hasTutorial}
-          <!-- First visit: Learn comes first, but is never required (SPEC §15.3). -->
+          <!-- First visit: Learn comes first, but is never required (SPEC §16.3). -->
           <a class="btn primary" href="/{data.course.id}/learn/{entry.skill.id}">Learn</a>
           <button class="btn" onclick={start}>Practice</button>
         {:else}

@@ -51,7 +51,7 @@
   });
 
   // After a deploy, an open tab is still running the old version. Load the new one at the next page change
-  // (a full load, not an in-app one), so old code never keeps saving progress (SPEC §16.2).
+  // (a full load, not an in-app one), so old code never keeps saving progress (SPEC §17.2).
   beforeNavigate(({ willUnload, to }) => {
     if (updated.current && !willUnload && to?.url) location.href = to.url.href;
   });

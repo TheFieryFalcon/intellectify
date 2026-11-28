@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Discussions (SPEC §13.1): one thread per daily problem, open the whole time. Reached only from here
+   * Discussions (SPEC §14.1): one thread per daily problem, open the whole time. Reached only from here
    * (never from problem screens). Search by date, problem and text.
    */
   import { goto } from "$app/navigation";

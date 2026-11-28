@@ -232,7 +232,7 @@ export function buildContent(contentDir: string): BuildResult {
     const unitReviews: Record<number, UnitReviews<QuestionT>> = {};
     const qDir = join(contentDir, "questions", courseId);
     const qIds = new Set<string>();
-    /** Titles already used in this course, so two questions never share a name (SPEC §15.3a). */
+    /** Titles already used in this course, so two questions never share a name (SPEC §16.3a). */
     const titleOwner = new Map<string, string>();
     let files: string[] = [];
     try {
@@ -268,7 +268,7 @@ export function buildContent(contentDir: string): BuildResult {
         if (q.skills.secondary.length && !("synthesis" in q.responseSkills)) errors.push(`${where}: cross-skill questions exercise synthesis`);
         if (q.parts.some((p) => p.answer && p.answer.type !== "mcq" && p.answer.type !== "multi-select") && !("calculation" in q.responseSkills))
           errors.push(`${where}: a computed answer exercises calculation`);
-        // Every question has a readable title, in title case, that says what it's about (SPEC §15.3a).
+        // Every question has a readable title, in title case, that says what it's about (SPEC §16.3a).
         if (!q.title) errors.push(`${where}: needs a title`);
         else if (/\{\{/.test(q.title)) errors.push(`${where}: a title can't use variant or word placeholders`);
         else if (/^[a-z]{2,} [a-z]{2,}/.test(q.title)) errors.push(`${where}: titles are in title case`);
