@@ -261,10 +261,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: stages, description: "Treats building a subset as n stages, one per element", points: 1, dimension: reasoning }
-          - { id: two-choices, description: "Each element is either in or out: 2 options per stage", points: 1, dimension: reasoning }
-          - { id: multiply, description: "Applies the multiplication principle to get 2 × 2 × … × 2 = 2^n", points: 1, dimension: proof }
-          - { id: one-to-one, description: "Notes each sequence of in/out choices gives a different subset, and every subset arises this way", points: 1, dimension: precision }
+          - { id: stages, description: "Sets up a way to count the subsets (e.g. building a subset in n stages, one per element)", points: 1, dimension: reasoning }
+          - { id: two-choices, description: "Counts the choices at each step (e.g. each element is in or out: 2 options)", points: 1, dimension: reasoning }
+          - { id: multiply, description: "Combines the counts to get 2^n (e.g. multiplication principle: 2 × 2 × … × 2)", points: 1, dimension: proof }
+          - { id: one-to-one, description: "Justifies that this counts every subset exactly once (e.g. each sequence of in/out choices gives a different subset, and every subset arises this way)", points: 1, dimension: precision }
           - { id: clear, description: "Clearly and correctly expressed", points: 1, dimension: clarity }
   solution: |
     Build a subset by going through the $n$ elements one at a time and deciding, for each, whether it is **in** or **out**: 2 choices per element. Each different sequence of decisions gives a different subset, and every subset comes from exactly one sequence. By the multiplication principle there are $2 \times 2 \times \dots \times 2 = 2^n$ sequences, so $2^n$ subsets.

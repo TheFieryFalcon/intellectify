@@ -26,6 +26,7 @@ import { loadByok, loadEffort, type Byok } from "./byok";
 import { loadCourse, loadQuestions, loadWords, type QuestionT } from "./content";
 import { achievementsFor } from "./achievements.svelte";
 import { onDaily } from "./achievements";
+import { dailySolved } from "./daily";
 import { answerLemmas } from "./economy.svelte";
 import { profileFor } from "./profile.svelte";
 import { recordAppeal, recordMarked } from "./record";
@@ -177,7 +178,7 @@ export class MarkingQueue {
   }
 
   /** Queue an answer for marking. Saved before anything else, so it survives closing the app. */
-  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; mode?: HistoryMode; answers: Record<string, string> }): Promise<MarkingJob> {
+  async submit(input: { course: string; skill: string; question: QuestionT; variant: number | null; words?: WordPicks | null; daily?: string | null; dailyFirst?: boolean; mode?: HistoryMode; answers: Record<string, string> }): Promise<MarkingJob> {
     await this.load();
     const now = Date.now();
     const signals = takeSignals();
@@ -189,7 +190,7 @@ export class MarkingQueue {
       questionVersion: input.question.version,
       variant: input.variant,
       words: input.words ?? null,
-      ...(input.daily ? { daily: input.daily } : {}),
+      ...(input.daily ? { daily: input.daily, dailyFirst: input.dailyFirst ?? true } : {}),
       answers: input.answers,
       createdAt: now,
       status: "pending",
@@ -335,19 +336,19 @@ export class MarkingQueue {
           mark: job.result!,
           jobId: job.id,
         });
-        // A written daily problem counts as solved at the free-response pass mark (SPEC §6.3, §8.5).
-        let dailyXp = 0;
-        if (job.daily && profile) dailyXp = await profile.recordDaily(job.daily, job.daily.split(":")[0]!, job.result!.score >= 0.6, tierOf(question.rating));
+        // A written daily problem counts as solved only at full marks, and not once its solution was shown (SPEC §8.5).
+        const daily = job.daily && profile ? await profile.recordDaily(job.daily, job.daily.split(":")[0]!, dailySolved(job.result!.score), tierOf(question.rating)) : null;
+        const dailyXp = daily?.bonus ?? 0;
         const p = r.summary.primary;
         const lemmas = answerLemmas.current ? answerLemmas.current.parts.reduce((t, p) => t + p.lemmas, 0) + (answerLemmas.current.warp?.lemmas ?? 0) : 0;
         const effect = { xp: r.xp + dailyXp, lemmas, outcome: r.summary.outcome, theta: p.after.theta, deltaTheta: p.deltaTheta, rankBefore: p.rankBefore, rankAfter: p.rankAfter };
         await this.put({ ...(this.job(job.id) ?? job), applied: true, effect });
         if (job.daily && profile) {
           const day = job.daily.split(":")[0]!;
-          const solved = job.result!.score >= 0.6;
-          // A written answer is one submission, so a solve is a first-try solve.
+          const solved = daily?.solved ?? false;
+          // A written answer is one submission, so a solve is first-try unless an earlier attempt at today's problem came first.
           await achievementsFor(this.backend, this.user, course)?.event(
-            (s) => onDaily(s, { day, solved, firstTry: solved, streak: profile.profile.daily?.streak ?? 0 }),
+            (s) => onDaily(s, { day, solved, firstTry: solved && job.dailyFirst !== false, streak: profile.profile.daily?.streak ?? 0 }),
             store,
             profile,
           );

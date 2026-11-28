@@ -29,9 +29,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'product', description: "Intersecting chords: AX × XB = CX × XD", points: 2, dimension: reasoning }
-          - { id: 'cancel', description: "AX = CX ≠ 0, so XB = XD", points: 1, dimension: reasoning }
-          - { id: 'add', description: "AB = AX + XB = CX + XD = CD", points: 1, dimension: proof }
+          - { id: 'product', description: "Relates the pieces of the two chords (e.g. intersecting chords: AX × XB = CX × XD)", points: 2, dimension: reasoning }
+          - { id: 'cancel', description: "Deduces the other pieces are equal (e.g. AX = CX ≠ 0, so XB = XD)", points: 1, dimension: reasoning }
+          - { id: 'add', description: "Concludes AB = CD (e.g. AB = AX + XB = CX + XD)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     By the intersecting chords theorem, $AX \times XB = CX \times XD$. Since $AX = CX \ne 0$, dividing gives $XB = XD$. Then $AB = AX + XB = CX + XD = CD$.
@@ -64,8 +64,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'both', description: "MS² = MA × MB and MT² = MA × MB", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "So MS² = MT², and since lengths are positive, MS = MT", points: 1, dimension: proof }
+          - { id: 'both', description: "Relates each tangent to the same secant (e.g. MS² = MA × MB and MT² = MA × MB), or uses another valid route such as congruent triangles", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes MS = MT (e.g. MS² = MT² and lengths are positive)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     By the tangent–secant theorem, $MS^2 = MA \times MB$ and $MT^2 = MA \times MB$. So $MS^2 = MT^2$, and since lengths are positive, $MS = MT$.
@@ -98,8 +98,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'route', description: "Uses a tangent MT: MT² = MA × MB and MT² = MC × MD; or similar triangles MAD and MCB", points: 2, dimension: reasoning }
-          - { id: 'justify', description: "Justifies the step used (tangent–secant theorem, or equal angles: common angle at M and ∠MBC = ∠MDA on the same arc AC)", points: 1, dimension: reasoning }
+          - { id: 'route', description: "Gives a valid route (e.g. a tangent MT with MT² = MA × MB = MC × MD, or similar triangles MAD and MCB)", points: 2, dimension: reasoning }
+          - { id: 'justify', description: "Justifies the step used (e.g. the tangent–secant theorem, or the common angle at M and ∠MBC = ∠MDA on the same arc AC)", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "MA × MB = MC × MD", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -135,9 +135,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'bisect', description: "The diameter is perpendicular to CD, so it bisects it: CX = XD", points: 2, dimension: reasoning }
-          - { id: 'product', description: "Intersecting chords: AX × XB = CX × XD", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So AX × XB = CX²", points: 1, dimension: proof }
+          - { id: 'bisect', description: "Shows X is the midpoint of CD (e.g. a diameter perpendicular to a chord bisects it)", points: 2, dimension: reasoning }
+          - { id: 'product', description: "Relates the pieces of the two chords (e.g. intersecting chords: AX × XB = CX × XD)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes AX × XB = CX²", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $AB$ passes through the center and is perpendicular to the chord $CD$, so it bisects $CD$: $CX = XD$. By the intersecting chords theorem, $AX \times XB = CX \times XD = CX^2$.
@@ -169,9 +169,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'diameter', description: "The diameter through X meets the circle at points r − d and r + d from X", points: 2, dimension: reasoning }
-          - { id: 'product', description: "Intersecting chords with that diameter: AX × XB = (r − d)(r + d)", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "= r² − d², the same for every chord through X", points: 1, dimension: proof }
+          - { id: 'diameter', description: "Finds a chord through X whose pieces are known (e.g. the diameter through X, with pieces r − d and r + d)", points: 2, dimension: reasoning }
+          - { id: 'product', description: "Relates any chord through X to it (e.g. intersecting chords: AX × XB = (r − d)(r + d))", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes AX × XB = r² − d², the same for every chord through X", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     The diameter through $X$ (any diameter, if $X = O$) meets the circle at $P$ and $Q$ with $XP = r - d$ and $XQ = r + d$. For any chord $AB$ through $X$, the intersecting chords theorem gives $AX \times XB = XP \times XQ = (r - d)(r + d) = r^2 - d^2$.
@@ -203,9 +203,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'tangent', description: "A tangent MT has MT ⟂ OT, so MT² = d² − r² (Pythagoras)", points: 2, dimension: reasoning }
-          - { id: 'secant', description: "Tangent–secant theorem: MA × MB = MT²", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "So MA × MB = d² − r² for every secant", points: 1, dimension: proof }
+          - { id: 'tangent', description: "Finds a quantity from M that is known in terms of d and r (e.g. a tangent MT ⟂ OT, so MT² = d² − r² by Pythagoras)", points: 2, dimension: reasoning }
+          - { id: 'secant', description: "Relates any secant to it (e.g. tangent–secant: MA × MB = MT²)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes MA × MB = d² − r² for every secant", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Draw a tangent $MT$. It is perpendicular to the radius $OT$, so by Pythagoras $MT^2 = OM^2 - OT^2 = d^2 - r^2$. By the tangent–secant theorem, every secant from $M$ has $MA \times MB = MT^2 = d^2 - r^2$.
@@ -238,9 +238,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'pythag', description: "MT ⟂ OT, so MT² = MO² − r²", points: 1, dimension: reasoning }
-          - { id: 'lengths', description: "MA = MO − r and MB = MO + r", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "MA × MB = MO² − r² = MT²", points: 1, dimension: proof }
+          - { id: 'pythag', description: "Finds MT² in terms of MO and r (e.g. MT ⟂ OT, so MT² = MO² − r²)", points: 1, dimension: reasoning }
+          - { id: 'lengths', description: "Finds MA and MB in terms of MO and r (e.g. MA = MO − r and MB = MO + r)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes MA × MB = MT² (e.g. MO² − r²)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     The tangent is perpendicular to the radius, so $MT^2 = MO^2 - r^2$. Since $A$ and $B$ lie on line $MO$ at distance $r$ from $O$, $MA = MO - r$ and $MB = MO + r$. So $MA \times MB = MO^2 - r^2 = MT^2$.
@@ -272,9 +272,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'mb', description: "The line through the center gives MB = a + 2r", points: 1, dimension: reasoning }
-          - { id: 'power', description: "Tangent–secant: t² = a(a + 2r)", points: 2, dimension: reasoning }
-          - { id: 'solve', description: "Rearranges to r = (t² − a²)/(2a)", points: 1, dimension: proof }
+          - { id: 'mb', description: "Writes MB in terms of a and r (e.g. MB = a + 2r, through the center)", points: 1, dimension: reasoning }
+          - { id: 'power', description: "Relates t, a and r (e.g. tangent–secant: t² = a(a + 2r), or Pythagoras)", points: 2, dimension: reasoning }
+          - { id: 'solve', description: "Solves for r (e.g. r = (t² − a²)/(2a))", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     The line through the center meets the circle at $A$ and at $B$, the other end of a diameter, so $MB = a + 2r$. By the tangent–secant theorem, $t^2 = a(a + 2r) = a^2 + 2ar$, so $r = \dfrac{t^2 - a^2}{2a}$.
@@ -305,9 +305,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'power', description: "MT² = MA × MB", points: 1, dimension: reasoning }
-          - { id: 'bounds', description: "MA < MB gives MA² < MA × MB < MB²", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "So MA² < MT² < MB², and taking square roots of positive numbers, MA < MT < MB", points: 1, dimension: proof }
+          - { id: 'power', description: "Relates MT to MA and MB (e.g. MT² = MA × MB)", points: 1, dimension: reasoning }
+          - { id: 'bounds', description: "Bounds the product (e.g. MA < MB gives MA² < MA × MB < MB²)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes MA < MT < MB (e.g. square roots of positive numbers keep the order)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     By the tangent–secant theorem, $MT^2 = MA \times MB$. Since $0 < MA < MB$, we have $MA^2 < MA \times MB < MB^2$, i.e. $MA^2 < MT^2 < MB^2$. All are positive lengths, so $MA < MT < MB$.
@@ -341,9 +341,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'perp', description: "If the common midpoint X isn't the center O, then OX is perpendicular to both chords (the line from the center to a chord's midpoint is perpendicular to it)", points: 2, dimension: reasoning }
-          - { id: 'contra', description: "Two different lines through X perpendicular to OX is impossible", points: 1, dimension: proof }
-          - { id: 'conclude', description: "So X = O, and both chords pass through the center: they are diameters", points: 1, dimension: proof }
+          - { id: 'perp', description: "Sets up a contradiction or a direct argument about the center (e.g. if the common midpoint X isn't O, then OX is perpendicular to both chords)", points: 2, dimension: reasoning }
+          - { id: 'contra', description: "Shows that is impossible (e.g. two different lines through X can't both be perpendicular to OX)", points: 1, dimension: proof }
+          - { id: 'conclude', description: "Concludes both chords pass through the center, so they are diameters", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the chords $AB$ and $CD$ have the same midpoint $X$. Suppose $X$ is not the center $O$. The line from the center to the midpoint of a chord is perpendicular to the chord, so $OX \perp AB$ and $OX \perp CD$. But through $X$ there is only one line perpendicular to $OX$, so $AB$ and $CD$ would be the same line, contradicting their being different chords. Hence $X = O$, and both chords pass through the center: both are diameters.
@@ -360,9 +360,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'construct', description: "Draws a diameter AB of length a + b with X on it, AX = a, XB = b, and the chord CD through X perpendicular to AB", points: 1, dimension: proof }
-          - { id: 'cx', description: "Then CX² = AX × XB = ab (perpendicular chord bisected, intersecting chords), so CX = √(ab)", points: 2, dimension: reasoning }
-          - { id: 'bound', description: "CX is at most the radius (a + b)/2, since C is on the circle and X is on a diameter (OC = r and CX ≤ OC in right triangle OXC)", points: 1, dimension: reasoning }
+          - { id: 'construct', description: "Makes a construction that shows √(ab) and (a + b)/2 as lengths (e.g. a diameter AB = a + b with AX = a, XB = b, and the chord CD through X perpendicular to AB)", points: 1, dimension: proof }
+          - { id: 'cx', description: "Shows one length is √(ab) (e.g. CX² = AX × XB = ab by the bisected perpendicular chord and intersecting chords)", points: 2, dimension: reasoning }
+          - { id: 'bound', description: "Shows it is at most the radius (a + b)/2 (e.g. CX ≤ OC in right triangle OXC)", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "So √(ab) ≤ (a + b)/2", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -399,9 +399,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'circle', description: "C lies on the circle with diameter AB (converse of the angle in a semicircle)", points: 1, dimension: reasoning }
-          - { id: 'chord', description: "Extend CD to meet the circle again at E; the diameter AB is perpendicular to chord CE, so CD = DE", points: 2, dimension: reasoning }
-          - { id: 'product', description: "Intersecting chords: AD × DB = CD × DE = CD²", points: 1, dimension: proof }
+          - { id: 'circle', description: "Places C on a circle with diameter AB (e.g. converse of the angle in a semicircle)", points: 1, dimension: reasoning }
+          - { id: 'chord', description: "Creates a chord through D that D bisects (e.g. extend CD to E; diameter AB ⟂ chord CE, so CD = DE)", points: 2, dimension: reasoning }
+          - { id: 'product', description: "Relates the pieces (e.g. intersecting chords: AD × DB = CD × DE = CD²), or uses similar triangles instead", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $\angle ACB = 90^\circ$, so $C$ lies on the circle with diameter $AB$. Extend $CD$ to meet that circle again at $E$. The diameter $AB$ is perpendicular to the chord $CE$, so it bisects it: $CD = DE$. By the intersecting chords theorem, $AD \times DB = CD \times DE = CD^2$.
@@ -433,10 +433,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'sum', description: "AX + XB = CX + XD = L (equal chords)", points: 1, dimension: reasoning }
-          - { id: 'product', description: "AX × XB = CX × XD (intersecting chords)", points: 1, dimension: reasoning }
-          - { id: 'quadratic', description: "So {AX, XB} and {CX, XD} are both the roots of t² − Lt + P = 0 (same sum and product)", points: 2, dimension: reasoning }
-          - { id: 'conclude', description: "A quadratic has at most two roots, so the pairs are the same numbers", points: 1, dimension: proof }
+          - { id: 'sum', description: "Finds the common sum of the pieces (e.g. AX + XB = CX + XD = L, equal chords)", points: 1, dimension: reasoning }
+          - { id: 'product', description: "Finds the common product of the pieces (e.g. AX × XB = CX × XD, intersecting chords)", points: 1, dimension: reasoning }
+          - { id: 'quadratic', description: "Uses equal sum and product to identify the pieces (e.g. both pairs are the roots of t² − Lt + P = 0)", points: 2, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes the pairs are the same numbers (e.g. a quadratic has at most two roots)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let $L = AB = CD$. Then $AX + XB = L = CX + XD$, and by the intersecting chords theorem $AX \times XB = CX \times XD = P$.
@@ -471,8 +471,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'product', description: "CX × XD = AX × XB = 5 × 5 = 25 (intersecting chords)", points: 2, dimension: reasoning }
-          - { id: 'bound', description: "If both pieces were greater than 5, their product would exceed 25", points: 1, dimension: reasoning }
+          - { id: 'product', description: "Finds the product of the pieces (e.g. intersecting chords: CX × XD = 5 × 5 = 25)", points: 2, dimension: reasoning }
+          - { id: 'bound', description: "Argues both pieces can't exceed 5 (e.g. their product would then exceed 25)", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "So the shorter piece is at most 5", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -509,10 +509,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'first', description: "In the first circle, MA × MB = MP × MQ (two secants from M)", points: 1, dimension: reasoning }
-          - { id: 'second', description: "In the second circle, MC × MD = MP × MQ", points: 1, dimension: reasoning }
-          - { id: 'equal', description: "So MA × MB = MC × MD", points: 1, dimension: reasoning }
-          - { id: 'converse', description: "The circle through A, B, C meets line MC again at D' with MC × MD' = MA × MB, so MD' = MD and D' = D (same side of M): A, B, C, D concyclic", points: 2, dimension: proof }
+          - { id: 'first', description: "Relates the secants through M in the first circle (e.g. MA × MB = MP × MQ, two secants from M)", points: 1, dimension: reasoning }
+          - { id: 'second', description: "Relates them in the second circle (e.g. MC × MD = MP × MQ)", points: 1, dimension: reasoning }
+          - { id: 'equal', description: "Concludes MA × MB = MC × MD", points: 1, dimension: reasoning }
+          - { id: 'converse', description: "Deduces A, B, C, D are concyclic (e.g. the circle through A, B, C meets line MC again at D′ with MC × MD′ = MA × MB, so D′ = D)", points: 2, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     From $M$, the first circle has secants $MAB$ and $MPQ$, so $MA \times MB = MP \times MQ$. The second circle has secants $MCD$ and $MPQ$, so $MC \times MD = MP \times MQ$. Hence $MA \times MB = MC \times MD$.

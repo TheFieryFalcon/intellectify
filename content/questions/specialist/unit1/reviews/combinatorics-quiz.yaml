@@ -250,9 +250,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: boxes, description: "Makes 8 boxes of consecutive pairs: {1, 2}, {3, 4}, …, {15, 16}", points: 2, dimension: reasoning }
-          - { id: pigeon, description: "Nine numbers in eight boxes, so two chosen numbers share a box", points: 1, dimension: proof }
-          - { id: differ, description: "Two different numbers in one box are consecutive, so they differ by 1", points: 1, dimension: reasoning }
+          - { id: boxes, description: "Chooses boxes so that two numbers in one box differ by 1 (e.g. 8 consecutive pairs {1, 2}, {3, 4}, …, {15, 16})", points: 2, dimension: reasoning }
+          - { id: pigeon, description: "Applies the pigeonhole principle: more numbers than boxes, so two chosen numbers share a box", points: 1, dimension: proof }
+          - { id: differ, description: "Concludes those two numbers differ by 1", points: 1, dimension: reasoning }
           - { id: clear, description: "Clearly set out, with a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Split $1, \dots, 16$ into 8 boxes of consecutive pairs: $\{1, 2\}, \{3, 4\}, \dots, \{15, 16\}$. Every number is in exactly one box. Nine numbers in eight boxes put two of them in the same box, and the two numbers in a box differ by 1. So two of the chosen numbers differ by exactly 1.

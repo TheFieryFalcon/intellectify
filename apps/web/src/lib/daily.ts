@@ -80,6 +80,12 @@ export function pickDaily(pool: QuestionT[], tier: Tier, rand: () => number): Qu
   return null;
 }
 
+/**
+ * A daily problem counts as solved only at full marks (SPEC §8.5): it can be tried again as often as
+ * the student likes, so anything less is another go, not a solve. Auto-marked: the outcome; written: the rubric score.
+ */
+export const dailySolved = (score: number) => score >= 1 - 1e-9;
+
 /** A student's year group from their onboarding mark source (Year 10 students are about to start Year 11). */
 export const yearGroupOf = (source: string | undefined): YearGroup => (source?.startsWith("y12") ? 12 : 11);
 

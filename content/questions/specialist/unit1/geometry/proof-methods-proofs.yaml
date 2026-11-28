@@ -12,8 +12,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'write', description: "Writes the integers as n − 1, n, n + 1 (or n, n + 1, n + 2)", points: 1, dimension: proof }
-          - { id: 'sum', description: "Sum = 3n (or 3n + 3 = 3(n + 1))", points: 2, dimension: reasoning }
+          - { id: 'write', description: "Writes three general consecutive integers algebraically (e.g. n − 1, n, n + 1, or n, n + 1, n + 2)", points: 1, dimension: proof }
+          - { id: 'sum', description: "Shows the sum is a multiple of 3 (e.g. 3n, or 3(n + 1))", points: 2, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the integers be $n - 1$, $n$, $n + 1$. Their sum is $3n$, a multiple of 3.
@@ -30,9 +30,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'write', description: "Lets the integers be n and n + 1", points: 1, dimension: proof }
-          - { id: 'expand', description: "(n + 1)² − n² = 2n + 1", points: 2, dimension: reasoning }
-          - { id: 'odd', description: "2n + 1 is odd", points: 1, dimension: proof }
+          - { id: 'write', description: "Writes two general consecutive integers algebraically (e.g. n and n + 1)", points: 1, dimension: proof }
+          - { id: 'expand', description: "Simplifies the difference of squares (e.g. (n + 1)² − n² = 2n + 1)", points: 2, dimension: reasoning }
+          - { id: 'odd', description: "Concludes it is odd (e.g. 2n + 1 is one more than an even number)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the integers be $n$ and $n + 1$. Then $(n + 1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$, which is odd.
@@ -49,9 +49,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'example', description: "Counterexample: √2 and −√2, whose sum is 0", points: 2, dimension: reasoning }
-          - { id: 'check', description: "Checks −√2 is irrational: if −√2 = r were rational, √2 = −r would be rational", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "0 is rational, so the claim is false", points: 1, dimension: proof }
+          - { id: 'example', description: "Gives a valid counterexample (e.g. √2 and −√2, whose sum is 0)", points: 2, dimension: reasoning }
+          - { id: 'check', description: "Justifies both numbers are irrational (e.g. if −√2 = r were rational, √2 = −r would be rational)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Justifies the result is rational, so the claim is false (e.g. 0 is rational)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $\sqrt{2}$ is irrational, and so is $-\sqrt{2}$ (if $-\sqrt{2} = r$ were rational, then $\sqrt{2} = -r$ would be rational). Their sum is $0$, which is rational. So the claim is false.
@@ -68,9 +68,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'forward', description: "If n is even, n = 2k: 7n + 4 = 2(7k + 2), even", points: 1, dimension: reasoning }
-          - { id: 'back', description: "If n is odd, n = 2k + 1: 7n + 4 = 2(7k + 5) + 1, odd; so 7n + 4 even forces n even (contrapositive)", points: 2, dimension: reasoning }
-          - { id: 'both', description: "Both directions shown", points: 1, dimension: proof }
+          - { id: 'forward', description: "Proves one direction (e.g. n even, n = 2k: 7n + 4 = 2(7k + 2), even)", points: 1, dimension: reasoning }
+          - { id: 'back', description: "Proves the other direction (e.g. contrapositive: n odd, n = 2k + 1, gives 7n + 4 = 2(7k + 5) + 1, odd)", points: 2, dimension: reasoning }
+          - { id: 'both', description: "Makes clear both directions are shown", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     If $n = 2k$ is even, $7n + 4 = 14k + 4 = 2(7k + 2)$ is even.
@@ -91,9 +91,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'two', description: "Among two consecutive integers one is even, so the product is a multiple of 2", points: 1, dimension: reasoning }
-          - { id: 'three', description: "Among three consecutive integers one is a multiple of 3 (remainders 0, 1, 2 each appear once)", points: 2, dimension: reasoning }
-          - { id: 'six', description: "Divisible by 2 and by 3, which share no factor, so divisible by 6", points: 1, dimension: proof }
+          - { id: 'two', description: "Shows the product is a multiple of 2 (e.g. one of two consecutive integers is even)", points: 1, dimension: reasoning }
+          - { id: 'three', description: "Shows the product is a multiple of 3 (e.g. three consecutive integers cover the remainders 0, 1, 2)", points: 2, dimension: reasoning }
+          - { id: 'six', description: "Concludes it is a multiple of 6 (e.g. divisible by 2 and by 3, which share no factor)", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Let the integers be $n$, $n + 1$, $n + 2$. One of $n$, $n + 1$ is even, so the product is a multiple of 2. The three integers leave different remainders on division by 3, so one of them leaves remainder 0, and the product is a multiple of 3. A number that is a multiple of both 2 and 3 is a multiple of 6.
@@ -110,10 +110,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'cases', description: "Splits into x even (x = 2k) and x odd (x = 2k + 1)", points: 1, dimension: proof }
-          - { id: 'even', description: "x = 2k: x² = 4k², remainder 0", points: 1, dimension: reasoning }
-          - { id: 'odd', description: "x = 2k + 1: x² = 4(k² + k) + 1, remainder 1", points: 1, dimension: reasoning }
-          - { id: 'conclude', description: "Squares leave remainder 0 or 1, never 3", points: 1, dimension: proof }
+          - { id: 'cases', description: "Splits into cases that cover every integer (e.g. x even, x = 2k, and x odd, x = 2k + 1)", points: 1, dimension: proof }
+          - { id: 'even', description: "Handles the first case (e.g. x = 2k: x² = 4k², remainder 0)", points: 1, dimension: reasoning }
+          - { id: 'odd', description: "Handles the second case (e.g. x = 2k + 1: x² = 4(k² + k) + 1, remainder 1)", points: 1, dimension: reasoning }
+          - { id: 'conclude', description: "Concludes squares never leave remainder 3", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Every integer is even or odd. If $x = 2k$, then $x^2 = 4k^2$ leaves remainder 0 on division by 4. If $x = 2k + 1$, then $x^2 = 4k^2 + 4k + 1 = 4(k^2 + k) + 1$ leaves remainder 1. So a square leaves remainder 0 or 1, never 3.
@@ -130,10 +130,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'assume', description: "Assumes, for contradiction, ab = r rational", points: 1, dimension: proof }
-          - { id: 'solve', description: "b = r/a, using a ≠ 0", points: 1, dimension: reasoning }
-          - { id: 'rational', description: "A quotient of rationals (non-zero divisor) is rational, so b would be rational", points: 1, dimension: reasoning }
-          - { id: 'contra', description: "Contradiction with b irrational", points: 1, dimension: proof }
+          - { id: 'assume', description: "Sets up a proof by contradiction (e.g. assumes ab = r is rational)", points: 1, dimension: proof }
+          - { id: 'solve', description: "Isolates b (e.g. b = r/a, using a ≠ 0)", points: 1, dimension: reasoning }
+          - { id: 'rational', description: "Concludes b would be rational (e.g. a quotient of rationals with non-zero divisor is rational)", points: 1, dimension: reasoning }
+          - { id: 'contra', description: "States the contradiction with b irrational", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     Suppose, for contradiction, that $ab = r$ is rational. Since $a \ne 0$, $b = \dfrac{r}{a}$. With $r = \tfrac{p}{q}$ and $a = \tfrac{s}{t}$ ($s \ne 0$), $b = \dfrac{pt}{qs}$ is rational, contradicting $b$ irrational. So $ab$ is irrational.
@@ -150,10 +150,10 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'factor', description: "Factorizes n⁵ − n = n(n − 1)(n + 1)(n² + 1)", points: 1, dimension: reasoning }
-          - { id: 'cases', description: "Considers the remainder of n on division by 5: 0, 1, 2, 3, 4", points: 1, dimension: proof }
-          - { id: 'easy', description: "Remainder 0, 1 or 4: n, n − 1 or n + 1 is a multiple of 5", points: 1, dimension: reasoning }
-          - { id: 'hard', description: "Remainder 2 or 3: n = 5k ± 2 gives n² + 1 = 25k² ± 20k + 5, a multiple of 5", points: 2, dimension: reasoning }
+          - { id: 'factor', description: "Rewrites n⁵ − n usefully (e.g. n(n − 1)(n + 1)(n² + 1))", points: 1, dimension: reasoning }
+          - { id: 'cases', description: "Splits into cases that cover every integer (e.g. remainders 0, 1, 2, 3, 4 on division by 5)", points: 1, dimension: proof }
+          - { id: 'easy', description: "Handles the easy cases (e.g. remainder 0, 1 or 4: n, n − 1 or n + 1 is a multiple of 5)", points: 1, dimension: reasoning }
+          - { id: 'hard', description: "Handles the remaining cases (e.g. n = 5k ± 2 gives n² + 1 = 25k² ± 20k + 5, a multiple of 5)", points: 2, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     $n^5 - n = n(n^4 - 1) = n(n - 1)(n + 1)(n^2 + 1)$. Consider $n$'s remainder on division by 5.

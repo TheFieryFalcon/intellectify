@@ -366,9 +366,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: opp, description: Opposite angles of a parallelogram are equal, points: 1, dimension: reasoning}
-      - {id: cyc, description: Opposite angles of a cyclic quadrilateral add to 180°, points: 1, dimension: reasoning}
-      - {id: right, description: 'So each is 90°, and all four angles are right angles', points: 2, dimension: proof}
+      - {id: opp, description: "Uses a property of the parallelogram's angles (e.g. opposite angles are equal)", points: 1, dimension: reasoning}
+      - {id: cyc, description: "Uses a property of the cyclic quadrilateral's angles (e.g. opposite angles add to 180°)", points: 1, dimension: reasoning}
+      - {id: right, description: "Concludes every angle is 90°, so it is a rectangle", points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     In parallelogram $ABCD$, $\angle A = \angle C$. It is cyclic, so $\angle A + \angle C = 180^\circ$. So $\angle A = \angle C = 90^\circ$, and likewise $\angle B = \angle D = 90^\circ$: it is a rectangle.
@@ -477,7 +477,7 @@
     - { t: 76, v: 104, _C: '3.516, 1.941', _D: '0.484, 1.941' }
     - { t: 82, v: 98, _C: '3.722, 1.981', _D: '0.278, 1.981' }
   stem: |
-    $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = {{t}}^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
+    $ABCD$ is a trapezium with $AB \parallel DC$ and $AD = BC$, and $\angle DAB = {{t}}^\circ$. Because the slanted sides are equal, the angles at $A$ and $B$ are equal too: $\angle ABC = {{t}}^\circ$. Find $\angle BCD$, and decide whether $ABCD$ is cyclic.
 
     ```diagram
     view: [-2.45, 4.45, -2.45, 2.45]
@@ -505,7 +505,7 @@
     - {id: b, text: Not cyclic}
     answer: {type: mcq, key: a}
   solution: |
-    In an isosceles trapezium the base angles are equal: $\angle ABC = {{t}}^\circ$. Co-interior angles between the parallel sides add to $180^\circ$: $\angle BCD = 180^\circ - {{t}}^\circ = {{v}}^\circ$. So $\angle DAB + \angle BCD = 180^\circ$, and $ABCD$ is cyclic.
+    $\angle ABC = {{t}}^\circ$ (given). Co-interior angles between the parallel sides add to $180^\circ$: $\angle BCD = 180^\circ - {{t}}^\circ = {{v}}^\circ$. So $\angle DAB + \angle BCD = 180^\circ$, and $ABCD$ is cyclic.
   verify: |
     def answers(t, v):
         import math
@@ -597,10 +597,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: circle, description: 'Draws the circle through A, B, C and supposes D is not on it', points: 1, dimension: proof}
-      - {id: meet, description: Lets AD (or line through D) meet the circle at D′ ≠ D, points: 1, dimension: synthesis}
-      - {id: angles, description: ∠AD′C = 180° − ∠B = ∠ADC (cyclic quadrilateral ABCD′), points: 2, dimension: reasoning}
-      - {id: contra, description: 'But an exterior angle of triangle DD′C can''t equal its interior opposite angle: contradiction', points: 1, dimension: proof}
+      - {id: circle, description: "Sets up a proof by contradiction (e.g. draws the circle through A, B, C and supposes D is not on it), or another valid approach", points: 1, dimension: proof}
+      - {id: meet, description: "Introduces a point on the circle to compare with D (e.g. D′ where AD meets the circle)", points: 1, dimension: synthesis}
+      - {id: angles, description: "Finds equal angles at D and D′ (e.g. ∠AD′C = 180° − ∠B = ∠ADC, cyclic quadrilateral ABCD′)", points: 2, dimension: reasoning}
+      - {id: contra, description: "Reaches a contradiction (e.g. an exterior angle of triangle DD′C can't equal its interior opposite angle)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Draw the circle through $A$, $B$, $C$, and suppose $D$ isn't on it. Let line $AD$ meet the circle again at $D' \ne D$. $ABCD'$ is cyclic, so $\angle AD'C = 180^\circ - \angle B = \angle ADC$.
@@ -634,9 +634,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: rect, description: 'Completes rectangle APBQ (or uses a reflection), or uses vectors with P as origin', points: 1, dimension: synthesis}
-      - {id: diag, description: 'A rectangle''s diagonals are equal and bisect each other, so M is the midpoint of PQ too', points: 2, dimension: reasoning}
-      - {id: equal, description: So MP = ½PQ = ½AB = MA = MB, points: 1, dimension: proof}
+      - {id: rect, description: "Sets up a way to compare MP with MA and MB (e.g. completes rectangle APBQ, uses a reflection, or vectors with P as origin)", points: 1, dimension: synthesis}
+      - {id: diag, description: "Shows M is equally placed relative to P (e.g. a rectangle's diagonals are equal and bisect each other, so M is the midpoint of PQ too)", points: 2, dimension: reasoning}
+      - {id: equal, description: "Concludes MP = MA = MB (e.g. MP = ½PQ = ½AB)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Complete the rectangle $APBQ$ (draw lines through $A$ and $B$ parallel to $PB$ and $PA$). A rectangle's diagonals are equal and bisect each other, so $M$, the midpoint of $AB$, is also the midpoint of $PQ$, and $MP = \tfrac{1}{2}PQ = \tfrac{1}{2}AB = MA = MB$. So $P$ is on the circle with center $M$ and diameter $AB$.
@@ -717,8 +717,8 @@
   - id: a
     rubric:
       criteria:
-      - {id: right, description: ∠BEC = ∠BFC = 90°, points: 1, dimension: proof}
-      - {id: converse, description: 'By the converse of the angle in a semicircle, E and F lie on the circle with diameter BC', points: 3, dimension: synthesis}
+      - {id: right, description: "Identifies the right angles (e.g. ∠BEC = ∠BFC = 90°)", points: 1, dimension: proof}
+      - {id: converse, description: "Concludes E and F lie on the circle with diameter BC (e.g. converse of the angle in a semicircle)", points: 3, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     $\angle BEC = 90^\circ$ and $\angle BFC = 90^\circ$. By the converse of the angle in a semicircle, both $E$ and $F$ lie on the circle with diameter $BC$. So $B$, $C$, $E$ and $F$ are concyclic.
@@ -790,9 +790,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: join, description: Joins BC (or AD), points: 1, dimension: reasoning}
-      - {id: alt, description: '∠ABC = ∠BCD (alternate angles, AB ∥ CD)', points: 1, dimension: reasoning}
-      - {id: arcs, description: 'Equal angles at the circumference stand on equal chords: AC = BD', points: 2, dimension: proof}
+      - {id: join, description: "Makes a construction that links the chords (e.g. joins BC or AD)", points: 1, dimension: reasoning}
+      - {id: alt, description: "Uses the parallel lines to find equal angles (e.g. ∠ABC = ∠BCD, alternate angles)", points: 1, dimension: reasoning}
+      - {id: arcs, description: "Concludes AC = BD (e.g. equal angles at the circumference stand on equal chords)", points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     Join $BC$. $\angle ABC = \angle BCD$ (alternate angles, $AB \parallel CD$). $\angle ABC$ stands on chord $AC$ and $\angle BCD$ on chord $BD$. Equal angles at the circumference stand on equal arcs, so they subtend equal angles at the center, and equal angles at the center mean equal chords: $AC = BD$.
@@ -826,9 +826,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: semi, description: 'By the converse of the angle in a semicircle, C is on the circle with diameter AB', points: 2, dimension: synthesis}
-      - {id: radius, description: Its center is M and its radius is ½AB, points: 1, dimension: reasoning}
-      - {id: conclude, description: 'So MC is a radius: MC = ½AB', points: 1, dimension: proof}
+      - {id: semi, description: "Places C on a circle with diameter AB (e.g. converse of the angle in a semicircle), or another valid route", points: 2, dimension: synthesis}
+      - {id: radius, description: "Identifies that circle's center and radius (e.g. center M, radius ½AB)", points: 1, dimension: reasoning}
+      - {id: conclude, description: "Concludes MC = ½AB", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     $\angle ACB = 90^\circ$, so $C$ lies on the circle with diameter $AB$ (converse of the angle in a semicircle). Its center is $M$ and its radius is $\tfrac{1}{2}AB$, and $MC$ is a radius. So $MC = \tfrac{1}{2}AB$.
@@ -921,9 +921,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: bisect, description: ∠BAD = ∠DAC (bisector), points: 1, dimension: reasoning}
-      - {id: chords, description: 'Equal angles at the circumference stand on equal chords (or: ∠DBC = ∠DAC and ∠DCB = ∠DAB, same arcs)', points: 2, dimension: reasoning}
-      - {id: conclude, description: 'So triangle DBC is isosceles, or the chords are equal: DB = DC', points: 2, dimension: proof}
+      - {id: bisect, description: "Uses the bisector (e.g. ∠BAD = ∠DAC)", points: 1, dimension: reasoning}
+      - {id: chords, description: "Turns equal angles into equal chords or angles in triangle DBC (e.g. equal angles at the circumference stand on equal chords, or ∠DBC = ∠DAC and ∠DCB = ∠DAB, same arcs)", points: 2, dimension: reasoning}
+      - {id: conclude, description: "Concludes DB = DC", points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     $\angle BAD = \angle DAC$. Also $\angle DCB = \angle DAB$ (same arc $DB$) and $\angle DBC = \angle DAC$ (same arc $DC$). So $\angle DCB = \angle DBC$, triangle $DBC$ is isosceles, and $DB = DC$.
@@ -955,9 +955,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: first, description: '∠PAQ is constant: angle on the fixed arc PQ of the first circle', points: 2, dimension: reasoning}
-      - {id: second, description: '∠PBQ is constant: angle on the fixed arc PQ of the second circle', points: 2, dimension: proof}
-      - {id: sum, description: 'In triangle AQB, ∠AQB = 180° − ∠QAB − ∠QBA is therefore constant', points: 1, dimension: synthesis}
+      - {id: first, description: "Shows the angle at A is fixed (e.g. ∠PAQ stands on the fixed arc PQ of the first circle)", points: 2, dimension: reasoning}
+      - {id: second, description: "Shows the angle at B is fixed (e.g. ∠PBQ stands on the fixed arc PQ of the second circle)", points: 2, dimension: proof}
+      - {id: sum, description: "Concludes the remaining angle is constant (e.g. angle sum of triangle AQB)", points: 1, dimension: synthesis}
       - {id: clear, description: 'Clearly set out, with a reason for each step', points: 1, dimension: clarity}
   solution: |
     As the line turns, $A$ moves around the first circle but $\angle QAP$ always stands on the fixed chord $PQ$, so it is constant (angles on the same arc). Likewise $\angle QBP$ is constant in the second circle. In triangle $AQB$, $\angle AQB = 180^\circ - \angle QAB - \angle QBA$, which is therefore constant.

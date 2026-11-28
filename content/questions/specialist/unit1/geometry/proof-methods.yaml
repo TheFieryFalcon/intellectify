@@ -185,8 +185,8 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: 'Assumes there is a largest multiple of 7, say N = 7k', points: 1, dimension: proof}
-      - {id: bigger, description: Shows N + 7 = 7(k + 1) is a larger multiple of 7, points: 2, dimension: reasoning}
+      - {id: assume, description: "Sets up the contradiction: assumes there is a largest multiple of 7 (e.g. N = 7k)", points: 1, dimension: proof}
+      - {id: bigger, description: "Finds a larger multiple of 7 (e.g. N + 7 = 7(k + 1))", points: 2, dimension: reasoning}
       - {id: contra, description: States the contradiction with N being the largest, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -221,9 +221,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: 'Assumes, for contradiction, that such integers exist', points: 1, dimension: proof}
-      - {id: even, description: Shows 4x + 6y = 2(2x + 3y) is even, points: 2, dimension: reasoning}
-      - {id: contra, description: '1 is odd, so this is a contradiction', points: 1, dimension: proof}
+      - {id: assume, description: "Sets up a valid approach (e.g. assumes, for contradiction, that such integers exist; or argues directly about every x, y)", points: 1, dimension: proof}
+      - {id: even, description: "Shows the left side is always even (e.g. 4x + 6y = 2(2x + 3y))", points: 2, dimension: reasoning}
+      - {id: contra, description: "Concludes it can never be 1 (e.g. 1 is odd)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose integers $x$, $y$ satisfy $4x + 6y = 1$. The left side is $2(2x + 3y)$, which is even, but 1 is odd. This is impossible, so no such integers exist.
@@ -239,8 +239,8 @@
   - id: a
     rubric:
       criteria:
-      - {id: contra, description: 'Uses the contrapositive (if n is even, then 5n + 3 is odd) or contradiction', points: 1, dimension: proof}
-      - {id: sub, description: Writes n = 2k and 5n + 3 = 10k + 3 = 2(5k + 1) + 1, points: 2, dimension: reasoning}
+      - {id: contra, description: "Sets up a valid approach (e.g. the contrapositive, if n is even then 5n + 3 is odd, or contradiction)", points: 1, dimension: proof}
+      - {id: sub, description: "Carries it out algebraically (e.g. n = 2k gives 5n + 3 = 10k + 3 = 2(5k + 1) + 1)", points: 2, dimension: reasoning}
       - {id: conclude, description: 'Concludes 5n + 3 is odd, which proves the original statement', points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -257,9 +257,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: Assumes a triangle has two obtuse angles, points: 1, dimension: proof}
-      - {id: sum, description: Two obtuse angles add to more than 180°, points: 2, dimension: reasoning}
-      - {id: contra, description: 'Contradicts the angle sum of a triangle (180°, with the third angle positive)', points: 1, dimension: proof}
+      - {id: assume, description: "Sets up a valid approach (e.g. assumes a triangle has two obtuse angles)", points: 1, dimension: proof}
+      - {id: sum, description: "Shows two obtuse angles are too large together (e.g. they add to more than 180°)", points: 2, dimension: reasoning}
+      - {id: contra, description: "Reaches the contradiction with the angle sum (e.g. 180°, with the third angle positive)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose a triangle has two obtuse angles. Each is more than $90^\circ$, so together they are more than $180^\circ$. With the third angle (which is positive), the total exceeds $180^\circ$. But the angles of a triangle add to exactly $180^\circ$, a contradiction.
@@ -310,8 +310,8 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: Assumes a smallest positive real number r exists, points: 1, dimension: proof}
-      - {id: half, description: 'Considers r/2, which is positive and smaller than r', points: 2, dimension: reasoning}
+      - {id: assume, description: "Sets up the contradiction: assumes a smallest positive real number r exists", points: 1, dimension: proof}
+      - {id: half, description: "Finds a smaller positive number (e.g. r/2)", points: 2, dimension: reasoning}
       - {id: contra, description: States the contradiction, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -328,8 +328,8 @@
   - id: a
     rubric:
       criteria:
-      - {id: contra, description: 'Uses the contrapositive or contradiction: suppose a < 10 and b < 10', points: 2, dimension: proof}
-      - {id: add, description: Adds to get a + b < 20, points: 1, dimension: reasoning}
+      - {id: contra, description: "Sets up a valid approach (e.g. contrapositive or contradiction: suppose a < 10 and b < 10)", points: 2, dimension: proof}
+      - {id: add, description: "Combines the two inequalities (e.g. a + b < 20)", points: 1, dimension: reasoning}
       - {id: conclude, description: Concludes correctly, points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
@@ -363,9 +363,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: contra, description: 'Uses the contrapositive: if n is not a multiple of 3, then n² is not', points: 1, dimension: proof}
-      - {id: cases, description: Writes n = 3k + 1 or n = 3k + 2 (or 3k − 1), points: 1, dimension: reasoning}
-      - {id: square, description: Squares each case to show remainder 1 on division by 3, points: 2, dimension: proof}
+      - {id: contra, description: "Sets up a valid approach (e.g. the contrapositive: if n is not a multiple of 3, then n² is not)", points: 1, dimension: proof}
+      - {id: cases, description: "Splits into cases that cover every non-multiple of 3 (e.g. n = 3k + 1 or 3k + 2, or 3k − 1)", points: 1, dimension: reasoning}
+      - {id: square, description: "Shows n² is not a multiple of 3 in each case (e.g. remainder 1 on division by 3)", points: 2, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Prove the contrapositive. If $n$ isn't a multiple of 3, then $n = 3k + 1$ or $n = 3k + 2$.
@@ -403,9 +403,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: factor, description: 'Factorizes: (x − y)(x + y) = 2', points: 1, dimension: reasoning}
-      - {id: parity, description: Shows x − y and x + y have the same parity (they differ by 2y), points: 2, dimension: synthesis}
-      - {id: contra, description: 'Same parity: both odd gives an odd product, both even gives a multiple of 4; neither is 2', points: 1, dimension: proof}
+      - {id: factor, description: "Rewrites the equation usefully (e.g. (x − y)(x + y) = 2)", points: 1, dimension: reasoning}
+      - {id: parity, description: "Finds a constraint on the factors (e.g. x − y and x + y have the same parity, since they differ by 2y)", points: 2, dimension: synthesis}
+      - {id: contra, description: "Shows the constraint rules out 2 (e.g. both odd gives an odd product, both even a multiple of 4)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose $x^2 - y^2 = 2$, so $(x - y)(x + y) = 2$. The factors differ by $2y$, an even number, so they are both even or both odd. If both are odd, the product is odd; if both are even, it is a multiple of 4. Neither can equal 2, a contradiction.
@@ -421,9 +421,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: cases, description: 'Splits into n = 3k, 3k + 1, 3k + 2 (or similar)', points: 1, dimension: proof}
-      - {id: remainders, description: Shows n² leaves remainder 0 or 1 on division by 3, points: 2, dimension: reasoning}
-      - {id: conclude, description: 'So n² + 1 leaves remainder 1 or 2, never 0', points: 1, dimension: reasoning}
+      - {id: cases, description: "Splits into cases that cover every integer (e.g. n = 3k, 3k + 1, 3k + 2)", points: 1, dimension: proof}
+      - {id: remainders, description: "Finds what n² leaves on division by 3 (e.g. remainder 0 or 1)", points: 2, dimension: reasoning}
+      - {id: conclude, description: "Concludes n² + 1 is never a multiple of 3 (e.g. remainder 1 or 2)", points: 1, dimension: reasoning}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Every integer is $3k$, $3k + 1$ or $3k + 2$. Their squares are $9k^2$, $3(3k^2 + 2k) + 1$ and $3(3k^2 + 4k + 1) + 1$, which leave remainder 0, 1 and 1. So $n^2 + 1$ leaves remainder 1 or 2 and is never a multiple of 3.
@@ -479,10 +479,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: Assumes an integer solution x exists, points: 1, dimension: proof}
-      - {id: even, description: 'If x is even, ax² and bx are even, so the left side is odd (c is odd)', points: 2, dimension: reasoning}
-      - {id: odd, description: 'If x is odd, ax², bx and c are all odd, so the sum of three odds is odd', points: 2, dimension: reasoning}
-      - {id: contra, description: 'An odd number can''t be 0: contradiction', points: 1, dimension: proof}
+      - {id: assume, description: "Sets up a valid approach (e.g. assumes an integer solution x exists)", points: 1, dimension: proof}
+      - {id: even, description: "Handles x even (e.g. ax² and bx even, so the left side is odd)", points: 2, dimension: reasoning}
+      - {id: odd, description: "Handles x odd (e.g. ax², bx and c all odd, so the sum is odd)", points: 2, dimension: reasoning}
+      - {id: contra, description: "Concludes there is no integer solution (e.g. an odd number can't be 0)", points: 1, dimension: proof}
   solution: |
     Suppose an integer $x$ satisfies the equation.
     - If $x$ is even, $ax^2$ and $bx$ are even and $c$ is odd, so the left side is odd.
@@ -502,10 +502,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: 'Assumes there are only finitely many primes p₁, p₂, …, pₖ', points: 1, dimension: proof}
-      - {id: build, description: Considers N = p₁p₂⋯pₖ + 1, points: 2, dimension: synthesis}
-      - {id: remainder, description: No pᵢ divides N (each leaves remainder 1), points: 1, dimension: reasoning}
-      - {id: contra, description: 'But N > 1 has a prime factor, which must be one of the pᵢ: contradiction', points: 1, dimension: proof}
+      - {id: assume, description: "Sets up the contradiction: assumes there are only finitely many primes p₁, p₂, …, pₖ", points: 1, dimension: proof}
+      - {id: build, description: "Builds a number that defeats the list (e.g. N = p₁p₂⋯pₖ + 1)", points: 2, dimension: synthesis}
+      - {id: remainder, description: "Shows no listed prime divides it (e.g. each leaves remainder 1)", points: 1, dimension: reasoning}
+      - {id: contra, description: "Reaches the contradiction (e.g. N > 1 has a prime factor, which must be one of the pᵢ)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose there are only finitely many primes, $p_1, p_2, \dots, p_k$. Let $N = p_1p_2\cdots p_k + 1$. Dividing $N$ by any $p_i$ leaves remainder 1, so no $p_i$ divides $N$. But $N > 1$, so it has at least one prime factor, which must be on our list. This is a contradiction, so there are infinitely many primes.
@@ -521,9 +521,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: 'Assumes two different perpendiculars from P, meeting ℓ at A and B (A ≠ B)', points: 1, dimension: proof}
-      - {id: triangle, description: 'Triangle PAB then has two right angles, at A and B', points: 2, dimension: reasoning}
-      - {id: contra, description: 'Angles would add to more than 180°: contradiction', points: 1, dimension: proof}
+      - {id: assume, description: "Sets up the contradiction: assumes two different perpendiculars from P, meeting ℓ at A ≠ B", points: 1, dimension: proof}
+      - {id: triangle, description: "Finds the impossible figure (e.g. triangle PAB with right angles at A and B)", points: 2, dimension: reasoning}
+      - {id: contra, description: "Reaches the contradiction (e.g. its angles would add to more than 180°)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose two different lines through $P$ are perpendicular to $\ell$, meeting it at $A$ and $B$. Since the lines are different, $A \ne B$, and $PAB$ is a triangle with right angles at both $A$ and $B$. Its angles would add to more than $180^\circ$, which is impossible.
@@ -573,9 +573,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: squares, description: 'Shows every square leaves remainder 0 or 1 on division by 4 (even 2k: 4k²; odd 2k+1: 4k² + 4k + 1)', points: 2, dimension: reasoning}
-      - {id: sums, description: 'So a sum of two squares leaves remainder 0, 1 or 2', points: 2, dimension: reasoning}
-      - {id: conclude, description: 'Never 3, so such a number isn''t a sum of two squares', points: 1, dimension: proof}
+      - {id: squares, description: "Finds what a square leaves on division by 4 (e.g. even 2k: 4k², remainder 0; odd 2k + 1: 4k² + 4k + 1, remainder 1)", points: 2, dimension: reasoning}
+      - {id: sums, description: "Finds what a sum of two squares can leave (e.g. remainder 0, 1 or 2)", points: 2, dimension: reasoning}
+      - {id: conclude, description: "Concludes such a number isn't a sum of two squares (e.g. never remainder 3)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     An even number squared is $(2k)^2 = 4k^2$, remainder 0. An odd number squared is $(2k + 1)^2 = 4(k^2 + k) + 1$, remainder 1. So a sum of two squares leaves remainder $0 + 0$, $0 + 1$ or $1 + 1$: that is, 0, 1 or 2, never 3.
@@ -591,10 +591,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: 'Assumes, for contradiction, that a and b are both odd', points: 1, dimension: proof}
-      - {id: sum, description: Then a² + b² leaves remainder 2 on division by 4, points: 2, dimension: reasoning}
-      - {id: square, description: But c² leaves remainder 0 or 1 on division by 4, points: 2, dimension: reasoning}
-      - {id: contra, description: Contradiction stated clearly, points: 1, dimension: clarity}
+      - {id: assume, description: "Sets up a valid approach (e.g. assumes, for contradiction, that a and b are both odd)", points: 1, dimension: proof}
+      - {id: sum, description: "Finds what a² + b² leaves in that case (e.g. remainder 2 on division by 4)", points: 2, dimension: reasoning}
+      - {id: square, description: "Finds what c² can leave (e.g. remainder 0 or 1 on division by 4)", points: 2, dimension: reasoning}
+      - {id: contra, description: "States the contradiction (or the conclusion) clearly", points: 1, dimension: clarity}
   solution: |
     Suppose $a$ and $b$ are both odd. Odd squares leave remainder 1 on division by 4, so $a^2 + b^2$ leaves remainder 2. But any square, including $c^2$, leaves remainder 0 or 1. So $a^2 + b^2 \ne c^2$, a contradiction. Hence at least one of $a$, $b$ is even.
 - id: spec.geometry.proof-methods.cubic-no-rational
@@ -609,9 +609,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: setup, description: 'Assumes x = p/q in lowest terms is a solution and clears denominators: p³ + pq² + q³ = 0', points: 2, dimension: proof}
-      - {id: parity, description: 'Not both p and q are even; checks the cases p, q both odd, or one even and one odd', points: 2, dimension: synthesis}
-      - {id: contra, description: 'In every case the left side is odd, so it can''t be 0', points: 1, dimension: proof}
+      - {id: setup, description: "Sets up the problem with integers (e.g. x = p/q in lowest terms, cleared to p³ + pq² + q³ = 0)", points: 2, dimension: proof}
+      - {id: parity, description: "Covers every parity case (e.g. not both even; checks both odd, and one even one odd)", points: 2, dimension: synthesis}
+      - {id: contra, description: "Concludes the left side can never be 0 (e.g. it is odd in every case)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose $x = \tfrac{p}{q}$ in lowest terms is a solution. Multiplying by $q^3$: $p^3 + pq^2 + q^3 = 0$. In lowest terms $p$ and $q$ aren't both even.
@@ -632,10 +632,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: smallest, description: Assumes a solution exists and takes the one with the smallest positive a (or uses lowest terms), points: 1, dimension: synthesis}
-      - {id: a3, description: 'a² = 3b² is a multiple of 3, so a = 3m', points: 1, dimension: reasoning}
-      - {id: b3, description: 'Then 9m² = 3b², so b² = 3m², and b is a multiple of 3', points: 2, dimension: reasoning}
-      - {id: descent, description: 'So (m, b/3) is a smaller solution (or a and b share a factor 3): contradiction', points: 1, dimension: proof}
+      - {id: smallest, description: "Sets up a valid approach (e.g. takes the solution with the smallest positive a, or uses lowest terms)", points: 1, dimension: synthesis}
+      - {id: a3, description: "Shows a is a multiple of 3 (e.g. a² = 3b², so a = 3m)", points: 1, dimension: reasoning}
+      - {id: b3, description: "Shows b is a multiple of 3 (e.g. 9m² = 3b², so b² = 3m²)", points: 2, dimension: reasoning}
+      - {id: descent, description: "Reaches the contradiction (e.g. (m, b/3) is a smaller solution, or a and b share a factor 3)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose there are solutions, and take the one with the smallest positive $a$. $a^2 = 3b^2$ is a multiple of 3, so $a = 3m$. Then $9m^2 = 3b^2$, so $b^2 = 3m^2$, which makes $b$ a multiple of 3 too, say $b = 3n$. Then $(3m)^2 = 3(3n)^2$ gives $m^2 = 3n^2$: a solution with $m < a$. This contradicts $a$ being the smallest, so no solution exists.
@@ -651,9 +651,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: diff, description: Writes p(3) − p(1) as a sum of terms cₖ(3ᵏ − 1ᵏ), points: 2, dimension: synthesis}
-      - {id: even, description: 'Shows each 3ᵏ − 1 is even (3ᵏ is odd), so p(3) − p(1) is even', points: 2, dimension: reasoning}
-      - {id: contra, description: 'But 5 − 2 = 3 is odd: contradiction', points: 1, dimension: proof}
+      - {id: diff, description: "Relates p(3) and p(1) usefully (e.g. p(3) − p(1) is a sum of terms cₖ(3ᵏ − 1ᵏ))", points: 2, dimension: synthesis}
+      - {id: even, description: "Shows p(3) − p(1) is even (e.g. each 3ᵏ − 1 is even since 3ᵏ is odd)", points: 2, dimension: reasoning}
+      - {id: contra, description: "Reaches the contradiction (e.g. 5 − 2 = 3 is odd)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose such a polynomial exists. Then $p(3) - p(1) = \sum_k c_k\left(3^k - 1^k\right)$. Each $3^k$ is odd, so each $3^k - 1$ is even, and the whole sum is even. But $p(3) - p(1) = 5 - 2 = 3$ is odd. This contradiction shows no such polynomial exists.
@@ -669,10 +669,10 @@
   - id: a
     rubric:
       criteria:
-      - {id: assume, description: 'Assumes there are finitely many such primes, p₁, …, pₖ', points: 1, dimension: proof}
-      - {id: build, description: 'Considers N = 4p₁p₂⋯pₖ − 1, which leaves remainder 3 on division by 4', points: 2, dimension: synthesis}
-      - {id: factor, description: 'Shows N has a prime factor with remainder 3 (a product of primes with remainder 1 has remainder 1, and N is odd)', points: 2, dimension: reasoning}
-      - {id: contra, description: 'That prime can''t be any pᵢ (each leaves remainder −1, i.e. doesn''t divide N): contradiction', points: 1, dimension: proof}
+      - {id: assume, description: "Sets up a valid approach (e.g. assumes there are finitely many such primes, p₁, …, pₖ)", points: 1, dimension: proof}
+      - {id: build, description: "Builds a number that defeats the list (e.g. N = 4p₁p₂⋯pₖ − 1, remainder 3 on division by 4)", points: 2, dimension: synthesis}
+      - {id: factor, description: "Shows it has a prime factor of the right kind (e.g. a product of primes with remainder 1 has remainder 1, and N is odd)", points: 2, dimension: reasoning}
+      - {id: contra, description: "Reaches the contradiction (e.g. that prime can't be any pᵢ, as each leaves remainder −1)", points: 1, dimension: proof}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Suppose the primes with remainder 3 are only $p_1, \dots, p_k$. Let $N = 4p_1p_2\cdots p_k - 1$, which leaves remainder 3 on division by 4 and is odd.
@@ -724,9 +724,9 @@
   - id: a
     rubric:
       criteria:
-      - {id: contra, description: 'Uses the contrapositive (if n is odd, then n³ is odd) or contradiction', points: 1, dimension: proof}
-      - {id: expand, description: Writes n = 2k + 1 and expands n³ = 8k³ + 12k² + 6k + 1, points: 2, dimension: reasoning}
-      - {id: odd, description: 'Shows this equals 2(4k³ + 6k² + 3k) + 1, which is odd', points: 1, dimension: reasoning}
+      - {id: contra, description: "Sets up a valid approach (e.g. the contrapositive, if n is odd then n³ is odd, or contradiction)", points: 1, dimension: proof}
+      - {id: expand, description: "Carries it out algebraically (e.g. n = 2k + 1 gives n³ = 8k³ + 12k² + 6k + 1)", points: 2, dimension: reasoning}
+      - {id: odd, description: "Shows the result is odd (e.g. 2(4k³ + 6k² + 3k) + 1)", points: 1, dimension: reasoning}
       - {id: clear, description: 'Clearly set out, with a concluding sentence', points: 1, dimension: clarity}
   solution: |
     Prove the contrapositive. If $n = 2k + 1$ is odd, then $n^3 = 8k^3 + 12k^2 + 6k + 1 = 2(4k^3 + 6k^2 + 3k) + 1$, which is odd. So if $n^3$ is even, $n$ must be even.

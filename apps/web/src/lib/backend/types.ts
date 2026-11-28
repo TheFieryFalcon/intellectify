@@ -125,13 +125,18 @@ export interface EconomySave {
   spent: number;
 }
 
+export type DailyState = "solved" | "tried" | "revealed";
+
 export interface DailyRecord {
   /** Perth date of the last solved daily problem. */
   lastSolved: string | null;
   streak: number;
   best: number;
-  /** Recent daily problems by "<day>:<course>:<year group>": solved, or tried without solving. */
-  done: Record<string, "solved" | "tried">;
+  /**
+   * Recent daily problems by "<day>:<course>:<year group>": solved; tried without solving; or revealed
+   * (the solution was shown before solving, so that day's problem can no longer count as solved).
+   */
+  done: Record<string, DailyState>;
 }
 
 export interface Placement {
@@ -183,6 +188,8 @@ export interface MarkingJob {
   words?: WordPicks | null;
   /** Set for a daily problem (SPEC §8.5): "<day>:<course>:<year group>", so the mark can extend the streak. */
   daily?: string | null;
+  /** For a daily problem: no earlier attempt at it that day (SPEC §8.5), so a solve counts as first-try. Missing means true. */
+  dailyFirst?: boolean;
   answers: Record<string, string>;
   createdAt: number;
   /** pending: waiting to be marked; marked: has a result; failed: can't be marked (e.g. the question was removed). */

@@ -71,7 +71,7 @@
       rubric:
         criteria:
           - { id: 'negation', description: "Shows the negation holds for every x: for all real x, x² ≠ −1", points: 1, dimension: precision }
-          - { id: 'square', description: "Every real square is at least 0 (a product of two numbers with the same sign, or 0)", points: 2, dimension: reasoning }
+          - { id: 'square', description: "Justifies that no real square is negative (e.g. a product of two numbers with the same sign, or 0)", points: 2, dimension: reasoning }
           - { id: 'conclude', description: "So no real x has x² = −1: the 'there exists' statement is false", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -91,7 +91,7 @@
         criteria:
           - { id: 'example', description: "Counterexample: 2 is prime and even", points: 2, dimension: reasoning }
           - { id: 'fix', description: "A true version, e.g. 'If n is a prime greater than 2, then n is odd'", points: 1, dimension: precision }
-          - { id: 'why', description: "Justifies the new statement: an even number greater than 2 has the factor 2, so isn't prime", points: 1, dimension: reasoning }
+          - { id: 'why', description: "Justifies the new statement (e.g. an even number greater than 2 has the factor 2, so isn't prime)", points: 1, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
     False: 2 is prime but not odd.
@@ -110,8 +110,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'forward', description: "⇒: |x| < 3 gives x² = |x|² < 9 (squaring non-negative numbers keeps the order)", points: 2, dimension: reasoning }
-          - { id: 'back', description: "⇐: if |x| ≥ 3 then x² = |x|² ≥ 9, so x² < 9 forces |x| < 3 (contrapositive)", points: 2, dimension: reasoning }
+          - { id: 'forward', description: "Proves ⇒ (e.g. |x| < 3 gives x² = |x|² < 9, squaring non-negative numbers keeps the order)", points: 2, dimension: reasoning }
+          - { id: 'back', description: "Proves ⇐ (e.g. contrapositive: |x| ≥ 3 gives x² ≥ 9), or by another valid argument", points: 2, dimension: reasoning }
           - { id: 'both', description: "States that both directions are needed for ⇔", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -156,9 +156,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'cases', description: "Lists all four cases: TT, TF, FT, FF", points: 1, dimension: proof }
-          - { id: 'first', description: "Finds 'not (P and Q)': false only in the TT case", points: 1, dimension: reasoning }
-          - { id: 'second', description: "Finds '(not P) or (not Q)': false only in the TT case", points: 1, dimension: reasoning }
+          - { id: 'cases', description: "Sets up a check that covers every possibility (e.g. all four truth-value cases TT, TF, FT, FF)", points: 1, dimension: proof }
+          - { id: 'first', description: "Works out when 'not (P and Q)' is false (e.g. only in the TT case)", points: 1, dimension: reasoning }
+          - { id: 'second', description: "Works out when '(not P) or (not Q)' is false (e.g. only in the TT case)", points: 1, dimension: reasoning }
           - { id: 'match', description: "Concludes they agree in every case", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -183,8 +183,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'false-when', description: "'If P then Q' is false exactly when P is true and Q is false", points: 1, dimension: reasoning }
-          - { id: 'contra-false', description: "'If not Q then not P' is false exactly when not Q is true and not P is false, i.e. Q false and P true", points: 2, dimension: reasoning }
+          - { id: 'false-when', description: "Works out when 'If P then Q' is false (e.g. exactly when P is true and Q is false)", points: 1, dimension: reasoning }
+          - { id: 'contra-false', description: "Works out when 'If not Q then not P' is false (e.g. exactly when not Q is true and not P is false: Q false, P true)", points: 2, dimension: reasoning }
           - { id: 'same', description: "Both fail in exactly the same case, so they are always both true or both false", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -230,8 +230,8 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'first', description: "(i) is true: for each x choose y = −x", points: 2, dimension: reasoning }
-          - { id: 'second', description: "(ii) is false: one y would need x + y = 0 for every x, but x = −y and x = 1 − y can't both work", points: 2, dimension: reasoning }
+          - { id: 'first', description: "Shows (i) is true (e.g. for each x choose y = −x)", points: 2, dimension: reasoning }
+          - { id: 'second', description: "Shows (ii) is false (e.g. one y would need x + y = 0 for every x, but x = −y and x = 1 − y can't both work)", points: 2, dimension: reasoning }
           - { id: 'order', description: "Notes that the order of the quantifiers changes the meaning", points: 1, dimension: precision }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -272,8 +272,8 @@
       rubric:
         criteria:
           - { id: 'assume', description: "Assumes, for contradiction, that x + y = r is rational", points: 1, dimension: proof }
-          - { id: 'solve', description: "Then y = r − x", points: 1, dimension: reasoning }
-          - { id: 'rational', description: "A difference of two rationals is rational (a/b − c/d = (ad − bc)/bd), so y would be rational", points: 1, dimension: reasoning }
+          - { id: 'solve', description: "Isolates y (e.g. y = r − x)", points: 1, dimension: reasoning }
+          - { id: 'rational', description: "Concludes y would be rational (e.g. a difference of two rationals: a/b − c/d = (ad − bc)/bd)", points: 1, dimension: reasoning }
           - { id: 'contra', description: "Contradicts y irrational", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -292,7 +292,7 @@
       rubric:
         criteria:
           - { id: 'form', description: "States the contrapositive: if a and b are both odd, then ab is odd", points: 2, dimension: precision }
-          - { id: 'compute', description: "(2m + 1)(2n + 1) = 2(2mn + m + n) + 1, which is odd", points: 2, dimension: reasoning }
+          - { id: 'compute', description: "Proves the contrapositive (e.g. (2m + 1)(2n + 1) = 2(2mn + m + n) + 1, odd)", points: 2, dimension: reasoning }
           - { id: 'conclude', description: "The contrapositive is true, so the original is true", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -313,8 +313,8 @@
       rubric:
         criteria:
           - { id: 'example', description: "Counterexample, e.g. a = 1, b = −2: a > b but a² = 1 < 4 = b²", points: 2, dimension: reasoning }
-          - { id: 'factor', description: "With a > b ≥ 0: a² − b² = (a − b)(a + b)", points: 1, dimension: reasoning }
-          - { id: 'signs', description: "a − b > 0 and a + b > 0 (since a > b ≥ 0), so the product is positive", points: 1, dimension: reasoning }
+          - { id: 'factor', description: "Sets up a proof for a > b ≥ 0 (e.g. a² − b² = (a − b)(a + b))", points: 1, dimension: reasoning }
+          - { id: 'signs', description: "Shows the needed sign (e.g. a − b > 0 and a + b > 0, so the product is positive)", points: 1, dimension: reasoning }
           - { id: 'conclude', description: "Concludes a² > b²", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
@@ -334,7 +334,7 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'chain', description: "If P is true, then Q is true (first implication), so R is true (second): P ⇒ R", points: 2, dimension: reasoning }
+          - { id: 'chain', description: "Proves P ⇒ R (e.g. P gives Q by the first implication, then R by the second)", points: 2, dimension: reasoning }
           - { id: 'example', description: "Valid example, e.g. P: n = 4, Q: n is even, R: n² is even, for a whole number n", points: 1, dimension: reasoning }
           - { id: 'fails', description: "Shows R ⇒ P fails in the example, e.g. n = 2 makes R true and P false", points: 1, dimension: reasoning }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
@@ -355,9 +355,9 @@
     - id: a
       rubric:
         criteria:
-          - { id: 'factor', description: "Factorizes: x² − 5x + 6 = (x − 2)(x − 3)", points: 1, dimension: reasoning }
-          - { id: 'forward', description: "⇒: a negative product needs factors of opposite signs; x − 3 < 0 < x − 2 is the only possibility (x − 2 > x − 3), giving 2 < x < 3", points: 2, dimension: reasoning }
-          - { id: 'back', description: "⇐: if 2 < x < 3 then x − 2 > 0 and x − 3 < 0, so the product is negative", points: 1, dimension: reasoning }
+          - { id: 'factor', description: "Rewrites the quadratic usefully (e.g. x² − 5x + 6 = (x − 2)(x − 3))", points: 1, dimension: reasoning }
+          - { id: 'forward', description: "Proves ⇒ (e.g. a negative product needs factors of opposite signs; since x − 2 > x − 3, only x − 3 < 0 < x − 2 works, giving 2 < x < 3)", points: 2, dimension: reasoning }
+          - { id: 'back', description: "Proves ⇐ (e.g. 2 < x < 3 gives x − 2 > 0 and x − 3 < 0, so the product is negative)", points: 1, dimension: reasoning }
           - { id: 'both', description: "Both directions shown", points: 1, dimension: proof }
           - { id: 'clear', description: "Clearly set out, with a reason for each step and a concluding sentence", points: 1, dimension: clarity }
   solution: |
