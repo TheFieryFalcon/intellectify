@@ -285,7 +285,9 @@ def judge(result: Result, info: dict | None) -> bool:
 
 def load_overrides() -> dict:
     data = yaml.safe_load(OVERRIDES.read_text()) if OVERRIDES.exists() else {}
-    return {k: data.get(k) or {} for k in ("commons", "local", "checked", "focus", "reject")}
+    out = {k: data.get(k) or {} for k in ("commons", "local", "checked", "focus", "reject")}
+    out["hires"] = set(data.get("hires") or [])
+    return out
 
 
 def find_images(results: list[Result], cache: dict) -> None:
@@ -356,6 +358,24 @@ def standard_thumbs(results: list[Result]) -> None:
                 page = by_title.get(step_map.get("File:" + r.file, "File:" + r.file), {})
                 if page.get("imageinfo"):
                     r.thumb = page["imageinfo"][0].get("thumburl") or r.thumb
+
+
+def hires_thumbs(results: list[Result]) -> None:
+    """Larger thumbnails (1920 or 1280 px, standard widths) for cards whose face is small in a big original."""
+    for step in (1920, 1280):
+        batch = [r for r in results if not r.local and r.width and r.width > step
+                 and not getattr(r, "_hires", False)]
+        for i in range(0, len(batch), 25):
+            group = batch[i:i + 25]
+            q = api(COMMONS, action="query", titles="|".join("File:" + r.file for r in group), prop="imageinfo",
+                    iiprop="url", iiurlwidth=step)["query"]
+            step_map = {n["from"]: n["to"] for n in q.get("normalized", [])}
+            by_title = {p["title"]: p for p in q["pages"].values()}
+            for r in group:
+                page = by_title.get(step_map.get("File:" + r.file, "File:" + r.file), {})
+                if page.get("imageinfo") and page["imageinfo"][0].get("thumburl"):
+                    r.thumb = page["imageinfo"][0]["thumburl"]
+                    r._hires = True
 
 
 # ── Output ──────────────────────────────────────────────────────────────────

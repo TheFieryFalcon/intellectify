@@ -44,6 +44,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+import yaml
 from PIL import Image, ImageOps
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -65,10 +66,10 @@ OUT = fp.CARDS / "portraits"
 CASCADES = ("haarcascade_frontalface_alt2.xml", "haarcascade_frontalface_default.xml", "haarcascade_profileface.xml")
 
 
-def fetch(r: fp.Result, refetch: bool) -> Image.Image:
+def fetch(r: fp.Result, refetch: bool, hires: bool = False) -> Image.Image:
     if r.local:
         return Image.open(r.local)
-    key = hashlib.sha1(r.file.encode()).hexdigest()[:10]
+    key = hashlib.sha1(r.file.encode()).hexdigest()[:10] + ("-hires" if hires else "")
     path = CACHE / f"{r.card['id']}-{key}"
     if refetch or not path.exists():
         CACHE.mkdir(parents=True, exist_ok=True)
@@ -239,10 +240,14 @@ def load_results(args) -> list[fp.Result]:
         return results
     results = fp.collect(only)
     fp.standard_thumbs(results)
-    if only is None:
-        CACHE.mkdir(parents=True, exist_ok=True)
-        MANIFEST.write_text(json.dumps([{**asdict(r), "local": str(r.local) if r.local else None} for r in results],
-                                       ensure_ascii=False, indent=1))
+    CACHE.mkdir(parents=True, exist_ok=True)
+    rows = {row["card"]["id"]: row for row in json.loads(MANIFEST.read_text())} if MANIFEST.exists() and only else {}
+    for r in results:  # a partial run updates just its own cards' rows
+        rows[r.card["id"]] = {**asdict(r), "local": str(r.local) if r.local else None}
+    order = {cid: i for i, cid in enumerate(c["id"] for era in fp.ERA_ORDER
+                                            for c in yaml.safe_load((fp.CARDS / f"{era}.yaml").read_text())["cards"])}
+    MANIFEST.write_text(json.dumps(sorted((row for cid, row in rows.items() if cid in order), key=lambda row: order[row["card"]["id"]]),
+                                   ensure_ascii=False, indent=1))
     return results
 
 
@@ -259,6 +264,10 @@ def main(argv: list[str]) -> int:
     for r in results:  # apply rejections in offline runs too
         if r.card["id"] in over["reject"]:
             r.status = "illustrate"
+    hires = [r for r in results if r.card["id"] in over["hires"] and r.status in ("ready", "credit")]
+    uncached = [r for r in hires if not list(CACHE.glob(f"{r.card['id']}-*-hires"))]
+    if uncached:
+        fp.hires_thumbs(uncached)
 
     OUT.mkdir(parents=True, exist_ok=True)
     done, skipped, low_res, guessed, cleared = [], [], [], [], []
@@ -268,7 +277,7 @@ def main(argv: list[str]) -> int:
             cleared.append(r)
             (OUT / f"{r.card['id']}.webp").unlink(missing_ok=True)
             continue
-        source = fetch(r, args.refetch)
+        source = fetch(r, args.refetch, r.card["id"] in over["hires"])
         if source.width < W * 0.6:
             low_res.append(f"{r.card['id']} ({source.width} px)")
         image, was_guessed = render(r, source, focus)
