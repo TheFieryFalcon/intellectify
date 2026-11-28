@@ -194,16 +194,16 @@ axioms:
 # §13.5 Corollaries: +(points ÷ 10)% per achievement, +5% per level tier, +10% per completed era set.
 corollaries: {perAchievementPoint: 0.001, perLevelTier: 0.05, perEraSet: 0.10}
 
-# §13.7 Packs. Odds per card (percent); slot 5 is Gold or better. Pity: a Diamond by the 80th pack of an
-# era without one, 4 sooner per Law of Large Numbers level (40 at most).
+# §13.7 Packs: 3 cards from one era. Odds per card (percent). The last card is the guaranteed Gold or
+# better, with Platinum and Diamond at the usual odds. Guarantees by pack count, per era: a Diamond by the
+# 80th pack without one, and a Platinum or better by the 10th. Law of Large Numbers takes 5% of each base
+# off per level (at level 10: Diamond 40, Platinum 5).
 packs:
-  size: 5
+  size: 3
   odds:
     common: {silver: 72, gold: 20, platinum: 6.5, diamond: 1.5}
-    last: {silver: 0, gold: 70, platinum: 24, diamond: 6}
-  pity: 80
-  pityStep: 4
-  pityMin: 40
+    last: {silver: 0, gold: 92, platinum: 6.5, diamond: 1.5}
+  pity: {diamond: 80, platinum: 10, step: 0.05}
   foilOneIn: 25
   duplicate: {silver: 20, gold: 60, platinum: 200, diamond: 600}
   # Era: 0 Antiquity … 6 Space Age, capped at the latest unlocked, released era.

@@ -31,6 +31,8 @@ import {
   timeWarp,
   grantPacks,
   diamondIn,
+  platinumIn,
+  pityThreshold,
   HOUR_MS,
   type CardDef,
   type EconomyConfig,
@@ -67,11 +69,9 @@ export const CFG: EconomyConfig = {
   },
   corollaries: { perAchievementPoint: 0.001, perLevelTier: 0.05, perEraSet: 0.1 },
   packs: {
-    size: 5,
-    odds: { common: { silver: 72, gold: 20, platinum: 6.5, diamond: 1.5 }, last: { silver: 0, gold: 70, platinum: 24, diamond: 6 } },
-    pity: 80,
-    pityStep: 4,
-    pityMin: 40,
+    size: 3,
+    odds: { common: { silver: 72, gold: 20, platinum: 6.5, diamond: 1.5 }, last: { silver: 0, gold: 92, platinum: 6.5, diamond: 1.5 } },
+    pity: { diamond: 80, platinum: 10, step: 0.05 },
     foilOneIn: 25,
     duplicate: { silver: 20, gold: 60, platinum: 200, diamond: 600 },
     levelTier: { bronze: { packs: 1, era: 0 }, silver: { packs: 2, era: 0 }, gold: { packs: 3, era: 1 } },
@@ -271,12 +271,12 @@ describe("packs (SPEC §13.7)", () => {
     const c = openPack(CFG, withPacks(2), "u2", "antiquity", CARDS).result;
     expect(c.cards.map((x) => x.id)).not.toEqual(a.cards.map((x) => x.id));
   });
-  it("the fifth card is Gold or better", () => {
+  it("holds 3 cards, the last Gold or better", () => {
     let s = withPacks(200);
     for (let i = 0; i < 200; i++) {
       const r = openPack(CFG, s, "seed", "antiquity", CARDS);
-      expect(r.result.cards).toHaveLength(5);
-      expect(r.result.cards[4]!.rarity).not.toBe("silver");
+      expect(r.result.cards).toHaveLength(3);
+      expect(r.result.cards[2]!.rarity).not.toBe("silver");
       s = r.state;
     }
     expect(s.packs.antiquity).toMatchObject({ granted: 200, opened: 200 });
@@ -295,9 +295,27 @@ describe("packs (SPEC §13.7)", () => {
       expect(worst).toBeLessThan(lln ? 40 : 80);
     }
   });
+  it("guarantees a Platinum or better by the 10th pack, sooner with Law of Large Numbers", () => {
+    for (const [lln, limit] of [[0, 10], [1, 9], [3, 8], [10, 5]] as const) {
+      expect(pityThreshold(CFG, lln, "platinum")).toBe(limit);
+      let s: EconomyState = { ...withPacks(400), theorems: { lln } };
+      let since = 0;
+      let worst = 0;
+      for (let i = 0; i < 400; i++) {
+        const r = openPack(CFG, s, `plat-${lln}`, "antiquity", CARDS);
+        s = r.state;
+        since = r.result.cards.some((c) => c.rarity === "platinum" || c.rarity === "diamond") ? 0 : since + 1;
+        worst = Math.max(worst, since);
+      }
+      expect(worst).toBeLessThan(limit);
+      expect(worst).toBe(limit - 1);
+    }
+    expect([0, 1, 5, 10, 12].map((l) => pityThreshold(CFG, l))).toEqual([80, 76, 60, 40, 40]);
+  });
   it("shows the pity counter", () => {
-    const s: EconomyState = { ...withPacks(1), packs: { antiquity: { granted: 30, opened: 19, pity: 19 } } };
+    const s: EconomyState = { ...withPacks(1), packs: { antiquity: { granted: 30, opened: 19, pity: 19, platPity: 3 } } };
     expect(diamondIn(CFG, s, "antiquity")).toBe(61);
+    expect(platinumIn(CFG, s, "antiquity")).toBe(7);
   });
   it("never repeats a Diamond until every Diamond is held", () => {
     let s = withPacks(1000);

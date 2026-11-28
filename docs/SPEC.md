@@ -1084,7 +1084,7 @@ Theorems are bought with Lemmas and have levels. Level n + 1 costs **base × gro
 | Binomial Theorem | Games (Phase 3; "Not available yet" until then) | +10% | 500 | 1.15 | Distributive Law 3 |
 | Harmonic Series | All active sources | +0.5% × Hₙ, n = questions resolved ever | 1,000 | 1.2 | Geometric Series 5 |
 | Pigeonhole Principle | Duplicate cards | +25% Lemmas per duplicate | 300 | 1.15 | — |
-| Law of Large Numbers | Packs | Diamond pity comes 5% of the base 80 (4 packs) sooner (max level 10: 80 → 40) | 2,000 | 2 | Pigeonhole Principle 5 |
+| Law of Large Numbers | Packs | Both pack guarantees come 5% of their base sooner (max level 10: Diamond 80 → 40, Platinum 10 → 5) | 2,000 | 2 | Pigeonhole Principle 5 |
 | Golden Ratio | All sources | +6.18% | 5,000 | φ ≈ 1.618 | Harmonic Series 10 |
 | Recurrence Relation | Research | +10% | 1,000 | 1.3 | Pigeonhole Principle 3 |
 
@@ -1211,7 +1211,7 @@ Axioms are **milestones of lifetime Lemmas earned**, starting at 10 kilolemmas. 
 | 18 | Rank-into-Rank | 1 P | 820 | A rank of the universe embeds into itself: one step short of what Kunen proved inconsistent | **Edge** name ornament: a hairline of light flickers along the name's edge | Edge of Consistency |
 
 ### 13.7 Packs and cards
-Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 5 cards from one era.
+Cards are scientists, mathematicians and philosophers, sorted into **era sets**. A pack holds 3 cards from one era.
 
 **Eras.** A person sits in the era of their major work, not their birth. The Space Age starts in 1955, with the postwar turn toward postmodernism and the counterculture. The sets (first draft, `content/cards/`; rarities are the owner's call):
 
@@ -1275,11 +1275,14 @@ Cards are scientists, mathematicians and philosophers, sorted into **era sets**.
 
 **Opening**
 - **Odds per card:**
-  - Slots 1–4: Silver 72%, Gold 20%, Platinum 6.5%, Diamond 1.5%.
-  - Slot 5: Gold 70%, Platinum 24%, Diamond 6%.
+  - Cards 1–2: Silver 72%, Gold 20%, Platinum 6.5%, Diamond 1.5%.
+  - Card 3, the guaranteed **Gold or better**: Gold 92%, Platinum 6.5%, Diamond 1.5% (the same Platinum and Diamond odds as the others).
   
   The odds table is always shown on the pack screen.
-- **Pity:** a Diamond is guaranteed by the **80th** pack of an era without one (Law of Large Numbers shortens this, to 40 at most). The counter is shown, e.g. "Diamond in ≤ 61".
+- **Pity:** two guarantees by pack count, each kept per era. Law of Large Numbers shortens both by 5% of their base per level, so they keep the same proportion (halves round to the sooner pack).
+  - **Platinum:** a Platinum or better by the **10th** pack of an era without one (5 at most, with Law of Large Numbers 10). A Diamond counts.
+  - **Diamond:** a Diamond by the **80th** pack of an era without one (40 at most).
+  - A guaranteed card takes the place of card 3. The counters are shown, e.g. "Diamond in ≤ 61 · Platinum in ≤ 7".
 - **No duplicate Diamonds** until every Diamond in that era has been collected; the roll picks among the missing ones instead.
 - **Duplicates** turn into Lemmas: Silver 20, Gold 60, Platinum 200, Diamond 600 (× Pigeonhole Principle).
 - **Foil:** 1 card in 25 has a foil finish in its rarity's material. A foil copy of a card already held upgrades that card's finish instead of converting.
@@ -1376,7 +1379,7 @@ Frames come only from era sets, Axiom cosmetics only from Axioms, and titles onl
   - `lemmasEarned` and `lemmasSpent` (*reached* Axioms follow from `lemmasEarned`); `axiomsProven`, the count claimed (§13.6), which only goes up;
   - `researchCreditedAt`, written as server time (the rules require `request.time`);
   - theorem levels, institutes built and Conjectures proven;
-  - unopened packs per era, packs opened per era and pity counters per era;
+  - unopened packs per era, packs opened per era and Diamond and Platinum pity counters per era;
   - cards (id → count, foil) and staff slots per institute (slot → card id);
   - owned cosmetics, unlocked titles and the equipped title, frame, banner, keypad skin, celebration, node theme and showcase;
   - `lastVisit`: the balance, lifetime Lemmas and Research credited at the end of the last hub visit, for the hub's **Since last visit** line (§13.11).
@@ -1450,20 +1453,20 @@ Copy follows §16.1: bare labels, chips and numbers. Full sentences only in lear
 - **One pack per era**, in era order, each drawn in its era's style. Each shows:
   - the unopened count and the era's price, with **Buy** and **Buy 10**;
   - **Open**, **Open 10** and **Open all**;
-  - set completion (**14 / 24**), the pity counter (**Diamond in ≤ 61**) and the Diamonds still missing;
+  - set completion (**14 / 24**), the pity counters (**Diamond in ≤ 61 · Platinum in ≤ 7**) and the Diamonds still missing;
   - the odds table, always visible beneath it.
 - **Locked eras** show as sealed packs with their condition (**Build an Academy**).
 - **Granted packs** wait here quietly: no toast, no pip, no prompt anywhere else.
 
 #### Opening a pack
 - **Single pack:** a full-screen overlay.
-  - **The cards:** five face-down cards fan out; the fifth, the guaranteed Gold-or-better slot, is slightly larger and last. All backs look the same, so nothing tells what's coming.
+  - **The cards:** three face-down cards fan out; the third, the guaranteed Gold-or-better card, is slightly larger and last. All backs look the same, so nothing tells what's coming.
   - **Flipping:** click or tap a card, or press Space or Enter, to flip the next one (a 3D turn of about 300 ms; a crossfade with reduced motion). **Reveal all** flips the rest.
   - **Duplicates** flip like any card and carry a count badge (**×2**). A foil duplicate of a held card shows **Foil upgrade**.
   - **A Diamond** flips like the others, then gets a crystal burst of about 1.5 s behind it as it enlarges to the center with its portrait large. A click or any key settles it back into the fan.
-  - **The end** shows one line, **New 3 · Duplicates 2 · +80 ∴ · Diamond in ≤ 61**, and **Open another** (same era, if any are left) · **Done**. Escape first reveals all, then closes.
+  - **The end** shows one line, **New 2 · Duplicates 1 · +20 ∴ · Diamond in ≤ 61**, and **Open another** (same era, if any are left) · **Done**. Escape first reveals all, then closes.
 - **Open 10 / Open all** skip the flips and end on a grid of the **newly collected cards only** (rarity-sorted, foils marked), then one line: **Duplicates 14 · +2.1 k∴ · Diamond in ≤ 61**.
-- Screen readers hear each reveal ("Euler · Platinum · New"); face-down cards are buttons ("Card 3 of 5").
+- Screen readers hear each reveal ("Euler · Platinum · New"); face-down cards are buttons ("Card 2 of 3").
 
 #### Cards
 - **Portraits** are processed offline into **one ink-wash style**, so a set looks coherent whatever the source (painting, photo, bust, stamp or sketch):

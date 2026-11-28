@@ -99,9 +99,11 @@ export interface EconomyConfig {
   packs: {
     size: number;
     odds: { common: Record<Rarity, number>; last: Record<Rarity, number> };
-    pity: number;
-    pityStep: number;
-    pityMin: number;
+    /**
+     * Guarantees by pack count, per era: a Diamond by the `diamond`th pack without one, and a Platinum or
+     * better by the `platinum`th. Law of Large Numbers shortens both by `step` of their base per level.
+     */
+    pity: { diamond: number; platinum: number; step: number };
     foilOneIn: number;
     duplicate: Record<Rarity, number>;
     levelTier: Partial<Record<TierKey, { packs: number; era: number }>>;
@@ -137,6 +139,8 @@ export interface PackCounts {
   opened: number;
   /** Packs opened since the last Diamond. */
   pity: number;
+  /** Packs opened since the last Platinum or Diamond. */
+  platPity?: number;
 }
 
 export interface Equipped {
@@ -366,7 +370,8 @@ export function theoremEffect(id: TheoremId, level: number, ctx: Pick<EconomyCon
     case "pigeonhole":
       return 0.25 * level;
     case "lln":
-      return 4 * level;
+      // The share of each pack-count guarantee taken off (0.05 a level).
+      return 0.05 * Math.min(level, 10);
     case "golden":
       return 0.0618 * level;
     case "recurrence":
@@ -380,11 +385,11 @@ const pct = (f: number) => {
   return `+${s}%`;
 };
 
-/** The effect as a bare label: "+24 ∴/question", "+30%", "Diamond pity 72". */
+/** The effect as a bare label: "+24 ∴/question", "+30%", "Diamond by 72 · Platinum by 9". */
 export function theoremEffectLabel(cfg: EconomyConfig, id: TheoremId, level: number, ctx: Pick<EconomyContext, "questions" | "dailyDays">): string {
   const v = theoremEffect(id, level, ctx);
   if (id === "successor") return `+${v} ∴/question`;
-  if (id === "lln") return `Diamond pity ${pityThreshold(cfg, level)}`;
+  if (id === "lln") return `Diamond by ${pityThreshold(cfg, level)} · Platinum by ${pityThreshold(cfg, level, "platinum")}`;
   return pct(v);
 }
 
@@ -559,11 +564,17 @@ export function nextAxiom(cfg: EconomyConfig, s: EconomyState): { axiom: AxiomDe
 
 /* ───────────────────────── Packs (SPEC §13.7) ───────────────────────── */
 
-export function pityThreshold(cfg: EconomyConfig, llnLevel: number): number {
-  return Math.max(cfg.packs.pityMin, cfg.packs.pity - cfg.packs.pityStep * llnLevel);
+/**
+ * The pack by which a guarantee comes: base × (1 − step × level), at most 10 levels (Diamond 80 → 40,
+ * Platinum 10 → 5). Halves round toward the sooner pack.
+ */
+export function pityThreshold(cfg: EconomyConfig, llnLevel: number, rarity: "diamond" | "platinum" = "diamond"): number {
+  const level = Math.min(Math.max(0, llnLevel), theoremDefOr(cfg, "lln")?.maxLevel ?? 10);
+  return Math.max(1, Math.ceil(cfg.packs.pity[rarity] * (1 - cfg.packs.pity.step * level) - 0.5 - 1e-9));
 }
+const theoremDefOr = (cfg: EconomyConfig, id: TheoremId) => cfg.theorems.find((t) => t.id === id);
 
-export const packCounts = (s: EconomyState, era: string): PackCounts => s.packs[era] ?? { granted: 0, opened: 0, pity: 0 };
+export const packCounts = (s: EconomyState, era: string): PackCounts => s.packs[era] ?? { granted: 0, opened: 0, pity: 0, platPity: 0 };
 export const unopened = (s: EconomyState, era: string) => {
   const p = packCounts(s, era);
   return Math.max(0, p.granted - p.opened);
@@ -571,6 +582,8 @@ export const unopened = (s: EconomyState, era: string) => {
 
 /** Packs left until the guaranteed Diamond: "Diamond in ≤ 61". */
 export const diamondIn = (cfg: EconomyConfig, s: EconomyState, era: string) => pityThreshold(cfg, levelOf(s, "lln")) - packCounts(s, era).pity;
+/** Packs left until the guaranteed Platinum or better: "Platinum in ≤ 7". */
+export const platinumIn = (cfg: EconomyConfig, s: EconomyState, era: string) => pityThreshold(cfg, levelOf(s, "lln"), "platinum") - (packCounts(s, era).platPity ?? 0);
 
 /** cyrb53: a fast, well-mixed 53-bit string hash. */
 export function hash53(str: string, seed = 0): number {
@@ -636,9 +649,13 @@ export function openPack(cfg: EconomyConfig, s: EconomyState, uid: string, era: 
   const rand = seededRandom(hash53(`${uid}:${era}:${counts.opened}`));
   const byRarity = new Map<Rarity, CardDef[]>(RARITIES.map((r) => [r, eraCards.filter((c) => c.rarity === r)]));
   const rarities: Rarity[] = [];
-  for (let i = 0; i < cfg.packs.size; i++) rarities.push(pickRarity(i === cfg.packs.size - 1 ? cfg.packs.odds.last : cfg.packs.odds.common, rand()));
-  const threshold = pityThreshold(cfg, levelOf(s, "lln"));
-  if (!rarities.includes("diamond") && counts.pity + 1 >= threshold) rarities[cfg.packs.size - 1] = "diamond";
+  // The last card is the guaranteed Gold-or-better one.
+  const last = cfg.packs.size - 1;
+  for (let i = 0; i < cfg.packs.size; i++) rarities.push(pickRarity(i === last ? cfg.packs.odds.last : cfg.packs.odds.common, rand()));
+  // Guarantees by pack count. A Diamond also counts as the Platinum-or-better one.
+  const lln = levelOf(s, "lln");
+  if (!rarities.includes("diamond") && counts.pity + 1 >= pityThreshold(cfg, lln)) rarities[last] = "diamond";
+  else if (!rarities.some((r) => r === "platinum" || r === "diamond") && (counts.platPity ?? 0) + 1 >= pityThreshold(cfg, lln, "platinum")) rarities[last] = "platinum";
 
   const cards = { ...s.cards };
   const pulled: PulledCard[] = [];
@@ -670,12 +687,13 @@ export function openPack(cfg: EconomyConfig, s: EconomyState, uid: string, era: 
     pulled.push({ id: card.id, rarity: card.rarity, foil, result, count: cards[card.id]!.n, lemmas });
   }
   const diamond = pulled.some((c) => c.rarity === "diamond");
+  const platinum = diamond || pulled.some((c) => c.rarity === "platinum");
   const lemmas = pulled.reduce((t, c) => t + c.lemmas, 0);
   const state: EconomyState = {
     ...s,
     cards,
     lemmasEarned: s.lemmasEarned + lemmas,
-    packs: { ...s.packs, [era]: { granted: counts.granted, opened: counts.opened + 1, pity: diamond ? 0 : counts.pity + 1 } },
+    packs: { ...s.packs, [era]: { granted: counts.granted, opened: counts.opened + 1, pity: diamond ? 0 : counts.pity + 1, platPity: platinum ? 0 : (counts.platPity ?? 0) + 1 } },
   };
   return { state, result: { era, cards: pulled, lemmas, diamond } };
 }

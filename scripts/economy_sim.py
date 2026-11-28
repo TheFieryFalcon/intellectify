@@ -14,7 +14,8 @@ tier's era, capped at the latest unlocked era), plus Section Challenges, achieve
 which are lumped into a steady rate per active hour and per calendar week and go to the latest
 unlocked era. An era's packs unlock with the first copy of the previous era's institute. Each pack's
 rarity rolls fill a 24-card set (expected distinct cards and foils per rarity, no duplicate Diamonds
-until all are held); pity and bought packs are left out. Each institute has staff slots that grow with
+until all are held), with the Platinum guarantee averaged in; the Diamond guarantee and bought packs are
+left out. Each institute has staff slots that grow with
 copies built, and the best cards held for its era fill them. Axioms are assumed to be claimed (Prove)
 as soon as they are reached.
 
@@ -73,10 +74,15 @@ class Params:
 RARITIES = ("diamond", "platinum", "gold", "silver")
 CARD_BOOST = {"diamond": 0.25, "platinum": 0.10, "gold": 0.05, "silver": 0.02}
 SET_SIZE = {"diamond": 4, "platinum": 5, "gold": 7, "silver": 8}  # about 24 per era
-# Expected cards of each rarity per pack: slots 1-4 Silver 72%, Gold 20%, Platinum 6.5%, Diamond 1.5%;
-# slot 5 Gold 70%, Platinum 24%, Diamond 6%.
-ROLLS_PER_PACK = {"diamond": 4 * 0.015 + 0.06, "platinum": 4 * 0.065 + 0.24,
-                  "gold": 4 * 0.20 + 0.70, "silver": 4 * 0.72}
+# Expected cards of each rarity per pack (§13.7): 3 cards; cards 1-2 Silver 72%, Gold 20%, Platinum 6.5%,
+# Diamond 1.5%; card 3 Gold 92%, Platinum 6.5%, Diamond 1.5%. A Platinum or better is guaranteed by the
+# 10th pack without one: over many packs that adds the share below, taken from Gold. (The Diamond
+# guarantee, by the 80th pack, is left out, and so is Law of Large Numbers.)
+PLAT_PITY = 10
+_q = 1 - (1 - 0.08) ** 3  # a pack holds a Platinum or Diamond without the guarantee
+_forced = 1 / ((1 - (1 - _q) ** PLAT_PITY) / _q) - _q  # extra Platinums per pack from the guarantee
+ROLLS_PER_PACK = {"diamond": 3 * 0.015, "platinum": 3 * 0.065 + _forced,
+                  "gold": 2 * 0.20 + 0.92 - _forced, "silver": 2 * 0.72}
 FOIL = 1 / 25
 # Level tiers (§12.4): total XP to reach, packs granted, and the era they come from (§13.7).
 TIER_PACKS = ((1_495, 1, 0), (4_127, 2, 0), (8_899, 3, 1), (21_399, 8, 2), (38_899, 12, 3),

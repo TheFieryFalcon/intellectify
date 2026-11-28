@@ -80,9 +80,7 @@ export const EconomyFile = z.object({
   packs: z.object({
     size: z.number().int().positive(),
     odds: z.object({ common: rarityMap, last: rarityMap }),
-    pity: z.number().int().positive(),
-    pityStep: z.number().int().min(0),
-    pityMin: z.number().int().positive(),
+    pity: z.object({ diamond: z.number().int().positive(), platinum: z.number().int().positive(), step: z.number().min(0).max(0.1) }),
     foilOneIn: z.number().int().positive(),
     duplicate: rarityMap,
     levelTier: z.record(z.string(), tierRule),
@@ -145,6 +143,8 @@ export function loadEconomy(contentDir: string, skillIds: Set<string>, achieveme
     const prev = cfg.eras[i - 1];
     if (prev && (x.institute.base <= prev.institute.base || x.packPrice <= prev.packPrice || x.institute.output <= prev.institute.output)) e(`${x.id}: institute cost, output and pack price must rise era by era`);
   });
+  if (cfg.packs.size < 1 || cfg.packs.odds.last.silver !== 0) e("packs: the last card is the guaranteed Gold or better (silver: 0)");
+  if (cfg.packs.pity.platinum >= cfg.packs.pity.diamond) e("packs: the Platinum guarantee must come sooner than the Diamond one");
   if (cfg.staff.maxSlots >= 20) e("staff.maxSlots must stay below the set size (about 24)");
   // Axioms: 18 (9 ZFC then 9 large cardinals), thresholds rising, six titles.
   const ax = cfg.axioms.list;
