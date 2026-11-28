@@ -3,6 +3,7 @@
    * A number that rolls from its old value to the new one over about 600 ms, ease-out (SPEC §13.11).
    * The tooltip shows the final value at once; reduced motion swaps instantly.
    */
+  import { untrack } from "svelte";
   import { lemmasLong, lemmasShort } from "@intellectify/engine";
 
   let { value }: { value: number } = $props();
@@ -12,7 +13,9 @@
 
   $effect(() => {
     const to = value;
-    const from = shown;
+    // Read the shown value without tracking it: tracked, every frame of the tween re-ran this effect and
+    // restarted the tween, so the number never got far from where it started.
+    const from = untrack(() => shown);
     cancelAnimationFrame(raf);
     if (reduced() || from === to) {
       shown = to;
